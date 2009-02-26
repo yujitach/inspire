@@ -168,7 +168,7 @@
     if(article.articleType!=ATEprint)
 	return nil;
     NSString* eprint= article.eprint;
-    return [NSString stringWithFormat:@"[%@]", eprint];
+    return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
     //return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint], eprint];
 }
 -(NSString*)pdf

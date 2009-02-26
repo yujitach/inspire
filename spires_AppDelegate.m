@@ -30,6 +30,7 @@
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "NSURL+libraryProxy.h"
 #import "ImporterController.h"
+#import "IncrementalArrayController.h"
 
 #import "PDFHelper.h"
 #import "BibViewController.h"
@@ -41,6 +42,8 @@
 #import "LoadAbstractDOIOperation.h"
 #import "ArxivMetadataFetchOperation.h"
 #import "ArticleListReloadOperation.h"
+
+#import <Sparkle/SUUpdater.h>
 //#import <ExceptionHandling/NSExceptionHandler.h>
 //#import "QuickLookInternal.h"
 
@@ -185,7 +188,9 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }
 -(void)awakeFromNib
 {
-    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
+	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL-Unstable"]]];	
+    }
 //    NSLog(@"awake");
 //    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
@@ -281,7 +286,14 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
 											andMOC:[self managedObjectContext]]];
 }
-
+-(void)startUpdatingMainView:(id)sender
+{
+    ac.refuseFiltering=NO;
+}
+-(void)stopUpdatingMainView:(id)sender
+{
+    ac.refuseFiltering=YES;
+}
 -(void)clearingUp:(id)sender
 {
     [self saveAction:self];

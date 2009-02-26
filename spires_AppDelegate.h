@@ -18,6 +18,7 @@
 @class PDFHelper;
 @class BibViewController;
 @class ActivityMonitorController;
+@class IncrementalArrayController;
 @interface spires_AppDelegate : NSObject <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
@@ -25,7 +26,7 @@
     IBOutlet BibViewController *bibViewController;
 //    IBOutlet NSTextField* tf;
 //    IBOutlet NSProgressIndicator* pi;
-    IBOutlet NSArrayController* ac;
+    IBOutlet IncrementalArrayController* ac;
 //    IBOutlet NSTableView*tv;
     IBOutlet ArticleView*wv;
     IBOutlet NSToolbar*tb;

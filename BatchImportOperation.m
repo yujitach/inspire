@@ -13,6 +13,7 @@
 #import "Author.h"
 #import "AllArticleList.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
+#import "spires_AppDelegate.h"
 
 @implementation BatchImportOperation
 -(BatchImportOperation*)initWithElements:(NSArray*)e andMOC:(NSManagedObjectContext*)m citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)
@@ -23,6 +24,7 @@ l{
     citedByTarget=c;
     refersToTarget=r;
     list=l;
+    delegate=[NSApp delegate];
     return self;
 }
 -(NSString*)description
@@ -36,16 +38,18 @@ l{
 -(void)main
 {
 	NSMutableArray*a=[NSMutableArray array];
+    [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	for(NSXMLElement* element in elements){
 	    [a addObject:element];
 	    if([a count]>10){
 		[self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
 		[a removeAllObjects];
-		usleep(500*1000); // sleep .5sec
+		usleep(50*1000); // sleep .05sec to improve responsiveness while adding...
 	    }
 	}
 	if([a count]>0)
 	    [self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
+    [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	
 	[[[NSApplication sharedApplication] delegate] performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
     [self finish];

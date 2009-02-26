@@ -135,7 +135,7 @@ NSMutableDictionary* eprintDict=nil;
     [super awakeFromFetch];
     [self addObserver:self
 	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+	      options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionInitial
 	      context:nil];
 }
 -(void)awakeFromInsert
@@ -143,7 +143,7 @@ NSMutableDictionary* eprintDict=nil;
     [super awakeFromInsert];
     [self addObserver:self
 	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+	      options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionInitial
 	      context:nil];
 }
 -(NSString*)shortishAuthorList
@@ -195,6 +195,23 @@ NSMutableDictionary* eprintDict=nil;
     return result;
     
 }
+
+-(NSString*)longishAuthorListForA
+{
+    if(!longishAuthorListForA){
+	longishAuthorListForA=[self calculateLongishAuthorListForA];
+    }
+    return longishAuthorListForA;
+}
+
+-(NSString*)longishAuthorListForEA
+{
+    if(!longishAuthorListForEA){
+	longishAuthorListForEA=[self calculateLongishAuthorListForEA];
+    }
+    return longishAuthorListForEA;
+}
+
 -(NSString*)longishAuthorList
 {
     NSMutableArray*a=[NSMutableArray array];

@@ -4,6 +4,8 @@
 <dict>
 	<key>eagerMetadataQueryThreshold</key>
 	<integer>5</integer>
+	<key>UpdaterWillFollowUnstableVersions</key>
+	<false/>
 	<key>universityLibraryToGetPDF</key>
 	<string>None</string>
 	<key>regExpsForUniversityLibrary</key>
@@ -28,6 +30,7 @@
 	<key>SpringerJournals</key>
 	<array>
 		<string>Commun.Math.Phys.</string>
+		<string>Comm.Math.Phys.</string>
 	</array>
 	<key>APSJournals</key>
 	<array>
@@ -41,6 +44,7 @@
 		<string>Nucl.Phys.</string>
 		<string>Nucl.Phys.Proc.Suppl.</string>
 		<string>Annals Phys.</string>
+		<string>Ann.Phys.</string>
 		<string>Phys.Rept.</string>
 	</array>
 	<key>htmlTeXRegExps</key>

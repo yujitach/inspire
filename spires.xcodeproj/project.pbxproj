@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330170A30F56471B001DAC18 /* IncrementalArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 330170A20F56471B001DAC18 /* IncrementalArrayController.m */; };
 		33071BC70EC1158A00957864 /* ImporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33071BC60EC1158A00957864 /* ImporterController.m */; };
 		33071BCF0EC1161900957864 /* Importer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33071BCE0EC1161900957864 /* Importer.xib */; };
 		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
@@ -126,6 +127,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* spires_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_Prefix.pch; sourceTree = "<group>"; };
+		330170A10F56471B001DAC18 /* IncrementalArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncrementalArrayController.h; sourceTree = "<group>"; };
+		330170A20F56471B001DAC18 /* IncrementalArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncrementalArrayController.m; sourceTree = "<group>"; };
 		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
 		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
 		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				33C7A4380F3D0EA600F3874C /* SecureDownloader.m */,
 				33887E240EA97971003A7E83 /* URLHandlerCommand.h */,
 				33887E250EA97971003A7E83 /* URLHandlerCommand.m */,
+				330170A10F56471B001DAC18 /* IncrementalArrayController.h */,
+				330170A20F56471B001DAC18 /* IncrementalArrayController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -811,6 +816,7 @@
 				335937790F40052D00E3A39E /* BWSplitView.m in Sources */,
 				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
+				330170A30F56471B001DAC18 /* IncrementalArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

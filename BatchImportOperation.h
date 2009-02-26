@@ -12,12 +12,14 @@
 
 @class Article;
 @class ArticleList;
+@class spires_AppDelegate;
 @interface BatchImportOperation : DumbOperation {
     NSArray*elements;
     NSManagedObjectContext*moc;
     Article*citedByTarget;
     Article*refersToTarget;
     ArticleList*list;
+    spires_AppDelegate * delegate;
 }
 -(BatchImportOperation*)initWithElements:(NSArray*)e 
 				  andMOC:(NSManagedObjectContext*)m 
