@@ -1,0 +1,85 @@
+<html>
+<head>
+	<META http-equiv="Content-Type"
+			content="text/html; charset=UTF-8">
+
+
+
+<style type="text/css">
+body{
+    background-repeat: repeat;
+    background-color:white;color:black;
+    font-family: optima, sans-serif;
+    font-size:10pt;
+}
+.comments{
+    font-size:9pt;
+}
+.rightbox{
+    float:right;
+    text-align:right;
+}
+.spires{
+    font-weight:medium;
+    font-size:11pt;
+    margin-right:1em;
+    margin-left:1em;
+}
+
+.eprint{
+    font-weight:medium;
+    font-size:12pt;
+    margin-bottom:.5em;
+    margin-right:1em
+}
+.journal{
+    font-size:12pt;
+}
+a.nonloudlink:link{
+    color:black;
+    text-decoration:none;
+}
+a.nonloudlink:hover{
+    text-decoration:underline;
+}
+.vol{
+    font-weight:bold;
+}
+.title{
+    font-weight:bold;
+    font-size:12pt;
+}
+.equation{
+/*    font-style:italic;*/
+}
+.overline{
+    text-decoration:overline;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="rightbox">
+	<span class="spires">$pdf</span><br>
+	<span class="spires">$spires</span><br>
+	<span class="spires">$citedBy</span><br>
+	<span class="spires">$refersTo</span><br> 
+	<span class="spires">$bibEntry</span><br> 
+	
+    </div>
+	<div>
+	    <span class="eprint">$eprint</span>  
+	    <span class="journal">$journal</span>
+	</div>
+	
+	<br>
+	<div class="title" id="title">$title</div>
+	<br>
+	<div>$author</div>
+	<br>
+	<div class="comments">$comments</div>
+	<br>
+	<div id="abstract">$abstract</div>
+</body>
+</html>

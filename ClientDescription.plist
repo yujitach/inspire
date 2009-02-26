@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DisplayName</key>
+	<string>spires synchronizer</string>
+	<key>Entities</key>
+	<dict>
+		<key>com.yujitach.spires.sync.Article</key>
+		<array>
+			<string>com.apple.syncservices.RecordEntityName</string>
+			<string>title</string>
+			<string>eprint</string>
+			<string>spiresKey</string>
+			<string>version</string>
+			<string>authors</string>
+		</array>
+		<key>com.yujitach.spires.sync.SimpleArticleList</key>
+		<array>
+			<string>com.apple.syncservices.RecordEntityName</string>
+			<string>name</string>
+		</array>
+	</dict>
+	<key>Type</key>
+	<string>app</string>
+</dict>
+</plist>

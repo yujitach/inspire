@@ -1,0 +1,1004 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		33071BC70EC1158A00957864 /* ImporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33071BC60EC1158A00957864 /* ImporterController.m */; };
+		33071BCF0EC1161900957864 /* Importer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33071BCE0EC1161900957864 /* Importer.xib */; };
+		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
+		330937360F39662800F214D6 /* spires.syncschema in Resources */ = {isa = PBXBuildFile; fileRef = 3309372A0F39662800F214D6 /* spires.syncschema */; };
+		330937610F39694800F214D6 /* ClientDescription.plist in Resources */ = {isa = PBXBuildFile; fileRef = 330937600F39694800F214D6 /* ClientDescription.plist */; };
+		3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */; };
+		330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 330AF0E90EA5428E0009B674 /* HidableNSTableView.m */; };
+		331299110EA6AA4500A7F496 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
+		331299120EA6AA4500A7F496 /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
+		331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */; };
+		331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 331299100EA6AA4500A7F496 /* SimpleArticleList.m */; };
+		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
+		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
+		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
+		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
+		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
+		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
+		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
+		332F1A1F0EA5860D00758683 /* Author.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F1A1E0EA5860D00758683 /* Author.m */; };
+		332F1A800EA5905000758683 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
+		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
+		3333B8CF0F3584B500251984 /* magic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3333B8CE0F3584B500251984 /* magic.perl */; };
+		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
+		334A3A700F360E060078D121 /* NSWindow+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */; };
+		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
+		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
+		334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */; };
+		334A3A740F360E060078D121 /* NSColor+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A620F360E060078D121 /* NSColor+BWAdditions.m */; };
+		334A3A780F360E060078D121 /* BWAnchoredButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */; };
+		334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */; };
+		334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6E0F360E060078D121 /* BWAnchoredButton.m */; };
+		334A3A920F360EE30078D121 /* BWToolKit-License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 334A3A910F360EE30078D121 /* BWToolKit-License.rtf */; };
+		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
+		335937790F40052D00E3A39E /* BWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335937770F40052D00E3A39E /* BWSplitView.m */; };
+		3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */; };
+		3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */ = {isa = PBXBuildFile; fileRef = 3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */; };
+		3365B0880EA7F53100A847CE /* spires-red.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0850EA7F53100A847CE /* spires-red.ico */; };
+		3365B0890EA7F53100A847CE /* arxiv.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0860EA7F53100A847CE /* arxiv.ico */; };
+		3365B08A0EA7F53100A847CE /* spires-blue.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0870EA7F53100A847CE /* spires-blue.ico */; };
+		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
+		3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */; };
+		3365B30D0EA810CF00A847CE /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; };
+		337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; };
+		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
+		338405360EA83D9D009D47DB /* NSString+XMLEntityDecoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 338405350EA83D9D009D47DB /* NSString+XMLEntityDecoding.m */; };
+		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
+		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
+		33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33880ABD0F3BC0C600468F09 /* RegexKitLite.m */; };
+		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
+		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
+		338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338AC4770F3691B40011414C /* ProgressIndicatorController.m */; };
+		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
+		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
+		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
+		339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */; };
+		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
+		339F63C90EB2F61200929D13 /* SideTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339F63C80EB2F61200929D13 /* SideTableViewController.m */; };
+		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
+		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
+		33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */; };
+		33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B58BD90F395ED600E23146 /* SyncServices.framework */; };
+		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
+		33C939290F36E539004A8C25 /* NDResourceFork+OtherSorces.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */; };
+		33C9392A0F36E539004A8C25 /* NSPathControl+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */; };
+		33C9392B0F36E539004A8C25 /* NSString+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */; };
+		33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391B0F36E539004A8C25 /* NDAlias.m */; };
+		33C9392D0F36E539004A8C25 /* NDAlias+AliasFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */; };
+		33C9392E0F36E539004A8C25 /* NSOpenPanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */; };
+		33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */; };
+		33C939300F36E539004A8C25 /* NDResourceFork.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939250F36E539004A8C25 /* NDResourceFork.m */; };
+		33C939310F36E539004A8C25 /* NSURL+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */; };
+		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
+		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
+		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
+		33CC08080F3E6135005B25F8 /* ArxivPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08070F3E6135005B25F8 /* ArxivPDFDownloadOperation.m */; };
+		33CC08450F3E6763005B25F8 /* ArxivVersionCheckingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08440F3E6763005B25F8 /* ArxivVersionCheckingOperation.m */; };
+		33CC08AD0F3E71CC005B25F8 /* SpiresQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08AC0F3E71CC005B25F8 /* SpiresQueryOperation.m */; };
+		33CC08B20F3E72F8005B25F8 /* BatchImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08B10F3E72F8005B25F8 /* BatchImportOperation.m */; };
+		33CC08BE0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08BD0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.m */; };
+		33CC093C0F3E8020005B25F8 /* TeXBibGenerationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC093B0F3E8020005B25F8 /* TeXBibGenerationOperation.m */; };
+		33CC095E0F3E8761005B25F8 /* BatchBibQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */; };
+		33CC0AF30F3EB29E005B25F8 /* ActivityMonitorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */; };
+		33D8AA6B0EAA67F400619A6F /* spiresHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D8AA6A0EAA67F400619A6F /* spiresHook.m */; };
+		33D8AA6D0EAA683D00619A6F /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 33D8AA6C0EAA683D00619A6F /* Info */; };
+		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
+		33D8ADA20EAA69F500619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
+		33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */; };
+		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
+		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
+		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
+		33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */ = {isa = PBXBuildFile; fileRef = 33F6149F0EAA82F200DA8029 /* spiresHook.pkg */; };
+		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
+		770B37ED0679A11B001EADE2 /* spires_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* spires_DataModel.xcdatamodel */; };
+		77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* spires_AppDelegate.m */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		33EBF0360EA5BFD40050B64A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* spires_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_Prefix.pch; sourceTree = "<group>"; };
+		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
+		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
+		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
+		3307ADFC0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListReloadOperation.h; sourceTree = "<group>"; };
+		3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListReloadOperation.m; sourceTree = "<group>"; };
+		3309372A0F39662800F214D6 /* spires.syncschema */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spires.syncschema; sourceTree = "<group>"; };
+		330937600F39694800F214D6 /* ClientDescription.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClientDescription.plist; sourceTree = "<group>"; };
+		3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wwwrefsbibtex2xmlpublic.perl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.perl; };
+		330AF0E80EA5428E0009B674 /* HidableNSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HidableNSTableView.h; sourceTree = "<group>"; };
+		330AF0E90EA5428E0009B674 /* HidableNSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HidableNSTableView.m; sourceTree = "<group>"; };
+		331299090EA6AA4500A7F496 /* ArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleList.h; sourceTree = "<group>"; };
+		3312990A0EA6AA4500A7F496 /* ArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleList.m; sourceTree = "<group>"; };
+		3312990B0EA6AA4500A7F496 /* AllArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllArticleList.h; sourceTree = "<group>"; };
+		3312990C0EA6AA4500A7F496 /* AllArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllArticleList.m; sourceTree = "<group>"; };
+		3312990D0EA6AA4500A7F496 /* ArxivNewArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewArticleList.h; sourceTree = "<group>"; };
+		3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewArticleList.m; sourceTree = "<group>"; };
+		3312990F0EA6AA4500A7F496 /* SimpleArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleArticleList.h; sourceTree = "<group>"; };
+		331299100EA6AA4500A7F496 /* SimpleArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleArticleList.m; sourceTree = "<group>"; };
+		3315E8590EB6DAB200E56D7E /* HistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
+		3315E85A0EB6DAB200E56D7E /* HistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
+		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
+		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
+		331FD32F0F36B11800C16F73 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
+		331FD3300F36B11800C16F73 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
+		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		332F19C30EA57B8E00758683 /* ArxivHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivHelper.h; sourceTree = "<group>"; };
+		332F19C40EA57B8E00758683 /* ArxivHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivHelper.m; sourceTree = "<group>"; };
+		332F1A1D0EA5860D00758683 /* Author.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Author.h; sourceTree = "<group>"; };
+		332F1A1E0EA5860D00758683 /* Author.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Author.m; sourceTree = "<group>"; };
+		332F1A7F0EA5905000758683 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		332F1B0D0EA597D300758683 /* spires.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = spires.icns; sourceTree = "<group>"; };
+		3333B8CE0F3584B500251984 /* magic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = magic.perl; sourceTree = "<group>"; };
+		333C79050F5230780075267A /* NSURL+libraryProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+libraryProxy.h"; sourceTree = "<group>"; };
+		333C79060F5230780075267A /* NSURL+libraryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+libraryProxy.m"; sourceTree = "<group>"; };
+		334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+BWAdditions.m"; path = "BWFramework/NSWindow+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSWindow+BWAdditions.h"; path = "BWFramework/NSWindow+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "BWFramework/NSView+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5C0F360E050078D121 /* NSView+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BWAdditions.h"; path = "BWFramework/NSView+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BWAdditions.m"; path = "BWFramework/NSString+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5E0F360E050078D121 /* NSString+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BWAdditions.h"; path = "BWFramework/NSString+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+BWAdditions.m"; path = "BWFramework/NSImage+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A600F360E050078D121 /* NSImage+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+BWAdditions.h"; path = "BWFramework/NSImage+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A610F360E060078D121 /* NSCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCustomView.h; path = BWFramework/NSCustomView.h; sourceTree = "<group>"; };
+		334A3A620F360E060078D121 /* NSColor+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSColor+BWAdditions.m"; path = "BWFramework/NSColor+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A630F360E060078D121 /* NSColor+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSColor+BWAdditions.h"; path = "BWFramework/NSColor+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonCell.m; path = BWFramework/BWAnchoredButtonCell.m; sourceTree = "<group>"; };
+		334A3A6B0F360E060078D121 /* BWAnchoredButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonCell.h; path = BWFramework/BWAnchoredButtonCell.h; sourceTree = "<group>"; };
+		334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonBar.m; path = BWFramework/BWAnchoredButtonBar.m; sourceTree = "<group>"; };
+		334A3A6D0F360E060078D121 /* BWAnchoredButtonBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonBar.h; path = BWFramework/BWAnchoredButtonBar.h; sourceTree = "<group>"; };
+		334A3A6E0F360E060078D121 /* BWAnchoredButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButton.m; path = BWFramework/BWAnchoredButton.m; sourceTree = "<group>"; };
+		334A3A6F0F360E060078D121 /* BWAnchoredButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButton.h; path = BWFramework/BWAnchoredButton.h; sourceTree = "<group>"; };
+		334A3A910F360EE30078D121 /* BWToolKit-License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "BWToolKit-License.rtf"; path = "BWFramework/BWToolKit-License.rtf"; sourceTree = "<group>"; };
+		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
+		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
+		335937770F40052D00E3A39E /* BWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSplitView.m; path = BWFramework/BWSplitView.m; sourceTree = "<group>"; };
+		335937780F40052D00E3A39E /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = BWFramework/BWSplitView.h; sourceTree = "<group>"; };
+		3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = GradientSplitViewDimpleVector.pdf; path = BWFramework/GradientSplitViewDimpleVector.pdf; sourceTree = "<group>"; };
+		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = BWFramework/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
+		3365B0850EA7F53100A847CE /* spires-red.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-red.ico"; sourceTree = "<group>"; };
+		3365B0860EA7F53100A847CE /* arxiv.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = arxiv.ico; sourceTree = "<group>"; };
+		3365B0870EA7F53100A847CE /* spires-blue.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-blue.ico"; sourceTree = "<group>"; };
+		3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresHelper.h; sourceTree = "<group>"; };
+		3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresHelper.m; sourceTree = "<group>"; };
+		3365B1F10EA8037C00A847CE /* SpiresPredicateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresPredicateTransformer.h; sourceTree = "<group>"; };
+		3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresPredicateTransformer.m; sourceTree = "<group>"; };
+		3365B30C0EA810CF00A847CE /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		337A3E950F3FA7680008906A /* DeferredPDFOpenOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeferredPDFOpenOperation.h; sourceTree = "<group>"; };
+		337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeferredPDFOpenOperation.m; sourceTree = "<group>"; };
+		337B882D0F3575680005BA9C /* BibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibViewController.h; sourceTree = "<group>"; };
+		337B882E0F3575680005BA9C /* BibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibViewController.m; sourceTree = "<group>"; };
+		338405340EA83D9D009D47DB /* NSString+XMLEntityDecoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLEntityDecoding.h"; sourceTree = "<group>"; };
+		338405350EA83D9D009D47DB /* NSString+XMLEntityDecoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMLEntityDecoding.m"; sourceTree = "<group>"; };
+		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
+		338764990EAC5D8800042601 /* JournalEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalEntry.h; sourceTree = "<group>"; };
+		3387649A0EAC5D8800042601 /* JournalEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JournalEntry.m; sourceTree = "<group>"; };
+		33880ABD0F3BC0C600468F09 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = RegExKitLite/RegexKitLite.m; sourceTree = "<group>"; };
+		33880ABE0F3BC0C600468F09 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = RegExKitLite/RegexKitLite.h; sourceTree = "<group>"; };
+		33887E240EA97971003A7E83 /* URLHandlerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHandlerCommand.h; sourceTree = "<group>"; };
+		33887E250EA97971003A7E83 /* URLHandlerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHandlerCommand.m; sourceTree = "<group>"; };
+		33887E7B0EA97C4D003A7E83 /* spires.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = spires.sdef; sourceTree = "<group>"; };
+		338AC4760F3691B40011414C /* ProgressIndicatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressIndicatorController.h; sourceTree = "<group>"; };
+		338AC4770F3691B40011414C /* ProgressIndicatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressIndicatorController.m; sourceTree = "<group>"; };
+		339544DA0F35277200D01E97 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
+		339544DB0F35277200D01E97 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
+		3395458D0F3539B600D01E97 /* AppChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppChooser.h; sourceTree = "<group>"; };
+		3395458E0F3539B600D01E97 /* AppChooser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppChooser.m; sourceTree = "<group>"; };
+		3395793F0F3ECA3A0036364A /* LoadAbstractDOIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadAbstractDOIOperation.h; sourceTree = "<group>"; };
+		339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadAbstractDOIOperation.m; sourceTree = "<group>"; };
+		339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivMetadataFetchOperation.h; sourceTree = "<group>"; };
+		339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivMetadataFetchOperation.m; sourceTree = "<group>"; };
+		3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = parseTeXandEmitPlist.perl; sourceTree = "<group>"; };
+		339F63C70EB2F61200929D13 /* SideTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideTableViewController.h; sourceTree = "<group>"; };
+		339F63C80EB2F61200929D13 /* SideTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideTableViewController.m; sourceTree = "<group>"; };
+		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
+		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
+		33B5621A0F3BB6510006E70D /* Requests.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Requests.html; sourceTree = "<group>"; };
+		33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate_SyncCategory.h; sourceTree = "<group>"; };
+		33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate_SyncCategory.m; sourceTree = "<group>"; };
+		33B58BD90F395ED600E23146 /* SyncServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SyncServices.framework; path = /System/Library/Frameworks/SyncServices.framework; sourceTree = "<absolute>"; };
+		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
+		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
+		33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NDResourceFork+OtherSorces.m"; path = "NDAlias/NDResourceFork+OtherSorces.m"; sourceTree = "<group>"; };
+		33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSPathControl+NDAlias.m"; path = "NDAlias/NSPathControl+NDAlias.m"; sourceTree = "<group>"; };
+		33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSPathControl+NDAlias.h"; path = "NDAlias/NSPathControl+NDAlias.h"; sourceTree = "<group>"; };
+		33C939190F36E539004A8C25 /* NDResourceFork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDResourceFork.h; path = NDAlias/NDResourceFork.h; sourceTree = "<group>"; };
+		33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+NDCarbonUtilities.m"; path = "NDAlias/NSString+NDCarbonUtilities.m"; sourceTree = "<group>"; };
+		33C9391B0F36E539004A8C25 /* NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NDAlias.m; path = NDAlias/NDAlias.m; sourceTree = "<group>"; };
+		33C9391C0F36E539004A8C25 /* NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDAlias.h; path = NDAlias/NDAlias.h; sourceTree = "<group>"; };
+		33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSavePanel+NDAlias.h"; path = "NDAlias/NSSavePanel+NDAlias.h"; sourceTree = "<group>"; };
+		33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NDAlias+AliasFile.m"; path = "NDAlias/NDAlias+AliasFile.m"; sourceTree = "<group>"; };
+		33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+NDCarbonUtilities.h"; path = "NDAlias/NSString+NDCarbonUtilities.h"; sourceTree = "<group>"; };
+		33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSOpenPanel+NDAlias.m"; path = "NDAlias/NSOpenPanel+NDAlias.m"; sourceTree = "<group>"; };
+		33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSavePanel+NDAlias.m"; path = "NDAlias/NSSavePanel+NDAlias.m"; sourceTree = "<group>"; };
+		33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+NDCarbonUtilities.h"; path = "NDAlias/NSURL+NDCarbonUtilities.h"; sourceTree = "<group>"; };
+		33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSOpenPanel+NDAlias.h"; path = "NDAlias/NSOpenPanel+NDAlias.h"; sourceTree = "<group>"; };
+		33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NDAlias+AliasFile.h"; path = "NDAlias/NDAlias+AliasFile.h"; sourceTree = "<group>"; };
+		33C939250F36E539004A8C25 /* NDResourceFork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NDResourceFork.m; path = NDAlias/NDResourceFork.m; sourceTree = "<group>"; };
+		33C939260F36E539004A8C25 /* NDResourceFork+OtherSorces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NDResourceFork+OtherSorces.h"; path = "NDAlias/NDResourceFork+OtherSorces.h"; sourceTree = "<group>"; };
+		33C939270F36E539004A8C25 /* NDSDKCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDSDKCompatibility.h; path = NDAlias/NDSDKCompatibility.h; sourceTree = "<group>"; };
+		33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+NDCarbonUtilities.m"; path = "NDAlias/NSURL+NDCarbonUtilities.m"; sourceTree = "<group>"; };
+		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
+		33CC06E70F3E48B8005B25F8 /* DumbOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumbOperation.m; sourceTree = "<group>"; };
+		33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalPDFDownloadOperation.h; sourceTree = "<group>"; };
+		33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JournalPDFDownloadOperation.m; sourceTree = "<group>"; };
+		33CC07D60F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+TemporaryFileName.h"; sourceTree = "<group>"; };
+		33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+TemporaryFileName.m"; sourceTree = "<group>"; };
+		33CC08060F3E6135005B25F8 /* ArxivPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivPDFDownloadOperation.h; sourceTree = "<group>"; };
+		33CC08070F3E6135005B25F8 /* ArxivPDFDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivPDFDownloadOperation.m; sourceTree = "<group>"; };
+		33CC08430F3E6763005B25F8 /* ArxivVersionCheckingOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivVersionCheckingOperation.h; sourceTree = "<group>"; };
+		33CC08440F3E6763005B25F8 /* ArxivVersionCheckingOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivVersionCheckingOperation.m; sourceTree = "<group>"; };
+		33CC08AB0F3E71CC005B25F8 /* SpiresQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresQueryOperation.h; sourceTree = "<group>"; };
+		33CC08AC0F3E71CC005B25F8 /* SpiresQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresQueryOperation.m; sourceTree = "<group>"; };
+		33CC08B00F3E72F8005B25F8 /* BatchImportOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchImportOperation.h; sourceTree = "<group>"; };
+		33CC08B10F3E72F8005B25F8 /* BatchImportOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchImportOperation.m; sourceTree = "<group>"; };
+		33CC08BC0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+TrivialAddition.h"; sourceTree = "<group>"; };
+		33CC08BD0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+TrivialAddition.m"; sourceTree = "<group>"; };
+		33CC093A0F3E8020005B25F8 /* TeXBibGenerationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeXBibGenerationOperation.h; sourceTree = "<group>"; };
+		33CC093B0F3E8020005B25F8 /* TeXBibGenerationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeXBibGenerationOperation.m; sourceTree = "<group>"; };
+		33CC095C0F3E8761005B25F8 /* BatchBibQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchBibQueryOperation.h; sourceTree = "<group>"; };
+		33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchBibQueryOperation.m; sourceTree = "<group>"; };
+		33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMonitorController.h; sourceTree = "<group>"; };
+		33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMonitorController.m; sourceTree = "<group>"; };
+		33D8AA610EAA679C00619A6F /* spiresHook.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spiresHook.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		33D8AA620EAA679C00619A6F /* spiresHook-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "spiresHook-Info.plist"; sourceTree = "<group>"; };
+		33D8AA690EAA67F400619A6F /* spiresHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spiresHook.h; sourceTree = "<group>"; };
+		33D8AA6A0EAA67F400619A6F /* spiresHook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spiresHook.m; sourceTree = "<group>"; };
+		33D8AA6C0EAA683D00619A6F /* Info */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
+		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		33E4EF830EAA9FAF00301AFC /* TableViewContextMenuCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewContextMenuCategory.h; sourceTree = "<group>"; };
+		33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewContextMenuCategory.m; sourceTree = "<group>"; };
+		33EBF0090EA5BF650050B64A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		33EBF0370EA5C0830050B64A /* Release Notes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Release Notes.html"; sourceTree = "<group>"; };
+		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
+		33FA970A0EA8E6DD003961AD /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
+		33FA970B0EA8E6DD003961AD /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
+		770B37EC0679A11B001EADE2 /* spires_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = spires_DataModel.xcdatamodel; sourceTree = "<group>"; };
+		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		77C8280B06725ACE000B614F /* spires_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate.h; sourceTree = "<group>"; };
+		77C8280C06725ACE000B614F /* spires_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* spires.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spires.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		33D8AA5F0EAA679C00619A6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33D8ADA20EAA69F500619A6F /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				332F1A800EA5905000758683 /* Quartz.framework in Frameworks */,
+				33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */,
+				33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */,
+				33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				338405340EA83D9D009D47DB /* NSString+XMLEntityDecoding.h */,
+				338405350EA83D9D009D47DB /* NSString+XMLEntityDecoding.m */,
+				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
+				331C8F0F0F4CC84300779F05 /* NSString+magic.m */,
+				33CC07D60F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.h */,
+				33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */,
+				33CC08BC0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.h */,
+				33CC08BD0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.m */,
+				333C79050F5230780075267A /* NSURL+libraryProxy.h */,
+				333C79060F5230780075267A /* NSURL+libraryProxy.m */,
+				3365B1F10EA8037C00A847CE /* SpiresPredicateTransformer.h */,
+				3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */,
+				3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */,
+				3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */,
+				332F19C30EA57B8E00758683 /* ArxivHelper.h */,
+				332F19C40EA57B8E00758683 /* ArxivHelper.m */,
+				334FD3A90F3516EF000B4BD6 /* PDFHelper.h */,
+				334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */,
+				33C7A4370F3D0EA600F3874C /* SecureDownloader.h */,
+				33C7A4380F3D0EA600F3874C /* SecureDownloader.m */,
+				33887E240EA97971003A7E83 /* URLHandlerCommand.h */,
+				33887E250EA97971003A7E83 /* URLHandlerCommand.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77C82804067257F0000B614F /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* spires.app */,
+				33D8AA610EAA679C00619A6F /* spiresHook.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* spires */ = {
+			isa = PBXGroup;
+			children = (
+				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
+				33F883E80EAADAE000F5E9C6 /* Views */,
+				7756732906782D8800D1FEB8 /* Models */,
+				3395454D0F352F5A00D01E97 /* Controllers */,
+				331FD3A90F36B6AF00C16F73 /* App Delegate */,
+				33CC06FE0F3E4A20005B25F8 /* Operations */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				33D8AA5A0EAA675600619A6F /* spiresHook */,
+			);
+			name = spires;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* spires_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3309372A0F39662800F214D6 /* spires.syncschema */,
+				330937600F39694800F214D6 /* ClientDescription.plist */,
+				334A3A910F360EE30078D121 /* BWToolKit-License.rtf */,
+				33F6149F0EAA82F200DA8029 /* spiresHook.pkg */,
+				3333B8CE0F3584B500251984 /* magic.perl */,
+				3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */,
+				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
+				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
+				338420C60EA84CE500990706 /* template.html */,
+				33255AAA0F3131F500538063 /* Acknowledgments.html */,
+				33EBF0370EA5C0830050B64A /* Release Notes.html */,
+				33B5621A0F3BB6510006E70D /* Requests.html */,
+				3365B0850EA7F53100A847CE /* spires-red.ico */,
+				3365B0860EA7F53100A847CE /* arxiv.ico */,
+				3365B0870EA7F53100A847CE /* spires-blue.ico */,
+				332F1B0D0EA597D300758683 /* spires.icns */,
+				3365B30C0EA810CF00A847CE /* defaults.plist */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				332824930F560DE800AA6E00 /* dsa_pub.pem */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */,
+				33071BCE0EC1161900957864 /* Importer.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				33B58BD90F395ED600E23146 /* SyncServices.framework */,
+				33D8AA900EAA69C800619A6F /* WebKit.framework */,
+				33EBF0090EA5BF650050B64A /* Sparkle.framework */,
+				332F1A7F0EA5905000758683 /* Quartz.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		330AF1DA0EA564BF0009B674 /* NDAlias */ = {
+			isa = PBXGroup;
+			children = (
+				33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */,
+				33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */,
+				33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */,
+				33C939190F36E539004A8C25 /* NDResourceFork.h */,
+				33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */,
+				33C9391B0F36E539004A8C25 /* NDAlias.m */,
+				33C9391C0F36E539004A8C25 /* NDAlias.h */,
+				33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */,
+				33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */,
+				33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */,
+				33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */,
+				33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */,
+				33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */,
+				33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */,
+				33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */,
+				33C939250F36E539004A8C25 /* NDResourceFork.m */,
+				33C939260F36E539004A8C25 /* NDResourceFork+OtherSorces.h */,
+				33C939270F36E539004A8C25 /* NDSDKCompatibility.h */,
+				33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */,
+			);
+			name = NDAlias;
+			sourceTree = "<group>";
+		};
+		331FD3A90F36B6AF00C16F73 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
+				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
+				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
+				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		334A3A1C0F360B750078D121 /* BWToolKitFramework */ = {
+			isa = PBXGroup;
+			children = (
+				334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */,
+				334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */,
+				334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */,
+				334A3A5C0F360E050078D121 /* NSView+BWAdditions.h */,
+				334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */,
+				334A3A5E0F360E050078D121 /* NSString+BWAdditions.h */,
+				334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */,
+				334A3A600F360E050078D121 /* NSImage+BWAdditions.h */,
+				335937770F40052D00E3A39E /* BWSplitView.m */,
+				335937780F40052D00E3A39E /* BWSplitView.h */,
+				334A3A610F360E060078D121 /* NSCustomView.h */,
+				334A3A620F360E060078D121 /* NSColor+BWAdditions.m */,
+				334A3A630F360E060078D121 /* NSColor+BWAdditions.h */,
+				334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */,
+				334A3A6B0F360E060078D121 /* BWAnchoredButtonCell.h */,
+				334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */,
+				334A3A6D0F360E060078D121 /* BWAnchoredButtonBar.h */,
+				334A3A6E0F360E060078D121 /* BWAnchoredButton.m */,
+				334A3A6F0F360E060078D121 /* BWAnchoredButton.h */,
+				3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */,
+				3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */,
+			);
+			name = BWToolKitFramework;
+			sourceTree = "<group>";
+		};
+		33880AA90F3BC0B100468F09 /* RegExKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				33880ABD0F3BC0C600468F09 /* RegexKitLite.m */,
+				33880ABE0F3BC0C600468F09 /* RegexKitLite.h */,
+			);
+			name = RegExKitLite;
+			sourceTree = "<group>";
+		};
+		3395454D0F352F5A00D01E97 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				338AC4760F3691B40011414C /* ProgressIndicatorController.h */,
+				338AC4770F3691B40011414C /* ProgressIndicatorController.m */,
+				337B882D0F3575680005BA9C /* BibViewController.h */,
+				337B882E0F3575680005BA9C /* BibViewController.m */,
+				3395458D0F3539B600D01E97 /* AppChooser.h */,
+				3395458E0F3539B600D01E97 /* AppChooser.m */,
+				339544DA0F35277200D01E97 /* PrefController.h */,
+				339544DB0F35277200D01E97 /* PrefController.m */,
+				33071BC50EC1158A00957864 /* ImporterController.h */,
+				33071BC60EC1158A00957864 /* ImporterController.m */,
+				3315E8590EB6DAB200E56D7E /* HistoryController.h */,
+				3315E85A0EB6DAB200E56D7E /* HistoryController.m */,
+				339F63C70EB2F61200929D13 /* SideTableViewController.h */,
+				339F63C80EB2F61200929D13 /* SideTableViewController.m */,
+				331FD32F0F36B11800C16F73 /* MainTableViewController.h */,
+				331FD3300F36B11800C16F73 /* MainTableViewController.m */,
+				33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */,
+				33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		339579BF0F3ED25C0036364A /* OpenSourceComponents */ = {
+			isa = PBXGroup;
+			children = (
+				33880AA90F3BC0B100468F09 /* RegExKitLite */,
+				334A3A1C0F360B750078D121 /* BWToolKitFramework */,
+				33A5EAE20EA5D68C00DAE784 /* TableView Additions */,
+				330AF1DA0EA564BF0009B674 /* NDAlias */,
+			);
+			name = OpenSourceComponents;
+			sourceTree = "<group>";
+		};
+		33A5EAE20EA5D68C00DAE784 /* TableView Additions */ = {
+			isa = PBXGroup;
+			children = (
+				330AF0E80EA5428E0009B674 /* HidableNSTableView.h */,
+				330AF0E90EA5428E0009B674 /* HidableNSTableView.m */,
+				33E4EF830EAA9FAF00301AFC /* TableViewContextMenuCategory.h */,
+				33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */,
+			);
+			name = "TableView Additions";
+			sourceTree = "<group>";
+		};
+		33CC06FE0F3E4A20005B25F8 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				33CC06E60F3E48B8005B25F8 /* DumbOperation.h */,
+				33CC06E70F3E48B8005B25F8 /* DumbOperation.m */,
+				33CC08060F3E6135005B25F8 /* ArxivPDFDownloadOperation.h */,
+				33CC08070F3E6135005B25F8 /* ArxivPDFDownloadOperation.m */,
+				33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */,
+				33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */,
+				33CC08430F3E6763005B25F8 /* ArxivVersionCheckingOperation.h */,
+				33CC08440F3E6763005B25F8 /* ArxivVersionCheckingOperation.m */,
+				33CC08AB0F3E71CC005B25F8 /* SpiresQueryOperation.h */,
+				33CC08AC0F3E71CC005B25F8 /* SpiresQueryOperation.m */,
+				33CC08B00F3E72F8005B25F8 /* BatchImportOperation.h */,
+				33CC08B10F3E72F8005B25F8 /* BatchImportOperation.m */,
+				33CC093A0F3E8020005B25F8 /* TeXBibGenerationOperation.h */,
+				33CC093B0F3E8020005B25F8 /* TeXBibGenerationOperation.m */,
+				33CC095C0F3E8761005B25F8 /* BatchBibQueryOperation.h */,
+				33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */,
+				3395793F0F3ECA3A0036364A /* LoadAbstractDOIOperation.h */,
+				339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */,
+				339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */,
+				339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */,
+				337A3E950F3FA7680008906A /* DeferredPDFOpenOperation.h */,
+				337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */,
+				3307ADFC0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.h */,
+				3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
+		33D8AA5A0EAA675600619A6F /* spiresHook */ = {
+			isa = PBXGroup;
+			children = (
+				33D8AA6C0EAA683D00619A6F /* Info */,
+				33D8AA690EAA67F400619A6F /* spiresHook.h */,
+				33D8AA6A0EAA67F400619A6F /* spiresHook.m */,
+				33D8AA620EAA679C00619A6F /* spiresHook-Info.plist */,
+			);
+			name = spiresHook;
+			sourceTree = "<group>";
+		};
+		33F883E80EAADAE000F5E9C6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				33FA970A0EA8E6DD003961AD /* ArticleView.h */,
+				33FA970B0EA8E6DD003961AD /* ArticleView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		7756732906782D8800D1FEB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				338764990EAC5D8800042601 /* JournalEntry.h */,
+				3387649A0EAC5D8800042601 /* JournalEntry.m */,
+				331299090EA6AA4500A7F496 /* ArticleList.h */,
+				3312990A0EA6AA4500A7F496 /* ArticleList.m */,
+				3312990B0EA6AA4500A7F496 /* AllArticleList.h */,
+				3312990C0EA6AA4500A7F496 /* AllArticleList.m */,
+				3312990D0EA6AA4500A7F496 /* ArxivNewArticleList.h */,
+				3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */,
+				3312990F0EA6AA4500A7F496 /* SimpleArticleList.h */,
+				331299100EA6AA4500A7F496 /* SimpleArticleList.m */,
+				332F1A1D0EA5860D00758683 /* Author.h */,
+				332F1A1E0EA5860D00758683 /* Author.m */,
+				33B39E6E0EA4325E00734A06 /* Article.h */,
+				33B39E6F0EA4325E00734A06 /* Article.m */,
+				770B37EC0679A11B001EADE2 /* spires_DataModel.xcdatamodel */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		33D8AA600EAA679C00619A6F /* spiresHook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33D8AA650EAA679D00619A6F /* Build configuration list for PBXNativeTarget "spiresHook" */;
+			buildPhases = (
+				33D8AA5D0EAA679C00619A6F /* Resources */,
+				33D8AA5E0EAA679C00619A6F /* Sources */,
+				33D8AA5F0EAA679C00619A6F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = spiresHook;
+			productName = spiresHook;
+			productReference = 33D8AA610EAA679C00619A6F /* spiresHook.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		8D1107260486CEB800E47090 /* spires */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "spires" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				33EBF0360EA5BFD40050B64A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = spires;
+			productInstallPath = "$(HOME)/Applications";
+			productName = spires;
+			productReference = 8D1107320486CEB800E47090 /* spires.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "spires" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* spires */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* spires */,
+				33D8AA600EAA679C00619A6F /* spiresHook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		33D8AA5D0EAA679C00619A6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33D8AA6D0EAA683D00619A6F /* Info in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
+				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
+				3365B0880EA7F53100A847CE /* spires-red.ico in Resources */,
+				3365B0890EA7F53100A847CE /* arxiv.ico in Resources */,
+				3365B08A0EA7F53100A847CE /* spires-blue.ico in Resources */,
+				3365B30D0EA810CF00A847CE /* defaults.plist in Resources */,
+				338420C70EA84CE500990706 /* template.html in Resources */,
+				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
+				331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */,
+				3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */,
+				33071BCF0EC1161900957864 /* Importer.xib in Resources */,
+				33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */,
+				3333B8CF0F3584B500251984 /* magic.perl in Resources */,
+				334A3A920F360EE30078D121 /* BWToolKit-License.rtf in Resources */,
+				330937360F39662800F214D6 /* spires.syncschema in Resources */,
+				330937610F39694800F214D6 /* ClientDescription.plist in Resources */,
+				33B5621B0F3BB6510006E70D /* Requests.html in Resources */,
+				3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */,
+				3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */,
+				3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */,
+				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		33D8AA5E0EAA679C00619A6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33D8AA6B0EAA67F400619A6F /* spiresHook.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */,
+				770B37ED0679A11B001EADE2 /* spires_DataModel.xcdatamodel in Sources */,
+				33B39E700EA4325E00734A06 /* Article.m in Sources */,
+				330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */,
+				332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */,
+				332F1A1F0EA5860D00758683 /* Author.m in Sources */,
+				331299110EA6AA4500A7F496 /* ArticleList.m in Sources */,
+				331299120EA6AA4500A7F496 /* AllArticleList.m in Sources */,
+				331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */,
+				331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */,
+				3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */,
+				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
+				338405360EA83D9D009D47DB /* NSString+XMLEntityDecoding.m in Sources */,
+				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
+				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
+				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
+				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
+				339F63C90EB2F61200929D13 /* SideTableViewController.m in Sources */,
+				3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */,
+				33071BC70EC1158A00957864 /* ImporterController.m in Sources */,
+				334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */,
+				339544DC0F35277200D01E97 /* PrefController.m in Sources */,
+				3395458F0F3539B600D01E97 /* AppChooser.m in Sources */,
+				337B882F0F3575680005BA9C /* BibViewController.m in Sources */,
+				334A3A700F360E060078D121 /* NSWindow+BWAdditions.m in Sources */,
+				334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */,
+				334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */,
+				334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */,
+				334A3A740F360E060078D121 /* NSColor+BWAdditions.m in Sources */,
+				334A3A780F360E060078D121 /* BWAnchoredButtonCell.m in Sources */,
+				334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */,
+				334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */,
+				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
+				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
+				33C939290F36E539004A8C25 /* NDResourceFork+OtherSorces.m in Sources */,
+				33C9392A0F36E539004A8C25 /* NSPathControl+NDAlias.m in Sources */,
+				33C9392B0F36E539004A8C25 /* NSString+NDCarbonUtilities.m in Sources */,
+				33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */,
+				33C9392D0F36E539004A8C25 /* NDAlias+AliasFile.m in Sources */,
+				33C9392E0F36E539004A8C25 /* NSOpenPanel+NDAlias.m in Sources */,
+				33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */,
+				33C939300F36E539004A8C25 /* NDResourceFork.m in Sources */,
+				33C939310F36E539004A8C25 /* NSURL+NDCarbonUtilities.m in Sources */,
+				33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */,
+				33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */,
+				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
+				33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */,
+				33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */,
+				33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */,
+				33CC08080F3E6135005B25F8 /* ArxivPDFDownloadOperation.m in Sources */,
+				33CC08450F3E6763005B25F8 /* ArxivVersionCheckingOperation.m in Sources */,
+				33CC08AD0F3E71CC005B25F8 /* SpiresQueryOperation.m in Sources */,
+				33CC08B20F3E72F8005B25F8 /* BatchImportOperation.m in Sources */,
+				33CC08BE0F3E7CCE005B25F8 /* NSManagedObjectContext+TrivialAddition.m in Sources */,
+				33CC093C0F3E8020005B25F8 /* TeXBibGenerationOperation.m in Sources */,
+				33CC095E0F3E8761005B25F8 /* BatchBibQueryOperation.m in Sources */,
+				33CC0AF30F3EB29E005B25F8 /* ActivityMonitorController.m in Sources */,
+				339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */,
+				339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */,
+				337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */,
+				3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */,
+				335937790F40052D00E3A39E /* BWSplitView.m in Sources */,
+				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
+				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				331AAB620EB7D9C5000AB5D0 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		26FC0A850875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = spires_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "-licucore";
+				PRODUCT_NAME = spires;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		26FC0A860875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = spires_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "-licucore";
+				PRODUCT_NAME = spires;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		26FC0A890875C7B200E6366F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		26FC0A8A0875C7B200E6366F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		33D8AA630EAA679D00619A6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "spiresHook-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = spiresHook;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		33D8AA640EAA679D00619A6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "spiresHook-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = spiresHook;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "spires" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A850875C7B200E6366F /* Debug */,
+				26FC0A860875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "spires" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26FC0A890875C7B200E6366F /* Debug */,
+				26FC0A8A0875C7B200E6366F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		33D8AA650EAA679D00619A6F /* Build configuration list for PBXNativeTarget "spiresHook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33D8AA630EAA679D00619A6F /* Debug */,
+				33D8AA640EAA679D00619A6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
