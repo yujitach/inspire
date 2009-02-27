@@ -13,7 +13,12 @@
 #import "NSString+magic.h"
 
 NSMutableDictionary* eprintDict=nil;
-
+@interface Article (Primitives)
+-(void)setPrimitiveTitle:(NSString*)t;
+-(NSMutableSet*)primitiveAuthors;
+-(void)setPrimitiveEprint:(NSString*)e;
+-(void)setPrimitiveDate:(NSDate*)d;
+@end
 @implementation Article 
 
 @dynamic journal;
@@ -36,6 +41,12 @@ NSMutableDictionary* eprintDict=nil;
 @dynamic spiresKey;
 @dynamic texKey;
 @dynamic preferredId;
+@dynamic quieterTitle;
+@dynamic normalizedTitle;
+@dynamic longishAuthorListForA;
+@dynamic shortishAuthorList;
+@dynamic longishAuthorListForEA;
+@dynamic eprintForSorting;
 
 +(void)initialize
 {
@@ -105,8 +116,24 @@ NSMutableDictionary* eprintDict=nil;
     }
     return nil;
 }
+-(void)awakeFromFetch
+{
+    [super awakeFromFetch];
+    [self addObserver:self
+	   forKeyPath:@"authors"
+	      options:NSKeyValueObservingOptionNew // |NSKeyValueObservingOptionInitial
+	      context:nil];
+}
+-(void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    [self addObserver:self
+	   forKeyPath:@"authors"
+	      options:NSKeyValueObservingOptionNew // |NSKeyValueObservingOptionInitial
+	      context:nil];
+}
 
-
+#pragma mark Extras Management
 -(void)setExtra:(id)content forKey:(NSString*)key
 {
     NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.extraURLs 
@@ -130,23 +157,9 @@ NSMutableDictionary* eprintDict=nil;
 							       errorDescription:nil];
     return [dict valueForKey:key];
 }
--(void)awakeFromFetch
-{
-    [super awakeFromFetch];
-    [self addObserver:self
-	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionInitial
-	      context:nil];
-}
--(void)awakeFromInsert
-{
-    [super awakeFromInsert];
-    [self addObserver:self
-	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionInitial
-	      context:nil];
-}
--(NSString*)shortishAuthorList
+
+#pragma mark Sort Key Precalculation 
+-(NSString*)calculateShortishAuthorList
 {
     NSMutableArray*a=[NSMutableArray array];
     for(Author*i in self.authors){
@@ -164,7 +177,7 @@ NSMutableDictionary* eprintDict=nil;
     }
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
-    return [a componentsJoinedByString:@"; "];
+    return [[a componentsJoinedByString:@"; "] normalizedString];
 }
 -(NSString*)calculateLongishAuthorListForA
 {
@@ -192,67 +205,126 @@ NSMutableDictionary* eprintDict=nil;
 	    }
 	[result appendString:@"; "];
     }
-    return result;
+    return [result normalizedString];
     
 }
-
--(NSString*)longishAuthorListForA
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if(!longishAuthorListForA){
-	longishAuthorListForA=[self calculateLongishAuthorListForA];
+    if([keyPath isEqualToString:@"authors"]){
+	self.shortishAuthorList=[self calculateShortishAuthorList];
+	self.longishAuthorListForA=[self calculateLongishAuthorListForA];
+	self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
     }
-    return longishAuthorListForA;
 }
 
--(NSString*)longishAuthorListForEA
+/*- (void)addAuthorsObject:(NSManagedObject *)value
 {
-    if(!longishAuthorListForEA){
-	longishAuthorListForEA=[self calculateLongishAuthorListForEA];
-    }
-    return longishAuthorListForEA;
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    [self addAuthors:changedObjects];
 }
 
--(NSString*)longishAuthorList
+- (void)removeAuthorsObject:(NSManagedObject *)value
 {
-    NSMutableArray*a=[NSMutableArray array];
-    for(Author*i in self.authors){
-	[a addObject:i.name];
-    }
-    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    NSMutableString*result=[NSMutableString string];
-    for(NSString*s in a){
-	NSArray* c=[s componentsSeparatedByString:@", "];
-	if([c count]==1){
-	    [result appendString:s];
-	    [result appendString:@"; "];
-	    continue;
+    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
+    [self removeAuthors:changedObjects];
+}
+
+- (void)addAuthors:(NSSet *)value
+{
+    [self willChangeValueForKey:@"authors"
+		withSetMutation:NSKeyValueUnionSetMutation
+		   usingObjects:value];
+    [[self primitiveAuthors] unionSet:value];
+    [self didChangeValueForKey:@"authors"
+	       withSetMutation:NSKeyValueUnionSetMutation
+		  usingObjects:value];
+    self.longishAuthorListForA=[self calculateLongishAuthorListForA];
+    self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
+    self.shortishAuthorList=[self calculateShortishAuthorList];	
+}
+
+- (void)removeAuthors:(NSSet *)value
+{
+    [self willChangeValueForKey:@"authors"
+		withSetMutation:NSKeyValueMinusSetMutation
+		   usingObjects:value];
+    [[self primitiveAuthors] minusSet:value];
+    [self didChangeValueForKey:@"authors"
+	       withSetMutation:NSKeyValueMinusSetMutation
+		  usingObjects:value];
+    self.longishAuthorListForA=[self calculateLongishAuthorListForA];
+    self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
+    self.shortishAuthorList=[self calculateShortishAuthorList];	
+}*/
+
+-(NSString*)calculateEprintForSorting
+{
+    NSString*eprint=self.eprint;
+    if(!eprint){
+	if(self.date){
+	    NSDate*date=self.date;
+	    NSString*s=[date descriptionWithCalendarFormat:@"%Y%m0000"
+						  timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]
+						    locale:nil];
+	    return s;
 	}
-	NSString* last=[c objectAtIndex:0];
-	NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
-	for(NSString*i in d){
-	    if(!i || [i isEqualToString:@""]) continue;
-	    [result appendString:[i substringToIndex:1]];
-	    [result appendString:@". "];
-	}
-	[result appendString:last];
-	[result appendString:@"; "];
+	return nil;
     }
-    return result;
+    if([eprint isEqualToString:@""])return nil;
+    if([eprint hasPrefix:@"arXiv:"]){
+	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[@"arXiv:" length]]];
+	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];
+    x=[x stringByAppendingString:@"0"];
+    if([x hasPrefix:@"0"]){
+	return [@"20" stringByAppendingString:x];
+    }
+    return [@"19" stringByAppendingString:x];
+}
+-(void)setEprint:(NSString*)e
+{
+    [self willChangeValueForKey:@"eprint"];
+    [self setPrimitiveEprint:e];
+    self.eprintForSorting=[self calculateEprintForSorting];
+    [self didChangeValueForKey:@"eprint"];
 }
 
+-(void)setDate:(NSDate*)d
+{
+    [self willChangeValueForKey:@"date"];
+    [self setPrimitiveDate:d];
+    self.eprintForSorting=[self calculateEprintForSorting];
+    [self didChangeValueForKey:@"date"];
+}
+-(NSString*)calculateQuieterTitle
+{
+    if([self eprint]){
+	return [self title];
+    }
+    if(![self title]){
+	return nil;
+    }
+    return [self.title quieterVersion];
+}
+-(NSString*)calculateNormalizedTitle
+{
+    return [self.title normalizedString];
+}
+
+-(void)setTitle:(NSString*)t
+{
+    [self willChangeValueForKey:@"title"];
+    [self setPrimitiveTitle:t];
+    self.normalizedTitle=[self calculateNormalizedTitle];
+    self.quieterTitle=[self calculateQuieterTitle];
+    [self didChangeValueForKey:@"title"];
+}
+#pragma mark Misc.
 +(NSSet*)keyPathsForValuesAffectingPdfPath
 {
     return [NSSet setWithObjects:@"pdfAlias",nil];
 }
-/*+(NSSet*)keyPathsForValuesAffectingNicerAbstract
-{
-    return [NSSet setWithObjects:@"abstract",nil];
-}*/
-/*-(NSString*)nicerAbstract
-{
-    NSString*s=self.abstract;
-    return [s stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-}*/
 -(ArticleType)articleType
 {
     if(self.eprint && ![self.eprint isEqualToString:@""]){
@@ -302,71 +374,6 @@ NSMutableDictionary* eprintDict=nil;
 {
     return nil;
 }
--(NSString*)_eprintForSorting
-{
-    NSString*eprint=self.eprint;
-    if(!eprint){
-	if(self.date){
-	    NSDate*date=self.date;
-	    NSString*s=[date descriptionWithCalendarFormat:@"%Y%m0000"
-						  timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]
-						    locale:nil];
-	    return s;
-	}
-	return nil;
-    }
-    if([eprint isEqualToString:@""])return nil;
-    if([eprint hasPrefix:@"arXiv:"]){
-	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[@"arXiv:" length]]];
-	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
-    }
-    NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];
-    x=[x stringByAppendingString:@"0"];
-    if([x hasPrefix:@"0"]){
-	return [@"20" stringByAppendingString:x];
-    }
-    return [@"19" stringByAppendingString:x];
-}
--(NSString*)eprintForSorting
-{
-    if(!_eprintForSorting){
-	_eprintForSorting=[self _eprintForSorting];
-    }
-    return _eprintForSorting;
-}
--(NSString*)quieterTitle
-{
-    if([self eprint]){
-	return [self title];
-    }
-    if(![self title]){
-	return nil;
-    }
-    if(!_quieterTitle){
-	_quieterTitle=[self.title quieterVersion];
-    }
-    return _quieterTitle;
-}
--(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"authors"]){
-	longishAuthorListForA=[self calculateLongishAuthorListForA];
-	longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
-    }
-}
--(NSString*)texKey
-{
-    return [self extraForKey:@"texKey"];
-}
-
--(void)setTexKey:(NSString*)s
-{
-    [self willChangeValueForKey:@"texKey"];
-    [self setExtra:s forKey:@"texKey"];
-    [self didChangeValueForKey:@"texKey"];
-
-}
-
 -(NSString*)preferredId
 {
     if(self.texKey && ![self.texKey isEqualToString:@""]){

@@ -44,6 +44,10 @@
     if([array count]>0){
 	HistoryEntry*entry=[array objectAtIndex:index-1];
 	[articleListController setSelectedObjects:[NSArray arrayWithObject:entry.articleList]];
+/*
+ ArticleList*al=entry.articleList;
+	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:[[al positionInView] intValue]]];
+ */
 //	NSLog(@"%@",entry.article);
 	if(entry.article)//[ac setSelectedObjects:[NSArray arrayWithObject:entry.article]];
 	    [self performSelector:@selector(setArticle:) withObject:entry.article afterDelay:0.1];

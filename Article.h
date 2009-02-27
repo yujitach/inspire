@@ -16,10 +16,6 @@ typedef enum {
 @class JournalEntry;
 @interface Article :  NSManagedObject  
 {
-    NSString*longishAuthorListForA;
-    NSString*longishAuthorListForEA;
-    NSString*_quieterTitle;
-    NSString*_eprintForSorting;
 }
 
 @property (retain) JournalEntry * journal;
@@ -45,6 +41,14 @@ typedef enum {
 @property (retain) NSSet* refersTo;
 @property (retain) NSString* texKey;
 @property (retain) NSString* preferredId;
+@property (retain) NSString*normalizedTitle;
+@property (retain) NSString*shortishAuthorList;
+@property (retain) NSString*longishAuthorListForA;
+@property (retain) NSString*longishAuthorListForEA;
+@property (retain) NSString*quieterTitle;
+@property (retain) NSString*eprintForSorting;
+
+
 +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;
 +(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;

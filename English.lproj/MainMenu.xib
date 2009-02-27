@@ -1024,7 +1024,6 @@
 										</object>
 										<int key="NSMaximumRecents">10</int>
 										<bool key="NSSendsWholeSearchString">YES</bool>
-										<bytes key="NSSearchFieldFlags">CAAAAA</bytes>
 									</object>
 								</object>
 								<nil key="NSToolbarItemImage"/>
@@ -3361,22 +3360,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">734</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentSet: selection.articles</string>
-						<reference key="source" ref="670326971"/>
-						<reference key="destination" ref="835945939"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="670326971"/>
-							<reference key="NSDestination" ref="835945939"/>
-							<string key="NSLabel">contentSet: selection.articles</string>
-							<string key="NSBinding">contentSet</string>
-							<string key="NSKeyPath">selection.articles</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">738</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">articleListController</string>
 						<reference key="source" ref="612578685"/>
@@ -3399,43 +3382,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">759</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">filterPredicate: selection.searchString</string>
-						<reference key="source" ref="670326971"/>
-						<reference key="destination" ref="835945939"/>
-						<object class="NSNibBindingConnector" key="connector" id="535481090">
-							<reference key="NSSource" ref="670326971"/>
-							<reference key="NSDestination" ref="835945939"/>
-							<string key="NSLabel">filterPredicate: selection.searchString</string>
-							<string key="NSBinding">filterPredicate</string>
-							<string key="NSKeyPath">selection.searchString</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">SpiresPredicateTransformer</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">785</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">sortDescriptors: selection.sortDescriptors</string>
-						<reference key="source" ref="670326971"/>
-						<reference key="destination" ref="835945939"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="670326971"/>
-							<reference key="NSDestination" ref="835945939"/>
-							<string key="NSLabel">sortDescriptors: selection.sortDescriptors</string>
-							<string key="NSBinding">sortDescriptors</string>
-							<string key="NSKeyPath">selection.sortDescriptors</string>
-							<reference key="NSPreviousConnector" ref="535481090"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">786</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -4065,6 +4011,67 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="925810204"/>
 					</object>
 					<int key="connectionID">1140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">articleListController</string>
+						<reference key="source" ref="670326971"/>
+						<reference key="destination" ref="835945939"/>
+					</object>
+					<int key="connectionID">1157</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">filterPredicate: selection.searchString</string>
+						<reference key="source" ref="670326971"/>
+						<reference key="destination" ref="835945939"/>
+						<object class="NSNibBindingConnector" key="connector" id="535481090">
+							<reference key="NSSource" ref="670326971"/>
+							<reference key="NSDestination" ref="835945939"/>
+							<string key="NSLabel">filterPredicate: selection.searchString</string>
+							<string key="NSBinding">filterPredicate</string>
+							<string key="NSKeyPath">selection.searchString</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">SpiresPredicateTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1178</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">sortDescriptors: selection.sortDescriptors</string>
+						<reference key="source" ref="670326971"/>
+						<reference key="destination" ref="835945939"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="670326971"/>
+							<reference key="NSDestination" ref="835945939"/>
+							<string key="NSLabel">sortDescriptors: selection.sortDescriptors</string>
+							<string key="NSBinding">sortDescriptors</string>
+							<string key="NSKeyPath">selection.sortDescriptors</string>
+							<reference key="NSPreviousConnector" ref="535481090"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1179</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentSet: selection.articles</string>
+						<reference key="source" ref="670326971"/>
+						<reference key="destination" ref="835945939"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="670326971"/>
+							<reference key="NSDestination" ref="835945939"/>
+							<string key="NSLabel">contentSet: selection.articles</string>
+							<string key="NSBinding">contentSet</string>
+							<string key="NSKeyPath">selection.articles</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1181</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -6363,7 +6370,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1140</int>
+			<int key="maxID">1181</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -6526,8 +6533,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string key="className">IncrementalArrayController</string>
 					<string key="superclassName">NSArrayController</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">tf</string>
-						<string key="NS.object.0">NSTextField</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>articleListController</string>
+							<string>tf</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSArrayController</string>
+							<string>NSTextField</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>

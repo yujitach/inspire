@@ -12,4 +12,5 @@
 @interface NSString (NSString_magic)
 -(NSString*)magicTeXed;
 -(NSString*)quieterVersion;
+-(NSString*)normalizedString;
 @end

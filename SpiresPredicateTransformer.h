@@ -14,4 +14,5 @@
 +(Class)transformedValueClass;
 +(BOOL)allowsReverseTransformation;
 -(NSPredicate*)transformedValue:(NSString*)value;
++(NSPredicate*)transformedValue:(NSString*)value;
 @end

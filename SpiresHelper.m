@@ -8,6 +8,7 @@
 
 #import "SpiresHelper.h"
 #import "RegexKitLite.h"
+#import "NSString+magic.h"
 #define SPIRESXMLHEAD @"http://www.slac.stanford.edu/spires/find/hep/xmlpublic?rawcmd=find+"
 #define SPIRESREFHEAD @"http://www.slac.stanford.edu/spires/find/hep/wwwrefsbibtex?"
 #define SPIRESWWWHEAD @"http://www.slac.stanford.edu/spires/find/hep/www?rawcmd=find+"
@@ -66,7 +67,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 		}
 	    }
 	}
-	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains[cd] %@",operand];	
+//	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains[cd] %@",operand];	
+	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains %@",[operand normalizedString]];	
     }else if([operator hasPrefix:@"j"]){
 	operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
 	NSArray* a=[operand componentsSeparatedByString:@" "];
@@ -95,7 +97,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	}
 	return [NSPredicate predicateWithValue:NO];
     }else if([operator hasPrefix:@"t"]){
-	key=@"title";
+//	key=@"title";
+	key=@"normalizedTitle";
     }else if([operator hasPrefix:@"e"]){
 	key=@"eprint";
     }else{
@@ -129,7 +132,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    }
 	    NSArray*x=[operand componentsSeparatedByString:@" "];
 	    if([x count]==1){
-		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+//		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+		return [NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
 	    }
 	    last=[x lastObject];
 	    NSMutableArray*y=[NSMutableArray array];
@@ -148,7 +152,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	}
 	
 	
-	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains[cd] %@) and (%K contains[cd] %@)",key,last,key,result];	
+//	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains[cd] %@) and (%K contains[cd] %@)",key,last,key,result];	
+	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[result normalizedString]];	
 //	NSLog(@"%@",pred);
 	return pred;
     }
@@ -156,7 +161,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
     operand=[[operand componentsSeparatedByString:@" "] lastObject];
     if([operand isEqualToString:@""])
 	return [NSPredicate predicateWithValue:YES];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+//    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
 //        NSLog(@"%@",pred);
     return pred;
 }

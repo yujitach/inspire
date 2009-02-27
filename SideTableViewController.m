@@ -53,7 +53,7 @@
 	i++;
     }
     [articleListController rearrangeObjects];
-    [articleListController didChangeArrangementCriteria];
+   [articleListController didChangeArrangementCriteria];
     /*    for(ArticleList*i in [articleListController arrangedObjects]){
      NSLog(@"%@ position:%@",i.name,i.positionInView);
      }*/
@@ -62,7 +62,7 @@
 {
     [articleListController setSortDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES]]];
     [articleListController rearrangeObjects];
-    [articleListController didChangeArrangementCriteria];
+   [articleListController didChangeArrangementCriteria];
     allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
     allArticleList.positionInView=[NSNumber numberWithInt:0];
     allArticleList.searchString=@"";

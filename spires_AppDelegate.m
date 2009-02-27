@@ -441,6 +441,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     al.name=@"untitled";
     //    al.positionInView=[NSNumber numberWithInt:[[articleListController arrangedObjects] count]*2];
     [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+//    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
     [sideTableViewController rearrangePositionInViewForArticleLists];
 //    [self disableUndo];
 }
@@ -450,6 +451,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     //    NSLog(@"not implemented");
     ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:@"untitled/new" inMOC:[self managedObjectContext]];
     [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+//    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
     [sideTableViewController rearrangePositionInViewForArticleLists];
     //    [articleListController insertObject:al atArrangedObjectIndex:[articleLists count]];
 }
@@ -528,7 +530,12 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }
 -(IBAction) search:(id)sender
 {
-    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
+//    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
+    NSArray *a=[articleListController selectedObjects];
+    if([a count]==0){
+	return;
+    }
+    ArticleList* al=[a objectAtIndex:0];
     NSString*searchString=al.searchString;
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
@@ -554,6 +561,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     
     int i=[articleListController selectionIndex];
+//    int i=[[articleListController selectionIndexPath] indexAtPosition:0];
     if(i==0){
 	[self search:nil];
     }
@@ -726,6 +734,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if(eprint){
 	NSString*searchString=[@"eprint " stringByAppendingString:eprint];
 	[articleListController setSelectionIndex:0];
+//	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	allArticleList.searchString=searchString;
 //	[self querySPIRES:searchString];
 	[self performSelector:@selector(querySPIRES:) 
@@ -740,6 +749,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	NSString*searchString=[[[url absoluteString] substringFromIndex:[@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 //	NSLog(@"%@",searchString);
 	[articleListController setSelectionIndex:0];
+//	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	allArticleList.searchString=searchString;
 	[historyController mark:self];
 	[self querySPIRES:searchString];
@@ -891,10 +901,45 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	storeType=NSSQLiteStoreType;
     }
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    
+    {
+	NSDictionary *sourceMetadata =
+	[NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType
+								   URL:[[NSURL alloc] initFileURLWithPath:filePath]
+								 error:&error];
+	
+	if (sourceMetadata == nil) {
+	    // deal with error
+	    // but don't care here
+	}
+	
+
+	if(! [[self managedObjectModel] isConfiguration:nil
+		   compatibleWithStoreMetadata:sourceMetadata]){
+	    NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
+					  defaultButton:@"OK" 
+					alternateButton:nil
+					    otherButton:nil
+			      informativeTextWithFormat:@"To improve the search performance, "
+			   @"spires.app is going to precalculate various search keys and cache them. " 
+			   @"This might take five minuites or more. "
+			   @"Spinning rainbow cursor will appear, but please wait patiently until it finishes. "
+			   @"Force quitting might corrupt the database."];
+	    //    [alert setShowsSuppressionButton:YES];
+	    [alert runModal];
+	}
+	
+    }
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary]; 
+    [dict setObject:[NSNumber numberWithBool:YES] 
+	     forKey:NSMigratePersistentStoresAutomaticallyOption]; 
+    
+    
     if (![persistentStoreCoordinator addPersistentStoreWithType:storeType
 						  configuration:nil 
 							    URL:[[NSURL alloc] initFileURLWithPath:filePath] 
-							options:nil 
+							options:dict
 							  error:&error]){
         [[NSApplication sharedApplication] presentError:error];
     }    

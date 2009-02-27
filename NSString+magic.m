@@ -57,5 +57,16 @@
     }
     return [b componentsJoinedByString:@" "];
 }
-
+-(NSString*)normalizedString
+{
+    if (!self) return nil;
+    
+    NSMutableString *result = [NSMutableString stringWithString:self];
+    
+    CFStringNormalize((CFMutableStringRef)result, kCFStringNormalizationFormD);
+    CFStringFold((CFMutableStringRef)result, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
+    
+    return result;
+    
+}
 @end

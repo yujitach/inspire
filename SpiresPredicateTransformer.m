@@ -22,6 +22,10 @@
 {
     return [[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:value];
 }
++(NSPredicate*)transformedValue:(NSString*)value
+{
+    return [[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:value];
+}
 
     
 @end
