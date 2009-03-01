@@ -13,11 +13,37 @@
 #import "AllArticleList.h"
 #import "SimpleArticleList.h"
 #import "ArxivNewArticleList.h"
+#import "MOC.h"
 
 @implementation SideTableViewController
 -(NSManagedObjectContext*)managedObjectContext
 {
-    return [[[NSApplication sharedApplication] delegate] managedObjectContext];
+    return [MOC moc];
+}
+-(ArticleList*)currentArticleList
+{
+    NSArray*a=[articleListController selectedObjects];
+    if(a && [a count]>0){
+	return [a objectAtIndex:0];
+    }else{
+	return nil;
+    }
+}
+-(void)addArticleList:(ArticleList*)al
+{
+    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+}
+-(void)removeArticleList:(ArticleList*)al;
+{
+    [articleListController removeObject:al];
+}
+-(void)selectAllArticleList;
+{
+    [articleListController setSelectionIndex:0];
+}
+-(void)selectArticleList:(ArticleList*)al;
+{
+    [articleListController setSelectedObjects:[NSArray arrayWithObject:al]];
 }
 -(void)rearrangePositionInViewForArticleLists
 {
@@ -111,7 +137,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
-    NSManagedObjectContext* moc=[[[NSApplication sharedApplication] delegate] managedObjectContext];
+    NSManagedObjectContext* moc=[MOC moc];
     if([[[info draggingPasteboard] types] containsObject:ArticleDropPboardType]){
 	ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:row];
 	NSData* d=[[info draggingPasteboard] dataForType:ArticleDropPboardType];
@@ -153,7 +179,7 @@
     }  
     return NO;
 }
-- (NSDragOperation)tableView:(NSTableView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     if([[[info draggingPasteboard] types] containsObject:ArticleDropPboardType]){
 	if(operation==NSTableViewDropAbove)

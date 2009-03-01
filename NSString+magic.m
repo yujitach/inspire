@@ -27,11 +27,14 @@
 	    [quieter appendString:i];
 	}
     }
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' </tmp/inSPIRES >/tmp/outSPIRES" , [[NSBundle mainBundle] pathForResource:@"magic" ofType:@"perl"]];
+    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
+    NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
+    NSString*script=[[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' <%@ >%@" , script,inPath,outPath];
     NSError*error=nil;
-    [quieter writeToFile:@"/tmp/inSPIRES" atomically:NO encoding:NSUTF8StringEncoding error:&error];
+    [quieter writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
     system([command UTF8String]);
-    return [[NSString alloc] initWithContentsOfFile:@"/tmp/outSPIRES" encoding:NSUTF8StringEncoding error:&error];
+    return [[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];
 }
 -(NSString*)quieterVersion
 {

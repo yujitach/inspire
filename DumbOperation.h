@@ -26,6 +26,7 @@
 }
 +(DumbOperationQueue*)sharedQueue;
 +(DumbOperationQueue*)spiresQueue;
++(DumbOperationQueue*)arxivQueue;
 -(void)addOperation:(DumbOperation*)op;
 -(NSArray*)operations;
 @end

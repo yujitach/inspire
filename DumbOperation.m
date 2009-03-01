@@ -27,6 +27,7 @@
 
 static DumbOperationQueue*_queue=nil;
 static DumbOperationQueue*_Squeue=nil;
+static DumbOperationQueue*_Aqueue=nil;
 
 @implementation DumbOperationQueue
 +(DumbOperationQueue*)sharedQueue;
@@ -42,6 +43,13 @@ static DumbOperationQueue*_Squeue=nil;
 	_Squeue=[[DumbOperationQueue alloc] init];
     }
     return _Squeue;
+}
++(DumbOperationQueue*)arxivQueue;
+{
+    if(!_Aqueue){
+	_Aqueue=[[DumbOperationQueue alloc] init];
+    }
+    return _Aqueue;
 }
 -(DumbOperationQueue*)init
 {

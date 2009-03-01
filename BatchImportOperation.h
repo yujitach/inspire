@@ -22,6 +22,6 @@
     spires_AppDelegate * delegate;
 }
 -(BatchImportOperation*)initWithElements:(NSArray*)e 
-				  andMOC:(NSManagedObjectContext*)m 
+				//  andMOC:(NSManagedObjectContext*)m 
 				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)l;
 @end

@@ -142,7 +142,7 @@
     }
     if([eprint isEqualToString:@""])return nil;
     if([eprint hasPrefix:@"arXiv:"]){
-	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[@"arXiv:" length]]];
+	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[(NSString*)@"arXiv:" length]]];
 	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
     }
     NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];

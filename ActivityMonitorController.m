@@ -14,6 +14,7 @@
 -(void)activityMonitorRefresher:(NSTimer*)timer
 {
     array=[NSMutableArray array];
+    [array addObjectsFromArray:[[DumbOperationQueue arxivQueue] operations]];
     [array addObjectsFromArray:[[DumbOperationQueue sharedQueue] operations]];
     [array addObjectsFromArray:[[DumbOperationQueue spiresQueue] operations]];
     [activityController  setContent:array];

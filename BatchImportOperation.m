@@ -14,16 +14,38 @@
 #import "AllArticleList.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "spires_AppDelegate.h"
+#import "MOC.h"
 
+@interface BatchImportOperation (internal)
+-(void)batchAddEntriesOfSPIRES:(NSArray*)a;
+@end
 @implementation BatchImportOperation
--(BatchImportOperation*)initWithElements:(NSArray*)e andMOC:(NSManagedObjectContext*)m citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)
+-(BatchImportOperation*)initWithElements:(NSArray*)e // andMOC:(NSManagedObjectContext*)m 
+				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)
 l{
     [super init];
     elements=[e copy];
-    moc=m;
+    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
+    if(cap<100)cap=100;
+    if([elements count]>cap){
+	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
+    }
+    moc=[MOC secondaryManagedObjectContext];
     citedByTarget=c;
     refersToTarget=r;
     list=l;
+    if(citedByTarget||refersToTarget||list){
+	[[MOC moc] save:nil];
+    }
+    if(citedByTarget){
+	citedByTarget=(Article*)[moc objectWithID:[citedByTarget objectID]];
+    }
+    if(refersToTarget){
+	refersToTarget=(Article*)[moc objectWithID:[refersToTarget objectID]];
+    }
+    if(list){
+	list=(ArticleList*)[moc objectWithID:[list objectID]];
+    }
     delegate=[NSApp delegate];
     return self;
 }
@@ -37,9 +59,9 @@ l{
 }
 -(void)main
 {
-	NSMutableArray*a=[NSMutableArray array];
+//	NSMutableArray*a=[NSMutableArray array];
     [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
-	for(NSXMLElement* element in elements){
+/*	for(NSXMLElement* element in elements){
 	    [a addObject:element];
 	    if([a count]>10){
 		[self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
@@ -48,10 +70,11 @@ l{
 	    }
 	}
 	if([a count]>0)
-	    [self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
+	    [self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];*/
+    [self batchAddEntriesOfSPIRES:elements];
     [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	
-	[[[NSApplication sharedApplication] delegate] performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
+    [delegate performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
     [self finish];
 }
 
@@ -158,23 +181,11 @@ l{
     [self setIntToArticle:o forKey:@"pages" inXMLElement:element];
     [self setJournalToArticle:o inXMLElement:element];
     [self setDateToArticle:o inXMLElement:element];
-    if(citedByTarget){
-	[citedByTarget addCitedByObject:o];
-	//	NSLog(@"%@ cited by %@",citedByTarget.eprint,o.eprint);
-	
-    }
-    if(refersToTarget){
-	[refersToTarget addRefersToObject:o];
-    }
-    //    NSLog(@"add entry:%@",o);
-    if(list){
-	[list addArticlesObject:o];
-    }
     return o;
 }
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
 {
-    [moc disableUndo];
+ //   [moc disableUndo];
     NSMutableSet*x=[NSMutableSet set];
     for(NSXMLElement*element in a){
 	Article*c=[self addOneEntryOfSPIRES:element];
@@ -182,13 +193,52 @@ l{
 	    [x addObject:c];
 	}
     }
-    [[AllArticleList allArticleListInMOC:moc] addArticles:x];
-    if([x count]==1){
-	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc] initWithArray:[x allObjects]]];
+    
+    AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:moc];
+    [allArticleList addArticles:x];
+    
+    if(citedByTarget){
+	[citedByTarget addCitedBy:x];
+	//	NSLog(@"%@ cited by %@",citedByTarget.eprint,o.eprint);	
     }
-    [moc enableUndo];
+    if(refersToTarget){
+	[refersToTarget addRefersTo:x];
+    }
+    //    NSLog(@"add entry:%@",o);
+    if(list){
+	[list addArticles:x];
+    }
+    
+    [moc save:nil];
+    NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
+    [objectIDsToBeRefreshed addObject:[allArticleList objectID]];
+    for(Article* z in x){
+	[objectIDsToBeRefreshed addObject:[z objectID]];
+    }
+    if(citedByTarget){
+	[objectIDsToBeRefreshed addObject:[citedByTarget objectID]];	
+    }
+    if(refersToTarget){
+	[objectIDsToBeRefreshed addObject:[refersToTarget objectID]];
+    }
+    if(list){
+	[objectIDsToBeRefreshed addObject:[list objectID]];
+    }
+    [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMoc:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];
+    if([x count]==1){
+	Article*a=[x anyObject];
+	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
+	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]]];
+    }
+//    [moc enableUndo];
 }
 
+-(void)refreshManagedObjectsOnMainMoc:(NSArray*)y
+{
+    for(NSManagedObjectID* objectID in y){
+	[[MOC moc] refreshObject:[[MOC moc] objectWithID:objectID] mergeChanges:YES];
+    }
+}
 
 
 @end

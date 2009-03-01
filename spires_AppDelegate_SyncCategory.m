@@ -10,10 +10,12 @@
 #import <SyncServices/SyncServices.h>
 
 @implementation spires_AppDelegate (SyncCategory)
--(BOOL)syncEnabled
+/*-(BOOL)syncEnabled
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"syncWithMobileMe"];
+    return NO;
+//    return [[NSUserDefaults standardUserDefaults] boolForKey:@"syncWithMobileMe"];
 }
+
 -(ISyncClient*)syncClient
 {
     NSString *clientIdentifier = [[NSBundle mainBundle] bundleIdentifier];
@@ -95,5 +97,5 @@
     NSLog(@"pull %@", [change description]);
     return change;
 }
-
+*/
 @end

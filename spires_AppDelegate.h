@@ -19,7 +19,7 @@
 @class BibViewController;
 @class ActivityMonitorController;
 @class IncrementalArrayController;
-@interface spires_AppDelegate : NSObject <NSPersistentStoreCoordinatorSyncing>
+@interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSWindow *prefWindow;
@@ -41,24 +41,24 @@
     
   /*  NSMutableArray* arxivLists;
     NSMutableArray* articleLists;*/
-    IBOutlet NSArrayController* articleListController;
+//    IBOutlet NSArrayController* articleListController;
  //   IBOutlet NSTableView* articleListView;
     IBOutlet SideTableViewController* sideTableViewController;
     IBOutlet ActivityMonitorController* activityMonitorController;
   
     
     
-    NSPersistentStoreCoordinator *persistentStoreCoordinator;
+/*    NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
-
+ */   
 }
 
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
-- (NSManagedObjectModel *)managedObjectModel;
+//- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+//- (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
-- (NSString *)applicationSupportFolder;
-- (NSString *)dataFilePath;
+//- (NSString *)applicationSupportFolder;
+//- (NSString *)dataFilePath;
 
 -(void)sendBugReport:(id)sender;
 - (IBAction)saveAction:sender;

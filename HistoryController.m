@@ -7,6 +7,7 @@
 //
 
 #import "HistoryController.h"
+#import "SideTableViewController.h"
 #import "ArticleList.h"
 @interface HistoryEntry: NSObject
 {
@@ -43,7 +44,8 @@
 {
     if([array count]>0){
 	HistoryEntry*entry=[array objectAtIndex:index-1];
-	[articleListController setSelectedObjects:[NSArray arrayWithObject:entry.articleList]];
+//	[articleListController setSelectedObjects:[NSArray arrayWithObject:entry.articleList]];
+	[sideTableViewController selectArticleList:entry.articleList];
 /*
  ArticleList*al=entry.articleList;
 	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:[[al positionInView] intValue]]];
@@ -88,7 +90,8 @@
 }
 -(IBAction)mark:(id)sender
 {
-    ArticleList*al=[[articleListController selectedObjects] objectAtIndex:0];
+    ArticleList*al=[sideTableViewController currentArticleList];
+    //[[articleListController selectedObjects] objectAtIndex:0];
     Article*a=nil;
     if([[ac selectedObjects] count]>0){
 	a=[[ac selectedObjects] objectAtIndex:0];

@@ -103,9 +103,9 @@
     if(abstract){
 	abstract=[abstract stringByReplacingOccurrencesOfString:@"<p>" withString:@""];
 	abstract=[abstract stringByReplacingOccurrencesOfString:@"</p>" withString:@""];
-	[[[[NSApplication sharedApplication] delegate] managedObjectContext] disableUndo];
+	[[article managedObjectContext] disableUndo];
 	article.abstract=abstract;
-	[[[[NSApplication sharedApplication] delegate] managedObjectContext] enableUndo];
+	[[article managedObjectContext] enableUndo];
     }
 BAIL:
     [self finish];

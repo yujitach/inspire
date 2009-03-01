@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 //@class spires_AppDelegate;
+@class ArticleList;
 @class AllArticleList;
 @interface SideTableViewController : NSObject {
     IBOutlet NSArrayController* articleListController;
@@ -18,4 +19,9 @@
     
 }
 -(void)rearrangePositionInViewForArticleLists;
+-(ArticleList*)currentArticleList;
+-(void)addArticleList:(ArticleList*)al;
+-(void)removeArticleList:(ArticleList*)al;
+-(void)selectAllArticleList;
+-(void)selectArticleList:(ArticleList*)al;
 @end

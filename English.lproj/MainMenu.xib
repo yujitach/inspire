@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="21"/>
+			<integer value="429"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -840,11 +840,9 @@
 								<string key="NSToolbarItemPaletteLabel">Custom View</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSButton" key="NSToolbarItemView" id="408379054">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{19, 14}, {40, 25}}</string>
-									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="326685293">
 										<int key="NSCellFlags">-2080244224</int>
@@ -887,11 +885,9 @@
 								<string key="NSToolbarItemPaletteLabel">Custom View</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="157176696">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{13, 14}, {52, 25}}</string>
-									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="421670007">
 										<int key="NSCellFlags">67239424</int>
@@ -944,11 +940,9 @@
 								<string key="NSToolbarItemPaletteLabel">Search Field</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSSearchField" key="NSToolbarItemView" id="925810204">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">266</int>
 									<string key="NSFrame">{{0, 14}, {329, 22}}</string>
-									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<int key="NSTag">2</int>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSearchFieldCell" key="NSCell" id="619182554">
@@ -1397,6 +1391,11 @@
 																	<bool key="NSIsResizeable">YES</bool>
 																	<bool key="NSIsEditable">YES</bool>
 																	<reference key="NSTableView" ref="972063408"/>
+																	<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
+																		<string key="NSKey">normalizedTitle</string>
+																		<bool key="NSAscending">YES</bool>
+																		<string key="NSSelector">compare:</string>
+																	</object>
 																</object>
 																<object class="NSTableColumn" id="403129108">
 																	<double key="NSWidth">4.000000e+01</double>
@@ -1477,7 +1476,7 @@
 																	<reference key="NSTableView" ref="972063408"/>
 																	<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
 																		<string key="NSKey">eprintForSorting</string>
-																		<bool key="NSAscending">NO</bool>
+																		<bool key="NSAscending">YES</bool>
 																		<string key="NSSelector">compare:</string>
 																	</object>
 																</object>
@@ -2612,6 +2611,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>sortDescriptors</string>
 					<string>searchString</string>
 					<string>searchStringEnabled</string>
+					<string>arrangedObj</string>
 				</object>
 				<bool key="NSEditable">YES</bool>
 				<bool key="NSAutomaticallyPreparesContent">YES</bool>
@@ -3360,14 +3360,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">734</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">articleListController</string>
-						<reference key="source" ref="612578685"/>
-						<reference key="destination" ref="835945939"/>
-					</object>
-					<int key="connectionID">747</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: arrangedObjects.icon</string>
 						<reference key="source" ref="24509243"/>
@@ -3554,14 +3546,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="670326971"/>
 					</object>
 					<int key="connectionID">912</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">articleListController</string>
-						<reference key="source" ref="341022677"/>
-						<reference key="destination" ref="835945939"/>
-					</object>
-					<int key="connectionID">913</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4021,6 +4005,30 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">1157</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">sideTableViewController</string>
+						<reference key="source" ref="341022677"/>
+						<reference key="destination" ref="187622287"/>
+					</object>
+					<int key="connectionID">1182</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentSet: selection.articles</string>
+						<reference key="source" ref="670326971"/>
+						<reference key="destination" ref="835945939"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="670326971"/>
+							<reference key="NSDestination" ref="835945939"/>
+							<string key="NSLabel">contentSet: selection.articles</string>
+							<string key="NSBinding">contentSet</string>
+							<string key="NSKeyPath">selection.articles</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1193</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">filterPredicate: selection.searchString</string>
 						<reference key="source" ref="670326971"/>
@@ -4038,7 +4046,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1178</int>
+					<int key="connectionID">1194</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -4055,23 +4063,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1179</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentSet: selection.articles</string>
-						<reference key="source" ref="670326971"/>
-						<reference key="destination" ref="835945939"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="670326971"/>
-							<reference key="NSDestination" ref="835945939"/>
-							<string key="NSLabel">contentSet: selection.articles</string>
-							<string key="NSBinding">contentSet</string>
-							<string key="NSKeyPath">selection.articles</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1181</int>
+					<int key="connectionID">1195</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -6370,7 +6362,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1181</int>
+			<int key="maxID">1195</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -6453,6 +6445,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">BWSplitView</string>
 					<string key="superclassName">NSSplitView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">toggleCollapse:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">secondaryDelegate</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">BWFramework/BWSplitView.h</string>
@@ -6514,14 +6514,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ac</string>
-							<string>articleListController</string>
 							<string>sc</string>
+							<string>sideTableViewController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSArrayController</string>
-							<string>NSArrayController</string>
 							<string>NSSegmentedControl</string>
+							<string>SideTableViewController</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -6741,7 +6741,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ac</string>
 							<string>activityMonitorController</string>
-							<string>articleListController</string>
 							<string>bibViewController</string>
 							<string>historyController</string>
 							<string>prefWindow</string>
@@ -6754,7 +6753,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>IncrementalArrayController</string>
 							<string>ActivityMonitorController</string>
-							<string>NSArrayController</string>
 							<string>BibViewController</string>
 							<string>HistoryController</string>
 							<string>NSWindow</string>
@@ -6771,10 +6769,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">spires_AppDelegate</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">syncAction:</string>
-						<string key="NS.object.0">id</string>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">spires_AppDelegate_SyncCategory.h</string>

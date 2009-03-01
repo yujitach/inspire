@@ -63,7 +63,7 @@
     NSArray*elements=[root elementsForName:@"document"];
     NSLog(@"spires returned %d entries",[elements count]);
     [self.queue addOperation:[[BatchImportOperation alloc] initWithElements:elements
-											   andMOC:moc
+									//		   andMOC:moc
 											  citedBy:citedByTarget
 											 refersTo:refersToTarget
 									    registerToArticleList:nil]];

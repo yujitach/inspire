@@ -12,7 +12,7 @@
 #import "NDAlias.h"
 #import "NSString+magic.h"
 
-NSMutableDictionary* eprintDict=nil;
+//NSMutableDictionary* eprintDict=nil;
 @interface Article (Primitives)
 -(void)setPrimitiveTitle:(NSString*)t;
 -(NSMutableSet*)primitiveAuthors;
@@ -41,7 +41,6 @@ NSMutableDictionary* eprintDict=nil;
 @dynamic spiresKey;
 @dynamic texKey;
 @dynamic preferredId;
-@dynamic quieterTitle;
 @dynamic normalizedTitle;
 @dynamic longishAuthorListForA;
 @dynamic shortishAuthorList;
@@ -50,7 +49,7 @@ NSMutableDictionary* eprintDict=nil;
 
 +(void)initialize
 {
-    eprintDict=[NSMutableDictionary dictionary];
+//    eprintDict=[NSMutableDictionary dictionary];
 }
 
 +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
@@ -63,11 +62,11 @@ NSMutableDictionary* eprintDict=nil;
 +(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
 {
     // returns nil if not found.
-    BOOL isEprint=[@"eprint" isEqualToString:key];
+/*    BOOL isEprint=[@"eprint" isEqualToString:key];
     if(isEprint){
 	Article*a=[eprintDict valueForKey:value];
 	if(a)return a;
-    }
+    }*/
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
@@ -82,9 +81,9 @@ NSMutableDictionary* eprintDict=nil;
     }else{
 	ar=[a objectAtIndex:0];
     }
-    if(isEprint && ar){
+/*    if(isEprint && ar){
 	[eprintDict setObject:ar forKey:value];
-    }
+    }*/
     return ar;
 }
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc
@@ -272,7 +271,7 @@ NSMutableDictionary* eprintDict=nil;
     }
     if([eprint isEqualToString:@""])return nil;
     if([eprint hasPrefix:@"arXiv:"]){
-	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[@"arXiv:" length]]];
+	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[(NSString*)@"arXiv:" length]]];
 	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
     }
     NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];
@@ -286,7 +285,7 @@ NSMutableDictionary* eprintDict=nil;
 {
     [self willChangeValueForKey:@"eprint"];
     [self setPrimitiveEprint:e];
-    self.eprintForSorting=[self calculateEprintForSorting];
+    self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
     [self didChangeValueForKey:@"eprint"];
 }
 
@@ -294,10 +293,10 @@ NSMutableDictionary* eprintDict=nil;
 {
     [self willChangeValueForKey:@"date"];
     [self setPrimitiveDate:d];
-    self.eprintForSorting=[self calculateEprintForSorting];
+    self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
     [self didChangeValueForKey:@"date"];
 }
--(NSString*)calculateQuieterTitle
+-(NSString*)quieterTitle //calculateQuieterTitle
 {
     if([self eprint]){
 	return [self title];
@@ -317,7 +316,7 @@ NSMutableDictionary* eprintDict=nil;
     [self willChangeValueForKey:@"title"];
     [self setPrimitiveTitle:t];
     self.normalizedTitle=[self calculateNormalizedTitle];
-    self.quieterTitle=[self calculateQuieterTitle];
+//    self.quieterTitle=[self calculateQuieterTitle];
     [self didChangeValueForKey:@"title"];
 }
 #pragma mark Misc.
@@ -352,7 +351,7 @@ NSMutableDictionary* eprintDict=nil;
     }else if(self.articleType==ATEprint){
 	NSString* name=self.eprint;
 	if([name hasPrefix:@"arXiv:"]){
-	    name=[name substringFromIndex:[@"arXiv:" length]];
+	    name=[name substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}
 	name=[name stringByReplacingOccurrencesOfString:@"/" withString:@""];
 	NSString*pdfDir=[[NSUserDefaults standardUserDefaults] stringForKey:@"pdfDir"];
@@ -382,7 +381,7 @@ NSMutableDictionary* eprintDict=nil;
     if(self.articleType==ATEprint){
 	NSString*s=self.eprint;
 	if([s hasPrefix:@"arXiv:"]){
-	    return [s substringFromIndex:[@"arXiv:" length]];
+	    return [s substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}else{
 	    return s;
 	}

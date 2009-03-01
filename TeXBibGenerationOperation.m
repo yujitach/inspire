@@ -36,7 +36,7 @@
     for(NSString*idToLookUp in array){
 	NSString*query=nil;
 	if([idToLookUp hasPrefix:@"arXiv:"]){
-	    idToLookUp=[idToLookUp substringFromIndex:[@"arXiv:" length]];
+	    idToLookUp=[idToLookUp substringFromIndex:[(NSString*)@"arXiv:" length]];
 	    query=[NSString stringWithFormat:@"eprint %@",idToLookUp];
 	}else if([idToLookUp rangeOfString:@"."].location!=NSNotFound){
 	    query=[NSString stringWithFormat:@"eprint %@",idToLookUp];	
@@ -67,11 +67,12 @@
 
     
     NSString*script=[[NSBundle mainBundle] pathForResource:@"parseTeXandEmitPlist" ofType:@"perl"];
-    NSString*line=[NSString stringWithFormat:@"/usr/bin/perl '%@' <'%@' >/tmp/spiresoutput.plist",
+    NSString*outPath=[NSString stringWithFormat:@"/tmp/spiresoutput-%d.plist",getuid()];
+    NSString*line=[NSString stringWithFormat:@"/usr/bin/perl '%@' <'%@' >%@",
 		   [script stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"],
-		   [texFile stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]];
+		   [texFile stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"],outPath];
     system([line UTF8String]);
-    NSDictionary* dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:@"/tmp/spiresoutput.plist"]
+    NSDictionary* dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:outPath]
 							mutabilityOption:NSPropertyListImmutable
 								  format:NULL
 							errorDescription:NULL];

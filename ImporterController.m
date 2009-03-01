@@ -8,12 +8,13 @@
 
 #import "ImporterController.h"
 #import "BatchImportOperation.h"
+//#import "MOC.h"
 
 @implementation ImporterController
--(ImporterController*)initWithAppDelegate:(spires_AppDelegate*)delegate
+-(ImporterController*)init; //WithAppDelegate:(spires_AppDelegate*)delegate
 {
     [super initWithWindowNibName:@"Importer"];
-    appDelegate=delegate;
+//    appDelegate=delegate;
     return self;
 }
 -(void)import:(NSArray*)files
@@ -46,7 +47,7 @@
 	    if([a count]>100){
 //		[appDelegate performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
 		[[DumbOperationQueue sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
-												       andMOC:[appDelegate managedObjectContext]
+											//	       andMOC:[MOC moc]
 												      citedBy:nil 
 												     refersTo:nil
 											registerToArticleList:nil]];
@@ -56,14 +57,14 @@
 	}
 	if([a count]>0){
 	    [[DumbOperationQueue sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
-												   andMOC:[appDelegate managedObjectContext]
+											//	   andMOC:[MOC moc]
 												  citedBy:nil 
 												 refersTo:nil
 										    registerToArticleList:nil]];
 
 	    [self performSelectorOnMainThread:@selector(refreshProgressIndicator:) withObject:[NSNumber numberWithInt:count] waitUntilDone:YES];
 	}
-	[appDelegate performSelectorOnMainThread:@selector(saveAction:) withObject:self waitUntilDone:YES];
+	[[NSApp delegate] performSelectorOnMainThread:@selector(saveAction:) withObject:self waitUntilDone:YES];
 	
     }
     [self performSelectorOnMainThread:@selector(closeWindow:) withObject:nil waitUntilDone:YES];

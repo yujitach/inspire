@@ -12,7 +12,7 @@
 #import "ArxivPDFDownloadOperation.h"
 #import "DeferredPDFOpenOperation.h"
 #import "RegexKitLite.h"
-#import <Quartz/Quartz.h>
+// #import <Quartz/Quartz.h>
 
 
 @implementation ArxivVersionCheckingOperation
@@ -35,12 +35,19 @@
 
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {
-    NSLog(@"scanning PDF:%@",pdfPath);
+/*    NSLog(@"scanning PDF:%@",pdfPath);
     PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
     PDFPage* p=[d pageAtIndex:0];
-    NSString* s=[p string];
-    d=nil;
-    p=nil;
+    NSString* s=[p string];*/
+//    d=nil;
+//    p=nil;
+    // This is off-loaded to an external helper because PDFKit sometimes crashes,
+    // in particular in 64 bit mode.
+    NSString*tmpFile=[NSString stringWithFormat:@"/tmp/spiresPDFScannerTemporary-%d",getuid()];
+    NSString*script=[[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    NSString* command=[NSString stringWithFormat:@"\'%@\' \'%@\' %@" ,script, pdfPath,tmpFile];
+    system([command UTF8String]);
+    NSString*s=[NSString stringWithContentsOfFile:tmpFile encoding:NSUTF8StringEncoding error:nil];
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
@@ -118,8 +125,8 @@
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
 {
     if(choice==NSAlertDefaultReturn){
-	[[DumbOperationQueue sharedQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:article]];
-	[[DumbOperationQueue sharedQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:article
+	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:article]];
+	[[DumbOperationQueue arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:article
 											     usingViewer:type]];
 
     }

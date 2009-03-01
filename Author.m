@@ -39,9 +39,9 @@ NSMutableDictionary* authorDict=nil;
 }
 +(Author*)authorWithName:(NSString*)name inMOC:(NSManagedObjectContext*)moc
 {
-    Author* au= [authorDict objectForKey:name];
-    if(au)return au;
-    
+//    Author* au= [authorDict objectForKey:name];
+//    if(au)return au;
+    Author*au=nil;
     NSEntityDescription*authorEntity=[NSEntityDescription entityForName:@"Author" inManagedObjectContext:moc];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:authorEntity];

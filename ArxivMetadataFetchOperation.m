@@ -10,6 +10,7 @@
 #import "Article.h"
 #import "ArxivHelper.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
+#import "MOC.h"
 
 @implementation ArxivMetadataFetchOperation
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;
@@ -31,11 +32,11 @@
 -(void)fetchMetaDataFromArxivReturnPDFNoCheck:(NSDictionary*)dict
 {
     if(dict){
-	[[[[NSApplication sharedApplication] delegate] managedObjectContext] disableUndo];
+	[[article managedObjectContext] disableUndo];
 	article.abstract=[dict objectForKey:@"abstract"];
 	article.version=[dict objectForKey:@"version"];    
 	article.comments=[dict objectForKey:@"comments"];
-	[[[[NSApplication sharedApplication] delegate] managedObjectContext] enableUndo];
+	[[article managedObjectContext] enableUndo];
     }
     [self finish];
 }

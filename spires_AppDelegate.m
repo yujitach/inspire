@@ -8,6 +8,7 @@
 
 #import "spires_AppDelegate.h"
 #import "spires_AppDelegate_SyncCategory.h"
+#import "MOC.h"
 
 #import "Article.h"
 #import "Author.h"
@@ -171,7 +172,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(BOOL)currentListIsArxivReplaced
 {
-    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
+//    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
+    ArticleList*al=[sideTableViewController currentArticleList];
     if(![al isKindOfClass:[ArxivNewArticleList class]]){
 	return NO;
     }
@@ -246,10 +248,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
 //    NSLog(@"didLaunch");
     
-    if([self syncEnabled]){
+/*    if([self syncEnabled]){
 	[self syncSetupAtStartup];
     }
-    
+*/    
     [self crashCheck:self];
 }
 
@@ -269,13 +271,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }else if([keyPath isEqualToString:@"arrangedObjects"]){
 	int num=[[ac arrangedObjects] count];
 	NSString*head=@"spires";
-	NSArray*a=[articleListController selectedObjects];
-	if(a && [a count]>0){
-	    ArticleList*al=[a objectAtIndex:0];
-	    if(al){
-		head=al.name;
-	    }
+//	NSArray*a=[articleListController selectedObjects];
+//    if(a && [a count]>0){
+	ArticleList*al=[sideTableViewController currentArticleList];
+	if(al){
+	    head=al.name;
 	}
+//	}
 	[window setTitle:[NSString stringWithFormat:@"%@ (%d %@)",head,num,(num==1?@"entry":@"entries")]];
     }
 }
@@ -296,7 +298,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }
 -(void)clearingUp:(id)sender
 {
-    [self saveAction:self];
+//    [self saveAction:self];
+//    [[MOC moc] refreshObject:allArticleList mergeChanges:YES];
 //    citedByTarget=nil;
 //    refersToTarget=nil;
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
@@ -317,7 +320,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     int res=[op runModalForDirectory:nil file:nil types:[NSArray arrayWithObjects:@"spires_xml",nil]];
     if(res==NSOKButton){
 	if(!importerController){
-	    importerController=[[ImporterController alloc] initWithAppDelegate:self];
+	    importerController=[[ImporterController alloc] init];//WithAppDelegate:self];
 	}
 	[importerController import:[op filenames]];
     }
@@ -340,7 +343,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if(![knownJournals containsObject:a.journal.name]){
 	return;
     }
-    [[DumbOperationQueue spiresQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
+    [[DumbOperationQueue sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 }
 
 -(void)timerFired:(NSTimer*)t
@@ -376,7 +379,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
     
     if(a.eprint && ![a.eprint isEqualToString:@""]){
-	[[DumbOperationQueue sharedQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
+	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
     }else if(a.doi && ![a.doi isEqualToString:@""]){
 	[self loadAbstractUsingDOI:a];
     }
@@ -440,7 +443,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     SimpleArticleList* al=[[SimpleArticleList alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:[self managedObjectContext]];
     al.name=@"untitled";
     //    al.positionInView=[NSNumber numberWithInt:[[articleListController arrangedObjects] count]*2];
-    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+//    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+    [sideTableViewController addArticleList:al];
 //    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
     [sideTableViewController rearrangePositionInViewForArticleLists];
 //    [self disableUndo];
@@ -450,8 +454,9 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     //    NSLog(@"not implemented");
     ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:@"untitled/new" inMOC:[self managedObjectContext]];
-    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
+//    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
 //    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
+    [sideTableViewController addArticleList:al];
     [sideTableViewController rearrangePositionInViewForArticleLists];
     //    [articleListController insertObject:al atArrangedObjectIndex:[articleLists count]];
 }
@@ -459,9 +464,14 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(void)deleteArticleList:(id)sender
 {
-    if([[articleListController selectedObjects] count]==0)
+    ArticleList* al=[sideTableViewController currentArticleList];
+    if(!al){
 	return;
-    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
+    }
+    [sideTableViewController removeArticleList:al];
+    /*    if([[articleListController selectedObjects] count]==0)
+     return;
+     ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];*/
     /*    NSAlert*alert=[NSAlert alertWithMessageText:@"Delete a list"
      defaultButton:@"Delete" 
      alternateButton:@"Cancel"
@@ -475,7 +485,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
      -(void)articleListDeleteAlertDidEnd:(NSAlert*)alert code:(int)choice context:(ArticleList*)al
      {
      if(choice==NSAlertDefaultReturn){*/
-    [articleListController removeObject:al];
+//    [articleListController removeObject:al];
 //    [self saveArticleLists];
     //    }
 }
@@ -484,7 +494,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
     int entries=[[allArticleList articles] count];
-    NSDictionary* dict=[[NSFileManager defaultManager] fileAttributesAtPath:[self dataFilePath] traverseLink:YES];
+    NSDictionary* dict=[[NSFileManager defaultManager] fileAttributesAtPath:[[MOC sharedMOCManager] dataFilePath] traverseLink:YES];
     NSNumber* size=[dict valueForKey:NSFileSize];
     [[NSWorkspace sharedWorkspace]
      openURL:[NSURL URLWithString:
@@ -502,12 +512,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }
 -(IBAction)deleteEntry:(id)sender
 {
-    if([[articleListController selectedObjects] count]!=1){
+/*    if([[articleListController selectedObjects] count]!=1){
 	NSBeep();
 	return;
-    }
-    ArticleList* al=[[articleListController selectedObjects]objectAtIndex:0];
-    if(![al isKindOfClass:[SimpleArticleList class]]){
+    }*/
+//    ArticleList* al=[[articleListController selectedObjects]objectAtIndex:0];
+    ArticleList* al=[sideTableViewController currentArticleList];
+    if(!al || ![al isKindOfClass:[SimpleArticleList class]]){
 	NSBeep(); 
 	return;
     }
@@ -531,15 +542,20 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(IBAction) search:(id)sender
 {
 //    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
-    NSArray *a=[articleListController selectedObjects];
+/*    NSArray *a=[articleListController selectedObjects];
     if([a count]==0){
 	return;
     }
-    ArticleList* al=[a objectAtIndex:0];
+    ArticleList* al=[a objectAtIndex:0];*/
+    ArticleList* al=[sideTableViewController currentArticleList];
+    if(!al){
+	return;
+    }
     NSString*searchString=al.searchString;
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
-
+    allArticleList.searchString=searchString;
+    [sideTableViewController selectAllArticleList];
     [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
 }
 -(IBAction) reloadSelection:(id)sender
@@ -560,13 +576,18 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(IBAction) reloadSelectedArticleList:(id)sender
 {
     
-    int i=[articleListController selectionIndex];
+/*    int i=[articleListController selectionIndex];
 //    int i=[[articleListController selectionIndexPath] indexAtPosition:0];
     if(i==0){
 	[self search:nil];
     }
-    ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:i];
-    [[DumbOperationQueue sharedQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+    ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:i];*/
+    ArticleList* al=[sideTableViewController currentArticleList];
+    if([al isKindOfClass:[AllArticleList class]]){
+	[self search:nil];
+    }else{
+	[[DumbOperationQueue arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+    }
 //    [al reload];
 }
 -(IBAction)reloadAllArticleList:(id)sender
@@ -579,7 +600,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSError*error=nil;
     NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
     for(ArxivNewArticleList*l in a){
-	[[DumbOperationQueue sharedQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
+	[[DumbOperationQueue arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
     }
 //    [NSThread detachNewThreadSelector:@selector(reloadAllArticleListMainWork:) toTarget:self withObject:a];
 }
@@ -733,7 +754,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSString*eprint=[self extractArXivID:[url absoluteString]];
     if(eprint){
 	NSString*searchString=[@"eprint " stringByAppendingString:eprint];
-	[articleListController setSelectionIndex:0];
+//	[articleListController setSelectionIndex:0];
+	[sideTableViewController selectAllArticleList];
 //	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	allArticleList.searchString=searchString;
 //	[self querySPIRES:searchString];
@@ -744,12 +766,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }
 -(void)handleURL:(NSURL*) url
 {
-    NSLog(@"handles %@",url); 
+    NSLog(@"handles %@",url);
     if([[url scheme] isEqualTo:@"spires-search"]){
-	NSString*searchString=[[[url absoluteString] substringFromIndex:[@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 //	NSLog(@"%@",searchString);
-	[articleListController setSelectionIndex:0];
+//	[articleListController setSelectionIndex:0];
 //	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
+	[sideTableViewController selectAllArticleList];
 	allArticleList.searchString=searchString;
 	[historyController mark:self];
 	[self querySPIRES:searchString];
@@ -839,142 +862,16 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
 }
 #pragma mark Default provided by templates
+-(NSManagedObjectContext*)managedObjectContext
+{
+    return [MOC moc];
+}
 /**
     Returns the support folder for the application, used to store the Core Data
     store file.  This code uses a folder named "spires" for
     the content, either in the NSApplicationSupportDirectory location or (if the
     former cannot be found), the system's temporary directory.
  */
-
-- (NSString *)applicationSupportFolder {
-
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-    return [basePath stringByAppendingPathComponent:@"spires"];
-}
-
-
-/**
-    Creates, retains, and returns the managed object model for the application 
-    by merging all of the models found in the application bundle.
- */
- 
-- (NSManagedObjectModel *)managedObjectModel {
-
-    if (managedObjectModel != nil) {
-        return managedObjectModel;
-    }
-	
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
-    return managedObjectModel;
-}
-
-
-/**
-    Returns the persistent store coordinator for the application.  This 
-    implementation will create and return a coordinator, having added the 
-    store for the application to it.  (The folder for the store is created, 
-    if necessary.)
- */
-
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
-
-    if (persistentStoreCoordinator != nil) {
-        return persistentStoreCoordinator;
-    }
-
-    NSFileManager *fileManager;
-    NSString *applicationSupportFolder = nil;
-    NSError *error;
-    
-    fileManager = [NSFileManager defaultManager];
-    applicationSupportFolder = [self applicationSupportFolder];
-    if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-        [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
-    }
-    
-    NSString*filePath=[self dataFilePath];
-    NSString*storeType=NSBinaryStoreType;
-    if([filePath hasSuffix:@"xml"]){
-	storeType=NSXMLStoreType;
-    }else if([filePath hasSuffix:@"sqlite"]){
-	storeType=NSSQLiteStoreType;
-    }
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    
-    {
-	NSDictionary *sourceMetadata =
-	[NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType
-								   URL:[[NSURL alloc] initFileURLWithPath:filePath]
-								 error:&error];
-	
-	if (sourceMetadata == nil) {
-	    // deal with error
-	    // but don't care here
-	}
-	
-
-	if(! [[self managedObjectModel] isConfiguration:nil
-		   compatibleWithStoreMetadata:sourceMetadata]){
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
-					  defaultButton:@"OK" 
-					alternateButton:nil
-					    otherButton:nil
-			      informativeTextWithFormat:@"To improve the search performance, "
-			   @"spires.app is going to precalculate various search keys and cache them. " 
-			   @"This might take five minuites or more. "
-			   @"Spinning rainbow cursor will appear, but please wait patiently until it finishes. "
-			   @"Force quitting might corrupt the database."];
-	    //    [alert setShowsSuppressionButton:YES];
-	    [alert runModal];
-	}
-	
-    }
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary]; 
-    [dict setObject:[NSNumber numberWithBool:YES] 
-	     forKey:NSMigratePersistentStoresAutomaticallyOption]; 
-    
-    
-    if (![persistentStoreCoordinator addPersistentStoreWithType:storeType
-						  configuration:nil 
-							    URL:[[NSURL alloc] initFileURLWithPath:filePath] 
-							options:dict
-							  error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
-    }    
-
-    return persistentStoreCoordinator;
-}
--(NSString*)dataFilePath
-{
-    NSString* extension=[[NSUserDefaults standardUserDefaults] stringForKey:@"CoreDataStoreType"];
-//    NSLog(@"%@",extension);
-    if(!extension){
-	extension=@"";
-    }
-    return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@",extension]];
-}
-
-/**
-    Returns the managed object context for the application (which is already
-    bound to the persistent store coordinator for the application.) 
- */
- 
-- (NSManagedObjectContext *) managedObjectContext {
-
-    if (managedObjectContext != nil) {
-        return managedObjectContext;
-    }
-
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
-    
-    return managedObjectContext;
-}
 
 
 /**
@@ -998,9 +895,9 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
-    }else if([self syncEnabled]){
+    }/*else if([self syncEnabled]){
 	[self syncAction:self];
-    }
+    }*/
 }
 
 
@@ -1014,7 +911,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
     NSError *error;
     int reply = NSTerminateNow;
-    
+    NSManagedObjectContext*managedObjectContext=[MOC moc];
     if (managedObjectContext != nil) {
         if ([managedObjectContext commitEditing]) {
             if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
@@ -1052,18 +949,6 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     return reply;
 }
 
-
-/**
-    Implementation of dealloc, to release the retained variables.
- */
- 
-- (void) dealloc {
-
-    [managedObjectContext release], managedObjectContext = nil;
-    [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
-    [managedObjectModel release], managedObjectModel = nil;
-    [super dealloc];
-}
 
 #pragma mark exception
 /*

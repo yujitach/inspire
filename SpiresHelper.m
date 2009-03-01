@@ -25,159 +25,226 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }
     return _sharedSpiresHelper;
 }
--(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string
+-(NSPredicate*)topcitePredicate:(NSString*)operand
 {
-  //  NSCharacterSet* an=[NSCharacterSet alphanumericCharacterSet];
-    //NSScanner* scanner=[NSScanner scannerWithString:string];
-    NSString* operand=nil;
-    NSString* operator=nil;
-    /*[scanner scanUpToCharactersFromSet:an intoString:NULL];
-    [scanner scanCharactersFromSet:an intoString:&operator];
-    [scanner scanUpToCharactersFromSet:an intoString:NULL];*/
-//    NSLog(@"%@",string);
-    int location=[string rangeOfString:@" "].location;
-    if(location==NSNotFound){
-	return nil;
-    }
-    operator=[string substringToIndex:location];
-    operand=[string substringFromIndex:location+1];
-    if(operator==nil || operand==nil || [operator isEqualTo:@""] || [operand isEqualTo:@""]) return [NSPredicate predicateWithValue:YES];
-    NSString*key=@"";
-    operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
-
-    if([operator hasPrefix:@"to"]){
-	NSArray* a=[operand componentsSeparatedByString:@"+"];
-	if([a count]==0)
-	    return [NSPredicate predicateWithValue:YES];
-	NSNumber *num=[NSNumber numberWithInt:[[a objectAtIndex:0] intValue]];
-	return [NSPredicate predicateWithFormat:@"citecount > %@",num];
-    }else if([operator hasPrefix:@"ea"]){
-	operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
-	if([operand rangeOfString:@","].location==NSNotFound){
-	    NSArray* a=[operand componentsSeparatedByString:@" "];
-	    if([a count]==0)
-		return [NSPredicate predicateWithValue:YES];
-	    if([a count]==1){
-		operand=[a objectAtIndex:0];
-	    }else{
-		operand=[[a lastObject] stringByAppendingString:@","];
-		for(int i=0;i<[a count]-1;i++){
-		    operand=[operand stringByAppendingString:@" "];
-		    operand=[operand stringByAppendingString:[a objectAtIndex:i]];
-		}
-	    }
-	}
-//	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains[cd] %@",operand];	
-	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains %@",[operand normalizedString]];	
-    }else if([operator hasPrefix:@"j"]){
-	operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    NSArray* a=[operand componentsSeparatedByString:@"+"];
+    if([a count]==0)
+	return nil; // [NSPredicate predicateWithValue:YES];
+    NSNumber *num=[NSNumber numberWithInt:[[a objectAtIndex:0] intValue]];
+    return [NSPredicate predicateWithFormat:@"citecount > %@",num];
+}
+-(NSPredicate*)eaPredicate:(NSString*)operand
+{
+    operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    if([operand rangeOfString:@","].location==NSNotFound){
 	NSArray* a=[operand componentsSeparatedByString:@" "];
 	if([a count]==0)
-	    return [NSPredicate predicateWithValue:YES];
-	NSMutableString*ms=[NSMutableString string];
-	for(NSString*s in a){
-	    [ms appendString:s];
-	/*    if(![ms hasSuffix:@"."])
-		[ms appendString:@"."];*/
-	}
-	return [NSPredicate predicateWithFormat:@"journal.name contains[c] %@",ms];	
-    }else if([operator hasPrefix:@"c"]){
-	if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound)
-	    return [NSPredicate predicateWithFormat:@"ANY refersTo.eprint beginswith[c] %@",operand];
-	else
-	    return [NSPredicate predicateWithFormat:@"ANY refersTo.spicite beginswith[c] %@",operand];
-    }else if([operator hasPrefix:@"r"]){
-	if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound){
-	    return [NSPredicate predicateWithFormat:@"ANY citedBy.eprint beginswith[c] %@",operand];
-	}else if([operand hasPrefix:@"key"]){
-	    NSArray* a=[operand componentsSeparatedByString:@" "];
-	    if([a count]==2){
-		return [NSPredicate predicateWithFormat:@"ANY citedBy.spiresKey = %@",[a objectAtIndex:1]];
-	    }
-	}
-	return [NSPredicate predicateWithValue:NO];
-    }else if([operator hasPrefix:@"t"]){
-//	key=@"title";
-	key=@"normalizedTitle";
-    }else if([operator hasPrefix:@"e"]){
-	key=@"eprint";
-    }else{
-	key=@"longishAuthorListForA";
-/*	NSArray*a=[operand componentsSeparatedByString:@","];
-	if([a count]>=2){
-	    operand=[NSString stringWithFormat:@"%@ %@",[a objectAtIndex:1],[a objectAtIndex:0]];
-	}
-	operand=[operand stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-	a=[operand componentsSeparatedByString:@" "];
-	if([a count]<2){
-	    return [NSPredicate predicateWithFormat:@"%K contains[c] %@",key,operand];
-	}
-	NSMutableString*ms=[NSMutableString string];
-	for(int i=0;i<[a count]-1;i++){
-	    NSString*s=[a objectAtIndex:i];
-	    if([s isEqualToString:@""])continue;
-	    [ms appendString:[s substringToIndex:1]];
-	    [ms appendString:@". "];
-	}
-	[ms appendString:[a lastObject]];*/
-	
-//	NSLog(@"%@",ms);
-	NSMutableString*result=[NSMutableString string];
-	NSArray* c=[operand componentsSeparatedByString:@", "];
-	NSString*last=nil;
-	NSArray*d=nil;
-	if([c count]==1){
-	    while([operand hasSuffix:@" "]){
-		operand=[operand substringToIndex:[operand length]-1];
-	    }
-	    NSArray*x=[operand componentsSeparatedByString:@" "];
-	    if([x count]==1){
-//		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-		return [NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
-	    }
-	    last=[x lastObject];
-	    NSMutableArray*y=[NSMutableArray array];
-	    for(int i=0;i<[x count]-1;i++){
-		[y addObject:[x objectAtIndex:i]];
-	    }
-	    d=y;
+	    return nil; // [NSPredicate predicateWithValue:YES];
+	if([a count]==1){
+	    operand=[a objectAtIndex:0];
 	}else{
-	    last=[c objectAtIndex:0];
-	    d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	    operand=[[a lastObject] stringByAppendingString:@","];
+	    for(int i=0;i<[a count]-1;i++){
+		operand=[operand stringByAppendingString:@" "];
+		operand=[operand stringByAppendingString:[a objectAtIndex:i]];
+	    }
 	}
-	for(NSString*i in d){
-	    if(!i || [i isEqualToString:@""]) continue;
-	    [result appendString:[i substringToIndex:1]];
-	    [result appendString:@". "];
-	}
-	
-	
-//	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains[cd] %@) and (%K contains[cd] %@)",key,last,key,result];	
-	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[result normalizedString]];	
-//	NSLog(@"%@",pred);
-	return pred;
     }
+    //	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains[cd] %@",operand];	
+    return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains %@",[operand normalizedString]];	    
+}
+-(NSPredicate*)journalPredicate:(NSString*)operand
+{
+    operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    NSArray* a=[operand componentsSeparatedByString:@" "];
+    if([a count]==0)
+	return nil; //[NSPredicate predicateWithValue:YES];
+    NSMutableString*ms=[NSMutableString string];
+    for(NSString*s in a){
+	[ms appendString:s];
+	/*    if(![ms hasSuffix:@"."])
+	 [ms appendString:@"."];*/
+    }
+    return [NSPredicate predicateWithFormat:@"journal.name contains[c] %@",ms];	    
+}
+-(NSPredicate*)citedByPredicate:(NSString*)operand
+{
+    if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound)
+	return [NSPredicate predicateWithFormat:@"ANY refersTo.eprint beginswith[c] %@",operand];
+    else
+	return [NSPredicate predicateWithFormat:@"ANY refersTo.spicite beginswith[c] %@",operand];    
+}
+-(NSPredicate*)referesToPredicate:(NSString*)operand
+{
+    if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound){
+	return [NSPredicate predicateWithFormat:@"ANY citedBy.eprint beginswith[c] %@",operand];
+    }else if([operand hasPrefix:@"key"]){
+	NSArray* a=[operand componentsSeparatedByString:@" "];
+	if([a count]==2){
+	    return [NSPredicate predicateWithFormat:@"ANY citedBy.spiresKey = %@",[a objectAtIndex:1]];
+	}
+    }
+    return [NSPredicate predicateWithValue:NO];
+}
+-(NSPredicate*)authorPredicate:(NSString*)operand
+{
+    NSString*key=@"longishAuthorListForA";
+    
+    NSMutableString*result=[NSMutableString string];
+    NSArray* c=[operand componentsSeparatedByString:@", "];
+    NSString*last=nil;
+    NSArray*d=nil;
+    if([c count]==1){
+	while([operand hasSuffix:@" "]){
+	    operand=[operand substringToIndex:[operand length]-1];
+	}
+	NSArray*x=[operand componentsSeparatedByString:@" "];
+	if([x count]==1){
+	    //		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
+	}
+	last=[x lastObject];
+	NSMutableArray*y=[NSMutableArray array];
+	for(int i=0;i<[x count]-1;i++){
+	    [y addObject:[x objectAtIndex:i]];
+	}
+	d=y;
+    }else{
+	last=[c objectAtIndex:0];
+	d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+    }
+    for(NSString*i in d){
+	if(!i || [i isEqualToString:@""]) continue;
+	[result appendString:[i substringToIndex:1]];
+	[result appendString:@". "];
+    }
+    NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[result normalizedString]];	
+    return pred;
+}
+-(NSPredicate*)datePredicate:(NSString*)operand
+{
+    operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString* yearString=[operand stringByMatching:@"([01-9]+)" capture:1];
+    if(!yearString)
+	return nil;
+    if([yearString length]!=2 && [yearString length]!=4)
+	return nil;
+    if([yearString length]==2){
+	if([yearString isEqualToString:@"19"] || [yearString isEqualToString:@"20"] ){
+	    return nil;
+	}else if([yearString hasPrefix:@"0"]){
+	    yearString=[(NSString*)@"20" stringByAppendingString:yearString];
+	}else{
+	    yearString=[(NSString*)@"19" stringByAppendingString:yearString];		
+	}
+    }
+    int year=[yearString intValue];
+    NSString*op=nil;
+    if([operand hasPrefix:@">="]){
+	op=@">";
+    }else if([operand hasPrefix:@">"]){
+	op=@">";
+	year++;
+    }else if([operand hasPrefix:@"<="]){
+	op=@"<";
+	year++;
+    }else if([operand hasPrefix:@"<"]){
+	op=@"<";
+    }
+    NSPredicate*pred=nil;
+    if(op){
+	pred= [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"eprintForSorting %@ %d",op,(int)(year*100*10000)]];
+    }else{
+	int upper=(year+1)*100*10000;
+	int lower=year*100*10000;
+	pred= [NSPredicate predicateWithFormat:@"(eprintForSorting < %d) and (eprintForSorting > %d)", upper, lower];
+    }
+    NSLog(@"%@",pred);
+    return pred;    
+}
+-(NSPredicate*)titlePredicate:(NSString*)operand
+{
+    NSString*key=@"normalizedTitle";
     operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
     operand=[[operand componentsSeparatedByString:@" "] lastObject];
     if([operand isEqualToString:@""])
-	return [NSPredicate predicateWithValue:YES];
-//    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+	return nil; //[NSPredicate predicateWithValue:YES];
+    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
-//        NSLog(@"%@",pred);
-    return pred;
+    //        NSLog(@"%@",pred);
+    return pred;    
 }
+-(NSPredicate*)eprintPredicate:(NSString*)operand
+{
+    NSString*key=@"eprint";	
+    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
+    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+    if([operand isEqualToString:@""])
+	return nil; //[NSPredicate predicateWithValue:YES];
+    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
+    //        NSLog(@"%@",pred);
+    return pred;    
+}
+-(NSString*)extractOperand:(NSString*)s
+{
+    return [s stringByMatching:@"^ *(\\w+) +(.+)$" capture:2];
+}
+-(SEL)extractOperator:(NSString*)s
+{
+    NSString*operator=[s stringByMatching:@"^ *(\\w+) +(.+)$" capture:1];
+    if([operator hasPrefix:@"to"]){
+	return @selector(topcitePredicate:);
+    }else if([operator hasPrefix:@"ea"]){
+	return @selector(eaPredicate:);
+    }else if([operator hasPrefix:@"j"]){
+	return @selector(journalPredicate:);
+    }else if([operator hasPrefix:@"c"]){
+	return @selector(citedByPredicate:);
+    }else if([operator hasPrefix:@"r"]){
+	return @selector(referesToPredicate:);
+    }else if([operator hasPrefix:@"a"]){
+	return @selector(authorPredicate:);
+    }else if([operator hasPrefix:@"d"]){
+	return @selector(datePredicate:);
+    }else if([operator hasPrefix:@"t"]){
+	return @selector(titlePredicate:);
+    }else if([operator hasPrefix:@"e"]){
+	return @selector(eprintPredicate:);
+    }else{
+	return NULL;
+    }    
+}
+
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string
 {
     //    string=[string stringByReplacingOccurrencesOfString:@" and " withString:@" & "];
+    string=[string normalizedString];
     NSArray*a=[string componentsSeparatedByString:@" and "];
     NSMutableArray*arr=[NSMutableArray array];
+    SEL operator=NULL;
+    NSString*operand=nil;
     for(NSString*s in a){
-	NSPredicate*p=[self simplePredicateFromSPIRESsearchString:s];
+	SEL op=[self extractOperator:s];
+	if(!op && !operator)
+	    return nil;
+	if(op){
+	    operator=op;
+	    operand=[self extractOperand:s];
+	}else{
+	    operand=s;
+	}
+	if([operand length]<2)
+	    continue;
+	operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
+	NSPredicate*p=[self performSelector:operator withObject:operand];
 	if(p)	
 	    [arr addObject:p];
     }
     NSPredicate*pred=nil;
-    if([arr count]==1){
+    if([arr count]==0){
+	pred=[NSPredicate predicateWithValue:YES];
+    }else if([arr count]==1){
 	pred= [arr objectAtIndex:0];
     }else{
 	pred=[[NSCompoundPredicate alloc] initWithType:NSAndPredicateType
@@ -186,6 +253,68 @@ SpiresHelper*_sharedSpiresHelper=nil;
 //    NSLog(@"%@",pred);
     return pred;
 }
+
+/* -(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string
+{
+    NSString* operand=nil;
+    NSString* operator=nil;
+    NSUInteger location=[string rangeOfString:@" "].location;
+    if(location==NSNotFound){
+	return nil;
+    }
+    operator=[string substringToIndex:location];
+    operand=[string substringFromIndex:location+1];
+    if(operator==nil || operand==nil || [operator isEqualTo:@""] || [operand isEqualTo:@""] || [operand length]<2) {
+	return nil;
+    }
+    operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    
+    if([operator hasPrefix:@"to"]){
+	return [self topcitePredicate:operand];
+    }else if([operator hasPrefix:@"ea"]){
+	return [self eaPredicate:operand];
+    }else if([operator hasPrefix:@"j"]){
+	return [self journalPredicate:operand];
+    }else if([operator hasPrefix:@"c"]){
+	return [self citedByPredicate:operand];
+    }else if([operator hasPrefix:@"r"]){
+	return [self referesToPredicate:operand];
+    }else if([operator hasPrefix:@"a"]){
+	return [self authorPredicate:operand];
+    }else if([operator hasPrefix:@"d"]){
+	return [self datePredicate:operand];
+    }else if([operator hasPrefix:@"t"]){
+	return [self titlePredicate:operand];
+    }else if([operator hasPrefix:@"e"]){
+	return [self eprintPredicate:operand];
+    }else{
+	return nil;
+    }
+}
+
+-(NSPredicate*) predicateFromSPIRESsearchString_oldVersion:(NSString*)string
+{
+    //    string=[string stringByReplacingOccurrencesOfString:@" and " withString:@" & "];
+    string=[string normalizedString];
+    NSArray*a=[string componentsSeparatedByString:@" and "];
+    NSMutableArray*arr=[NSMutableArray array];
+    for(NSString*s in a){
+	NSPredicate*p=[self simplePredicateFromSPIRESsearchString:s];
+	if(p)	
+	    [arr addObject:p];
+    }
+    NSPredicate*pred=nil;
+    if([arr count]==0){
+	pred=[NSPredicate predicateWithValue:YES];
+    }else if([arr count]==1){
+	pred= [arr objectAtIndex:0];
+    }else{
+	pred=[[NSCompoundPredicate alloc] initWithType:NSAndPredicateType
+					 subpredicates:arr];
+    }
+    //    NSLog(@"%@",pred);
+    return pred;
+}*/
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESBIBTEXHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
@@ -245,7 +374,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     userInfo=v;
     delegate=d;
     sel=selector;
-    searchString=search;
+    searchString=[search normalizedString];
     NSURL*url=nil;
     if([search hasPrefix:@"r"]){
 	NSArray*a=[search componentsSeparatedByString:@" "];
@@ -304,11 +433,14 @@ SpiresHelper*_sharedSpiresHelper=nil;
     
     NSString*result= [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];*/
     // prays the path to the app doesn't contain any ' ...
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' </tmp/inSPIRES >/tmp/outSPIRES" , [[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"]];
+    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
+    NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
+    NSString*script=[[[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' <%@ >%@" , script, inPath,outPath];
     NSError*error=nil;
-    [s writeToFile:@"/tmp/inSPIRES" atomically:NO encoding:NSUTF8StringEncoding error:&error];
+    [s writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
     system([command UTF8String]);
-    NSString*result=[[NSString alloc] initWithContentsOfFile:@"/tmp/outSPIRES" encoding:NSUTF8StringEncoding error:&error];
+    NSString*result=[[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];
  //   NSLog(@"%@",result);
     return result;
 }
@@ -351,8 +483,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	s=[s stringByReplacingOccurrencesOfRegex:@"&([^;]{10})" withString:@"&amp;$1"];
 	if(![t isEqualToString:s]){
 	    NSLog(@"malformed XML patched");
-	    [s writeToFile:@"/tmp/xml-before.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-	    [t writeToFile:@"/tmp/xml-after.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	    [s writeToFile:@"/tmp/spires-xml-before.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	    [t writeToFile:@"/tmp/spires-xml-after.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	    t=s;
 
 	}
@@ -375,7 +507,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 			      modalDelegate:self 
 			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
 				contextInfo:nil];
-	    [t writeToFile:@"/tmp/xml.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	    [t writeToFile:@"/tmp/spires-xml.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	}
     }
     [delegate performSelector:sel withObject:doc withObject:userInfo];

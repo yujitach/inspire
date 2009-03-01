@@ -45,8 +45,7 @@ typedef enum {
 @property (retain) NSString*shortishAuthorList;
 @property (retain) NSString*longishAuthorListForA;
 @property (retain) NSString*longishAuthorListForEA;
-@property (retain) NSString*quieterTitle;
-@property (retain) NSString*eprintForSorting;
+@property (retain) NSNumber *eprintForSorting;
 
 
 +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;

@@ -35,7 +35,7 @@
     [mi setImage:icon];
     return [mi autorelease];
 }
--(int)indexForBundleId:(NSString*)bundleId
+-(NSUInteger)indexForBundleId:(NSString*)bundleId
 {
     for(int i=0;i<[apps count];i++){
 	if([[apps objectAtIndex:i] compare:bundleId options:NSCaseInsensitiveSearch]==NSOrderedSame){
@@ -81,7 +81,7 @@
 	chosenId=defaultBundleId;
     }
 //    NSLog(@"chosenIdTryAgain:%@",chosenId);
-    int i=[self indexForBundleId:chosenId];
+    NSUInteger i=[self indexForBundleId:chosenId];
 //    NSLog(@"foundAt:%d",i);
     if(i==NSNotFound){
 	// lest default database contains pdf viewer which was later deleted from the machine

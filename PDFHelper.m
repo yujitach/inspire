@@ -18,17 +18,23 @@
 #import "ArxivPDFDownloadOperation.h"
 #import "ArxivVersionCheckingOperation.h"
 #import "DeferredPDFOpenOperation.h"
-#define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
 
-@interface SomeKindOfPanel : NSObject{
+// QuickLooking is off-loaded to QuickLookHelper... It tends to crash in 64bit mode.
+// It seems to be a bug in PDFKit under GC.
+// 0902.4674v1.pdf causes this. Maybe I should report it to Apple.
+
+//#define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
+
+/*
+ @interface SomeKindOfPanel : NSObject{
 }
--(void)setURLs:(NSArray*)a currentIndex:(int)i preservingDisplayState:(BOOL)b;
--(void)makeKeyAndOrderFrontWithEffect:(int)i;
+-(void)setURLs:(NSArray*)a currentIndex:(NSInteger)i preservingDisplayState:(BOOL)b;
+-(void)makeKeyAndOrderFrontWithEffect:(NSInteger)i;
 @end
 @interface NSObject (toShutUpWarningFromGCCaboutQuickLook)
 -(SomeKindOfPanel*)sharedPreviewPanel;
 @end
-
+*/
 static PDFHelper*_helper;
 @implementation PDFHelper
 /*-(BOOL)respondsToSelector:(SEL)selector
@@ -45,10 +51,10 @@ static PDFHelper*_helper;
 }
 +(void)initialize
 {
-    if([[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/QuickLookUI.framework"] load]){
-	NSLog(@"Quick Look loaded!"); 
+//    if([[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/QuickLookUI.framework"] load]){
+//	NSLog(@"Quick Look loaded!"); 
 	//[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];
-    }
+//    }
 }
 -(NSString*)displayNameForApp:(NSString*)bundleId
 {
@@ -100,11 +106,13 @@ static PDFHelper*_helper;
 	    [self openPDFFile:path usingApp:bundleId];
 	    break;
 	case openWithQuickLook:
-	    [[QLPreviewPanel sharedPreviewPanel] setURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]] 
+/*	    [[QLPreviewPanel sharedPreviewPanel] setURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]] 
 					    currentIndex:0 
 				  preservingDisplayState:YES];
 	    
-	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:2]; 
+	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:1]; 
+*/
+	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"QuickLookHelper" ofType:@"app"]];
 	    
 	    break;
     }
@@ -121,12 +129,12 @@ static PDFHelper*_helper;
     if(o.hasPDFLocally&&![[[NSApplication sharedApplication] delegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if(o.articleType==ATEprint){
-	    [[DumbOperationQueue sharedQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
+	    [[DumbOperationQueue arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
 												      usingViewer:viewerType]];
 	}
     }else if(o.articleType==ATEprint){
-	[[DumbOperationQueue sharedQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
-	[[DumbOperationQueue sharedQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
+	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
+	[[DumbOperationQueue arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
     }else{
 	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
@@ -152,12 +160,12 @@ static PDFHelper*_helper;
        ||[[defaults arrayForKey:@"SpringerJournals"] containsObject:journalName]
        ||[[defaults arrayForKey:@"AIPJournals"] containsObject:journalName]
 	){
-	[[DumbOperationQueue spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
+	[[DumbOperationQueue sharedQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
 	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){
 	    type=openWithSecondaryViewer;
 	}
-	[[DumbOperationQueue spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
+	[[DumbOperationQueue sharedQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
 	return YES;
     }
     return NO;

@@ -33,14 +33,14 @@ ArxivHelper* _sharedHelper=nil;
 -(NSString*)arXivPDFPathForID:(NSString*)arXivID
 {
     if([arXivID hasPrefix:@"arXiv:"]){
-	arXivID=[arXivID substringFromIndex:[@"arXiv:" length]];
+	arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
     return [NSString stringWithFormat:@"%@pdf/%@",[self arXivHead],arXivID];
 }
 -(NSString*)arXivAbstractPathForID:(NSString*)arXivID
 {
     if([arXivID hasPrefix:@"arXiv:"]){
-	arXivID=[arXivID substringFromIndex:[@"arXiv:" length]];
+	arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
     return [NSString stringWithFormat:@"%@abs/%@",[self arXivHead],arXivID];
 }
@@ -68,7 +68,7 @@ ArxivHelper* _sharedHelper=nil;
     // see http://export.arxiv.org/api_help/docs/user-manual.html
     NSString*arXivID=[dict valueForKey:@"arXivID"];
     if([arXivID hasPrefix:@"arXiv:"]){
-	arXivID=[arXivID substringFromIndex:[@"arXiv:" length]];
+	arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
     NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"http://export.arxiv.org/api/query?id_list=%@",arXivID]];
     NSLog(@"query:%@",url);
@@ -81,7 +81,7 @@ ArxivHelper* _sharedHelper=nil;
 //    NSMutableDictionary* dict=[NSMutableDictionary dictionary];
     
     NSString* s=[self valueForKey:@"id" inXMLElement:elem];
-    s=[s substringFromIndex:[@"http://arxiv.org/abs/" length]];
+    s=[s substringFromIndex:[(NSString*)@"http://arxiv.org/abs/" length]];
     NSArray*a=[s componentsSeparatedByString:@"v"];
     NSString* comment=[self valueForKey:@"arxiv:comment" inXMLElement:elem];
     if(comment){

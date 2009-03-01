@@ -21,7 +21,7 @@
 }
 +(SpiresHelper*)sharedHelper;
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string;
--(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string;
+//-(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string;
 -(NSURL*)spiresURLForQuery:(NSString*)search;
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search;
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search;

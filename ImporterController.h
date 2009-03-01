@@ -10,7 +10,7 @@
 #import "spires_AppDelegate.h"
 
 @interface ImporterController : NSWindowController {
-    spires_AppDelegate* appDelegate;
+//    spires_AppDelegate* appDelegate;
     IBOutlet NSTextField*tf;
     IBOutlet NSProgressIndicator*pi;
     int current;
@@ -18,6 +18,6 @@
     int total;
     NSArray*elements;
 }
--(ImporterController*)initWithAppDelegate:(spires_AppDelegate*)delegate;
+-(ImporterController*)init; //WithAppDelegate:(spires_AppDelegate*)delegate;
 -(void)import:(NSArray*)files;
 @end

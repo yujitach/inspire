@@ -8,10 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+@class SideTableViewController;
 @interface HistoryController : NSObject {
-    IBOutlet NSArrayController* articleListController;
+//    IBOutlet NSArrayController* articleListController;
     IBOutlet NSArrayController* ac;
+    IBOutlet SideTableViewController* sideTableViewController;
     IBOutlet NSSegmentedControl*sc;
     NSMutableArray* array;
     int index;

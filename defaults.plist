@@ -4,6 +4,8 @@
 <dict>
 	<key>eagerMetadataQueryThreshold</key>
 	<integer>5</integer>
+	<key>batchImportCap</key>
+	<string>500</string>
 	<key>UpdaterWillFollowUnstableVersions</key>
 	<false/>
 	<key>universityLibraryToGetPDF</key>

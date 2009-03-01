@@ -23,7 +23,7 @@ NSString *ArticleDropPboardType=@"articleDropType";
 {
     return NO;
 }
-- (NSDragOperation)tableView:(NSTableView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     //    if(tvv==tv)
     return NSDragOperationNone;

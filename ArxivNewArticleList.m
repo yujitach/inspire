@@ -119,7 +119,7 @@
 	NSArray*x=[eprint componentsSeparatedByString:@"</a>"];
 	eprint=[x objectAtIndex:0];
 	if([eprint rangeOfString:@"/"].location!=NSNotFound){
-	    eprint=[eprint substringFromIndex:[@"arXiv:" length]];
+	    eprint=[eprint substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}
     }
     

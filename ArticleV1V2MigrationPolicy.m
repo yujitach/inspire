@@ -88,7 +88,7 @@
     }
     if([eprint isEqualToString:@""])return nil;
     if([eprint hasPrefix:@"arXiv:"]){
-	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[@"arXiv:" length]]];
+	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[(NSString*)@"arXiv:" length]]];
 	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
     }
     NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];
@@ -106,17 +106,11 @@
     NSSet*authors=[sInstance valueForKey:@"authors"];
     NSString*eprint=[sInstance valueForKey:@"eprint"];
     NSDate*date=[sInstance valueForKey:@"date"];
-    NSString*eprintForSorting=[self calculateEprintForSortingWithEprint:eprint andDate:date];
+    int32_t eprintForSorting=[[self calculateEprintForSortingWithEprint:eprint andDate:date] intValue];
 
     NSString*title=[sInstance valueForKey:@"title"];
 
-    NSString*quieterTitle=nil;
-    if(eprint){
-	quieterTitle=title;
-    }else if(title){
-	quieterTitle=[title quieterVersion];
-    }
-    
+      
     NSString*normalizedTitle=[title normalizedString];
     
     for(NSPropertyMapping *currentMapping in attributeMappings) 
@@ -136,9 +130,7 @@
 	}else 	if( [name isEqualToString:@"shortishAuthorList"] ){
 	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:[self calculateShortishAuthorList:authors]]];	    
 	}else 	if( [name isEqualToString:@"eprintForSorting"] ){
-	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:eprintForSorting]];	    
-	}else 	if( [name isEqualToString:@"quieterTitle"] ){
-	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:quieterTitle]];	    
+	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:[NSNumber numberWithInt:eprintForSorting]]];	    
 	}else 	if( [name isEqualToString:@"normalizedTitle"] ){
 	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:normalizedTitle]];	    
 	}

@@ -10,7 +10,8 @@
 #import "spires_AppDelegate.h"
 
 @interface spires_AppDelegate (SyncCategory)
--(BOOL)syncEnabled;
+/*-(BOOL)syncEnabled;
 -(void)syncSetupAtStartup;
 -(IBAction)syncAction:(id)sender;
+ */
 @end
