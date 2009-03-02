@@ -22,12 +22,30 @@
     [activityController didChangeArrangementCriteria];
 }
 
--(void)awakeFromNib
+-(ActivityMonitorController*)init
 {
+    self=[super initWithWindowNibName:@"ActivityMonitor"];
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(activityMonitorRefresher:) userInfo:nil repeats:YES];
     //    [activityTable setRowHeight:[activityTable rowHeight]*3];
     [self activityMonitorRefresher:nil];
+    [[self window] setLevel:NSNormalWindowLevel];
+    [[self window] setIsVisible:[[NSUserDefaults standardUserDefaults] boolForKey:@"ActivityMonitorIsVisible"]];
+    return self;
 }
-
-
+-(void)showhide:(id)sender
+{
+    if([[self window] isVisible]){
+	[[self window] setIsVisible:NO];
+    }else{
+	[[self window] makeKeyAndOrderFront:sender];
+    }
+}
+-(void)windowDidBecomeKey:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ActivityMonitorIsVisible"];
+}
+-(void)windowWillClose:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ActivityMonitorIsVisible"];
+}
 @end

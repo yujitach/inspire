@@ -13,6 +13,8 @@
 #import "NSString+XMLEntityDecoding.h"
 #import "ProgressIndicatorController.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
+#import "RegexKitLite.h"
+#import "spires_AppDelegate.h"
 
 @implementation ArxivNewArticleList 
 +(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
@@ -129,6 +131,7 @@
     i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];
     title=[title stringByExpandingAmpersandEscapes];
+    title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
 //    NSLog(@"%@",title);
     NSString*authorsList=[a objectAtIndex:3];
     i=[authorsList rangeOfString:@"</div>"].location;
@@ -170,6 +173,7 @@
 -(void)reload
 {
     [ProgressIndicatorController startAnimation:self];
+    [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
     [[self managedObjectContext] disableUndo];
     NSString*s=[[ArxivHelper sharedHelper] list:self.name];
     if(!s)return;
@@ -181,8 +185,15 @@
 //	NSLog(@"%d",i);
 	[self dealWith:[a objectAtIndex:i]];
     }
+    NSError*error=nil;
+    [[self managedObjectContext] save:&error];
+    if(error){
+	NSLog(@"moc error:%@",error);
+    }
     [[self managedObjectContext] enableUndo];
+    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
     [ProgressIndicatorController stopAnimation:self];
+    [(spires_AppDelegate*)[NSApp delegate] clearingUp:self];    
 
 }
 -(NSImage*)icon

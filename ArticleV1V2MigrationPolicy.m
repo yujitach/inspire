@@ -8,6 +8,7 @@
 
 #import "ArticleV1V2MigrationPolicy.h"
 #import "NSString+magic.h"
+#import "RegexKitLite.h"
 #import "Author.h"
 
 @implementation ArticleV1V2MigrationPolicy
@@ -109,7 +110,7 @@
     int32_t eprintForSorting=[[self calculateEprintForSortingWithEprint:eprint andDate:date] intValue];
 
     NSString*title=[sInstance valueForKey:@"title"];
-
+    title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
       
     NSString*normalizedTitle=[title normalizedString];
     
@@ -133,6 +134,8 @@
 	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:[NSNumber numberWithInt:eprintForSorting]]];	    
 	}else 	if( [name isEqualToString:@"normalizedTitle"] ){
 	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:normalizedTitle]];	    
+	}else 	if( [name isEqualToString:@"title"] ){
+	    [currentMapping setValueExpression:[NSExpression expressionForConstantValue:title]];	    
 	}
 	
     }

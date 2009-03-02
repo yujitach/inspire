@@ -73,6 +73,7 @@
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
 		339F63C90EB2F61200929D13 /* SideTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339F63C80EB2F61200929D13 /* SideTableViewController.m */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
+		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
 		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
 		33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */; };
 		33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B58BD90F395ED600E23146 /* SyncServices.framework */; };
@@ -105,6 +106,7 @@
 		33E7551E0F58E3CB00A21A86 /* pdfScanHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E7551D0F58E3CB00A21A86 /* pdfScanHelper.m */; };
 		33E755C30F58E65300A21A86 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33E755CA0F58E79D00A21A86 /* pdfScanHelper in Resources */ = {isa = PBXBuildFile; fileRef = 33E755160F58E38000A21A86 /* pdfScanHelper */; };
+		33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */; };
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
@@ -264,6 +266,7 @@
 		339F63C80EB2F61200929D13 /* SideTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideTableViewController.m; sourceTree = "<group>"; };
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
+		33B485C10F5B3E2A00EBE022 /* PrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefPane.xib; sourceTree = "<group>"; };
 		33B5621A0F3BB6510006E70D /* Requests.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Requests.html; sourceTree = "<group>"; };
 		33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate_SyncCategory.h; sourceTree = "<group>"; };
 		33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate_SyncCategory.m; sourceTree = "<group>"; };
@@ -321,6 +324,7 @@
 		33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewContextMenuCategory.m; sourceTree = "<group>"; };
 		33E755160F58E38000A21A86 /* pdfScanHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pdfScanHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E7551D0F58E3CB00A21A86 /* pdfScanHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pdfScanHelper.m; sourceTree = "<group>"; };
+		33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActivityMonitor.xib; sourceTree = "<group>"; };
 		33EBF0090EA5BF650050B64A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		33EBF0370EA5C0830050B64A /* Release Notes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Release Notes.html"; sourceTree = "<group>"; };
 		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
@@ -434,6 +438,9 @@
 			isa = PBXGroup;
 			children = (
 				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
+				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
+				33B485CB0F5B443200EBE022 /* Importer */,
+				33B485CA0F5B440900EBE022 /* PrefPane */,
 				33F883E80EAADAE000F5E9C6 /* Views */,
 				7756732906782D8800D1FEB8 /* Models */,
 				3395454D0F352F5A00D01E97 /* Controllers */,
@@ -442,10 +449,10 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				33D8AA5A0EAA675600619A6F /* spiresHook */,
 				33E755ED0F58EB6200A21A86 /* pdfScanHelper */,
 				339456BE0F58ED5600E85044 /* QuickLookHelper */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = spires;
@@ -484,7 +491,6 @@
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */,
-				33071BCE0EC1161900957864 /* Importer.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -597,20 +603,12 @@
 				338AC4770F3691B40011414C /* ProgressIndicatorController.m */,
 				337B882D0F3575680005BA9C /* BibViewController.h */,
 				337B882E0F3575680005BA9C /* BibViewController.m */,
-				3395458D0F3539B600D01E97 /* AppChooser.h */,
-				3395458E0F3539B600D01E97 /* AppChooser.m */,
-				339544DA0F35277200D01E97 /* PrefController.h */,
-				339544DB0F35277200D01E97 /* PrefController.m */,
-				33071BC50EC1158A00957864 /* ImporterController.h */,
-				33071BC60EC1158A00957864 /* ImporterController.m */,
 				3315E8590EB6DAB200E56D7E /* HistoryController.h */,
 				3315E85A0EB6DAB200E56D7E /* HistoryController.m */,
 				339F63C70EB2F61200929D13 /* SideTableViewController.h */,
 				339F63C80EB2F61200929D13 /* SideTableViewController.m */,
 				331FD32F0F36B11800C16F73 /* MainTableViewController.h */,
 				331FD3300F36B11800C16F73 /* MainTableViewController.m */,
-				33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */,
-				33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -635,6 +633,38 @@
 				33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */,
 			);
 			name = "TableView Additions";
+			sourceTree = "<group>";
+		};
+		33B485BE0F5B3DC700EBE022 /* ActivityMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */,
+				33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */,
+				33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */,
+			);
+			name = ActivityMonitor;
+			sourceTree = "<group>";
+		};
+		33B485CA0F5B440900EBE022 /* PrefPane */ = {
+			isa = PBXGroup;
+			children = (
+				3395458D0F3539B600D01E97 /* AppChooser.h */,
+				3395458E0F3539B600D01E97 /* AppChooser.m */,
+				339544DA0F35277200D01E97 /* PrefController.h */,
+				339544DB0F35277200D01E97 /* PrefController.m */,
+				33B485C10F5B3E2A00EBE022 /* PrefPane.xib */,
+			);
+			name = PrefPane;
+			sourceTree = "<group>";
+		};
+		33B485CB0F5B443200EBE022 /* Importer */ = {
+			isa = PBXGroup;
+			children = (
+				33071BC50EC1158A00957864 /* ImporterController.h */,
+				33071BC60EC1158A00957864 /* ImporterController.m */,
+				33071BCE0EC1161900957864 /* Importer.xib */,
+			);
+			name = Importer;
 			sourceTree = "<group>";
 		};
 		33CC06FE0F3E4A20005B25F8 /* Operations */ = {
@@ -862,6 +892,8 @@
 				3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */,
 				3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */,
 				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
+				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
+				33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

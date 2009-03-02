@@ -74,7 +74,7 @@
 }
 -(IBAction)forward:(id)sender
 {
-    NSLog(@"f");
+//    NSLog(@"f");
     if(index<[array count]){
 	index++;
 	[self reflect];
@@ -82,7 +82,7 @@
 }
 -(IBAction)backward:(id)sender
 {
-    NSLog(@"b");
+//    NSLog(@"b");
     if(index>0){
 	index--;
 	[self reflect];

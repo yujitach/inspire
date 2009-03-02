@@ -30,14 +30,18 @@ l{
     if([elements count]>cap){
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
     }
-    moc=[MOC secondaryManagedObjectContext];
+    moc=[MOC createSecondaryMOC];
     citedByTarget=c;
     refersToTarget=r;
     list=l;
     if(citedByTarget||refersToTarget||list){
-	[[MOC moc] save:nil];
+	NSError*error=nil;
+	[[MOC moc] save:&error];
+	if(error){
+	    NSLog(@"moc error:%@",error);
+	}
     }
-    if(citedByTarget){
+/*    if(citedByTarget){
 	citedByTarget=(Article*)[moc objectWithID:[citedByTarget objectID]];
     }
     if(refersToTarget){
@@ -45,7 +49,7 @@ l{
     }
     if(list){
 	list=(ArticleList*)[moc objectWithID:[list objectID]];
-    }
+    }*/
     delegate=[NSApp delegate];
     return self;
 }
@@ -194,7 +198,46 @@ l{
 	}
     }
     
-    AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:moc];
+    NSError*error=nil;
+//    NSLog(@"saving 2ndry");
+    [moc save:&error];
+    if(error){
+	NSLog(@"2nry moc error:%@",error);
+    }
+//    NSLog(@"saved 2ndry");
+    NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
+ //   [objectIDsToBeRefreshed addObject:[allArticleList objectID]];
+    for(Article* z in x){
+	[objectIDsToBeRefreshed addObject:[z objectID]];
+    }
+/*    if(citedByTarget){
+	[objectIDsToBeRefreshed addObject:[citedByTarget objectID]];	
+    }
+    if(refersToTarget){
+	[objectIDsToBeRefreshed addObject:[refersToTarget objectID]];
+    }
+    if(list){
+	[objectIDsToBeRefreshed addObject:[list objectID]];
+    }*/
+    [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMoc:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];
+    if([x count]==1){
+	Article*a=[x anyObject];
+	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
+	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]]];
+    }
+//    [moc enableUndo];
+}
+
+-(void)refreshManagedObjectsOnMainMoc:(NSArray*)y
+{
+    NSMutableSet*x=[NSMutableSet set];
+    for(NSManagedObjectID* objectID in y){
+	NSManagedObject*mo=[[MOC moc] objectWithID:objectID];
+	[[MOC moc] refreshObject:mo mergeChanges:YES];
+	[x addObject:mo];
+    }
+    [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
+    AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:[MOC moc]];
     [allArticleList addArticles:x];
     
     if(citedByTarget){
@@ -208,36 +251,8 @@ l{
     if(list){
 	[list addArticles:x];
     }
+    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
     
-    [moc save:nil];
-    NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
-    [objectIDsToBeRefreshed addObject:[allArticleList objectID]];
-    for(Article* z in x){
-	[objectIDsToBeRefreshed addObject:[z objectID]];
-    }
-    if(citedByTarget){
-	[objectIDsToBeRefreshed addObject:[citedByTarget objectID]];	
-    }
-    if(refersToTarget){
-	[objectIDsToBeRefreshed addObject:[refersToTarget objectID]];
-    }
-    if(list){
-	[objectIDsToBeRefreshed addObject:[list objectID]];
-    }
-    [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMoc:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];
-    if([x count]==1){
-	Article*a=[x anyObject];
-	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
-	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]]];
-    }
-//    [moc enableUndo];
-}
-
--(void)refreshManagedObjectsOnMainMoc:(NSArray*)y
-{
-    for(NSManagedObjectID* objectID in y){
-	[[MOC moc] refreshObject:[[MOC moc] objectWithID:objectID] mergeChanges:YES];
-    }
 }
 
 

@@ -119,6 +119,11 @@
     }
     
     [self rearrangePositionInViewForArticleLists];
+    NSError*error=nil;
+    [[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
+    if(error){
+	NSLog(@"moc error:%@",error);
+    }
 }
 /*-(void)saveArticleLists
 {

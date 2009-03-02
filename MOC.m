@@ -21,9 +21,9 @@ MOC*_sharedMOCManager=nil;
 {
     return [[MOC sharedMOCManager] managedObjectContext];
 }
-+(NSManagedObjectContext*)secondaryManagedObjectContext
++(NSManagedObjectContext*)createSecondaryMOC
 {
-    return [[MOC sharedMOCManager] secondaryManagedObjectContext];
+    return [[MOC sharedMOCManager] createSecondaryMOC];
 }
 -(MOC*)init
 {
@@ -32,7 +32,9 @@ MOC*_sharedMOCManager=nil;
     
     return self;
 }
--(void)didSaveNotificationReceived:(NSNotification*)n
+/*-(void)didSaveNotificationReceived:(NSNotification*)n 
+ // It is inherently evil to try conflict resolution automatically for any entities.
+ // one needs to think what to do for each entity type!
 {
     NSManagedObjectContext*moc=[n object];
     if(moc!=[self secondaryManagedObjectContext])
@@ -48,7 +50,7 @@ MOC*_sharedMOCManager=nil;
     for(NSManagedObject* o in updated){
 	[[self managedObjectContext] refreshObject:[[self managedObjectContext] objectWithID:[o objectID]] mergeChanges:YES];
     }    
-}
+}*/
 - (NSString *)applicationSupportFolder {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -115,10 +117,7 @@ MOC*_sharedMOCManager=nil;
 	if (sourceMetadata == nil) {
 	    // deal with error
 	    // but don't care here
-	}
-	
-	
-	if(! [[self managedObjectModel] isConfiguration:nil
+	}else if(! [[self managedObjectModel] isConfiguration:nil
 			    compatibleWithStoreMetadata:sourceMetadata]){
 	    NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
 					  defaultButton:@"OK" 
@@ -164,7 +163,15 @@ MOC*_sharedMOCManager=nil;
  Returns the managed object context for the application (which is already
  bound to the persistent store coordinator for the application.) 
  */
-
+/*
+ Merge policies:
+ Main moc: error on conflict. I should arrange no conflict occurs in the save: operation from the main thread on the main moc.
+ 2ndary moc:  changes in moc forced into the disk. This alone will surely cause the conflict, so all of the saved objects are passed
+           to the main thread as the managed object ID, and then conflict resolution is done immediately.
+	   Now, the conflict resolution is easy for Articles because I should prefer them on the main moc,
+           but once one starts mingling with the ArticleLists in the secondary moc various messy things happen.
+           Currently registration into lists are done on the main thread, on the main moc only. Mar/2/2009
+ */
 - (NSManagedObjectContext *) managedObjectContext {
     
     if (managedObjectContext != nil) {
@@ -175,24 +182,27 @@ MOC*_sharedMOCManager=nil;
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
-	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+//	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+	[managedObjectContext setMergePolicy:NSErrorMergePolicy];
     }
     
     return managedObjectContext;
 }
 
-- (NSManagedObjectContext *) secondaryManagedObjectContext {
+- (NSManagedObjectContext *) createSecondaryMOC {
     
-    if (secondaryManagedObjectContext != nil) {
+/*    if (secondaryManagedObjectContext != nil) {
         return secondaryManagedObjectContext;
-    }
+    }*/
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    NSManagedObjectContext*secondaryManagedObjectContext=nil;
     if (coordinator != nil) {
         secondaryManagedObjectContext = [[NSManagedObjectContext alloc] init];
         [secondaryManagedObjectContext setPersistentStoreCoordinator: coordinator];
 	[secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-	[secondaryManagedObjectContext setUndoManager:nil];
+//	[secondaryManagedObjectContext setMergePolicy:NSErrorMergePolicy];
+//	[secondaryManagedObjectContext setUndoManager:nil];
     }
     
     return secondaryManagedObjectContext;

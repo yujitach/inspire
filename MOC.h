@@ -13,15 +13,15 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;    
-    NSManagedObjectContext *secondaryManagedObjectContext;    
+//    NSManagedObjectContext *secondaryManagedObjectContext;    
 }
 +(NSManagedObjectContext*)moc;
-+(NSManagedObjectContext*)secondaryManagedObjectContext;
++(NSManagedObjectContext*)createSecondaryMOC;
 +(MOC*)sharedMOCManager;
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
-- (NSManagedObjectContext *)secondaryManagedObjectContext;
+- (NSManagedObjectContext *)createSecondaryMOC;
 - (NSString *)applicationSupportFolder;
 - (NSString *)dataFilePath;
 @end

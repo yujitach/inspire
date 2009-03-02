@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PrefController : NSObject {
+@interface PrefController : NSWindowController {
     IBOutlet NSPopUpButton* mirrorToUsePopUp;
     IBOutlet NSPopUpButton* bibPopUp;
     IBOutlet NSMatrix*journalPDFRadio;

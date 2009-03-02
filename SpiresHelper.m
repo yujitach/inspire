@@ -159,7 +159,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	int lower=year*100*10000;
 	pred= [NSPredicate predicateWithFormat:@"(eprintForSorting < %d) and (eprintForSorting > %d)", upper, lower];
     }
-    NSLog(@"%@",pred);
+//    NSLog(@"%@",pred);
     return pred;    
 }
 -(NSPredicate*)titlePredicate:(NSString*)operand

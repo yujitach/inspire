@@ -19,10 +19,11 @@
 @class BibViewController;
 @class ActivityMonitorController;
 @class IncrementalArrayController;
+@class PrefController;
 @interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
-    IBOutlet NSWindow *prefWindow;
+//    IBOutlet NSWindow *prefWindow;
     IBOutlet BibViewController *bibViewController;
 //    IBOutlet NSTextField* tf;
 //    IBOutlet NSProgressIndicator* pi;
@@ -36,6 +37,8 @@
 //    IBOutlet NSButton* resizer;
 //    IBOutlet NSSplitView* splitView;
     ImporterController*importerController;
+    ActivityMonitorController* activityMonitorController;
+    PrefController*prefController;
     int countDown;
     ArticleList* allArticleList;
     
@@ -44,7 +47,6 @@
 //    IBOutlet NSArrayController* articleListController;
  //   IBOutlet NSTableView* articleListView;
     IBOutlet SideTableViewController* sideTableViewController;
-    IBOutlet ActivityMonitorController* activityMonitorController;
   
     
     
@@ -78,11 +80,16 @@
 -(IBAction)showReleaseNotes:(id)sender;
 -(IBAction)showAcknowledgments:(id)sender;
 -(IBAction)showUsage:(id)sender;
+-(IBAction)showhideActivityMonitor:(id)sender;
+-(IBAction)showPreferences:(id)sender;
 -(IBAction)openHomePage:(id)sender;
 -(void)showInfoOnAssociation;
 -(BOOL)currentListIsArxivReplaced;
 -(void)handleURL:(NSURL*) url;
 -(void)rearrangePositionInViewForArticleLists;
+-(void)startUpdatingMainView:(id)sender;
+-(void)stopUpdatingMainView:(id)sender;
+-(void)clearingUp:(id)sender;
 @end
 extern NSString *ArticleDropPboardType;
 extern NSString *ArticleListDropPboardType;

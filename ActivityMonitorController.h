@@ -9,10 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface ActivityMonitorController : NSObject {
+@interface ActivityMonitorController : NSWindowController {
     IBOutlet NSArrayController*activityController;
-    IBOutlet NSWindow*activityWindow;
-    IBOutlet NSTableView*activityTable;
     NSMutableArray*array;
 }
+-(void)showhide:(id)sender;
 @end

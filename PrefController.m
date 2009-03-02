@@ -10,6 +10,11 @@
 
 
 @implementation PrefController
+-(PrefController*)init
+{
+    return self=[super initWithWindowNibName:@"PrefPane"];
+}
+
 -(void)selectMirrorToUse:(NSString*)mirror
 {
     int i=0;
@@ -35,7 +40,6 @@
     }
     [self bibSelected: self];
 }
-
 
 -(void)awakeFromNib
 {

@@ -32,6 +32,8 @@
 #import "NSURL+libraryProxy.h"
 #import "ImporterController.h"
 #import "IncrementalArrayController.h"
+#import "ActivityMonitorController.h"
+#import "PrefController.h"
 
 #import "PDFHelper.h"
 #import "BibViewController.h"
@@ -193,6 +195,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
 	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL-Unstable"]]];	
     }
+    activityMonitorController=[[ActivityMonitorController alloc] init];
 //    NSLog(@"awake");
 //    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
@@ -398,6 +401,17 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }*/
 
 #pragma mark Actions
+-(IBAction)showhideActivityMonitor:(id)sender;
+{
+    [activityMonitorController showhide:sender];
+}
+-(IBAction)showPreferences:(id)sender;
+{
+    if(!prefController){
+	prefController=[[PrefController alloc]init];
+    }
+    [prefController showWindow:sender];
+}
 -(IBAction)showUsage:(id)sender;
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.sns.ias.edu/~yujitach/spires/usage.html"]];
@@ -434,7 +448,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 /*    for(Article*b in a.citedBy){
 	NSLog(@"citedByEntry:%@",b);
     }*/
-    NSLog(@"%@",a.abstract);
+//    NSLog(@"%@",a.abstract);
 }
 -(void)addArticleList:(id)sender
 {
@@ -895,6 +909,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
+	NSLog(@"moc error:%@",error);
     }/*else if([self syncEnabled]){
 	[self syncAction:self];
     }*/
@@ -909,7 +924,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
  
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
-    NSError *error;
+    NSError *error=nil;
     int reply = NSTerminateNow;
     NSManagedObjectContext*managedObjectContext=[MOC moc];
     if (managedObjectContext != nil) {
@@ -926,7 +941,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
                 // recovery steps.  
 
                 BOOL errorResult = [[NSApplication sharedApplication] presentError:error];
-				
+		NSLog(@"moc error:%@",error);
                 if (errorResult == YES) {
                     reply = NSTerminateCancel;
                 } 
