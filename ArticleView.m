@@ -54,6 +54,7 @@
     {
 	NSDictionary* texMacrosWithoutArguments=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArguments"];
 	NSArray* prepositions=[[NSUserDefaults standardUserDefaults] objectForKey:@"prepositions"];
+	NSArray* stop=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash"];
 	for(NSString* key in [texMacrosWithoutArguments keyEnumerator]){
 	    NSString* from=[NSString stringWithFormat:@"\\\\%@(_|\\W)",key];
 	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
@@ -61,6 +62,8 @@
 	    [s replaceOccurrencesOfRegex:from withString:rep];
 	    [s replaceOccurrencesOfRegex:from withString:rep];
 	    if([prepositions containsObject:key])
+		continue;
+	    if([stop containsObject:key])
 		continue;
 	    from=[NSString stringWithFormat:@"(\\W)%@(\\W)",key];
 	    rep=[NSString stringWithFormat:@"$1%@$2",to];

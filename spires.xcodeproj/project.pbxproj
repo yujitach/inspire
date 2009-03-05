@@ -65,7 +65,7 @@
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
 		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
 		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
-		339456EF0F58EEF700E85044 /* QuickLookHelper.app in Resources */ = {isa = PBXBuildFile; fileRef = 339456B70F58ED3D00E85044 /* QuickLookHelper.app */; };
+		339456EF0F58EEF700E85044 /* SpiresQuickLookHelper.app in Resources */ = {isa = PBXBuildFile; fileRef = 339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -247,12 +247,12 @@
 		33887E7B0EA97C4D003A7E83 /* spires.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = spires.sdef; sourceTree = "<group>"; };
 		338AC4760F3691B40011414C /* ProgressIndicatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressIndicatorController.h; sourceTree = "<group>"; };
 		338AC4770F3691B40011414C /* ProgressIndicatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressIndicatorController.m; sourceTree = "<group>"; };
-		339456B70F58ED3D00E85044 /* QuickLookHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickLookHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpiresQuickLookHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		339456BF0F58ED7B00E85044 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = QuickLookHelper/AppDelegate.h; sourceTree = "<group>"; };
 		339456C00F58ED7B00E85044 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = QuickLookHelper/AppDelegate.m; sourceTree = "<group>"; };
 		339456C20F58ED8600E85044 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = QuickLookHelper/main.m; sourceTree = "<group>"; };
 		339456CB0F58ED9800E85044 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = QuickLookHelper/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		339456E80F58EEC400E85044 /* QuickLookHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "QuickLookHelper-Info.plist"; sourceTree = "<group>"; };
+		339456E80F58EEC400E85044 /* SpiresQuickLookHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SpiresQuickLookHelper-Info.plist"; sourceTree = "<group>"; };
 		339544DA0F35277200D01E97 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
 		339544DB0F35277200D01E97 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
 		3395458D0F3539B600D01E97 /* AppChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppChooser.h; sourceTree = "<group>"; };
@@ -429,7 +429,7 @@
 				8D1107320486CEB800E47090 /* spires.app */,
 				33D8AA610EAA679C00619A6F /* spiresHook.bundle */,
 				33E755160F58E38000A21A86 /* pdfScanHelper */,
-				339456B70F58ED3D00E85044 /* QuickLookHelper.app */,
+				339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				33D8AA5A0EAA675600619A6F /* spiresHook */,
 				33E755ED0F58EB6200A21A86 /* pdfScanHelper */,
-				339456BE0F58ED5600E85044 /* QuickLookHelper */,
+				339456BE0F58ED5600E85044 /* SpiresQuickLookHelper */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -582,16 +582,16 @@
 			name = RegExKitLite;
 			sourceTree = "<group>";
 		};
-		339456BE0F58ED5600E85044 /* QuickLookHelper */ = {
+		339456BE0F58ED5600E85044 /* SpiresQuickLookHelper */ = {
 			isa = PBXGroup;
 			children = (
-				339456E80F58EEC400E85044 /* QuickLookHelper-Info.plist */,
+				339456E80F58EEC400E85044 /* SpiresQuickLookHelper-Info.plist */,
 				339456CA0F58ED9800E85044 /* MainMenu.xib */,
 				339456BF0F58ED7B00E85044 /* AppDelegate.h */,
 				339456C20F58ED8600E85044 /* main.m */,
 				339456C00F58ED7B00E85044 /* AppDelegate.m */,
 			);
-			name = QuickLookHelper;
+			name = SpiresQuickLookHelper;
 			sourceTree = "<group>";
 		};
 		3395454D0F352F5A00D01E97 /* Controllers */ = {
@@ -755,9 +755,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		339456B60F58ED3D00E85044 /* QuickLookHelper */ = {
+		339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "QuickLookHelper" */;
+			buildConfigurationList = 339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "SpiresQuickLookHelper" */;
 			buildPhases = (
 				339456B30F58ED3D00E85044 /* Resources */,
 				339456B40F58ED3D00E85044 /* Sources */,
@@ -767,9 +767,9 @@
 			);
 			dependencies = (
 			);
-			name = QuickLookHelper;
+			name = SpiresQuickLookHelper;
 			productName = QuickLookHelper;
-			productReference = 339456B70F58ED3D00E85044 /* QuickLookHelper.app */;
+			productReference = 339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */;
 			productType = "com.apple.product-type.application";
 		};
 		33D8AA600EAA679C00619A6F /* spiresHook */ = {
@@ -841,7 +841,7 @@
 				8D1107260486CEB800E47090 /* spires */,
 				33D8AA600EAA679C00619A6F /* spiresHook */,
 				33E755150F58E38000A21A86 /* pdfScanHelper */,
-				339456B60F58ED3D00E85044 /* QuickLookHelper */,
+				339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -867,7 +867,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				339456EF0F58EEF700E85044 /* QuickLookHelper.app in Resources */,
+				339456EF0F58EEF700E85044 /* SpiresQuickLookHelper.app in Resources */,
 				33E755CA0F58E79D00A21A86 /* pdfScanHelper in Resources */,
 				33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
@@ -1006,7 +1006,7 @@
 /* Begin PBXTargetDependency section */
 		339456EE0F58EEEE00E85044 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 339456B60F58ED3D00E85044 /* QuickLookHelper */;
+			target = 339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */;
 			targetProxy = 339456ED0F58EEEE00E85044 /* PBXContainerItemProxy */;
 		};
 		33E755C90F58E78500A21A86 /* PBXTargetDependency */ = {
@@ -1139,7 +1139,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "QuickLookHelper-Info.plist";
+				INFOPLIST_FILE = "SpiresQuickLookHelper-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1163,7 +1163,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "QuickLookHelper-Info.plist";
+				INFOPLIST_FILE = "SpiresQuickLookHelper-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1172,7 +1172,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = QuickLookHelper;
+				PRODUCT_NAME = SpiresQuickLookHelper;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1297,7 +1297,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "QuickLookHelper" */ = {
+		339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "SpiresQuickLookHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				339456BA0F58ED3E00E85044 /* Debug */,

@@ -964,7 +964,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     return reply;
 }
 
-
+-(void)applicationWillTerminate:(NSNotification*)note
+{
+    system("killall SpiresQuickLookHelper");
+}
 #pragma mark exception
 /*
 - (void)printStackTrace:(NSException *)e

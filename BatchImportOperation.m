@@ -165,7 +165,7 @@ l{
     [o setAuthors:nil];
     NSMutableSet* set=[NSMutableSet set];
     int u=[a count];
-    if(u>10)u=10;
+//    if(u>10)u=10; // why on earth I put this line in the first place??
     for(int i=0;i<u;i++){
 	NSXMLElement* e=[a objectAtIndex:i];
 	[set addObject:[Author authorWithName:[e stringValue] inMOC:moc]];

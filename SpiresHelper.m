@@ -165,8 +165,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 -(NSPredicate*)titlePredicate:(NSString*)operand
 {
     NSString*key=@"normalizedTitle";
-    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
-    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+//    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
+//    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+    operand=[operand stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
     if([operand isEqualToString:@""])
 	return nil; //[NSPredicate predicateWithValue:YES];
     //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
@@ -177,8 +178,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 -(NSPredicate*)eprintPredicate:(NSString*)operand
 {
     NSString*key=@"eprint";	
-    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
-    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+//    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
+//    operand=[[operand componentsSeparatedByString:@" "] lastObject];
     if([operand isEqualToString:@""])
 	return nil; //[NSPredicate predicateWithValue:YES];
     //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
@@ -315,10 +316,13 @@ SpiresHelper*_sharedSpiresHelper=nil;
     //    NSLog(@"%@",pred);
     return pred;
 }*/
+#pragma makr Bib Entries Query
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESBIBTEXHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
+
 
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
@@ -335,7 +339,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESLATEX2HEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
+
 
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
@@ -352,7 +358,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESHARVMACHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    //    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
@@ -455,7 +462,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSError*error;
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
-	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+//	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+	// spires' results sometimes contain 0xA0, non-breaking space...
+	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
 /*	NSArray*a=[t componentsSeparatedByString:@"</title>"];
 	NSMutableArray*b=[NSMutableArray array];
 	for(NSString*i in a){

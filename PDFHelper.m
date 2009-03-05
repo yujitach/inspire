@@ -112,7 +112,7 @@ static PDFHelper*_helper;
 	    
 	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:1]; 
 */
-	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"QuickLookHelper" ofType:@"app"]];
+	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
 	    
 	    break;
     }
