@@ -36,6 +36,7 @@
 @end
 */
 static PDFHelper*_helper;
+static NSMutableArray*shownPDFs;
 @implementation PDFHelper
 /*-(BOOL)respondsToSelector:(SEL)selector
 {
@@ -46,6 +47,7 @@ static PDFHelper*_helper;
 {
     if(!_helper){
 	_helper=[[PDFHelper alloc]init];
+	shownPDFs=[NSMutableArray array];
     }
     return _helper;
 }
@@ -112,12 +114,14 @@ static PDFHelper*_helper;
 	    
 	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:1]; 
 */
+	    if([shownPDFs containsObject:path]){
+		system("killall SpiresQuickLookHelper");
+	    }
 	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
-	    
+	    [shownPDFs addObject:path];
 	    break;
     }
 }
-
 
 #pragma mark arXiv article Version Checking
 
