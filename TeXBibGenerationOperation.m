@@ -135,10 +135,16 @@
     if([notFound count]>0){
 	[self generateLookUps:notFound];
     }
+
+    NSString*s=[result magicTeXed];
+    NSString*articleTitle=[dict objectForKey:@"articleTitle"];
+    if([articleTitle isEqualToString:@"none"]){
+	s=[s stringByReplacingOccurrencesOfRegex:@"``(.+?)''" withString:@"\\\\relax "];
+    }else if([articleTitle isEqualToString:@"italic"]){
+	s=[s stringByReplacingOccurrencesOfRegex:@"``(.+?)''" withString:@"{\\\\itshape $1}"];
+    }
     
-    
-    
-    [[result magicTeXed] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+    [s writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
     [self finish];
 }
 

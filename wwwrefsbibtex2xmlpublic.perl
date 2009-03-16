@@ -17,7 +17,7 @@ for $i(@content){
 			@tmp=split "{",$line;
 			$value=$tmp[1];
 		}else{
-			while($line!~m/"$/ && scalar(@lines)>0){
+			while($line!~m/"$/ && scalar(@lines)>0){ #"
 				$line.=", ";
 				$line.=shift @lines;
 			}

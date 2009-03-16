@@ -5,6 +5,7 @@ our %mapping;
 our %definition;
 our $list;
 our $bib;
+our $title;
 undef $/;
 my $tex=<>;
 $tex=~s/\r//smg;
@@ -35,17 +36,20 @@ sub listmapsanddefs{
 	my @lines=split "\n",$src;
 	for my $line (@lines){
 		if($line=~/^%%map/){
-			my ($from,$to)=($line=~/^%% *map[a-z]*[ \t]*(.+)[ \t=]+(.+)[ \t]*$/);
+			my ($from,$to)=($line=~/^%% *map[a-z]*[ \t]+(.+?)[ \t=]+(.+)[ \t]*$/);
 			$mapping{$from}=$to;
 		}
 		if($line=~/^%%def/){
-			my ($from,$to)=($line=~/^%% *def[a-z]*[ \t]*(.+)[ \t=]+(.+)$/);
+			my ($from,$to)=($line=~/^%% *def[a-z]*[ \t]+(.+?)[ \t=]+(.+)$/);
 			$definition{$from}=$to
 		}
 		if($line=~/^%%list/){
 			($list)=($line=~/^%% *list[ \t]+(.+)[ \t]*$/);
 		}
-		if($line=~/^%%out/){
+	    if($line=~/^%%title/){
+		($title)=($line=~/^%% *title[ \t]+(.+)[ \t]*$/);
+	    }
+	    if($line=~/^%%out/){
 			($bib)=($line=~/^%% *out[a-z]*[ \t]+(.+)[ \t]*$/);
 		}
 	}
@@ -88,6 +92,8 @@ EOF
 <string>$list</string>
 <key>outputFile</key>
 <string>$bib</string>
+<key>articleTitle</key>
+<string>$title</string>
 </dict>
 </plist>
 EOF

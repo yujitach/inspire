@@ -52,6 +52,8 @@
 			  modalDelegate:self 
 			 didEndSelector:@selector(retryAlertDidEnd:code:context:)
 			    contextInfo:nil];
+    }else{//failure
+	[self finish];
     }
 }
 -(void)retryAlertDidEnd:(NSAlert*)alert code:(int)choice context:(void*)ignore

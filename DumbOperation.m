@@ -15,6 +15,13 @@
 -(void)main
 {
 }
+-(BOOL)isEqual:(id)obj
+{
+    if(![obj isKindOfClass:[DumbOperation class]]){
+	return NO;
+    }
+    return [[self description] isEqualToString:[obj description]];
+}
 -(BOOL)wantToRunOnMainThread;
 {
     return YES;
@@ -97,6 +104,12 @@ static DumbOperationQueue*_Aqueue=nil;
 	return;
     }
 //    [self willChangeValueForKey:@"operations"];
+    for(DumbOperation*o in operations){
+	if([o isEqual:op]){
+	    NSLog(@"operation already queued, ignored: %@",op);
+	    return;
+	}
+    }
     [operations addObject:op];
     [op setQueue:self];
 //    [self didChangeValueForKey:@"operations"];

@@ -165,11 +165,13 @@ l{
     [o setAuthors:nil];
     NSMutableSet* set=[NSMutableSet set];
     int u=[a count];
-//    if(u>10)u=10; // why on earth I put this line in the first place??
+    if(u>10)u=10; // why on earth I put this line in the first place?? (March/4/2009)
+// now I understand... it just takes too much time to register many authors. (March6/2009)
     for(int i=0;i<u;i++){
 	NSXMLElement* e=[a objectAtIndex:i];
 	[set addObject:[Author authorWithName:[e stringValue] inMOC:moc]];
     }
+//    NSLog(@"%@",o.title);
     [o addAuthors:set];
     
     //  date not dealt with yet. but who cares? -- well it's done

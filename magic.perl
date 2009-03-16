@@ -105,6 +105,7 @@ sub magic{
 	s/de +la +ossa/de la Ossa/ig;
 	s/Fre,/Fr\\`e,/g; #`
 	s/-Gaume/-Gaum\\'e/;
+	    s/G\\.odel/G\\"odel/gi; #"
 	s/Grana/Gra\\~na/g;
 	s/Gunayd/G\\"unayd/ig;  #"
 	s/Guven/G\\"uven/g; #"
@@ -131,6 +132,7 @@ sub magic{
 	s/Schrodinger/Schr\\"odinger/g;  #"
 	s/Schroedinger/Schr\\"odinger/g;  #"
 	s/Spalinski/Spa\\l inski/g;
+	    s/Vazquez/V\\'azquez/g;
 	
 #correction to spires
 	s/in the Noether/is the Noether/;

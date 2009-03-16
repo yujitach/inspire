@@ -532,13 +532,19 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }*/
 //    ArticleList* al=[[articleListController selectedObjects]objectAtIndex:0];
     ArticleList* al=[sideTableViewController currentArticleList];
-    if(!al || ![al isKindOfClass:[SimpleArticleList class]]){
+    if(!al){
 	NSBeep(); 
 	return;
     }
     NSArray*a=[ac selectedObjects];
-    for(Article*x in a){
-	[al removeArticlesObject:x];
+    if([al isKindOfClass:[AllArticleList class]]){
+	for(Article*x in a){
+	    [[self managedObjectContext] deleteObject:x];
+	}
+    }else if([al isKindOfClass:[SimpleArticleList class]]){
+	for(Article*x in a){
+	    [al removeArticlesObject:x];
+	}
     }
 }
 -(IBAction)openPDF:(id)sender

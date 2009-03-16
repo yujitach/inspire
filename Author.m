@@ -48,6 +48,7 @@ NSMutableDictionary* authorDict=nil;
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"name == %@",name];
     [req setPredicate:pred];
     NSError*error=nil;
+//    NSLog(@"%@",name);
     NSArray*a=[moc executeFetchRequest:req error:&error];
     if([a count]>0){
 //	NSLog(@"name %@ found",name);
