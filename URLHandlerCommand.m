@@ -15,7 +15,7 @@
     NSString *urlString = [self directParameter];
 //    NSLog(@"handles:%@",urlString);
     spires_AppDelegate* delegate=[NSApp delegate];
-    if([urlString hasPrefix:@"spires-search://"] || [urlString hasPrefix:@"spires-lookup-eprint://"]){
+    if([urlString hasPrefix:@"spires"]){
 	[delegate handleURL:[NSURL URLWithString:urlString]];
     }
     return nil;

@@ -52,6 +52,7 @@
 	    if(i==0 || ![preps containsObject:s]){
 		s=[s capitalizedString];
 		s=[s stringByReplacingOccurrencesOfString:@"/Cft" withString:@"/CFT"];
+		s=[s stringByReplacingOccurrencesOfString:@"-Cft" withString:@"-CFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ads" withString:@"AdS"];
 		s=[s stringByReplacingOccurrencesOfString:@"Rn" withString:@"RN"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];

@@ -154,7 +154,7 @@ MOC*_sharedMOCManager=nil;
     NSString* extension=[[NSUserDefaults standardUserDefaults] stringForKey:@"CoreDataStoreType"];
     //    NSLog(@"%@",extension);
     if(!extension){
-	extension=@"";
+	extension=@".sqlite";
     }
     return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@",extension]];
 }

@@ -25,4 +25,6 @@ typedef enum _PDFViewerType{
 -(void)openPDFforArticle:(Article*)o usingViewer:(PDFViewerType)type;
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 -(NSString*)displayNameForViewer:(PDFViewerType)type;
+-(void)quickLookDidClose;
+-(void)activateQuickLookIfNecessary;
 @end

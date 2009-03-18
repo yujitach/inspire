@@ -37,6 +37,7 @@
 */
 static PDFHelper*_helper;
 static NSMutableArray*shownPDFs;
+static BOOL quickLookIsOpen=NO;
 @implementation PDFHelper
 /*-(BOOL)respondsToSelector:(SEL)selector
 {
@@ -118,8 +119,21 @@ static NSMutableArray*shownPDFs;
 		system("killall SpiresQuickLookHelper");
 	    }
 	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
+	    quickLookIsOpen=YES;
 	    [shownPDFs addObject:path];
 	    break;
+    }
+}
+
+#pragma mark QuickLook management
+-(void)quickLookDidClose;
+{
+    quickLookIsOpen=NO;
+}
+-(void)activateQuickLookIfNecessary;
+{
+    if(quickLookIsOpen){
+	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
     }
 }
 

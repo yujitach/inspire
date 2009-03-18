@@ -66,6 +66,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
     [window makeKeyAndOrderFront:self];
+    // delay is necessary because this is also called during the spires-quicklook-ended call.
+    [[PDFHelper sharedHelper] performSelector:@selector(activateQuickLookIfNecessary) withObject:nil afterDelay:0];
 //    NSLog(@"%@",wv);
 }
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)app
@@ -813,6 +815,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	[self getBibEntries:self];
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
+    }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
+	[[PDFHelper sharedHelper] quickLookDidClose];
     }else if([[url scheme] isEqualTo:@"http"]){
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){

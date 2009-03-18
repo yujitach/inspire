@@ -53,6 +53,11 @@ l{
     delegate=[NSApp delegate];
     return self;
 }
+-(BOOL)isEqual:(id)obj
+{
+    return self==obj;
+}
+
 -(NSString*)description
 {
     return [NSString stringWithFormat:@"registering to database %d elements",[elements count]];

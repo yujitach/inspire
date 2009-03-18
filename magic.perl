@@ -41,7 +41,7 @@ sub magic{
 	s/E *Theta *\/ *2 *Pi/\$e\\theta\/2\\pi\$/ig;
 	s/X +S\*\*2/ \$\\times\\ S^2\$ /ig;
 	s/X +S\*\*3/ \$\\times\\ S^3\$ /ig;
-	s/ x / \$\\times\$ /g;
+	s/ x / \$\\times\$ /ig;
 	s/ Z-min/ \$Z\$-min/g;
 	s/chiSB/\$\\chi\$SB/g;
 	s/N *= *(\d)/\${\\mathcal{N}}\\!=$1\$/g;

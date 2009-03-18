@@ -47,12 +47,13 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>spires-search</string>
+				<string>spires-quicklook-closed</string>
 				<string>spires-lookup-eprint</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.3</string>
+	<string>1.0.4</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
