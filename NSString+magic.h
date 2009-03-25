@@ -13,4 +13,5 @@
 -(NSString*)magicTeXed;
 -(NSString*)quieterVersion;
 -(NSString*)normalizedString;
+-(NSString*)quotedForShell;
 @end

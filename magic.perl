@@ -25,7 +25,7 @@ sub magic{
 	s/~.~/~/;
 	s/([,.a-zA-Z]) *([01-9]+) *\(/$1 \\textbf{$2} (/g;
 	s/,'' *([A-Z].*) *\\t/,'' \\textsl{$1}\\t/g;
-	s/^([^'{]+){\\bf/ {\\slshape $1}{\\bf/msg;
+	s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg;
 	s/math.dg/math.DG/gi;
 	s/math.ag/math.AG/gi;
 	s/%%CITATION/\n%%CITATIO/;
@@ -113,6 +113,7 @@ sub magic{
 	s/H\.[ ~]*z\./H.-Z./ig;
 	s/Horvathy/Horv\\'athy/g;
 	s/Hubsch/H\\"ubsch/g;  #"
+	s/Inonu/\\.{I}n\\"on\\"u/;
 	s/K\.[ ~]*I\./K.-I./ig;
 	s/(K)aehler/$1\\"ahler/ig; #"
 	s/(K)ahler/$1\\"ahler/gi;  #"
@@ -131,6 +132,7 @@ sub magic{
 	s/Schafer-Nameki/Sch\\"afer-Nameki/g;  #"
 	s/Schrodinger/Schr\\"odinger/g;  #"
 	s/Schroedinger/Schr\\"odinger/g;  #"
+	s/Schr\\.odinger/Schr\\"odinger/gi;  #"
 	s/Spalinski/Spa\\l inski/g;
 	    s/Vazquez/V\\'azquez/g;
 	

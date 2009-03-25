@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>articleViewFontName</key>
+	<string>Optima</string>
+	<key>articleViewFontSize</key>
+	<integer>10</integer>
 	<key>eagerMetadataQueryThreshold</key>
 	<integer>5</integer>
 	<key>batchImportCap</key>
@@ -293,6 +297,7 @@
 		<string>DLCQ</string>
 		<string>GUT</string>
 		<string>II</string>
+		<string>II.</string>
 		<string>IIA</string>
 		<string>IIB</string>
 		<string>IR</string>

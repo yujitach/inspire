@@ -11,7 +11,8 @@
 #import <SyncServices/SyncServices.h>
 @class ArticleList;
 @class ArticleView;
-@class SideTableViewController;
+//@class SideTableViewController;
+@class SideOutlineViewController;
 @class Article;
 @class HistoryController;
 @class ImporterController;
@@ -46,7 +47,7 @@
     NSMutableArray* articleLists;*/
 //    IBOutlet NSArrayController* articleListController;
  //   IBOutlet NSTableView* articleListView;
-    IBOutlet SideTableViewController* sideTableViewController;
+    IBOutlet SideOutlineViewController* sideTableViewController;
   
     
     
@@ -70,6 +71,7 @@
 -(IBAction)reloadSelectedArticleList:(id)sender;
 -(IBAction)reloadAllArticleList:(id)sender;
 -(IBAction)addArticleList:(id)sender;
+-(IBAction)addArticleFolder:(id)sender;
 -(IBAction)addArxivArticleList:(id)sender;
 -(IBAction)importSpiresXML:(id)sender;
 -(IBAction)getBibEntries:(id)sender;
@@ -83,6 +85,8 @@
 -(IBAction)showhideActivityMonitor:(id)sender;
 -(IBAction)showPreferences:(id)sender;
 -(IBAction)openHomePage:(id)sender;
+-(IBAction)zoomIn:(id)sender;
+-(IBAction)zoomOut:(id)sender;
 -(void)showInfoOnAssociation;
 -(BOOL)currentListIsArxivReplaced;
 -(void)handleURL:(NSURL*) url;

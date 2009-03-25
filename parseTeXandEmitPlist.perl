@@ -6,6 +6,7 @@ our %definition;
 our $list;
 our $bib;
 our $title;
+our $refresh="NO";
 undef $/;
 my $tex=<>;
 $tex=~s/\r//smg;
@@ -52,6 +53,10 @@ sub listmapsanddefs{
 	    if($line=~/^%%out/){
 			($bib)=($line=~/^%% *out[a-z]*[ \t]+(.+)[ \t]*$/);
 		}
+	    if($line=~/^%%refresh/){
+		($refresh)=($line=~/^%% *refresh*[ \t]+(.+)[ \t]*$/);	
+		$refresh=~tr/a-z/A-Z/;
+	    }
 	}
 }
 sub emitplist{
@@ -94,6 +99,8 @@ EOF
 <string>$bib</string>
 <key>articleTitle</key>
 <string>$title</string>
+<key>forceRefresh</key>
+<string>$refresh</string>
 </dict>
 </plist>
 EOF

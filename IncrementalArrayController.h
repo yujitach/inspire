@@ -13,7 +13,7 @@
     NSString*markedString;
     NSArray*previousArray;
     IBOutlet NSTextField*tf;
-    IBOutlet NSArrayController*articleListController;
+//    IBOutlet NSArrayController*articleListController;
     BOOL refuseFiltering;
     NSPredicate* listPredicate;
 }

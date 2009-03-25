@@ -7,7 +7,8 @@
 //
 
 #import "HistoryController.h"
-#import "SideTableViewController.h"
+//#import "SideTableViewController.h"
+#import "SideOutlineViewController.h"
 #import "ArticleList.h"
 @interface HistoryEntry: NSObject
 {

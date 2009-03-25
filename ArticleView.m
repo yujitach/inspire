@@ -24,6 +24,10 @@
 							      forKeyPath:@"defaults.bibType"
 								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 								 context:nil];
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+							      forKeyPath:@"defaults.articleViewFontSize"
+								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
+								 context:nil];
 }
 -(BOOL)acceptsFirstResponder
 {
@@ -259,6 +263,15 @@
     }
     return @"<del>refers to</del>";
 }
+-(NSString*)articleViewFontSize
+{
+    float fontSize=[[[NSUserDefaults standardUserDefaults] valueForKey:@"articleViewFontSize"] floatValue];
+    return [NSString stringWithFormat:@"%fpt",(double)fontSize];
+}
+-(NSString*)articleViewFontName
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"articleViewFontName"];
+}
 #pragma mark KVO
 -(void)refresh
 {
@@ -270,7 +283,7 @@
 	return;	
     }
     NSMutableString* s=[NSMutableString stringWithString:templateForWebView];
-    for(NSString* key in [NSArray arrayWithObjects:@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",nil]){
+    for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",nil]){
 	NSString* keyInHTML=[@"$" stringByAppendingString:key];
 	NSString* x=[self valueForKey:key];
 	if(!x)x=@"";

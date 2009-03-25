@@ -33,6 +33,18 @@ NSString *ArticleDropPboardType=@"articleDropType";
     if(aTableView!=tv){
 	return NO;
     }
+    if([rowIndexes count]>100){
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Too many entries selected"
+				      defaultButton:@"OK"
+				    alternateButton:nil
+					otherButton:nil informativeTextWithFormat:@"You selected %d entries. You cannot drag more than 100 entries.",(int)[rowIndexes count]];
+	//[alert setAlertStyle:NSCriticalAlertStyle];
+	[alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+			  modalDelegate:nil 
+			 didEndSelector:nil
+			    contextInfo:nil];
+	return NO;
+    }
     NSArray* a=[[ac arrangedObjects] objectsAtIndexes:rowIndexes];
     NSMutableArray* b=[NSMutableArray array];
     for(Article*i in a){

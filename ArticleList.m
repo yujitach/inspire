@@ -17,6 +17,8 @@
 @dynamic sortDescriptors;
 @dynamic searchString;
 @dynamic positionInView;
+@dynamic parent;
+@dynamic children;
 /*-(id)init
 {
     [super init];

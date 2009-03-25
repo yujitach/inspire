@@ -15,6 +15,8 @@
 }
 
 @property (retain) NSString* name;
+@property (retain) ArticleList* parent;
+@property (retain) NSSet* children;
 @property (retain) NSSet* articles;
 @property (retain) NSString* searchString;
 @property (retain) NSArray* sortDescriptors; // Transformable attribute.

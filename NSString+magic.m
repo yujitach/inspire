@@ -7,7 +7,7 @@
 //
 
 #import "NSString+magic.h"
-
+#import "RegexKitLite.h"
 
 @implementation NSString (NSString_magic)
 -(NSString*)magicTeXed
@@ -30,7 +30,7 @@
     NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
     NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
     NSString*script=[[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' <%@ >%@" , script,inPath,outPath];
+    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl %@ <%@ >%@" , [script quotedForShell],inPath,outPath];
     NSError*error=nil;
     [quieter writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
     system([command UTF8String]);
@@ -51,8 +51,7 @@
 	    s=[s lowercaseString];
 	    if(i==0 || ![preps containsObject:s]){
 		s=[s capitalizedString];
-		s=[s stringByReplacingOccurrencesOfString:@"/Cft" withString:@"/CFT"];
-		s=[s stringByReplacingOccurrencesOfString:@"-Cft" withString:@"-CFT"];
+		s=[s stringByReplacingOccurrencesOfString:@"Cft" withString:@"CFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ads" withString:@"AdS"];
 		s=[s stringByReplacingOccurrencesOfString:@"Rn" withString:@"RN"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];
@@ -74,5 +73,12 @@
     
     return result;
     
+}
+-(NSString*)quotedForShell
+{
+    NSString*s=[self stringByReplacingOccurrencesOfRegex:@"([\\\\\"`\\$])" withString:@"\\\\$1"]; 
+    s=[NSString stringWithFormat:@"\"%@\"",s];
+//    NSLog(@"%@-->%@",self,s);
+    return s;
 }
 @end

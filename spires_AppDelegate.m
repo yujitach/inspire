@@ -19,11 +19,13 @@
 
 #import "AllArticleList.h"
 #import "ArxivNewArticleList.h"
-#import "SimpleArticleLIst.h"
+#import "SimpleArticleList.h"
+#import "ArticleFolder.h"
 
 #import "ArticleView.h"
 
-#import "SideTableViewController.h"
+//#import "SideTableViewController.h"
+#import "SideOutlineViewController.h"
 
 #import "HistoryController.h"
 
@@ -237,6 +239,9 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [self performSelector:@selector(showToolBar:) withObject:self afterDelay:.1];
  
     
+    if(!prefController){
+	prefController=[[PrefController alloc]init];
+    }
     
   
  //   [historyController performSelector:@selector(mark:) withObject:self afterDelay:1];
@@ -403,15 +408,31 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }*/
 
 #pragma mark Actions
+-(IBAction)changeFont:(id)sender;
+{
+    [prefController changeFont:sender];
+}
+-(void)setFontSize:(float)size
+{
+    if(size<8 || size>20) return;
+    [[NSUserDefaults standardUserDefaults] setFloat:(float)size forKey:@"articleViewFontSize"];
+}
+-(IBAction)zoomIn:(id)sender;
+{
+    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
+    [self setFontSize:fontSize+1];
+}
+-(IBAction)zoomOut:(id)sender;
+{
+    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
+    [self setFontSize:fontSize-1];
+}
 -(IBAction)showhideActivityMonitor:(id)sender;
 {
     [activityMonitorController showhide:sender];
 }
 -(IBAction)showPreferences:(id)sender;
 {
-    if(!prefController){
-	prefController=[[PrefController alloc]init];
-    }
     [prefController showWindow:sender];
 }
 -(IBAction)showUsage:(id)sender;
@@ -476,15 +497,21 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [sideTableViewController rearrangePositionInViewForArticleLists];
     //    [articleListController insertObject:al atArrangedObjectIndex:[articleLists count]];
 }
-
+-(void)addArticleFolder:(id)sender
+{
+    ArticleFolder* al=[ArticleFolder articleFolderWithName:@"untitled" inMOC:[self managedObjectContext]];
+    [sideTableViewController addArticleList:al];
+    [sideTableViewController rearrangePositionInViewForArticleLists];
+}
 
 -(void)deleteArticleList:(id)sender
 {
-    ArticleList* al=[sideTableViewController currentArticleList];
+ /*   ArticleList* al=[sideTableViewController currentArticleList];
     if(!al){
 	return;
     }
-    [sideTableViewController removeArticleList:al];
+    [sideTableViewController removeArticleList:al];*/
+    [sideTableViewController removeCurrentArticleList];
     /*    if([[articleListController selectedObjects] count]==0)
      return;
      ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];*/

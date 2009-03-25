@@ -316,7 +316,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     //    NSLog(@"%@",pred);
     return pred;
 }*/
-#pragma makr Bib Entries Query
+#pragma mark Bib Entries Query
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESBIBTEXHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
@@ -442,8 +442,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
     // prays the path to the app doesn't contain any ' ...
     NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
     NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
-    NSString*script=[[[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl \'%@\' <%@ >%@" , script, inPath,outPath];
+    NSString*script=[[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"];
+    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl %@ <%@ >%@" , [script quotedForShell], inPath,outPath];
     NSError*error=nil;
     [s writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
     system([command UTF8String]);

@@ -49,7 +49,7 @@
     NSMenu* menuForApps=[[NSMenu alloc] init];
 
     {
-	NSArray* a=(id)LSCopyAllRoleHandlersForContentType(kUTTypePDF,kLSRolesAll);
+	NSArray* a=NSMakeCollectable(LSCopyAllRoleHandlersForContentType(kUTTypePDF,kLSRolesAll));
 	
 	for(NSString* bundleId in a){
 	    NSMenuItem* mi=[self menuItemForApp:bundleId];
@@ -60,7 +60,7 @@
     }
     
     {
-	NSArray* a=(id)LSCopyAllHandlersForURLScheme((CFStringRef)@"http");
+	NSArray* a=NSMakeCollectable(LSCopyAllHandlersForURLScheme((CFStringRef)@"http"));
 	
 	for(NSString* bundleId in a){
 	    NSMenuItem* mi=[self menuItemForApp:bundleId];

@@ -12,6 +12,7 @@
 #import "ArxivPDFDownloadOperation.h"
 #import "DeferredPDFOpenOperation.h"
 #import "RegexKitLite.h"
+#import "NSString+magic.h"
 // #import <Quartz/Quartz.h>
 
 
@@ -44,8 +45,8 @@
     // This is off-loaded to an external helper because PDFKit sometimes crashes,
     // in particular in 64 bit mode.
     NSString*tmpFile=[NSString stringWithFormat:@"/tmp/spiresPDFScannerTemporary-%d",getuid()];
-    NSString*script=[[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    NSString* command=[NSString stringWithFormat:@"\'%@\' \'%@\' %@" ,script, pdfPath,tmpFile];
+    NSString*script=[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""];
+    NSString* command=[NSString stringWithFormat:@"%@ %@ %@" ,[script quotedForShell], [pdfPath quotedForShell], tmpFile];
     system([command UTF8String]);
     NSString*s=[NSString stringWithContentsOfFile:tmpFile encoding:NSUTF8StringEncoding error:nil];
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];

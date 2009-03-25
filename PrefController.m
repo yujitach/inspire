@@ -98,4 +98,42 @@
     int i=[journalPDFRadio selectedRow];
     [[NSUserDefaults standardUserDefaults] setBool:(i==0?YES:NO) forKey:@"tryToDownloadJournalPDF"];
 }
+-(NSFont*)currentFont
+{
+    NSString*name=[[NSUserDefaults standardUserDefaults] valueForKey:@"articleViewFontName"];
+    CGFloat size=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
+    NSFont*font= [NSFont fontWithName:name size:size];
+//    NSLog(@"font:%@",font);
+    return font;
+}
+-(void)setCurrentFont:(NSFont*)newFont
+{
+    [self willChangeValueForKey:@"currentFont"];
+    [self willChangeValueForKey:@"currentFontString"];
+    [[NSUserDefaults standardUserDefaults] setValue:[newFont fontName] forKey:@"articleViewFontName"];
+    [[NSUserDefaults standardUserDefaults] setFloat:[newFont pointSize] forKey:@"articleViewFontSize"];
+    [self didChangeValueForKey:@"currentFontString"];
+    [self didChangeValueForKey:@"currentFont"];    
+}
+-(NSString*)currentFontString
+{
+    NSString*displayName=[[self currentFont] displayName];
+    CGFloat size=[[self currentFont] pointSize];
+    return [NSString stringWithFormat:@"%@ %d",displayName,(int)size];
+    return displayName;
+}
+
+-(IBAction)changeFont:(id)sender;
+{
+    NSFont *oldFont = [self currentFont];
+    NSFont *newFont = [sender convertFont:oldFont];
+    [self setCurrentFont:newFont];
+}
+-(IBAction)openFontPanel:(id)sender;
+{
+    NSFontPanel*panel=[NSFontPanel sharedFontPanel];
+//    [panel setTarget:self];
+    [panel setPanelFont:[self currentFont] isMultiple:NO];
+    [panel makeKeyAndOrderFront:self];
+}
 @end
