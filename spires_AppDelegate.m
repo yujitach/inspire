@@ -47,6 +47,7 @@
 #import "LoadAbstractDOIOperation.h"
 #import "ArxivMetadataFetchOperation.h"
 #import "ArticleListReloadOperation.h"
+#import "SPSearchFieldWithProgressIndicator.h"
 
 #import <Sparkle/SUUpdater.h>
 //#import <ExceptionHandling/NSExceptionHandler.h>
@@ -233,11 +234,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
     countDown=0;
 
+    [searchField setProgressQuitAction:@selector(progressQuit:)];
     // the following two lines are to go around a Leopard bug (?)
     // where the textfield in the toolbar sometimes doesn't receive the mouse down, which is instead thought of as initiating drag.
-    [tb setVisible:NO];
+/*    [tb setVisible:NO];
     [self performSelector:@selector(showToolBar:) withObject:self afterDelay:.1];
- 
+ // seems to be unnecessary once mouseDownCanMoveWindow is overriden Mar/31/2009
+ */
     
     if(!prefController){
 	prefController=[[PrefController alloc]init];
@@ -250,10 +253,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
   //  [self disableUndo];  
 }
 
--(void)showToolBar:(id)sender
+/*-(void)showToolBar:(id)sender
 {
     [tb setVisible:YES];
-}
+}*/
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
 //    NSLog(@"didLaunch");
@@ -408,6 +411,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }*/
 
 #pragma mark Actions
+-(IBAction)progressQuit:(id)sender
+{
+    [[DumbOperationQueue spiresQueue] cancelCurrentOperation];
+}
 -(IBAction)changeFont:(id)sender;
 {
     [prefController changeFont:sender];
@@ -843,7 +850,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
     }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
-	[[PDFHelper sharedHelper] quickLookDidClose];
+	[[PDFHelper sharedHelper] quickLookDidClose:self];
     }else if([[url scheme] isEqualTo:@"http"]){
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){

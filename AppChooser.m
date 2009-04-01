@@ -21,7 +21,8 @@
 	return nil;
     NSMenuItem* mi=[[NSMenuItem alloc] init];
     NSImage* icon=[ws iconForFile:path];
-    float f=[NSFont systemFontSize];
+//    float f=[NSFont systemFontSize];
+    float f=16;
     [icon setSize:NSMakeSize(f,f)  ];
     NSString*s=[fm displayNameAtPath:path];
 //    NSLog(@"displayName:%@",s);

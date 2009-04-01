@@ -54,6 +54,7 @@
 		s=[s stringByReplacingOccurrencesOfString:@"Cft" withString:@"CFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ads" withString:@"AdS"];
 		s=[s stringByReplacingOccurrencesOfString:@"Rn" withString:@"RN"];
+		s=[s stringByReplacingOccurrencesOfString:@"Pp" withString:@"PP"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];
 		s=[s stringByReplacingOccurrencesOfString:@"-Rg" withString:@"-RG"];
 	    }

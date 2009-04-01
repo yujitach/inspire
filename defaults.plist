@@ -262,6 +262,10 @@
 		<string>&apos;</string>
 		<key>circ</key>
 		<string>o</string>
+		<key>wedge</key>
+		<string>∧</string>
+		<key>vee</key>
+		<string>∨</string>
 	</dict>
 	<key>htmlTeXMacrosWithOneArgument</key>
 	<dict>

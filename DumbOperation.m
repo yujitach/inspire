@@ -11,6 +11,7 @@
 
 @implementation DumbOperation
 @synthesize finished;
+@synthesize canceled;
 @synthesize queue;
 -(void)main
 {
@@ -29,6 +30,10 @@
 -(void)finish
 {
     self.finished=YES;
+}
+-(void)cancel
+{
+    self.canceled=YES;
 }
 @end
 
@@ -97,6 +102,21 @@ static DumbOperationQueue*_Aqueue=nil;
     running=NO;
     [self runIfAny];
 }
+-(void)cancelCurrentOperation
+{
+    if(!running || [operations count]==0){
+	return;
+    }
+    DumbOperation*op=[operations objectAtIndex:0];
+    [op cancel];
+    NSLog(@"canceled:%@",op);
+    [op removeObserver:self
+	    forKeyPath:@"finished"];
+    [operations removeObject:op];
+    running=NO;
+    [self runIfAny];    
+}
+
 -(void)addOperation:(DumbOperation*)op;
 {
     if(![[NSThread currentThread] isMainThread]){
@@ -116,6 +136,7 @@ static DumbOperationQueue*_Aqueue=nil;
 //    NSLog(@"queued operation %@",op);
     [self runIfAny];
 }
+
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(DumbOperation*)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"finished"] && object.finished){

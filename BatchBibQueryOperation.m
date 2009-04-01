@@ -43,7 +43,7 @@
 }
 -(void)main
 {
-    [ProgressIndicatorController performSelectorOnMainThread:@selector(startAnimation:) withObject:self waitUntilDone:NO];
+//    [ProgressIndicatorController performSelectorOnMainThread:@selector(startAnimation:) withObject:self waitUntilDone:NO];
     for(Article* article in articles){
 /*	if(article.texKey && ![article.texKey isEqualToString:@""]){
 	    continue;
@@ -67,7 +67,7 @@
 	NSArray* arr=[NSArray arrayWithObjects:article,key,bib,latex,harvmac,harvmacKey,nil];
 	[self performSelectorOnMainThread:@selector(getBibEntriesInternal:) withObject:arr waitUntilDone:YES];
     }
-    [ProgressIndicatorController performSelectorOnMainThread:@selector(stopAnimation:) withObject:self waitUntilDone:NO];
+//    [ProgressIndicatorController performSelectorOnMainThread:@selector(stopAnimation:) withObject:self waitUntilDone:NO];
     [self finish];
 }
 @end

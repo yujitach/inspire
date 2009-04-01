@@ -152,11 +152,15 @@ MOC*_sharedMOCManager=nil;
 -(NSString*)dataFilePath
 {
     NSString* extension=[[NSUserDefaults standardUserDefaults] stringForKey:@"CoreDataStoreType"];
+    NSString* debug=@"";
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"]){
+	debug=@"_debug";
+    }
     //    NSLog(@"%@",extension);
     if(!extension){
 	extension=@".sqlite";
     }
-    return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@",extension]];
+    return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@%@",debug,extension]];
 }
 
 /**
@@ -172,6 +176,9 @@ MOC*_sharedMOCManager=nil;
            but once one starts mingling with the ArticleLists in the secondary moc various messy things happen.
            Currently registration into lists are done on the main thread, on the main moc only. Mar/2/2009
  */
+/*
+ Changed main moc merge policy to ObjectTrump. Mar/30/2009
+ */
 - (NSManagedObjectContext *) managedObjectContext {
     
     if (managedObjectContext != nil) {
@@ -182,6 +189,7 @@ MOC*_sharedMOCManager=nil;
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
+	[managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
 //	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 	[managedObjectContext setMergePolicy:NSErrorMergePolicy];
     }
@@ -202,7 +210,7 @@ MOC*_sharedMOCManager=nil;
         [secondaryManagedObjectContext setPersistentStoreCoordinator: coordinator];
 	[secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
 //	[secondaryManagedObjectContext setMergePolicy:NSErrorMergePolicy];
-//	[secondaryManagedObjectContext setUndoManager:nil];
+	[secondaryManagedObjectContext setUndoManager:nil];
     }
     
     return secondaryManagedObjectContext;

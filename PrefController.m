@@ -65,6 +65,11 @@
     }
     [self setValue:array forKey:@"libraries"];
     [journalPDFRadio selectCellAtRow:([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]?0:1) column:0];
+    
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+							      forKeyPath:@"values.articleViewFontSize" 
+								 options:NSKeyValueObservingOptionNew context:nil];
+    
 }
 -(IBAction)setFolderForPDF:(id)sender
 {
@@ -83,6 +88,7 @@
     }
     
 }
+
 -(IBAction)mirrorSelected:(id)sender;
 {
     NSString*mirrorToUse=[mirrorToUsePopUp titleOfSelectedItem];
@@ -135,5 +141,10 @@
 //    [panel setTarget:self];
     [panel setPanelFont:[self currentFont] isMultiple:NO];
     [panel makeKeyAndOrderFront:self];
+}
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    [self willChangeValueForKey:@"currentFontString"];
+    [self didChangeValueForKey:@"currentFontString"];
 }
 @end

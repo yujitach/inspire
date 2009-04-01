@@ -21,6 +21,7 @@
 @class ActivityMonitorController;
 @class IncrementalArrayController;
 @class PrefController;
+@class SPSearchFieldWithProgressIndicator;
 @interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
@@ -48,7 +49,7 @@
 //    IBOutlet NSArrayController* articleListController;
  //   IBOutlet NSTableView* articleListView;
     IBOutlet SideOutlineViewController* sideTableViewController;
-  
+    IBOutlet SPSearchFieldWithProgressIndicator*searchField;
     
     
 /*    NSPersistentStoreCoordinator *persistentStoreCoordinator;

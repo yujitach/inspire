@@ -29,7 +29,7 @@ sub magic{
 	s/math.dg/math.DG/gi;
 	s/math.ag/math.AG/gi;
 	s/%%CITATION/\n%%CITATIO/;
-
+	    s/&/\\&/g;
 # make lowercase
 	    #	s/``(.+?)''/lowercased($1)/smeg;
 #tweaking prepositions

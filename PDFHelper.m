@@ -52,6 +52,15 @@ static BOOL quickLookIsOpen=NO;
     }
     return _helper;
 }
+-init
+{
+    self=[super init];
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+							selector:@selector(quickLookHelperDidClose:) 
+							    name:@"QuickLookHelperDidClose" 
+							  object:nil];
+    return self;
+}
 +(void)initialize
 {
 //    if([[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/QuickLookUI.framework"] load]){
@@ -126,7 +135,7 @@ static BOOL quickLookIsOpen=NO;
 }
 
 #pragma mark QuickLook management
--(void)quickLookDidClose;
+-(void)quickLookDidClose:(id)sender;
 {
     quickLookIsOpen=NO;
 }

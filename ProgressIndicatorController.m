@@ -7,7 +7,7 @@
 //
 
 #import "ProgressIndicatorController.h"
-
+#import "SPSearchFieldWithProgressIndicator.h"
 ProgressIndicatorController*_sharedInstance=nil;
 @implementation ProgressIndicatorController
 -(ProgressIndicatorController*)init

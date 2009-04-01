@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+@class SPSearchFieldWithProgressIndicator;
 @interface ProgressIndicatorController : NSObject {
-    IBOutlet NSProgressIndicator* pi;
+    IBOutlet SPSearchFieldWithProgressIndicator* pi;
 }
 -(IBAction)startAnimation:(id)sender;
 -(IBAction)stopAnimation:(id)sender;
