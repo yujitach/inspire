@@ -187,12 +187,12 @@ static BOOL quickLookIsOpen=NO;
        ||[[defaults arrayForKey:@"SpringerJournals"] containsObject:journalName]
        ||[[defaults arrayForKey:@"AIPJournals"] containsObject:journalName]
 	){
-	[[DumbOperationQueue sharedQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
+	[[DumbOperationQueue spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
 	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){
 	    type=openWithSecondaryViewer;
 	}
-	[[DumbOperationQueue sharedQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
+	[[DumbOperationQueue spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
 	return YES;
     }
     return NO;

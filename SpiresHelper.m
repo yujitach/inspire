@@ -86,14 +86,21 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }
     return [NSPredicate predicateWithValue:NO];
 }
+-(NSString*)normalizedFirstAndMiddleNames:(NSArray*)d
+{
+    NSMutableString*result=[NSMutableString string];
+    for(NSString*i in d){
+	if(!i || [i isEqualToString:@""]) continue;
+	[result appendString:[i substringToIndex:1]];
+	[result appendString:@". "];
+    }
+    return result;
+}
 -(NSPredicate*)authorPredicate:(NSString*)operand
 {
     NSString*key=@"longishAuthorListForA";
     
-    NSMutableString*result=[NSMutableString string];
     NSArray* c=[operand componentsSeparatedByString:@", "];
-    NSString*last=nil;
-    NSArray*d=nil;
     if([c count]==1){
 	while([operand hasSuffix:@" "]){
 	    operand=[operand substringToIndex:[operand length]-1];
@@ -101,25 +108,30 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSArray*x=[operand componentsSeparatedByString:@" "];
 	if([x count]==1){
 	    //		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
+	    NSString*last=[operand normalizedString];
+	    NSString*query=[NSString stringWithFormat:@"; %@",last];
+	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,query];
 	}
-	last=[x lastObject];
+	NSString* last=[x lastObject];
 	NSMutableArray*y=[NSMutableArray array];
 	for(int i=0;i<[x count]-1;i++){
 	    [y addObject:[x objectAtIndex:i]];
 	}
-	d=y;
+	NSString* first=[self normalizedFirstAndMiddleNames:y];
+	NSString* query=[[NSString stringWithFormat:@"*; %@*, %@*", last, first] normalizedString];
+	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K like %@",key,query];	
+//	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[first normalizedString]];	
+	return pred;
     }else{
-	last=[c objectAtIndex:0];
-	d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	NSString* last=[c objectAtIndex:0];
+	NSArray* firsts=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	NSString* first=[self normalizedFirstAndMiddleNames:firsts];
+	NSString* query=[[NSString stringWithFormat:@"; %@, %@", last, first] normalizedString];
+	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K contains %@",key,query];	
+	NSLog(@"%@",pred);
+	return pred;
     }
-    for(NSString*i in d){
-	if(!i || [i isEqualToString:@""]) continue;
-	[result appendString:[i substringToIndex:1]];
-	[result appendString:@". "];
-    }
-    NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[result normalizedString]];	
-    return pred;
+    return nil;
 }
 -(NSPredicate*)datePredicate:(NSString*)operand
 {

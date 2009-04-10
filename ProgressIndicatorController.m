@@ -10,6 +10,10 @@
 #import "SPSearchFieldWithProgressIndicator.h"
 ProgressIndicatorController*_sharedInstance=nil;
 @implementation ProgressIndicatorController
++(ProgressIndicatorController*)sharedController;
+{
+    return _sharedInstance;
+}
 -(ProgressIndicatorController*)init
 {
     [super init];

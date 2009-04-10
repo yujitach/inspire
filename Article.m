@@ -172,11 +172,11 @@
 {
     NSMutableArray*a=[NSMutableArray array];
     for(Author*i in self.authors){
-	[a addObject:i.name];
+	[a addObject:[@"; " stringByAppendingString:i.name]];
     }
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
-    return [[a componentsJoinedByString:@"; "] normalizedString];
+    return [[a componentsJoinedByString:@""] normalizedString];
 }
 -(NSString*)calculateLongishAuthorListForA
 {
@@ -187,10 +187,10 @@
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     NSMutableString*result=[NSMutableString string];
     for(NSString*s in a){
+	[result appendString:@"; "];
 	NSArray* c=[s componentsSeparatedByString:@", "];
 	if([c count]==1){
 	    [result appendString:s];
-	    [result appendString:@"; "];
 	    continue;
 	}
 	NSString* last=[c objectAtIndex:0];
@@ -202,7 +202,6 @@
 		[result appendString:[i substringToIndex:1]];
 		[result appendString:@". "];
 	    }
-	[result appendString:@"; "];
     }
     return [result normalizedString];
     

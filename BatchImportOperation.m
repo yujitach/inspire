@@ -15,6 +15,7 @@
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "spires_AppDelegate.h"
 #import "MOC.h"
+#import "ProgressIndicatorController.h"
 
 @interface BatchImportOperation (internal)
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a;
@@ -70,6 +71,9 @@ l{
 {
 //	NSMutableArray*a=[NSMutableArray array];
     [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
+    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
+								     withObject:self 
+								  waitUntilDone:NO];
 /*	for(NSXMLElement* element in elements){
 	    [a addObject:element];
 	    if([a count]>10){
@@ -84,6 +88,9 @@ l{
     [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	
     [delegate performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
+    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
+								     withObject:self 
+								  waitUntilDone:NO];
     [self finish];
 }
 

@@ -108,6 +108,55 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	}
     }
 }
+
+#pragma mark Coping with database format change
+-(void)updateFormatForA:(NSArray*)articles
+{
+    [[MOC moc] disableUndo];
+    for(Article* a in articles){
+	a.longishAuthorListForA=[@"; " stringByAppendingString:a.longishAuthorListForA];
+	a.longishAuthorListForEA=[@"; " stringByAppendingString:a.longishAuthorListForEA];
+    }
+    [[MOC moc] enableUndo];
+    NSError* error=nil;
+    [[MOC moc] save:&error];
+    if(error){
+	NSLog(@"moc error: %@",error);
+    }
+    [searchField setEnabled:YES];
+}
+-(void)updateFormatForAIfNeeded:(id)ignored
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"FormatOfLongishiAuthorListForAFixed"]){
+	return;
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FormatOfLongishiAuthorListForAFixed"];
+    
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:articleEntity];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"not (%K beginswith %@)",@"longishAuthorListForA",@"; "];
+    NSLog(@"%@",pred);
+    [req setPredicate:pred];
+    NSError*error=nil;
+    NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
+    for(Article*ar in a){
+	NSLog(@"%@ %@",ar.title,ar.longishAuthorListForA);
+    }
+    if([a count]>0){
+	NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update the format of the database."
+				      defaultButton:@"OK" 
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:@"spires.app will tweak the format of its database to make the searching efficient.\n"
+		       @"This may take some time."];
+	[alert beginSheetModalForWindow:window
+			  modalDelegate:nil
+			 didEndSelector:NULL
+			    contextInfo:nil];    
+	[self updateFormatForA:a];
+    }
+}
 #pragma mark Crash Detection
 
 -(NSString*)recentlyCrashed
@@ -266,6 +315,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
 */    
     [self crashCheck:self];
+    [self updateFormatForAIfNeeded:self];
 }
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

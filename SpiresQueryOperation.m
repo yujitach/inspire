@@ -62,6 +62,10 @@
     NSXMLElement* root=[doc rootElement];
     NSArray*elements=[root elementsForName:@"document"];
     NSLog(@"spires returned %d entries",[elements count]);
+    if(self.canceled){
+	[self finish];
+	return;
+    }
     [self.queue addOperation:[[BatchImportOperation alloc] initWithElements:elements
 									//		   andMOC:moc
 											  citedBy:citedByTarget

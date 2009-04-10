@@ -29,7 +29,8 @@
 }
 -(void)startAnimation:(id)sender;
 {
-    spinTimer=[NSTimer scheduledTimerWithTimeInterval:.05 target:self selector:@selector(refresh:) userInfo:nil repeats:YES];
+    spinTimer=[NSTimer scheduledTimerWithTimeInterval:.04 target:self selector:@selector(refresh:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:spinTimer forMode:NSEventTrackingRunLoopMode];
     isSpinning=YES;
 }
 -(void)stopAnimation:(id)sender;
@@ -56,8 +57,8 @@
 	outerRadius = cellSize*0.48;
 	innerRadius = cellSize*0.27;
     }
-    outerRadius *= .8;
-    innerRadius *= .8;
+    outerRadius *= .75;
+    innerRadius *= .75;
     float a; // angle
     NSPoint inner;
     NSPoint outer;
