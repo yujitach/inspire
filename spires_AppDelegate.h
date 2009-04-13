@@ -74,6 +74,7 @@
 -(IBAction)addArticleList:(id)sender;
 -(IBAction)addArticleFolder:(id)sender;
 -(IBAction)addArxivArticleList:(id)sender;
+-(IBAction)addCannedSearch:(id)sender;
 -(IBAction)importSpiresXML:(id)sender;
 -(IBAction)getBibEntries:(id)sender;
 -(IBAction)getBibEntriesWithoutDisplay:(id)sender;

@@ -40,7 +40,8 @@ typedef enum {
 @property (retain) NSSet* citedBy;
 @property (retain) NSSet* refersTo;
 @property (retain) NSString* texKey;
-@property (retain) NSString* preferredId;
+@property (retain,readonly) NSString* uniqueId;
+@property (retain,readonly) NSString* IdForCitation;
 @property (retain) NSString*normalizedTitle;
 @property (retain) NSString*shortishAuthorList;
 @property (retain) NSString*longishAuthorListForA;

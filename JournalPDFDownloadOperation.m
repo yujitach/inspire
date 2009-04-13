@@ -48,6 +48,9 @@
 	[self performSelector:@selector(continuation:)
 		   withObject: path
 		   afterDelay:.5];
+    }else{
+	[self finish];
+	return;
     }
 }
 -(void)continuation:(NSString*)path

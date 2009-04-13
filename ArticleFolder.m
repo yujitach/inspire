@@ -35,4 +35,8 @@
 {
     return [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] resourcePath]];
 }
+-(BOOL)searchStringEnabled
+{
+    return NO;
+}
 @end

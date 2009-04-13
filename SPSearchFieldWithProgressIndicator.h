@@ -12,6 +12,7 @@
 @interface SPSearchFieldWithProgressIndicator : NSSearchField {
     SPProgressIndicatingButtonCell* bc;
     SEL progressQuitAction;
+    IBOutlet NSObjectController*controller;
 }
 -(void)startAnimation:(id)sender;
 -(void)stopAnimation:(id)sender;

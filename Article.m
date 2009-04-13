@@ -11,6 +11,7 @@
 #import "AllArticleList.h"
 #import "NDAlias.h"
 #import "NSString+magic.h"
+#import "MOC.h"
 
 //NSMutableDictionary* eprintDict=nil;
 @interface Article (Primitives)
@@ -40,7 +41,8 @@
 @dynamic extraURLs;
 @dynamic spiresKey;
 @dynamic texKey;
-@dynamic preferredId;
+@dynamic uniqueId;
+@dynamic IdForCitation;
 @dynamic normalizedTitle;
 @dynamic longishAuthorListForA;
 @dynamic shortishAuthorList;
@@ -372,7 +374,7 @@
 {
     return nil;
 }
--(NSString*)preferredId
+-(NSString*)IdForCitation
 {
     if(self.texKey && ![self.texKey isEqualToString:@""]){
 	return self.texKey;
@@ -392,4 +394,38 @@
 	return @"shouldn't happen";
     }
 }
+-(NSString*)uniqueId
+{
+    if(self.articleType==ATEprint){
+	NSString*s=self.eprint;
+	s=[s stringByReplacingOccurrencesOfString:@"/" withString:@""];
+	if([s hasPrefix:@"arXiv:"]){
+	    return [s substringFromIndex:[(NSString*)@"arXiv:" length]];
+	}else{
+	    return s;
+	}
+    }else if(self.articleType==ATSpires){
+	return self.spicite;
+    }else if(self.articleType==ATSpiresWithOnlyKey){
+	return self.spiresKey;
+    }else{
+	return @"shouldn't happen";
+    }
+}
+/*-(NSString*)abstractFilePath
+{
+    return [NSString stringWithFormat:@"%@/%@.html",[[MOC sharedMOCManager] directoryForAbstract],[self uniqueId]];
+}
+-(NSString*)abstract
+{
+    NSString*path=[self abstractFilePath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:[self abstractFilePath]]){
+	return [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    }
+    return nil;
+}
+-(void)setAbstract:(NSString*)s
+{
+    [s writeToFile:[self abstractFilePath] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+}*/
 @end

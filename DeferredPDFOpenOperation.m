@@ -19,7 +19,7 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"open PDF for %@",article.preferredId];
+    return [NSString stringWithFormat:@"open PDF for %@",article.uniqueId];
 }
 -(void)main
 {

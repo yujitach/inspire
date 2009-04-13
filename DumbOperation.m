@@ -16,13 +16,7 @@
 -(void)main
 {
 }
--(BOOL)isEqual:(id)obj
-{
-    if(![obj isKindOfClass:[DumbOperation class]]){
-	return NO;
-    }
-    return [[self description] isEqualToString:[obj description]];
-}
+
 -(BOOL)wantToRunOnMainThread;
 {
     return YES;

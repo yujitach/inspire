@@ -118,9 +118,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    [y addObject:[x objectAtIndex:i]];
 	}
 	NSString* first=[self normalizedFirstAndMiddleNames:y];
-	NSString* query=[[NSString stringWithFormat:@"*; %@*, %@*", last, first] normalizedString];
-	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K like %@",key,query];	
-//	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",key,[last normalizedString],key,[first normalizedString]];	
+//	NSString* query=[[NSString stringWithFormat:@"*; %@*, %@*", last, first] normalizedString];
+//	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K like %@",key,query];	
+	NSPredicate*pred= [NSPredicate predicateWithFormat:@"(%K contains %@) and (%K contains %@)",
+			   key,[[@"; " stringByAppendingString:last] normalizedString],
+			   key,[first normalizedString]];	
 	return pred;
     }else{
 	NSString* last=[c objectAtIndex:0];
@@ -128,7 +130,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSString* first=[self normalizedFirstAndMiddleNames:firsts];
 	NSString* query=[[NSString stringWithFormat:@"; %@, %@", last, first] normalizedString];
 	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K contains %@",key,query];	
-	NSLog(@"%@",pred);
+//	NSLog(@"%@",pred);
 	return pred;
     }
     return nil;

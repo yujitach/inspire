@@ -8,7 +8,9 @@
 
 #import "SPSearchFieldWithProgressIndicator.h"
 
-
+//@interface NSObject (privateCategoryToShutUpWarning)
+//-(NSString*)placeholderForSearchField;
+//@end
 @implementation SPSearchFieldWithProgressIndicator
 @synthesize progressQuitAction;
 
@@ -23,6 +25,10 @@
     [bc setAction:@selector(cancelButtonClicked:)];
     [[self cell] setSearchButtonCell:bc];
 //    [self startAnimation:self];
+    [controller addObserver:self 
+		 forKeyPath:@"selection"
+		    options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+		    context:nil];
 }
 -(void)cancelButtonClicked:(id)sender
 {
@@ -45,4 +51,14 @@
 {
     return NO;
 }
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object==controller && [keyPath isEqualTo:@"selection"]) {
+	NSString* s=[controller valueForKeyPath:@"selection.placeholderForSearchField"];
+	[(NSTextFieldCell*)[self cell] setPlaceholderString:s];
+    }else{
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 @end

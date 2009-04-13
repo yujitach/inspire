@@ -18,6 +18,13 @@
     articles=[a copy];
     return self;
 }
+-(BOOL)isEqual:(id)obj
+{
+    if(![obj isKindOfClass:[DumbOperation class]]){
+	return NO;
+    }
+    return [[self description] isEqualToString:[obj description]];
+}
 -(NSString*)description
 {
     if([articles count]==0){

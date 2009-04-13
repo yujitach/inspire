@@ -23,5 +23,6 @@
 - (NSManagedObjectContext *)managedObjectContext;
 - (NSManagedObjectContext *)createSecondaryMOC;
 - (NSString *)applicationSupportFolder;
+- (NSString *)directoryForIndividualEntries;
 - (NSString *)dataFilePath;
 @end

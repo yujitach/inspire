@@ -21,6 +21,7 @@
 #import "ArxivNewArticleList.h"
 #import "SimpleArticleList.h"
 #import "ArticleFolder.h"
+#import "CannedSearch.h"
 
 #import "ArticleView.h"
 
@@ -109,54 +110,48 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
 }
 
-#pragma mark Coping with database format change
+/* #pragma mark Coping with database format change
 -(void)updateFormatForA:(NSArray*)articles
 {
     [[MOC moc] disableUndo];
+    [self stopUpdatingMainView:self];
     for(Article* a in articles){
 	a.longishAuthorListForA=[@"; " stringByAppendingString:a.longishAuthorListForA];
 	a.longishAuthorListForEA=[@"; " stringByAppendingString:a.longishAuthorListForEA];
     }
+    [self startUpdatingMainView:self];
     [[MOC moc] enableUndo];
     NSError* error=nil;
     [[MOC moc] save:&error];
     if(error){
 	NSLog(@"moc error: %@",error);
     }
-    [searchField setEnabled:YES];
 }
 -(void)updateFormatForAIfNeeded:(id)ignored
 {
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"FormatOfLongishiAuthorListForAFixed"]){
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"FormatOfLongishiAuthorListForAFixedApril2009"]){
 	return;
     }
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FormatOfLongishiAuthorListForAFixed"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FormatOfLongishiAuthorListForAFixedApril2009"];
     
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"not (%K beginswith %@)",@"longishAuthorListForA",@"; "];
-    NSLog(@"%@",pred);
     [req setPredicate:pred];
     NSError*error=nil;
     NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
-    for(Article*ar in a){
-	NSLog(@"%@ %@",ar.title,ar.longishAuthorListForA);
-    }
     if([a count]>0){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update the format of the database."
 				      defaultButton:@"OK" 
 				    alternateButton:nil
 					otherButton:nil
 			  informativeTextWithFormat:@"spires.app will tweak the format of its database to make the searching efficient.\n"
-		       @"This may take some time."];
-	[alert beginSheetModalForWindow:window
-			  modalDelegate:nil
-			 didEndSelector:NULL
-			    contextInfo:nil];    
+		       @"This may take some time. Spinning beachball might appear, but please be patient do not quit the app."];
+	[alert runModal];
 	[self updateFormatForA:a];
     }
-}
+}*/
 #pragma mark Crash Detection
 
 -(NSString*)recentlyCrashed
@@ -182,6 +177,20 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [[NSUserDefaults standardUserDefaults] setObject:s forKey:@"lastCrashLog"];
     return [crashDir stringByAppendingFormat:@"/%@",s];
 }
+-(void)prepareCrashReport:(NSString*)path
+{
+    NSFileManager*fm=[NSFileManager defaultManager];
+    [fm createDirectoryAtPath:@"/tmp/SpiresCrashReport" attributes:nil];
+    [fm copyPath:path toPath:[@"/tmp/SpiresCrashReport/" stringByAppendingString:[path lastPathComponent]] handler:nil];
+    system("grep spires /var/log/system.log | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.log");
+    system("bzip2 -dc /var/log/system.log.0.bz2 | grep spires | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.0.log");
+    system("rm /tmp/SpiresCrashReport/*.tar.bz2");
+    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%d.tar.bz2 *.log *.crash",time(NULL) ];
+    system([line UTF8String]);
+    system("rm /tmp/SpiresCrashReport/*.log");
+    system("rm /tmp/SpiresCrashReport/*.crash");
+    [[NSWorkspace sharedWorkspace] openFile:@"/tmp/SpiresCrashReport/" withApplication:@"Finder"];
+}
 
 -(IBAction)crashCheck:(id)sender
 {
@@ -197,32 +206,24 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     @"Please attach the log file to the email and send it.\n"
     @"The log will contain the name of the articles which caused the crash, etc, which you can check by unzipping the file."];
 //    [alert setShowsSuppressionButton:YES];
-    [alert beginSheetModalForWindow:window
+/*    [alert beginSheetModalForWindow:window
 		      modalDelegate:self
 		     didEndSelector:@selector(crashAlertDidEnd:returnCode:contextInfo:)
-			contextInfo:path];    
+			contextInfo:path];    */
+    NSInteger returnCode=[alert runModal];
+    if(returnCode==NSAlertDefaultReturn){
+	[self prepareCrashReport:path];
+	[self sendBugReport:self];
+    }
+    
 }
--(void)prepareCrashReport:(NSString*)path
-{
-    NSFileManager*fm=[NSFileManager defaultManager];
-    [fm createDirectoryAtPath:@"/tmp/SpiresCrashReport" attributes:nil];
-    [fm copyPath:path toPath:[@"/tmp/SpiresCrashReport/" stringByAppendingString:[path lastPathComponent]] handler:nil];
-    system("grep spires /var/log/system.log | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.log");
-    system("bzip2 -dc /var/log/system.log.0.bz2 | grep spires | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.0.log");
-    system("rm /tmp/SpiresCrashReport/*.tar.bz2");
-    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%d.tar.bz2 *.log *.crash",time(NULL) ];
-    system([line UTF8String]);
-    system("rm /tmp/SpiresCrashReport/*.log");
-    system("rm /tmp/SpiresCrashReport/*.crash");
-    [[NSWorkspace sharedWorkspace] openFile:@"/tmp/SpiresCrashReport/" withApplication:@"Finder"];
-}
-- (void) crashAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSString*)path
+/*- (void) crashAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSString*)path
 {
     if(returnCode==NSAlertDefaultReturn){
 	[self prepareCrashReport:path];
 	[self sendBugReport:self];
     }
-}
+}*/
 
 #pragma mark article list management
 
@@ -315,7 +316,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
 */    
     [self crashCheck:self];
-    [self updateFormatForAIfNeeded:self];
+//    [self updateFormatForAIfNeeded:self];
 }
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -560,6 +561,17 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [sideTableViewController addArticleList:al];
     [sideTableViewController rearrangePositionInViewForArticleLists];
 }
+-(void)addCannedSearch:(id)sender
+{
+    NSString*name=[[sideTableViewController currentArticleList] searchString];
+    if(!name || [name isEqualToString:@""]){
+	name=@"untitled";
+    }
+    CannedSearch* al=[CannedSearch cannedSearchWithName:name inMOC:[self managedObjectContext]];
+    al.searchString=[[sideTableViewController currentArticleList] searchString];
+    [sideTableViewController addArticleList:al];
+    [sideTableViewController rearrangePositionInViewForArticleLists];
+}
 
 -(void)deleteArticleList:(id)sender
 {
@@ -655,6 +667,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     ArticleList* al=[a objectAtIndex:0];*/
     ArticleList* al=[sideTableViewController currentArticleList];
     if(!al){
+	return;
+    }
+    if([al isKindOfClass:[CannedSearch class]]){
+	[al reload];
 	return;
     }
     NSString*searchString=al.searchString;
@@ -964,7 +980,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType]
 			       owner:nil];
 	    Article*a=[[ac selectedObjects] objectAtIndex:0];
-	    [pasteboard setString:[a preferredId]
+	    [pasteboard setString:[a IdForCitation]
 			  forType:NSStringPboardType];
 	}
     }

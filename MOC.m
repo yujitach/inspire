@@ -29,7 +29,9 @@ MOC*_sharedMOCManager=nil;
 {
     self=[super init];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSaveNotificationReceived:) name:NSManagedObjectContextDidSaveNotification object:nil];
-    
+/*    [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryForIndividualEntries] 
+					       attributes:nil];
+*/
     return self;
 }
 /*-(void)didSaveNotificationReceived:(NSNotification*)n 
@@ -57,7 +59,6 @@ MOC*_sharedMOCManager=nil;
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     return [basePath stringByAppendingPathComponent:@"spires"];
 }
-
 
 /**
  Creates, retains, and returns the managed object model for the application 
@@ -149,6 +150,15 @@ MOC*_sharedMOCManager=nil;
     
     return persistentStoreCoordinator;
 }
+- (NSString *)directoryForIndividualEntries
+{
+    NSString* debug=@"";
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"]){
+	debug=@"_debug";
+    }
+    return [[self applicationSupportFolder] stringByAppendingPathComponent:[@"entries" stringByAppendingString:debug]];
+}
+
 -(NSString*)dataFilePath
 {
     NSString* extension=[[NSUserDefaults standardUserDefaults] stringForKey:@"CoreDataStoreType"];

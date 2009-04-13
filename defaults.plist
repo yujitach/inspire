@@ -10,6 +10,8 @@
 	<integer>5</integer>
 	<key>batchImportCap</key>
 	<string>500</string>
+	<key>shouldBackUpDatabaseInTimeMachine</key>
+	<true/>
 	<key>UpdaterWillFollowUnstableVersions</key>
 	<false/>
 	<key>universityLibraryToGetPDF</key>

@@ -14,6 +14,7 @@
 #import "SimpleArticleList.h"
 #import "ArxivNewArticleList.h"
 #import "ArticleFolder.h"
+#import "CannedSearch.h"
 #import "ImageAndTextCell.h"
 #import "MOC.h"
 
@@ -368,15 +369,19 @@
 			   action:@selector(addArticleFolder:)
 		    keyEquivalent:@""
 			  atIndex:1];
+	[menu insertItemWithTitle:@"Add Saved Search..." 
+			   action:@selector(addCannedSearch:)
+		    keyEquivalent:@""
+			  atIndex:2];
 	[menu insertItemWithTitle:@"Add arxiv/new..." 
 			   action:@selector(addArxivArticleList:)
 		    keyEquivalent:@""
-			  atIndex:2];
+			  atIndex:3];
     }else{
 	NSTreeNode*item=[ov itemAtRow:i];
 	
 	ArticleList* al=[item representedObject];
-	if([al isKindOfClass:[ArxivNewArticleList class]]){
+	if([al isKindOfClass:[ArxivNewArticleList class]]||[al isKindOfClass:[CannedSearch class]]){
 	    [menu insertItemWithTitle:@"Reload" 
 			       action:@selector(reloadSelectedArticleList:)
 			keyEquivalent:@""

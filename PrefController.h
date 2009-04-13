@@ -24,4 +24,5 @@
 -(IBAction)bibSelected:(id)sender;
 -(IBAction)pdfRadioSelected:(id)sender;
 -(IBAction)setFolderForPDF:(id)sender;
+-(IBAction)timeMachineSettingChanged:(id)sender;
 @end

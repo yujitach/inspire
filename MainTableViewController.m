@@ -54,7 +54,7 @@ NSString *ArticleDropPboardType=@"articleDropType";
     [pboard setData:[NSKeyedArchiver archivedDataWithRootObject:b] forType:ArticleDropPboardType];
     NSMutableString* s=[NSMutableString string];
     for(Article* i in a){
-	[s appendString:i.preferredId];
+	[s appendString:i.IdForCitation];
 	[s appendString:@"\n"];
     }
     [pboard setString:[s substringToIndex:[s length]-1]

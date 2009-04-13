@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		330170A30F56471B001DAC18 /* IncrementalArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 330170A20F56471B001DAC18 /* IncrementalArrayController.m */; };
 		3301FC960F715B270039E0B5 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3301FC950F715B270039E0B5 /* ImageAndTextCell.m */; };
-		330207A30F598A850067714C /* v1-v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 330207A20F598A850067714C /* v1-v2.xcmappingmodel */; };
 		330207AC0F5990210067714C /* MOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 330207AB0F5990210067714C /* MOC.m */; };
+		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
+		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		33071BC70EC1158A00957864 /* ImporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33071BC60EC1158A00957864 /* ImporterController.m */; };
 		33071BCF0EC1161900957864 /* Importer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33071BCE0EC1161900957864 /* Importer.xib */; };
 		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
@@ -101,6 +102,9 @@
 		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
 		33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */; };
 		33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B58BD90F395ED600E23146 /* SyncServices.framework */; };
+		33BEC3590F925E5100807A8E /* v2-v3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */; };
+		33BEC3880F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC3870F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m */; };
+		33BEC4510F92707B00807A8E /* v1-v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */; };
 		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
 		33C8D54D0F6F591900EBF26C /* SpiresInputMethod.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D54C0F6F591900EBF26C /* SpiresInputMethod.tiff */; };
 		33C8D5500F6F59CF00EBF26C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D54F0F6F59CF00EBF26C /* InfoPlist.strings */; };
@@ -192,9 +196,11 @@
 		330170A20F56471B001DAC18 /* IncrementalArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncrementalArrayController.m; sourceTree = "<group>"; };
 		3301FC940F715B270039E0B5 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
 		3301FC950F715B270039E0B5 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAndTextCell.m; sourceTree = "<group>"; };
-		330207A20F598A850067714C /* v1-v2.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v1-v2.xcmappingmodel"; sourceTree = "<group>"; };
 		330207AA0F5990210067714C /* MOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOC.h; sourceTree = "<group>"; };
 		330207AB0F5990210067714C /* MOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOC.m; sourceTree = "<group>"; };
+		3304B7AA0F92BA4E002156A9 /* CannedSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedSearch.h; sourceTree = "<group>"; };
+		3304B7AB0F92BA4E002156A9 /* CannedSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedSearch.m; sourceTree = "<group>"; };
+		3304B8620F92C7B1002156A9 /* canned-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "canned-search.png"; sourceTree = "<group>"; };
 		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
 		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
 		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
@@ -303,8 +309,6 @@
 		339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivMetadataFetchOperation.h; sourceTree = "<group>"; };
 		339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivMetadataFetchOperation.m; sourceTree = "<group>"; };
 		3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = parseTeXandEmitPlist.perl; sourceTree = "<group>"; };
-		339F63C70EB2F61200929D13 /* SideTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideTableViewController.h; sourceTree = "<group>"; };
-		339F63C80EB2F61200929D13 /* SideTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideTableViewController.m; sourceTree = "<group>"; };
 		33A51E330F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPSearchFieldWithProgressIndicator.h; sourceTree = "<group>"; };
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
@@ -316,6 +320,12 @@
 		33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate_SyncCategory.h; sourceTree = "<group>"; };
 		33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate_SyncCategory.m; sourceTree = "<group>"; };
 		33B58BD90F395ED600E23146 /* SyncServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SyncServices.framework; path = /System/Library/Frameworks/SyncServices.framework; sourceTree = "<absolute>"; };
+		33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v2-v3.xcmappingmodel"; sourceTree = "<group>"; };
+		33BEC3860F925F2D00807A8E /* ArticleV2V3MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleV2V3MigrationPolicy.h; sourceTree = "<group>"; };
+		33BEC3870F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleV2V3MigrationPolicy.m; sourceTree = "<group>"; };
+		33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v1-v2.xcmappingmodel"; sourceTree = "<group>"; };
+		33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = spires_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
 		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
 		33C8D52D0F6F574300EBF26C /* Spires IM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spires IM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,7 +399,6 @@
 		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
 		33FA970A0EA8E6DD003961AD /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
 		33FA970B0EA8E6DD003961AD /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
-		770B37EC0679A11B001EADE2 /* spires_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = spires_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		77C8280B06725ACE000B614F /* spires_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate.h; sourceTree = "<group>"; };
 		77C8280C06725ACE000B614F /* spires_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate.m; sourceTree = "<group>"; };
@@ -556,6 +565,7 @@
 				33B5621A0F3BB6510006E70D /* Requests.html */,
 				3365B0850EA7F53100A847CE /* spires-red.ico */,
 				3365B0860EA7F53100A847CE /* arxiv.ico */,
+				3304B8620F92C7B1002156A9 /* canned-search.png */,
 				3365B0870EA7F53100A847CE /* spires-blue.ico */,
 				332F1B0D0EA597D300758683 /* spires.icns */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
@@ -578,6 +588,25 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3304B8A10F92CEFB002156A9 /* ArticleLists */ = {
+			isa = PBXGroup;
+			children = (
+				331299090EA6AA4500A7F496 /* ArticleList.h */,
+				3312990A0EA6AA4500A7F496 /* ArticleList.m */,
+				3312990B0EA6AA4500A7F496 /* AllArticleList.h */,
+				3312990C0EA6AA4500A7F496 /* AllArticleList.m */,
+				3312990D0EA6AA4500A7F496 /* ArxivNewArticleList.h */,
+				3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */,
+				3304B7AA0F92BA4E002156A9 /* CannedSearch.h */,
+				3304B7AB0F92BA4E002156A9 /* CannedSearch.m */,
+				3312990F0EA6AA4500A7F496 /* SimpleArticleList.h */,
+				331299100EA6AA4500A7F496 /* SimpleArticleList.m */,
+				334AF2D50F70B95B006EE7A0 /* ArticleFolder.h */,
+				334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */,
+			);
+			name = ArticleLists;
 			sourceTree = "<group>";
 		};
 		330AF1DA0EA564BF0009B674 /* NDAlias */ = {
@@ -691,8 +720,6 @@
 				337B882E0F3575680005BA9C /* BibViewController.m */,
 				3315E8590EB6DAB200E56D7E /* HistoryController.h */,
 				3315E85A0EB6DAB200E56D7E /* HistoryController.m */,
-				339F63C70EB2F61200929D13 /* SideTableViewController.h */,
-				339F63C80EB2F61200929D13 /* SideTableViewController.m */,
 				334AF2260F7098B9006EE7A0 /* SideOutlineViewController.h */,
 				334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */,
 				331FD32F0F36B11800C16F73 /* MainTableViewController.h */,
@@ -837,20 +864,11 @@
 		7756732906782D8800D1FEB8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
 				338764990EAC5D8800042601 /* JournalEntry.h */,
 				3387649A0EAC5D8800042601 /* JournalEntry.m */,
-				331299090EA6AA4500A7F496 /* ArticleList.h */,
-				3312990A0EA6AA4500A7F496 /* ArticleList.m */,
-				3312990B0EA6AA4500A7F496 /* AllArticleList.h */,
-				3312990C0EA6AA4500A7F496 /* AllArticleList.m */,
-				3312990D0EA6AA4500A7F496 /* ArxivNewArticleList.h */,
-				3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */,
-				3312990F0EA6AA4500A7F496 /* SimpleArticleList.h */,
-				331299100EA6AA4500A7F496 /* SimpleArticleList.m */,
-				334AF2D50F70B95B006EE7A0 /* ArticleFolder.h */,
-				334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */,
 				332F1A1D0EA5860D00758683 /* Author.h */,
 				332F1A1E0EA5860D00758683 /* Author.m */,
 				33B39E6E0EA4325E00734A06 /* Article.h */,
@@ -858,6 +876,8 @@
 				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
 				332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */,
 				332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */,
+				33BEC3860F925F2D00807A8E /* ArticleV2V3MigrationPolicy.h */,
+				33BEC3870F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1035,6 +1055,7 @@
 				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
 				33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */,
 				33DE54230F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf in Resources */,
+				3304B8630F92C7B1002156A9 /* canned-search.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1192,7 +1213,6 @@
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
 				330170A30F56471B001DAC18 /* IncrementalArrayController.m in Sources */,
 				332D1B8F0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m in Sources */,
-				330207A30F598A850067714C /* v1-v2.xcmappingmodel in Sources */,
 				330207AC0F5990210067714C /* MOC.m in Sources */,
 				334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */,
 				334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */,
@@ -1202,6 +1222,10 @@
 				33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */,
 				33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */,
 				33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */,
+				33BEC3590F925E5100807A8E /* v2-v3.xcmappingmodel in Sources */,
+				33BEC3880F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m in Sources */,
+				33BEC4510F92707B00807A8E /* v1-v2.xcmappingmodel in Sources */,
+				3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1595,11 +1619,13 @@
 		337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				770B37EC0679A11B001EADE2 /* spires_DataModel.xcdatamodel */,
+				33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */,
 				337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */,
-				330207A20F598A850067714C /* v1-v2.xcmappingmodel */,
+				33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */,
+				33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */,
+				33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */,
 			);
-			currentVersion = 337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */;
+			currentVersion = 33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */;
 			path = spires_DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

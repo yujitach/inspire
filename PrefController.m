@@ -7,13 +7,31 @@
 //
 
 #import "PrefController.h"
-
+#import "MOC.h"
 
 @implementation PrefController
 -(PrefController*)init
 {
     return self=[super initWithWindowNibName:@"PrefPane"];
 }
+#pragma mark Time Machine
+-(IBAction)timeMachineSettingChanged:(id)sender;
+{
+    BOOL shouldBackUp=[[NSUserDefaults standardUserDefaults] boolForKey:@"shouldBackUpDatabaseInTimeMachine"];
+    NSLog(@"time machine backup %@",(shouldBackUp?@"enabled":@"disabled"));
+    NSString*path=[[MOC sharedMOCManager] dataFilePath];
+    NSURL*url=[NSURL fileURLWithPath:path];
+    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),true);
+}
+-(void)readTimeMachineState;
+{
+    Boolean excluded;
+    NSString*path=[[MOC sharedMOCManager] dataFilePath];
+    NSURL*url=[NSURL fileURLWithPath:path];
+    CSBackupIsItemExcluded((CFURLRef)url,&excluded);
+    [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
+}
+#pragma mark Mirrors
 
 -(void)selectMirrorToUse:(NSString*)mirror
 {
@@ -41,36 +59,6 @@
     [self bibSelected: self];
 }
 
--(void)awakeFromNib
-{
-    [mirrorToUsePopUp removeAllItems];
-    [mirrorToUsePopUp addItemsWithTitles:[[NSUserDefaults standardUserDefaults] objectForKey:@"arXivMirrors"]];
-
-    [self selectMirrorToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"mirrorToUse"]];
-    [self selectBibToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"bibType"]];
-
-    {// change in v0.98
-	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"nameChangeInJournalRegExDone"]){
-	    NSString*l=[[NSUserDefaults standardUserDefaults] objectForKey:@"universityLibraryToGetPDF"];
-	    if([l isEqualToString:@"Princeton"]){
-		[[NSUserDefaults standardUserDefaults] setObject:@"IAS" forKey:@"universityLibraryToGetPDF"];	    
-	    }
-	    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"nameChangeInJournalRegExDone"];
-	}
-    }
-    NSDictionary* regexes=[[NSUserDefaults standardUserDefaults] objectForKey:@"regExpsForUniversityLibrary"]; 
-    NSMutableArray* array=[NSMutableArray array];
-    for(NSString* s in [regexes keyEnumerator]){
-	[array addObject:s];
-    }
-    [self setValue:array forKey:@"libraries"];
-    [journalPDFRadio selectCellAtRow:([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]?0:1) column:0];
-    
-    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
-							      forKeyPath:@"values.articleViewFontSize" 
-								 options:NSKeyValueObservingOptionNew context:nil];
-    
-}
 -(IBAction)setFolderForPDF:(id)sender
 {
     NSOpenPanel*op=[NSOpenPanel openPanel];
@@ -104,6 +92,41 @@
     int i=[journalPDFRadio selectedRow];
     [[NSUserDefaults standardUserDefaults] setBool:(i==0?YES:NO) forKey:@"tryToDownloadJournalPDF"];
 }
+
+
+#pragma mark awake
+-(void)awakeFromNib
+{
+    [mirrorToUsePopUp removeAllItems];
+    [mirrorToUsePopUp addItemsWithTitles:[[NSUserDefaults standardUserDefaults] objectForKey:@"arXivMirrors"]];
+    
+    [self selectMirrorToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"mirrorToUse"]];
+    [self selectBibToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"bibType"]];
+    
+    {// change in v0.98
+	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"nameChangeInJournalRegExDone"]){
+	    NSString*l=[[NSUserDefaults standardUserDefaults] objectForKey:@"universityLibraryToGetPDF"];
+	    if([l isEqualToString:@"Princeton"]){
+		[[NSUserDefaults standardUserDefaults] setObject:@"IAS" forKey:@"universityLibraryToGetPDF"];	    
+	    }
+	    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"nameChangeInJournalRegExDone"];
+	}
+    }
+    NSDictionary* regexes=[[NSUserDefaults standardUserDefaults] objectForKey:@"regExpsForUniversityLibrary"]; 
+    NSMutableArray* array=[NSMutableArray array];
+    for(NSString* s in [regexes keyEnumerator]){
+	[array addObject:s];
+    }
+    [self setValue:array forKey:@"libraries"];
+    [journalPDFRadio selectCellAtRow:([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]?0:1) column:0];
+    
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+							      forKeyPath:@"values.articleViewFontSize" 
+								 options:NSKeyValueObservingOptionNew context:nil];
+    [self readTimeMachineState];
+}
+#pragma mark Font
+
 -(NSFont*)currentFont
 {
     NSString*name=[[NSUserDefaults standardUserDefaults] valueForKey:@"articleViewFontName"];

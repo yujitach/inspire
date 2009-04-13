@@ -23,7 +23,14 @@
 	NSError*error=nil;
 	a=[moc executeFetchRequest:req error:&error];
     }
-    if([a count]>0){
+    if([a count]==1){
+	return [a objectAtIndex:0];
+    }else if([a count]>1){
+	NSLog(@"inconsistency detected ... there are more than one AllArticleLists!");
+	for(int i=1;i<[a count];i++){
+	    AllArticleList*al=[a objectAtIndex:i];
+	    [moc deleteObject:al];
+	}
 	return [a objectAtIndex:0];
     }else{
 	AllArticleList* mo=[[NSManagedObject alloc] initWithEntity:authorEntity 
@@ -49,5 +56,9 @@
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-blue.ico"];
+}
+-(NSString*)placeholderForSearchField
+{
+    return @"Enter SPIRES query and hit return";
 }
 @end

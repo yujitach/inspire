@@ -19,6 +19,14 @@
 //    NSLog(@"%@",article.title);
     return self;
 }
+
+-(BOOL)isEqual:(id)obj
+{
+    if(![obj isKindOfClass:[DumbOperation class]]){
+	return NO;
+    }
+    return [[self description] isEqualToString:[obj description]];
+}
 -(NSString*)description
 {
     return [NSString stringWithFormat:@"load abstract for %@",article.title];

@@ -19,6 +19,7 @@
 @dynamic positionInView;
 @dynamic parent;
 @dynamic children;
+
 /*-(id)init
 {
     [super init];
@@ -44,5 +45,8 @@
 {
     return YES;
 }
-
+-(NSString*)placeholderForSearchField
+{
+    return @"";
+}
 @end
