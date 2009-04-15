@@ -1019,7 +1019,14 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
+	NSDictionary* dict=[error userInfo];
+	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
 	NSLog(@"moc error:%@",error);
+	if(detailedErrors){
+	    for(NSError*e in detailedErrors){
+		NSLog(@"moc suberror:%@",e);
+	    }
+	}
     }/*else if([self syncEnabled]){
 	[self syncAction:self];
     }*/

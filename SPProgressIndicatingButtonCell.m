@@ -29,13 +29,18 @@
 }
 -(void)startAnimation:(id)sender;
 {
-    spinTimer=[NSTimer scheduledTimerWithTimeInterval:.04 target:self selector:@selector(refresh:) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:spinTimer forMode:NSEventTrackingRunLoopMode];
+    if(!spinTimer){
+	spinTimer=[NSTimer scheduledTimerWithTimeInterval:.04 target:self selector:@selector(refresh:) userInfo:nil repeats:YES];
+	[[NSRunLoop currentRunLoop] addTimer:spinTimer forMode:NSEventTrackingRunLoopMode];
+    }
     isSpinning=YES;
 }
 -(void)stopAnimation:(id)sender;
 {
-    [spinTimer invalidate];
+    if(spinTimer){
+	[spinTimer invalidate];
+	spinTimer=nil;
+    }
     isSpinning=NO;
     [[self controlView] display];
 }
