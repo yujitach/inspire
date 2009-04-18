@@ -201,6 +201,27 @@ SpiresHelper*_sharedSpiresHelper=nil;
     //        NSLog(@"%@",pred);
     return pred;    
 }
+-(NSPredicate*)flagPredicate:(NSString*)operand
+{
+    NSString*key=@"memo";	
+    //    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
+    //    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+    if([operand isEqualToString:@""])
+	return [NSPredicate predicateWithValue:NO];
+    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+    NSString*head=nil;
+    if([operand hasPrefix:@"f"]){
+	head=@"flagged;";
+    }else if([operand hasPrefix:@"u"]){
+	head=@"unread;";
+    }
+    if(head){
+	NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K beginswith %@",key,head];
+	//        NSLog(@"%@",pred);
+	return pred;    
+    }
+    return [NSPredicate predicateWithValue:NO];
+}
 -(NSString*)extractOperand:(NSString*)s
 {
     return [s stringByMatching:@"^ *(\\w+) +(.+)$" capture:2];
@@ -226,6 +247,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	return @selector(titlePredicate:);
     }else if([operator hasPrefix:@"e"]){
 	return @selector(eprintPredicate:);
+    }else if([operator hasPrefix:@"f"]){
+	return @selector(flagPredicate:);
     }else{
 	return NULL;
     }    

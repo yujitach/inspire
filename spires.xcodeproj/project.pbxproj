@@ -62,6 +62,9 @@
 		334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */; };
 		334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6E0F360E060078D121 /* BWAnchoredButton.m */; };
 		334A3A920F360EE30078D121 /* BWToolKit-License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 334A3A910F360EE30078D121 /* BWToolKit-License.rtf */; };
+		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
+		334A6D270F96E02E005BC4A2 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; };
+		334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 334A6DAC0F96EC49005BC4A2 /* Localizable.strings */; };
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
@@ -257,6 +260,9 @@
 		334A3A6E0F360E060078D121 /* BWAnchoredButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButton.m; path = BWFramework/BWAnchoredButton.m; sourceTree = "<group>"; };
 		334A3A6F0F360E060078D121 /* BWAnchoredButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButton.h; path = BWFramework/BWAnchoredButton.h; sourceTree = "<group>"; };
 		334A3A910F360EE30078D121 /* BWToolKit-License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "BWToolKit-License.rtf"; path = "BWFramework/BWToolKit-License.rtf"; sourceTree = "<group>"; };
+		334A6D240F96E02E005BC4A2 /* flagged.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flagged.png; sourceTree = "<group>"; };
+		334A6D250F96E02E005BC4A2 /* unread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread.png; sourceTree = "<group>"; };
+		334A6DAC0F96EC49005BC4A2 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineViewController.m; sourceTree = "<group>"; };
 		334AF2260F7098B9006EE7A0 /* SideOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineViewController.h; sourceTree = "<group>"; };
 		334AF2D50F70B95B006EE7A0 /* ArticleFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleFolder.h; sourceTree = "<group>"; };
@@ -521,8 +527,8 @@
 				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
 				33B485CB0F5B443200EBE022 /* Importer */,
 				33B485CA0F5B440900EBE022 /* PrefPane */,
-				33F883E80EAADAE000F5E9C6 /* Views */,
 				7756732906782D8800D1FEB8 /* Models */,
+				33F883E80EAADAE000F5E9C6 /* Views */,
 				3395454D0F352F5A00D01E97 /* Controllers */,
 				331FD3A90F36B6AF00C16F73 /* App Delegate */,
 				33CC06FE0F3E4A20005B25F8 /* Operations */,
@@ -551,6 +557,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3309372A0F39662800F214D6 /* spires.syncschema */,
 				330937600F39694800F214D6 /* ClientDescription.plist */,
 				334A3A910F360EE30078D121 /* BWToolKit-License.rtf */,
@@ -567,6 +574,8 @@
 				3365B0860EA7F53100A847CE /* arxiv.ico */,
 				3304B8620F92C7B1002156A9 /* canned-search.png */,
 				3365B0870EA7F53100A847CE /* spires-blue.ico */,
+				334A6D240F96E02E005BC4A2 /* flagged.png */,
+				334A6D250F96E02E005BC4A2 /* unread.png */,
 				332F1B0D0EA597D300758683 /* spires.icns */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -1056,6 +1065,9 @@
 				33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */,
 				33DE54230F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf in Resources */,
 				3304B8630F92C7B1002156A9 /* canned-search.png in Resources */,
+				334A6D260F96E02E005BC4A2 /* flagged.png in Resources */,
+				334A6D270F96E02E005BC4A2 /* unread.png in Resources */,
+				334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

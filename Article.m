@@ -412,6 +412,45 @@
 	return @"shouldn't happen";
     }
 }
+-(ArticleFlag)flag
+{
+    NSString*s=self.memo;
+    if([s hasPrefix:@"unread;"]){
+	return AFUnread;
+    }else if([s hasPrefix:@"0read;"]){
+	return AFRead;
+    }else if([s hasPrefix:@"flagged;"]){
+	return AFFlagged;
+    }
+    return AFNone;
+}
+-(void)setFlag:(ArticleFlag)flag
+{
+    if(flag==AFUnread){
+	self.memo=@"unread;";
+    }else if(flag==AFRead){
+	self.memo=@"0read;";
+    }else if(flag==AFFlagged){
+	self.memo=@"flagged;";
+    }else{
+	self.memo=nil;
+    }
+}
+-(NSImage*)flagImage
+{
+    ArticleFlag af=self.flag;
+    if(af==AFFlagged){
+	return [NSImage imageNamed:@"flagged.png"];
+    }else if(af==AFUnread){
+	return [NSImage imageNamed:@"unread.png"];
+    }
+    return nil;
+}
++(NSSet*)keyPathsForValuesAffectingFlagImage
+{
+    return [NSSet setWithObjects:@"memo",nil];
+}
+
 /*-(NSString*)abstractFilePath
 {
     return [NSString stringWithFormat:@"%@/%@.html",[[MOC sharedMOCManager] directoryForAbstract],[self uniqueId]];

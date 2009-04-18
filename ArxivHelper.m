@@ -167,6 +167,13 @@ ArxivHelper* _sharedHelper=nil;
 	    content=nil;
 	}
 	return content;
+    }else if([t hasPrefix:@"rec"]){
+	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"pastweek?show=99"]];
+	NSRange r=[content rangeOfString:@"<h3>Cross"];
+	if(r.location!=NSNotFound){
+	    content=[content substringToIndex:r.location];
+	}
+	return content;	
     }
     NSLog(@"arxiv list %@ not understood",path);
     return nil;

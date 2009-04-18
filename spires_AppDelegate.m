@@ -318,7 +318,12 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [self crashCheck:self];
 //    [self updateFormatForAIfNeeded:self];
 }
-
+-(void)clearUnreadFlagOfArticle:(NSTimer*)timer
+{
+    Article*a=[timer userInfo];
+    a.flag=AFRead;
+    unreadTimer=nil;
+}
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"selection"]){
@@ -330,7 +335,19 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	    [wv setArticle:NSMultipleValuesMarker];
 	}else{
 //	    NSLog(@"selection:%a",a);
-	    [wv setArticle:[a objectAtIndex:0]];
+	    Article*ar=[a objectAtIndex:0];
+	    [wv setArticle:ar];
+	    if(ar.flag==AFUnread){
+		if(unreadTimer){
+		    [unreadTimer invalidate];
+		}
+		unreadTimer=[NSTimer scheduledTimerWithTimeInterval:1
+							     target:self 
+							   selector:@selector(clearUnreadFlagOfArticle:) 
+							   userInfo:ar 
+							    repeats:NO];
+		    
+	    }
 	}
     }else if([keyPath isEqualToString:@"arrangedObjects"]){
 	int num=[[ac arrangedObjects] count];
@@ -803,7 +820,16 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	}
     }
 }
-
+-(IBAction)toggleFlagged:(id)sender
+{
+    for(Article*article in [ac selectedObjects]){
+	if(article.flag==AFFlagged){
+	    article.flag=AFRead;
+	}else{
+	    article.flag=AFFlagged;
+	}
+    }
+}
 #pragma mark PDF Association
 -(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(NSString*)path
 {
@@ -1018,15 +1044,16 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
-        [[NSApplication sharedApplication] presentError:error];
-	NSDictionary* dict=[error userInfo];
-	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
 	NSLog(@"moc error:%@",error);
+	NSDictionary* dict=[error userInfo];
+	NSLog(@"userInfo:%@",dict);
+	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
 	if(detailedErrors){
 	    for(NSError*e in detailedErrors){
 		NSLog(@"moc suberror:%@",e);
 	    }
 	}
+        [[NSApplication sharedApplication] presentError:error];
     }/*else if([self syncEnabled]){
 	[self syncAction:self];
     }*/

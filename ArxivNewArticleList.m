@@ -165,7 +165,9 @@
     ar.version=[NSNumber numberWithInt:1];
     ar.title=title;
     ar.comments=comments;
-    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldPutUnreadMarksForArxivNew"] && ar.flag==AFNone){
+	ar.flag=AFUnread;
+    }
     [self registerAuthorsInString:authorsList toArticle:ar];
     [self addArticlesObject:ar];
     
@@ -176,7 +178,10 @@
     [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
     [[self managedObjectContext] disableUndo];
     NSString*s=[[ArxivHelper sharedHelper] list:self.name];
-    if(!s)return;
+    if(!s){
+	[ProgressIndicatorController stopAnimation:self];
+	return;
+    }
     self.articles=nil;
     
 

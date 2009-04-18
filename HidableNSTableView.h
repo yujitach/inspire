@@ -11,6 +11,8 @@
 
 @interface HidableNSTableView : NSTableView {
     NSString* saveName;
+    NSArray*tableColumns;
+    NSMenu *tableHeaderContextMenu ;
 }
-
+-(void)showColumnWithTitle:(NSString*)title;
 @end

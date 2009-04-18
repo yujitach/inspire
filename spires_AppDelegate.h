@@ -51,7 +51,7 @@
     IBOutlet SideOutlineViewController* sideTableViewController;
     IBOutlet SPSearchFieldWithProgressIndicator*searchField;
     
-    
+    NSTimer*unreadTimer;
 /*    NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;

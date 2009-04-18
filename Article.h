@@ -13,6 +13,12 @@ typedef enum {
     ATSpiresWithOnlyKey,
     ATGeneric
 } ArticleType;
+typedef enum {
+    AFNone,
+    AFUnread,
+    AFRead,
+    AFFlagged
+} ArticleFlag;
 @class JournalEntry;
 @interface Article :  NSManagedObject  
 {
@@ -47,6 +53,7 @@ typedef enum {
 @property (retain) NSString*longishAuthorListForA;
 @property (retain) NSString*longishAuthorListForEA;
 @property (retain) NSNumber *eprintForSorting;
+@property (assign) ArticleFlag flag;
 
 
 +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;

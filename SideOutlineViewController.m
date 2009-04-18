@@ -176,7 +176,7 @@
 	ArticleList*hepth=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-th/new" inMOC:[self managedObjectContext]];
 	hepth.positionInView=[NSNumber numberWithInt:4];
     }
-    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"replacedListPrepared"]){
+/*    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"replacedListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"replacedListPrepared"];
 	NSEntityDescription*authorEntity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:[self managedObjectContext]];
 	NSFetchRequest*req=[[NSFetchRequest alloc]init];
@@ -193,6 +193,13 @@
 		replaced.positionInView=[NSNumber numberWithInt:[al.positionInView intValue]+1];
 	    }
 	}
+    }*/
+    
+    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"flaggedListPrepared"]){
+	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"flaggedListPrepared"];
+	CannedSearch*f=[CannedSearch cannedSearchWithName:@"flagged" inMOC:[self managedObjectContext]];
+	f.searchString=@"f flagged";
+	f.positionInView=[NSNumber numberWithInt:100];
     }
 //    [articleListController setSortDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES]]];
     [articleListController rearrangeObjects];

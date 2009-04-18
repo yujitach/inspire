@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+@class HidableNSTableView;
 @interface MainTableViewController : NSObject {
-    IBOutlet NSTableView* tv;
+    IBOutlet HidableNSTableView* tv;
     IBOutlet NSArrayController* ac;
 }
 

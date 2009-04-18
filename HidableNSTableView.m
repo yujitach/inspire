@@ -16,9 +16,9 @@
     saveName=[self autosaveName];
     [self setAutosaveName:nil];
     NSArray *cols = [[NSUserDefaults standardUserDefaults] arrayForKey:saveName];
-    NSMenu *tableHeaderContextMenu = [[NSMenu alloc] initWithTitle:@""];
+    tableHeaderContextMenu = [[NSMenu alloc] initWithTitle:@""];
     [[self headerView] setMenu:tableHeaderContextMenu];
-    NSArray *tableColumns = [NSArray arrayWithArray:[self tableColumns]]; // clone array so compiles/runs on 10.5
+    tableColumns = [NSArray arrayWithArray:[self tableColumns]]; // clone array so compiles/runs on 10.5
     NSEnumerator *enumerator = [tableColumns objectEnumerator];
     NSTableColumn *column;
     while((column = [enumerator nextObject])) {
@@ -68,11 +68,12 @@
 	[self sizeLastColumnToFit];
     } else {
 	[self addTableColumn:column];
-	[self sizeToFit];
+	    [self sizeToFit];
     }
     [self setNeedsDisplay:YES];
     [self saveTableColumns:nil];
 }
+
 -(void)keyDown:(NSEvent*)ev
 {
 //    NSLog(@"%x",[ev keyCode]);
@@ -83,6 +84,27 @@
     }else{
 	[super keyDown:ev];
     }
+}
+
+
+// added Apr 16 2009
+-(void)showColumnWithTitle:(NSString*)title
+{
+    NSMenuItem *item = [tableHeaderContextMenu itemWithTitle:title];
+    if([item state]==NSOnState)return;
+    [item setState:NSOnState];
+    NSTableColumn*column=[item representedObject];
+    NSArray*a=[NSArray arrayWithArray:[self tableColumns]];
+    for(NSTableColumn*c in a){
+	[self removeTableColumn:c];
+    }
+    [self addTableColumn:column];
+    for(NSTableColumn*c in a){
+	[self addTableColumn:c];
+    }    
+    //    [self sizeToFit];
+    [self setNeedsDisplay:YES];
+    [self saveTableColumns:nil];
 }
 
 @end
