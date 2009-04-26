@@ -31,7 +31,7 @@
 	return mo;
     }    
 }
--(void)reloadLocal
+-(void)reloadLocalWithCap:(NSUInteger)cap
 {
 //    NSLog(@"locally reloading canned search %@", self.name);
     if(![self searchString] || [[self searchString] isEqualToString:@""]){
@@ -43,6 +43,9 @@
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
     [req setPredicate:predicate];
+    if(cap!=0){
+	[req setFetchLimit:cap];
+    }
     NSError*error=nil;
     NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
     NSSet*set=[NSSet setWithArray:a];
@@ -53,6 +56,27 @@
     [self didChangeValueForKey:@"articles"];
     [[self managedObjectContext] enableUndo];
     modifying=NO;
+}
+/*-(void)reloadLocalFully
+{
+    NSLog(@"fully");
+    [self reloadLocalWithCap:0];
+}
+-(void)reloadLocal
+{
+    if(localReloadTimer){
+	[localReloadTimer invalidate];
+	localReloadTimer=[NSTimer scheduledTimerWithTimeInterval:.5 
+							  target:self 
+							selector:@selector(reloadLocalFully) 
+							userInfo:nil
+							 repeats:NO];
+    }
+    [self reloadLocalWithCap:100];
+}*/
+-(void)reloadLocal
+{
+    [self reloadLocalWithCap:0];
 }
 -(void)reload
 {
@@ -91,5 +115,8 @@
 {
     return @"Enter SPIRES query and hit return";
 }
-
+-(BOOL)searchStringEnabled
+{
+    return NO;
+}
 @end

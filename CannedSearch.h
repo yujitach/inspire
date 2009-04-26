@@ -12,6 +12,7 @@
 @interface CannedSearch : ArticleList {
     BOOL modifying;
     int state;
+    NSTimer*localReloadTimer;
 }
 +(CannedSearch*)cannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
 

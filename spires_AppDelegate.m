@@ -1044,15 +1044,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
-	NSLog(@"moc error:%@",error);
-	NSDictionary* dict=[error userInfo];
-	NSLog(@"userInfo:%@",dict);
-	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
-	if(detailedErrors){
-	    for(NSError*e in detailedErrors){
-		NSLog(@"moc suberror:%@",e);
-	    }
-	}
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
         [[NSApplication sharedApplication] presentError:error];
     }/*else if([self syncEnabled]){
 	[self syncAction:self];
@@ -1083,9 +1075,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
                 // Typically, this process should be altered to include application-specific 
                 // recovery steps.  
-
+		[[MOC sharedMOCManager] presentMOCSaveError:error];
                 BOOL errorResult = [[NSApplication sharedApplication] presentError:error];
-		NSLog(@"moc error:%@",error);
                 if (errorResult == YES) {
                     reply = NSTerminateCancel;
                 } 

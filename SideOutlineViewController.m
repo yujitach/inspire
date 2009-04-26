@@ -208,7 +208,7 @@
     NSError*error=nil;
     [[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
     if(error){
-	NSLog(@"moc error:%@",error);
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
 }
 /*-(void)saveArticleLists
@@ -376,14 +376,14 @@
 			   action:@selector(addArticleFolder:)
 		    keyEquivalent:@""
 			  atIndex:1];
-	[menu insertItemWithTitle:@"Add Saved Search..." 
+/*	[menu insertItemWithTitle:@"Add Saved Search..." 
 			   action:@selector(addCannedSearch:)
 		    keyEquivalent:@""
-			  atIndex:2];
+			  atIndex:2];*/
 	[menu insertItemWithTitle:@"Add arxiv/new..." 
 			   action:@selector(addArxivArticleList:)
 		    keyEquivalent:@""
-			  atIndex:3];
+			  atIndex:2];
     }else{
 	NSTreeNode*item=[ov itemAtRow:i];
 	

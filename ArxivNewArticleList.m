@@ -15,6 +15,7 @@
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "RegexKitLite.h"
 #import "spires_AppDelegate.h"
+#import "MOC.h"
 
 @implementation ArxivNewArticleList 
 +(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
@@ -193,7 +194,7 @@
     NSError*error=nil;
     [[self managedObjectContext] save:&error];
     if(error){
-	NSLog(@"moc error:%@",error);
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
     [[self managedObjectContext] enableUndo];
     [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];

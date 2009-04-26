@@ -229,6 +229,18 @@ MOC*_sharedMOCManager=nil;
     return secondaryManagedObjectContext;
 }
 
+-(void)presentMOCSaveError:(NSError*)error
+{
+    NSLog(@"moc error:%@",error);
+    NSDictionary* dict=[error userInfo];
+    NSLog(@"userInfo:%@",dict);
+    NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
+    if(detailedErrors){
+	for(NSError*e in detailedErrors){
+	    NSLog(@"moc suberror:%@",e);
+	}
+    }    
+}
 
 /**
  Implementation of dealloc, to release the retained variables.

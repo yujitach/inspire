@@ -39,7 +39,7 @@ l{
 	NSError*error=nil;
 	[[MOC moc] save:&error];
 	if(error){
-	    NSLog(@"moc error:%@",error);
+	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
     }
 /*    if(citedByTarget){
@@ -216,7 +216,8 @@ l{
 //    NSLog(@"saving 2ndry");
     [moc save:&error];
     if(error){
-	NSLog(@"2nry moc error:%@",error);
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
+//	NSLog(@"2nry moc error:%@",error);
     }
 //    NSLog(@"saved 2ndry");
     NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];

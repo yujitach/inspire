@@ -25,4 +25,5 @@
 - (NSString *)applicationSupportFolder;
 - (NSString *)directoryForIndividualEntries;
 - (NSString *)dataFilePath;
+-(void)presentMOCSaveError:(NSError*)error;
 @end
