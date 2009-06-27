@@ -245,6 +245,18 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     return window;
 }
+-(void)checkOSVersion
+{
+    SInt32 major=10,minor=5,bugFix=6;
+    Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+    Gestalt(gestaltSystemVersionBugFix, &bugFix);
+    NSLog(@"OS version:%d.%d.%d",major,minor,bugFix);
+    if(minor == 5 && bugFix<7){
+	NSLog(@"OS update should be available...");
+	[[NSWorkspace sharedWorkspace] launchApplication:@"Software Update"];
+    }
+}
 -(void)awakeFromNib
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
@@ -283,7 +295,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     
     [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
     countDown=0;
-
+    [self checkOSVersion];
     [searchField setProgressQuitAction:@selector(progressQuit:)];
     // the following two lines are to go around a Leopard bug (?)
     // where the textfield in the toolbar sometimes doesn't receive the mouse down, which is instead thought of as initiating drag.

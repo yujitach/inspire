@@ -29,6 +29,16 @@
 {
     self.canceled=YES;
 }
+-(void)mainExceptionCatcher
+{
+    @try{
+	[self main];
+    }
+    @catch(NSException*e){
+	NSLog(@"exception raised inside an operation %@: %@",self,e);
+    }
+}
+
 @end
 
 static DumbOperationQueue*_queue=nil;
@@ -80,7 +90,7 @@ static DumbOperationQueue*_Aqueue=nil;
 	if([op wantToRunOnMainThread]){
 	    [op main];
 	}else{
-	    [NSThread detachNewThreadSelector:@selector(main) toTarget:op withObject:nil];
+	    [NSThread detachNewThreadSelector:@selector(mainExceptionCatcher) toTarget:op withObject:nil];
 	}
     }
 }

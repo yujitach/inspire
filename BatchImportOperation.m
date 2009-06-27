@@ -247,7 +247,10 @@ l{
 {
     NSMutableSet*x=[NSMutableSet set];
     for(NSManagedObjectID* objectID in y){
-	NSManagedObject*mo=[[MOC moc] objectWithID:objectID];
+	Article*mo=(Article*)[[MOC moc] objectWithID:objectID];
+	for(Author*i in [mo authors]){
+	    [[MOC moc] refreshObject:i mergeChanges:YES];
+	}
 	[[MOC moc] refreshObject:mo mergeChanges:YES];
 	[x addObject:mo];
     }
