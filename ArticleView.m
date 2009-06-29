@@ -105,12 +105,13 @@
 #pragma mark Property Generation
 -(NSString*)author
 {
-    NSMutableArray*a=[NSMutableArray array];
-    for(Author*i in article.authors){
-	if(!i)continue;
-	[a addObject:i.name];
-    }    
-    
+    NSArray*names=[article.longishAuthorListForEA componentsSeparatedByString:@"; "];
+    NSMutableArray* a=[NSMutableArray array];
+    for(NSString*x in names){
+	if(![x isEqualToString:@""]){
+	    [a addObject:x];
+	}
+    }
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     NSMutableArray*b=[NSMutableArray array];
     for(NSString*s in a){
@@ -121,13 +122,21 @@
 	NSString* last=[c objectAtIndex:0];
 	if([c count]>1){
 	    NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
-	    for(NSString*i in d){
-		if(!i || [i isEqualToString:@""]) continue;
-		[result appendString:[i substringToIndex:1]];
-		[result appendString:@". "];
+	    if([last hasPrefix:@"collaboration"]){
+		[result appendString:[[d lastObject] uppercaseString]];
+		last=@" Collaboration";
+	    }else if([[c objectAtIndex:1] hasPrefix:@"for the"]){
+		[result appendString:[last uppercaseString]];
+		last=@" Collaboration";		
+	    }else{
+		for(NSString*i in d){
+		    if(!i || [i isEqualToString:@""]) continue;
+		    [result appendString:[[i substringToIndex:1] capitalizedString]];
+		    [result appendString:@". "];
+		}
 	    }
 	}
-	[result appendString:last];
+	[result appendString:[last capitalizedString]];
 	[result appendString:@"</a>"];
 	[b addObject: result];
     }

@@ -10,7 +10,6 @@
 #import "BatchBibQueryOperation.h"
 #import "Article.h"
 #import "JournalEntry.h"
-#import "Author.h"
 #import "AllArticleList.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "spires_AppDelegate.h"
@@ -174,17 +173,16 @@ l{
     
     NSError*error;
     NSArray*a=[element nodesForXPath:@"authaffgrp/author" error:&error];
-    [o setAuthors:nil];
-    NSMutableSet* set=[NSMutableSet set];
+    NSMutableArray* array=[NSMutableArray array];
     int u=[a count];
     if(u>10)u=10; // why on earth I put this line in the first place?? (March/4/2009)
 // now I understand... it just takes too much time to register many authors. (March6/2009)
     for(int i=0;i<u;i++){
 	NSXMLElement* e=[a objectAtIndex:i];
-	[set addObject:[Author authorWithName:[e stringValue] inMOC:moc]];
+	[array addObject:[e stringValue]];
     }
 //    NSLog(@"%@",o.title);
-    [o addAuthors:set];
+    [o setAuthorNames:array];
     
     //  date not dealt with yet. but who cares? -- well it's done
     
@@ -248,9 +246,6 @@ l{
     NSMutableSet*x=[NSMutableSet set];
     for(NSManagedObjectID* objectID in y){
 	Article*mo=(Article*)[[MOC moc] objectWithID:objectID];
-	for(Author*i in [mo authors]){
-	    [[MOC moc] refreshObject:i mergeChanges:YES];
-	}
 	[[MOC moc] refreshObject:mo mergeChanges:YES];
 	[x addObject:mo];
     }

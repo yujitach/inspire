@@ -14,10 +14,10 @@ typedef enum {
     ATGeneric
 } ArticleType;
 typedef enum {
-    AFNone,
-    AFUnread,
-    AFRead,
-    AFFlagged
+    AFNone=0,
+    AFIsUnread=1,
+    AFIsFlagged=2,
+    AFHasPDF=4
 } ArticleFlag;
 @class JournalEntry;
 @interface Article :  NSManagedObject  
@@ -41,8 +41,8 @@ typedef enum {
 @property (retain) NSString * spicite;
 @property (retain) NSString * title;
 @property (retain) NSString * memo;
+@property (retain) NSString * flagInternal;
 @property (retain) NSDate * date;
-@property (retain) NSSet* authors;
 @property (retain) NSSet* citedBy;
 @property (retain) NSSet* refersTo;
 @property (retain) NSString* texKey;
@@ -60,16 +60,19 @@ typedef enum {
 +(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
 
++(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
++(NSString*)longishAuthorListForEAFromAuthorNames:(NSArray*)array;
++(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
++(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
++(ArticleFlag)flagFromFlagInternal:(NSString*)flagInternal;
+
 -(void)associatePDF:(NSString*)path;
 -(void)setExtra:(id)content forKey:(NSString*)key;
 -(id)extraForKey:(NSString*)key;
+-(void)setAuthorNames:(NSArray*)authorNames;
 @end
 
 @interface Article (CoreDataGeneratedAccessors)
-- (void)addAuthorsObject:(NSManagedObject *)value;
-- (void)removeAuthorsObject:(NSManagedObject *)value;
-- (void)addAuthors:(NSSet *)value;
-- (void)removeAuthors:(NSSet *)value;
 
 - (void)addCitedByObject:(NSManagedObject *)value;
 - (void)removeCitedByObject:(NSManagedObject *)value;

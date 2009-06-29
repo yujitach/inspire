@@ -33,8 +33,8 @@
 @dynamic spicite;
 @dynamic title;
 @dynamic memo;
+@dynamic flagInternal;
 @dynamic date;
-@dynamic authors;
 @dynamic citedBy;
 @dynamic refersTo;
 @dynamic pdfAlias;
@@ -53,7 +53,10 @@
 {
 //    eprintDict=[NSMutableDictionary dictionary];
 }
-
+-(void)awakeFromInsert
+{
+    [self setFlag:AFNone];
+}
 +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
@@ -117,22 +120,113 @@
     }
     return nil;
 }
--(void)awakeFromFetch
+
+
+
+
++(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
 {
-    [super awakeFromFetch];
-    [self addObserver:self
-	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew // |NSKeyValueObservingOptionInitial
-	      context:nil];
+    
+    NSMutableArray*a=[NSMutableArray array];
+    for(NSString*x in array){
+	[a addObject:x];
+    }
+    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSMutableString*result=[NSMutableString string];
+    for(NSString*s in a){
+	[result appendString:@"; "];
+	if([s hasPrefix:@"collaboration"]){
+	    [result appendString:s];
+	    continue;
+	}
+	if([s rangeOfString:@"for the"].location!=NSNotFound){
+	    [result appendString:s];
+	    continue;
+	}
+	NSArray* c=[s componentsSeparatedByString:@", "];
+	if([c count]==1){
+	    [result appendString:s];
+	    continue;
+	}
+	NSString* last=[c objectAtIndex:0];
+	[result appendString:last];
+	[result appendString:@", "];
+	NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	for(NSString*i in d){
+	    if(!i || [i isEqualToString:@""]) continue;
+	    [result appendString:[i substringToIndex:1]];
+	    [result appendString:@". "];
+	}
+    }
+    return result;
+    
+    
+    
 }
--(void)awakeFromInsert
+    
++(NSString*)longishAuthorListForEAFromAuthorNames:(NSArray*)array;
 {
-    [super awakeFromInsert];
-    [self addObserver:self
-	   forKeyPath:@"authors"
-	      options:NSKeyValueObservingOptionNew // |NSKeyValueObservingOptionInitial
-	      context:nil];
+    NSMutableArray*a=[NSMutableArray array];
+    for(NSString*s  in array){
+	[a addObject:s];
+    }
+    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    return [a componentsJoinedByString:@"; "];
 }
+ 
++(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
+{
+    NSMutableArray*a=[NSMutableArray array];
+    for(NSString*s in array){
+	NSArray*q=[s componentsSeparatedByString:@", "];
+	NSString*lastName=[q objectAtIndex:0];
+	NSString*firstName=nil;
+	if([a count]>1){
+	    firstName=[a objectAtIndex:1];
+	}
+	if([lastName hasPrefix:@"collaboration"]){
+	    NSArray*c=[s componentsSeparatedByString:@" "];
+	    lastName=[[c lastObject] uppercaseString];
+	}else if([firstName hasPrefix:@"for the"]||[firstName hasPrefix:@"the"]){
+	    lastName=[firstName uppercaseString];
+	}else{
+	    lastName=[lastName capitalizedString];
+	}
+	[a addObject:lastName];
+    }
+    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
+    
+    return [a componentsJoinedByString:@", "];
+}
++(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
+{
+    NSMutableString*s=[NSMutableString string];
+    if(flag&AFIsUnread){
+	[s appendString:@"U"];
+    }
+    if(flag&AFIsFlagged){
+	[s appendString:@"F"];
+    }
+    if(flag&AFHasPDF){
+	[s appendString:@"P"];
+    }
+    return s;
+}
++(ArticleFlag)flagFromFlagInternal:(NSString*)flagInternal;
+{
+    ArticleFlag f=AFNone;
+    if([flagInternal rangeOfString:@"U"].location!=NSNotFound){
+	f|=AFIsUnread;
+    }
+    if([flagInternal rangeOfString:@"F"].location!=NSNotFound){
+	f|=AFIsFlagged;
+    }
+    if([flagInternal rangeOfString:@"P"].location!=NSNotFound){
+	f|=AFHasPDF;
+    }
+    return f;
+}
+
 
 #pragma mark Extras Management
 -(void)setExtra:(id)content forKey:(NSString*)key
@@ -160,102 +254,20 @@
 }
 
 #pragma mark Sort Key Precalculation 
--(NSString*)calculateShortishAuthorList
+
+-(void)setAuthorNames:(NSArray *)authorNames
 {
     NSMutableArray*a=[NSMutableArray array];
-    for(Author*i in self.authors){
-	[a addObject:i.lastName];
-    }
-    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    
-    return [a componentsJoinedByString:@", "];
-}
--(NSString*)calculateLongishAuthorListForEA
-{
-    NSMutableArray*a=[NSMutableArray array];
-    for(Author*i in self.authors){
-	[a addObject:[@"; " stringByAppendingString:i.name]];
-    }
-    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    
-    return [[a componentsJoinedByString:@""] normalizedString];
-}
--(NSString*)calculateLongishAuthorListForA
-{
-    NSMutableArray*a=[NSMutableArray array];
-    for(Author*i in self.authors){
-	[a addObject:i.name];
-    }
-    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    NSMutableString*result=[NSMutableString string];
-    for(NSString*s in a){
-	[result appendString:@"; "];
-	NSArray* c=[s componentsSeparatedByString:@", "];
-	if([c count]==1){
-	    [result appendString:s];
-	    continue;
+    for(NSString*s in authorNames){
+	if(![s isEqualToString:@""]){
+	    [a addObject:[s normalizedString]];
 	}
-	NSString* last=[c objectAtIndex:0];
-	[result appendString:last];
-	[result appendString:@", "];
-	    NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
-	    for(NSString*i in d){
-		if(!i || [i isEqualToString:@""]) continue;
-		[result appendString:[i substringToIndex:1]];
-		[result appendString:@". "];
-	    }
     }
-    return [result normalizedString];
-    
-}
--(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"authors"]){
-	self.shortishAuthorList=[self calculateShortishAuthorList];
-	self.longishAuthorListForA=[self calculateLongishAuthorListForA];
-	self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
-    }
+    self.shortishAuthorList=[Article shortishAuthorListFromAuthorNames:a];
+    self.longishAuthorListForA=[Article longishAuthorListForAFromAuthorNames:a];
+    self.longishAuthorListForEA=[Article longishAuthorListForEAFromAuthorNames:a];	
 }
 
-/*- (void)addAuthorsObject:(NSManagedObject *)value
-{
-    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
-    [self addAuthors:changedObjects];
-}
-
-- (void)removeAuthorsObject:(NSManagedObject *)value
-{
-    NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value count:1];
-    [self removeAuthors:changedObjects];
-}
-
-- (void)addAuthors:(NSSet *)value
-{
-    [self willChangeValueForKey:@"authors"
-		withSetMutation:NSKeyValueUnionSetMutation
-		   usingObjects:value];
-    [[self primitiveAuthors] unionSet:value];
-    [self didChangeValueForKey:@"authors"
-	       withSetMutation:NSKeyValueUnionSetMutation
-		  usingObjects:value];
-    self.longishAuthorListForA=[self calculateLongishAuthorListForA];
-    self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
-    self.shortishAuthorList=[self calculateShortishAuthorList];	
-}
-
-- (void)removeAuthors:(NSSet *)value
-{
-    [self willChangeValueForKey:@"authors"
-		withSetMutation:NSKeyValueMinusSetMutation
-		   usingObjects:value];
-    [[self primitiveAuthors] minusSet:value];
-    [self didChangeValueForKey:@"authors"
-	       withSetMutation:NSKeyValueMinusSetMutation
-		  usingObjects:value];
-    self.longishAuthorListForA=[self calculateLongishAuthorListForA];
-    self.longishAuthorListForEA=[self calculateLongishAuthorListForEA];	
-    self.shortishAuthorList=[self calculateShortishAuthorList];	
-}*/
 
 -(NSString*)calculateEprintForSorting
 {
@@ -363,16 +375,16 @@
 -(void)associatePDF:(NSString*)path
 {
     self.pdfAlias=[[NDAlias aliasWithPath:path] data];
+    [self setFlag:self.flag | AFHasPDF];
 }
 
 -(BOOL)hasPDFLocally
 {
     BOOL b= [[NSFileManager defaultManager] fileExistsAtPath:self.pdfPath];
+    if(b){
+	[self setFlag:self.flag | AFHasPDF];	
+    }
     return b;
-}
--(NSString*)associatedPDFPath
-{
-    return nil;
 }
 -(NSString*)IdForCitation
 {
@@ -412,59 +424,30 @@
 	return @"shouldn't happen";
     }
 }
--(ArticleFlag)flag
-{
-    NSString*s=self.memo;
-    if([s hasPrefix:@"unread;"]){
-	return AFUnread;
-    }else if([s hasPrefix:@"0read;"]){
-	return AFRead;
-    }else if([s hasPrefix:@"flagged;"]){
-	return AFFlagged;
-    }
-    return AFNone;
-}
--(void)setFlag:(ArticleFlag)flag
-{
-    if(flag==AFUnread){
-	self.memo=@"unread;";
-    }else if(flag==AFRead){
-	self.memo=@"0read;";
-    }else if(flag==AFFlagged){
-	self.memo=@"flagged;";
-    }else{
-	self.memo=nil;
-    }
-}
 -(NSImage*)flagImage
 {
     ArticleFlag af=self.flag;
-    if(af==AFFlagged){
+    if(af&AFIsFlagged){
 	return [NSImage imageNamed:@"flagged.png"];
-    }else if(af==AFUnread){
+    }else if(af&AFIsUnread){
 	return [NSImage imageNamed:@"unread.png"];
+    }else if(af&AFHasPDF){
+	return [NSImage imageNamed:@"hasPDF.png"];
     }
     return nil;
 }
 +(NSSet*)keyPathsForValuesAffectingFlagImage
 {
-    return [NSSet setWithObjects:@"memo",nil];
+    return [NSSet setWithObjects:@"flagInternal",nil];
+}
+-(void)setFlag:(ArticleFlag)flag
+{
+    self.flagInternal=[Article flagInternalFromFlag:flag];
+}
+-(ArticleFlag)flag
+{
+    return [Article flagFromFlagInternal:self.flagInternal];
 }
 
-/*-(NSString*)abstractFilePath
-{
-    return [NSString stringWithFormat:@"%@/%@.html",[[MOC sharedMOCManager] directoryForAbstract],[self uniqueId]];
-}
--(NSString*)abstract
-{
-    NSString*path=[self abstractFilePath];
-    if([[NSFileManager defaultManager] fileExistsAtPath:[self abstractFilePath]]){
-	return [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    }
-    return nil;
-}
--(void)setAbstract:(NSString*)s
-{
-    [s writeToFile:[self abstractFilePath] atomically:NO encoding:NSUTF8StringEncoding error:nil];
-}*/
+
 @end

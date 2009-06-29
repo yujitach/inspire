@@ -328,12 +328,21 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
 */    
     [self crashCheck:self];
+    if(![[SpiresHelper sharedHelper] isOnline]){
+	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
+				      defaultButton:@"OK" 
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
+	[alert runModal];
+    }
+    
 //    [self updateFormatForAIfNeeded:self];
 }
 -(void)clearUnreadFlagOfArticle:(NSTimer*)timer
 {
     Article*a=[timer userInfo];
-    a.flag=AFRead;
+    [a setFlag:[a flag]&(~AFIsUnread)];
     unreadTimer=nil;
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -349,7 +358,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 //	    NSLog(@"selection:%a",a);
 	    Article*ar=[a objectAtIndex:0];
 	    [wv setArticle:ar];
-	    if(ar.flag==AFUnread){
+	    if(ar.flag & AFIsUnread){
 		if(unreadTimer){
 		    [unreadTimer invalidate];
 		}
@@ -378,8 +387,12 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 #pragma mark SPIRES XML 
 -(void)querySPIRES:(NSString*)search
 {
+    if([[SpiresHelper sharedHelper] isOnline]){
     [[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
 											andMOC:[self managedObjectContext]]];
+    }else{
+	NSLog(@"it's offline!");
+    }
 }
 -(void)startUpdatingMainView:(id)sender
 {
@@ -471,14 +484,17 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	    return;
     }
     
-    if(a.eprint && ![a.eprint isEqualToString:@""]){
-	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
-    }else if(a.doi && ![a.doi isEqualToString:@""]){
-	[self loadAbstractUsingDOI:a];
-    }
-    if(!a.texKey || [a.texKey isEqualToString:@""]){
-	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:[NSArray arrayWithObject:a]]];
-//	[self getBibEntriesWithoutDisplay:self];
+    if([[SpiresHelper sharedHelper] isOnline]){
+	if(a.eprint && ![a.eprint isEqualToString:@""]){
+	    [[DumbOperationQueue arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
+	}else if(a.doi && ![a.doi isEqualToString:@""]){
+	    [self loadAbstractUsingDOI:a];
+	}
+	
+	if(!a.texKey || [a.texKey isEqualToString:@""]){
+	    //	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:[NSArray arrayWithObject:a]]];
+	    //	[self getBibEntriesWithoutDisplay:self];
+	}
     }
     countDown=(int)GRACE;
     if(countDown<GRACEMIN){
@@ -491,6 +507,23 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 }*/
 
 #pragma mark Actions
+-(IBAction)turnOnOffLine:(id)sender
+{
+    BOOL state=[[SpiresHelper sharedHelper] isOnline];
+    if(state){
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to go offline?"
+				      defaultButton:@"Yes" 
+				    alternateButton:@"No"
+					otherButton:nil
+			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
+	NSUInteger result=[alert runModal];
+	if(result!=NSAlertDefaultReturn)
+	    return;
+    }
+    [[SpiresHelper sharedHelper] setIsOnline:!state];
+
+}
+
 -(IBAction)progressQuit:(id)sender
 {
     [[DumbOperationQueue spiresQueue] cancelCurrentOperation];
@@ -598,6 +631,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }
     CannedSearch* al=[CannedSearch cannedSearchWithName:name inMOC:[self managedObjectContext]];
     al.searchString=[[sideTableViewController currentArticleList] searchString];
+    al.sortDescriptors=[[sideTableViewController currentArticleList] sortDescriptors];
     [sideTableViewController addArticleList:al];
     [sideTableViewController rearrangePositionInViewForArticleLists];
 }
@@ -651,6 +685,26 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
   //  NSLog(@"%@",pkg);
     [[NSWorkspace sharedWorkspace] openFile:pkg];
 }
+-(IBAction)deletePDFForEntry:(id)sender
+{
+    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    if(!a.hasPDFLocally)
+	return;
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Do you really want to remove PDF?"
+				  defaultButton:@"Yes" 
+				alternateButton:@"No"
+				    otherButton:nil
+		      informativeTextWithFormat:@"PDF will be moved to the trash."];
+    NSUInteger result=[alert runModal];
+    if(result!=NSAlertDefaultReturn)
+	return;
+    NSString*path=a.pdfPath;
+    FSRef f;
+    FSPathMakeRefWithOptions((const UInt8 *)[path fileSystemRepresentation], kFSPathMakeRefDefaultOptions, &f, NULL);
+    FSMoveObjectToTrashSync(&f, NULL, kFSFileOperationDefaultOptions);
+    [a setFlag:a.flag &(~AFHasPDF)];
+    
+}
 -(IBAction)deleteEntry:(id)sender
 {
 /*    if([[articleListController selectedObjects] count]!=1){
@@ -694,6 +748,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	return;
     }
     ArticleList* al=[a objectAtIndex:0];*/
+    if(![[SpiresHelper sharedHelper] isOnline])
+	return;
     ArticleList* al=[sideTableViewController currentArticleList];
     if(!al){
 	return;
@@ -835,10 +891,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(IBAction)toggleFlagged:(id)sender
 {
     for(Article*article in [ac selectedObjects]){
-	if(article.flag==AFFlagged){
-	    article.flag=AFRead;
+	if(article.flag & AFIsFlagged){
+	    [article setFlag:article.flag&~AFIsFlagged];
 	}else{
-	    article.flag=AFFlagged;
+	    [article setFlag:article.flag|AFIsFlagged];
 	}
     }
 }

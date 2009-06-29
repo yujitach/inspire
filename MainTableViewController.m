@@ -98,14 +98,18 @@ NSString *ArticleDropPboardType=@"articleDropType";
 		       action:@selector(reloadFromSPIRES:)
 		keyEquivalent:@""
 		      atIndex:1];	
+    [menu insertItemWithTitle:@"Delete PDF" 
+		       action:@selector(deletePDFForEntry:)
+		keyEquivalent:@""
+		      atIndex:2];	
     [menu insertItemWithTitle:@"Delete" 
 		       action:@selector(deleteEntry:)
 		keyEquivalent:@""
-		      atIndex:2];	
+		      atIndex:3];	
     [menu insertItemWithTitle:@"Dump debug info" 
 		       action:@selector(dumpDebugInfo:)
 		keyEquivalent:@""
-		      atIndex:3];	
+		      atIndex:4];	
     return menu;
 }
 @end

@@ -203,7 +203,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)flagPredicate:(NSString*)operand
 {
-    NSString*key=@"memo";	
+    NSString*key=@"flagInternal";	
     //    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
     //    operand=[[operand componentsSeparatedByString:@" "] lastObject];
     if([operand isEqualToString:@""])
@@ -211,12 +211,14 @@ SpiresHelper*_sharedSpiresHelper=nil;
     //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
     NSString*head=nil;
     if([operand hasPrefix:@"f"]){
-	head=@"flagged;";
+	head=@"F";
     }else if([operand hasPrefix:@"u"]){
-	head=@"unread;";
+	head=@"U";
+    }else if([operand hasPrefix:@"p"]){
+	head=@"P";
     }
     if(head){
-	NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K beginswith %@",key,head];
+	NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,head];
 	//        NSLog(@"%@",pred);
 	return pred;    
     }
@@ -591,4 +593,22 @@ SpiresHelper*_sharedSpiresHelper=nil;
 		     didEndSelector:nil
 			contextInfo:nil];
 }
+
+#pragma mark online management
+-(void)setIsOnline:(BOOL)b
+{
+    [[NSUserDefaults standardUserDefaults] setBool:b forKey:@"isOnline"];
+    if(b){
+	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Offline",@"Turn Offline")
+						 forKey:@"turnOnOfflineMenuItem"];
+    }else{
+	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Online",@"Turn Online")
+						 forKey:@"turnOnOfflineMenuItem"];	
+    }
+}
+-(BOOL)isOnline
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"isOnline"];
+}
+
 @end

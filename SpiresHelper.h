@@ -20,6 +20,8 @@
     
 }
 +(SpiresHelper*)sharedHelper;
+-(void)setIsOnline:(BOOL)b;
+-(BOOL)isOnline;
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string;
 //-(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string;
 -(NSURL*)spiresURLForQuery:(NSString*)search;

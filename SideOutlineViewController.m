@@ -201,6 +201,13 @@
 	f.searchString=@"f flagged";
 	f.positionInView=[NSNumber numberWithInt:100];
     }
+    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"pdfListPrepared"]){
+	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"pdfListPrepared"];
+	CannedSearch*f=[CannedSearch cannedSearchWithName:@"has pdf" inMOC:[self managedObjectContext]];
+	f.searchString=@"f pdf";
+	f.positionInView=[NSNumber numberWithInt:200];
+    }
+    
 //    [articleListController setSortDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES]]];
     [articleListController rearrangeObjects];
 
@@ -376,14 +383,14 @@
 			   action:@selector(addArticleFolder:)
 		    keyEquivalent:@""
 			  atIndex:1];
-/*	[menu insertItemWithTitle:@"Add Saved Search..." 
+	[menu insertItemWithTitle:@"Add Saved Search..." 
 			   action:@selector(addCannedSearch:)
 		    keyEquivalent:@""
-			  atIndex:2];*/
+			  atIndex:2];
 	[menu insertItemWithTitle:@"Add arxiv/new..." 
 			   action:@selector(addArxivArticleList:)
 		    keyEquivalent:@""
-			  atIndex:2];
+			  atIndex:3];
     }else{
 	NSTreeNode*item=[ov itemAtRow:i];
 	

@@ -89,6 +89,7 @@
 -(IBAction)openHomePage:(id)sender;
 -(IBAction)zoomIn:(id)sender;
 -(IBAction)zoomOut:(id)sender;
+-(IBAction)turnOnOffLine:(id)sender;
 -(void)showInfoOnAssociation;
 -(BOOL)currentListIsArxivReplaced;
 -(void)handleURL:(NSURL*) url;

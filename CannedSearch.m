@@ -34,11 +34,10 @@
 -(void)reloadLocalWithCap:(NSUInteger)cap
 {
 //    NSLog(@"locally reloading canned search %@", self.name);
-    if(![self searchString] || [[self searchString] isEqualToString:@""]){
+    if(![self searchString] || [[self searchString] isEqualToString:@""] || [[self searchString] length]<5){
 	return;
     }
     NSPredicate*predicate=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:[self searchString]];
-    
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[self managedObjectContext]];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
@@ -66,12 +65,12 @@
 {
     if(localReloadTimer){
 	[localReloadTimer invalidate];
-	localReloadTimer=[NSTimer scheduledTimerWithTimeInterval:.5 
+    }
+    localReloadTimer=[NSTimer scheduledTimerWithTimeInterval:.5 
 							  target:self 
 							selector:@selector(reloadLocalFully) 
 							userInfo:nil
 							 repeats:NO];
-    }
     [self reloadLocalWithCap:100];
 }*/
 -(void)reloadLocal
@@ -80,6 +79,8 @@
 }
 -(void)reload
 {
+    if(![[SpiresHelper sharedHelper] isOnline])
+	return;
     if(state==0){
 	state=1;
 	[[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:[self searchString]

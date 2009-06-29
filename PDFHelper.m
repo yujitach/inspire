@@ -11,6 +11,7 @@
 #import "JournalEntry.h"
 #import "spires_AppDelegate.h"
 #import "ArxivHelper.h"
+#import "SpiresHelper.h"
 #import "ProgressIndicatorController.h"
 #import "RegExKitLite.h"
 #import "NSString+XMLEntityDecoding.h"
@@ -156,13 +157,16 @@ static BOOL quickLookIsOpen=NO;
     if(o.hasPDFLocally&&![[[NSApplication sharedApplication] delegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if(o.articleType==ATEprint){
-	    [[DumbOperationQueue arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
+	    if([[SpiresHelper sharedHelper] isOnline])
+		[[DumbOperationQueue arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
 												      usingViewer:viewerType]];
 	}
     }else if(o.articleType==ATEprint){
+	if([[SpiresHelper sharedHelper] isOnline]){
 	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
 	[[DumbOperationQueue arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
+	}
     }else{
 	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
 				      defaultButton:@"OK" 
@@ -179,6 +183,9 @@ static BOOL quickLookIsOpen=NO;
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 {
     NSString* journalName=o.journal.name;
+    if(![[SpiresHelper sharedHelper] isOnline])
+	return NO;
+
     if(!journalName || [journalName isEqualToString:@""])
 	return NO;
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];

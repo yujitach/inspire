@@ -41,7 +41,7 @@
 -(void)registerAuthorsInString:(NSString*)tmp toArticle:(Article*)ar
 {
     NSArray*authors=[tmp componentsSeparatedByString:@"\">"];
-    NSMutableSet* set=[NSMutableSet set];
+    NSMutableArray* array=[NSMutableArray array];
     if([authors count]>1){
 	for(int i=1;i<[authors count];i++){
 	    NSString*s=[authors objectAtIndex:i];
@@ -57,10 +57,9 @@
 		}
 	    }
 	    s=[NSString stringWithFormat:@"%@, %@",lastName, [b componentsJoinedByString:@" "]];
-	    Author* author=[Author authorWithName:s inMOC:[self managedObjectContext]];
-	    [set addObject:author];
+	    [array addObject:s];
 	}
-	ar.authors=set;
+	[ar setAuthorNames:array];
     }
 }
 /*-(void)addOneEntryOfArxiv:(NSXMLElement*)element 
@@ -166,9 +165,11 @@
     ar.version=[NSNumber numberWithInt:1];
     ar.title=title;
     ar.comments=comments;
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldPutUnreadMarksForArxivNew"] && ar.flag==AFNone){
-	ar.flag=AFUnread;
+    ArticleFlag af=ar.flag;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldPutUnreadMarksForArxivNew"]){
+	af|=AFIsUnread;
     }
+    [ar setFlag:af];
     [self registerAuthorsInString:authorsList toArticle:ar];
     [self addArticlesObject:ar];
     
