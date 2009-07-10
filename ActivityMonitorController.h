@@ -7,11 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AuxPanelController.h";
 
-
-@interface ActivityMonitorController : NSWindowController {
+@interface ActivityMonitorController : AuxPanelController {
     IBOutlet NSArrayController*activityController;
     NSMutableArray*array;
 }
--(void)showhide:(id)sender;
 @end

@@ -1,36 +1,70 @@
 #!/usr/bin/perl
 use strict;
 our @bibs;
+our @inputs;
 our %mapping;
 our %definition;
 our $list;
 our $bib;
 our $title;
 our $refresh="NO";
+our $isbibtex="NO";
+our $bibtexfile;
 undef $/;
 my $tex=<>;
 $tex=~s/\r//smg;
-listidentifiers($tex);
+@bibs=listidentifiers($tex);
+@inputs=listinputs($tex);
 listmapsanddefs($tex);
+getbibtexinfo($tex);
 emitplist();
 
+sub getbibtexinfo{
+	my $src=shift;
+	if($src=~/\\bibliography{([^}]+)}/){
+		$isbibtex="YES";
+		$bibtexfile=$1;
+	}
+}
 sub listidentifiers{
 	my $src=shift;
 	$src=~s/%.+?\n//g;
 	$src=~s/\\citen/\\cite/g;
 	my %test;
-    for my $i  ( split "cite{", $src  ){
-		$i=~/^([^}]+)}/;
-		next if $i=~/^\\/;
-		for(split ",", $1){
-			$_=~s/^[ \n\r]+//g;
-	    	unless (exists $test{$_}){
-				push @bibs, $_ ;
-#				print "$_,";
-				$test{$_}=$_;
-	    	}
+	my @bibs;
+	my @candidates=($src=~m/cite\{([^\}]+)\}/g);
+	for my $i(@candidates){
+		my @subcan=split ",",$i;
+		for my $j(@subcan){
+			$j=~s/^[ \n\r]+//g;
+			unless(exists $test{$j}){
+				push @bibs, $j;
+				$test{$j}=$j;
+			}
 		}
-    }
+	}
+#    for my $i  ( split "cite{", $src  ){
+#		$i=~/^([^}]+)}/;
+#		next if $i=~/^\\/;
+#		for(split ",", $1){
+#			$_=~s/^[ \n\r]+//g;
+#	    	unless (exists $test{$_}){
+#				push @bibs, $_ ;
+##				print "$_,";
+#				$test{$_}=$_;
+#	    	}
+#		}
+#    }
+	return @bibs;
+}
+
+sub listinputs{
+    my $src=shift;
+    $src=~s/%.+?\n//g;
+    my @i=($src=~/input\{([^\}]+)\}/g);
+    my @j=($src=~/include\{([^\}]+)\}/g);
+    my @inputs=(@i,@j);
+	return @inputs;
 }
 sub listmapsanddefs{
 	my $src=shift;
@@ -73,6 +107,14 @@ EOF
 	}
 	print <<EOF;
 </array>
+<key>inputs</key>
+<array>
+EOF
+    for my $i (@inputs){
+	print "\t<string>$i</string>\n";
+    }
+    print <<EOF;
+</array>
 <key>mappings</key>
 <dict>
 EOF
@@ -101,6 +143,10 @@ EOF
 <string>$title</string>
 <key>forceRefresh</key>
 <string>$refresh</string>
+<key>isBibTeX</key>
+<string>$isbibtex</string>
+<key>BibTeXFile</key>
+<string>$bibtexfile</string>
 </dict>
 </plist>
 EOF

@@ -158,13 +158,13 @@ static BOOL quickLookIsOpen=NO;
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if(o.articleType==ATEprint){
 	    if([[SpiresHelper sharedHelper] isOnline])
-		[[DumbOperationQueue arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
+		[[OperationQueues arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
 												      usingViewer:viewerType]];
 	}
     }else if(o.articleType==ATEprint){
 	if([[SpiresHelper sharedHelper] isOnline]){
-	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
-	[[DumbOperationQueue arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
+	[[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
+	[[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
 	}
     }else{
@@ -194,12 +194,12 @@ static BOOL quickLookIsOpen=NO;
        ||[[defaults arrayForKey:@"SpringerJournals"] containsObject:journalName]
        ||[[defaults arrayForKey:@"AIPJournals"] containsObject:journalName]
 	){
-	[[DumbOperationQueue spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
+	[[OperationQueues spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
 	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){
 	    type=openWithSecondaryViewer;
 	}
-	[[DumbOperationQueue spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
+	[[OperationQueues spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
 	return YES;
     }
     return NO;

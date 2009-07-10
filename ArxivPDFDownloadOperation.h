@@ -9,9 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "DumbOperation.h"
 #import "PDFHelper.h"
-@interface ArxivPDFDownloadOperation : DumbOperation {
+@interface ArxivPDFDownloadOperation : ConcurrentOperation {
     Article*article;
     NSNumber* reloadDelay;
 }
 -(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a;
+
 @end

@@ -10,7 +10,7 @@
 #import "DumbOperation.h"
 
 @class Article;
-@interface ArxivMetadataFetchOperation : DumbOperation {
+@interface ArxivMetadataFetchOperation : ConcurrentOperation {
     Article*article;
 }
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;

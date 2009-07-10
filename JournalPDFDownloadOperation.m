@@ -29,7 +29,7 @@
 {
     return [NSString stringWithFormat:@"journal pdf download for \'%@\'",article.title];
 }
--(void)main
+-(void)start
 {
     
     
@@ -39,6 +39,7 @@
     downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]
 				      didEndSelector:@selector(journalHTMLDownloadDidEnd:) 
 					    delegate:self ];
+    self.isExecuting=YES;
     [downloader download];
 }
 -(void)journalHTMLDownloadDidEnd:(NSString*)path
@@ -118,7 +119,10 @@
 	    }
 	}
     }
-    self.finished=YES;
+    [self finish];
 }    
-
+-(void)cleanupToCancel
+{
+    [ProgressIndicatorController startAnimation:self];
+}
 @end

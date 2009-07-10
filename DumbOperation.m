@@ -8,7 +8,7 @@
 
 #import "DumbOperation.h"
 
-
+/*
 @implementation DumbOperation
 @synthesize finished;
 @synthesize canceled;
@@ -40,33 +40,50 @@
 }
 
 @end
+*/
 
-static DumbOperationQueue*_queue=nil;
-static DumbOperationQueue*_Squeue=nil;
-static DumbOperationQueue*_Aqueue=nil;
+static NSOperationQueue*_queue=nil;
+static NSOperationQueue*_Squeue=nil;
+static NSOperationQueue*_Aqueue=nil;
 
-@implementation DumbOperationQueue
-+(DumbOperationQueue*)sharedQueue;
+@implementation OperationQueues
++(NSOperationQueue*)sharedQueue;
 {
     if(!_queue){
-	_queue=[[DumbOperationQueue alloc] init];
+	_queue=[[NSOperationQueue alloc] init];
+	[_queue setMaxConcurrentOperationCount:1];
     }
     return _queue;
 }
-+(DumbOperationQueue*)spiresQueue;
++(NSOperationQueue*)spiresQueue;
 {
     if(!_Squeue){
-	_Squeue=[[DumbOperationQueue alloc] init];
+	_Squeue=[[NSOperationQueue alloc] init];
+	[_Squeue setMaxConcurrentOperationCount:1];
     }
     return _Squeue;
 }
-+(DumbOperationQueue*)arxivQueue;
++(NSOperationQueue*)arxivQueue;
 {
     if(!_Aqueue){
-	_Aqueue=[[DumbOperationQueue alloc] init];
+	_Aqueue=[[NSOperationQueue alloc] init];
+	[_Aqueue setMaxConcurrentOperationCount:1];
     }
     return _Aqueue;
 }
++(void)cancelOperationsInQueue:(NSOperationQueue*)q
+{
+    for(NSOperation*op in [q operations]){
+	[op cancel];
+    }
+}
++(void)cancelCurrentOperations
+{
+    [self cancelOperationsInQueue:[self sharedQueue]];
+    [self cancelOperationsInQueue:[self arxivQueue]];
+    [self cancelOperationsInQueue:[self spiresQueue]];
+}
+/*
 -(DumbOperationQueue*)init
 {
     [super init];
@@ -146,5 +163,53 @@ static DumbOperationQueue*_Aqueue=nil;
     if([keyPath isEqualToString:@"finished"] && object.finished){
 	[self performSelectorOnMainThread:@selector(done) withObject:nil waitUntilDone:NO];
     }
+}
+ */
+@end
+
+@implementation ConcurrentOperation
+-(BOOL)isConcurrent
+{
+    return YES;
+}
+-(BOOL)isExecuting
+{
+    return isExecuting;
+}
+-(BOOL)isFinished
+{
+    return isFinished;
+}
+-(void)setIsExecuting:(BOOL)b
+{
+    [self willChangeValueForKey:@"isExecuting"];
+    isExecuting=b;
+    if(b){
+	cancelTimer=[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(checkIfCancelled:) userInfo:nil repeats:YES];
+    }else{
+	[cancelTimer invalidate];
+    }
+    [self didChangeValueForKey:@"isExecuting"];
+}
+-(void)checkIfCancelled:(id)userInfo
+{
+    if([self isCancelled]){
+	[self cleanupToCancel];
+	[self finish];
+    }
+}
+-(void)setIsFinished:(BOOL)b
+{
+    [self willChangeValueForKey:@"isFinished"];
+    isFinished=b;
+    [self didChangeValueForKey:@"isFinished"];
+}
+-(void)finish
+{
+    self.isExecuting=NO;
+    self.isFinished=YES;
+}
+-(void)cleanupToCancel
+{
 }
 @end

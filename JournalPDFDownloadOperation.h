@@ -10,7 +10,7 @@
 #import "DumbOperation.h"
 @class Article;
 @class SecureDownloader;
-@interface JournalPDFDownloadOperation : DumbOperation {
+@interface JournalPDFDownloadOperation : ConcurrentOperation {
     Article*article;
     SecureDownloader*downloader;
 

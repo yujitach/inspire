@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>texBinaryPath</key>
+	<string>/opt/local/bin:/sw/bin:/usr/texbin:/usr/local/bin:/usr/local/teTeX/bin/powerpc-apple-darwin-current:/usr/local/teTeX/bin/i386-apple-darwin-current:/usr/bin:/bin</string>
 	<key>isOnline</key>
 	<true/>
 	<key>turnOnOfflineMenuItem</key>

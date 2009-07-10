@@ -14,9 +14,9 @@
 -(void)activityMonitorRefresher:(NSTimer*)timer
 {
     array=[NSMutableArray array];
-    [array addObjectsFromArray:[[DumbOperationQueue arxivQueue] operations]];
-    [array addObjectsFromArray:[[DumbOperationQueue sharedQueue] operations]];
-    [array addObjectsFromArray:[[DumbOperationQueue spiresQueue] operations]];
+    [array addObjectsFromArray:[[OperationQueues arxivQueue] operations]];
+    [array addObjectsFromArray:[[OperationQueues sharedQueue] operations]];
+    [array addObjectsFromArray:[[OperationQueues spiresQueue] operations]];
     [activityController  setContent:array];
     [activityController rearrangeObjects];
     [activityController didChangeArrangementCriteria];
@@ -28,24 +28,6 @@
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(activityMonitorRefresher:) userInfo:nil repeats:YES];
     //    [activityTable setRowHeight:[activityTable rowHeight]*3];
     [self activityMonitorRefresher:nil];
-    [[self window] setLevel:NSNormalWindowLevel];
-    [[self window] setIsVisible:[[NSUserDefaults standardUserDefaults] boolForKey:@"ActivityMonitorIsVisible"]];
     return self;
-}
--(void)showhide:(id)sender
-{
-    if([[self window] isVisible]){
-	[[self window] setIsVisible:NO];
-    }else{
-	[[self window] makeKeyAndOrderFront:sender];
-    }
-}
--(void)windowDidBecomeKey:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ActivityMonitorIsVisible"];
-}
--(void)windowWillClose:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ActivityMonitorIsVisible"];
 }
 @end

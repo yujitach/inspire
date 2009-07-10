@@ -83,12 +83,12 @@
 	return;
     if(state==0){
 	state=1;
-	[[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:[self searchString]
-											    andMOC:[self managedObjectContext]]];
-	[[DumbOperationQueue spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
+	[[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:[self searchString]
+											 andMOC:[self managedObjectContext]]];
+	[[OperationQueues spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
     }else if(state==1){
 	state=2;
-	[[DumbOperationQueue spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
+	[[OperationQueues spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
     }else if(state==2){
 	[self reloadLocal];
 	state=0;

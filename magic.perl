@@ -99,6 +99,7 @@ sub magic{
 	    s/Anti-De +Sitter/Anti-de~Sitter/;
 	    s/(k)ahler/$1\\"ahler/ig; #"
 	    s/hyperK/hyperk/g;
+	    s/\*\*(\d)/\$^$1\$/g;
 	    
 #Names
 	    s/Asterisque/Ast\\'erisque/ig;
@@ -109,11 +110,11 @@ sub magic{
 	    s/Billo,/Bill\\'o,/g;
 	    s/Breitenlohner/Breitenl\\"ohner/g; #"
 	    s/Compere/Comp\\`ere/g; #`
-	    s/Cvetic/Cveti\\v c/g;
+	    s/Cvetic/Cveti{\\v c}/g;
 	    s/de +la +ossa/de la Ossa/ig;
 	    s/Fre,/Fr\\`e,/g; #`
 	    s/-Gaume/-Gaum\\'e/;
-	    s/Garcia-/Garc\\'\\i a-/;
+	    s/Garcia-/Garc{\\'\\i a-}/;
 	    s/G\\.odel/G\\"odel/gi; #"
 	    s/Grana/Gra\\~na/g;
 	    s/Gunayd/G\\"unayd/ig;  #"
@@ -130,15 +131,15 @@ sub magic{
 	    s/Lust,/L\\"ust,/g;  #"
 	    s/McKernan/M\\raise.5ex\\hbox{c}Kernan/g;
 	    s/Marino/Mari\\~no/g;
-	    s/Martinez/Mart\\'\\i nez/g;
-	    s/Mendez-Escobar/M\\'endez-Escobar/ig;
+	    s/Martinez/Mart{\\'\\i ne}z/g;
+	    s/Mendez-Escobar/M\\'ende{z-Es}cobar/ig;
 	    s/Mueck/M\\"uck/g;  #"
 	    s/O.~Tafjord/\\O.~Tafjord/g;
 	    s/P.[ ~]*Zayas/Pando~Zayas/g;
 	    s/Plucker/Pl\\"ucker/g;  #"
 	    s/Rocek/Ro\\v{c}ek/g;
 	    s/Ronen/R./g;
-	    s/Schafer-Nameki/Sch\\"afer-Nameki/g;  #"
+	    s/Schafer-Nameki/Sch\\"afe{r-Na}meki/g;  #"
 	    s/Schrodinger/Schr\\"odinger/g;  #"
 	    s/Schroedinger/Schr\\"odinger/g;  #"
 	    s/Schr\\.odinger/Schr\\"odinger/gi;  #"

@@ -43,17 +43,19 @@
 		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
 		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
+		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
+		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332D1B8F0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */; };
 		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
 		332F46530FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F46520FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m */; };
 		332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
-		3333B8CF0F3584B500251984 /* magic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3333B8CE0F3584B500251984 /* magic.perl */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
+		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
 		3343B3900FF7127A00F13889 /* BWToolKit-License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */; };
 		334A3A700F360E060078D121 /* NSWindow+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
@@ -72,6 +74,7 @@
 		335937790F40052D00E3A39E /* BWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335937770F40052D00E3A39E /* BWSplitView.m */; };
 		3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */; };
 		3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */ = {isa = PBXBuildFile; fileRef = 3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */; };
+		33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33649D1B0FFA8AF50002B187 /* WaitOperation.m */; };
 		3365B0880EA7F53100A847CE /* spires-red.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0850EA7F53100A847CE /* spires-red.ico */; };
 		3365B0890EA7F53100A847CE /* arxiv.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0860EA7F53100A847CE /* arxiv.ico */; };
 		3365B08A0EA7F53100A847CE /* spires-blue.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0870EA7F53100A847CE /* spires-blue.ico */; };
@@ -89,6 +92,8 @@
 		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
 		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
 		338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338AC4770F3691B40011414C /* ProgressIndicatorController.m */; };
+		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
+		3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */; };
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
 		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
 		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
@@ -148,6 +153,10 @@
 		33E755C30F58E65300A21A86 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33E755CA0F58E79D00A21A86 /* pdfScanHelper in Resources */ = {isa = PBXBuildFile; fileRef = 33E755160F58E38000A21A86 /* pdfScanHelper */; };
 		33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */; };
+		33EBAF240FF9B37B0076F6AC /* TeXWatcherController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EBAF230FF9B37B0076F6AC /* TeXWatcherController.m */; };
+		33EBAF280FF9B3B10076F6AC /* TeXWatcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33EBAF270FF9B3B10076F6AC /* TeXWatcher.xib */; };
+		33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EBAF8A0FF9BBEA0076F6AC /* AuxPanelController.m */; };
+		33EBAFBA0FF9BE420076F6AC /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBAFB90FF9BE420076F6AC /* CoreServices.framework */; };
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
@@ -228,10 +237,14 @@
 		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
+		331E6EF90FFE83CB00F07C9A /* SpiresQueryDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresQueryDownloader.h; sourceTree = "<group>"; };
+		331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresQueryDownloader.m; sourceTree = "<group>"; };
 		331FD32F0F36B11800C16F73 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		331FD3300F36B11800C16F73 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
+		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
 		332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleV1V2MigrationPolicy.h; sourceTree = "<group>"; };
 		332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleV1V2MigrationPolicy.m; sourceTree = "<group>"; };
 		332F19C30EA57B8E00758683 /* ArxivHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivHelper.h; sourceTree = "<group>"; };
@@ -246,6 +259,9 @@
 		3333B8CE0F3584B500251984 /* magic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = magic.perl; sourceTree = "<group>"; };
 		333C79050F5230780075267A /* NSURL+libraryProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+libraryProxy.h"; sourceTree = "<group>"; };
 		333C79060F5230780075267A /* NSURL+libraryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+libraryProxy.m"; sourceTree = "<group>"; };
+		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
+		3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXIDsLookUpOperation.h; sourceTree = "<group>"; };
+		3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXIDsLookUpOperation.m; sourceTree = "<group>"; };
 		3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "BWToolKit-License.rtf"; path = "BWFramework/BWToolKit-License.rtf"; sourceTree = "<group>"; };
 		334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+BWAdditions.m"; path = "BWFramework/NSWindow+BWAdditions.m"; sourceTree = "<group>"; };
 		334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSWindow+BWAdditions.h"; path = "BWFramework/NSWindow+BWAdditions.h"; sourceTree = "<group>"; };
@@ -277,6 +293,8 @@
 		335937780F40052D00E3A39E /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = BWFramework/BWSplitView.h; sourceTree = "<group>"; };
 		3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = GradientSplitViewDimpleVector.pdf; path = BWFramework/GradientSplitViewDimpleVector.pdf; sourceTree = "<group>"; };
 		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = BWFramework/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
+		33649D1A0FFA8AF50002B187 /* WaitOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOperation.h; sourceTree = "<group>"; };
+		33649D1B0FFA8AF50002B187 /* WaitOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOperation.m; sourceTree = "<group>"; };
 		3365B0850EA7F53100A847CE /* spires-red.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-red.ico"; sourceTree = "<group>"; };
 		3365B0860EA7F53100A847CE /* arxiv.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = arxiv.ico; sourceTree = "<group>"; };
 		3365B0870EA7F53100A847CE /* spires-blue.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-blue.ico"; sourceTree = "<group>"; };
@@ -304,6 +322,10 @@
 		33887E7B0EA97C4D003A7E83 /* spires.sdef */ = {isa = PBXFileReference; fileEncoding = 4; languageSpecificationIdentifier = html; lastKnownFileType = text.sdef; path = spires.sdef; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xml; };
 		338AC4760F3691B40011414C /* ProgressIndicatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressIndicatorController.h; sourceTree = "<group>"; };
 		338AC4770F3691B40011414C /* ProgressIndicatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressIndicatorController.m; sourceTree = "<group>"; };
+		3391CB710FFAD5B200A52D6E /* BibTeXKeyCopyOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXKeyCopyOperation.h; sourceTree = "<group>"; };
+		3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXKeyCopyOperation.m; sourceTree = "<group>"; };
+		3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingTextField.h; sourceTree = "<group>"; };
+		3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingTextField.m; sourceTree = "<group>"; };
 		339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpiresQuickLookHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		339456BF0F58ED7B00E85044 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = QuickLookHelper/AppDelegate.h; sourceTree = "<group>"; };
 		339456C00F58ED7B00E85044 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = QuickLookHelper/AppDelegate.m; sourceTree = "<group>"; };
@@ -404,6 +426,12 @@
 		33E755160F58E38000A21A86 /* pdfScanHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pdfScanHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E7551D0F58E3CB00A21A86 /* pdfScanHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pdfScanHelper.m; sourceTree = "<group>"; };
 		33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActivityMonitor.xib; sourceTree = "<group>"; };
+		33EBAF220FF9B37B0076F6AC /* TeXWatcherController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeXWatcherController.h; sourceTree = "<group>"; };
+		33EBAF230FF9B37B0076F6AC /* TeXWatcherController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeXWatcherController.m; sourceTree = "<group>"; };
+		33EBAF270FF9B3B10076F6AC /* TeXWatcher.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeXWatcher.xib; sourceTree = "<group>"; };
+		33EBAF890FF9BBEA0076F6AC /* AuxPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuxPanelController.h; sourceTree = "<group>"; };
+		33EBAF8A0FF9BBEA0076F6AC /* AuxPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuxPanelController.m; sourceTree = "<group>"; };
+		33EBAFB90FF9BE420076F6AC /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		33EBF0090EA5BF650050B64A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		33EBF0370EA5C0830050B64A /* Release Notes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Release Notes.html"; sourceTree = "<group>"; };
 		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
@@ -457,6 +485,7 @@
 				33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */,
 				33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */,
 				33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */,
+				33EBAFBA0FF9BE420076F6AC /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,8 +495,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				33E4EF830EAA9FAF00301AFC /* TableViewContextMenuCategory.h */,
-				33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */,
 				338405340EA83D9D009D47DB /* NSString+XMLEntityDecoding.h */,
 				338405350EA83D9D009D47DB /* NSString+XMLEntityDecoding.m */,
 				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
@@ -482,6 +509,8 @@
 				3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */,
 				3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */,
 				3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */,
+				331E6EF90FFE83CB00F07C9A /* SpiresQueryDownloader.h */,
+				331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */,
 				332F19C30EA57B8E00758683 /* ArxivHelper.h */,
 				332F19C40EA57B8E00758683 /* ArxivHelper.m */,
 				334FD3A90F3516EF000B4BD6 /* PDFHelper.h */,
@@ -529,6 +558,7 @@
 			children = (
 				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
 				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
+				33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */,
 				33B485CB0F5B443200EBE022 /* Importer */,
 				33B485CA0F5B440900EBE022 /* PrefPane */,
 				7756732906782D8800D1FEB8 /* Models */,
@@ -567,6 +597,7 @@
 				330937600F39694800F214D6 /* ClientDescription.plist */,
 				33F6149F0EAA82F200DA8029 /* spiresHook.pkg */,
 				3333B8CE0F3584B500251984 /* magic.perl */,
+				333D721110007CE800A328FE /* magicRegExps.perl */,
 				3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */,
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
 				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
@@ -594,6 +625,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				33EBAFB90FF9BE420076F6AC /* CoreServices.framework */,
 				33B58BD90F395ED600E23146 /* SyncServices.framework */,
 				33D8AA900EAA69C800619A6F /* WebKit.framework */,
 				33EBF0090EA5BF650050B64A /* Sparkle.framework */,
@@ -766,6 +798,8 @@
 		33B485BE0F5B3DC700EBE022 /* ActivityMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				33EBAF890FF9BBEA0076F6AC /* AuxPanelController.h */,
+				33EBAF8A0FF9BBEA0076F6AC /* AuxPanelController.m */,
 				33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */,
 				33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */,
 				33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */,
@@ -829,6 +863,10 @@
 				33CC093B0F3E8020005B25F8 /* TeXBibGenerationOperation.m */,
 				33CC095C0F3E8761005B25F8 /* BatchBibQueryOperation.h */,
 				33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */,
+				3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */,
+				3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */,
+				3391CB710FFAD5B200A52D6E /* BibTeXKeyCopyOperation.h */,
+				3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */,
 				3395793F0F3ECA3A0036364A /* LoadAbstractDOIOperation.h */,
 				339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */,
 				339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */,
@@ -837,6 +875,8 @@
 				337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */,
 				3307ADFC0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.h */,
 				3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */,
+				33649D1A0FFA8AF50002B187 /* WaitOperation.h */,
+				33649D1B0FFA8AF50002B187 /* WaitOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -860,9 +900,25 @@
 			name = pdfScanHelper;
 			sourceTree = "<group>";
 		};
+		33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */ = {
+			isa = PBXGroup;
+			children = (
+				332B9B270FF9E34400353564 /* DirWatcher.h */,
+				332B9B280FF9E34400353564 /* DirWatcher.m */,
+				33EBAF220FF9B37B0076F6AC /* TeXWatcherController.h */,
+				33EBAF230FF9B37B0076F6AC /* TeXWatcherController.m */,
+				33EBAF270FF9B3B10076F6AC /* TeXWatcher.xib */,
+			);
+			name = TeXWatcher;
+			sourceTree = "<group>";
+		};
 		33F883E80EAADAE000F5E9C6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */,
+				3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */,
+				33E4EF830EAA9FAF00301AFC /* TableViewContextMenuCategory.h */,
+				33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */,
 				33FA970A0EA8E6DD003961AD /* ArticleView.h */,
 				33FA970B0EA8E6DD003961AD /* ArticleView.m */,
 				338432100F70CFB80040BDA6 /* SideOutlineView.h */,
@@ -1057,7 +1113,6 @@
 				3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */,
 				33071BCF0EC1161900957864 /* Importer.xib in Resources */,
 				33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */,
-				3333B8CF0F3584B500251984 /* magic.perl in Resources */,
 				330937360F39662800F214D6 /* spires.syncschema in Resources */,
 				330937610F39694800F214D6 /* ClientDescription.plist in Resources */,
 				33B5621B0F3BB6510006E70D /* Requests.html in Resources */,
@@ -1074,6 +1129,8 @@
 				334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */,
 				3343B3900FF7127A00F13889 /* BWToolKit-License.rtf in Resources */,
 				332F485D0FF8748700B9363E /* hasPDF.png in Resources */,
+				33EBAF280FF9B3B10076F6AC /* TeXWatcher.xib in Resources */,
+				333D721210007CE800A328FE /* magicRegExps.perl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,6 +1301,13 @@
 				3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */,
 				332F46530FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m in Sources */,
 				332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */,
+				33EBAF240FF9B37B0076F6AC /* TeXWatcherController.m in Sources */,
+				33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */,
+				332B9B290FF9E34400353564 /* DirWatcher.m in Sources */,
+				33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */,
+				3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */,
+				3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */,
+				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

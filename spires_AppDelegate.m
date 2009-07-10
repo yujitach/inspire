@@ -37,6 +37,7 @@
 #import "IncrementalArrayController.h"
 #import "ActivityMonitorController.h"
 #import "PrefController.h"
+#import "TeXWatcherController.h"
 
 #import "PDFHelper.h"
 #import "BibViewController.h"
@@ -47,6 +48,7 @@
 #import "BatchBibQueryOperation.h"
 #import "LoadAbstractDOIOperation.h"
 #import "ArxivMetadataFetchOperation.h"
+#import "BibTeXKeyCopyOperation.h"
 #import "ArticleListReloadOperation.h"
 #import "SPSearchFieldWithProgressIndicator.h"
 
@@ -104,7 +106,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	if([path hasSuffix:@".pdf"]){
 	    [self handlePDF:path];
 	}else if([path hasSuffix:@".tex"]){
-	    [[DumbOperationQueue spiresQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:path
+	    [[OperationQueues spiresQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:path
 												       andMOC:[self managedObjectContext] byLookingUpWeb:YES]];
 	}
     }
@@ -262,7 +264,6 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
 	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL-Unstable"]]];	
     }
-    activityMonitorController=[[ActivityMonitorController alloc] init];
 //    NSLog(@"awake");
 //    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
@@ -303,9 +304,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [self performSelector:@selector(showToolBar:) withObject:self afterDelay:.1];
  // seems to be unnecessary once mouseDownCanMoveWindow is overriden Mar/31/2009
  */
-    
+
+    activityMonitorController=[[ActivityMonitorController alloc] init];
     if(!prefController){
 	prefController=[[PrefController alloc]init];
+    }
+    if(!texWatcherController){
+	texWatcherController=[[TeXWatcherController alloc]init];
     }
     
   
@@ -388,8 +393,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(void)querySPIRES:(NSString*)search
 {
     if([[SpiresHelper sharedHelper] isOnline]){
-    [[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
-											andMOC:[self managedObjectContext]]];
+    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
+										     andMOC:[self managedObjectContext]]];
     }else{
 	NSLog(@"it's offline!");
     }
@@ -449,7 +454,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if(![knownJournals containsObject:a.journal.name]){
 	return;
     }
-    [[DumbOperationQueue sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
+    [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 }
 
 -(void)timerFired:(NSTimer*)t
@@ -486,7 +491,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     
     if([[SpiresHelper sharedHelper] isOnline]){
 	if(a.eprint && ![a.eprint isEqualToString:@""]){
-	    [[DumbOperationQueue arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
+	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
 	}else if(a.doi && ![a.doi isEqualToString:@""]){
 	    [self loadAbstractUsingDOI:a];
 	}
@@ -526,7 +531,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(IBAction)progressQuit:(id)sender
 {
-    [[DumbOperationQueue spiresQueue] cancelCurrentOperation];
+    [OperationQueues cancelCurrentOperations];
 }
 -(IBAction)changeFont:(id)sender;
 {
@@ -554,6 +559,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(IBAction)showPreferences:(id)sender;
 {
     [prefController showWindow:sender];
+}
+-(IBAction)showTeXWatcher:(id)sender;
+{
+    [texWatcherController showhide:sender];
 }
 -(IBAction)showUsage:(id)sender;
 {
@@ -638,12 +647,12 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(void)deleteArticleList:(id)sender
 {
+    [sideTableViewController removeCurrentArticleList];
  /*   ArticleList* al=[sideTableViewController currentArticleList];
     if(!al){
 	return;
     }
     [sideTableViewController removeArticleList:al];*/
-    [sideTableViewController removeCurrentArticleList];
     /*    if([[articleListController selectedObjects] count]==0)
      return;
      ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];*/
@@ -728,18 +737,6 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	}
     }
 }
--(IBAction)openPDF:(id)sender
-{
-    Article*o=[[ac selectedObjects] objectAtIndex:0];
-    if(!o)
-	return;
-//    int modifiers=GetCurrentKeyModifiers();
-    if([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask){
-	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithSecondaryViewer];
-    }else{
-	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithPrimaryViewer];
-    }
-}
 -(IBAction) search:(id)sender
 {
 //    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
@@ -793,7 +790,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     if([al isKindOfClass:[AllArticleList class]]){
 	[self search:nil];
     }else{
-	[[DumbOperationQueue arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
     }
 //    [al reload];
 }
@@ -807,7 +804,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     NSError*error=nil;
     NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
     for(ArxivNewArticleList*l in a){
-	[[DumbOperationQueue arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
+	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
     }
 //    [NSThread detachNewThreadSelector:@selector(reloadAllArticleListMainWork:) toTarget:self withObject:a];
 }
@@ -837,6 +834,19 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithSecondaryViewer];
 }
 
+-(IBAction)openPDF:(id)sender
+{
+    Article*o=[[ac selectedObjects] objectAtIndex:0];
+    if(!o)
+	return;
+    //    int modifiers=GetCurrentKeyModifiers();
+    if([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask){
+	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithSecondaryViewer];
+    }else{
+	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithPrimaryViewer];
+    }
+}
+
 -(IBAction)openJournal:(id)sender
 {
     if([[ac selectedObjects] count]==0)return;
@@ -858,11 +868,22 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 }
 
+-(IBAction)openPDForJournal:(id)sender
+{
+    if([[ac selectedObjects] count]==0)return;
+    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    if(a.hasPDFLocally || (a.eprint && ![a.eprint isEqualToString:@""]) ){
+	[self openPDF:sender];
+    }else{
+	[self openJournal:sender];
+    }
+}
+
 -(IBAction)getBibEntriesWithoutDisplay:(id)sender
 {
     NSArray*x=[ac selectedObjects];
 //    [NSThread detachNewThreadSelector:@selector(getBibEntriesMainWork:) toTarget:self withObject:x];
-    [[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:x]];
+    [[OperationQueues spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:x]];
 }
 -(IBAction)getBibEntries:(id)sender
 {
@@ -870,7 +891,22 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [bibViewController setArticles:[ac selectedObjects]];
     [bibViewController showWindow:sender];
 }
-
+-(IBAction)copyBibKeyToPasteboard:(id)sender
+{
+    NSMutableArray*notReady=[NSMutableArray array];
+    NSOperation*op=[[BibTeXKeyCopyOperation alloc] initWithArticles:[ac selectedObjects]];
+    for(Article*a in [ac selectedObjects]){
+	if(!a.texKey || [a.texKey isEqualToString:@""]){
+	    [notReady addObject:a];	    
+	}
+    }
+    if([notReady count]>0){
+	NSOperation*bb=[[BatchBibQueryOperation alloc]initWithArray:notReady];
+	[[OperationQueues spiresQueue] addOperation:bb];
+	[op addDependency:bb];
+    }
+    [[OperationQueues spiresQueue] addOperation:op];
+}
 -(IBAction)reloadFromSPIRES:(id)sender
 {
     for(Article*article in [ac selectedObjects]){
@@ -883,8 +919,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	    target=[@"key " stringByAppendingString:article.spiresKey];	
 	}
 	if(target){
-	    [[DumbOperationQueue spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
-											       andMOC:[self managedObjectContext]]];
+	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
+											    andMOC:[self managedObjectContext]]];
 	}
     }
 }

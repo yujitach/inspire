@@ -10,12 +10,15 @@
 #import <CoreData/CoreData.h>
 #import "DumbOperation.h"
 @class Article;
-@interface SpiresQueryOperation : DumbOperation {
+@class SpiresQueryDownloader;
+@interface SpiresQueryOperation : ConcurrentOperation {
     NSString*search;
     Article*citedByTarget;
     Article*refersToTarget;
     NSManagedObjectContext*moc;
-
+    SpiresQueryDownloader*downloader;
+    NSOperation*parent;
 }
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
+-(void)setParent:(NSOperation*)p;
 @end

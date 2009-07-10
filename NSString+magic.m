@@ -9,32 +9,67 @@
 #import "NSString+magic.h"
 #import "RegexKitLite.h"
 
+static NSArray*magicRegExps=nil;
+static void loadMagic(){
+    NSMutableArray*a=[NSMutableArray array];
+    NSString*contents=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"magicRegExps" ofType:@"perl"]
+						encoding:NSUTF8StringEncoding
+						   error:NULL];
+    for(NSString*line in [contents componentsSeparatedByString:@"\n"]){
+	NSArray*foo=[line componentsSeparatedByString:@"/"];
+	if([foo count]>=3){
+	    NSArray*bar=[NSArray arrayWithObjects:[foo objectAtIndex:1], [foo objectAtIndex:2],nil];
+	    [a addObject:bar];
+	}
+    }
+    magicRegExps=a;
+}
 @implementation NSString (NSString_magic)
--(NSString*)magicTeXed
+-(NSString*)makeQuieterBetween:(NSString*)xxx and:(NSString*)yyy
 {
-    NSArray*a=[self componentsSeparatedByString:@"``"];
+    NSArray*a=[self componentsSeparatedByString:xxx];
     NSMutableString*quieter=[NSMutableString string];
     for(NSString*i in a){
-	NSRange range=[i rangeOfString:@"''"];
+	NSRange range=[i rangeOfString:yyy];
 	if(range.location!=NSNotFound){
 	    NSString*h=[i substringToIndex:range.location];
 	    h=[h stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
 	    NSString*t=[i substringFromIndex:range.location];
-	    [quieter appendString:@"``"];
+	    [quieter appendString:xxx];
 	    [quieter appendString:[h quieterVersion]];
 	    [quieter appendString:t];
 	}else{
 	    [quieter appendString:i];
 	}
     }
-    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
+    return quieter;
+}
+-(NSString*)magicTeXed
+{
+    NSString*quieter=[self makeQuieterBetween:@"``" and:@"''"];
+    quieter=[quieter makeQuieterBetween:@"\"{" and:@"}\""];
+    if(!magicRegExps){
+	loadMagic();
+    }
+    NSMutableString*result=[quieter mutableCopy];
+    for(NSArray*pair in magicRegExps){
+	NSString*from=[pair objectAtIndex:0];
+	NSString*to=[pair objectAtIndex:1];
+	[result replaceOccurrencesOfRegex:from 
+			       withString:to 
+				  options:RKLCaseless|RKLMultiline 
+				    range:NSMakeRange(0,[result length]) 
+				    error:NULL];
+    }
+    return result;
+/*    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
     NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
     NSString*script=[[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
     NSString* command=[NSString stringWithFormat:@"/usr/bin/perl %@ <%@ >%@" , [script quotedForShell],inPath,outPath];
     NSError*error=nil;
     [quieter writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
     system([command UTF8String]);
-    return [[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];
+    return [[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];*/
 }
 -(NSString*)quieterVersion
 {
@@ -61,6 +96,7 @@
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];
 		s=[s stringByReplacingOccurrencesOfString:@"-Rg" withString:@"-RG"];
 		s=[s stringByReplacingOccurrencesOfString:@"So-Usp" withString:@"SO-USp"];
+		s=[s stringByReplacingOccurrencesOfString:@"'S" withString:@"'s"];
 	    }
 	}
 	[b addObject:s];

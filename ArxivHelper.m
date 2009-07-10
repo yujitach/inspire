@@ -167,6 +167,20 @@ ArxivHelper* _sharedHelper=nil;
 	    content=nil;
 	}
 	return content;
+    }else if([t hasPrefix:@"cros"]){
+	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"new"]];
+	NSRange r=[content rangeOfString:@"<h3>Cross"];
+	NSRange s=[content rangeOfString:@"<h3>Repl"];
+	if(r.location!=NSNotFound){
+	    if(s.location!=NSNotFound){
+		content=[content substringWithRange:NSMakeRange(r.location,s.location-r.location)];
+	    }else{
+		content=[content substringFromIndex:r.location];
+	    }
+	}else{
+	    content=nil;
+	}
+	return content;
     }else if([t hasPrefix:@"rec"]){
 	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"pastweek?show=99"]];
 	NSRange r=[content rangeOfString:@"<h3>Cross"];

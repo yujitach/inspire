@@ -9,10 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "DumbOperation.h"
 
-@interface TeXBibGenerationOperation : DumbOperation {
+@interface TeXBibGenerationOperation : ConcurrentOperation {
     NSString*texFile;
     NSManagedObjectContext*moc;
     BOOL twice;
 }
 -(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b;
++(NSDictionary*)infoForTeXFile:(NSString*)file;
 @end

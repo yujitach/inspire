@@ -28,8 +28,9 @@
 {
     return [NSString stringWithFormat:@"version checking: %@", article.eprint];
 }
--(void)main
+-(void)start
 {
+    self.isExecuting=YES;
     [[ArxivHelper sharedHelper] onlineMetaDataForID:article.eprint delegate:self didEndSelector:@selector(info:) ];
 
 }
@@ -126,8 +127,8 @@
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
 {
     if(choice==NSAlertDefaultReturn){
-	[[DumbOperationQueue arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:article]];
-	[[DumbOperationQueue arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:article
+	[[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:article]];
+	[[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:article
 											     usingViewer:type]];
 
     }

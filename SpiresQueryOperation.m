@@ -11,6 +11,7 @@
 #import "BatchImportOperation.h"
 #import "ProgressIndicatorController.h"
 #import "SpiresHelper.h"
+#import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
 @implementation SpiresQueryOperation
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
@@ -20,8 +21,16 @@
     moc=m;
     return self;
 }
--(void)main
+-(void)setParent:(NSOperation*)p
 {
+    parent=p;
+    if(parent){
+	[parent addDependency:self];
+    }    
+}
+-(void)start
+{
+    
     if([search hasPrefix:@"c"]){
 	NSString*ccc=[[search componentsSeparatedByString:@"and"] objectAtIndex:0];
 	NSArray*a=[ccc componentsSeparatedByString:@" "];
@@ -55,22 +64,33 @@
 	refersToTarget=nil;
     }
     [ProgressIndicatorController startAnimation:self];
-    [[SpiresHelper sharedHelper] querySPIRES:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:userInfo:) userInfo:nil];
+    self.isExecuting=YES;
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:userInfo:) userInfo:nil];
+    if(!downloader){
+	[self finish];
+    }
 }
 -(void)spiresQueryDidEnd:(NSXMLDocument*)doc userInfo:(id)ignore
 {
-    NSXMLElement* root=[doc rootElement];
-    NSArray*elements=[root elementsForName:@"document"];
-    NSLog(@"spires returned %d entries",[elements count]);
-    if(self.canceled){
+    if(!doc){
 	[self finish];
 	return;
     }
-    [self.queue addOperation:[[BatchImportOperation alloc] initWithElements:elements
-									//		   andMOC:moc
-											  citedBy:citedByTarget
-											 refersTo:refersToTarget
-									    registerToArticleList:nil]];
+    NSXMLElement* root=[doc rootElement];
+    NSArray*elements=[root elementsForName:@"document"];
+    NSLog(@"spires returned %d entries",[elements count]);
+    if([self isCancelled]){
+	[self finish];
+	return;
+    }
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithElements:elements
+							  citedBy:citedByTarget
+							 refersTo:refersToTarget
+					    registerToArticleList:nil];
+    if(parent){
+	[op setParent:parent];
+    }
+    [[OperationQueues sharedQueue] addOperation:op];
     [ProgressIndicatorController stopAnimation:self];
 //    if([search hasPrefix:@"tex"]){
 	// this cheat guarantees that texKey is always generated for a lookup of a texKey.
@@ -82,5 +102,8 @@
 {
     return [NSString stringWithFormat:@"spires query:%@",search];
 }
-
+-(void)cleanupToCancel
+{
+    [ProgressIndicatorController stopAnimation:self];
+}
 @end

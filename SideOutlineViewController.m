@@ -76,9 +76,34 @@
 {
     [articleListController setSelectionIndexPath:[self indexPathForArticleList:al]];
 }
+-(void)removeArticleFolder:(ArticleList*)al
+{
+    NSSet*set=al.children;
+    for(ArticleList* c in set){
+	if([c isKindOfClass:[ArticleFolder class]]){
+	    [self removeArticleFolder:c];
+	}
+	[[MOC moc] deleteObject:c];
+    }
+    [[MOC moc] deleteObject:al];
+}
 -(void)removeCurrentArticleList;
 {
-    [articleListController remove:self];
+    ArticleList*al=[[articleListController selectedObjects] objectAtIndex:0];
+    if([al isKindOfClass:[ArticleFolder class]]){
+	NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Do you want to remove folder %@",al.name]
+				      defaultButton:@"Yes" 
+				    alternateButton:@"No"
+					otherButton:nil
+			  informativeTextWithFormat:@"Removing a folder recursively removes its contents.\n You can undo it by Cmd-Z."];
+	NSUInteger result=[alert runModal];
+	if(result!=NSAlertDefaultReturn)
+	    return;
+	[self removeArticleFolder:al];
+    }else{
+	[[MOC moc] deleteObject:al];
+//	[articleListController removeObject:tn];
+    }
 }
 -(void)updatePositionInViewFor:(ArticleList*)al to:(NSInteger)i
 {
@@ -420,64 +445,4 @@
 
 
 
-#pragma mark NSTableView delegate
-/*
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
-{
-    NSManagedObjectContext* moc=[MOC moc];
-    if([[[info draggingPasteboard] types] containsObject:ArticleDropPboardType]){
-	ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:row];
-	NSData* d=[[info draggingPasteboard] dataForType:ArticleDropPboardType];
-	if(d){
-	    NSArray* a=[NSKeyedUnarchiver unarchiveObjectWithData:d];
-	    for(NSURL*url in a){
-		NSManagedObjectID* moID=[[moc persistentStoreCoordinator] 
-					 managedObjectIDForURIRepresentation:url];
-		Article*x=(Article*)[moc objectWithID:moID];
-		if(x){
-		    [al addArticlesObject:x];
-		}
-	    }
-	    return YES;
-	}
-	return NO;
-    }
-    if([[[info draggingPasteboard] types] containsObject:ArticleListDropPboardType]){
-	NSData* d=[[info draggingPasteboard] dataForType:ArticleListDropPboardType];
-	if(d){
-	    NSArray* a=[NSKeyedUnarchiver unarchiveObjectWithData:d];
-	    NSMutableArray* ma=[NSMutableArray array];
-	    for(NSURL*url in a){
-		NSManagedObjectID* moID=[[moc persistentStoreCoordinator] 
-					 managedObjectIDForURIRepresentation:url];
-		ArticleList*x=(ArticleList*)[moc objectWithID:moID];
-		if(x){
-		    [ma addObject:x];
-		}
-	    }
-	    int r=row*2-2;
-	    for(ArticleList* x in ma){
-		x.positionInView=[NSNumber numberWithInt:++r];
-		[self rearrangePositionInViewForArticleLists];
-		++r;
-	    }
-	    return YES;
-	}	
-    }  
-    return NO;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
-{
-
-
-    NSArray* a=[[articleListController arrangedObjects] objectsAtIndexes:rowIndexes];
-    NSMutableArray* b=[NSMutableArray array];
-    for(ArticleList*i in a){
-	[b addObject:[[i objectID] URIRepresentation]];
-    }
-    [pboard declareTypes:[NSArray arrayWithObject:ArticleListDropPboardType] owner:nil];
-    [pboard setData:[NSKeyedArchiver archivedDataWithRootObject:b] forType:ArticleListDropPboardType];
-    return YES;
-}*/
 @end

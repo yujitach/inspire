@@ -16,10 +16,6 @@
     list=l;
     return self;
 }
--(BOOL)wantToRunOnMainThread
-{
-    return NO;
-}
 -(NSString*)description
 {
     return [NSString stringWithFormat:@"reload %@",list.name];
@@ -29,6 +25,6 @@
     [list performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
 //    [NSThread sleepForTimeInterval:1];
     usleep(1000*1000); //sleep 1s
-    [self finish];
+//    [self finish];
 }
 @end

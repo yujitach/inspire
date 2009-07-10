@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+/*
 @class DumbOperationQueue;
 @interface DumbOperation : NSObject {
     BOOL finished;
@@ -34,4 +34,23 @@
 -(void)cancelCurrentOperation;
 -(NSArray*)operations;
 @end
+*/
 
+@interface OperationQueues : NSObject {
+}
++(NSOperationQueue*)sharedQueue;
++(NSOperationQueue*)spiresQueue;
++(NSOperationQueue*)arxivQueue;
++(void)cancelCurrentOperations;
+@end
+
+@interface ConcurrentOperation: NSOperation {
+    BOOL isFinished;
+    BOOL isExecuting;
+    NSTimer*cancelTimer;
+}
+-(void)finish;
+-(void)cleanupToCancel;
+@property (assign) BOOL isFinished;
+@property (assign) BOOL isExecuting;
+@end

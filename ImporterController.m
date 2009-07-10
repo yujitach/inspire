@@ -46,7 +46,7 @@
 	    count++;
 	    if([a count]>100){
 //		[appDelegate performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
-		[[DumbOperationQueue sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
+		[[OperationQueues sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
 											//	       andMOC:[MOC moc]
 												      citedBy:nil 
 												     refersTo:nil
@@ -56,7 +56,7 @@
 	    }
 	}
 	if([a count]>0){
-	    [[DumbOperationQueue sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
+	    [[OperationQueues sharedQueue] addOperation:[[BatchImportOperation alloc] initWithElements:a
 											//	   andMOC:[MOC moc]
 												  citedBy:nil 
 												 refersTo:nil

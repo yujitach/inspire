@@ -21,6 +21,7 @@
 @class ActivityMonitorController;
 @class IncrementalArrayController;
 @class PrefController;
+@class TeXWatcherController;
 @class SPSearchFieldWithProgressIndicator;
 @interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
@@ -41,6 +42,7 @@
     ImporterController*importerController;
     ActivityMonitorController* activityMonitorController;
     PrefController*prefController;
+    TeXWatcherController*texWatcherController;
     int countDown;
     ArticleList* allArticleList;
     
@@ -78,6 +80,7 @@
 -(IBAction)importSpiresXML:(id)sender;
 -(IBAction)getBibEntries:(id)sender;
 -(IBAction)getBibEntriesWithoutDisplay:(id)sender;
+-(IBAction)copyBibKeyToPasteboard:(id)sender;
 -(IBAction)openSelectionInQuickLook:(id)sender;
 -(IBAction)openSelectionInPDFViewer:(id)sender;
 -(IBAction)openSelectionInSecondaryPDFViewer:(id)sender;
@@ -86,10 +89,12 @@
 -(IBAction)showUsage:(id)sender;
 -(IBAction)showhideActivityMonitor:(id)sender;
 -(IBAction)showPreferences:(id)sender;
+-(IBAction)showTeXWatcher:(id)sender;
 -(IBAction)openHomePage:(id)sender;
 -(IBAction)zoomIn:(id)sender;
 -(IBAction)zoomOut:(id)sender;
 -(IBAction)turnOnOffLine:(id)sender;
+-(IBAction)progressQuit:(id)sender;
 -(void)showInfoOnAssociation;
 -(BOOL)currentListIsArxivReplaced;
 -(void)handleURL:(NSURL*) url;

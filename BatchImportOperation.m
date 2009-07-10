@@ -53,6 +53,13 @@ l{
     delegate=[NSApp delegate];
     return self;
 }
+-(void)setParent:(NSOperation*)p
+{
+    parent=p;
+    if(parent){
+	[parent addDependency:self];
+    }    
+}
 -(BOOL)isEqual:(id)obj
 {
     return self==obj;
@@ -62,10 +69,7 @@ l{
 {
     return [NSString stringWithFormat:@"registering to database %d elements",[elements count]];
 }
--(BOOL)wantToRunOnMainThread
-{
-    return NO;
-}
+
 -(void)main
 {
 //	NSMutableArray*a=[NSMutableArray array];
@@ -90,7 +94,6 @@ l{
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
 								     withObject:self 
 								  waitUntilDone:NO];
-    [self finish];
 }
 
 -(NSString*)valueForKey:(NSString*)key inXMLElement:(NSXMLElement*)element
@@ -236,7 +239,11 @@ l{
     if([x count]==1){
 	Article*a=[x anyObject];
 	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
-	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]]];
+	NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]];
+	if(parent){
+	    [parent addDependency:op];
+	}
+	[[OperationQueues spiresQueue] addOperation:op];
     }
 //    [moc enableUndo];
 }

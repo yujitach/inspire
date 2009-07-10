@@ -22,7 +22,7 @@
 
 -(BOOL)isEqual:(id)obj
 {
-    if(![obj isKindOfClass:[DumbOperation class]]){
+    if(![obj isKindOfClass:[NSOperation class]]){
 	return NO;
     }
     return [[self description] isEqualToString:[obj description]];
@@ -31,15 +31,11 @@
 {
     return [NSString stringWithFormat:@"load abstract for %@",article.title];
 }
--(BOOL)wantToRunOnMainThread
-{
-    return NO;
-}
 
 -(void)main
 {
     if(!article || !article.title || [article.title isEqualToString:@""]){
-	[self finish];
+//	[self finish];
 	return;
     }
     NSURL*url=[NSURL URLWithString:[@"http://dx.doi.org/" stringByAppendingString:article.doi]];
@@ -48,7 +44,7 @@
     if(error){
 	NSLog(@"error while loading %@: %@",url, error);
     }
-    [self performSelectorOnMainThread:@selector(loadAbstractUsingDOIRealWork:) withObject:s waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(loadAbstractUsingDOIRealWork:) withObject:s waitUntilDone:YES];
 }
 -(void)loadAbstractUsingDOIRealWork:(NSString*)content
 {
@@ -116,7 +112,8 @@
 	[[article managedObjectContext] enableUndo];
     }
 BAIL:
-    [self finish];
+    ;
+//    [self finish];
 }
 
 @end

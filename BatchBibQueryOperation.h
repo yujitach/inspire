@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DumbOperation.h"
 
-@interface BatchBibQueryOperation : DumbOperation {
+@interface BatchBibQueryOperation : NSOperation {
     NSArray*articles;
 }
 -(BatchBibQueryOperation*)initWithArray:(NSArray*)a;

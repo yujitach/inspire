@@ -10,7 +10,7 @@
 #import "DumbOperation.h"
 #import "PDFHelper.h"
 @class Article;
-@interface ArxivVersionCheckingOperation : DumbOperation {
+@interface ArxivVersionCheckingOperation : ConcurrentOperation {
     Article* article;
     PDFViewerType type;
 }

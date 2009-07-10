@@ -301,7 +301,18 @@
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
     [self didChangeValueForKey:@"eprint"];
 }
-
+-(NSString*)eprintToShow
+{
+    NSString*eprint=self.eprint;
+    if(!eprint)
+	return nil;
+    if([eprint hasPrefix:@"arXiv:"]){
+	return [eprint substringFromIndex:[@"arXiv:" length]];
+    }else{
+	return eprint;
+    }
+    return nil;
+}
 -(void)setDate:(NSDate*)d
 {
     [self willChangeValueForKey:@"date"];

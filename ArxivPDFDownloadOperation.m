@@ -13,6 +13,7 @@
 #import "ArxivHelper.h"
 
 @implementation ArxivPDFDownloadOperation
+
 -(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a;
 {
     [super init];
@@ -40,7 +41,7 @@
     if(success){
 	NSData* data=[dict valueForKey:@"pdfData"];
 	[data writeToFile:article.pdfPath atomically:NO];
-	self.finished=YES;
+	[self finish];
     }else if([dict objectForKey:@"shouldReloadAfter"]){
 	reloadDelay=[dict objectForKey:@"shouldReloadAfter"];
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
@@ -62,7 +63,7 @@
 	NSLog(@"OK, retry in %@ seconds",reloadDelay);
 	[self performSelector:@selector(retry) withObject:nil afterDelay:[reloadDelay intValue]];
     }else{
-	self.finished=YES;
+	[self finish];
     }
 }
 
@@ -74,8 +75,9 @@
 					     delegate:self 
 				       didEndSelector:@selector(pdfDownloadDidEnd:)];
 }
--(void)main
+-(void)start
 {
+    self.isExecuting=YES;
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
 				      defaultButton:@"Download" 
@@ -90,6 +92,10 @@
 	[self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
     }
     
+}
+-(void)cleanupToCancel
+{
+    [ProgressIndicatorController startAnimation:self];
 }
 -(NSString*)description
 {

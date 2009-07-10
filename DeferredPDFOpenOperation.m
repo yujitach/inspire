@@ -21,8 +21,9 @@
 {
     return [NSString stringWithFormat:@"open PDF for %@",article.uniqueId];
 }
--(void)main
+-(void)start
 {
+    self.isExecuting=YES;
     if(article.hasPDFLocally){
 	[[PDFHelper sharedHelper] openPDFFile:article.pdfPath  usingViewer:type];
     }

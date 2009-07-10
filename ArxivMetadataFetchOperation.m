@@ -23,8 +23,9 @@
 {
     return [NSString stringWithFormat:@"fetching metadata for %@",article.eprint];
 }
--(void)main
+-(void)start
 {    
+    self.isExecuting=YES;
     [[ArxivHelper sharedHelper] onlineMetaDataForID:article.eprint
 					   delegate:self 
 				     didEndSelector:@selector(fetchMetaDataFromArxivReturnPDFNoCheck:) ];

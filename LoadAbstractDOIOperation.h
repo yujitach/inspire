@@ -10,7 +10,7 @@
 #import "DumbOperation.h"
 
 @class Article;
-@interface LoadAbstractDOIOperation : DumbOperation {
+@interface LoadAbstractDOIOperation : NSOperation {
     Article*article;
 }
 -(LoadAbstractDOIOperation*)initWithArticle:(Article*)a;

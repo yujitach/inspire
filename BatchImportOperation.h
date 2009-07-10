@@ -13,15 +13,17 @@
 @class Article;
 @class ArticleList;
 @class spires_AppDelegate;
-@interface BatchImportOperation : DumbOperation {
+@interface BatchImportOperation : NSOperation {
     NSArray*elements;
     NSManagedObjectContext*moc;
     Article*citedByTarget;
     Article*refersToTarget;
     ArticleList*list;
     spires_AppDelegate * delegate;
+    NSOperation*parent;
 }
 -(BatchImportOperation*)initWithElements:(NSArray*)e 
 				//  andMOC:(NSManagedObjectContext*)m 
 				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)l;
+-(void)setParent:(NSOperation*)p;
 @end

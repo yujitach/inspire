@@ -53,7 +53,9 @@
     return frame;
     
 }
-
+-(IBAction)selectAll:(id)sender
+{
+}
 // corrects disclosure control icon
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row;
 {    

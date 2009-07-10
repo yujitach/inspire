@@ -10,7 +10,7 @@
 #import "DumbOperation.h"
 
 @class ArticleList;
-@interface ArticleListReloadOperation : DumbOperation {
+@interface ArticleListReloadOperation : NSOperation {
     ArticleList*list;
 }
 -(ArticleListReloadOperation*)initWithArticleList:(ArticleList*)l;

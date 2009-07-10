@@ -15,7 +15,7 @@ NSString *ArticleDropPboardType=@"articleDropType";
 @implementation MainTableViewController
 -(void)awakeFromNib
 {
-    [tv setDoubleAction:@selector(openPDF:)];
+    [tv setDoubleAction:@selector(openPDForJournal:)];
     [tv setTarget:nil];
     [tv setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self

@@ -11,7 +11,7 @@
 #import "PDFHelper.h"
 
 @class Article;
-@interface DeferredPDFOpenOperation : DumbOperation {
+@interface DeferredPDFOpenOperation : ConcurrentOperation {
     Article*article;
     PDFViewerType type;
 }
