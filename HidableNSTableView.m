@@ -79,7 +79,7 @@
 //    NSLog(@"%x",[ev keyCode]);
     if([[ev characters] isEqualToString:@" "]){
 	[NSApp sendAction:@selector(openSelectionInQuickLook:) to:nil from:self];
-    }else if([ev keyCode]==0x24){
+    }else if([ev keyCode]==0x24|| [ev keyCode]==76){ // if return or enter
 	[NSApp sendAction:@selector(openPDF:) to:nil from:self];
     }else{
 	[super keyDown:ev];

@@ -38,7 +38,7 @@
     //    NSLog(@"%x",[ev keyCode]);
     if([[ev characters] isEqualToString:@" "]){
 	[NSApp sendAction:@selector(openSelectionInQuickLook:) to:nil from:self];
-    }else if([ev keyCode]==0x24){
+    }else if([ev keyCode]==0x24 || [ev keyCode]==76){ // if return or enter
 	[NSApp sendAction:@selector(openPDF:) to:nil from:self];
     }else{
 	[super keyDown:ev];
@@ -184,8 +184,12 @@
     if(article.articleType!=ATEprint)
 	return nil;
     NSString* eprint= article.eprint;
-    return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
-    //return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint], eprint];
+    //return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
+    NSString*path=[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint];
+    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
+	path=[path stringByAppendingString:@"?doNotCallSpiresHook"];
+    }
+    return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",path, eprint];
 }
 -(NSString*)pdf
 {

@@ -46,7 +46,7 @@
 	a=[moc executeFetchRequest:req error:&error];
 	NSSet* s=[NSSet setWithArray:a];
 	[mo addArticles:s];
-	
+	[moc save:nil];
 	return mo;
     }
 }
