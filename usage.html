@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="author" content="Yuji Tachikawa" />
+	<link rel="stylesheet" href="style.css" type="text/css">
+	
+
+	<link rel="shortcut icon" href="spires.ico" />
+
+	<title>spires.app Advanced Usage</title>
+</head>
+
+<body>
+	<div class="mainContent">
+	
+		<div class="date">PDF downloading through your university library's subscriptions</div>
+		<div class="text">
+			<p>
+			It works for journals from Elsevier, Springer and APS. 
+			Some universities/institutions, like here in IAS, require you to use a proxy to access paid journals, in which case this feature wouldn't work out of the box. For IAS users you only have to choose "IAS" in the list of the proxies in this application's Preferences. Please contact me if you want to use this feature from such a university.
+			<!--There's no GUI to enable it yet.
+			If you have access to Princeton University Library, one only needs to issue the command
+			<blockquote>
+				<code>defaults write com.yujitach.spires universityLibraryToGetPDF -string Princeton</code>
+			</blockquote> once from the Terminal. (This should be typed in one line; see <code>man defaults</code> if you are interested.)
+			</p>
+			<p>
+				It works by rewriting the URL of the journal webpage so that it passes through the proxy of the university library. Typically all you need is to do something like <blockquote>
+					<code>http://journalwebpage.com</code> <br/>
+					→<code>http://proxy.library.youruniversity.edu/journalwebpage.com</code> 
+				</blockquote>
+				The problem is that the rule varies from place to place and I only know that of Princeton and Tokyo. If somebody wants to use this feature from your university please contact me. If you're a geek you can do it yourself by editing <code>defaults.plist</code>
+				inside <code>spires.app/Contents/Resources</code> and add the required regexp.-->
+			</p>
+		</div>
+			<div class="date">Bibliography generation for LaTeX</div>
+			<div class="text">
+				You can make spires.app generate <blockquote>
+					<code>\begin{thebibliography}...\end{thebibliography}</code>
+				</blockquote>
+				from your LaTeX file. The only thing you need to do is to put 
+				<blockquote>
+				<code>\cite{Seiberg:1994rs}</code> 
+				</blockquote>
+				etc. in the TeX file. 
+				You feed the TeX file to spires.app, and it automatically picks up all the citations and generate
+				<code>\bibitem</code>s in a separate file. 
+				If you prefer using memorable citation labels such as 
+				<blockquote>
+				<code>\cite{SeibergWitten}</code>  
+				</blockquote> like me, 
+				you can specify the mapping in the comment of your tex file, as in <blockquote>
+					<code>%%map SeibergWitten=Seiberg:1994rs</code>
+				</blockquote> etc. There are a few extra features controlling spires.app from inside the LaTeX file.
+				See <a href="sample.tex">sample.tex</a> for a sample.
+			</div>
+	</div>
+</body>
+</html>

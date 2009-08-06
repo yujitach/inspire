@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="author" content="Yuji Tachikawa" />
+	<link rel="stylesheet" href="style.css" type="text/css">
+	
+
+	<link rel="shortcut icon" href="spires.ico" />
+
+	<title>spires.app</title>
+</head>
+
+<body>
+	<div class="date">Introducing spires.app ...</div>
+	<div class="centerImage">
+			<img width="600" src="screenshot.png">
+	</div>
+	<div class="centerImage">Watch <a href="spiresUsage-basic.mov">the instruction video</a>!<!-- see <a href="spires-dot-app-in-action.mov">spires.app in action</a>!--></div>
+	<div class="mainContent">
+		<div class="date">What does it do?</div>
+		<ul class="list">
+			<li>It caches SPIRES queries for faster lookups.</li>
+			<li>It grabs abstracts from arXiv.org or journal websites.</li>
+			<li>Download &amp; read PDFs by one click.</li>
+			<li>You can even read your favorite arXiv/new.</li>
+		</ul>
+		
+		<div class="date">Setting up</div>
+		<div class="text">
+			Please 
+			<a href="zips/spires_1.1.19.zip">
+			download the app.
+			</a>
+			Mac OS X Leopard is required. <b>Needs at least 10.5.7!</b> Please update it if you haven't. <br>
+			Then, please open the preferences pane by spires→Preferences, and set the directory for keeping  PDFs. <br>
+			If you don't, ~/Desktop is used by default. It will soon clutter your desktop into a mess, though.<br>
+			If you already have PDFs named as 0808.0808.pdf or hep-th0123456.pdf, please move them into the directory you specified, or make symbolic links to them in it.<br>
+		</div>
+		
+		<div class="date">Basic Usage</div>
+		<ol class="list">
+			<li>Type a spires query to the search box. e.g.<blockquote>
+				<code>t monopole</code>
+				</blockquote> or
+				<blockquote>
+					<code>a Weinberg</code>
+				</blockquote> 
+				Here, 't' stands for the 'title', and 'a' stands for the 'author'.
+			</li>
+			<li>Hit the enter key.</li>
+			<li>arXiv/new can be refreshed by a right click on it.</li>
+		</ol>
+		<div class="date">Query Syntax</div>
+		<ul class="list">
+			<li>Currently only supports 
+				<ul>
+				<li><code>a(uthor) name</code>,</li>
+				<li><code>c(ites) key</code></li>
+				<li><code>d(ate) year</code></li>
+				<li><code>ea name</code>.		</li>		
+				<li><code>e(print) number</code>,	</li>			
+				<li><code>j(ournal) journal</code>.</li>		
+				<li><code>t(itle) title</code>,</li>
+				<li><code>to(pcite) number</code>,	</li>		
+				</ul>
+				and their simple "and" combinations.
+			</li>
+			<li>Example: <code>a Maldacena and t holography and d &gt; 2000</code>
+		</ul>
+		<div class="date">System Hook</div>
+		<div class="centerImage">
+						<img width="500" src="screenshot2.png">
+		
+		</div>
+		<div class="text">
+			By going spires→Install System Hook, you can add "search in spires" menu to the contextual menus
+			of a few apps.<br>
+			The hook is installed in /Library/InputManagers/.<br>
+			Known to works with <ul>
+				<li>Mailer: Mail.app</li>
+				<li>Browser: Safari.app (both version 3&amp;4), WebKit.app</li>
+				<li>PDF Viewer: Preview.app, Skim.app</li>
+				</ul>
+		</div>
+		<div class="date">Extra Info</div>
+		<div class="text">
+			<ul>
+				<li><a href="usage.html">Advanced Usage</a></li>
+				<li><a href="Release Notes.html">Release Notes</a></li>
+				<li><a href="Requests.html">Requested Features</a> check before emailing yours to me!</li>
+				<li><a href="Acknowledgments.html">List of open source components used</a></li>
+			</ul>
+		</div>
+		<div class="date">Data harvested</div>
+		<div class="text">
+			<ul>
+				<li>SLAC SPIRES: <a href="http://www.slac.stanford.edu/spires/hep/api/">XML interface</a></li>
+				<li>arXiv.org: <a href="http://export.arxiv.org/api_help/">arXig.org API</a></li>
+				<li>DOI: <a href="http://www.doi.org/doi_proxy/index.html">DOI resolution</a></li>
+				<li>and webpages of published journals.</li>
+			</ul>
+		</div>
+				<div class="date">Known Problems</div>
+				<div class="text">
+					Many. 
+					<ul>
+						<li>
+							It slows down to a crawl once there are more than 50000 entries. ArXiv has ~ 5 x 10<sup>5</sup> entries, so I'd like to make spires.app easily handle that amount, but it seems to need a significant change in plumbing.	
+						</li>
+		<!--				<li>
+							In v0.96, the internal is massively rewritten so that many operations can be posted simultaneously. But it can happen one operation gets stuck and prevents everything else from running, although the UI should work. You need to quit and restart in such cases... You can check what's going on by opening up the activity monitor via spires→Activity Monitor; if it happens please tell me what gets stuck!
+						</li>-->
+					</ul>
+					If you have any specific bug reports or comments, please contact the author via spires→Send Bug Reports.	
+				</div>
+		
+		<div class="date">Source code</div>
+		<div class="text">
+			<ul>
+			<li>Source code can be viewed online at the <a href="http://golem.ph.utexas.edu/~distler/code/spires/">bzr repository</a>. (thanks to Jacques Distler for hosting)</li>
+			<li>To download the source,<ol>
+				<li>Get <code>bzr</code> at <a href="http://bazaar-vcs.org/Download">Bazaar</a> website, install it, and read the <a href="http://doc.bazaar-vcs.org/latest/en/mini-tutorial/index.html">tutorial</a>.</li>
+				<li>Create a folder to keep the files, and do <blockquote>
+					<code>bzr branch http://www.sns.ias.edu/~yujitach/spires/code/</code>
+				</blockquote>
+				</li>
+				<li>To update to the latest source code, do  <blockquote>
+					<code>bzr merge</code>
+				</blockquote>
+				</li>
+			</ol>
+			<li>To build,<ol>
+				<li>Double-click <code>BWToolKit.ibplugin</code> once to register it to the Interface Builder</li>
+				<li>Open <code>spires.xcodeproj</code> and build the project.</li>
+				</ol>
+			</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
