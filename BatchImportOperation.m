@@ -271,6 +271,11 @@ l{
     if(list){
 	[list addArticles:x];
     }
+    NSError*error=nil;
+    [[MOC moc] save:&error];
+    if(error){
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
+    }
     [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
     
 }

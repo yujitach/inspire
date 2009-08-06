@@ -46,11 +46,26 @@ static NSOperationQueue*_queue=nil;
 static NSOperationQueue*_Squeue=nil;
 static NSOperationQueue*_Aqueue=nil;
 
+@interface UniqueOperationQueue:NSOperationQueue{
+}
+@end
+@implementation UniqueOperationQueue
+-(void)addOperation:(NSOperation*)op
+{
+    for(NSOperation*o in self.operations){
+	if([op isEqualTo:o]){
+	    return;
+	}
+    }
+    [super addOperation:op];
+}
+@end
+
 @implementation OperationQueues
 +(NSOperationQueue*)sharedQueue;
 {
     if(!_queue){
-	_queue=[[NSOperationQueue alloc] init];
+	_queue=[[UniqueOperationQueue alloc] init];
 	[_queue setMaxConcurrentOperationCount:1];
     }
     return _queue;
