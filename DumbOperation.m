@@ -81,7 +81,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)arxivQueue;
 {
     if(!_Aqueue){
-	_Aqueue=[[NSOperationQueue alloc] init];
+	_Aqueue=[[UniqueOperationQueue alloc] init];
 	[_Aqueue setMaxConcurrentOperationCount:1];
     }
     return _Aqueue;

@@ -12,7 +12,8 @@
 @interface ArxivPDFDownloadOperation : ConcurrentOperation {
     Article*article;
     NSNumber* reloadDelay;
+    BOOL shouldAsk;
 }
--(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a;
+-(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a shouldAsk:(BOOL)ask;
 
 @end

@@ -295,6 +295,7 @@
 		<string>ADE</string>
 		<string>ADHM</string>
 		<string>ALE</string>
+		<string>ATIC</string>
 		<string>BCFT</string>
 		<string>BFKL</string>
 		<string>BMN</string>
@@ -307,13 +308,20 @@
 		<string>CPT</string>
 		<string>DGLAP</string>
 		<string>DLCQ</string>
+		<string>eV</string>
 		<string>GUT</string>
+		<string>GeV</string>
 		<string>II</string>
 		<string>II.</string>
 		<string>IIA</string>
 		<string>IIB</string>
 		<string>IR</string>
+		<string>keV</string>
+		<string>MeV</string>
+		<string>meV</string>
+		<string>PAMELA</string>
 		<string>PCAC</string>
+		<string>PeV</string>
 		<string>QCD</string>
 		<string>QFT</string>
 		<string>RG</string>
@@ -321,8 +329,10 @@
 		<string>SUSY</string>
 		<string>TBA</string>
 		<string>TCP</string>
+		<string>TeV</string>
 		<string>UV</string>
 		<string>WDVV</string>
+		<string>WIMP</string>
 		<string>WMAP</string>
 		<string>WZW</string>
 		<string>WZNW</string>

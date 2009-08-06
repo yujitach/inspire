@@ -15,9 +15,9 @@
     [self registerForDraggedTypes:[[self delegate] draggedTypesToRegister]];
 }
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    [[self delegate] draggingEntered:sender];
+    return [[self delegate] draggingEntered:sender];
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    [[self delegate] performDragOperation:sender];
+    return [[self delegate] performDragOperation:sender];
 }
 @end

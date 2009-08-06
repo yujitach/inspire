@@ -14,10 +14,11 @@
 
 @implementation ArxivPDFDownloadOperation
 
--(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a;
+-(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a shouldAsk:(BOOL)ask;
 {
     [super init];
     article=a;
+    shouldAsk=ask;
     return self;
 }
 
@@ -78,7 +79,7 @@
 -(void)start
 {
     self.isExecuting=YES;
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
+    if(shouldAsk && [[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
 				      defaultButton:@"Download" 
 				    alternateButton:@"Cancel"

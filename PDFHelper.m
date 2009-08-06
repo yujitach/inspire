@@ -36,8 +36,8 @@
 -(SomeKindOfPanel*)sharedPreviewPanel;
 @end
 */
-static PDFHelper*_helper;
-static NSMutableArray*shownPDFs;
+static PDFHelper*_helper=nil;
+static NSMutableArray*shownPDFs=nil;
 //static BOOL quickLookIsOpen=NO;
 NSString* pathShownWithQuickLook=nil;
 @implementation PDFHelper
@@ -166,8 +166,8 @@ NSString* pathShownWithQuickLook=nil;
 	}
     }else if(o.articleType==ATEprint){
 	if([[SpiresHelper sharedHelper] isOnline]){
-	[[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o]];
-	[[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
+	    [[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES]];
+	    [[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
 	}
     }else{
