@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="spires.app Terminology" xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include 
+	href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef"
+    xpointer="xpointer(/dictionary/suite)"
+/>
+<suite name="url dispatcher" code="GURL">
+	<command name="Get URL" code="GURLGURL" description="Load a URL">
+	    <cocoa name="Get URL" class="URLHandlerCommand"/>
+	    <direct-parameter description="URL to be opened">
+		<type type="text"/>
+	    </direct-parameter>
+	</command>
+</suite>
+<suite name="Standard Suite" code="????">
+ <enumeration name="saveable file format" code="savf">
+        <enumerator name="PDF" code="PDF " description="Portable Document Format">
+            <cocoa string-value="com.adobe.pdf"/>
+        </enumerator>
+ </enumeration>
+</suite>
+</dictionary>
