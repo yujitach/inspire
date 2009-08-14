@@ -85,7 +85,7 @@ static void loadMagic(){
 	if(![abbrevs containsObject:s] && ![s hasPrefix:@"SU("] && ![s hasPrefix:@"SO("]){
 	    s=[s lowercaseString];
 	    if(i==0 || ![preps containsObject:s]){
-		s=[s capitalizedString];
+		s=[s capitalizedStringForName];
 		s=[s stringByReplacingOccurrencesOfString:@"Cft" withString:@"CFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ads" withString:@"AdS"];
 		s=[s stringByReplacingOccurrencesOfString:@"Rn" withString:@"RN"];
@@ -121,5 +121,21 @@ static void loadMagic(){
     s=[NSString stringWithFormat:@"\"%@\"",s];
 //    NSLog(@"%@-->%@",self,s);
     return s;
+}
+-(NSString*)capitalizedStringForName;
+{
+    if([self hasPrefix:@"Mc"]||[self hasPrefix:@"mc"]){
+	return [@"Mc" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
+    }else if([self hasPrefix:@"de "]||[self hasPrefix:@"De "]){
+	return [@"de " stringByAppendingString:[[self substringFromIndex:3] capitalizedString]];
+    }else if([self hasPrefix:@"Van den "]||[self hasPrefix:@"van den "]){
+	return [@"Van den" stringByAppendingString:[[self substringFromIndex:[@"Van den " length]] capitalizedString]];
+    }else if([self hasPrefix:@"Van "]||[self hasPrefix:@"van "]){
+	return [@"Van " stringByAppendingString:[[self substringFromIndex:4] capitalizedString]];
+    }else if([self hasPrefix:@"'t "]||[self hasPrefix:@"'T "]){
+	return [@"'t " stringByAppendingString:[[self substringFromIndex:3] capitalizedString]];
+    }else{
+	return [self capitalizedString];
+    }
 }
 @end

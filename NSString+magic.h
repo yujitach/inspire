@@ -14,4 +14,5 @@
 -(NSString*)quieterVersion;
 -(NSString*)normalizedString;
 -(NSString*)quotedForShell;
+-(NSString*)capitalizedStringForName;
 @end

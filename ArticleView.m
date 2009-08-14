@@ -13,6 +13,7 @@
 #import "SpiresHelper.h"
 #import "ArxivHelper.h"
 #import "RegExKitLite.h"
+#import "NSString+magic.h"
 
 @implementation ArticleView
 #pragma mark UI glues
@@ -131,12 +132,12 @@
 	    }else{
 		for(NSString*i in d){
 		    if(!i || [i isEqualToString:@""]) continue;
-		    [result appendString:[[i substringToIndex:1] capitalizedString]];
+		    [result appendString:[[i substringToIndex:1] capitalizedStringForName]];
 		    [result appendString:@". "];
 		}
 	    }
 	}
-	[result appendString:[last capitalizedString]];
+	[result appendString:[last capitalizedStringForName]];
 	[result appendString:@"</a>"];
 	[b addObject: result];
     }

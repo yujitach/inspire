@@ -92,7 +92,9 @@
     }
     pdf=[pdf stringByExpandingAmpersandEscapes];
     NSLog(@"pdf detected at:%@",pdf);
-    downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:pdf] proxiedURLForELibrary]
+    NSURL* proxiedURL=[[NSURL URLWithString:pdf] proxiedURLForELibrary];
+    NSLog(@"proxied:%@",proxiedURL);
+    downloader=[[SecureDownloader alloc] initWithURL:proxiedURL
 				      didEndSelector:@selector(journalPDFDownloadDidEnd:) 
 					    delegate:self ];
     [ProgressIndicatorController startAnimation:self];

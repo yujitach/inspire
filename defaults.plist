@@ -24,6 +24,11 @@
 	<string>None</string>
 	<key>regExpsForUniversityLibrary</key>
 	<dict>
+		<key>U. Texas</key>
+		<array>
+			<string>http://([^/]*?)/</string>
+			<string>http://$1.ezproxy.lib.utexas.edu/</string>
+		</array>
 		<key>IAS</key>
 		<array>
 			<string>http://</string>
@@ -311,8 +316,15 @@
 		<string>eV</string>
 		<string>GUT</string>
 		<string>GeV</string>
+		<string>I</string>
 		<string>II</string>
 		<string>II.</string>
+		<string>III</string>
+		<string>IV</string>
+		<string>VI</string>
+		<string>VII</string>
+		<string>VIII</string>
+		<string>IX</string>
 		<string>IIA</string>
 		<string>IIB</string>
 		<string>IR</string>

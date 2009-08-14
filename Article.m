@@ -190,7 +190,7 @@
 	}else if([firstName hasPrefix:@"for the"]||[firstName hasPrefix:@"the"]){
 	    lastName=[firstName uppercaseString];
 	}else{
-	    lastName=[lastName capitalizedString];
+	    lastName=[lastName capitalizedStringForName];
 	}
 	[a addObject:lastName];
     }

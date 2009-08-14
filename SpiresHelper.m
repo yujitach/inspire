@@ -99,14 +99,23 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	while([operand hasSuffix:@" "]){
 	    operand=[operand substringToIndex:[operand length]-1];
 	}
-	NSArray*x=[operand componentsSeparatedByString:@" "];
+	
+	operand=[operand stringByReplacingOccurrencesOfString:@"van " withString:@"van+"];
+	operand=[operand stringByReplacingOccurrencesOfString:@"Van " withString:@"Van+"];
+	operand=[operand stringByReplacingOccurrencesOfString:@"de " withString:@"de+"];
+	operand=[operand stringByReplacingOccurrencesOfString:@"De " withString:@"De+"];
+	NSArray*xx=[operand componentsSeparatedByString:@" "];
+	NSMutableArray*x=[NSMutableArray array];
+	for(NSString* s in xx){
+	    [x addObject:[s stringByReplacingOccurrencesOfString:@"+" withString:@" "]];
+	}
+	
+	NSString*last=[x lastObject];
 	if([x count]==1){
 	    //		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-	    NSString*last=[operand normalizedString];
 	    NSString*query=[NSString stringWithFormat:@"; %@",last];
 	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,query];
 	}
-	NSString* last=[x lastObject];
 	NSMutableArray*y=[NSMutableArray array];
 	for(int i=0;i<[x count]-1;i++){
 	    [y addObject:[x objectAtIndex:i]];
