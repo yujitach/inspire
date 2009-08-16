@@ -22,6 +22,7 @@
 @class IncrementalArrayController;
 @class PrefController;
 @class TeXWatcherController;
+@class MessageViewerController;
 @class SPSearchFieldWithProgressIndicator;
 @interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
@@ -43,6 +44,7 @@
     ActivityMonitorController* activityMonitorController;
     PrefController*prefController;
     TeXWatcherController*texWatcherController;
+    MessageViewerController*messageViewerController;
     int countDown;
     ArticleList* allArticleList;
     

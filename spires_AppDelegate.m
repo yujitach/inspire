@@ -38,6 +38,7 @@
 #import "ActivityMonitorController.h"
 #import "PrefController.h"
 #import "TeXWatcherController.h"
+#import "MessageViewerController.h"
 
 #import "PDFHelper.h"
 #import "BibViewController.h"
@@ -71,7 +72,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 #pragma mark NSApplication delegates
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
-    [window makeKeyAndOrderFront:self];
+    [window makeKeyWindow];
     // delay is necessary because this is also called during the spires-quicklook-ended call.
     [[PDFHelper sharedHelper] performSelector:@selector(activateQuickLookIfNecessary) withObject:nil afterDelay:0];
 //    NSLog(@"%@",wv);
@@ -340,6 +341,11 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 					otherButton:nil
 			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
 	[alert runModal];
+    }
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"SnowLeopardAlertShown"]){
+	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:@"SnowLeopardAlert" ofType:@"rtf"]];
+	// this window controller shows itself automatically!
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SnowLeopardAlertShown"];
     }
     
 //    [self updateFormatForAIfNeeded:self];

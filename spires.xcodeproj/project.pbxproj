@@ -92,6 +92,9 @@
 		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
 		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
 		338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338AC4770F3691B40011414C /* ProgressIndicatorController.m */; };
+		338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E9EBB1037C55D0059AE43 /* MessageViewerController.m */; };
+		338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EBD1037C58C0059AE43 /* MessageViewer.xib */; };
+		338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */; };
 		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
 		3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */; };
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
@@ -322,6 +325,10 @@
 		33887E7B0EA97C4D003A7E83 /* spires.sdef */ = {isa = PBXFileReference; fileEncoding = 4; languageSpecificationIdentifier = html; lastKnownFileType = text.sdef; path = spires.sdef; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xml; };
 		338AC4760F3691B40011414C /* ProgressIndicatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressIndicatorController.h; sourceTree = "<group>"; };
 		338AC4770F3691B40011414C /* ProgressIndicatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressIndicatorController.m; sourceTree = "<group>"; };
+		338E9EBA1037C55D0059AE43 /* MessageViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewerController.h; sourceTree = "<group>"; };
+		338E9EBB1037C55D0059AE43 /* MessageViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewerController.m; sourceTree = "<group>"; };
+		338E9EBD1037C58C0059AE43 /* MessageViewer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageViewer.xib; sourceTree = "<group>"; };
+		338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = SnowLeopardAlert.rtf; sourceTree = "<group>"; };
 		3391CB710FFAD5B200A52D6E /* BibTeXKeyCopyOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXKeyCopyOperation.h; sourceTree = "<group>"; };
 		3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXKeyCopyOperation.m; sourceTree = "<group>"; };
 		3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingTextField.h; sourceTree = "<group>"; };
@@ -559,6 +566,7 @@
 				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
 				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
 				33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */,
+				338E9EB81037C5200059AE43 /* MessageViewer */,
 				33B485CB0F5B443200EBE022 /* Importer */,
 				33B485CA0F5B440900EBE022 /* PrefPane */,
 				7756732906782D8800D1FEB8 /* Models */,
@@ -592,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */,
+				338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3309372A0F39662800F214D6 /* spires.syncschema */,
 				330937600F39694800F214D6 /* ClientDescription.plist */,
@@ -741,6 +750,16 @@
 				33880ABE0F3BC0C600468F09 /* RegexKitLite.h */,
 			);
 			name = RegExKitLite;
+			sourceTree = "<group>";
+		};
+		338E9EB81037C5200059AE43 /* MessageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				338E9EBA1037C55D0059AE43 /* MessageViewerController.h */,
+				338E9EBB1037C55D0059AE43 /* MessageViewerController.m */,
+				338E9EBD1037C58C0059AE43 /* MessageViewer.xib */,
+			);
+			name = MessageViewer;
 			sourceTree = "<group>";
 		};
 		339456BE0F58ED5600E85044 /* SpiresQuickLookHelper */ = {
@@ -1131,6 +1150,8 @@
 				332F485D0FF8748700B9363E /* hasPDF.png in Resources */,
 				33EBAF280FF9B3B10076F6AC /* TeXWatcher.xib in Resources */,
 				333D721210007CE800A328FE /* magicRegExps.perl in Resources */,
+				338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */,
+				338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1308,6 +1329,7 @@
 				3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */,
 				3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */,
 				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
+				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
