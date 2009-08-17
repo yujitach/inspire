@@ -24,27 +24,21 @@
 @class TeXWatcherController;
 @class MessageViewerController;
 @class SPSearchFieldWithProgressIndicator;
+@class ArxivNewCreateSheetHelper;
 @interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
-//    IBOutlet NSWindow *prefWindow;
     IBOutlet BibViewController *bibViewController;
-//    IBOutlet NSTextField* tf;
-//    IBOutlet NSProgressIndicator* pi;
     IBOutlet IncrementalArrayController* ac;
-//    IBOutlet NSTableView*tv;
     IBOutlet ArticleView*wv;
     IBOutlet NSToolbar*tb;
-//    IBOutlet NSTextField* infoTextField;
     IBOutlet HistoryController*historyController;
-//    IBOutlet PDFHelper* pdfHelper;
-//    IBOutlet NSButton* resizer;
-//    IBOutlet NSSplitView* splitView;
     ImporterController*importerController;
     ActivityMonitorController* activityMonitorController;
     PrefController*prefController;
     TeXWatcherController*texWatcherController;
     MessageViewerController*messageViewerController;
+    ArxivNewCreateSheetHelper*arxivNewCreateSheetHelper;
     int countDown;
     ArticleList* allArticleList;
     
@@ -78,6 +72,7 @@
 -(IBAction)addArticleList:(id)sender;
 -(IBAction)addArticleFolder:(id)sender;
 -(IBAction)addArxivArticleList:(id)sender;
+-(void)addArxivArticleListWithName:(NSString*)name;
 -(IBAction)addCannedSearch:(id)sender;
 -(IBAction)importSpiresXML:(id)sender;
 -(IBAction)getBibEntries:(id)sender;

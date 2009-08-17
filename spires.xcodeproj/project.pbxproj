@@ -54,6 +54,8 @@
 		332F46530FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F46520FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m */; };
 		332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
+		333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */; };
+		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
 		3343B3900FF7127A00F13889 /* BWToolKit-License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */; };
@@ -260,6 +262,9 @@
 		332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v3-v4.xcmappingmodel"; sourceTree = "<group>"; };
 		332F485C0FF8748700B9363E /* hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hasPDF.png; sourceTree = "<group>"; };
 		3333B8CE0F3584B500251984 /* magic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = magic.perl; sourceTree = "<group>"; };
+		333A506F10392BDF00F2B780 /* ArxivNewCreateSheetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewCreateSheetHelper.h; sourceTree = "<group>"; };
+		333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewCreateSheetHelper.m; sourceTree = "<group>"; };
+		333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArxivNewCreateSheet.xib; sourceTree = "<group>"; };
 		333C79050F5230780075267A /* NSURL+libraryProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+libraryProxy.h"; sourceTree = "<group>"; };
 		333C79060F5230780075267A /* NSURL+libraryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+libraryProxy.m"; sourceTree = "<group>"; };
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
@@ -693,12 +698,23 @@
 		331FD3A90F36B6AF00C16F73 /* App Delegate */ = {
 			isa = PBXGroup;
 			children = (
+				333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */,
 				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
 				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
 				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
 				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
 			);
 			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */ = {
+			isa = PBXGroup;
+			children = (
+				333A506F10392BDF00F2B780 /* ArxivNewCreateSheetHelper.h */,
+				333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */,
+				333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */,
+			);
+			name = ArxivNewCreateSheet;
 			sourceTree = "<group>";
 		};
 		334A3A1C0F360B750078D121 /* BWToolKitFramework */ = {
@@ -1152,6 +1168,7 @@
 				333D721210007CE800A328FE /* magicRegExps.perl in Resources */,
 				338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */,
 				338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */,
+				333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,6 +1347,7 @@
 				3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */,
 				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
+				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

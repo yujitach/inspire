@@ -39,6 +39,7 @@
 #import "PrefController.h"
 #import "TeXWatcherController.h"
 #import "MessageViewerController.h"
+#import "ArxivNewCreateSheetHelper.h"
 
 #import "PDFHelper.h"
 #import "BibViewController.h"
@@ -624,13 +625,16 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(void)addArxivArticleList:(id)sender
 {
-    //    NSLog(@"not implemented");
-    ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:@"untitled/new" inMOC:[self managedObjectContext]];
-//    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
-//    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
+    if(!arxivNewCreateSheetHelper){
+	arxivNewCreateSheetHelper=[[ArxivNewCreateSheetHelper alloc] initWithWindow:window delegate:self];
+    }
+    [arxivNewCreateSheetHelper run];
+}
+-(void)addArxivArticleListWithName:(NSString*)name;
+{
+    ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:name inMOC:[self managedObjectContext]];
     [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
-    //    [articleListController insertObject:al atArrangedObjectIndex:[articleLists count]];
+    [sideTableViewController rearrangePositionInViewForArticleLists];    
 }
 -(void)addArticleFolder:(id)sender
 {
