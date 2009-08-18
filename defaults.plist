@@ -34,6 +34,11 @@
 			<string>http://</string>
 			<string>https://libserv7.princeton.edu:82/ias/nph-pul2.cgi/000000A/http/</string>
 		</array>
+		<key>UT Austin</key>
+		<array>
+			<string>http://([^/]*?)/</string>
+			<string>http://$1.ezproxy.lib.utexas.edu/</string>
+		</array>
 		<key>None</key>
 		<array>
 			<string>http://</string>
