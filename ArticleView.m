@@ -187,9 +187,7 @@
     NSString* eprint= article.eprint;
     //return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
     NSString*path=[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint];
-    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
-	path=[path stringByAppendingString:@"?doNotCallSpiresHook"];
-    }
+
     return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",path, eprint];
 }
 -(NSString*)pdf

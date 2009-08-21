@@ -279,7 +279,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     for(NSToolbarItem*ti in [tb items]){
 	if([[ti  label] isEqualToString:@"Search Field"]){
 	    NSSize s=[ti minSize];
-	    s.width=1000;
+	    s.width=10000;
 	    [ti setMaxSize:s];
 	}
     }
@@ -1058,6 +1058,11 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
 	[[PDFHelper sharedHelper] quickLookDidClose:self];
     }else if([[url scheme] isEqualTo:@"http"]){
+	if([[url host] hasSuffix:@"arxiv.org"]||[[url host] hasSuffix:@"arXiv.org"]){
+	    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
+		url=[NSURL URLWithString:[[url absoluteString] stringByAppendingString:@"?doNotCallSpiresHook"]];
+	    }
+	}
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){
 	    [self showInfoOnAssociation];
