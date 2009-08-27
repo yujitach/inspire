@@ -128,6 +128,8 @@ static void loadMagic(){
 	return [@"Mc" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
     }else if([self hasPrefix:@"de "]||[self hasPrefix:@"De "]){
 	return [@"de " stringByAppendingString:[[self substringFromIndex:3] capitalizedString]];
+    }else if([self hasPrefix:@"d'"]||[self hasPrefix:@"D'"]){
+	return [@"D'" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
     }else if([self hasPrefix:@"Van den "]||[self hasPrefix:@"van den "]){
 	return [@"Van den" stringByAppendingString:[[self substringFromIndex:[@"Van den " length]] capitalizedString]];
     }else if([self hasPrefix:@"Van "]||[self hasPrefix:@"van "]){

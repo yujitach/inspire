@@ -249,8 +249,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     return window;
 }
--(void)checkOSVersion
-{
+/*-(void)checkOSVersion
+{   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
     SInt32 major=10,minor=5,bugFix=6;
     Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
@@ -260,7 +260,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	NSLog(@"OS update should be available...");
 	[[NSWorkspace sharedWorkspace] launchApplication:@"Software Update"];
     }
-}
+}*/
 -(void)awakeFromNib
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
@@ -298,7 +298,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     
     [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
     countDown=0;
-    [self checkOSVersion];
+//    [self checkOSVersion];
     [searchField setProgressQuitAction:@selector(progressQuit:)];
     // the following two lines are to go around a Leopard bug (?)
     // where the textfield in the toolbar sometimes doesn't receive the mouse down, which is instead thought of as initiating drag.
