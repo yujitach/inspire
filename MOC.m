@@ -231,6 +231,7 @@ MOC*_sharedMOCManager=nil;
 
 -(void)presentMOCSaveError:(NSError*)error
 {
+    // Note that this method is sometimes called from a secondary thread...
     NSLog(@"moc error:%@",error);
     NSDictionary* dict=[error userInfo];
     NSLog(@"userInfo:%@",dict);
@@ -238,6 +239,10 @@ MOC*_sharedMOCManager=nil;
     if(detailedErrors){
 	for(NSError*e in detailedErrors){
 	    NSLog(@"moc suberror:%@",e);
+	    NSDictionary* d=[e userInfo];
+	    if(d){
+		NSLog(@"userInfo:%@",d);	 
+	    }
 	}
     }    
 }

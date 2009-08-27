@@ -56,7 +56,7 @@ typedef enum {
 @property (assign) ArticleFlag flag;
 
 
-+(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;
+//+(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;
 +(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
 

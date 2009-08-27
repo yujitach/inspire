@@ -157,6 +157,10 @@ ArxivHelper* _sharedHelper=nil;
 	if(r.location!=NSNotFound){
 	    content=[content substringToIndex:r.location];
 	}
+	NSRange s=[content rangeOfString:@"<h3>Repla"];
+	if(s.location!=NSNotFound){
+	    content=[content substringToIndex:s.location];
+	}
 	return content;
     }else if([t hasPrefix:@"rep"]){
 	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"new"]];

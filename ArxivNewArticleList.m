@@ -7,15 +7,9 @@
 //
 
 #import "ArxivNewArticleList.h"
-#import "ArxivHelper.h"
 #import "Article.h"
-#import "Author.h"
-#import "NSString+XMLEntityDecoding.h"
-#import "ProgressIndicatorController.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
-#import "RegexKitLite.h"
-#import "spires_AppDelegate.h"
-#import "MOC.h"
+#import "DumbOperation.h"
+#import "ArxivNewArticleListReloadOperation.h"
 
 @implementation ArxivNewArticleList 
 +(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
@@ -38,6 +32,7 @@
 	return mo;
     }
 }
+/*
 -(void)registerAuthorsInString:(NSString*)tmp toArticle:(Article*)ar
 {
     NSArray*authors=[tmp componentsSeparatedByString:@"\">"];
@@ -61,7 +56,7 @@
 	}
 	[ar setAuthorNames:array];
     }
-}
+}*/
 /*-(void)addOneEntryOfArxiv:(NSXMLElement*)element 
 {
     NSString*otitle=[[[element elementsForName:@"title"] objectAtIndex:0] stringValue];
@@ -112,7 +107,7 @@
     }
     
 }*/
--(void)dealWith:(NSString*)s
+/*-(void)dealWith:(NSString*)s
 {
 //    NSLog(@"%@",s);
     int i=[s rangeOfString:@"arXiv:"].location;
@@ -173,10 +168,11 @@
     [self registerAuthorsInString:authorsList toArticle:ar];
     [self addArticlesObject:ar];
     
-}
+}*/
 -(void)reload
 {
-    [ProgressIndicatorController startAnimation:self];
+    [[OperationQueues arxivQueue] addOperation:[[ArxivNewArticleListReloadOperation alloc] initWithArxivNewArticleList:self]];
+/*    [ProgressIndicatorController startAnimation:self];
     [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
     [[self managedObjectContext] disableUndo];
     NSString*s=[[ArxivHelper sharedHelper] list:self.name];
@@ -201,7 +197,7 @@
     [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
     [ProgressIndicatorController stopAnimation:self];
     [(spires_AppDelegate*)[NSApp delegate] clearingUp:self];    
-
+*/
 }
 -(NSImage*)icon
 {

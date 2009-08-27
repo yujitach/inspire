@@ -57,13 +57,13 @@
 {
     [self setFlag:AFNone];
 }
-+(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
+/* +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
     Article*a=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
     [[AllArticleList allArticleListInMOC:moc] addArticlesObject:a];
     return a;
-}
+}*/
 +(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
 {
     // returns nil if not found.
