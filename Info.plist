@@ -62,6 +62,24 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>spires.sdef</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Lookup using Spires</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>handleServicesLookupSpires</string>
+			<key>NSPortName</key>
+			<string>Spires</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
 	<key>SUFeedURL</key>
 	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update.xml</string>
 	<key>SUEnableAutomaticChecks</key>

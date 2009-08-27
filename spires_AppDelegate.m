@@ -334,6 +334,9 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	[self syncSetupAtStartup];
     }
 */    
+    [NSApp setServicesProvider: self];
+    NSUpdateDynamicServices();
+    
     [self crashCheck:self];
     if(![[SpiresHelper sharedHelper] isOnline]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
@@ -1094,6 +1097,16 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	}else{
 	    [o associatePDF:[url path]];
 	}
+    }
+}
+#pragma mark Service handling
+-(void)handleServicesLookupSpires:(NSPasteboard*)pboard
+			 userData:(NSString*)userData
+			    error:(NSString**)error
+{
+    if([[pboard types] containsObject:NSStringPboardType]){
+	NSString* source=[pboard stringForType:NSStringPboardType];
+	[self handleURL:[NSURL URLWithString:[@"spires-lookup-eprint://PreviewHook/" stringByAppendingString:source]]];
     }
 }
 #pragma mark WebView Delegate
