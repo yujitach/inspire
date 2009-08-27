@@ -29,17 +29,32 @@
 {
     return [NSString stringWithFormat:@"journal pdf download for \'%@\'",article.title];
 }
+-(NSString*)destinationPath
+{
+    // this method should belong, more properly, either to Article or to JournalEntry...
+    NSString*dir=[[NSUserDefaults standardUserDefaults] objectForKey:@"pdfDir"];
+    JournalEntry*j=article.journal;
+    NSString*file=[NSString stringWithFormat:@"%@ %@ (%@) %@.pdf",j.name,j.volume,j.year,j.page];
+    NSString*dest=[[NSString stringWithFormat:@"%@/%@",dir,file] stringByExpandingTildeInPath];
+    return dest;
+}
 -(void)start
 {
     
     
     NSString*doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
  //   NSLog(@"url:%@",url);
+    self.isExecuting=YES;
+    NSString*dest=[self destinationPath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:dest]){
+	[article associatePDF:dest];
+	[self finish];
+	return;
+    }
     [ProgressIndicatorController startAnimation:self];
     downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]
 				      didEndSelector:@selector(journalHTMLDownloadDidEnd:) 
 					    delegate:self ];
-    self.isExecuting=YES;
     [downloader download];
 }
 -(void)journalHTMLDownloadDidEnd:(NSString*)path
@@ -112,10 +127,7 @@
 	    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
 	    [(spires_AppDelegate*)[NSApp delegate] showInfoOnAssociation]; //cheating here...
 	}else{
-	    NSString*dir=[[NSUserDefaults standardUserDefaults] objectForKey:@"pdfDir"];
-	    JournalEntry*j=article.journal;
-	    NSString*file=[NSString stringWithFormat:@"%@ %@ (%@) %@.pdf",j.name,j.volume,j.year,j.page];
-	    NSString*dest=[[NSString stringWithFormat:@"%@/%@",dir,file] stringByExpandingTildeInPath];
+	    NSString*dest=[self destinationPath];
 	    if([[NSFileManager defaultManager] movePath:path toPath:dest handler:nil]){
 		[article associatePDF:dest];
 	    }
