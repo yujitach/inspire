@@ -362,12 +362,13 @@ spires_AppDelegate*_shared=nil;
 			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
 	[alert runModal];
     }
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"SnowLeopardAlertShown"]){
+/* This alert below is no longer necessary... it only runs on Snow Leopard anyway!
+ if(![[NSUserDefaults standardUserDefaults] boolForKey:@"SnowLeopardAlertShown"]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:@"SnowLeopardAlert" ofType:@"rtf"]];
 	// this window controller shows itself automatically!
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SnowLeopardAlertShown"];
     }
-    
+*/    
 //    [self updateFormatForAIfNeeded:self];
 }
 -(void)clearUnreadFlagOfArticle:(NSTimer*)timer
