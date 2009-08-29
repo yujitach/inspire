@@ -28,7 +28,7 @@
 	[parent addDependency:self];
     }    
 }
--(void)start
+-(void)run
 {
     
     if([search hasPrefix:@"c"]){

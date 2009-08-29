@@ -418,7 +418,7 @@
 			  atIndex:3];
     }else{
 	NSTreeNode*item=[ov itemAtRow:i];
-	
+	NSIndexSet*is=[NSIndexSet indexSetWithIndex:i];
 	ArticleList* al=[item representedObject];
 	if([al isKindOfClass:[ArxivNewArticleList class]]||[al isKindOfClass:[CannedSearch class]]){
 	    [menu insertItemWithTitle:@"Reload" 
@@ -429,7 +429,7 @@
 			       action:@selector(deleteArticleList:)
 			keyEquivalent:@""
 			      atIndex:1];	
-	    [ov selectRow:i byExtendingSelection:NO];
+	    [ov selectRowIndexes:is byExtendingSelection:NO];
 	}else if(![al isKindOfClass:[AllArticleList class]]) {
 	    
 	    //if(i>[self numberOfSpecialArticleLists]){
@@ -437,7 +437,7 @@
 			       action:@selector(deleteArticleList:)
 			keyEquivalent:@""
 			      atIndex:0];	
-	    [ov selectRow:i byExtendingSelection:NO];
+	    [ov selectRowIndexes:is byExtendingSelection:NO];
 	}
     }
     return menu;

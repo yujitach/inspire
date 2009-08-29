@@ -97,7 +97,10 @@ MOC*_sharedMOCManager=nil;
     fileManager = [NSFileManager defaultManager];
     applicationSupportFolder = [self applicationSupportFolder];
     if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-        [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
+        [fileManager createDirectoryAtPath:applicationSupportFolder 
+	       withIntermediateDirectories:YES 
+				attributes:nil 
+				     error:NULL];
     }
     
     NSString*filePath=[self dataFilePath];

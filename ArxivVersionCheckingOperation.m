@@ -13,6 +13,7 @@
 #import "DeferredPDFOpenOperation.h"
 #import "RegexKitLite.h"
 #import "NSString+magic.h"
+#import "AppDelegate.h"
 // #import <Quartz/Quartz.h>
 
 
@@ -28,7 +29,7 @@
 {
     return [NSString stringWithFormat:@"version checking: %@", article.eprint];
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     [[ArxivHelper sharedHelper] onlineMetaDataForID:article.eprint delegate:self didEndSelector:@selector(info:) ];
@@ -118,7 +119,7 @@
     [alert setAlertStyle:NSWarningAlertStyle];
     //   [NSApp unhide:self];
     
-    [alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 		      modalDelegate:self 
 		     didEndSelector:@selector(downloadAlertDidEnd:code:context:)
 			contextInfo:nil];

@@ -23,7 +23,7 @@
 {
     return [NSString stringWithFormat:@"fetching metadata for %@",article.eprint];
 }
--(void)start
+-(void)run
 {    
     self.isExecuting=YES;
     [[ArxivHelper sharedHelper] onlineMetaDataForID:article.eprint

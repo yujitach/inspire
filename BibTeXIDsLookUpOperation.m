@@ -23,7 +23,7 @@
 {
     return [NSString stringWithFormat:@"BibTeX lookup for IDs %@, etc.",[keys anyObject]];
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     NSMutableArray*as=[NSMutableArray array];

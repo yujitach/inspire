@@ -19,7 +19,12 @@
 #import "ArxivPDFDownloadOperation.h"
 #import "ArxivVersionCheckingOperation.h"
 #import "DeferredPDFOpenOperation.h"
+#import "AppDelegate.h"
 
+#import <Quartz/Quartz.h>
+
+@interface PDFHelper (QuickLookDelegate) <QLPreviewPanelDataSource>
+@end
 // QuickLooking is off-loaded to QuickLookHelper... It tends to crash in 64bit mode.
 // It seems to be a bug in PDFKit under GC.
 // 0902.4674v1.pdf causes this. Maybe I should report it to Apple.
@@ -36,10 +41,26 @@
 -(SomeKindOfPanel*)sharedPreviewPanel;
 @end
 */
+
+
 static PDFHelper*_helper=nil;
-static NSMutableArray*shownPDFs=nil;
+//static NSMutableArray*shownPDFs=nil;
 //static BOOL quickLookIsOpen=NO;
 NSString* pathShownWithQuickLook=nil;
+
+
+@interface QuickLookPDFItem : NSObject<QLPreviewItem>
+{
+}
+@property (readonly) NSURL *previewItemURL;
+@end
+@implementation QuickLookPDFItem
+-(NSURL*) previewItemURL
+{
+    return [NSURL fileURLWithPath:pathShownWithQuickLook];
+}
+@end
+
 @implementation PDFHelper
 /*-(BOOL)respondsToSelector:(SEL)selector
 {
@@ -50,7 +71,7 @@ NSString* pathShownWithQuickLook=nil;
 {
     if(!_helper){
 	_helper=[[PDFHelper alloc]init];
-	shownPDFs=[NSMutableArray array];
+//	shownPDFs=[NSMutableArray array];
     }
     return _helper;
 }
@@ -126,19 +147,34 @@ NSString* pathShownWithQuickLook=nil;
 	    
 	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:1]; 
 */
-	    if([shownPDFs containsObject:path]){
+/*	    if([shownPDFs containsObject:path]){
 		system("killall SpiresQuickLookHelper");
 	    }
 	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
 //	    quickLookIsOpen=YES;
 	    pathShownWithQuickLook=path;
-	    [shownPDFs addObject:path];
+	    [shownPDFs addObject:path];*/
+	    pathShownWithQuickLook=path;
+	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:self];
+	    [[QLPreviewPanel sharedPreviewPanel] reloadData];
 	    break;
     }
 }
 
+
 #pragma mark QuickLook management
--(void)quickLookDidClose:(id)sender;
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
+
+{
+    return pathShownWithQuickLook?1:0;
+}
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+{
+    return [[QuickLookPDFItem alloc] init];
+}
+
+/*
+ -(void)quickLookDidClose:(id)sender;
 {
 //    quickLookIsOpen=NO;
     pathShownWithQuickLook=nil;
@@ -149,6 +185,7 @@ NSString* pathShownWithQuickLook=nil;
 	[[NSWorkspace sharedWorkspace] openFile:pathShownWithQuickLook withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
     }
 }
+*/
 
 #pragma mark arXiv article Version Checking
 
@@ -157,7 +194,7 @@ NSString* pathShownWithQuickLook=nil;
 -(void)openPDFforArticle:(Article*)o usingViewer:(PDFViewerType)viewerType
 {
 
-    if(o.hasPDFLocally&&![[[NSApplication sharedApplication] delegate] currentListIsArxivReplaced]){
+    if(o.hasPDFLocally&&![(id<AppDelegate>)[NSApp delegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if(o.articleType==ATEprint){
 	    if([[SpiresHelper sharedHelper] isOnline])
@@ -176,7 +213,7 @@ NSString* pathShownWithQuickLook=nil;
 				    alternateButton:nil
 					otherButton:nil
 			  informativeTextWithFormat:@"PDF can be associated by dropping into the lower pane."];
-	[alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+	[alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 			  modalDelegate:nil
 			 didEndSelector:nil
 			    contextInfo:nil];

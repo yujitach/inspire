@@ -48,7 +48,7 @@ static TeXWatcherController*_shared;
 -(void)prepareParentsForDirectory:(NSString*)fullPath
 {
     parents=[NSMutableDictionary dictionary];
-    NSArray*contents=[[NSFileManager defaultManager] directoryContentsAtPath:fullPath];
+    NSArray*contents=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:fullPath error:NULL];
     for(NSString*file in contents){
 	if(![file hasSuffix:@".tex"])
 	    continue;

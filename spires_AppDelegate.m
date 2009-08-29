@@ -8,6 +8,7 @@
 
 #import "spires_AppDelegate.h"
 #import "spires_AppDelegate_SyncCategory.h"
+#import "AppDelegate.h"
 #import "MOC.h"
 
 #import "Article.h"
@@ -55,6 +56,7 @@
 #import "SPSearchFieldWithProgressIndicator.h"
 
 #import <Sparkle/SUUpdater.h>
+#import <Quartz/Quartz.h>
 //#import <ExceptionHandling/NSExceptionHandler.h>
 //#import "QuickLookInternal.h"
 
@@ -63,6 +65,8 @@
 #define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivWaitInSeconds"]/TICK)
 NSString *ArticleListDropPboardType=@"articleListDropType";
 
+spires_AppDelegate*_shared=nil;
+
 @implementation spires_AppDelegate
 +(void)initialize
 {
@@ -70,12 +74,22 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
 
 }
+-(id)init
+{
+    self=[super init];
+    _shared=self;
+    return self;
+}
++(spires_AppDelegate*)sharedDelegate
+{
+    return _shared;
+}
 #pragma mark NSApplication delegates
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
     [window makeKeyWindow];
     // delay is necessary because this is also called during the spires-quicklook-ended call.
-    [[PDFHelper sharedHelper] performSelector:@selector(activateQuickLookIfNecessary) withObject:nil afterDelay:0];
+//    [[PDFHelper sharedHelper] performSelector:@selector(activateQuickLookIfNecessary) withObject:nil afterDelay:0];
 //    NSLog(@"%@",wv);
 }
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)app
@@ -162,13 +176,13 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     NSFileManager*fm=[NSFileManager defaultManager];
     NSString*crashDir=[@"~/Library/Logs/CrashReporter" stringByExpandingTildeInPath];
-    NSArray*a=[fm directoryContentsAtPath:crashDir];
+    NSArray*a=[fm contentsOfDirectoryAtPath:crashDir error:NULL];
     NSDate*date=[NSDate distantPast];
     NSString*s=nil;
     for(NSString* path in a){
 	if(![path hasPrefix:@"spires"])
 	    continue;
-	NSDictionary *fileAttributes = [fm fileAttributesAtPath:[crashDir stringByAppendingFormat:@"/%@",path] traverseLink:YES];
+	NSDictionary *fileAttributes = [fm attributesOfItemAtPath:[crashDir stringByAppendingFormat:@"/%@",path] error:NULL];
 	NSDate* modDate=[fileAttributes objectForKey:NSFileModificationDate];
 	if([modDate compare:date]==NSOrderedDescending){
 	    date=modDate;
@@ -184,8 +198,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 -(void)prepareCrashReport:(NSString*)path
 {
     NSFileManager*fm=[NSFileManager defaultManager];
-    [fm createDirectoryAtPath:@"/tmp/SpiresCrashReport" attributes:nil];
-    [fm copyPath:path toPath:[@"/tmp/SpiresCrashReport/" stringByAppendingString:[path lastPathComponent]] handler:nil];
+    [fm createDirectoryAtPath:@"/tmp/SpiresCrashReport" withIntermediateDirectories:YES attributes:nil error:NULL];
+    [fm copyItemAtPath:path 
+		toPath:[@"/tmp/SpiresCrashReport/" stringByAppendingString:[path lastPathComponent]] 
+		 error:NULL];
     system("grep spires /var/log/system.log | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.log");
     system("bzip2 -dc /var/log/system.log.0.bz2 | grep spires | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.0.log");
     system("rm /tmp/SpiresCrashReport/*.tar.bz2");
@@ -691,7 +707,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
     int entries=[[allArticleList articles] count];
-    NSDictionary* dict=[[NSFileManager defaultManager] fileAttributesAtPath:[[MOC sharedMOCManager] dataFilePath] traverseLink:YES];
+    NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
     NSNumber* size=[dict valueForKey:NSFileSize];
     [[NSWorkspace sharedWorkspace]
      openURL:[NSURL URLWithString:
@@ -1058,8 +1074,8 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	[self getBibEntries:self];
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
-    }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
-	[[PDFHelper sharedHelper] quickLookDidClose:self];
+//    }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
+//	[[PDFHelper sharedHelper] quickLookDidClose:self];
     }else if([[url scheme] isEqualTo:@"http"]){
 	if([[url host] hasSuffix:@"arxiv.org"]||[[url host] hasSuffix:@"arXiv.org"]){
 	    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
@@ -1098,6 +1114,18 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 	    [o associatePDF:[url path]];
 	}
     }
+}
+#pragma mark QuickLook handling
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    return YES;
+}
+- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    [panel setDataSource:(id<QLPreviewPanelDataSource>)[PDFHelper sharedHelper]];
+}
+- (void)endPreviewPanelControl:(QLPreviewPanel *)panel
+{
 }
 #pragma mark Service handling
 -(void)handleServicesLookupSpires:(NSPasteboard*)pboard
@@ -1233,7 +1261,7 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 -(void)applicationWillTerminate:(NSNotification*)note
 {
-    system("killall SpiresQuickLookHelper");
+//    system("killall SpiresQuickLookHelper");
 }
 #pragma mark exception
 /*

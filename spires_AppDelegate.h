@@ -25,7 +25,10 @@
 @class MessageViewerController;
 @class SPSearchFieldWithProgressIndicator;
 @class ArxivNewCreateSheetHelper;
-@interface spires_AppDelegate : NSObject // <NSPersistentStoreCoordinatorSyncing>
+
+#import "AppDelegate.h"
+
+@interface spires_AppDelegate : NSObject <AppDelegate> // <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
     IBOutlet BibViewController *bibViewController;
@@ -93,9 +96,6 @@
 -(IBAction)turnOnOffLine:(id)sender;
 -(IBAction)progressQuit:(id)sender;
 -(void)showInfoOnAssociation;
--(BOOL)currentListIsArxivReplaced;
--(void)handleURL:(NSURL*) url;
--(void)rearrangePositionInViewForArticleLists;
 -(void)startUpdatingMainView:(id)sender;
 -(void)stopUpdatingMainView:(id)sender;
 -(void)clearingUp:(id)sender;

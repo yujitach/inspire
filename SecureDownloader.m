@@ -8,6 +8,7 @@
 
 #import "SecureDownloader.h"
 #import "NSFileManager+TemporaryFileName.h"
+#import "AppDelegate.h"
 #import <WebKit/WebKit.h>
 
 @implementation SecureDownloader
@@ -33,7 +34,7 @@
 #pragma mark Delegates
 - (NSWindow *)downloadWindowForAuthenticationSheet:(WebDownload *)sender
 {
-    return [[[NSApplication sharedApplication] delegate] mainWindow];
+    return [(id<AppDelegate>)[NSApp delegate] mainWindow];
 }
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {
@@ -48,7 +49,7 @@
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:@"Error: %@",[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];

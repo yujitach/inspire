@@ -18,6 +18,7 @@
 #import "WaitOperation.h"
 #import "NSString+magic.h"
 #import "TeXWatcherController.h"
+#import "AppDelegate.h"
 
 static NSMutableArray*instances;
 @implementation TeXBibGenerationOperation
@@ -264,7 +265,7 @@ static NSMutableArray*instances;
     }
     return citations;
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     NSDictionary*dict=[TeXBibGenerationOperation infoForTeXFile:texFile];
@@ -280,7 +281,7 @@ static NSMutableArray*instances;
     if(listName&&![listName isEqualToString:@""]){
 	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
 	if(list){
-	    [[[NSApplication sharedApplication]delegate] rearrangePositionInViewForArticleLists];
+	    [(id<AppDelegate>)[NSApp delegate] rearrangePositionInViewForArticleLists];
 	}
     }
     BOOL forceRefresh=twice&&[[dict objectForKey:@"forceRefresh"] boolValue];

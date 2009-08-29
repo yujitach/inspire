@@ -7,7 +7,7 @@
 //
 
 #import "ArxivHelper.h"
-
+#import "AppDelegate.h"
 
 ArxivHelper* _sharedHelper=nil;
 @implementation ArxivHelper
@@ -241,7 +241,7 @@ ArxivHelper* _sharedHelper=nil;
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];

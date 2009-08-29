@@ -7,14 +7,14 @@
 //
 
 #import "URLHandlerCommand.h"
-#import "spires_AppDelegate.h"
+#import "AppDelegate.h"
 //static BOOL firsttime=YES;
 @implementation URLHandlerCommand
 
 - (id)performDefaultImplementation {
     NSString *urlString = [self directParameter];
 //    NSLog(@"handles:%@",urlString);
-    spires_AppDelegate* delegate=[NSApp delegate];
+    id<AppDelegate> delegate=[NSApp delegate];
     if([urlString hasPrefix:@"spires"]){
 	[delegate handleURL:[NSURL URLWithString:urlString]];
     }

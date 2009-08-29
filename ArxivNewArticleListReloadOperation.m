@@ -28,6 +28,10 @@
     moc=[MOC createSecondaryMOC];
     return self;
 }
+-(NSString*)description
+{
+    return [@"reloading " stringByAppendingString:listName];
+}
 -(void)registerAuthorsInString:(NSString*)tmp toArticle:(Article*)ar
 {
     NSArray*authors=[tmp componentsSeparatedByString:@"\">"];

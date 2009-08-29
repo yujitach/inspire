@@ -12,12 +12,12 @@
 @implementation DropAcceptingTextField
 -(void)awakeFromNib
 {
-    [self registerForDraggedTypes:[[self delegate] draggedTypesToRegister]];
+    [self registerForDraggedTypes:[(id<DropAcceptingTextFieldDelegate>)[self delegate] draggedTypesToRegister]];
 }
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    return [[self delegate] draggingEntered:sender];
+    return [(id<DropAcceptingTextFieldDelegate>)[self delegate] draggingEntered:sender];
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    return [[self delegate] performDragOperation:sender];
+    return [(id<DropAcceptingTextFieldDelegate>)[self delegate] performDragOperation:sender];
 }
 @end

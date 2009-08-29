@@ -10,7 +10,7 @@
 #import "SpiresHelper.h"
 #import "NSString+magic.h"
 #import "RegexKitLite.h"
-
+#import "AppDelegate.h"
 
 @implementation SpiresQueryDownloader
 
@@ -163,7 +163,7 @@
 					alternateButton:@"No thanks"
 					    otherButton:nil informativeTextWithFormat:text];
 	    //[alert setAlertStyle:NSCriticalAlertStyle];
-	    [alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+	    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 			      modalDelegate:self 
 			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
 				contextInfo:nil];
@@ -200,7 +200,7 @@
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];

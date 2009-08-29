@@ -16,7 +16,7 @@
     articles=as;
     return self;
 }
--(void)start{
+-(void)run{
     self.isExecuting=YES;
     NSString*key=[[NSUserDefaults standardUserDefaults] stringForKey:@"bibType"];
     int i=0;

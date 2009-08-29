@@ -11,6 +11,7 @@
 #import "PDFHelper.h"
 #import "ProgressIndicatorController.h"
 #import "ArxivHelper.h"
+#import "AppDelegate.h"
 
 @implementation ArxivPDFDownloadOperation
 
@@ -50,7 +51,7 @@
 				    alternateButton:@"Cancel downloading"
 					otherButton:nil
 			  informativeTextWithFormat:@"arXiv is now generating %@. Retrying in %@ seconds.", article.eprint,reloadDelay];
-	[alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate]mainWindow]
+	[alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 			  modalDelegate:self 
 			 didEndSelector:@selector(retryAlertDidEnd:code:context:)
 			    contextInfo:nil];
@@ -76,7 +77,7 @@
 					     delegate:self 
 				       didEndSelector:@selector(pdfDownloadDidEnd:)];
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     if(shouldAsk && [[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
@@ -85,14 +86,13 @@
 				    alternateButton:@"Cancel"
 					otherButton:nil
 			  informativeTextWithFormat:@"%@v%@ is not yet downloaded ...", article.eprint,article.version];
-	[alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+	[alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 			  modalDelegate:self 
 			 didEndSelector:@selector(downloadAlertDidEnd:code:context:)
 			    contextInfo:nil];
     }else{
 	[self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
     }
-    
 }
 -(void)cleanupToCancel
 {

@@ -38,7 +38,7 @@
     NSString*dest=[[NSString stringWithFormat:@"%@/%@",dir,file] stringByExpandingTildeInPath];
     return dest;
 }
--(void)start
+-(void)run
 {
     
     
@@ -128,7 +128,7 @@
 	    [(spires_AppDelegate*)[NSApp delegate] showInfoOnAssociation]; //cheating here...
 	}else{
 	    NSString*dest=[self destinationPath];
-	    if([[NSFileManager defaultManager] movePath:path toPath:dest handler:nil]){
+	    if([[NSFileManager defaultManager] moveItemAtPath:path toPath:dest error:NULL]){
 		[article associatePDF:dest];
 	    }
 	}

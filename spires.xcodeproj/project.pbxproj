@@ -104,7 +104,6 @@
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
 		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
 		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
-		339456EF0F58EEF700E85044 /* SpiresQuickLookHelper.app in Resources */ = {isa = PBXBuildFile; fileRef = 339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -112,6 +111,7 @@
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
+		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
 		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
@@ -175,13 +175,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		339456ED0F58EEEE00E85044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 339456B60F58ED3D00E85044;
-			remoteInfo = QuickLookHelper;
-		};
 		33E755C80F58E78500A21A86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -360,6 +353,7 @@
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
 		33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPProgressIndicatingButtonCell.m; sourceTree = "<group>"; };
+		33B2CC751048D06D00BA5561 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
 		33B485C10F5B3E2A00EBE022 /* PrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefPane.xib; sourceTree = "<group>"; };
@@ -496,6 +490,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */,
 				33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */,
@@ -703,6 +698,7 @@
 			children = (
 				333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */,
 				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
+				33B2CC751048D06D00BA5561 /* AppDelegate.h */,
 				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
 				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
 				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
@@ -1077,7 +1073,6 @@
 			);
 			dependencies = (
 				33E755C90F58E78500A21A86 /* PBXTargetDependency */,
-				339456EE0F58EEEE00E85044 /* PBXTargetDependency */,
 			);
 			name = spires;
 			productInstallPath = "$(HOME)/Applications";
@@ -1137,7 +1132,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				339456EF0F58EEF700E85044 /* SpiresQuickLookHelper.app in Resources */,
 				33E755CA0F58E79D00A21A86 /* pdfScanHelper in Resources */,
 				33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
@@ -1360,11 +1354,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		339456EE0F58EEEE00E85044 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */;
-			targetProxy = 339456ED0F58EEEE00E85044 /* PBXContainerItemProxy */;
-		};
 		33E755C90F58E78500A21A86 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 33E755150F58E38000A21A86 /* pdfScanHelper */;
@@ -1427,7 +1416,10 @@
 		26FC0A860875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1450,10 +1442,10 @@
 		26FC0A890875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SHADOW = NO;
@@ -1461,27 +1453,22 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
 		26FC0A8A0875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
 				WARNING_CFLAGS = "";
 			};
 			name = Release;
@@ -1666,7 +1653,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

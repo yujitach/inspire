@@ -51,6 +51,10 @@
 }
 -(void)finish;
 -(void)cleanupToCancel;
+// subclasses should override -run. 
+//In Snow Leopard, NSOperationQueue runs concurrent NSOperations in non-main thread,
+//which causes many headache. So ConcurrentOperation overrides -start to call -run on the main thread.
+-(void)run;
 @property (assign) BOOL isFinished;
 @property (assign) BOOL isExecuting;
 @end

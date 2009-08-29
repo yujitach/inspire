@@ -21,7 +21,7 @@
 {
     return [NSString stringWithFormat:@"open PDF for %@",article.uniqueId];
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     if(article.hasPDFLocally){

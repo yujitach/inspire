@@ -20,7 +20,7 @@
 {
     return [NSString stringWithFormat:@"wait %f sec",(double)delay];
 }
--(void)start
+-(void)run
 {
     self.isExecuting=YES;
     [self performSelector:@selector(wakeUp:) withObject:nil afterDelay:delay];

@@ -68,7 +68,7 @@ static void fsEventCallbackFunction(
 {
     NSDate*d=[NSDate date];
     NSFileManager*fm=[NSFileManager defaultManager];
-    NSArray*files=[fm directoryContentsAtPath:pathToWatch];
+    NSArray*files=[fm contentsOfDirectoryAtPath:pathToWatch error:NULL];
     for(NSString*file in files){
 	NSString*fullPath=[pathToWatch stringByAppendingPathComponent:file];
 	NSDictionary*dict=[fm attributesOfItemAtPath:fullPath error:NULL];

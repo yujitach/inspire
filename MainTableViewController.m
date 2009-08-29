@@ -9,6 +9,7 @@
 #import "MainTableViewController.h"
 #import "Article.h"
 #import "HidableNSTableView.h"
+#import "AppDelegate.h"
 NSString *ArticleDropPboardType=@"articleDropType";
 
 
@@ -51,7 +52,7 @@ NSString *ArticleDropPboardType=@"articleDropType";
 				    alternateButton:nil
 					otherButton:nil informativeTextWithFormat:@"You selected %d entries. You cannot drag more than 100 entries.",(int)[rowIndexes count]];
 	//[alert setAlertStyle:NSCriticalAlertStyle];
-	[alert beginSheetModalForWindow:[[[NSApplication sharedApplication] delegate] mainWindow]
+	[alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
 			  modalDelegate:nil 
 			 didEndSelector:nil
 			    contextInfo:nil];

@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "spires_AppDelegate.h"
 
 @interface ImporterController : NSWindowController {
 //    spires_AppDelegate* appDelegate;

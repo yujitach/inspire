@@ -183,6 +183,14 @@ static NSOperationQueue*_Aqueue=nil;
 @end
 
 @implementation ConcurrentOperation
+-(void)start
+{
+    [self performSelectorOnMainThread:@selector(run) withObject:nil waitUntilDone:YES];
+}
+-(void)run
+{
+    NSLog(@"should not be called at all!");
+}
 -(BOOL)isConcurrent
 {
     return YES;

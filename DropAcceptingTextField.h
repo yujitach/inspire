@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSObject (DropAccepting)
+@protocol DropAcceptingTextFieldDelegate
 -(NSArray*)draggedTypesToRegister;
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender;
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender;
