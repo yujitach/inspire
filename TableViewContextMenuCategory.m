@@ -8,9 +8,6 @@
 
 #import "TableViewContextMenuCategory.h"
 
-@interface NSObject (TableViewContextMenuDelegate)
--(NSMenu*)tableView:(NSTableView*)tv contextMenuForColumn:(NSTableColumn*)col atRow:(int)i;
-@end
 
 @implementation NSTableView (TableViewContextMenuCategory)
 -(NSMenu*)menuForEvent:(NSEvent*)event
@@ -23,7 +20,7 @@
 	col=[[self tableColumns] objectAtIndex:column];
     }
     if([[self delegate] respondsToSelector:@selector(tableView:contextMenuForColumn:atRow:)]){
-	return [[self delegate] tableView:self contextMenuForColumn:col atRow:row];
+	return [(id<TableViewContextMenuDelegate>)[self delegate] tableView:self contextMenuForColumn:col atRow:row];
     }
     return nil;
 }

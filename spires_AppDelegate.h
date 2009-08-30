@@ -68,7 +68,7 @@
 -(void)sendBugReport:(id)sender;
 - (IBAction)saveAction:sender;
 - (IBAction)search:sender;
--(IBAction)installHook:(id)sender;
+//-(IBAction)installHook:(id)sender;
 -(IBAction)reloadSelection:(id)sender;
 -(IBAction)reloadSelectedArticleList:(id)sender;
 -(IBAction)reloadAllArticleList:(id)sender;

@@ -166,7 +166,6 @@
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
-		33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */ = {isa = PBXBuildFile; fileRef = 33F6149F0EAA82F200DA8029 /* spiresHook.pkg */; };
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* spires_AppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -1133,7 +1132,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				33E755CA0F58E79D00A21A86 /* pdfScanHelper in Resources */,
-				33F614B90EAA842B00DA8029 /* spiresHook.pkg in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
 				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
