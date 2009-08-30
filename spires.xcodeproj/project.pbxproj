@@ -59,7 +59,6 @@
 		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
-		3343B3900FF7127A00F13889 /* BWToolKit-License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */; };
 		334A3A700F360E060078D121 /* NSWindow+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
 		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
@@ -263,24 +262,23 @@
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
 		3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXIDsLookUpOperation.h; sourceTree = "<group>"; };
 		3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXIDsLookUpOperation.m; sourceTree = "<group>"; };
-		3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "BWToolKit-License.rtf"; path = "BWFramework/BWToolKit-License.rtf"; sourceTree = "<group>"; };
-		334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+BWAdditions.m"; path = "BWFramework/NSWindow+BWAdditions.m"; sourceTree = "<group>"; };
-		334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSWindow+BWAdditions.h"; path = "BWFramework/NSWindow+BWAdditions.h"; sourceTree = "<group>"; };
-		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "BWFramework/NSView+BWAdditions.m"; sourceTree = "<group>"; };
-		334A3A5C0F360E050078D121 /* NSView+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BWAdditions.h"; path = "BWFramework/NSView+BWAdditions.h"; sourceTree = "<group>"; };
-		334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BWAdditions.m"; path = "BWFramework/NSString+BWAdditions.m"; sourceTree = "<group>"; };
-		334A3A5E0F360E050078D121 /* NSString+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BWAdditions.h"; path = "BWFramework/NSString+BWAdditions.h"; sourceTree = "<group>"; };
-		334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+BWAdditions.m"; path = "BWFramework/NSImage+BWAdditions.m"; sourceTree = "<group>"; };
-		334A3A600F360E050078D121 /* NSImage+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+BWAdditions.h"; path = "BWFramework/NSImage+BWAdditions.h"; sourceTree = "<group>"; };
-		334A3A610F360E060078D121 /* NSCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCustomView.h; path = BWFramework/NSCustomView.h; sourceTree = "<group>"; };
-		334A3A620F360E060078D121 /* NSColor+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSColor+BWAdditions.m"; path = "BWFramework/NSColor+BWAdditions.m"; sourceTree = "<group>"; };
-		334A3A630F360E060078D121 /* NSColor+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSColor+BWAdditions.h"; path = "BWFramework/NSColor+BWAdditions.h"; sourceTree = "<group>"; };
-		334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonCell.m; path = BWFramework/BWAnchoredButtonCell.m; sourceTree = "<group>"; };
-		334A3A6B0F360E060078D121 /* BWAnchoredButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonCell.h; path = BWFramework/BWAnchoredButtonCell.h; sourceTree = "<group>"; };
-		334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonBar.m; path = BWFramework/BWAnchoredButtonBar.m; sourceTree = "<group>"; };
-		334A3A6D0F360E060078D121 /* BWAnchoredButtonBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonBar.h; path = BWFramework/BWAnchoredButtonBar.h; sourceTree = "<group>"; };
-		334A3A6E0F360E060078D121 /* BWAnchoredButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButton.m; path = BWFramework/BWAnchoredButton.m; sourceTree = "<group>"; };
-		334A3A6F0F360E060078D121 /* BWAnchoredButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButton.h; path = BWFramework/BWAnchoredButton.h; sourceTree = "<group>"; };
+		334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+BWAdditions.m"; path = "bwtoolkit/NSWindow+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSWindow+BWAdditions.h"; path = "bwtoolkit/NSWindow+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "bwtoolkit/NSView+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5C0F360E050078D121 /* NSView+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSView+BWAdditions.h"; path = "bwtoolkit/NSView+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BWAdditions.m"; path = "bwtoolkit/NSString+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A5E0F360E050078D121 /* NSString+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BWAdditions.h"; path = "bwtoolkit/NSString+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage+BWAdditions.m"; path = "bwtoolkit/NSImage+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A600F360E050078D121 /* NSImage+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+BWAdditions.h"; path = "bwtoolkit/NSImage+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A610F360E060078D121 /* NSCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCustomView.h; path = bwtoolkit/NSCustomView.h; sourceTree = "<group>"; };
+		334A3A620F360E060078D121 /* NSColor+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSColor+BWAdditions.m"; path = "bwtoolkit/NSColor+BWAdditions.m"; sourceTree = "<group>"; };
+		334A3A630F360E060078D121 /* NSColor+BWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSColor+BWAdditions.h"; path = "bwtoolkit/NSColor+BWAdditions.h"; sourceTree = "<group>"; };
+		334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonCell.m; path = bwtoolkit/BWAnchoredButtonCell.m; sourceTree = "<group>"; };
+		334A3A6B0F360E060078D121 /* BWAnchoredButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonCell.h; path = bwtoolkit/BWAnchoredButtonCell.h; sourceTree = "<group>"; };
+		334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButtonBar.m; path = bwtoolkit/BWAnchoredButtonBar.m; sourceTree = "<group>"; };
+		334A3A6D0F360E060078D121 /* BWAnchoredButtonBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButtonBar.h; path = bwtoolkit/BWAnchoredButtonBar.h; sourceTree = "<group>"; };
+		334A3A6E0F360E060078D121 /* BWAnchoredButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredButton.m; path = bwtoolkit/BWAnchoredButton.m; sourceTree = "<group>"; };
+		334A3A6F0F360E060078D121 /* BWAnchoredButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredButton.h; path = bwtoolkit/BWAnchoredButton.h; sourceTree = "<group>"; };
 		334A6D240F96E02E005BC4A2 /* flagged.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flagged.png; sourceTree = "<group>"; };
 		334A6D250F96E02E005BC4A2 /* unread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread.png; sourceTree = "<group>"; };
 		334A6DAC0F96EC49005BC4A2 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -290,10 +288,10 @@
 		334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleFolder.m; sourceTree = "<group>"; };
 		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
-		335937770F40052D00E3A39E /* BWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSplitView.m; path = BWFramework/BWSplitView.m; sourceTree = "<group>"; };
-		335937780F40052D00E3A39E /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = BWFramework/BWSplitView.h; sourceTree = "<group>"; };
-		3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = GradientSplitViewDimpleVector.pdf; path = BWFramework/GradientSplitViewDimpleVector.pdf; sourceTree = "<group>"; };
-		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = BWFramework/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
+		335937770F40052D00E3A39E /* BWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSplitView.m; path = bwtoolkit/BWSplitView.m; sourceTree = "<group>"; };
+		335937780F40052D00E3A39E /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = bwtoolkit/BWSplitView.h; sourceTree = "<group>"; };
+		3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = GradientSplitViewDimpleVector.pdf; path = bwtoolkit/GradientSplitViewDimpleVector.pdf; sourceTree = "<group>"; };
+		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = bwtoolkit/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
 		33649D1A0FFA8AF50002B187 /* WaitOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOperation.h; sourceTree = "<group>"; };
 		33649D1B0FFA8AF50002B187 /* WaitOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOperation.m; sourceTree = "<group>"; };
 		3365B0850EA7F53100A847CE /* spires-red.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-red.ico"; sourceTree = "<group>"; };
@@ -424,11 +422,11 @@
 		33D8AA6A0EAA67F400619A6F /* spiresHook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spiresHook.m; sourceTree = "<group>"; };
 		33D8AA6C0EAA683D00619A6F /* Info */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
 		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButton.m; path = BWFramework/BWAnchoredPopUpButton.m; sourceTree = "<group>"; };
-		33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButtonCell.m; path = BWFramework/BWAnchoredPopUpButtonCell.m; sourceTree = "<group>"; };
-		33DE54170F71B0EE004E3A5C /* BWAnchoredPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredPopUpButton.h; path = BWFramework/BWAnchoredPopUpButton.h; sourceTree = "<group>"; };
-		33DE54180F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredPopUpButtonCell.h; path = BWFramework/BWAnchoredPopUpButtonCell.h; sourceTree = "<group>"; };
-		33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ButtonBarPullDownArrow.pdf; path = BWFramework/ButtonBarPullDownArrow.pdf; sourceTree = "<group>"; };
+		33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButton.m; path = bwtoolkit/BWAnchoredPopUpButton.m; sourceTree = "<group>"; };
+		33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButtonCell.m; path = bwtoolkit/BWAnchoredPopUpButtonCell.m; sourceTree = "<group>"; };
+		33DE54170F71B0EE004E3A5C /* BWAnchoredPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredPopUpButton.h; path = bwtoolkit/BWAnchoredPopUpButton.h; sourceTree = "<group>"; };
+		33DE54180F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWAnchoredPopUpButtonCell.h; path = bwtoolkit/BWAnchoredPopUpButtonCell.h; sourceTree = "<group>"; };
+		33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ButtonBarPullDownArrow.pdf; path = bwtoolkit/ButtonBarPullDownArrow.pdf; sourceTree = "<group>"; };
 		33E4EF830EAA9FAF00301AFC /* TableViewContextMenuCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewContextMenuCategory.h; sourceTree = "<group>"; };
 		33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewContextMenuCategory.m; sourceTree = "<group>"; };
 		33E755160F58E38000A21A86 /* pdfScanHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pdfScanHelper; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -601,7 +599,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3343B38F0FF7127A00F13889 /* BWToolKit-License.rtf */,
 				338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3309372A0F39662800F214D6 /* spires.syncschema */,
@@ -718,7 +715,6 @@
 		334A3A1C0F360B750078D121 /* BWToolKitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */,
 				334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */,
 				334A3A5A0F360E050078D121 /* NSWindow+BWAdditions.h */,
 				334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */,
@@ -742,6 +738,7 @@
 				33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */,
 				33DE54180F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.h */,
 				33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */,
+				33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */,
 				3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */,
 				3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */,
 			);
@@ -1159,7 +1156,6 @@
 				334A6D260F96E02E005BC4A2 /* flagged.png in Resources */,
 				334A6D270F96E02E005BC4A2 /* unread.png in Resources */,
 				334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */,
-				3343B3900FF7127A00F13889 /* BWToolKit-License.rtf in Resources */,
 				332F485D0FF8748700B9363E /* hasPDF.png in Resources */,
 				33EBAF280FF9B3B10076F6AC /* TeXWatcher.xib in Resources */,
 				333D721210007CE800A328FE /* magicRegExps.perl in Resources */,
@@ -1403,6 +1399,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";
@@ -1428,6 +1425,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "AuxPanelController.h";
+#import "AuxPanelController.h"
 
 @interface ActivityMonitorController : AuxPanelController {
     IBOutlet NSArrayController*activityController;
