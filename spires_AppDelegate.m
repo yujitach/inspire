@@ -342,6 +342,39 @@ spires_AppDelegate*_shared=nil;
 {
     [tb setVisible:YES];
 }*/
+-(void)setupServices
+{
+    [NSApp setServicesProvider: self];
+    NSUpdateDynamicServices();
+    
+    // Force enable the Spires... entry in the Services menu and the context menu.
+    // This is not morally right, and uses implementation details not public, but whatever...
+    // when someone complains, I would implement an opt-out button in the Preferences.
+    NSString*pbsPlistPath=[@"~/Library/Preferences/pbs.plist" stringByExpandingTildeInPath];
+    NSMutableDictionary*dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:pbsPlistPath]
+							      mutabilityOption:NSPropertyListMutableContainers
+									format:NULL
+							      errorDescription:NULL];
+    NSMutableDictionary*status=[dict objectForKey:@"NSServicesStatus"];
+    if(!status){
+	status=[NSMutableDictionary dictionary];
+	[dict setObject:status forKey:@"NSServicesStatus"];
+    }
+    if(status){
+	NSMutableDictionary*m=[NSMutableDictionary dictionary];
+	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_context_menu"];
+	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_services_menu"];
+	[status setObject:m
+		   forKey:@"com.yujitach.spires - Spires... - handleServicesLookupSpires"];
+    }
+    NSData* data=[NSPropertyListSerialization dataWithPropertyList:dict
+							    format:NSPropertyListBinaryFormat_v1_0
+							   options:0
+							     error:NULL];
+    [data writeToFile:pbsPlistPath
+	   atomically:YES];
+    
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
 //    NSLog(@"didLaunch");
@@ -350,8 +383,7 @@ spires_AppDelegate*_shared=nil;
 	[self syncSetupAtStartup];
     }
 */    
-    [NSApp setServicesProvider: self];
-    NSUpdateDynamicServices();
+    [self setupServices];
     
     [self crashCheck:self];
     if(![[SpiresHelper sharedHelper] isOnline]){
