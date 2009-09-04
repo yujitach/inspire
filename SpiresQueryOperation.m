@@ -67,11 +67,13 @@
     self.isExecuting=YES;
     downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:userInfo:) userInfo:nil];
     if(!downloader){
+	[ProgressIndicatorController stopAnimation:self];
 	[self finish];
     }
 }
 -(void)spiresQueryDidEnd:(NSXMLDocument*)doc userInfo:(id)ignore
 {
+    [ProgressIndicatorController stopAnimation:self];
     if(!doc){
 	[self finish];
 	return;
@@ -91,7 +93,6 @@
 	[op setParent:parent];
     }
     [[OperationQueues sharedQueue] addOperation:op];
-    [ProgressIndicatorController stopAnimation:self];
 //    if([search hasPrefix:@"tex"]){
 	// this cheat guarantees that texKey is always generated for a lookup of a texKey.
 //    }

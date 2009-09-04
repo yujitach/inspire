@@ -175,7 +175,7 @@ spires_AppDelegate*_shared=nil;
 -(NSString*)recentlyCrashed
 {
     NSFileManager*fm=[NSFileManager defaultManager];
-    NSString*crashDir=[@"~/Library/Logs/CrashReporter" stringByExpandingTildeInPath];
+    NSString*crashDir=[@"~/Library/Logs/DiagnosticReports" stringByExpandingTildeInPath];
     NSArray*a=[fm contentsOfDirectoryAtPath:crashDir error:NULL];
     NSDate*date=[NSDate distantPast];
     NSString*s=nil;
