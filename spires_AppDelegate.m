@@ -53,6 +53,8 @@
 #import "ArxivMetadataFetchOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "ArticleListReloadOperation.h"
+#import "AllArticleListFetchOperation.h"
+
 #import "SPSearchFieldWithProgressIndicator.h"
 
 #import <Sparkle/SUUpdater.h>
@@ -72,7 +74,6 @@ spires_AppDelegate*_shared=nil;
 {
     NSDictionary* defaultDict=[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
-
 }
 -(id)init
 {
@@ -299,8 +300,8 @@ spires_AppDelegate*_shared=nil;
 	    [ti setMaxSize:s];
 	}
     }
-    allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
-
+    
+    
     [ac addObserver:self
 	 forKeyPath:@"selection"
 	    options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
@@ -375,16 +376,22 @@ spires_AppDelegate*_shared=nil;
 	   atomically:YES];
     
 }
+-(void)applicationWillFinishLaunching:(NSNotification*)notification
+{
+    // Warm up the CoreData cache in a background thread.
+    // see the difference it makes in the movie http://www.sns.ias.edu/~yujitach/spires/launchTimeComparison.mov
+    [[OperationQueues sharedQueue] addOperation:[[AllArticleListFetchOperation alloc] init]];  
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
-//    NSLog(@"didLaunch");
     
 /*    if([self syncEnabled]){
 	[self syncSetupAtStartup];
     }
 */    
     [self setupServices];
-    
+    allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
+    [self startUpdatingMainView:self];
     [self crashCheck:self];
     if(![[SpiresHelper sharedHelper] isOnline]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."

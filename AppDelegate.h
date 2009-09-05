@@ -12,4 +12,6 @@
 -(void)rearrangePositionInViewForArticleLists;
 -(NSWindow*)mainWindow;
 -(void)handleURL:(NSURL*) url;
+-(void)startUpdatingMainView:(id)sender;
+-(void)stopUpdatingMainView:(id)sender;
 @end

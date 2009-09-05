@@ -18,6 +18,7 @@
 #import "ImageAndTextCell.h"
 #import "MOC.h"
 
+
 /*@interface NSSourceListCell:NSTextFieldCell
 {
 }
@@ -192,8 +193,9 @@
 {
 //   [articleListController didChangeArrangementCriteria];
     allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
-    allArticleList.positionInView=[NSNumber numberWithInt:0];
-    allArticleList.searchString=@"";
+//    allArticleList.positionInView=[NSNumber numberWithInt:0];
+//    allArticleList.searchString=@"";
+    
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
 	ArticleList*hepph=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];
@@ -258,7 +260,6 @@
     NSSortDescriptor*desc=[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
     [articleListController setSortDescriptors:[NSArray arrayWithObject:desc]];
     [articleListView setSortDescriptors:[NSArray arrayWithObject:desc]];
-    allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
     [self loadArticleLists];
 }
 

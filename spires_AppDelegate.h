@@ -96,8 +96,6 @@
 -(IBAction)turnOnOffLine:(id)sender;
 -(IBAction)progressQuit:(id)sender;
 -(void)showInfoOnAssociation;
--(void)startUpdatingMainView:(id)sender;
--(void)stopUpdatingMainView:(id)sender;
 -(void)clearingUp:(id)sender;
 @end
 extern NSString *ArticleDropPboardType;

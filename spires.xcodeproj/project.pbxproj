@@ -83,6 +83,7 @@
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
 		3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */; };
 		3365B30D0EA810CF00A847CE /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; };
+		337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */; };
 		3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */; };
 		337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; };
 		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
@@ -302,6 +303,8 @@
 		3365B1F10EA8037C00A847CE /* SpiresPredicateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresPredicateTransformer.h; sourceTree = "<group>"; };
 		3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresPredicateTransformer.m; sourceTree = "<group>"; };
 		3365B30C0EA810CF00A847CE /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		337274351052CB4600DD8AA1 /* AllArticleListFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllArticleListFetchOperation.h; sourceTree = "<group>"; };
+		337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllArticleListFetchOperation.m; sourceTree = "<group>"; };
 		3379CDA710461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewArticleListReloadOperation.h; sourceTree = "<group>"; };
 		3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewArticleListReloadOperation.m; sourceTree = "<group>"; };
 		337A3E950F3FA7680008906A /* DeferredPDFOpenOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeferredPDFOpenOperation.h; sourceTree = "<group>"; };
@@ -879,6 +882,8 @@
 			children = (
 				33CC06E60F3E48B8005B25F8 /* DumbOperation.h */,
 				33CC06E70F3E48B8005B25F8 /* DumbOperation.m */,
+				337274351052CB4600DD8AA1 /* AllArticleListFetchOperation.h */,
+				337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */,
 				33CC08060F3E6135005B25F8 /* ArxivPDFDownloadOperation.h */,
 				33CC08070F3E6135005B25F8 /* ArxivPDFDownloadOperation.m */,
 				33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */,
@@ -1342,6 +1347,7 @@
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
+				337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

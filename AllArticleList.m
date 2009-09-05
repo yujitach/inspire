@@ -36,6 +36,7 @@
 	AllArticleList* mo=[[NSManagedObject alloc] initWithEntity:authorEntity 
 				     insertIntoManagedObjectContext:nil];
 	[mo setValue:@"spires" forKey:@"name"];
+	[mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
 	[moc insertObject:mo];	
 
 	NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];

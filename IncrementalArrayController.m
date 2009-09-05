@@ -53,6 +53,10 @@
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }*/
+-(void)awakeFromNib
+{
+    refuseFiltering=YES;
+}
 -(BOOL)refuseFiltering
 {
     return refuseFiltering;
