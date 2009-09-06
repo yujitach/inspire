@@ -17,6 +17,15 @@
     secondMOC=[MOC createSecondaryMOC];
     return self;
 }
+-(void)fetchlist
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"AllArticleList" inManagedObjectContext:secondMOC];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    [req setPredicate:[NSPredicate predicateWithValue:YES]];
+    NSError*error=nil;
+    NSArray*a=[secondMOC executeFetchRequest:req error:&error];
+}
 -(void)fetch:(NSUInteger)count
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
@@ -37,8 +46,8 @@
 }
 -(void)main
 {
-    [self fetch:1000];
     [self fetch:0];
+    [self fetchlist];
 }
 
 @end

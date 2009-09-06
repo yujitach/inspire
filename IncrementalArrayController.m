@@ -53,9 +53,12 @@
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }*/
--(void)awakeFromNib
+-(id)initWithCoder:(NSCoder*)coder;
 {
+    self=[super initWithCoder:coder];
+    // refuse updating UI right after loaded from the NIB
     refuseFiltering=YES;
+    return self;
 }
 -(BOOL)refuseFiltering
 {

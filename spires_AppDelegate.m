@@ -53,7 +53,6 @@
 #import "ArxivMetadataFetchOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "ArticleListReloadOperation.h"
-#import "AllArticleListFetchOperation.h"
 
 #import "SPSearchFieldWithProgressIndicator.h"
 
@@ -375,12 +374,6 @@ spires_AppDelegate*_shared=nil;
     [data writeToFile:pbsPlistPath
 	   atomically:YES];
     
-}
--(void)applicationWillFinishLaunching:(NSNotification*)notification
-{
-    // Warm up the CoreData cache in a background thread.
-    // see the difference it makes in the movie http://www.sns.ias.edu/~yujitach/spires/launchTimeComparison.mov
-    [[OperationQueues sharedQueue] addOperation:[[AllArticleListFetchOperation alloc] init]];  
 }
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
