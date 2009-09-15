@@ -124,7 +124,7 @@ ArxivHelper* _sharedHelper=nil;
 {
     NSString*p=[[path componentsSeparatedByString:@"/"]objectAtIndex:0];
     NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/rss/%@",[self arXivHead],p]];
-    NSError*error;
+    NSError*error=nil;
     NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0   error:&error];
     return doc;
 }

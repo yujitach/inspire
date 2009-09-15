@@ -92,7 +92,7 @@ MOC*_sharedMOCManager=nil;
     
     NSFileManager *fileManager;
     NSString *applicationSupportFolder = nil;
-    NSError *error;
+    NSError *error=nil;
     
     fileManager = [NSFileManager defaultManager];
     applicationSupportFolder = [self applicationSupportFolder];

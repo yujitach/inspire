@@ -265,18 +265,21 @@ spires_AppDelegate*_shared=nil;
 {
     return window;
 }
-/*-(void)checkOSVersion
+-(void)checkOSVersion
 {   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
     SInt32 major=10,minor=5,bugFix=6;
     Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
     Gestalt(gestaltSystemVersionBugFix, &bugFix);
     NSLog(@"OS version:%d.%d.%d",major,minor,bugFix);
-    if(minor == 5 && bugFix<7){
+    if(minor == 6 && bugFix<1){
 	NSLog(@"OS update should be available...");
-	[[NSWorkspace sharedWorkspace] launchApplication:@"Software Update"];
+	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]
+						      options:NSWorkspaceLaunchWithoutActivation
+						configuration:nil
+							error:NULL];
     }
-}*/
+}
 -(void)awakeFromNib
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
@@ -314,7 +317,6 @@ spires_AppDelegate*_shared=nil;
     
     [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
     countDown=0;
-//    [self checkOSVersion];
     [searchField setProgressQuitAction:@selector(progressQuit:)];
     // the following two lines are to go around a Leopard bug (?)
     // where the textfield in the toolbar sometimes doesn't receive the mouse down, which is instead thought of as initiating drag.
@@ -383,6 +385,8 @@ spires_AppDelegate*_shared=nil;
     }
 */    
     [self setupServices];
+    [self checkOSVersion];
+
     allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
     [self startUpdatingMainView:self];
     [self crashCheck:self];
@@ -1110,11 +1114,13 @@ spires_AppDelegate*_shared=nil;
 //    }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
 //	[[PDFHelper sharedHelper] quickLookDidClose:self];
     }else if([[url scheme] isEqualTo:@"http"]){
+	/*
 	if([[url host] hasSuffix:@"arxiv.org"]||[[url host] hasSuffix:@"arXiv.org"]){
 	    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
 		url=[NSURL URLWithString:[[url absoluteString] stringByAppendingString:@"?doNotCallSpiresHook"]];
 	    }
 	}
+	 */
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){
 	    [self showInfoOnAssociation];

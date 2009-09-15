@@ -110,7 +110,7 @@
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
 {
-    NSError*error;
+    NSError*error=nil;
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
 	//	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];

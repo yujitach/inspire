@@ -189,7 +189,7 @@
     }
 }
 
--(void)loadArticleLists
+-(void)loadArticleLists:(NSNotification*)notification
 {
 //   [articleListController didChangeArrangementCriteria];
     allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
@@ -260,7 +260,11 @@
     NSSortDescriptor*desc=[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
     [articleListController setSortDescriptors:[NSArray arrayWithObject:desc]];
     [articleListView setSortDescriptors:[NSArray arrayWithObject:desc]];
-    [self loadArticleLists];
+//    [self loadArticleLists:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+					     selector:@selector(loadArticleLists:)
+						 name:NSApplicationDidFinishLaunchingNotification
+					       object:nil];
 }
 
 #pragma mark NSOutlineView delegate

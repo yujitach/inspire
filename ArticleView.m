@@ -318,7 +318,7 @@
 	}
     }
     article=a;
-    NSError*error;
+    NSError*error=nil;
 /*    if(!a || a==NSNoSelectionMarker || a==NSNotApplicableMarker){
 //	NSLog(@"article:nil");
 	templateForWebView=nil;

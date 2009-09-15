@@ -174,7 +174,7 @@ l{
     o.eprint=eprint;
     o.title=title;
     
-    NSError*error;
+    NSError*error=nil;
     NSArray*a=[element nodesForXPath:@"authaffgrp/author" error:&error];
     NSMutableArray* array=[NSMutableArray array];
     int u=[a count];
