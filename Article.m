@@ -9,9 +9,16 @@
 #import "Article.h"
 #import "Author.h"
 #import "AllArticleList.h"
-#import "NDAlias.h"
 #import "NSString+magic.h"
 #import "MOC.h"
+
+// This file Article.m is the only place NDAlias is used, which is based on older Alias APIs.
+// Eventually we need to switch to the new Bookmark APIs in the NSURL. 
+// We need then to convert the @property pdfAlias using CFURLCreateBookmarkDataFromAliasRecord .
+// Note that [NDAlias data] is really an AliasRecord in an NSData, 
+// without any extra data associated to the cocoa wrapper NDAlias.
+#import "NDAlias.h"
+
 
 //NSMutableDictionary* eprintDict=nil;
 @interface Article (Primitives)

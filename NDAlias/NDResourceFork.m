@@ -1,12 +1,26 @@
 /*
- *  NDResourceFork.m
- *
- *  Created by nathan on Wed Dec 05 2001.
- *  Copyright 2001-2007 Nathan Day. All rights reserved.
- *
- *	Currently ResourceFork will not add resource forks to files
- *	or create new files with resource forks
- *
+	NDResourceFork.h category
+
+	Created by Nathan Day on 05.12.01 under a MIT-style license. 
+	Copyright (c) 2008-2009 Nathan Day
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
  */
 
 #import "NDResourceFork.h"
@@ -197,6 +211,7 @@ BOOL operateOnResourceUsingFunction( ResFileRefNum afileRef, ResType aType, NSSt
 		[self closeFile];
 		NSLog (@"NDAlias ERROR: you neglected to call closeFile: before disposing this NDResourceFork");
 	}
+	fileReference = 0;
 	[super dealloc];
 }
 
@@ -212,6 +227,7 @@ BOOL operateOnResourceUsingFunction( ResFileRefNum afileRef, ResType aType, NSSt
 		// Note: all finalize methods must be thread-safe!  Thus we cannot call closeFile here because it calls CloseResFile() which, along with the rest of the Resource Manager, is not thread-safe.  
 		NSLog (@"NDAlias ERROR: you neglected to call closeFile: before disposing this NDResourceFork");
 	}
+	fileReference = 0;
 	[super finalize];
 }
 
@@ -223,6 +239,7 @@ BOOL operateOnResourceUsingFunction( ResFileRefNum afileRef, ResType aType, NSSt
 - (BOOL)addData:(NSData *)aData type:(ResType)aType Id:(ResID)anId name:(NSString *)aName
 {
 	Handle		theResHandle;
+	BOOL		theSuccess = NO;
 	
 	if( [self removeType:aType Id:anId] )
 	{
@@ -245,11 +262,14 @@ BOOL operateOnResourceUsingFunction( ResFileRefNum afileRef, ResType aType, NSSt
 */			
 			UseResFile( thePreviousRefNum );     		// reset back to resource previously set
 	
-			return ( ResError( ) == noErr );
+			theSuccess = ( ResError( ) == noErr );
 		}
 	}
 	
-	return NO;
+	// To prevent premature collection.  (Under GC, the given NSData may have no strong references for all we know, and our inner pointer does not keep the NSData alive.  So without this, the data could be collected before we are done with it!)
+	[aData self];
+	
+	return theSuccess;
 }
 
 /*
@@ -439,9 +459,9 @@ static BOOL setAttributesFunction( Handle aResHandle, ResType aType, NSString * 
  */
 - (NSData *)dataForEntireResourceFork
 {
-	NSMutableData		* theData = nil;
-	ByteCount			theByteCount;
-	SInt64				theForkSize;
+	NSMutableData	* theData = nil;
+	ByteCount		theByteCount;
+	SInt64			theForkSize;
 	
 	if( FSGetForkSize( fileReference, &theForkSize ) == noErr && theForkSize > 0 )
 	{
@@ -460,12 +480,15 @@ static BOOL setAttributesFunction( Handle aResHandle, ResType aType, NSString * 
 - (BOOL)writeEntireResourceFork:(NSData *)aData
 {
 	ByteCount		theWrittenBytes;
-	NSUInteger		theDataLength;
-
-	theDataLength = [aData length];
+	NSUInteger		theDataLength = [aData length];
 
 	// return true if aData exists, length not zero, write succeeds, write length equals data length
-	return aData && theDataLength != 0 && FSWriteFork( fileReference, fsFromStart, 0, theDataLength, [aData bytes], &theWrittenBytes ) == noErr && theDataLength == theWrittenBytes;
+	BOOL			theSuccess = aData && theDataLength != 0 && FSWriteFork( fileReference, fsFromStart, 0, theDataLength, [aData bytes], &theWrittenBytes ) == noErr && theDataLength == theWrittenBytes;
+
+	// To prevent premature collection.  (Under GC, the given NSData may have no strong references for all we know, and our inner pointer does not keep the NSData alive.  So without this, the data could be collected before we are done with it!)
+	[aData self];
+	
+	return theSuccess;
 }
 
 @end

@@ -104,6 +104,7 @@
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
 		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
 		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
+		3394C32A1060B46F00D507B8 /* NSString+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -127,15 +128,8 @@
 		33C8D5710F6F5B9100EBF26C /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D56F0F6F5B9100EBF26C /* MainMenu.nib */; };
 		33C8D5740F6F5C1100EBF26C /* InputMethodKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C8D5730F6F5C1100EBF26C /* InputMethodKit.framework */; };
 		33C8D5770F6F5C6900EBF26C /* SpiresInputMethodController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8D5750F6F5C6900EBF26C /* SpiresInputMethodController.m */; };
-		33C939290F36E539004A8C25 /* NDResourceFork+OtherSorces.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */; };
-		33C9392A0F36E539004A8C25 /* NSPathControl+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */; };
-		33C9392B0F36E539004A8C25 /* NSString+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */; };
 		33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391B0F36E539004A8C25 /* NDAlias.m */; };
-		33C9392D0F36E539004A8C25 /* NDAlias+AliasFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */; };
-		33C9392E0F36E539004A8C25 /* NSOpenPanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */; };
 		33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */; };
-		33C939300F36E539004A8C25 /* NDResourceFork.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939250F36E539004A8C25 /* NDResourceFork.m */; };
-		33C939310F36E539004A8C25 /* NSURL+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
 		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
@@ -669,24 +663,24 @@
 		330AF1DA0EA564BF0009B674 /* NDAlias */ = {
 			isa = PBXGroup;
 			children = (
-				33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */,
-				33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */,
-				33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */,
+				33C939270F36E539004A8C25 /* NDSDKCompatibility.h */,
 				33C939190F36E539004A8C25 /* NDResourceFork.h */,
-				33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */,
-				33C9391B0F36E539004A8C25 /* NDAlias.m */,
-				33C9391C0F36E539004A8C25 /* NDAlias.h */,
-				33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */,
-				33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */,
-				33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */,
-				33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */,
-				33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */,
-				33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */,
-				33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */,
-				33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */,
 				33C939250F36E539004A8C25 /* NDResourceFork.m */,
 				33C939260F36E539004A8C25 /* NDResourceFork+OtherSorces.h */,
-				33C939270F36E539004A8C25 /* NDSDKCompatibility.h */,
+				33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */,
+				33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */,
+				33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */,
+				33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */,
+				33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */,
+				33C9391C0F36E539004A8C25 /* NDAlias.h */,
+				33C9391B0F36E539004A8C25 /* NDAlias.m */,
+				33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */,
+				33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */,
+				33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */,
+				33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */,
+				33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */,
+				33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */,
+				33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */,
 				33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */,
 			);
 			name = NDAlias;
@@ -1290,15 +1284,8 @@
 				334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */,
 				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
-				33C939290F36E539004A8C25 /* NDResourceFork+OtherSorces.m in Sources */,
-				33C9392A0F36E539004A8C25 /* NSPathControl+NDAlias.m in Sources */,
-				33C9392B0F36E539004A8C25 /* NSString+NDCarbonUtilities.m in Sources */,
 				33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */,
-				33C9392D0F36E539004A8C25 /* NDAlias+AliasFile.m in Sources */,
-				33C9392E0F36E539004A8C25 /* NSOpenPanel+NDAlias.m in Sources */,
 				33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */,
-				33C939300F36E539004A8C25 /* NDResourceFork.m in Sources */,
-				33C939310F36E539004A8C25 /* NSURL+NDCarbonUtilities.m in Sources */,
 				33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */,
 				33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
@@ -1348,6 +1335,7 @@
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
 				337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */,
+				3394C32A1060B46F00D507B8 /* NSString+NDCarbonUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1392,6 +1380,7 @@
 		26FC0A850875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1410,6 +1399,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1421,6 +1411,7 @@
 					x86_64,
 					i386,
 				);
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1436,7 +1427,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

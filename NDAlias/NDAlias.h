@@ -1,3 +1,28 @@
+/*
+	NDAlias.h
+
+	Created by Nathan Day on 05.12.01 under a MIT-style license.
+	Copyright (c) 2008-2009 Nathan Day
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
+ */
+
 /*!
 	@header NDAlias
 	@abstract Declare the interface for the class NDAlias.
@@ -5,7 +30,6 @@
 
 	@author Nathan Day
 	@date Wed Dec 05 2001
-	@copyright &#169; 2001-2008 Nathan Day. All rights reserved.
  */
 
 #import <Foundation/Foundation.h>
@@ -13,9 +37,9 @@
 
 /*!
 	@class NDAlias
-	@abstract A class to access the Alias Manager from Cocoa 
-	@discussion Your application can use a <tt>NDAlias</tt> to refere to file system objects (that is, files, directories, and volumes) in a way that does expect the file system objects path to be maintained. The user then can move or rename the file system object with out your program lossing track of it. This behaviour is not always desirable, for intance with library resources. But for file system objects like documents of user folders, it is what Mac OS users have come to expect.
-	@version 1.2
+	@abstract A class to access the Alias Manager from Cocoa.
+	@discussion Your application can use an <tt>NDAlias</tt> to refer to file system objects (that is, files, directories, and volumes) in a way that does expect the file system object's path to be maintained. The user then can move or rename the file system object without your program losing track of it. This behaviour is not always desirable, for instance with library resources. But for file system objects like documents or user folders, it is what Mac OS users have come to expect.
+	@version 1.3
  */
 @interface NDAlias : NSObject <NSCoding>
 {
@@ -30,35 +54,35 @@
 
 /*!
 	@method aliasWithURL:
-	@abstract Creates and initalises a <tt>NDAlias</tt>.
+	@abstract Creates and initalises an <tt>NDAlias</tt>.
 	@discussion The method <tt>aliasWithURL:</tt> creates an <tt>NDAlias</tt> that contains only the minimum information necessary to describe the target: the target name, the parent directory ID, the volume name and creation date, and the volume mounting information. The <tt>aliasWithURL:</tt> method uses the standard alias record data structure, but it fills in only parts of the record.
-	<p>The methods <tt>url</tt> and <tt>path</tt> never update a minimal alias record.</p>
+	<p>The methods <tt>URL</tt> and <tt>path</tt> never update a minimal alias record.</p>
 	@param URL the file url for the target of the alias.
-	@result A <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
+	@result An <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
   */
 + (id)aliasWithURL:(NSURL *)URL;
 /*!
 	@method aliasWithURL:fromURL:
-	 @abstract Creates and initalises a <tt>NDAlias</tt>.
-	 @discussion  The method <tt>aliasWithURL:fromURL:</tt> creates a <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithURL:fromURL:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>aliasWithURL:fromURL:</tt> also stores relative path information as well by supplying a starting point for a relative path.
+	 @abstract Creates and initalises an <tt>NDAlias</tt>.
+	 @discussion  The method <tt>aliasWithURL:fromURL:</tt> creates an <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithURL:fromURL:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>aliasWithURL:fromURL:</tt> also stores relative path information as well by supplying a starting point for a relative path.
 	@param URL the file url for the target of the alias.
 	@param fromURL The starting point for a relative path, to be used later in a relative search. The two file or directory url's, <tt>fromURL</tt> and <tt>URL</tt>, must reside on the same volume.
-	@result A <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
+	@result An <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
  */
 + (id)aliasWithURL:(NSURL *)URL fromURL:(NSURL *)fromURL;
 /*!
 	@method aliasWithPath:
-	@abstract Creates and initalises a <tt>NDAlias</tt>.
+	@abstract Creates and initalises an <tt>NDAlias</tt>.
 	@discussion The method <tt>aliasWithPath:</tt> creates an <tt>NDAlias</tt> that contains only the minimum information necessary to describe the target: the target name, the parent directory ID, the volume name and creation date, and the volume mounting information. The <tt>aliasWithPath:</tt> method uses the standard alias record data structure, but it fills in only parts of the record.
-	<p>The methods <tt>url</tt> and <tt>path</tt> never update a minimal alias record.</p>
+	<p>The methods <tt>URL</tt> and <tt>path</tt> never update a minimal alias record.</p>
 	@param path the path for the target of the alias.
-	@result A <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
+	@result An <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
  */
 + (id)aliasWithPath:(NSString *)path;
 /*!
 	@method aliasWithPath:fromPath:
-	 @abstract Creates and initalises a <tt>NDAlias</tt>.
-	 @discussion  The method <tt>aliasWithPath:fromPath:</tt> creates a <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithPath:fromPath:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>aliasWithPath:fromPath:</tt> also stores relative path information as well by supplying a starting point for a relative path.
+	 @abstract Creates and initalises an <tt>NDAlias</tt>.
+	 @discussion  The method <tt>aliasWithPath:fromPath:</tt> creates an <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithPath:fromPath:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>aliasWithPath:fromPath:</tt> also stores relative path information as well by supplying a starting point for a relative path.
 	 @param URL the file url for the target of the alias.
 	 @param fromPath The starting point for a relative path, to be used later in a relative search. The two file or directory url's, <tt>fromPath</tt> and <tt>URL</tt>, must reside on the same volume.
 	 @result A NDAlias instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
@@ -67,8 +91,8 @@
 
 /*!
 	@method aliasWithData:
-	@abstract Creates and initalises a <tt>NDAlias</tt>.
-	@discussion The method <tt>aliasWithData:</tt> creates a <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithData:</tt> creates the <tt>NDAlias</tt> from the data that was returned from the method <tt>data</tt>
+	@abstract Creates and initalises an <tt>NDAlias</tt>.
+	@discussion The method <tt>aliasWithData:</tt> creates an <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithData:</tt> creates the <tt>NDAlias</tt> from the data that was returned from the method <tt>data</tt>
 	@param data The <tt>NSData</tt> instances that contains the data returned previously from the method <tt>data</tt>.
 	@result A NDAlias instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
   */
@@ -76,8 +100,8 @@
 
 /*!
 	@method aliasWithFSRef:
-	@abstract Creates and initalises a <tt>NDAlias</tt>.
-	@discussion The method <tt>aliasWithFSRef:</tt> creates a <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithFSRef:</tt> creates the <tt>NDAlias</tt> from the provided FSRef.
+	@abstract Creates and initalises an <tt>NDAlias</tt>.
+	@discussion The method <tt>aliasWithFSRef:</tt> creates an <tt>NDAlias</tt> that describes the specified target. <tt>aliasWithFSRef:</tt> creates the <tt>NDAlias</tt> from the provided FSRef.
 	@param aFSRef An <tt>FSRef</tt> instance that points to the object to make an alias of.
 	@result A NDAlias instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
   */
@@ -85,17 +109,17 @@
 
 /*!
 	@method initWithURL:
-	@abstract Initalises a <tt>NDAlias</tt>.
+	@abstract Initalises an <tt>NDAlias</tt>.
 	@discussion The method <tt>initWithURL:</tt> initalises an <tt>NDAlias</tt> that contains only the minimum information necessary to describe the target: the target name, the parent directory ID, the volume name and creation date, and the volume mounting information. The <tt>initWithURL:</tt> method uses the standard alias record data structure, but it fills in only parts of the record.
-	 <p>The methods <tt>url</tt> and <tt>path</tt> never update a minimal alias record.</p>
+	 <p>The methods <tt>URL</tt> and <tt>path</tt> never update a minimal alias record.</p>
 	@param URL the file url for the target of the alias.
-	@result A <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
+	@result An <tt>NDAlias</tt> instance, returns <tt>nil</tt> if <tt>NDAlias</tt> creation fails.
  */
 - (id)initWithURL:(NSURL *)URL;
 /*!
 	@method initWithPath:fromURL:
-	 @abstract Initalises a <tt>NDAlias</tt>.
-	 @discussion  The method <tt>initWithPath:fromURL:</tt> initalises a <tt>NDAlias</tt> that describes the specified target. <tt>initWithPath:fromURL:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>initWithPath:fromURL:</tt> also stores relative path information as well by supplying a starting point for a relative path.
+	 @abstract Initalises an <tt>NDAlias</tt>.
+	 @discussion  The method <tt>initWithPath:fromURL:</tt> initalises an <tt>NDAlias</tt> that describes the specified target. <tt>initWithPath:fromURL:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>initWithPath:fromURL:</tt> also stores relative path information as well by supplying a starting point for a relative path.
 	 @param URL the file url for the target of the alias.
 	 @param fromURL The starting point for a relative path, to be used later in a relative search. The two file or directory url's, <tt>fromURL</tt> and <tt>URL</tt>, must reside on the same volume.
 	@result An initalised <tt>NDAlias</tt>, returns <tt>nil</tt> if initialisation fails.
@@ -103,17 +127,17 @@
 - (id)initWithURL:(NSURL *)URL fromURL:(NSURL *)fromURL;
 /*!
 	@method initWithPath:
-	 @abstract Initalises a <tt>NDAlias</tt>.
+	 @abstract Initalises an <tt>NDAlias</tt>.
 	 @discussion The method <tt>initWithPath:</tt> initalises an <tt>NDAlias</tt> that contains only the minimum information necessary to describe the target: the target name, the parent directory ID, the volume name and creation date, and the volume mounting information. The <tt>initWithPath:</tt> method uses the standard alias record data structure, but it fills in only parts of the record.
-	 <p>The methods <tt>url</tt> and <tt>path</tt> never update a minimal alias record.</p>
+	 <p>The methods <tt>URL</tt> and <tt>path</tt> never update a minimal alias record.</p>
 	 @param path the path for the target of the alias.
 	@result An initalised <tt>NDAlias</tt>, returns <tt>nil</tt> if initialisation fails.
  */
 - (id)initWithPath:(NSString *)path;
 /*!
 	@method initWithPath:fromPath:
-	 @abstract Initalises a <tt>NDAlias</tt>.
-	 @discussion  The method <tt>initWithPath:fromPath:</tt> initalises a <tt>NDAlias</tt> that describes the specified target. <tt>initWithPath:fromPath:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>initWithPath:fromPath:</tt> also stores relative path information as well by supplying a starting point for a relative path.
+	 @abstract Initalises an <tt>NDAlias</tt>.
+	 @discussion  The method <tt>initWithPath:fromPath:</tt> initalises an <tt>NDAlias</tt> that describes the specified target. <tt>initWithPath:fromPath:</tt> always records the name and file or directory ID of the target, its creation date, the parent directory name and ID, and the volume name and creation date. It also records the full pathname of the target and a collection of other information relevant to locating the target, verifying the target, and mounting the target's volume, if necessary. <tt>initWithPath:fromPath:</tt> also stores relative path information as well by supplying a starting point for a relative path.
 	 @param path the file url for the target of the alias.
 	 @param fromPath The starting point for a relative path, to be used later in a relative search. The two file or directory url's, <tt>fromPath</tt> and <tt>path</tt>, must reside on the same volume.
 	@result An initalised <tt>NDAlias</tt>, returns <tt>nil</tt> if initialisation fails.
@@ -122,8 +146,8 @@
 
 /*!
 	@method initWithData:
-	@abstract Initalises a <tt>NDAlias</tt>.
-	@discussion The method <tt>initWithData:</tt> initalises a <tt>NDAlias</tt> that describes the specified target. <tt>initWithData:</tt> creates the <tt>NDAlias</tt> from the data that was returned from the method <tt>data</tt>
+	@abstract Initalises an <tt>NDAlias</tt>.
+	@discussion The method <tt>initWithData:</tt> initalises an <tt>NDAlias</tt> that describes the specified target. <tt>initWithData:</tt> creates the <tt>NDAlias</tt> from the data that was returned from the method <tt>data</tt>
 	@param data The <tt>NSData</tt> instances that contains the data returned previously from the method <tt>data</tt>.
 	@result An initalised <tt>NDAlias</tt>, returns <tt>nil</tt> if initialisation fails.
 */
@@ -131,8 +155,8 @@
 
 /*!
 	@method initWithFSRef:
-	@abstract Initalises a <tt>NDAlias</tt>.
-	@discussion The method <tt>initWithFSRef:</tt> initalises a <tt>NDAlias</tt> that describes the specified target. <tt>initWithFSRef:</tt> creates the <tt>NDAlias</tt> from the provided FSRef.
+	@abstract Initalises an <tt>NDAlias</tt>.
+	@discussion The method <tt>initWithFSRef:</tt> initalises an <tt>NDAlias</tt> that describes the specified target. <tt>initWithFSRef:</tt> creates the <tt>NDAlias</tt> from the provided FSRef.
 	@param aFSRef An <tt>FSRef</tt> instance that points to the object to make an alias of.
 	@result An initalised <tt>NDAlias</tt>, returns <tt>nil</tt> if initialisation fails.
 */
@@ -145,7 +169,7 @@
 /*!
 	@method setAllowUserInteraction:
 	@abstract Option controls how the alias is resolved
-	@discussion Sets resolve the alias, presenting a user interface if necessary. By default user interaction is allowed.
+	@discussion Sets wether the OS may present a user interface when resolving the receiver. By default, as of version 1.3, user interaction is not allowed. In previous versions, the default was to allow user interaction.
 	@param flag <tt>YES</tt> to stop any user interaction.
  */
 - (void)setAllowUserInteraction:(BOOL)flag;
@@ -172,7 +196,7 @@
 /*!
 	@method allowUserInteraction
 	@abstract Option controls how the alias is resolved
-	@discussion Resolve the alias, presenting a user interface if necessary. By default user interaction is allowed.
+	@discussion Gets wether the OS may present a user interface when resolving the receiver. By default, as of version 1.3, user interaction is not allowed. In previous versions, the default was to allow user interaction.
 	@result Returns <tt>YES</tt> if user interaction is allowed.
  */
 - (BOOL)allowUserInteraction;
@@ -180,7 +204,7 @@
 /*!
 	@method changed
 	@abstract Reports whether the receiver was updated.
-	@discussion The method <tt>changed</tt> indicates whether the receiver was updated because it contained some outdated information about the target. If it the receiver is updated, <tt>YES</tt> is returned. Otherwise, it return <tt>NO</tt>. (<tt>url</tt> and <tt>path</tt> never update a <tt>NDAlias</tt> that was created with no relative path.) 
+	@discussion The method <tt>changed</tt> indicates whether the receiver was updated because it contained some outdated information about the target. If it the receiver is updated, <tt>YES</tt> is returned. Otherwise, it return <tt>NO</tt>. (<tt>URL</tt> and <tt>path</tt> never update an <tt>NDAlias</tt> that was created with no relative path.)
 	@result <tt>YES</tt> if the receiver was updated, <tt>NO</tt> if it was not updated.
   */
 - (BOOL)changed;
@@ -190,16 +214,25 @@
  */
 
 /*!
+	@method getFSRef:
+	@abstract Get a <tt>FSRef</tt> for the receiver.
+	@discussion Initializes an <tt>FSRef</tt>.
+	@param fsRef a pointer to a <tt>FSRef</tt>.
+	@result Returns <tt>YES</tt> if the method was successful, if the function returns <tt>NO</tt> then the <tt>FSRef</tt> pointed to by <tt>fsRef</tt> is garbage.
+  */
+- (BOOL)getFSRef:(FSRef *)aFsRef;
+
+/*!
 	This method is deprecated.  Use -URL instead.  Why?  For consistency with Cocoa classes, which spell it in caps.
   */
 - (NSURL *)url DEPRECATED_ATTRIBUTE;
 /*!
 	@method URL
 	@abstract Returns the single most likely target for the receiver.
-	@discussion  The <tt>url</tt> method performs a fast search for the target of the receiver. If the resolution is successful, <tt>url</tt> returns a file <tt>NSURL</tt> for the target file system object, updates the receiver if necessary, and reports (through the method <tt>changed</tt>) whether the receiver was updated. If the target is on an unmounted AppleShare volume, <tt>url</tt> automatically mounts the volume. If the target is on an unmounted ejectable volume, <tt>url</tt> asks the user to insert the volume.
-	<p>After it identifies a target, <tt>url</tt> compares some key information about the target with the information in the receiver. If the information differs, <tt>url</tt> updates the receiver to match the target.</p>
-	<p>The <tt>url</tt> method displays the standard dialog boxes when it needs input from the user, such as a name and password for mounting a remote volume. The user can cancel the resolution through these dialog boxes.</p>
-	@result A file <tt>NSURL</tt> to the target of the receiver. <tt>nil</tt> is returned if no target could be found. 
+	@discussion  The <tt>URL</tt> method performs a fast search for the target of the receiver. If the resolution is successful, <tt>URL</tt> returns a file <tt>NSURL</tt> for the target file system object, updates the receiver if necessary, and reports (through the method <tt>changed</tt>) whether the receiver was updated. If the target is on an unmounted AppleShare volume, <tt>URL</tt> automatically mounts the volume. If the target is on an unmounted ejectable volume, <tt>URL</tt> asks the user to insert the volume.
+	<p>After it identifies a target, <tt>URL</tt> compares some key information about the target with the information in the receiver. If the information differs, <tt>URL</tt> updates the receiver to match the target.</p>
+	<p>The <tt>URL</tt> method displays the standard dialog boxes when it needs input from the user, such as a name and password for mounting a remote volume. The user can cancel the resolution through these dialog boxes.</p>
+	@result A file <tt>NSURL</tt> to the target of the receiver. <tt>nil</tt> is returned if no target could be found.
   */
 - (NSURL *)URL;
 /*!
@@ -260,9 +293,9 @@
 /*!
 	@method data
 	@abstract Returns a <tt>NSData</tt> instance for the reciever.
-	@discussion The method <tt>data</tt> returns the contents of the recievers as an <tt>NSData</tt>, this can be used for archiving perposes though <tt>NDAlias</tt> does implement the <tt>NSCoding</tt> protocol.
+	@discussion The method <tt>data</tt> returns the contents of the recievers as an <tt>NSData</tt>, this can be used for archiving purposes though <tt>NDAlias</tt> does implement the <tt>NSCoding</tt> protocol.
 	@result Returns an <tt>NSData</tt> instance.
-  */
+ */
 - (NSData *)data;
 
 /*!
@@ -278,27 +311,40 @@
 - (NSString *)displayName;
 
 /*!
-	@method lastKnownName
-	@abstract 
-	@discussion 
-	@result 
+	@method lastKnownPath
+	@abstract Return path from an alias record
+	@discussion This method returns the path from the alias record. The information is gathered only from the alias record, so it may not match what is on disk. No disk input/output is performed.
   */
 - (NSString *)lastKnownPath;
 
 /*!
 	@method lastKnownName
-	@abstract 
-	@discussion 
-	@result 
+	@abstract Return name from an alias record
+	@discussion This method returns the name from the alias record. The information is gathered only from the alias record, so it may not match what is on disk. No disk input/output is performed.
   */
 - (NSString *)lastKnownName;
 
 /*!
+	@method lastKnownVolumeName
+	@abstract Return volume from an alias record
+	@discussion This method returns the volume from the alias record. The information is gathered only from the alias record, so it may not match what is on disk. No disk input/output is performed.
+	@result <#result#>
+  */
+- (NSString *)lastKnownVolumeName;
+
+/*!
 	@method resolveIfIsAliasFile
-	@abstract 
-	@discussion If the receiver points to an alias file and it can be resolved, returns a new <tt>NDAlias</tt> to the original; else returns itself. wasSuccessful will be set to NO if some kind of error occured, such as the receiver being an alias file but unresolvable. If this is not of interest, you may pass NULL. 
-	@result 
+	@abstract Resolve alias file target.
+	@discussion If the receiver points to an alias file and it can be resolved, returns a new <tt>NDAlias</tt> to the original; else returns itself. wasSuccessful will be set to NO if some kind of error occured, such as the receiver being an alias file but unresolvable. If this is not of interest, you may pass NULL.
+	@result A new NDAlias or the reserver
   */
 - (NDAlias *)resolveIfIsAliasFile:(BOOL *)wasSuccessful;
+
+/*!
+	@method isEqualToAlias:
+	@abstract Test alias equality
+	@discussion Returns YES if the receiver is equal to the passed object. Two NDAliases are defined as equal if and only if they resolve to equal FSRefs.  Alias resolution is performed on both aliases, if there is any error, NO is returned.
+  */
+- (BOOL)isEqualToAlias:(id)anOtherObject;
 
 @end

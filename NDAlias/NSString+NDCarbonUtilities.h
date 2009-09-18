@@ -1,13 +1,37 @@
+/*
+	NSString+NDCarbonUtilities.h
+
+	Created by Nathan Day on 03.08.02 under a MIT-style license. 
+	Copyright (c) 2008-2009 Nathan Day
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
+ */
+
 /*!
 	@header NSString+NDCarbonUtilities
 	@abstract Decalres the category <tt>NSString (NDCarbonUtilities)</tt>
 	@discussion Provides method for interacting with Carbon APIs.
 	@author Nathan Day
-	@copyright &#169; 2002-2007 Nathan Day. All rights reserved.
  */
 
 #import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
+#import <CoreServices/CoreServices.h>
 #import "NDSDKCompatibility.h"
 
 /*!
@@ -61,7 +85,7 @@
 /*!
 	@method resolveAliasFile
 	@abstract Resolve an alias file.
-	@discussion Returns an POSIX path <tt>NSString</tt> refered to by the receveive if the receveive refers to an alias file. If it does not refer to an alias file the a string identical to the receveive is returned.
+	@discussion If the receiver does not refer to an alias file, the receiver itself is returned.  If the receiver does refer to an alias file, alias resolution is attepted.  If successful, a POSIX path <tt>NSString</tt> of the original is returned, else nil is returned.
 	@result An POSIX path <tt>NSString</tt>.
   */
 - (NSString *)resolveAliasFile;
@@ -77,8 +101,8 @@
 
 /*!
 	@method getPascalString:length:
-	@abstract Obtain a pascal string equivelent to the receveiver.
-	@discussion Fill the <tt>StringPtr</tt> with a pascal string equivelent to the receveiver.
+	@abstract Obtain a pascal string equivelent to the receiver.
+	@discussion Fill the <tt>StringPtr</tt> with a pascal string equivelent to the receiver.
 	@param buffer A <tt>StringPtr</tt> that contains the pascal string on completion.
 	@param length The maximum length the string can be. Pascal string can be no longer than <tt>255</tt> bytes long, <tt>256</tt> if you include the first length byte.
 	@result Returns <tt>YES</tt> if the method was successful, if <tt>NO</tt> is returns then <tt>buffer</tt> contains garbage.
@@ -87,7 +111,7 @@
 
 /*!
 	@method pascalString
-	@abstract Obtain a pascal string equivelent to the receveiver.
+	@abstract Obtain a pascal string equivelent to the receiver.
 	@discussion  Returns a representation of the receiver as a pascal string. The returned pascal string will be automatically freed just as a returned object would be released; your code should copy the pascal string or use <tt>getPascalString:length:</tt> if it needs to store the pascal string outside of the autorelease context in which the pascal string is created. Do not use this method in a Garbage Collected application, it has undefined behaviour!
 	@deprecated in version 10.5
 	@result A pointer to a pascal string.
@@ -97,7 +121,7 @@
 /*!
 	@method trimWhitespace
 	@abstract Trims white space from a <tt>NSString</tt>.
-	@discussion Returns a new <tt>NSString</tt> equivelent to the receveiver but without any white space (return, new line, space, tab) at the begining or end of the string.
+	@discussion Returns a new <tt>NSString</tt> equivelent to the receiver but without any white space (return, new line, space, tab) at the begining or end of the string.
 	@result A new <tt>NSString</tt>.
  */
 - (NSString *)trimWhitespace;

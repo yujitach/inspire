@@ -78,10 +78,10 @@ NSString* pathShownWithQuickLook=nil;
 -init
 {
     self=[super init];
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+/*    [[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 							selector:@selector(quickLookHelperDidClose:) 
 							    name:@"QuickLookHelperDidClose" 
-							  object:nil];
+							  object:nil];*/
     return self;
 }
 +(void)initialize

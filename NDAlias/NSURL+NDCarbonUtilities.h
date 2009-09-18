@@ -1,12 +1,36 @@
+/*
+	NSURL+NDCarbonUtilities.h
+
+	Created by Nathan Day on 05.12.01 under a MIT-style license. 
+	Copyright (c) 2008-2009 Nathan Day
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
+ */
+
 /*!
 	@header NSURL+NDCarbonUtilities
 	@abstract Provides method for interacting with Carbon APIs.
 	@discussion The methods in <tt>NSURL(NDCarbonUtilities)</tt> are simply wrappers for functions that can bew found within the Carbon API.
-	@copyright &#169; 2007 Nathan Day. All rights reserved.
  */
 
 #import <Foundation/Foundation.h>
-#import <Carbon/Carbon.h>
+#import <CoreServices/CoreServices.h>
 #import "NDSDKCompatibility.h"
 
 /*!
@@ -19,7 +43,7 @@
 /*!
 	@method URLWithFSRef:
 	@abstract Alloc and intialize a <tt>NSURL</tt>.
-	@discussion Returns a file url for the file refered to by a <tt>FSRef</tt>.
+	@discussion Returns a file url for the file referred to by a <tt>FSRef</tt>.
 	@param fsRef A pointer to a <tt>FSRef</tt>.
 	@result A <tt>NSURL</tt> containing a file url.
  */
@@ -28,7 +52,7 @@
 /*!
 	@method URLWithFileSystemPathHFSStyle:
 	@abstract Alloc and intialize a <tt>NSURL</tt>.
-	@discussion Returns a file url for the file refered to by a HFS style path.
+	@discussion Returns a file url for the file referred to by a HFS style path.
 	@param hfsString A <tt>NSString</tt> containing a HFS style path.
 	@result A <tt>NSURL</tt> containing a file url.
  */
@@ -56,9 +80,12 @@
 	@method URLByDeletingLastPathComponent
 	@abstract Delete last component of a url.
 	@discussion Returns a new <tt>NSURL</tt> equivelent to the receiver with the last component removed.
+	@deprecated in version 10.6 because Apple added it to NSURL.
 	@result A new <tt>NSURL</tt>
  */
+#if (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060)
 - (NSURL *)URLByDeletingLastPathComponent;
+#endif
 
 /*!
 	@method fileSystemPathHFSStyle
@@ -71,8 +98,8 @@
 /*!
 	@method resolveAliasFile
 	@abstract Resolve an alias file.
-	@discussion Returns an file url <tt>NSURL</tt> refered to by the receveive if the receveive refers to an alias file. If it does not refer to an alias file the a url identical to the receveive is returned.
-	@result An file url <tt>NSURL</tt>.
+	@discussion If the receiver does not refer to an alias file, the receiver itself is returned.  If the receiver does refer to an alias file, alias resolution is attepted.  If successful, a file url <tt>NSURL</tt> to the original is returned, else nil is returned.
+	@result A file url <tt>NSURL</tt>.
  */
 - (NSURL *)resolveAliasFile;
 
@@ -166,7 +193,7 @@
 /*!
 	@method hasCustomIcon
 	@abstract Test if a file has a custom icon.
-	@discussion Test to see if the file refered to by the receiver has a custom icon. The is equivelent to testing for the <tt>kHasCustomIcon</tt> flag 
+	@discussion Test to see if the file referred to by the receiver has a custom icon. The is equivelent to testing for the <tt>kHasCustomIcon</tt> flag 
 	@result Returns <tt>YES</tt> if the file has a custom icon.
  */
 - (BOOL)hasCustomIcon;

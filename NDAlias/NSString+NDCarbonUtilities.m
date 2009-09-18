@@ -1,8 +1,26 @@
 /*
- *  NSString+NDCarbonUtilities.m category
- *
- *  Created by Nathan Day on Sat Aug 03 2002.
- *  Copyright 2002-2007 Nathan Day. All rights reserved.
+	NSString+NDCarbonUtilities.m
+
+	Created by Nathan Day on 03.08.02 under a MIT-style license. 
+	Copyright (c) 2008-2009 Nathan Day
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
  */
 
 #import "NSString+NDCarbonUtilities.h"
@@ -85,16 +103,16 @@
 	FSRef			theRef;
 	Boolean			theIsTargetFolder,
 					theWasAliased;
-	NSString		* theResolvedAlias = nil;;
+	NSString		* theResolvedAlias = nil;
 
-	[self getFSRef:&theRef];
+	BOOL			theSuccess = [self getFSRef:&theRef];
 
-	if( (FSResolveAliasFile( &theRef, YES, &theIsTargetFolder, &theWasAliased ) == noErr) )
+	if (theSuccess && FSResolveAliasFileWithMountFlags( &theRef, true, &theIsTargetFolder, &theWasAliased, 0 ) == noErr)
 	{
 		theResolvedAlias = (theWasAliased) ? [NSString stringWithFSRef:&theRef] : self;
 	}
 
-	return theResolvedAlias ? theResolvedAlias : self;
+	return theResolvedAlias;
 }
 
 /*
@@ -124,11 +142,11 @@
 	// Do not use this code in a Garbage Collected application!!!
 	// The NSMutableData may be collected before this method even returns (since this method only returns an inner pointer).
 #ifdef __OBJC_GC__
-	NSLog (@"WARNING: do not use pascalString in GC apps");
+	NSAssert( NO, @"WARNING: do not use pascalString in GC apps");
 #endif
 	const unsigned int	kPascalStringLen = 256;
 	NSMutableData		* theData = [NSMutableData dataWithCapacity:kPascalStringLen];
-	return [self getPascalString:(StringPtr)[theData mutableBytes] length:kPascalStringLen] ? [theData bytes] : NULL;
+	return [self getPascalString:(StringPtr)[theData mutableBytes] length:kPascalStringLen] ? (const char *)[theData bytes] : NULL;
 }
 
 /*
