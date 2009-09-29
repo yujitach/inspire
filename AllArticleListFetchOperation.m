@@ -17,6 +17,10 @@
     secondMOC=[MOC createSecondaryMOC];
     return self;
 }
+-(NSString*)description
+{
+    return @"Warming up the cache...";
+}
 -(void)fetchlist
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"AllArticleList" inManagedObjectContext:secondMOC];

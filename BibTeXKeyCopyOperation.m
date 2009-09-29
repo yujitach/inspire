@@ -42,4 +42,8 @@
     [[NSSound soundNamed:@"Submarine"] play];
     [self finish];
 }
+-(NSString*)description
+{
+    return @"Copying bibtex key to pasteboard...";
+}
 @end
