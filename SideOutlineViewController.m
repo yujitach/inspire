@@ -244,6 +244,11 @@
     if(error){
 	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
+    // NSTreeController's "avoid empty selection" is now unchecked in the NIB to reduce
+    // unnesessary CoreData load due to the selection during the launch.
+    // This call initiates the fetch. Somehow directly calling selectAllArticleList doesn't work,
+    // so it's called on the next event loop using afterDelay:0.
+    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
 }
 /*-(void)saveArticleLists
 {
