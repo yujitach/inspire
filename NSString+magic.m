@@ -86,7 +86,6 @@ static void loadMagic(){
 	    s=[s lowercaseString];
 	    if(i==0 || ![preps containsObject:s]){
 		s=[s capitalizedStringForName];
-		s=[s stringByReplacingOccurrencesOfString:@"Cft" withString:@"CFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ads" withString:@"AdS"];
 		s=[s stringByReplacingOccurrencesOfString:@"Rn" withString:@"RN"];
 		s=[s stringByReplacingOccurrencesOfString:@"Pp" withString:@"PP"];
@@ -95,7 +94,6 @@ static void loadMagic(){
 		s=[s stringByReplacingOccurrencesOfString:@"Scft" withString:@"SCFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];
 		s=[s stringByReplacingOccurrencesOfString:@"-Rg" withString:@"-RG"];
-		s=[s stringByReplacingOccurrencesOfString:@"So-Usp" withString:@"SO-USp"];
 		s=[s stringByReplacingOccurrencesOfString:@"'S" withString:@"'s"];
 	    }
 	}

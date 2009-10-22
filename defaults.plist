@@ -331,6 +331,9 @@
 		<string>keV</string>
 		<string>MeV</string>
 		<string>meV</string>
+		<string>MSSM</string>
+		<string>nMSSM</string>
+		<string>NMSSM</string>
 		<string>PAMELA</string>
 		<string>PCAC</string>
 		<string>PeV</string>
@@ -338,6 +341,7 @@
 		<string>QFT</string>
 		<string>RG</string>
 		<string>SCFT</string>
+		<string>SO-USp</string>
 		<string>SUSY</string>
 		<string>TBA</string>
 		<string>TCP</string>
