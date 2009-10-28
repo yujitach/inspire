@@ -42,6 +42,11 @@
 	</dict>
 	<key>tryToDownloadJournalPDF</key>
 	<true/>
+	<key>WSJournals</key>
+	<array>
+		<string>Int.J.Mod.Phys.</string>
+		<string>Mod.Phys.Lett.</string>
+	</array>
 	<key>AIPJournals</key>
 	<array>
 		<string>J.Math.Phys.</string>

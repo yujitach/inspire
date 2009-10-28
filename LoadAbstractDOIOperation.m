@@ -10,6 +10,7 @@
 #import "Article.h"
 #import "JournalEntry.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
+#import "RegexKitLite.h"
 
 @implementation LoadAbstractDOIOperation
 -(LoadAbstractDOIOperation*)initWithArticle:(Article*)a;
@@ -95,6 +96,16 @@
 	if([a count]<1)
 	    goto BAIL;
 	abstract=[a objectAtIndex:0];	
+    }else if(
+	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"] containsObject:journalName]
+	     ){
+	NSArray*a=[content componentsSeparatedByString:@"Abstract:</b>"];
+	if([a count]<2)
+	    goto BAIL;
+	NSString*s=[[a objectAtIndex:1] stringByMatching:@"<div class=\"text\">(.+)</div>"];
+	if(s && ![s isEqualToString:@""]){
+	    abstract=s;
+	}
     }else if([journalName isEqualToString:@"Prog.Theor.Phys."]){
 	NSArray*a=[content componentsSeparatedByString:@"<p class=\"abstract\">"];
 	if([a count]<2)

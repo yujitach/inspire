@@ -97,6 +97,16 @@
 	    pdf=[@"http://www.sciencedirect.com" stringByAppendingString:s];
 	}		
     }
+    if(!pdf){ // World Scientific
+	NSString*j=[[[html componentsSeparatedByString:@"<td class=\"jntitle\">"] objectAtIndex:1]
+		    stringByMatching:@"\\((.+?)\\)" capture:1];
+	j=[j lowercaseString];
+	NSString*s=[html stringByMatching:@"preserved-docs/(.+?\\.pdf)\"" capture:1];
+	NSString*t=[s substringToIndex:2];
+	if(s&&j&&t){
+	    pdf=[NSString stringWithFormat:@"http://worldscinet.com/%@/%@/preserved-docs/%@",j,t,s];
+	}
+    }
     if(!pdf){
 	NSLog(@"failed to download PDF. instead opens the journal webpage");
 	NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];

@@ -509,11 +509,13 @@ spires_AppDelegate*_shared=nil;
     NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
     NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
     NSArray* springerJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"];
+    NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
     NSMutableArray* knownJournals=[NSMutableArray arrayWithObjects:@"Prog.Theor.Phys.",nil];
     [knownJournals addObjectsFromArray:elsevierJournals];
     [knownJournals addObjectsFromArray:apsJournals];
     [knownJournals addObjectsFromArray:aipJournals];
     [knownJournals addObjectsFromArray:springerJournals];
+    [knownJournals addObjectsFromArray:wsJournals];
     if(![knownJournals containsObject:a.journal.name]){
 	return;
     }
