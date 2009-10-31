@@ -98,13 +98,22 @@
 	}		
     }
     if(!pdf){ // World Scientific
-	NSString*j=[[[html componentsSeparatedByString:@"<td class=\"jntitle\">"] objectAtIndex:1]
-		    stringByMatching:@"\\((.+?)\\)" capture:1];
-	j=[j lowercaseString];
-	NSString*s=[html stringByMatching:@"preserved-docs/(.+?\\.pdf)\"" capture:1];
-	NSString*t=[s substringToIndex:2];
-	if(s&&j&&t){
-	    pdf=[NSString stringWithFormat:@"http://worldscinet.com/%@/%@/preserved-docs/%@",j,t,s];
+	NSArray*a=[html componentsSeparatedByString:@"<td class=\"jntitle\">"];
+	if([a count]>1){
+	    NSString*j=[[a objectAtIndex:1]
+			stringByMatching:@"\\((.+?)\\)" capture:1];
+	    j=[j lowercaseString];
+	    NSString*s=[html stringByMatching:@"preserved-docs/(.+?\\.pdf)\"" capture:1];
+	    NSString*t=[s substringToIndex:2];
+	    if(s&&j&&t){
+		pdf=[NSString stringWithFormat:@"http://worldscinet.com/%@/%@/preserved-docs/%@",j,t,s];
+	    }
+	}
+    }
+    if(!pdf){// PTP
+	NSString*s=[html stringByMatching:@"PTP/(.+?)/pdf\"" capture:1];
+	if(s){
+	    pdf=[NSString stringWithFormat:@"http://ptp.ipap.jp/link?PTP/%@/pdf",s];
 	}
     }
     if(!pdf){

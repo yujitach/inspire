@@ -234,6 +234,7 @@ NSString* pathShownWithQuickLook=nil;
        ||[[defaults arrayForKey:@"SpringerJournals"] containsObject:journalName]
        ||[[defaults arrayForKey:@"AIPJournals"] containsObject:journalName]
        ||[[defaults arrayForKey:@"WSJournals"] containsObject:journalName]
+       ||[journalName isEqualTo:@"Prog.Theor.Phys."]
 	){
 	[[OperationQueues spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
