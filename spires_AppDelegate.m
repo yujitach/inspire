@@ -71,7 +71,28 @@ spires_AppDelegate*_shared=nil;
 @implementation spires_AppDelegate
 +(void)initialize
 {
-    NSDictionary* defaultDict=[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
+    NSData* data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
+    NSError* error=nil;
+    NSPropertyListFormat format;
+    NSMutableDictionary* defaultDict=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:&format error:&error];
+
+    //sythesize the list of all known journals
+    NSArray* elsevierJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"];
+    NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
+    NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
+    NSArray* springerJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"];
+    NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
+    NSArray* ptpJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"PTPJournals"];
+    NSMutableArray* knownJournals=[NSMutableArray array ];
+    [knownJournals addObjectsFromArray:elsevierJournals];
+    [knownJournals addObjectsFromArray:apsJournals];
+    [knownJournals addObjectsFromArray:aipJournals];
+    [knownJournals addObjectsFromArray:springerJournals];
+    [knownJournals addObjectsFromArray:wsJournals];
+    [knownJournals addObjectsFromArray:ptpJournals];
+    [defaultDict setObject:knownJournals forKey:@"KnownJournals"];
+    
+    
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
 }
 -(id)init
@@ -505,17 +526,7 @@ spires_AppDelegate*_shared=nil;
 -(void)loadAbstractUsingDOI:(Article*)a
 {
     if(!a.doi || [a.doi isEqualToString:@""]) return;
-    NSArray* elsevierJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"];
-    NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
-    NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
-    NSArray* springerJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"];
-    NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
-    NSMutableArray* knownJournals=[NSMutableArray arrayWithObjects:@"Prog.Theor.Phys.",nil];
-    [knownJournals addObjectsFromArray:elsevierJournals];
-    [knownJournals addObjectsFromArray:apsJournals];
-    [knownJournals addObjectsFromArray:aipJournals];
-    [knownJournals addObjectsFromArray:springerJournals];
-    [knownJournals addObjectsFromArray:wsJournals];
+    NSArray* knownJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"KnownJournals"];
     if(![knownJournals containsObject:a.journal.name]){
 	return;
     }

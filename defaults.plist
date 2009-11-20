@@ -47,6 +47,11 @@
 		<string>Int.J.Mod.Phys.</string>
 		<string>Mod.Phys.Lett.</string>
 	</array>
+	<key>PTPJournals</key>
+	<array>
+		<string>Prog.Theor.Phys.</string>
+		<string>Prog.Theor.Phys.Suppl.</string>
+	</array>
 	<key>AIPJournals</key>
 	<array>
 		<string>J.Math.Phys.</string>

@@ -229,13 +229,7 @@ NSString* pathShownWithQuickLook=nil;
     if(!journalName || [journalName isEqualToString:@""])
 	return NO;
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];
-    if([[defaults arrayForKey:@"ElsevierJournals"] containsObject:journalName]
-     ||[[defaults arrayForKey:@"APSJournals"] containsObject:journalName]
-       ||[[defaults arrayForKey:@"SpringerJournals"] containsObject:journalName]
-       ||[[defaults arrayForKey:@"AIPJournals"] containsObject:journalName]
-       ||[[defaults arrayForKey:@"WSJournals"] containsObject:journalName]
-       ||[journalName isEqualTo:@"Prog.Theor.Phys."]
-	){
+    if([[defaults arrayForKey:@"KnownJournals"] containsObject:journalName]){
 	[[OperationQueues spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
 	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){

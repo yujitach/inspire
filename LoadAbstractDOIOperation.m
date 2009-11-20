@@ -106,7 +106,9 @@
 	if(s && ![s isEqualToString:@""]){
 	    abstract=s;
 	}
-    }else if([journalName isEqualToString:@"Prog.Theor.Phys."]){
+    }else if(
+	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"PTPJournals"] containsObject:journalName]
+	     ){
 	NSArray*a=[content componentsSeparatedByString:@"<p class=\"abstract\">"];
 	if([a count]<2)
 	    goto BAIL;

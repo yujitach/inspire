@@ -110,10 +110,10 @@
 	    }
 	}
     }
-    if(!pdf){// PTP
-	NSString*s=[html stringByMatching:@"PTP/(.+?)/pdf\"" capture:1];
+    if(!pdf){// PTP, PTPS
+	NSString*s=[html stringByMatching:@"PTP(S*/.+?)/pdf\"" capture:1];
 	if(s){
-	    pdf=[NSString stringWithFormat:@"http://ptp.ipap.jp/link?PTP/%@/pdf",s];
+	    pdf=[NSString stringWithFormat:@"http://ptp.ipap.jp/link?PTP%@/pdf",s];
 	}
     }
     if(!pdf){

@@ -73,7 +73,7 @@ l{
 -(void)main
 {
 //	NSMutableArray*a=[NSMutableArray array];
-    [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
+//    [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
 								     withObject:self 
 								  waitUntilDone:NO];
@@ -88,7 +88,7 @@ l{
 	if([a count]>0)
 	    [self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];*/
     [self batchAddEntriesOfSPIRES:elements];
-    [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
+//    [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	
     [delegate performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
@@ -256,7 +256,7 @@ l{
 	[[MOC moc] refreshObject:mo mergeChanges:YES];
 	[x addObject:mo];
     }
-    [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
+//    [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
     AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:[MOC moc]];
     [allArticleList addArticles:x];
     
@@ -276,7 +276,7 @@ l{
     if(error){
 	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
-    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
+//    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];
     
 }
 
