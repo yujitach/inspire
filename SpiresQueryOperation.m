@@ -37,10 +37,12 @@
 	if([a count]!=2) return;
 	NSString*s=[a objectAtIndex:1];
 	if([s isEqualToString:@""])return;
-	if([s rangeOfString:@":"].location!=NSNotFound || [s rangeOfString:@"/"].location!=NSNotFound)
+/*	if([s rangeOfString:@":"].location!=NSNotFound || [s rangeOfString:@"/"].location!=NSNotFound)
 	    citedByTarget=[Article articleWith:s forKey:@"eprint" inMOC:moc];
 	else
 	    citedByTarget=[Article articleWith:s forKey:@"spicite" inMOC:moc];
+ */
+	citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
     }else{
 	citedByTarget=nil;
     }
@@ -50,13 +52,14 @@
 	if([a count]==2){
 	    NSString*s=[a objectAtIndex:1];
 	    if([s isEqualToString:@""])return;
-	    if([s rangeOfString:@":"].location!=NSNotFound || [s rangeOfString:@"/"].location!=NSNotFound)
+	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
+/*	    if([s rangeOfString:@":"].location!=NSNotFound || [s rangeOfString:@"/"].location!=NSNotFound)
 		refersToTarget=[Article articleWith:s forKey:@"eprint" inMOC:moc];
 	    else
-		refersToTarget=[Article articleWith:s forKey:@"spicite" inMOC:moc];
+		refersToTarget=[Article articleWith:s forKey:@"spicite" inMOC:moc];*/
 	}else if([a count]==3){
 	    NSString*s=[a objectAtIndex:2];
-	    refersToTarget=[Article articleWith:s forKey:@"spiresKey" inMOC:moc];
+	    refersToTarget=[Article articleWith:s inDataForKey:@"spiresKey" inMOC:moc];
 	}else{
 	    refersToTarget=nil;
 	}

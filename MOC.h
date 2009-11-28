@@ -18,9 +18,10 @@
 +(NSManagedObjectContext*)moc;
 +(NSManagedObjectContext*)createSecondaryMOC;
 +(MOC*)sharedMOCManager;
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinatorWithAutoMigration:(BOOL)autoMigration;
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
+- (NSManagedObjectContext *) managedObjectContextWithoutMigration;
 - (NSManagedObjectContext *)createSecondaryMOC;
 - (NSString *)applicationSupportFolder;
 - (NSString *)directoryForIndividualEntries;

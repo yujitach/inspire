@@ -9,12 +9,14 @@
 #import "BatchImportOperation.h"
 #import "BatchBibQueryOperation.h"
 #import "Article.h"
+#import "ArticleData.h"
 #import "JournalEntry.h"
 #import "AllArticleList.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "spires_AppDelegate.h"
 #import "MOC.h"
 #import "ProgressIndicatorController.h"
+#import "NSString+magic.h"
 
 @interface BatchImportOperation (internal)
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a;
@@ -153,16 +155,16 @@ l{
 {
     Article* o=nil;
     NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
-    NSString*spicite=[self valueForKey:@"spicite" inXMLElement:element];
+    NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
     NSString*title=[self valueForKey:@"title" inXMLElement:element];
     if(eprint){
-	o=[Article articleWith:eprint forKey:@"eprint" inMOC:moc];
-    }else if(spicite){
-	o=[Article articleWith:spicite forKey:@"spicite" inMOC:moc];
+	o=[Article articleWithEprint:eprint inMOC:moc];
+    }else if(spiresKey){
+	o=[Article articleWith:spiresKey inDataForKey:@"spiresKey" inMOC:moc];
     }else if(title){
-	o=[Article articleWith:title forKey:@"title" inMOC:moc];	
+	o=[Article articleWith:title inDataForKey:@"title" inMOC:moc];	
     }else{
-	NSLog(@"entry %@ with neither eprint id nor spicite nor title",element);
+	NSLog(@"entry %@ with neither eprint id nor spiresKey nor title",element);
 	return nil;
     }
     if(!o){
@@ -170,7 +172,7 @@ l{
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
 	o=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
     }
-    o.spicite=spicite;
+    o.spiresKey=[NSNumber numberWithInteger:[spiresKey integerValue]];
     o.eprint=eprint;
     o.title=title;
     
@@ -194,7 +196,7 @@ l{
     [self setStringToArticle:o forKey:@"abstract" inXMLElement:element];
     [self setStringToArticle:o forKey:@"comments" inXMLElement:element];
     [self setStringToArticle:o forKey:@"memo" inXMLElement:element];
-    [self setStringToArticle:o forKey:@"spiresKey" inXMLElement:element ofKey:@"spires_key"];
+    [self setStringToArticle:o forKey:@"spicite" inXMLElement:element ofKey:@"spicite"];
     [self setIntToArticle:o forKey:@"citecount" inXMLElement:element];
     [self setIntToArticle:o forKey:@"version" inXMLElement:element];
     [self setIntToArticle:o forKey:@"pages" inXMLElement:element];
@@ -253,6 +255,7 @@ l{
     NSMutableSet*x=[NSMutableSet set];
     for(NSManagedObjectID* objectID in y){
 	Article*mo=(Article*)[[MOC moc] objectWithID:objectID];
+	[[MOC moc] refreshObject:mo.data mergeChanges:YES];
 	[[MOC moc] refreshObject:mo mergeChanges:YES];
 	[x addObject:mo];
     }

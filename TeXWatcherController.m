@@ -183,7 +183,7 @@ static TeXWatcherController*_shared;
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
     
-    sourceDragMask = [sender draggingSourceOperationMask];
+//    sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
@@ -195,7 +195,7 @@ static TeXWatcherController*_shared;
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
     
-    sourceDragMask = [sender draggingSourceOperationMask];
+//    sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {

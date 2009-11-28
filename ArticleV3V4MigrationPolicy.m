@@ -11,7 +11,7 @@
 #import "RegexKitLite.h"
 #import "Article.h"
 #import "MOC.h"
-#import "NDAlias.h"
+//#import "NDAlias.h"
 
 
 typedef enum {
@@ -33,9 +33,18 @@ typedef enum {
 	eprint=nil;
     }
     if(d){
-	NDAlias* alias=[NDAlias aliasWithData:d];
-	if(alias){
-	    NSString* path=[alias path];
+//	NDAlias* alias=[NDAlias aliasWithData:d];
+	BOOL isStale=NO;
+	NSError*error=nil;
+	CFDataRef bookmarkData=CFURLCreateBookmarkDataFromAliasRecord(kCFAllocatorDefault, (CFDataRef)d);
+	NSURL*url=[NSURL URLByResolvingBookmarkData:(NSData*)bookmarkData
+					    options:NSURLBookmarkResolutionWithoutUI|NSURLBookmarkResolutionWithoutMounting
+				      relativeToURL:nil
+				bookmarkDataIsStale:&isStale
+					      error:&error];
+	CFRelease(bookmarkData);
+	if(url && [url path]){
+	    NSString* path=[url path];
 	    return path;
 	}
     }else if(eprint){

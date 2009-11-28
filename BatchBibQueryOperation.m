@@ -58,7 +58,7 @@
 	}else if(article.articleType==ATSpires){
 	    target=[@"spicite " stringByAppendingString:article.spicite];	
 	}else if(article.articleType==ATSpiresWithOnlyKey){
-	    target=[@"key " stringByAppendingString:article.spiresKey];	
+	    target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
 	}
 	NSString* bib=[[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target] objectAtIndex:0];
 	if([self isCancelled])break;

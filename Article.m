@@ -11,21 +11,12 @@
 #import "AllArticleList.h"
 #import "NSString+magic.h"
 #import "MOC.h"
-
-// This file Article.m is the only place NDAlias is used, which is based on older Alias APIs.
-// Eventually we need to switch to the new Bookmark APIs in the NSURL. 
-// We need then to convert the @property pdfAlias using CFURLCreateBookmarkDataFromAliasRecord .
-// Note that [NDAlias data] is really an AliasRecord in an NSData, 
-// without any extra data associated to the cocoa wrapper NDAlias.
-#import "NDAlias.h"
+#import "ArticleData.h"
 
 
 //NSMutableDictionary* eprintDict=nil;
 @interface Article (Primitives)
--(void)setPrimitiveTitle:(NSString*)t;
 -(NSMutableSet*)primitiveAuthors;
--(void)setPrimitiveEprint:(NSString*)e;
--(void)setPrimitiveDate:(NSDate*)d;
 @end
 @implementation Article 
 
@@ -44,8 +35,6 @@
 @dynamic date;
 @dynamic citedBy;
 @dynamic refersTo;
-@dynamic pdfAlias;
-@dynamic extraURLs;
 @dynamic spiresKey;
 @dynamic texKey;
 @dynamic uniqueId;
@@ -55,13 +44,18 @@
 @dynamic shortishAuthorList;
 @dynamic longishAuthorListForEA;
 @dynamic eprintForSorting;
-
+@dynamic data;
+@dynamic eprintForSortingAsString;
 +(void)initialize
 {
 //    eprintDict=[NSMutableDictionary dictionary];
 }
 -(void)awakeFromInsert
 {
+    NSEntityDescription*articleDataEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:[self managedObjectContext]];
+    ArticleData*data=(ArticleData*)[[NSManagedObject alloc] initWithEntity:articleDataEntity
+				  insertIntoManagedObjectContext:[self managedObjectContext]];
+    self.data=data;
     [self setFlag:AFNone];
 }
 /* +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
@@ -71,59 +65,88 @@
     [[AllArticleList allArticleListInMOC:moc] addArticlesObject:a];
     return a;
 }*/
-+(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
+
++(NSString*)eprintForSortingFromEprint:(NSString*)eprint
 {
-    // returns nil if not found.
-/*    BOOL isEprint=[@"eprint" isEqualToString:key];
-    if(isEprint){
-	Article*a=[eprintDict valueForKey:value];
-	if(a)return a;
-    }*/
+    if([[eprint lowercaseString] hasPrefix:@"arxiv:"]){
+	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[(NSString*)@"arXiv:" length]]];
+	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    if([eprint rangeOfString:@"."].location!=NSNotFound){
+	NSString*y=[@"20" stringByAppendingString:eprint ];
+	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    NSArray*a=[eprint componentsSeparatedByString:@"/"];
+    NSString*x=eprint;
+    if([a count]>1){
+	x=[a objectAtIndex:1];
+	x=[x stringByAppendingString:@"0"];
+    }
+    if([x hasPrefix:@"0"]){
+	return [@"20" stringByAppendingString:x];
+    }
+    return [@"19" stringByAppendingString:x];
+    
+}
+-(NSString*)eprintForSortingAsString
+{
+    return [self.eprintForSorting stringValue];
+}
++(Article*)articleWithEprint:(NSString *)eprint inMOC:(NSManagedObjectContext *)moc
+{
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:articleEntity];
+    NSString*es=[Article eprintForSortingFromEprint:eprint];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"eprintForSorting = %@",es];
+    [req setPredicate:pred];
+    [req setFetchLimit:1];
+    NSError*error=nil;
+    NSArray*a=[moc executeFetchRequest:req error:&error];
+    if(a==nil || [a count]==0){
+	return nil;
+    }else{
+	Article*ar=[a objectAtIndex:0];
+	return ar;
+    }    
+}
++(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
+{
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K = %@",key,value];
     [req setPredicate:pred];
+    [req setFetchLimit:1];
     NSError*error=nil;
     NSArray*a=[moc executeFetchRequest:req error:&error];
-    Article*ar=nil;
     if(a==nil || [a count]==0){
-/*	ar=[Article newArticleInMOC:moc];
-	[ar setValue:value forKey:key];*/
+	return nil;
     }else{
-	ar=[a objectAtIndex:0];
+	ArticleData*ad=[a objectAtIndex:0];
+	return ad.article;
     }
-/*    if(isEprint && ar){
-	[eprintDict setObject:ar forKey:value];
-    }*/
-    return ar;
 }
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc
 {
     if([idToLookUp hasPrefix:@"arXiv:"]){
-	return [Article articleWith:idToLookUp
-			     forKey:@"eprint"
-			      inMOC:moc];
+	return [Article articleWithEprint:idToLookUp inMOC:moc];
     }
     if([idToLookUp rangeOfString:@"."].location!=NSNotFound){
-	return [Article articleWith:[@"arXiv:" stringByAppendingString:idToLookUp]
-			     forKey:@"eprint"
-			      inMOC:moc];
+	return [Article articleWithEprint:idToLookUp inMOC:moc];
     }
     if([idToLookUp rangeOfString:@"/"].location!=NSNotFound){
+	return [Article articleWithEprint:idToLookUp inMOC:moc];
+    }
+    if([idToLookUp rangeOfString:@","].location!=NSNotFound){
 	return [Article articleWith:idToLookUp
-			     forKey:@"eprint"
+		       inDataForKey:@"spicite"
 			      inMOC:moc];
     }
     if([idToLookUp rangeOfString:@":"].location!=NSNotFound){
-	AllArticleList*all=[AllArticleList allArticleListInMOC:moc];
-	NSSet* s=[all articles];
-	NSPredicate *predicate =
-	[NSPredicate predicateWithFormat:@"SELF.texKey beginswith %@",idToLookUp];
-	NSSet* x=[s filteredSetUsingPredicate:predicate];
-	if([x count]>0){
-	    return [x anyObject];
-	}
+	return [Article articleWith:idToLookUp
+		       inDataForKey:@"texKey"
+			      inMOC:moc];
     }
     return nil;
 }
@@ -238,7 +261,7 @@
 #pragma mark Extras Management
 -(void)setExtra:(id)content forKey:(NSString*)key
 {
-    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.extraURLs 
+    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.data.extraURLs 
 							mutabilityOption:NSPropertyListMutableContainers
 								  format: NULL
 							       errorDescription:NULL];
@@ -246,14 +269,14 @@
 	dict=[NSMutableDictionary dictionary];
     }
     [dict setValue:content forKey:key];
-    self.extraURLs=[NSPropertyListSerialization dataFromPropertyList:dict 
+    self.data.extraURLs=[NSPropertyListSerialization dataFromPropertyList:dict 
 							      format:NSPropertyListBinaryFormat_v1_0
 						    errorDescription:nil];
 }
 
 -(id)extraForKey:(NSString*)key
 {
-    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.extraURLs 
+    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.data.extraURLs 
 							       mutabilityOption:NSPropertyListMutableContainers
 									 format: NULL
 							       errorDescription:nil];
@@ -275,7 +298,6 @@
     self.longishAuthorListForEA=[Article longishAuthorListForEAFromAuthorNames:a];	
 }
 
-
 -(NSString*)calculateEprintForSorting
 {
     NSString*eprint=self.eprint;
@@ -290,21 +312,12 @@
 	return nil;
     }
     if([eprint isEqualToString:@""])return nil;
-    if([eprint hasPrefix:@"arXiv:"]){
-	NSString*y=[@"20" stringByAppendingString:[eprint substringFromIndex:[(NSString*)@"arXiv:" length]]];
-	return [y stringByReplacingOccurrencesOfString:@"." withString:@""];
-    }
-    NSString*x=[[eprint componentsSeparatedByString:@"/"]objectAtIndex:1];
-    x=[x stringByAppendingString:@"0"];
-    if([x hasPrefix:@"0"]){
-	return [@"20" stringByAppendingString:x];
-    }
-    return [@"19" stringByAppendingString:x];
+    return [Article eprintForSortingFromEprint:eprint];
 }
 -(void)setEprint:(NSString*)e
 {
     [self willChangeValueForKey:@"eprint"];
-    [self setPrimitiveEprint:e];
+    [self.data setEprint:e];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
     [self didChangeValueForKey:@"eprint"];
 }
@@ -323,7 +336,7 @@
 -(void)setDate:(NSDate*)d
 {
     [self willChangeValueForKey:@"date"];
-    [self setPrimitiveDate:d];
+    [self.data setDate:d];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
     [self didChangeValueForKey:@"date"];
 }
@@ -345,7 +358,7 @@
 -(void)setTitle:(NSString*)t
 {
     [self willChangeValueForKey:@"title"];
-    [self setPrimitiveTitle:t];
+    [self.data setTitle:t];
     self.normalizedTitle=[self calculateNormalizedTitle];
 //    self.quieterTitle=[self calculateQuieterTitle];
     [self didChangeValueForKey:@"title"];
@@ -361,23 +374,29 @@
 	return ATEprint;
     }else if(self.spicite && ![self.spicite isEqualToString:@""]){
 	return ATSpires;
-    }else if(self.spiresKey && ![self.spiresKey isEqualToString:@""]){
+    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
 	return ATSpiresWithOnlyKey;
     }
     return ATGeneric;
 }
 -(NSString*)pdfPath
 {
-    if(self.pdfAlias){
-	NDAlias* alias=[NDAlias aliasWithData:self.pdfAlias];
-	if(alias){
-	    NSString* path=[alias path];
-	    if(path){
-		[self setPrimitiveValue:[alias data] forKey:@"pdfAlias"];
-	    }else{
-		[self setPrimitiveValue:nil forKey:@"pdfAlias"];		
+    if(self.data.pdfAlias){
+	NSError*error=nil;
+	BOOL isStale=NO;
+	NSURL* url=[NSURL URLByResolvingBookmarkData:self.data.pdfAlias
+					     options:NSURLBookmarkResolutionWithoutUI|NSURLBookmarkResolutionWithoutMounting 
+				       relativeToURL:nil
+				 bookmarkDataIsStale:&isStale
+					       error:&error];
+	if(!error){
+	    NSString* path=[url path];
+	    if(isStale){
+		[self associatePDF:path];
 	    }
 	    return path;
+	}else{
+	    [self associatePDF:nil];
 	}
     }else if(self.articleType==ATEprint){
 	NSString* name=self.eprint;
@@ -392,7 +411,14 @@
 }
 -(void)associatePDF:(NSString*)path
 {
-    self.pdfAlias=[[NDAlias aliasWithPath:path] data];
+    if(!path){
+	self.data.pdfAlias=nil;
+    }
+    NSError*error=nil;
+    self.data.pdfAlias=[[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark
+					 includingResourceValuesForKeys:nil
+							  relativeToURL:nil
+								  error:&error];
     [self setFlag:self.flag | AFHasPDF];
 }
 
@@ -400,7 +426,10 @@
 {
     BOOL b= [[NSFileManager defaultManager] fileExistsAtPath:self.pdfPath];
     if(b){
-	[self setFlag:self.flag | AFHasPDF];	
+	[self setFlag:self.flag | AFHasPDF];
+	if(!self.data.pdfAlias){
+	    [self associatePDF:self.pdfPath];
+	}
     }
     return b;
 }
@@ -419,7 +448,7 @@
     }else if(self.articleType==ATSpires){
 	return self.spicite;
     }else if(self.articleType==ATSpiresWithOnlyKey){
-	return self.spiresKey;
+	return [self.spiresKey stringValue];
     }else{
 	return @"shouldn't happen";
     }
@@ -437,7 +466,7 @@
     }else if(self.articleType==ATSpires){
 	return self.spicite;
     }else if(self.articleType==ATSpiresWithOnlyKey){
-	return self.spiresKey;
+	return [self.spiresKey stringValue];
     }else{
 	return @"shouldn't happen";
     }
@@ -467,5 +496,262 @@
     return [Article flagFromFlagInternal:self.flagInternal];
 }
 
+#pragma mark Property Forwarding
 
+
+- (NSString *)abstract 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"abstract"];
+    tmpValue = [self.data abstract];
+    [self didAccessValueForKey:@"abstract"];
+    
+    return tmpValue;
+}
+
+- (void)setAbstract:(NSString *)value 
+{
+    [self willChangeValueForKey:@"abstract"];
+    [self.data setAbstract:value];
+    [self didChangeValueForKey:@"abstract"];
+}
+
+
+- (NSString *)comments 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"comments"];
+    tmpValue = [self.data comments];
+    [self didAccessValueForKey:@"comments"];
+    
+    return tmpValue;
+}
+
+- (void)setComments:(NSString *)value 
+{
+    [self willChangeValueForKey:@"comments"];
+    [self.data setComments:value];
+    [self didChangeValueForKey:@"comments"];
+}
+
+- (NSDate *)date 
+{
+    NSDate * tmpValue;
+    
+    [self willAccessValueForKey:@"date"];
+    tmpValue = [self.data date];
+    [self didAccessValueForKey:@"date"];
+    
+    return tmpValue;
+}
+
+
+- (NSString *)doi 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"doi"];
+    tmpValue = [self.data doi];
+    [self didAccessValueForKey:@"doi"];
+    
+    return tmpValue;
+}
+
+- (void)setDoi:(NSString *)value 
+{
+    [self willChangeValueForKey:@"doi"];
+    [self.data setDoi:value];
+    [self didChangeValueForKey:@"doi"];
+}
+
+- (NSString *)eprint 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"eprint"];
+    tmpValue = [self.data eprint];
+    [self didAccessValueForKey:@"eprint"];
+    
+    return tmpValue;
+}
+
+- (NSString *)longishAuthorListForEA
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"longishAuthorListForEA"];
+    tmpValue = [self.data longishAuthorListForEA];
+    [self didAccessValueForKey:@"longishAuthorListForEA"];
+    
+    return tmpValue;
+}
+
+- (void)setLongishAuthorListForEA:(NSString *)value 
+{
+    [self willChangeValueForKey:@"longishAuthorListForEA"];
+    [self.data setLongishAuthorListForEA:value];
+    [self didChangeValueForKey:@"longishAuthorListForEA"];
+}
+
+
+
+- (NSString *)memo 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"memo"];
+    tmpValue = [self.data memo];
+    [self didAccessValueForKey:@"memo"];
+    
+    return tmpValue;
+}
+
+- (void)setMemo:(NSString *)value 
+{
+    [self willChangeValueForKey:@"memo"];
+    [self.data setMemo:value];
+    [self didChangeValueForKey:@"memo"];
+}
+
+
+- (NSNumber *)pages 
+{
+    NSNumber * tmpValue;
+    
+    [self willAccessValueForKey:@"pages"];
+    tmpValue = [self.data pages];
+    [self didAccessValueForKey:@"pages"];
+    
+    return tmpValue;
+}
+
+- (void)setPages:(NSNumber *)value 
+{
+    [self willChangeValueForKey:@"pages"];
+    [self.data setPages:value];
+    [self didChangeValueForKey:@"pages"];
+}
+
+
+- (NSData *)pdfAlias 
+{
+    NSData * tmpValue;
+    
+    [self willAccessValueForKey:@"pdfAlias"];
+    tmpValue = [self.data pdfAlias];
+    [self didAccessValueForKey:@"pdfAlias"];
+    
+    return tmpValue;
+}
+
+- (void)setPdfAlias:(NSData *)value 
+{
+    [self willChangeValueForKey:@"pdfAlias"];
+    [self.data setPdfAlias:value];
+    [self didChangeValueForKey:@"pdfAlias"];
+}
+
+
+- (NSString *)shortishAuthorList 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"shortishAuthorList"];
+    tmpValue = [self.data shortishAuthorList];
+    [self didAccessValueForKey:@"shortishAuthorList"];
+    
+    return tmpValue;
+}
+
+- (void)setShortishAuthorList:(NSString *)value 
+{
+    [self willChangeValueForKey:@"shortishAuthorList"];
+    [self.data setShortishAuthorList:value];
+    [self didChangeValueForKey:@"shortishAuthorList"];
+}
+
+- (NSString *)spicite 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"spicite"];
+    tmpValue = [self.data spicite];
+    [self didAccessValueForKey:@"spicite"];
+    
+    return tmpValue;
+}
+
+- (void)setSpicite:(NSString *)value 
+{
+    [self willChangeValueForKey:@"spicite"];
+    [self.data setSpicite:value];
+    [self didChangeValueForKey:@"spicite"];
+}
+
+- (NSNumber *)spiresKey
+{
+    NSNumber * tmpValue;
+    
+    [self willAccessValueForKey:@"spiresKey"];
+    tmpValue = [self.data spiresKey];
+    [self didAccessValueForKey:@"spiresKey"];
+    
+    return tmpValue;
+}
+
+- (void)setSpiresKey:(NSNumber *)value 
+{
+    [self willChangeValueForKey:@"spiresKey"];
+    [self.data setSpiresKey:value];
+    [self didChangeValueForKey:@"spiresKey"];
+}
+
+- (NSString *)texKey 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"texKey"];
+    tmpValue = [self.data texKey];
+    [self didAccessValueForKey:@"texKey"];
+    
+    return tmpValue;
+}
+
+- (void)setTexKey:(NSString *)value 
+{
+    [self willChangeValueForKey:@"texKey"];
+    [self.data setTexKey:value];
+    [self didChangeValueForKey:@"texKey"];
+}
+
+- (NSString *)title 
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"title"];
+    tmpValue = [self.data title];
+    [self didAccessValueForKey:@"title"];
+    
+    return tmpValue;
+}
+
+- (NSNumber *)version 
+{
+    NSNumber * tmpValue;
+    
+    [self willAccessValueForKey:@"version"];
+    tmpValue = [self.data version];
+    [self didAccessValueForKey:@"version"];
+    
+    return tmpValue;
+}
+
+- (void)setVersion:(NSNumber *)value 
+{
+    [self willChangeValueForKey:@"version"];
+    [self.data setVersion:value];
+    [self didChangeValueForKey:@"version"];
+}
 @end

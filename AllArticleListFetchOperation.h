@@ -8,8 +8,4 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AllArticleListFetchOperation : NSOperation {
-    NSManagedObjectContext* secondMOC;
-}
-
-@end
+extern void warmUpIfSuitable(void);

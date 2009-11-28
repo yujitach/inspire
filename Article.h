@@ -20,44 +20,49 @@ typedef enum {
     AFHasPDF=4
 } ArticleFlag;
 @class JournalEntry;
+@class ArticleData;
 @interface Article :  NSManagedObject  
 {
 }
 
+#pragma mark intrinsic
 @property (retain) JournalEntry * journal;
-@property (retain) NSString * comments;
-@property (retain) NSNumber * version;
-@property (retain) NSNumber * pages;
-@property (retain) NSString * doi;
-@property (retain) NSString * eprint;
-@property (retain) NSString * spiresKey;
-@property (retain) NSString * abstract;
-@property (retain,readonly) NSString * pdfPath; 
-@property (assign,readonly) BOOL  hasPDFLocally; 
-@property (assign,readonly) ArticleType articleType;
-@property (retain) NSData* pdfAlias;
-@property (retain) NSData* extraURLs;
-@property (retain) NSNumber* citecount;
-@property (retain) NSString * spicite;
-@property (retain) NSString * title;
-@property (retain) NSString * memo;
 @property (retain) NSString * flagInternal;
-@property (retain) NSDate * date;
 @property (retain) NSSet* citedBy;
 @property (retain) NSSet* refersTo;
+@property (retain) NSString*normalizedTitle;
+@property (retain) NSString*longishAuthorListForA;
+@property (retain) NSNumber *eprintForSorting;
+@property (retain) ArticleData*data;
+#pragma mark forwarded to data
+@property (retain) NSString * abstract;
+@property (retain) NSNumber* citecount;
+@property (retain) NSString * comments;
+@property (retain) NSDate * date;
+@property (retain) NSString * doi;
+@property (retain) NSString * eprint;
+@property (retain) NSString*longishAuthorListForEA;
+@property (retain) NSString * memo;
+@property (retain) NSNumber * pages;
+@property (retain) NSString*shortishAuthorList;
 @property (retain) NSString* texKey;
+@property (retain) NSString * title;
+@property (retain) NSNumber * version;
+@property (retain) NSString * spicite;
+@property (retain) NSNumber * spiresKey;
+#pragma mark generated
+@property (assign,readonly) BOOL  hasPDFLocally; 
+@property (assign,readonly) ArticleType articleType;
+@property (retain,readonly) NSString * pdfPath; 
 @property (retain,readonly) NSString* uniqueId;
 @property (retain,readonly) NSString* IdForCitation;
-@property (retain) NSString*normalizedTitle;
-@property (retain) NSString*shortishAuthorList;
-@property (retain) NSString*longishAuthorListForA;
-@property (retain) NSString*longishAuthorListForEA;
-@property (retain) NSNumber *eprintForSorting;
 @property (assign) ArticleFlag flag;
+@property (retain) NSString *eprintForSortingAsString;
 
 
 //+(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;
-+(Article*)articleWith:(NSString*)value forKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
++(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
++(Article*)articleWithEprint:(NSString*)eprint inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
 
 +(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
@@ -65,7 +70,7 @@ typedef enum {
 +(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
 +(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
 +(ArticleFlag)flagFromFlagInternal:(NSString*)flagInternal;
-
++(NSString*)eprintForSortingFromEprint:(NSString*)eprint;
 -(void)associatePDF:(NSString*)path;
 -(void)setExtra:(id)content forKey:(NSString*)key;
 -(id)extraForKey:(NSString*)key;

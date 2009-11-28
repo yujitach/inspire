@@ -33,23 +33,28 @@
 	}
 	return [a objectAtIndex:0];
     }else{
-	AllArticleList* mo=[[NSManagedObject alloc] initWithEntity:authorEntity 
-				     insertIntoManagedObjectContext:nil];
-	[mo setValue:@"spires" forKey:@"name"];
-	[mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
-	[moc insertObject:mo];	
-
-	NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-	NSFetchRequest*req=[[NSFetchRequest alloc]init];
-	[req setEntity:entity];
-	[req setPredicate:[NSPredicate predicateWithValue:YES]];
-	NSError*error=nil;
-	a=[moc executeFetchRequest:req error:&error];
-	NSSet* s=[NSSet setWithArray:a];
-	[mo addArticles:s];
-	[moc save:nil];
-	return mo;
+	return nil;
     }
+}
++(AllArticleList*)createAllArticleListInMOC:(NSManagedObjectContext*)moc
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"AllArticleList" inManagedObjectContext:moc];
+
+    AllArticleList* mo=[[NSManagedObject alloc] initWithEntity:entity
+				insertIntoManagedObjectContext:nil];
+    [mo setValue:@"spires" forKey:@"name"];
+    [mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
+    [moc insertObject:mo];	
+    
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:articleEntity];
+    [req setPredicate:[NSPredicate predicateWithValue:YES]];
+    NSError*error=nil;
+    NSArray*a=[moc executeFetchRequest:req error:&error];
+    NSSet* s=[NSSet setWithArray:a];
+    [mo addArticles:s];
+    return mo;    
 }
 -(void)reload
 {

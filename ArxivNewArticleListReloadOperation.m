@@ -12,6 +12,7 @@
 #import "ArxivHelper.h"
 #import "ProgressIndicatorController.h"
 #import "Article.h"
+#import "ArticleData.h"
 #import "AllArticleList.h"
 #import "spires_AppDelegate.h"
 #import "RegexKitLite.h"
@@ -101,7 +102,7 @@
 	abstract=nil;
     }
     
-    Article*ar=[Article articleWith:eprint forKey:@"eprint" inMOC:moc];
+    Article*ar=[Article articleWithEprint:eprint inMOC:moc];
     if(!ar){
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
 	ar=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
@@ -125,6 +126,7 @@
     [[MOC moc] disableUndo];
     for(NSManagedObjectID* objectID in y){
 	Article*mo=(Article*)[[MOC moc] objectWithID:objectID];
+	[[MOC moc] refreshObject:mo.data mergeChanges:YES];
 	[[MOC moc] refreshObject:mo mergeChanges:YES];
 	[x addObject:mo];
     }

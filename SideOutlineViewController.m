@@ -192,7 +192,12 @@
 -(void)loadArticleLists:(NSNotification*)notification
 {
 //   [articleListController didChangeArrangementCriteria];
+    BOOL needToSave=NO;
     allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
+    if(!allArticleList){
+	allArticleList=[AllArticleList createAllArticleListInMOC:[self managedObjectContext]];
+	needToSave=YES;
+    }
 //    allArticleList.positionInView=[NSNumber numberWithInt:0];
 //    allArticleList.searchString=@"";
     
@@ -202,6 +207,7 @@
 	hepph.positionInView=[NSNumber numberWithInt:2];
 	ArticleList*hepth=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-th/new" inMOC:[self managedObjectContext]];
 	hepth.positionInView=[NSNumber numberWithInt:4];
+	needToSave=YES;
     }
 /*    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"replacedListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"replacedListPrepared"];
@@ -227,28 +233,34 @@
 	CannedSearch*f=[CannedSearch cannedSearchWithName:@"flagged" inMOC:[self managedObjectContext]];
 	f.searchString=@"f flagged";
 	f.positionInView=[NSNumber numberWithInt:100];
+	needToSave=YES;
     }
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"pdfListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"pdfListPrepared"];
 	CannedSearch*f=[CannedSearch cannedSearchWithName:@"has pdf" inMOC:[self managedObjectContext]];
 	f.searchString=@"f pdf";
 	f.positionInView=[NSNumber numberWithInt:200];
+	needToSave=YES;
     }
     
 //    [articleListController setSortDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES]]];
     [articleListController rearrangeObjects];
 
     [self rearrangePositionInViewForArticleLists];
-    NSError*error=nil;
-    [[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
-    if(error){
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
+    if(needToSave){
+	NSError*error=nil;
+	[[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
+	if(error){
+	    [[MOC sharedMOCManager] presentMOCSaveError:error];
+	}
     }
     // NSTreeController's "avoid empty selection" is now unchecked in the NIB to reduce
     // unnesessary CoreData load due to the selection during the launch.
     // This call initiates the fetch. Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
-    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
+    @synchronized([MOC moc]){
+	[self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
+    }
 }
 /*-(void)saveArticleLists
 {

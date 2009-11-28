@@ -149,48 +149,7 @@ spires_AppDelegate*_shared=nil;
     }
 }
 
-/* #pragma mark Coping with database format change
--(void)updateFormatForA:(NSArray*)articles
-{
-    [[MOC moc] disableUndo];
-    [self stopUpdatingMainView:self];
-    for(Article* a in articles){
-	a.longishAuthorListForA=[@"; " stringByAppendingString:a.longishAuthorListForA];
-	a.longishAuthorListForEA=[@"; " stringByAppendingString:a.longishAuthorListForEA];
-    }
-    [self startUpdatingMainView:self];
-    [[MOC moc] enableUndo];
-    NSError* error=nil;
-    [[MOC moc] save:&error];
-    if(error){
-	NSLog(@"moc error: %@",error);
-    }
-}
--(void)updateFormatForAIfNeeded:(id)ignored
-{
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"FormatOfLongishiAuthorListForAFixedApril2009"]){
-	return;
-    }
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FormatOfLongishiAuthorListForAFixedApril2009"];
-    
-    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
-    NSFetchRequest*req=[[NSFetchRequest alloc]init];
-    [req setEntity:articleEntity];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"not (%K beginswith %@)",@"longishAuthorListForA",@"; "];
-    [req setPredicate:pred];
-    NSError*error=nil;
-    NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
-    if([a count]>0){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update the format of the database."
-				      defaultButton:@"OK" 
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@"spires.app will tweak the format of its database to make the searching efficient.\n"
-		       @"This may take some time. Spinning beachball might appear, but please be patient do not quit the app."];
-	[alert runModal];
-	[self updateFormatForA:a];
-    }
-}*/
+
 #pragma mark Crash Detection
 
 -(NSString*)recentlyCrashed
@@ -493,10 +452,6 @@ spires_AppDelegate*_shared=nil;
 }
 -(void)clearingUp:(id)sender
 {
-//    [self saveAction:self];
-//    [[MOC moc] refreshObject:allArticleList mergeChanges:YES];
-//    citedByTarget=nil;
-//    refersToTarget=nil;
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
 	[ac setSelectionIndex:0];
     }
@@ -787,9 +742,7 @@ spires_AppDelegate*_shared=nil;
     if(result!=NSAlertDefaultReturn)
 	return;
     NSString*path=a.pdfPath;
-    FSRef f;
-    FSPathMakeRefWithOptions((const UInt8 *)[path fileSystemRepresentation], kFSPathMakeRefDefaultOptions, &f, NULL);
-    FSMoveObjectToTrashSync(&f, NULL, kFSFileOperationDefaultOptions);
+    FSPathMoveObjectToTrashSync([path fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
     [a setFlag:a.flag &(~AFHasPDF)];
     
 }
@@ -995,7 +948,7 @@ spires_AppDelegate*_shared=nil;
 	}else if(article.articleType==ATSpires){
 	    target=[@"spicite " stringByAppendingString:article.spicite];	
 	}else if(article.articleType==ATSpiresWithOnlyKey){
-	    target=[@"key " stringByAppendingString:article.spiresKey];	
+	    target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
 	}
 	if(target){
 	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
@@ -1104,6 +1057,9 @@ spires_AppDelegate*_shared=nil;
 //	[articleListController setSelectionIndex:0];
 //	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	[sideTableViewController selectAllArticleList];
+	if(![allArticleList.searchString isEqualToString:searchString]){
+	    [historyController mark:self];
+	}
 	allArticleList.searchString=searchString;
 	[historyController mark:self];
 	[self querySPIRES:searchString];

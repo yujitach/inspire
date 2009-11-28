@@ -15,6 +15,8 @@
 }
 
 +(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc;
++(AllArticleList*)createAllArticleListInMOC:(NSManagedObjectContext*)moc;
+
 @end
 
 

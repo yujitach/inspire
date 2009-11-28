@@ -9,6 +9,8 @@
 #import "SpiresHelper.h"
 #import "RegexKitLite.h"
 #import "NSString+magic.h"
+#import "Article.h"
+#import "MOC.h"
 
 SpiresHelper*_sharedSpiresHelper=nil;
 @implementation SpiresHelper
@@ -27,26 +29,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSNumber *num=[NSNumber numberWithInt:[[a objectAtIndex:0] intValue]];
     return [NSPredicate predicateWithFormat:@"citecount > %@",num];
 }
--(NSPredicate*)eaPredicate:(NSString*)operand
-{
-    operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
-    if([operand rangeOfString:@","].location==NSNotFound){
-	NSArray* a=[operand componentsSeparatedByString:@" "];
-	if([a count]==0)
-	    return nil; // [NSPredicate predicateWithValue:YES];
-	if([a count]==1){
-	    operand=[a objectAtIndex:0];
-	}else{
-	    operand=[[a lastObject] stringByAppendingString:@","];
-	    for(int i=0;i<[a count]-1;i++){
-		operand=[operand stringByAppendingString:@" "];
-		operand=[operand stringByAppendingString:[a objectAtIndex:i]];
-	    }
-	}
-    }
-    //	return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains[cd] %@",operand];	
-    return [NSPredicate predicateWithFormat:@"longishAuthorListForEA contains %@",[operand normalizedString]];	    
-}
+
 -(NSPredicate*)journalPredicate:(NSString*)operand
 {
     operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
@@ -63,22 +46,31 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)citedByPredicate:(NSString*)operand
 {
-    if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound)
-	return [NSPredicate predicateWithFormat:@"ANY refersTo.eprint beginswith[c] %@",operand];
-    else
-	return [NSPredicate predicateWithFormat:@"ANY refersTo.spicite beginswith[c] %@",operand];    
+    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
+    return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
+	return [a.citedBy containsObject:ar];
+    }];
 }
--(NSPredicate*)referesToPredicate:(NSString*)operand
+-(NSPredicate*)refersToPredicate:(NSString*)operand
 {
+    Article*a=nil;
     if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound){
-	return [NSPredicate predicateWithFormat:@"ANY citedBy.eprint beginswith[c] %@",operand];
+	a=[Article articleWithEprint:operand inMOC:[MOC moc]];
     }else if([operand hasPrefix:@"key"]){
-	NSArray* a=[operand componentsSeparatedByString:@" "];
-	if([a count]==2){
-	    return [NSPredicate predicateWithFormat:@"ANY citedBy.spiresKey = %@",[a objectAtIndex:1]];
+	NSArray* arr=[operand componentsSeparatedByString:@" "];
+	if([arr count]==2){
+	    a=[Article articleWith:[arr objectAtIndex:1]
+		      inDataForKey:@"spiresKey"
+			     inMOC:[MOC moc]];
 	}
     }
-    return [NSPredicate predicateWithValue:NO];
+    if(a){
+	return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
+	    return [a.refersTo containsObject:ar];
+	}];
+    }else{
+	return [NSPredicate predicateWithValue:NO];
+    }
 }
 -(NSString*)normalizedFirstAndMiddleNames:(NSArray*)d
 {
@@ -138,6 +130,27 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }
     return nil;
 }
+-(NSPredicate*)eaPredicate:(NSString*)operand
+{
+    operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    if([operand rangeOfString:@","].location==NSNotFound){
+	NSArray* a=[operand componentsSeparatedByString:@" "];
+	if([a count]==0)
+	    return nil; // [NSPredicate predicateWithValue:YES];
+	if([a count]==1){
+	    operand=[a objectAtIndex:0];
+	}else{
+	    operand=[[a lastObject] stringByAppendingString:@","];
+	    for(int i=0;i<[a count]-1;i++){
+		operand=[operand stringByAppendingString:@" "];
+		operand=[operand stringByAppendingString:[a objectAtIndex:i]];
+	    }
+	}
+    }
+    NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.longishAuthorListForEA contains %@",[operand normalizedString]];	    
+    NSPredicate*pred1=[self authorPredicate:operand];
+    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];    
+}
 -(NSPredicate*)datePredicate:(NSString*)operand
 {
     operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -194,15 +207,14 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)eprintPredicate:(NSString*)operand
 {
-    NSString*key=@"eprint";	
-//    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
-//    operand=[[operand componentsSeparatedByString:@" "] lastObject];
     if([operand isEqualToString:@""])
-	return nil; //[NSPredicate predicateWithValue:YES];
-    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
-    //        NSLog(@"%@",pred);
-    return pred;    
+	return nil; 
+    NSString*norm=[operand normalizedString];
+    NSString*es=[Article eprintForSortingFromEprint:norm];
+    NSPredicate*pred1=[NSPredicate predicateWithFormat:@"eprintForSortingAsString contains %@",es];
+    NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.eprint contains %@",norm];
+    NSPredicate*pred=[NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];
+    return pred;
 }
 -(NSPredicate*)flagPredicate:(NSString*)operand
 {
@@ -243,7 +255,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }else if([operator hasPrefix:@"c"]){
 	return @selector(citedByPredicate:);
     }else if([operator hasPrefix:@"r"]){
-	return @selector(referesToPredicate:);
+	return @selector(refersToPredicate:);
     }else if([operator hasPrefix:@"a"]){
 	return @selector(authorPredicate:);
     }else if([operator hasPrefix:@"d"]){

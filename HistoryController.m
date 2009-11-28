@@ -108,8 +108,13 @@
 	}
 	array=ar;
     }
-    [array addObject:entry];
-    index++;
+    HistoryEntry*p=[array lastObject];
+    if(p.articleList == entry.articleList && [p.searchString isEqualToString:entry.searchString]){
+	// do nothing
+    }else{
+	[array addObject:entry];
+	index++;	    
+    }
     if(index>1)[sc setEnabled:YES forSegment:0];
     [sc setEnabled:NO forSegment:1];
 }

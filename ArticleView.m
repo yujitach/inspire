@@ -218,7 +218,7 @@
     }else if(article.articleType==ATSpires){
 	target=[@"spicite " stringByAppendingString:article.spicite];	
     }else if(article.articleType==ATSpiresWithOnlyKey){
-	target=[@"key " stringByAppendingString:article.spiresKey];	
+	target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
     }
     if(target){
 	NSURL*url=[[SpiresHelper sharedHelper] spiresURLForQuery:target];
@@ -270,7 +270,7 @@
     if(article.eprint && ![article.eprint isEqualToString:@""]){
 	return [NSString stringWithFormat:@"<a href=\"spires-search://r %@\">refers to</a>",article.eprint];
     }
-    if(article.spiresKey && ![article.spiresKey isEqualToString:@""]){
+    if(article.spiresKey && [article.spiresKey integerValue]!=0){
 	return [NSString stringWithFormat:@"<a href=\"spires-search://r key %@\">refers to</a>",article.spiresKey];
     }
     return @"<del>refers to</del>";

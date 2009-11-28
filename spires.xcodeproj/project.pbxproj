@@ -22,15 +22,6 @@
 		33096C8E0F6FE5A7009208B2 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33096C900F6FE5B6009208B2 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
 		33096C910F6FE5BB009208B2 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
-		33096C920F6FE5E2009208B2 /* NDAlias+AliasFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */; };
-		33096C930F6FE5E3009208B2 /* NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391B0F36E539004A8C25 /* NDAlias.m */; };
-		33096C940F6FE5E4009208B2 /* NDResourceFork+OtherSorces.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */; };
-		33096C950F6FE5E4009208B2 /* NDResourceFork.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939250F36E539004A8C25 /* NDResourceFork.m */; };
-		33096C960F6FE5E7009208B2 /* NSOpenPanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */; };
-		33096C970F6FE5E8009208B2 /* NSPathControl+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */; };
-		33096C980F6FE5E9009208B2 /* NSSavePanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */; };
-		33096C990F6FE5EA009208B2 /* NSString+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */; };
-		33096C9A0F6FE5EB009208B2 /* NSURL+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */; };
 		33096C9B0F6FE9E9009208B2 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
 		33096D570F6FEB28009208B2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C82804067257F0000B614F /* CoreData.framework */; };
 		33096D5A0F6FEB85009208B2 /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
@@ -46,6 +37,7 @@
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		3322D4C91042471900D8820D /* spires_DataModel 4.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */; };
+		332535E410C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
@@ -62,7 +54,7 @@
 		334A3A700F360E060078D121 /* NSWindow+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A590F360E050078D121 /* NSWindow+BWAdditions.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
 		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
-		334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */; };
+		334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		334A3A740F360E060078D121 /* NSColor+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A620F360E060078D121 /* NSColor+BWAdditions.m */; };
 		334A3A780F360E060078D121 /* BWAnchoredButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */; };
 		334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */; };
@@ -92,7 +84,7 @@
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
-		33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33880ABD0F3BC0C600468F09 /* RegexKitLite.m */; };
+		33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33880ABD0F3BC0C600468F09 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
 		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
 		338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338AC4770F3691B40011414C /* ProgressIndicatorController.m */; };
@@ -104,7 +96,6 @@
 		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
 		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
 		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
-		3394C32A1060B46F00D507B8 /* NSString+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -128,8 +119,6 @@
 		33C8D5710F6F5B9100EBF26C /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D56F0F6F5B9100EBF26C /* MainMenu.nib */; };
 		33C8D5740F6F5C1100EBF26C /* InputMethodKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C8D5730F6F5C1100EBF26C /* InputMethodKit.framework */; };
 		33C8D5770F6F5C6900EBF26C /* SpiresInputMethodController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8D5750F6F5C6900EBF26C /* SpiresInputMethodController.m */; };
-		33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9391B0F36E539004A8C25 /* NDAlias.m */; };
-		33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
 		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
@@ -160,7 +149,10 @@
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
-		33F39CE31081F5C9002A0287 /* NSURL+NDCarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */; };
+		33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */; };
+		33F1970910C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1970810C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m */; };
+		33F1991410C08505001F3F0F /* MigrationProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F1991310C08505001F3F0F /* MigrationProgress.xib */; };
+		33F1991A10C0853F001F3F0F /* MigrationProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1991910C0853F001F3F0F /* MigrationProgressController.m */; };
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* spires_AppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -234,6 +226,8 @@
 		331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresQueryDownloader.m; sourceTree = "<group>"; };
 		331FD32F0F36B11800C16F73 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		331FD3300F36B11800C16F73 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		332535E210C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortDescriptorsV4V5MigrationPolicy.h; sourceTree = "<group>"; };
+		332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortDescriptorsV4V5MigrationPolicy.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
@@ -373,25 +367,6 @@
 		33C8D5730F6F5C1100EBF26C /* InputMethodKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InputMethodKit.framework; path = /System/Library/Frameworks/InputMethodKit.framework; sourceTree = "<absolute>"; };
 		33C8D5750F6F5C6900EBF26C /* SpiresInputMethodController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpiresInputMethodController.m; path = InputMethod/SpiresInputMethodController.m; sourceTree = "<group>"; };
 		33C8D5760F6F5C6900EBF26C /* SpiresInputMethodController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpiresInputMethodController.h; path = InputMethod/SpiresInputMethodController.h; sourceTree = "<group>"; };
-		33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NDResourceFork+OtherSorces.m"; path = "NDAlias/NDResourceFork+OtherSorces.m"; sourceTree = "<group>"; };
-		33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSPathControl+NDAlias.m"; path = "NDAlias/NSPathControl+NDAlias.m"; sourceTree = "<group>"; };
-		33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSPathControl+NDAlias.h"; path = "NDAlias/NSPathControl+NDAlias.h"; sourceTree = "<group>"; };
-		33C939190F36E539004A8C25 /* NDResourceFork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDResourceFork.h; path = NDAlias/NDResourceFork.h; sourceTree = "<group>"; };
-		33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+NDCarbonUtilities.m"; path = "NDAlias/NSString+NDCarbonUtilities.m"; sourceTree = "<group>"; };
-		33C9391B0F36E539004A8C25 /* NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NDAlias.m; path = NDAlias/NDAlias.m; sourceTree = "<group>"; };
-		33C9391C0F36E539004A8C25 /* NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDAlias.h; path = NDAlias/NDAlias.h; sourceTree = "<group>"; };
-		33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSavePanel+NDAlias.h"; path = "NDAlias/NSSavePanel+NDAlias.h"; sourceTree = "<group>"; };
-		33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NDAlias+AliasFile.m"; path = "NDAlias/NDAlias+AliasFile.m"; sourceTree = "<group>"; };
-		33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+NDCarbonUtilities.h"; path = "NDAlias/NSString+NDCarbonUtilities.h"; sourceTree = "<group>"; };
-		33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSOpenPanel+NDAlias.m"; path = "NDAlias/NSOpenPanel+NDAlias.m"; sourceTree = "<group>"; };
-		33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSavePanel+NDAlias.m"; path = "NDAlias/NSSavePanel+NDAlias.m"; sourceTree = "<group>"; };
-		33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+NDCarbonUtilities.h"; path = "NDAlias/NSURL+NDCarbonUtilities.h"; sourceTree = "<group>"; };
-		33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSOpenPanel+NDAlias.h"; path = "NDAlias/NSOpenPanel+NDAlias.h"; sourceTree = "<group>"; };
-		33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NDAlias+AliasFile.h"; path = "NDAlias/NDAlias+AliasFile.h"; sourceTree = "<group>"; };
-		33C939250F36E539004A8C25 /* NDResourceFork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NDResourceFork.m; path = NDAlias/NDResourceFork.m; sourceTree = "<group>"; };
-		33C939260F36E539004A8C25 /* NDResourceFork+OtherSorces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NDResourceFork+OtherSorces.h"; path = "NDAlias/NDResourceFork+OtherSorces.h"; sourceTree = "<group>"; };
-		33C939270F36E539004A8C25 /* NDSDKCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NDSDKCompatibility.h; path = NDAlias/NDSDKCompatibility.h; sourceTree = "<group>"; };
-		33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+NDCarbonUtilities.m"; path = "NDAlias/NSURL+NDCarbonUtilities.m"; sourceTree = "<group>"; };
 		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
 		33CC06E70F3E48B8005B25F8 /* DumbOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumbOperation.m; sourceTree = "<group>"; };
 		33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalPDFDownloadOperation.h; sourceTree = "<group>"; };
@@ -438,6 +413,14 @@
 		33EBAFB90FF9BE420076F6AC /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		33EBF0090EA5BF650050B64A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		33EBF0370EA5C0830050B64A /* Release Notes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Release Notes.html"; sourceTree = "<group>"; };
+		33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
+		33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v4-v5.xcmappingmodel"; sourceTree = "<group>"; };
+		33F1970710C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleDataV4V5MigrationPolicy.h; sourceTree = "<group>"; };
+		33F1970810C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleDataV4V5MigrationPolicy.m; sourceTree = "<group>"; };
+		33F1981210C04D98001F3F0F /* ArticleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleData.h; sourceTree = "<group>"; };
+		33F1991310C08505001F3F0F /* MigrationProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MigrationProgress.xib; sourceTree = "<group>"; };
+		33F1991810C0853F001F3F0F /* MigrationProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MigrationProgressController.h; sourceTree = "<group>"; };
+		33F1991910C0853F001F3F0F /* MigrationProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MigrationProgressController.m; sourceTree = "<group>"; };
 		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
 		33FA970A0EA8E6DD003961AD /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
 		33FA970B0EA8E6DD003961AD /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
@@ -661,32 +644,6 @@
 			name = ArticleLists;
 			sourceTree = "<group>";
 		};
-		330AF1DA0EA564BF0009B674 /* NDAlias */ = {
-			isa = PBXGroup;
-			children = (
-				33C939270F36E539004A8C25 /* NDSDKCompatibility.h */,
-				33C939190F36E539004A8C25 /* NDResourceFork.h */,
-				33C939250F36E539004A8C25 /* NDResourceFork.m */,
-				33C939260F36E539004A8C25 /* NDResourceFork+OtherSorces.h */,
-				33C939160F36E539004A8C25 /* NDResourceFork+OtherSorces.m */,
-				33C939180F36E539004A8C25 /* NSPathControl+NDAlias.h */,
-				33C939170F36E539004A8C25 /* NSPathControl+NDAlias.m */,
-				33C9391F0F36E539004A8C25 /* NSString+NDCarbonUtilities.h */,
-				33C9391A0F36E539004A8C25 /* NSString+NDCarbonUtilities.m */,
-				33C9391C0F36E539004A8C25 /* NDAlias.h */,
-				33C9391B0F36E539004A8C25 /* NDAlias.m */,
-				33C939240F36E539004A8C25 /* NDAlias+AliasFile.h */,
-				33C9391E0F36E539004A8C25 /* NDAlias+AliasFile.m */,
-				33C9391D0F36E539004A8C25 /* NSSavePanel+NDAlias.h */,
-				33C939210F36E539004A8C25 /* NSSavePanel+NDAlias.m */,
-				33C939230F36E539004A8C25 /* NSOpenPanel+NDAlias.h */,
-				33C939200F36E539004A8C25 /* NSOpenPanel+NDAlias.m */,
-				33C939220F36E539004A8C25 /* NSURL+NDCarbonUtilities.h */,
-				33C939280F36E539004A8C25 /* NSURL+NDCarbonUtilities.m */,
-			);
-			name = NDAlias;
-			sourceTree = "<group>";
-		};
 		331FD3A90F36B6AF00C16F73 /* App Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -809,7 +766,6 @@
 				33880AA90F3BC0B100468F09 /* RegExKitLite */,
 				334A3A1C0F360B750078D121 /* BWToolKitFramework */,
 				33A5EAE20EA5D68C00DAE784 /* TableView Additions */,
-				330AF1DA0EA564BF0009B674 /* NDAlias */,
 			);
 			name = OpenSourceComponents;
 			sourceTree = "<group>";
@@ -944,6 +900,33 @@
 			name = TeXWatcher;
 			sourceTree = "<group>";
 		};
+		33F1987E10C05D3E001F3F0F /* MigrationPolicies */ = {
+			isa = PBXGroup;
+			children = (
+				332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */,
+				332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */,
+				33BEC3860F925F2D00807A8E /* ArticleV2V3MigrationPolicy.h */,
+				33BEC3870F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m */,
+				332F46510FF83A1000B9363E /* ArticleV3V4MigrationPolicy.h */,
+				332F46520FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m */,
+				33F1970710C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.h */,
+				33F1970810C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m */,
+				332535E210C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.h */,
+				332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */,
+			);
+			name = MigrationPolicies;
+			sourceTree = "<group>";
+		};
+		33F199B710C09AFE001F3F0F /* MigrationProgressIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				33F1991310C08505001F3F0F /* MigrationProgress.xib */,
+				33F1991810C0853F001F3F0F /* MigrationProgressController.h */,
+				33F1991910C0853F001F3F0F /* MigrationProgressController.m */,
+			);
+			name = MigrationProgressIndicator;
+			sourceTree = "<group>";
+		};
 		33F883E80EAADAE000F5E9C6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -966,20 +949,17 @@
 		7756732906782D8800D1FEB8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				33F199B710C09AFE001F3F0F /* MigrationProgressIndicator */,
+				33F1987E10C05D3E001F3F0F /* MigrationPolicies */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
 				338764990EAC5D8800042601 /* JournalEntry.h */,
 				3387649A0EAC5D8800042601 /* JournalEntry.m */,
+				33F1981210C04D98001F3F0F /* ArticleData.h */,
 				33B39E6E0EA4325E00734A06 /* Article.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
 				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
-				332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */,
-				332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */,
-				33BEC3860F925F2D00807A8E /* ArticleV2V3MigrationPolicy.h */,
-				33BEC3870F925F2D00807A8E /* ArticleV2V3MigrationPolicy.m */,
-				332F46510FF83A1000B9363E /* ArticleV3V4MigrationPolicy.h */,
-				332F46520FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1162,6 +1142,7 @@
 				338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */,
 				338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */,
 				333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */,
+				33F1991410C08505001F3F0F /* MigrationProgress.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,15 +1198,6 @@
 				33096C8E0F6FE5A7009208B2 /* Article.m in Sources */,
 				33096C900F6FE5B6009208B2 /* ArticleList.m in Sources */,
 				33096C910F6FE5BB009208B2 /* JournalEntry.m in Sources */,
-				33096C920F6FE5E2009208B2 /* NDAlias+AliasFile.m in Sources */,
-				33096C930F6FE5E3009208B2 /* NDAlias.m in Sources */,
-				33096C940F6FE5E4009208B2 /* NDResourceFork+OtherSorces.m in Sources */,
-				33096C950F6FE5E4009208B2 /* NDResourceFork.m in Sources */,
-				33096C960F6FE5E7009208B2 /* NSOpenPanel+NDAlias.m in Sources */,
-				33096C970F6FE5E8009208B2 /* NSPathControl+NDAlias.m in Sources */,
-				33096C980F6FE5E9009208B2 /* NSSavePanel+NDAlias.m in Sources */,
-				33096C990F6FE5EA009208B2 /* NSString+NDCarbonUtilities.m in Sources */,
-				33096C9A0F6FE5EB009208B2 /* NSURL+NDCarbonUtilities.m in Sources */,
 				33096C9B0F6FE9E9009208B2 /* NSString+magic.m in Sources */,
 				33096D5A0F6FEB85009208B2 /* AllArticleList.m in Sources */,
 				3322D4C91042471900D8820D /* spires_DataModel 4.xcdatamodel in Sources */,
@@ -1285,8 +1257,6 @@
 				334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */,
 				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
-				33C9392C0F36E539004A8C25 /* NDAlias.m in Sources */,
-				33C9392F0F36E539004A8C25 /* NSSavePanel+NDAlias.m in Sources */,
 				33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */,
 				33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
@@ -1336,8 +1306,10 @@
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
 				337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */,
-				3394C32A1060B46F00D507B8 /* NSString+NDCarbonUtilities.m in Sources */,
-				33F39CE31081F5C9002A0287 /* NSURL+NDCarbonUtilities.m in Sources */,
+				33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */,
+				33F1970910C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m in Sources */,
+				33F1991A10C0853F001F3F0F /* MigrationProgressController.m in Sources */,
+				332535E410C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1440,11 +1412,24 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
@@ -1457,13 +1442,27 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				WARNING_CFLAGS = "";
 			};
 			name = Release;
@@ -1737,12 +1736,14 @@
 				33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */,
 				337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */,
 				33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */,
+				332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */,
+				33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */,
 				33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */,
 				33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */,
 				332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */,
-				332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */,
+				33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */,
 			);
-			currentVersion = 332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */;
+			currentVersion = 33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */;
 			path = spires_DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

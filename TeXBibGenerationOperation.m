@@ -150,8 +150,8 @@ static NSMutableArray*instances;
 	if(!a){
 	    continue;
 	}else{
-	    NSString* bib=nil;
-	    if((bib=[a extraForKey:@"bibtex"])){
+	    NSString* bib=[a extraForKey:@"bibtex"];
+	    if(bib){
 		[toAdd addObject:a];
 	    }
 	}

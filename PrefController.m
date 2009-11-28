@@ -12,7 +12,8 @@
 @implementation PrefController
 -(PrefController*)init
 {
-    return self=[super initWithWindowNibName:@"PrefPane"];
+    self=[super initWithWindowNibName:@"PrefPane"];
+    return self;
 }
 #pragma mark Time Machine
 -(IBAction)timeMachineSettingChanged:(id)sender;
