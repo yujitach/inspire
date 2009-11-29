@@ -131,8 +131,8 @@ spires_AppDelegate*_shared=nil;
     NSString*destination=[[NSString stringWithFormat:@"%@/%@",pdfDir,fileName] stringByExpandingTildeInPath];
     NSLog(@"moves %@ to %@",path,destination);
     NSError*error=nil;
-    [fm moveItemAtPath:path toPath:destination error:&error];
-    if(error){
+    BOOL success=[fm moveItemAtPath:path toPath:destination error:&error];
+    if(!success){
 	[[NSApplication sharedApplication] presentError:error];
     }
 }
@@ -628,6 +628,7 @@ spires_AppDelegate*_shared=nil;
 {
     Article*a=[[ac selectedObjects] objectAtIndex:0];
     NSLog(@"%@",a);
+    NSLog(@"%@",a.data);
 /*    for(Article*b in a.citedBy){
 	NSLog(@"citedByEntry:%@",b);
     }*/
@@ -682,30 +683,6 @@ spires_AppDelegate*_shared=nil;
 -(void)deleteArticleList:(id)sender
 {
     [sideTableViewController removeCurrentArticleList];
- /*   ArticleList* al=[sideTableViewController currentArticleList];
-    if(!al){
-	return;
-    }
-    [sideTableViewController removeArticleList:al];*/
-    /*    if([[articleListController selectedObjects] count]==0)
-     return;
-     ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];*/
-    /*    NSAlert*alert=[NSAlert alertWithMessageText:@"Delete a list"
-     defaultButton:@"Delete" 
-     alternateButton:@"Cancel"
-     otherButton:nil
-     informativeTextWithFormat:@"This operation cannot be undone. Do you really want to delete the list \"%@\"?",al.name];
-     [alert beginSheetModalForWindow:[tv window]
-     modalDelegate:self 
-     didEndSelector:@selector(articleListDeleteAlertDidEnd:code:context:)
-     contextInfo:al];	    
-     }
-     -(void)articleListDeleteAlertDidEnd:(NSAlert*)alert code:(int)choice context:(ArticleList*)al
-     {
-     if(choice==NSAlertDefaultReturn){*/
-//    [articleListController removeObject:al];
-//    [self saveArticleLists];
-    //    }
 }
 
 -(void)sendBugReport:(id)sender

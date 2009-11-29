@@ -21,6 +21,26 @@
 @interface BatchImportOperation (internal)
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a;
 @end
+@interface ImportPair:NSObject
+{
+    Article*a;
+    NSXMLElement*e;
+}
+@property(retain) Article*a;
+@property(retain) NSXMLElement*e;
+-(ImportPair*)initWithArticle:(Article*)o andXML:(NSXMLElement*)x;
+@end
+@implementation ImportPair
+@synthesize a,e;
+-(ImportPair*)initWithArticle:(Article *)o andXML:(NSXMLElement *)x
+{
+    self=[super init];
+    a=o;e=x;
+    return self;
+}
+@end
+
+
 @implementation BatchImportOperation
 -(BatchImportOperation*)initWithElements:(NSArray*)e // andMOC:(NSManagedObjectContext*)m 
 				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)
@@ -38,8 +58,8 @@ l{
     list=l;
     if(citedByTarget||refersToTarget||list){
 	NSError*error=nil;
-	[[MOC moc] save:&error];
-	if(error){
+	BOOL success=[[MOC moc] save:&error];
+	if(!success){
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
     }
@@ -74,23 +94,10 @@ l{
 
 -(void)main
 {
-//	NSMutableArray*a=[NSMutableArray array];
-//    [delegate performSelectorOnMainThread:@selector(stopUpdatingMainView:) withObject:nil waitUntilDone:YES];
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
 								     withObject:self 
 								  waitUntilDone:NO];
-/*	for(NSXMLElement* element in elements){
-	    [a addObject:element];
-	    if([a count]>10){
-		[self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];
-		[a removeAllObjects];
-		usleep(50*1000); // sleep .05sec to improve responsiveness while adding...
-	    }
-	}
-	if([a count]>0)
-	    [self performSelectorOnMainThread:@selector(batchAddEntriesOfSPIRES:) withObject:a waitUntilDone:YES];*/
     [self batchAddEntriesOfSPIRES:elements];
-//    [delegate performSelectorOnMainThread:@selector(startUpdatingMainView:) withObject:nil waitUntilDone:YES];
 	
     [delegate performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
@@ -151,7 +158,8 @@ l{
     NSDate*date=[NSDate dateWithString:[NSString stringWithFormat:@"%@-%@-01 00:00:00 +0000",year,month]];
     a.date=date;
 }
--(Article*)addOneEntryOfSPIRES:(NSXMLElement*)element
+//-(Article*)addOneEntryOfSPIRES:(NSXMLElement*)element
+-(Article*)preExistingArticleForXML:(NSXMLElement*)element
 {
     Article* o=nil;
     NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
@@ -167,11 +175,14 @@ l{
 	NSLog(@"entry %@ with neither eprint id nor spiresKey nor title",element);
 	return nil;
     }
-    if(!o){
-	//	o=[Article newArticleInMOC:[self managedObjectContext]];
-	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-	o=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
-    }
+    return o;
+}
+-(void)populatePropertiesOfArticle:(Article*)o fromXML:(NSXMLElement*)element
+{
+    NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
+    NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
+    NSString*title=[self valueForKey:@"title" inXMLElement:element];
+
     o.spiresKey=[NSNumber numberWithInteger:[spiresKey integerValue]];
     o.eprint=eprint;
     o.title=title;
@@ -202,44 +213,49 @@ l{
     [self setIntToArticle:o forKey:@"pages" inXMLElement:element];
     [self setJournalToArticle:o inXMLElement:element];
     [self setDateToArticle:o inXMLElement:element];
-    return o;
 }
+
+-(void)setAndRefreshArticles:(NSArray*)x
+{
+    for(ImportPair*z in x){
+	[self populatePropertiesOfArticle:z.a fromXML:z.e];
+    }
+    NSError*error=nil;
+    BOOL success=[moc save:&error];
+    if(!success){
+	[[MOC sharedMOCManager] presentMOCSaveError:error];
+    }
+
+    NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
+    for(ImportPair*z in x){
+	[objectIDsToBeRefreshed addObject:[z.a objectID]];
+    }
+
+    [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMocMainWork:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];    
+}
+
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
 {
  //   [moc disableUndo];
-    NSMutableSet*x=[NSMutableSet set];
+    NSMutableArray*prex=[NSMutableArray array];
+    NSMutableArray*nonx=[NSMutableArray array];
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
     for(NSXMLElement*element in a){
-	Article*c=[self addOneEntryOfSPIRES:element];
+	Article*c=[self preExistingArticleForXML:element];
 	if(c){
-	    [x addObject:c];
+	    [prex addObject:[[ImportPair alloc]initWithArticle:c andXML:element]];
+	}else{
+	    c=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
+	    [nonx addObject:[[ImportPair alloc]initWithArticle:c andXML:element]];
 	}
     }
-    
-    NSError*error=nil;
-//    NSLog(@"saving 2ndry");
-    [moc save:&error];
-    if(error){
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
-//	NSLog(@"2nry moc error:%@",error);
-    }
-//    NSLog(@"saved 2ndry");
-    NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
- //   [objectIDsToBeRefreshed addObject:[allArticleList objectID]];
-    for(Article* z in x){
-	[objectIDsToBeRefreshed addObject:[z objectID]];
-    }
-/*    if(citedByTarget){
-	[objectIDsToBeRefreshed addObject:[citedByTarget objectID]];	
-    }
-    if(refersToTarget){
-	[objectIDsToBeRefreshed addObject:[refersToTarget objectID]];
-    }
-    if(list){
-	[objectIDsToBeRefreshed addObject:[list objectID]];
-    }*/
-    [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMoc:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];
-    if([x count]==1){
-	Article*a=[x anyObject];
+    [self setAndRefreshArticles:nonx];
+    [self setAndRefreshArticles:prex];
+
+
+    if([nonx count]==1){
+	ImportPair*p=[nonx objectAtIndex:0];
+	Article*a=p.a;
 	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
 	NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]];
 	if(parent){
@@ -247,10 +263,9 @@ l{
 	}
 	[[OperationQueues spiresQueue] addOperation:op];
     }
-//    [moc enableUndo];
 }
 
--(void)refreshManagedObjectsOnMainMoc:(NSArray*)y
+-(void)refreshManagedObjectsOnMainMocMainWork:(NSArray*)y
 {
     NSMutableSet*x=[NSMutableSet set];
     for(NSManagedObjectID* objectID in y){
@@ -275,8 +290,8 @@ l{
 	[list addArticles:x];
     }
     NSError*error=nil;
-    [[MOC moc] save:&error];
-    if(error){
+    BOOL success=[[MOC moc] save:&error];
+    if(!success){
 	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
 //    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self];

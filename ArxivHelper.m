@@ -74,7 +74,7 @@ ArxivHelper* _sharedHelper=nil;
     NSLog(@"query:%@",url);
     NSError*error=nil;
     NSXMLDocument* doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
-    if(error){
+    if(!doc){
 	NSLog(@"XML error: %@",error);
     }
     NSXMLElement* elem=[[[doc rootElement] elementsForName:@"entry"] objectAtIndex:0];

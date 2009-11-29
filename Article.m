@@ -100,14 +100,30 @@
     NSString*es=[Article eprintForSortingFromEprint:eprint];
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"eprintForSorting = %@",es];
     [req setPredicate:pred];
-    [req setFetchLimit:1];
+    [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"data"]];
+    [req setReturnsObjectsAsFaults:NO];
+    [req setFetchLimit:10];
     NSError*error=nil;
     NSArray*a=[moc executeFetchRequest:req error:&error];
     if(a==nil || [a count]==0){
 	return nil;
     }else{
-	Article*ar=[a objectAtIndex:0];
-	return ar;
+	NSRange r=[eprint rangeOfString:@"/"];
+	if(r.location!=NSNotFound){
+	    // old style eprint
+	    NSString*prefix=[eprint substringToIndex:r.location];
+	    for(Article*ar in a){
+		if([ar.data.eprint hasPrefix:prefix]){
+		    return ar;
+		}
+	    }
+	    return nil;
+	}else{
+	    // new style eprint
+	    Article*ar=[a objectAtIndex:0];
+	    return ar;
+	}
     }    
 }
 +(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
@@ -117,6 +133,11 @@
     [req setEntity:articleEntity];
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K = %@",key,value];
     [req setPredicate:pred];
+
+    [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"article"]];
+    [req setReturnsObjectsAsFaults:NO];
+    
     [req setFetchLimit:1];
     NSError*error=nil;
     NSArray*a=[moc executeFetchRequest:req error:&error];
@@ -389,7 +410,7 @@
 				       relativeToURL:nil
 				 bookmarkDataIsStale:&isStale
 					       error:&error];
-	if(!error){
+	if(url){
 	    NSString* path=[url path];
 	    if(isStale){
 		[self associatePDF:path];

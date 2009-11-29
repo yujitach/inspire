@@ -31,7 +31,7 @@
 	NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:currentFile]
 							       options:0
 								 error:&error];
-	if(error){
+	if(!doc){
 	    NSLog(@"XML error:%@",error);
 	    continue;
 	}

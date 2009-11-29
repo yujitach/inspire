@@ -138,8 +138,8 @@
     al.articles=nil;
     [al addArticles:x];
     NSError*error=nil;
-    [[MOC moc] save:&error];
-    if(error){
+    BOOL success=[[MOC moc] save:&error];
+    if(!success){
 	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }
     [[MOC moc] enableUndo];
@@ -162,8 +162,8 @@
     }
 
     NSError*error=nil;
-    [moc save:&error];
-    if(error){
+    BOOL success=[moc save:&error];
+    if(!success){
 	NSLog(@"secondary moc error");
 	[[MOC sharedMOCManager] presentMOCSaveError:error];
     }

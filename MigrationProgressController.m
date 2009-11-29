@@ -23,16 +23,13 @@
 -(void)awakeFromNib
 {
     [pi startAnimation:YES];
-//    [pi setUsesThreadedAnimation:YES];
+    [pi setUsesThreadedAnimation:YES];
 }
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    // note that this is called from a background thread
     double progress=[mm migrationProgress];
-    dispatch_async(dispatch_get_main_queue(),^{
-	// NSMigrationManager takes some time after migrationProgress becomes 1
-	// The empirical factor .95 accounts for that.
-	[pi setDoubleValue:.95*progress];
-    });
+    // NSMigrationManager takes some time after migrationProgress becomes 1
+    // The empirical factor .95 accounts for that.
+    [pi setDoubleValue:.95*progress];
 }
 @end

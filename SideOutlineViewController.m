@@ -249,8 +249,8 @@
     [self rearrangePositionInViewForArticleLists];
     if(needToSave){
 	NSError*error=nil;
-	[[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
-	if(error){
+	BOOL success=[[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
+	if(!success){
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
     }

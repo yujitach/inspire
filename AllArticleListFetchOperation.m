@@ -21,8 +21,13 @@
 // Warm up the CoreData cache in a background thread.
 void warmUpIfSuitable(void)
 {
-    // returns nil if migration is necessary
-    NSManagedObjectContext*moc=[[MOC sharedMOCManager] managedObjectContextWithoutMigration];
+    //This code is called before NSApplicationMain,
+    //so we need to start the garbage collector manually to avoid leaks(?)
+    objc_startCollectorThread();
+    if([[MOC sharedMOCManager] migrationNeeded]){
+	return;
+    }
+    NSManagedObjectContext*moc=[[MOC sharedMOCManager] managedObjectContext];
     if(moc){
 	/* You need utmost care! 
 	 The main MOC should be used only from the main thread in the usual situation,

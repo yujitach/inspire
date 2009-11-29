@@ -18,13 +18,11 @@
 +(NSManagedObjectContext*)moc;
 +(NSManagedObjectContext*)createSecondaryMOC;
 +(MOC*)sharedMOCManager;
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinatorWithAutoMigration:(BOOL)autoMigration;
+-(BOOL)migrationNeeded;
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
-- (NSManagedObjectContext *) managedObjectContextWithoutMigration;
 - (NSManagedObjectContext *)createSecondaryMOC;
 - (NSString *)applicationSupportFolder;
-- (NSString *)directoryForIndividualEntries;
 - (NSString *)dataFilePath;
 -(void)presentMOCSaveError:(NSError*)error;
 @end

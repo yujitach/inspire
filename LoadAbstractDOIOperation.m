@@ -42,7 +42,7 @@
     NSURL*url=[NSURL URLWithString:[@"http://dx.doi.org/" stringByAppendingString:article.doi]];
     NSError*error=nil;
     NSString*s=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-    if(error){
+    if(!s){
 	NSLog(@"error while loading %@: %@",url, error);
     }
     [self performSelectorOnMainThread:@selector(loadAbstractUsingDOIRealWork:) withObject:s waitUntilDone:YES];
@@ -51,10 +51,7 @@
 {
     NSString*journalName=article.journal.name;
     NSString*abstract=nil;
-    if(/*[journalName isEqualToString:@"Phys.Lett."]
-     ||[journalName isEqualToString:@"Nucl.Phys."]
-     ||[journalName isEqualToString:@"Annals Phys."]
-     ||[journalName isEqualToString:@"Phys.Rept."]*/
+    if(
        [[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"] containsObject:journalName]
        ){
 	NSArray*a=[content componentsSeparatedByString:@"Abstract</h3><p>"];
@@ -64,9 +61,7 @@
 	if([a count]<1)
 	    goto BAIL;
 	abstract=[a objectAtIndex:0];
-    }else if(/*[journalName isEqualToString:@"Phys.Rev."]
-     ||[journalName isEqualToString:@"Phys.Rev.Lett."]
-     ||[journalName isEqualToString:@"Rev.Mod.Phys."]*/
+    }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"aps-abstractbox aps-mediumtext\">"];

@@ -25,27 +25,9 @@
 
 @interface PDFHelper (QuickLookDelegate) <QLPreviewPanelDataSource>
 @end
-// QuickLooking is off-loaded to QuickLookHelper... It tends to crash in 64bit mode.
-// It seems to be a bug in PDFKit under GC.
-// 0902.4674v1.pdf causes this. Maybe I should report it to Apple.
-
-//#define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
-
-/*
- @interface SomeKindOfPanel : NSObject{
-}
--(void)setURLs:(NSArray*)a currentIndex:(NSInteger)i preservingDisplayState:(BOOL)b;
--(void)makeKeyAndOrderFrontWithEffect:(NSInteger)i;
-@end
-@interface NSObject (toShutUpWarningFromGCCaboutQuickLook)
--(SomeKindOfPanel*)sharedPreviewPanel;
-@end
-*/
 
 
 static PDFHelper*_helper=nil;
-//static NSMutableArray*shownPDFs=nil;
-//static BOOL quickLookIsOpen=NO;
 NSString* pathShownWithQuickLook=nil;
 
 
@@ -62,11 +44,7 @@ NSString* pathShownWithQuickLook=nil;
 @end
 
 @implementation PDFHelper
-/*-(BOOL)respondsToSelector:(SEL)selector
-{
-    NSLog(@"%@",NSStringFromSelector(selector));
-    return NO;
-}*/
+
 +(PDFHelper*)sharedHelper
 {
     if(!_helper){
@@ -78,18 +56,10 @@ NSString* pathShownWithQuickLook=nil;
 -init
 {
     self=[super init];
-/*    [[NSDistributedNotificationCenter defaultCenter] addObserver:self 
-							selector:@selector(quickLookHelperDidClose:) 
-							    name:@"QuickLookHelperDidClose" 
-							  object:nil];*/
     return self;
 }
 +(void)initialize
 {
-//    if([[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/QuickLookUI.framework"] load]){
-//	NSLog(@"Quick Look loaded!"); 
-	//[[[QLPreviewPanel sharedPreviewPanel] windowController] setDelegate:self];
-//    }
 }
 -(NSString*)displayNameForApp:(NSString*)bundleId
 {
@@ -141,19 +111,6 @@ NSString* pathShownWithQuickLook=nil;
 	    [self openPDFFile:path usingApp:bundleId];
 	    break;
 	case openWithQuickLook:
-/*	    [[QLPreviewPanel sharedPreviewPanel] setURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]] 
-					    currentIndex:0 
-				  preservingDisplayState:YES];
-	    
-	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFrontWithEffect:1]; 
-*/
-/*	    if([shownPDFs containsObject:path]){
-		system("killall SpiresQuickLookHelper");
-	    }
-	    [[NSWorkspace sharedWorkspace] openFile:path withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
-//	    quickLookIsOpen=YES;
-	    pathShownWithQuickLook=path;
-	    [shownPDFs addObject:path];*/
 	    pathShownWithQuickLook=path;
 	    [[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront:self];
 	    [[QLPreviewPanel sharedPreviewPanel] reloadData];
@@ -173,19 +130,6 @@ NSString* pathShownWithQuickLook=nil;
     return [[QuickLookPDFItem alloc] init];
 }
 
-/*
- -(void)quickLookDidClose:(id)sender;
-{
-//    quickLookIsOpen=NO;
-    pathShownWithQuickLook=nil;
-}
--(void)activateQuickLookIfNecessary;
-{
-    if(pathShownWithQuickLook){
-	[[NSWorkspace sharedWorkspace] openFile:pathShownWithQuickLook withApplication:[[NSBundle mainBundle] pathForResource:@"SpiresQuickLookHelper" ofType:@"app"]];
-    }
-}
-*/
 
 #pragma mark arXiv article Version Checking
 

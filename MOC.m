@@ -8,6 +8,7 @@
 
 #import "MOC.h"
 #import "MigrationProgressController.h"
+#import "DumbOperation.h"
 
 MOC*_sharedMOCManager=nil;
 @interface MOC(Private)
@@ -61,7 +62,18 @@ MOC*_sharedMOCManager=nil;
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-    return [basePath stringByAppendingPathComponent:@"spires"];
+    NSString* appSupportFolder= [basePath stringByAppendingPathComponent:@"spires"];
+    
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    NSError *error=nil;
+    if ( ![fileManager fileExistsAtPath:appSupportFolder isDirectory:NULL] ) {
+        [fileManager createDirectoryAtPath:appSupportFolder 
+	       withIntermediateDirectories:YES 
+				attributes:nil 
+				     error:&error];
+    }
+    return appSupportFolder;
+    
 }
 
 /**
@@ -81,75 +93,7 @@ MOC*_sharedMOCManager=nil;
 }
 
 
-/**
- Returns the persistent store coordinator for the application.  This 
- implementation will create and return a coordinator, having added the 
- store for the application to it.  (The folder for the store is created, 
- if necessary.)
- */
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinatorWithAutoMigration:(BOOL)autoMigration {
-    
-    if (persistentStoreCoordinator != nil) {
-        return persistentStoreCoordinator;
-    }
-    
-    NSFileManager *fileManager;
-    NSString *applicationSupportFolder = nil;
-    NSError *error=nil;
-    
-    fileManager = [NSFileManager defaultManager];
-    applicationSupportFolder = [self applicationSupportFolder];
-    if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-        [fileManager createDirectoryAtPath:applicationSupportFolder 
-	       withIntermediateDirectories:YES 
-				attributes:nil 
-				     error:NULL];
-    }
-    
-    NSString*filePath=[self dataFilePath];
-    NSString*storeType=NSBinaryStoreType;
-    if([filePath hasSuffix:@"xml"]){
-	storeType=NSXMLStoreType;
-    }else if([filePath hasSuffix:@"sqlite"]){
-	storeType=NSSQLiteStoreType;
-    }
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    
-    {
-	NSDictionary *sourceMetadata =
-	[NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType
-								   URL:[[NSURL alloc] initFileURLWithPath:filePath]
-								 error:&error];
-	
-	if (sourceMetadata == nil) {
-	    // deal with error
-	    // but don't care here
-	}else if(! [[self managedObjectModel] isConfiguration:nil
-			    compatibleWithStoreMetadata:sourceMetadata]){
-	    if(!autoMigration){
-		persistentStoreCoordinator=nil;
-		return nil;
-	    }
-	    [self performMigration];
-	}
-	
-    }
-    
-/*    NSMutableDictionary *dict = [NSMutableDictionary dictionary]; 
-    [dict setObject:[NSNumber numberWithBool:YES] 
-	     forKey:NSMigratePersistentStoresAutomaticallyOption]; */
-    
-    
-    if (![persistentStoreCoordinator addPersistentStoreWithType:storeType
-						  configuration:nil 
-							    URL:[NSURL fileURLWithPath:filePath] 
-							options:nil
-							  error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
-    }    
-    
-    return persistentStoreCoordinator;
-}
+
 - (NSString *)directoryForIndividualEntries
 {
     NSString* debug=@"";
@@ -173,6 +117,66 @@ MOC*_sharedMOCManager=nil;
     return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@%@",debug,extension]];
 }
 
+-(NSString*)storeType
+{
+    NSString*filePath=[self dataFilePath];
+    NSString*storeType=NSBinaryStoreType;
+    if([filePath hasSuffix:@"xml"]){
+	storeType=NSXMLStoreType;
+    }else if([filePath hasSuffix:@"sqlite"]){
+	storeType=NSSQLiteStoreType;
+    }
+    return storeType;
+}
+- (BOOL)migrationNeeded
+{
+    NSError*error=nil;
+    NSDictionary *sourceMetadata =
+    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:[self storeType]
+							       URL:[NSURL fileURLWithPath:[self dataFilePath]]
+							     error:&error];
+    
+    if (sourceMetadata == nil) {
+	// deal with error
+	// but don't care here
+	return YES;
+    }
+    return ![[self managedObjectModel] isConfiguration:nil
+			   compatibleWithStoreMetadata:sourceMetadata];
+}
+
+
+/**
+ Returns the persistent store coordinator for the application.  This 
+ implementation will create and return a coordinator, having added the 
+ store for the application to it.  (The folder for the store is created, 
+ if necessary.)
+ */
+- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
+    
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+    
+    
+   persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    
+    if([self migrationNeeded]){
+	[self performMigration];
+    }
+    
+    NSError*error=nil;
+    if (![persistentStoreCoordinator addPersistentStoreWithType:[self storeType]
+						  configuration:nil 
+							    URL:[NSURL fileURLWithPath:[self dataFilePath]] 
+							options:nil
+							  error:&error]){
+        [[NSApplication sharedApplication] presentError:error];
+    }    
+    
+    return persistentStoreCoordinator;
+}
+
 /**
  Returns the managed object context for the application (which is already
  bound to the persistent store coordinator for the application.) 
@@ -189,33 +193,13 @@ MOC*_sharedMOCManager=nil;
 /*
  Changed main moc merge policy to ObjectTrump. Mar/30/2009
  */
-- (NSManagedObjectContext *) managedObjectContextWithoutMigration {
-    
-    if (managedObjectContext != nil) {
-        return managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinatorWithAutoMigration:NO];
-    if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
-	[managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-	//	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
-	    NSLog(@"-[MOC save] debug mode...");
-	    [managedObjectContext setMergePolicy:NSErrorMergePolicy];
-	}
-    }
-    
-    return managedObjectContext;
-}
 - (NSManagedObjectContext *) managedObjectContext {
     
     if (managedObjectContext != nil) {
         return managedObjectContext;
     }
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinatorWithAutoMigration:YES];
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
@@ -236,7 +220,7 @@ MOC*_sharedMOCManager=nil;
         return secondaryManagedObjectContext;
     }*/
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinatorWithAutoMigration:NO];
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     NSManagedObjectContext*secondaryManagedObjectContext=nil;
     if (coordinator != nil) {
         secondaryManagedObjectContext = [[NSManagedObjectContext alloc] init];
@@ -255,18 +239,19 @@ MOC*_sharedMOCManager=nil;
     NSLog(@"moc error:%@",error);
     NSDictionary* dict=[error userInfo];
     NSLog(@"userInfo:%@",dict);
-    NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
-    if(detailedErrors){
-	for(NSError*e in detailedErrors){
-	    NSLog(@"moc suberror:%@",e);
-	    NSDictionary* d=[e userInfo];
-	    if(d){
-		NSLog(@"userInfo:%@",d);	 
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
+	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
+	if(detailedErrors){
+	    for(NSError*e in detailedErrors){
+		NSLog(@"moc suberror:%@",e);
+		NSDictionary* d=[e userInfo];
+		if(d){
+		    NSLog(@"userInfo:%@",d);	 
+		}
 	    }
-	}
-    }    
+	}    
+    }
 }
-
 /**
  Implementation of dealloc, to release the retained variables.
  */
@@ -283,36 +268,17 @@ MOC*_sharedMOCManager=nil;
 
 // manual migration code. Taken from Marcus Zarra's CoreData book;
 // progress bar code added by Yuji
-//START:progressivelyMigrateURLMethodName
-- (BOOL)progressivelyMigrateURL:(NSURL*)sourceStoreURL
-                         ofType:(NSString*)type 
-                        toModel:(NSManagedObjectModel*)finalModel 
-                          error:(NSError**)error
+-(int)versionFromMomPath:(NSString*)path
 {
-    NSAssert(error!=nil,@"error should be taken care of!");
-    //END:progressivelyMigrateURLMethodName
-    //START:progressivelyMigrateURLHappyCheck
-    NSDictionary *sourceMetadata = 
-    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
-							       URL:sourceStoreURL
-							     error:error];
-    if (!sourceMetadata) return NO;
-    
-    if ([finalModel isConfiguration:nil 
-	compatibleWithStoreMetadata:sourceMetadata]) {
-	*error = nil;
-	return YES;
-    }
-    //END:progressivelyMigrateURLHappyCheck
-    //START:progressivelyMigrateURLFindModels
-    //Find the source model
-    NSManagedObjectModel *sourceModel = [NSManagedObjectModel 
-					 mergedModelFromBundles:nil
-					 forStoreMetadata:sourceMetadata];
-    NSAssert(sourceModel != nil, ([NSString stringWithFormat:
-				   @"Failed to find source model\n%@", 
-				   sourceMetadata]));
-    
+    NSArray*a=[[path lastPathComponent] componentsSeparatedByString:@" "];
+    if([a count]==1)
+	return 0;
+    NSString*s=[a lastObject];
+    NSString*t=[[s componentsSeparatedByString:@"."] objectAtIndex:0];
+    return [t intValue];
+}
+-(NSArray*)modelPaths
+{
     //Find all of the mom and momd files in the Resources directory
     NSMutableArray *modelPaths = [NSMutableArray array];
     NSArray *momdArray = [[NSBundle mainBundle] pathsForResourcesOfType:@"momd" 
@@ -324,27 +290,57 @@ MOC*_sharedMOCManager=nil;
 			  inDirectory:resourceSubpath];
 	[modelPaths addObjectsFromArray:array];
     }
-    NSArray* otherModels = [[NSBundle mainBundle] pathsForResourcesOfType:@"mom" 
-							      inDirectory:nil];
-    [modelPaths addObjectsFromArray:otherModels];
     
-    if (!modelPaths || ![modelPaths count]) {
-	//Throw an error if there are no models
-	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setValue:@"No models found in bundle" 
-		forKey:NSLocalizedDescriptionKey];
-	//Populate the error
-	*error = [NSError errorWithDomain:@"Zarra" code:8001 userInfo:dict];
-	return NO;
+    [modelPaths sortUsingComparator:^(id path1,id path2){
+	int v1=[self versionFromMomPath:path1];
+	int v2=[self versionFromMomPath:path2];
+	if (v1<v2){
+	    return (NSComparisonResult)NSOrderedDescending;
+	}
+	if (v1>v2){
+	    return (NSComparisonResult)NSOrderedAscending;
+	}
+	return (NSComparisonResult)NSOrderedSame;
+    }];
+    return modelPaths;
+}
+
+- (BOOL)progressivelyMigrateURL:(NSURL*)sourceStoreURL
+                         ofType:(NSString*)type 
+                        toModel:(NSManagedObjectModel*)finalModel 
+                          error:(NSError**)error
+{
+    NSAssert(error!=nil,@"error should be taken care of!");
+
+    NSDictionary *sourceMetadata = 
+    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
+							       URL:sourceStoreURL
+							     error:error];
+    if (!sourceMetadata) return NO;
+    
+    if ([finalModel isConfiguration:nil 
+	compatibleWithStoreMetadata:sourceMetadata]) {
+	*error = nil;
+	return YES;
     }
-    //END:progressivelyMigrateURLFindModels
+
+    //Find the source model
+    NSManagedObjectModel *sourceModel = [NSManagedObjectModel 
+					 mergedModelFromBundles:nil
+					 forStoreMetadata:sourceMetadata];
+    NSAssert(sourceModel != nil, ([NSString stringWithFormat:
+				   @"Failed to find source model\n%@", 
+				   sourceMetadata]));
     
+
+    NSArray*modelPaths=[self modelPaths];
     //See if we can find a matching destination model
-    //START:progressivelyMigrateURLFindMap
     NSMappingModel *mappingModel = nil;
     NSManagedObjectModel *targetModel = nil;
     NSString *modelPath = nil;
-    for (modelPath in modelPaths) {
+    // modelPaths contain the models in the descending order of the models.
+    for(modelPath in modelPaths){
+	NSLog(@"trying to see if %@ works...",[modelPath lastPathComponent]);
 	targetModel = [[NSManagedObjectModel alloc] 
 		       initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
 	mappingModel = [NSMappingModel mappingModelFromBundles:nil 
@@ -365,25 +361,28 @@ MOC*_sharedMOCManager=nil;
 				 userInfo:dict];
 	return NO;
     }
-    //END:progressivelyMigrateURLFindMap
+
     //We have a mapping model and a destination model.  Time to migrate
     //START:progressivelyMigrateURLMigrate
     NSMigrationManager *manager = [[NSMigrationManager alloc] 
 				   initWithSourceModel:sourceModel
 				   destinationModel:targetModel];
-    MigrationProgressController*controller=[[MigrationProgressController alloc] initWithMigrationManager:manager
-											     WithMessage:@"please wait patiently..."];
     NSString *modelName = [[modelPath lastPathComponent] 
 			   stringByDeletingPathExtension];
     NSString *storeExtension = [[sourceStoreURL path] pathExtension];
     NSString *storePath = [[sourceStoreURL path] stringByDeletingPathExtension];
+
+    int toVersion=[self versionFromMomPath:modelPath];
+    NSString*message=[NSString stringWithFormat:@"Migrating database v%d to v%d. Please wait patiently...",toVersion-1,toVersion];
+    MigrationProgressController*controller=[[MigrationProgressController alloc] initWithMigrationManager:manager
+											     WithMessage:message];
+    NSLog(@"migrating to %@...",modelName);
     //Build a path to write the new store
     storePath = [NSString stringWithFormat:@"%@.%@.%@", storePath, 
 		 modelName, storeExtension];
     NSURL *destinationStoreURL = [NSURL fileURLWithPath:storePath];
-    
-    __block NSError*err=NULL;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+    [[controller window] makeKeyAndOrderFront:self];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
 	[manager migrateStoreFromURL:sourceStoreURL 
 				type:type 
 			     options:nil 
@@ -391,26 +390,22 @@ MOC*_sharedMOCManager=nil;
 		    toDestinationURL:destinationStoreURL 
 		     destinationType:type 
 		  destinationOptions:nil 
-			       error:&err];
-	dispatch_async(dispatch_get_main_queue(),^{
+			       error:error];
+//	dispatch_async(dispatch_get_main_queue(),^{
 	    [[NSApplication sharedApplication] stopModal];
-	});
-    });
-    [[NSApplication sharedApplication] runModalForWindow:[controller window]];
+//	});
+//    });
+//    [[NSApplication sharedApplication] runModalForWindow:[controller window]];
     [controller close];
-    if(error){
-	*error=err;
-    }
-    if(err){
-	return nil;
+    if(*error){
+	return NO;
     }
     //END:progressivelyMigrateURLMigrate
     //Migration was successful, move the files around to preserve the source
     //START:progressivelyMigrateURLMoveAndRecurse
-    NSString *appSupportPath = [storePath stringByDeletingLastPathComponent];
     NSString*name=[[sourceStoreURL lastPathComponent] stringByDeletingPathExtension];
     name=[name stringByAppendingFormat:@"~.%@",storeExtension];
-    NSString *backupPath = [appSupportPath stringByAppendingPathComponent:name];
+    NSString *backupPath = [[self applicationSupportFolder] stringByAppendingPathComponent:name];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager fileExistsAtPath:backupPath]){
@@ -432,6 +427,9 @@ MOC*_sharedMOCManager=nil;
 			      error:nil];
 	return NO;
     }
+    
+    [[NSGarbageCollector defaultCollector] collectExhaustively];
+    
     //We may not be at the "current" model yet, so recurse
     return [self progressivelyMigrateURL:sourceStoreURL
 				  ofType:type 
@@ -453,16 +451,9 @@ MOC*_sharedMOCManager=nil;
 		   @"Spinning rainbow cursor will appear, but please wait patiently until it finishes. "
 		   @"Force quitting might corrupt the database."];
     [alert runModal];      
-    NSString*filePath=[self dataFilePath];
-    NSString*storeType=NSBinaryStoreType;
-    if([filePath hasSuffix:@"xml"]){
-	storeType=NSXMLStoreType;
-    }else if([filePath hasSuffix:@"sqlite"]){
-	storeType=NSSQLiteStoreType;
-    }
-    NSError *error = nil;
-    if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:filePath]
-				ofType:storeType
+    NSError*error=nil;
+    if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:[self dataFilePath]]
+				ofType:[self storeType]
 			       toModel:[self managedObjectModel]
 				 error:&error]) {
 	[[NSApplication sharedApplication] presentError:error];

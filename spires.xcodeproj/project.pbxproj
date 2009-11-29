@@ -93,14 +93,12 @@
 		338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */; };
 		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
 		3391CBAD0FFADB8B00A52D6E /* DropAcceptingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */; };
-		339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C00F58ED7B00E85044 /* AppDelegate.m */; };
-		339456C30F58ED8600E85044 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 339456C20F58ED8600E85044 /* main.m */; };
-		339456D10F58ED9800E85044 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 339456CA0F58ED9800E85044 /* MainMenu.xib */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
 		339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */; };
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
+		33A2DBF210C1DDFD0008C14A /* ArticleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2DBF110C1DDFD0008C14A /* ArticleData.m */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
@@ -323,12 +321,6 @@
 		3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXKeyCopyOperation.m; sourceTree = "<group>"; };
 		3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingTextField.h; sourceTree = "<group>"; };
 		3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingTextField.m; sourceTree = "<group>"; };
-		339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpiresQuickLookHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		339456BF0F58ED7B00E85044 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = QuickLookHelper/AppDelegate.h; sourceTree = "<group>"; };
-		339456C00F58ED7B00E85044 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = QuickLookHelper/AppDelegate.m; sourceTree = "<group>"; };
-		339456C20F58ED8600E85044 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = QuickLookHelper/main.m; sourceTree = "<group>"; };
-		339456CB0F58ED9800E85044 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = QuickLookHelper/English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		339456E80F58EEC400E85044 /* SpiresQuickLookHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SpiresQuickLookHelper-Info.plist"; sourceTree = "<group>"; };
 		339544DA0F35277200D01E97 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
 		339544DB0F35277200D01E97 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
 		3395458D0F3539B600D01E97 /* AppChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppChooser.h; sourceTree = "<group>"; };
@@ -338,6 +330,7 @@
 		339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivMetadataFetchOperation.h; sourceTree = "<group>"; };
 		339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivMetadataFetchOperation.m; sourceTree = "<group>"; };
 		3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = parseTeXandEmitPlist.perl; sourceTree = "<group>"; };
+		33A2DBF110C1DDFD0008C14A /* ArticleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleData.m; sourceTree = "<group>"; };
 		33A51E330F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPSearchFieldWithProgressIndicator.h; sourceTree = "<group>"; };
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
@@ -432,13 +425,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		339456B50F58ED3D00E85044 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33C8D52B0F6F574300EBF26C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -535,7 +521,6 @@
 				8D1107320486CEB800E47090 /* spires.app */,
 				33D8AA610EAA679C00619A6F /* spiresHook.bundle */,
 				33E755160F58E38000A21A86 /* pdfScanHelper */,
-				339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */,
 				33C8D52D0F6F574300EBF26C /* Spires IM.app */,
 			);
 			name = Products;
@@ -560,7 +545,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				33D8AA5A0EAA675600619A6F /* spiresHook */,
 				33E755ED0F58EB6200A21A86 /* pdfScanHelper */,
-				339456BE0F58ED5600E85044 /* SpiresQuickLookHelper */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				33C8D5340F6F574E00EBF26C /* SpiresInputMethod */,
@@ -726,18 +710,6 @@
 				338E9EBD1037C58C0059AE43 /* MessageViewer.xib */,
 			);
 			name = MessageViewer;
-			sourceTree = "<group>";
-		};
-		339456BE0F58ED5600E85044 /* SpiresQuickLookHelper */ = {
-			isa = PBXGroup;
-			children = (
-				339456E80F58EEC400E85044 /* SpiresQuickLookHelper-Info.plist */,
-				339456CA0F58ED9800E85044 /* MainMenu.xib */,
-				339456BF0F58ED7B00E85044 /* AppDelegate.h */,
-				339456C20F58ED8600E85044 /* main.m */,
-				339456C00F58ED7B00E85044 /* AppDelegate.m */,
-			);
-			name = SpiresQuickLookHelper;
 			sourceTree = "<group>";
 		};
 		3395454D0F352F5A00D01E97 /* Controllers */ = {
@@ -957,6 +929,7 @@
 				338764990EAC5D8800042601 /* JournalEntry.h */,
 				3387649A0EAC5D8800042601 /* JournalEntry.m */,
 				33F1981210C04D98001F3F0F /* ArticleData.h */,
+				33A2DBF110C1DDFD0008C14A /* ArticleData.m */,
 				33B39E6E0EA4325E00734A06 /* Article.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
 				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
@@ -967,23 +940,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "SpiresQuickLookHelper" */;
-			buildPhases = (
-				339456B30F58ED3D00E85044 /* Resources */,
-				339456B40F58ED3D00E85044 /* Sources */,
-				339456B50F58ED3D00E85044 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SpiresQuickLookHelper;
-			productName = QuickLookHelper;
-			productReference = 339456B70F58ED3D00E85044 /* SpiresQuickLookHelper.app */;
-			productType = "com.apple.product-type.application";
-		};
 		33C8D52C0F6F574300EBF26C /* SpiresInputMethod */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33C8D5320F6F574500EBF26C /* Build configuration list for PBXNativeTarget "SpiresInputMethod" */;
@@ -1071,21 +1027,12 @@
 				8D1107260486CEB800E47090 /* spires */,
 				33D8AA600EAA679C00619A6F /* spiresHook */,
 				33E755150F58E38000A21A86 /* pdfScanHelper */,
-				339456B60F58ED3D00E85044 /* SpiresQuickLookHelper */,
 				33C8D52C0F6F574300EBF26C /* SpiresInputMethod */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		339456B30F58ED3D00E85044 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				339456D10F58ED9800E85044 /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33C8D5290F6F574300EBF26C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1178,15 +1125,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		339456B40F58ED3D00E85044 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				339456C10F58ED7B00E85044 /* AppDelegate.m in Sources */,
-				339456C30F58ED8600E85044 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33C8D52A0F6F574300EBF26C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1310,6 +1248,7 @@
 				33F1970910C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m in Sources */,
 				33F1991A10C0853F001F3F0F /* MigrationProgressController.m in Sources */,
 				332535E410C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m in Sources */,
+				33A2DBF210C1DDFD0008C14A /* ArticleData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,14 +1275,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				331AAB620EB7D9C5000AB5D0 /* English */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		339456CA0F58ED9800E85044 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				339456CB0F58ED9800E85044 /* English */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1443,7 +1374,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1464,56 +1395,6 @@
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WARNING_CFLAGS = "";
-			};
-			name = Release;
-		};
-		339456BA0F58ED3E00E85044 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "SpiresQuickLookHelper-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = QuickLookHelper;
-			};
-			name = Debug;
-		};
-		339456BB0F58ED3E00E85044 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "SpiresQuickLookHelper-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = SpiresQuickLookHelper;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1687,15 +1568,6 @@
 			buildConfigurations = (
 				26FC0A890875C7B200E6366F /* Debug */,
 				26FC0A8A0875C7B200E6366F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		339456BC0F58ED3E00E85044 /* Build configuration list for PBXNativeTarget "SpiresQuickLookHelper" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				339456BA0F58ED3E00E85044 /* Debug */,
-				339456BB0F58ED3E00E85044 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

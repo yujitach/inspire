@@ -153,7 +153,7 @@
 	    t=[self transformBibtexToXML:t];
 	}
 	doc=[[NSXMLDocument alloc] initWithXMLString:t options:0 error:&error];
-	if(error){
+	if(!doc){
 	    NSLog(@"xml problem:%@",error);
 	    NSString*text=[NSString stringWithFormat:@"Please report it and help develop this app.\n"
 			   @"Clicking Yes will open up an email.\n"
