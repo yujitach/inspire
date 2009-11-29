@@ -72,6 +72,16 @@
 	    goto BAIL;
 	abstract=[a objectAtIndex:0];
     }else if(
+	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"IOPJournals"] containsObject:journalName]
+	     ){
+	NSArray*a=[content componentsSeparatedByString:@"Abstract.</strong>"];
+	if([a count]<2)
+	    goto BAIL;
+	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</p>"];
+	if([a count]<1)
+	    goto BAIL;
+	abstract=[a objectAtIndex:0];
+    }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"Abstract&nbsp;&nbsp;</span>"];

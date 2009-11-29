@@ -160,7 +160,7 @@
 	return [Article articleWithEprint:idToLookUp inMOC:moc];
     }
     if([idToLookUp rangeOfString:@","].location!=NSNotFound){
-	return [Article articleWith:idToLookUp
+	return [Article articleWith:[idToLookUp uppercaseString]
 		       inDataForKey:@"spicite"
 			      inMOC:moc];
     }

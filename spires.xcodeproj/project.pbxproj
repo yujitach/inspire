@@ -57,7 +57,7 @@
 		334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5F0F360E050078D121 /* NSImage+BWAdditions.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		334A3A740F360E060078D121 /* NSColor+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A620F360E060078D121 /* NSColor+BWAdditions.m */; };
 		334A3A780F360E060078D121 /* BWAnchoredButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6A0F360E060078D121 /* BWAnchoredButtonCell.m */; };
-		334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */; };
+		334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6C0F360E060078D121 /* BWAnchoredButtonBar.m */; settings = {COMPILER_FLAGS = "-Wno-error -Wno-extra"; }; };
 		334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A6E0F360E060078D121 /* BWAnchoredButton.m */; };
 		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
 		334A6D270F96E02E005BC4A2 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; };
@@ -65,7 +65,7 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
-		335937790F40052D00E3A39E /* BWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335937770F40052D00E3A39E /* BWSplitView.m */; };
+		335937790F40052D00E3A39E /* BWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335937770F40052D00E3A39E /* BWSplitView.m */; settings = {COMPILER_FLAGS = "-Wno-error -Wno-shadow"; }; };
 		3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */; };
 		3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */ = {isa = PBXBuildFile; fileRef = 3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */; };
 		33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33649D1B0FFA8AF50002B187 /* WaitOperation.m */; };
@@ -133,7 +133,7 @@
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33D8ADA20EAA69F500619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DE54190F71B0EE004E3A5C /* BWAnchoredPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */; };
-		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
+		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; settings = {COMPILER_FLAGS = "-Wno-error"; }; };
 		33DE54230F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */; };
 		33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */; };
 		33E7551E0F58E3CB00A21A86 /* pdfScanHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E7551D0F58E3CB00A21A86 /* pdfScanHelper.m */; };
@@ -1299,12 +1299,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
-				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1327,12 +1326,17 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
-				WARNING_CFLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wextra",
+					"-Wno-sign-compare",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1344,7 +1348,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1374,7 +1378,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1394,7 +1398,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				WARNING_CFLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+				);
 			};
 			name = Release;
 		};

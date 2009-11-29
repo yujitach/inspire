@@ -97,6 +97,12 @@
 	    pdf=[@"http://www.sciencedirect.com" stringByAppendingString:s];
 	}		
     }
+    if(!pdf){ //IOP
+	NSString*s=[html stringByMatching:@"<meta name=\"citation_pdf_url\"(.+?)/>" capture:1];
+	if(s){
+	    pdf=[s stringByMatching:@"content=\"(.+pdf)\"" capture:1];
+	}
+    }
     if(!pdf){ // World Scientific
 	NSArray*a=[html componentsSeparatedByString:@"<td class=\"jntitle\">"];
 	if([a count]>1){

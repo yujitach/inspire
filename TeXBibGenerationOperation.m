@@ -75,10 +75,10 @@ static NSMutableArray*instances;
     if(!twice){
 	return;
     }
-    NSMutableString*log=[NSMutableString string];
+    NSMutableString*logString=[NSMutableString string];
     NSMutableArray*ops=[NSMutableArray array];
     for(NSString*idToLookUp in array){
-	[log appendFormat:@"%@ ",idToLookUp];
+	[logString appendFormat:@"%@ ",idToLookUp];
 	NSString*query=nil;
 	if([idToLookUp hasPrefix:@"arXiv:"]){
 	    idToLookUp=[idToLookUp substringFromIndex:[(NSString*)@"arXiv:" length]];
@@ -98,8 +98,8 @@ static NSMutableArray*instances;
 	[[OperationQueues spiresQueue] addOperation:op];
 	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
-    [log appendString:@" not found in local database. Looking up...\n"];
-    [[TeXWatcherController sharedController]addToLog:log];
+    [logString appendString:@" not found in local database. Looking up...\n"];
+    [[TeXWatcherController sharedController]addToLog:logString];
     NSOperation*op=[[TeXBibGenerationOperation alloc] initWithTeXFile:texFile 
 							       andMOC:moc
 						       byLookingUpWeb:NO];

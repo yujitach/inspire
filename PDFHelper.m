@@ -125,7 +125,7 @@ NSString* pathShownWithQuickLook=nil;
 {
     return pathShownWithQuickLook?1:0;
 }
-- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)i
 {
     return [[QuickLookPDFItem alloc] init];
 }
@@ -166,12 +166,17 @@ NSString* pathShownWithQuickLook=nil;
 
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 {
-    NSString* journalName=o.journal.name;
     if(![[SpiresHelper sharedHelper] isOnline])
 	return NO;
 
+    NSString* doi=o.doi;
+    if(!doi || [doi isEqualToString:@""])
+	return NO;
+    
+    NSString* journalName=o.journal.name;
     if(!journalName || [journalName isEqualToString:@""])
 	return NO;
+    
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];
     if([[defaults arrayForKey:@"KnownJournals"] containsObject:journalName]){
 	[[OperationQueues spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];

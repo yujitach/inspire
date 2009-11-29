@@ -294,12 +294,12 @@
     [cell setImage: al.icon];
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedItem:(NSTreeNode*)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedItem:(NSTreeNode*)item proposedChildIndex:(NSInteger)ind
 {
     
     ArticleList*al=[item representedObject];
     if([[[info draggingPasteboard] types] containsObject:ArticleDropPboardType]){
-	if(index!=-1)
+	if(ind!=-1)
 	    return NSDragOperationNone;
 	if(!item)
 	    return NSDragOperationNone;	    
@@ -309,7 +309,6 @@
 	    return NSDragOperationCopy; 
     }
     if([[[info draggingPasteboard] types] containsObject:ArticleListDropPboardType]){
-	ArticleList*al=[item representedObject];
 	if(al && ![al isKindOfClass:[ArticleFolder class]])
 	    return NSDragOperationNone;
 	else
@@ -343,7 +342,7 @@
 	return NO;
     return [self articleList:al.parent hasAncestor:o];
 }
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(NSTreeNode*)item childIndex:(NSInteger)index {
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(NSTreeNode*)item childIndex:(NSInteger)ind {
     
     NSManagedObjectContext* moc=[MOC moc];
     if([[[info draggingPasteboard] types] containsObject:ArticleDropPboardType]){
@@ -380,8 +379,8 @@
 	[droppedObjects addObject:dropped];
 	[droppedNodes addObject:n];
     }
-    if(index==-1)
-	index=0;
+    if(ind==-1)
+	ind=0;
     NSArray*ch=[self articleListsInArticleList:al];
     
 //    for(ArticleList*aa in ch){
@@ -389,18 +388,18 @@
 //    }
 //    NSLog(@"dropping into index:%d",index);
     for(int c=0;c<[droppedObjects count];c++){
-	ArticleList*al=[droppedObjects objectAtIndex:c];
-	al.positionInView=[NSNumber numberWithInteger:2*(index+c)];	
+	ArticleList*dropped=[droppedObjects objectAtIndex:c];
+	dropped.positionInView=[NSNumber numberWithInteger:2*(ind+c)];	
 //	NSLog(@"al:%@ now at %@",al.name,al.positionInView);
     }
-    for(int c=index;c<[ch count];c++){
-	ArticleList*al=[ch objectAtIndex:c];
-	if([droppedObjects containsObject:al])
+    for(int c=ind;c<[ch count];c++){
+	ArticleList*pre=[ch objectAtIndex:c];
+	if([droppedObjects containsObject:pre])
 	    continue;
-	al.positionInView=[NSNumber numberWithInteger:2*(c+[paths count])];
+	pre.positionInView=[NSNumber numberWithInteger:2*(c+[paths count])];
 //	NSLog(@"al:%@ now at %@",al.name,al.positionInView);
     }
-    [articleListController moveNodes:droppedNodes toIndexPath:[[item indexPath] indexPathByAddingIndex:index]];
+    [articleListController moveNodes:droppedNodes toIndexPath:[[item indexPath] indexPathByAddingIndex:ind]];
 //    [articleListController rearrangeObjects];
 //    [self rearrangePositionInViewForArticleListsInArticleList:[item representedObject]];
     [self rearrangePositionInViewForArticleLists];

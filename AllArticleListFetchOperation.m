@@ -10,7 +10,7 @@
 #import "AllArticleList.h"
 #import "DumbOperation.h"
 #import "MOC.h"
-
+#include <objc/objc-auto.h>
 
 @interface AllArticleListFetchOperation : NSOperation {
     NSManagedObjectContext* moc;

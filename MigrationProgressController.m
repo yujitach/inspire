@@ -22,7 +22,7 @@
 }
 -(void)awakeFromNib
 {
-    [pi startAnimation:YES];
+    [pi startAnimation:self];
     [pi setUsesThreadedAnimation:YES];
 }
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

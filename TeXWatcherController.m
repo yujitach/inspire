@@ -181,7 +181,7 @@ static TeXWatcherController*_shared;
 #pragma mark Drag-and-Drop support
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
+//    NSDragOperation sourceDragMask;
     
 //    sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];
@@ -193,7 +193,7 @@ static TeXWatcherController*_shared;
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
+//    NSDragOperation sourceDragMask;
     
 //    sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];

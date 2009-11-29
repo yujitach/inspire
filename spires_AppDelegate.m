@@ -68,6 +68,10 @@ NSString *ArticleListDropPboardType=@"articleListDropType";
 
 spires_AppDelegate*_shared=nil;
 
+@interface spires_AppDelegate (private)
+-(void)timerFired:(NSTimer*)t;
+@end
+
 @implementation spires_AppDelegate
 +(void)initialize
 {
@@ -80,6 +84,7 @@ spires_AppDelegate*_shared=nil;
     NSArray* elsevierJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"];
     NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
     NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
+    NSArray* iopJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"IOPJournals"];
     NSArray* springerJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"];
     NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
     NSArray* ptpJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"PTPJournals"];
@@ -87,6 +92,7 @@ spires_AppDelegate*_shared=nil;
     [knownJournals addObjectsFromArray:elsevierJournals];
     [knownJournals addObjectsFromArray:apsJournals];
     [knownJournals addObjectsFromArray:aipJournals];
+    [knownJournals addObjectsFromArray:iopJournals];
     [knownJournals addObjectsFromArray:springerJournals];
     [knownJournals addObjectsFromArray:wsJournals];
     [knownJournals addObjectsFromArray:ptpJournals];
@@ -419,7 +425,7 @@ spires_AppDelegate*_shared=nil;
 	    }
 	}
     }else if([keyPath isEqualToString:@"arrangedObjects"]){
-	int num=[[ac arrangedObjects] count];
+	NSInteger num=[[ac arrangedObjects] count];
 	NSString*head=@"spires";
 //	NSArray*a=[articleListController selectedObjects];
 //    if(a && [a count]>0){
@@ -467,7 +473,8 @@ spires_AppDelegate*_shared=nil;
     [op setMessage:@"Choose the SPIRES XML files to import..."];
     [op setPrompt:@"Choose"];
     [op setAllowsMultipleSelection:YES];
-    int res=[op runModalForDirectory:nil file:nil types:[NSArray arrayWithObjects:@"spires_xml",nil]];
+    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"spires_xml",nil]];
+    NSInteger res=[op runModal];
     if(res==NSOKButton){
 	if(!importerController){
 	    importerController=[[ImporterController alloc] init];//WithAppDelegate:self];
@@ -504,17 +511,17 @@ spires_AppDelegate*_shared=nil;
     if(a.abstract && ![a.abstract isEqualToString:@""]){
 	NSArray* aaa=[ac arrangedObjects];
 	if(!aaa || [aaa count]==0) return;
-	int threshold=[[NSUserDefaults standardUserDefaults] integerForKey:@"eagerMetadataQueryThreshold"];
-	int j=[aaa indexOfObject:a];
+	int threshold=(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"eagerMetadataQueryThreshold"];
+	int j=(int)[aaa indexOfObject:a];
 	int i;
-	for(i=j;i<[aaa count] && i<j+threshold ;i++){
+	for(i=j;i<(int)[aaa count] && i<j+threshold ;i++){
 	    a=[aaa objectAtIndex:i];
 	    if(!a.eprint && !a.doi)
 		continue;
 	    if(!a.abstract || [a.abstract isEqualToString:@""])
 		break;
 	}
-	if(i==[aaa count]||i==j+threshold)
+	if(i==(int)[aaa count]||i==j+threshold)
 	    return;
 	if(!a)
 	    return;
@@ -534,7 +541,7 @@ spires_AppDelegate*_shared=nil;
     }
     countDown=(int)GRACE;
     if(countDown<GRACEMIN){
-	countDown=GRACEMIN;
+	countDown=(int)GRACEMIN;
     }
 }
 //#pragma mark Split View Delegates
@@ -688,7 +695,7 @@ spires_AppDelegate*_shared=nil;
 -(void)sendBugReport:(id)sender
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-    int entries=[[allArticleList articles] count];
+    NSInteger entries=[[allArticleList articles] count];
     NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
     NSNumber* size=[dict valueForKey:NSFileSize];
     [[NSWorkspace sharedWorkspace]
@@ -952,6 +959,13 @@ spires_AppDelegate*_shared=nil;
     }
 }
 
+- (void) infoAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+{
+    if ([[alert suppressionButton] state] == NSOnState) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
+    }
+}
+
 -(void)showInfoOnAssociation
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"alreadyShownInfoOnAssociation"])
@@ -967,12 +981,6 @@ spires_AppDelegate*_shared=nil;
 		      modalDelegate:self
 		     didEndSelector:@selector(infoAlertDidEnd:returnCode:contextInfo:)
 			contextInfo:nil];    
-}
-- (void) infoAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-{
-    if ([[alert suppressionButton] state] == NSOnState) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
-    }
 }
 
 
@@ -1228,7 +1236,7 @@ spires_AppDelegate*_shared=nil;
 
                 else {
 					
-                    int alertReturn = NSRunAlertPanel(nil, @"Could not save changes while quitting. Quit anyway?" , @"Quit anyway", @"Cancel", nil);
+                    NSInteger alertReturn = NSRunAlertPanel(nil, @"Could not save changes while quitting. Quit anyway?" , @"Quit anyway", @"Cancel", nil);
                     if (alertReturn == NSAlertAlternateReturn) {
                         reply = NSTerminateCancel;	
                     }

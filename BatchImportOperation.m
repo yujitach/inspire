@@ -21,7 +21,7 @@
 @interface BatchImportOperation (internal)
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a;
 @end
-@interface ImportPair:NSObject
+/*@interface ImportPair:NSObject
 {
     Article*a;
     NSXMLElement*e;
@@ -38,7 +38,7 @@
     a=o;e=x;
     return self;
 }
-@end
+@end*/
 
 
 @implementation BatchImportOperation
@@ -56,21 +56,12 @@ l{
     citedByTarget=c;
     refersToTarget=r;
     list=l;
-    if(citedByTarget||refersToTarget||list){
+/*    if(citedByTarget||refersToTarget||list){
 	NSError*error=nil;
 	BOOL success=[[MOC moc] save:&error];
 	if(!success){
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
-    }
-/*    if(citedByTarget){
-	citedByTarget=(Article*)[moc objectWithID:[citedByTarget objectID]];
-    }
-    if(refersToTarget){
-	refersToTarget=(Article*)[moc objectWithID:[refersToTarget objectID]];
-    }
-    if(list){
-	list=(ArticleList*)[moc objectWithID:[list objectID]];
     }*/
     delegate=[NSApp delegate];
     return self;
@@ -217,9 +208,6 @@ l{
 
 -(void)setAndRefreshArticles:(NSArray*)x
 {
-    for(ImportPair*z in x){
-	[self populatePropertiesOfArticle:z.a fromXML:z.e];
-    }
     NSError*error=nil;
     BOOL success=[moc save:&error];
     if(!success){
@@ -227,37 +215,103 @@ l{
     }
 
     NSMutableArray*objectIDsToBeRefreshed=[NSMutableArray array];
-    for(ImportPair*z in x){
-	[objectIDsToBeRefreshed addObject:[z.a objectID]];
+    for(Article*z in x){
+	[objectIDsToBeRefreshed addObject:[z objectID]];
     }
 
     [self performSelectorOnMainThread:@selector(refreshManagedObjectsOnMainMocMainWork:) withObject:objectIDsToBeRefreshed waitUntilDone:YES];    
 }
-
+-(void)batchLoadArticlesFromArticleDatas:(NSArray*)datas
+{
+    NSMutableArray*a=[NSMutableArray array];
+    for(ArticleData*d in datas){
+	[a addObject:d.article];
+    }
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"self IN %@",a];
+    [req setPredicate:pred];
+    [req setIncludesPropertyValues:YES];
+    [req setReturnsObjectsAsFaults:NO];
+    NSError*error=nil;
+    [moc executeFetchRequest:req error:&error];    
+}
+-(NSArray*)articlesFromElements:(NSMutableArray*)a withXMLKey:(NSString*)xmlKey andKey:(NSString*)key
+{
+    if([a count]==0)
+	return nil;
+    NSMutableDictionary*dict=[NSMutableDictionary dictionary];
+    for(NSXMLElement*e in a){
+	NSString*v=[self valueForKey:xmlKey inXMLElement:e];
+	[dict setObject:e forKey:v];
+    }
+    NSArray*values=[dict allKeys];
+    values=[values sortedArrayUsingSelector:@selector(compare:)];
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K IN %@",key,values];
+    [req setPredicate:pred];
+    [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"article"]];
+    [req setReturnsObjectsAsFaults:NO];
+    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:key
+										   ascending:YES]]];
+	    NSError*error=nil;
+    NSArray*datas=[moc executeFetchRequest:req error:&error];
+    [self batchLoadArticlesFromArticleDatas:datas];
+    NSMutableArray*results=[NSMutableArray array];
+    for(ArticleData*d in datas){
+	Article*article=d.article;
+	id obj=[d valueForKey:key];
+	NSString*v=obj;
+	if([obj isKindOfClass:[NSNumber class]]){
+	    v=[(NSNumber*)obj stringValue];
+	}
+	NSXMLElement*e=[dict objectForKey:v];
+//	NSLog(@"%@=%@ found, %@",key,v,e);
+	[self populatePropertiesOfArticle:article fromXML:e];
+	[results addObject:article];
+	[a removeObject:e];
+    }
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    for(NSXMLElement*e in a){
+//	NSLog(@"%@=%@ not found, %@",key,[self valueForKey:xmlKey inXMLElement:e],e);
+	Article*article=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
+	[self populatePropertiesOfArticle:article fromXML:e];
+	[results addObject:article];
+    }
+    return results;
+}
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
 {
- //   [moc disableUndo];
-    NSMutableArray*prex=[NSMutableArray array];
-    NSMutableArray*nonx=[NSMutableArray array];
-    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    NSMutableArray*lookForEprint=[NSMutableArray array];
+    NSMutableArray*lookForSpiresKey=[NSMutableArray array];
+    NSMutableArray*lookForTitle=[NSMutableArray array];
     for(NSXMLElement*element in a){
-	Article*c=[self preExistingArticleForXML:element];
-	if(c){
-	    [prex addObject:[[ImportPair alloc]initWithArticle:c andXML:element]];
-	}else{
-	    c=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
-	    [nonx addObject:[[ImportPair alloc]initWithArticle:c andXML:element]];
+	NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
+	NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
+	NSString*title=[self valueForKey:@"title" inXMLElement:element];
+	if(eprint){
+	    [lookForEprint addObject:element];
+	}else if(spiresKey){
+	    [lookForSpiresKey addObject:element];
+	}else if(title){
+	    [lookForTitle addObject:element];
 	}
     }
-    [self setAndRefreshArticles:nonx];
-    [self setAndRefreshArticles:prex];
+    
+    NSMutableArray*articles=[NSMutableArray array];
+    [articles addObjectsFromArray:[self articlesFromElements:lookForEprint withXMLKey:@"eprint" andKey:@"eprint"]];
+    [articles addObjectsFromArray:[self articlesFromElements:lookForSpiresKey withXMLKey:@"spires_key" andKey:@"spiresKey"]];
+    [articles addObjectsFromArray:[self articlesFromElements:lookForTitle withXMLKey:@"title" andKey:@"title"]];
+    [self setAndRefreshArticles:articles];
 
 
-    if([nonx count]==1){
-	ImportPair*p=[nonx objectAtIndex:0];
-	Article*a=p.a;
-	a=(Article*)[[MOC moc] objectWithID:[a objectID]];
-	NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:a]];
+    if([articles count]==1){
+	Article*article=[articles objectAtIndex:0];
+	NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:article]];
 	if(parent){
 	    [parent addDependency:op];
 	}
@@ -280,7 +334,6 @@ l{
     
     if(citedByTarget){
 	[citedByTarget addCitedBy:x];
-	//	NSLog(@"%@ cited by %@",citedByTarget.eprint,o.eprint);	
     }
     if(refersToTarget){
 	[refersToTarget addRefersTo:x];
