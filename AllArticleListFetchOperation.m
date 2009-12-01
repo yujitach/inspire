@@ -59,6 +59,21 @@ void warmUpIfSuitable(void)
     NSError*error=nil;
     [moc executeFetchRequest:req error:&error];
 }
+-(void)ad
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    [req setPredicate:[NSPredicate predicateWithFormat:@"article == nil"]];
+    [req setReturnsObjectsAsFaults:YES];
+    [req setIncludesPropertyValues:NO];
+    NSError*error=nil;
+    NSArray*a=[moc executeFetchRequest:req error:&error];    
+    NSLog(@"found %d orphaned ArticleData's",(int)[a count]);
+    for(NSManagedObject*x in a){
+	[[MOC moc] deleteObject:x];
+    }
+}
 -(void)fetch:(NSUInteger)count
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
@@ -85,6 +100,7 @@ void warmUpIfSuitable(void)
      */
     @synchronized(moc){
 	[self fetch:0];
+//	[self ad];
 //	[self fetchlist];
     }
 }

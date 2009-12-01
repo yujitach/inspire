@@ -130,6 +130,9 @@ MOC*_sharedMOCManager=nil;
 }
 - (BOOL)migrationNeeded
 {
+    if(![[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath]]){
+	return NO;
+    }
     NSError*error=nil;
     NSDictionary *sourceMetadata =
     [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:[self storeType]

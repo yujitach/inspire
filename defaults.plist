@@ -143,6 +143,14 @@
 			<string>×</string>
 		</array>
 		<array>
+			<string>\\v\{c\}</string>
+			<string>č</string>
+		</array>
+		<array>
+			<string>\\v c</string>
+			<string>č</string>
+		</array>
+		<array>
 			<string>\\v\{r\}</string>
 			<string>ř</string>
 		</array>

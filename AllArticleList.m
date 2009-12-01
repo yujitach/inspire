@@ -7,8 +7,9 @@
 //
 
 #import "AllArticleList.h"
+#import "MOC.h"
 
-
+static AllArticleList*_allArticleList=nil;
 @implementation AllArticleList 
 
 +(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc
@@ -54,7 +55,19 @@
     NSArray*a=[moc executeFetchRequest:req error:&error];
     NSSet* s=[NSSet setWithArray:a];
     [mo addArticles:s];
+    error=nil;
+    [moc save:&error];
     return mo;    
+}
++(AllArticleList*)allArticleList
+{
+    if(!_allArticleList){
+	_allArticleList=[self allArticleListInMOC:[MOC moc]];
+    }
+    if(!_allArticleList){
+	_allArticleList=[self createAllArticleListInMOC:[MOC moc]];
+    }
+    return _allArticleList;
 }
 -(void)reload
 {

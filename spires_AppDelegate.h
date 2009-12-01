@@ -43,7 +43,6 @@
     MessageViewerController*messageViewerController;
     ArxivNewCreateSheetHelper*arxivNewCreateSheetHelper;
     int countDown;
-    ArticleList* allArticleList;
     
   /*  NSMutableArray* arxivLists;
     NSMutableArray* articleLists;*/

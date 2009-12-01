@@ -12,7 +12,8 @@
 #import "MOC.h"
 
 #import "Article.h"
-#import "Author.h"
+#import "ArticleData.h"
+//#import "Author.h"
 #import "JournalEntry.h"
 
 #import "ArxivHelper.h"
@@ -373,7 +374,6 @@ spires_AppDelegate*_shared=nil;
     [self setupServices];
     [self checkOSVersion];
 
-    allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
     [self startUpdatingMainView:self];
     [self crashCheck:self];
     if(![[SpiresHelper sharedHelper] isOnline]){
@@ -695,7 +695,7 @@ spires_AppDelegate*_shared=nil;
 -(void)sendBugReport:(id)sender
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-    NSInteger entries=[[allArticleList articles] count];
+    NSInteger entries=[[[AllArticleList allArticleList] articles] count];
     NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
     NSNumber* size=[dict valueForKey:NSFileSize];
     [[NSWorkspace sharedWorkspace]
@@ -732,11 +732,6 @@ spires_AppDelegate*_shared=nil;
 }
 -(IBAction)deleteEntry:(id)sender
 {
-/*    if([[articleListController selectedObjects] count]!=1){
-	NSBeep();
-	return;
-    }*/
-//    ArticleList* al=[[articleListController selectedObjects]objectAtIndex:0];
     ArticleList* al=[sideTableViewController currentArticleList];
     if(!al){
 	NSBeep(); 
@@ -745,6 +740,11 @@ spires_AppDelegate*_shared=nil;
     NSArray*a=[ac selectedObjects];
     if([al isKindOfClass:[AllArticleList class]]){
 	for(Article*x in a){
+	    // deleting x should be enough when the delete rules are correctly set up in mom,
+	    // but somehow it doesn't work! so I manually delete 'em...
+	    [al removeArticlesObject:x];
+	    ArticleData*d=x.data;
+	    [[self managedObjectContext] deleteObject:d];
 	    [[self managedObjectContext] deleteObject:x];
 	}
     }else if([al isKindOfClass:[SimpleArticleList class]]){
@@ -774,7 +774,7 @@ spires_AppDelegate*_shared=nil;
     NSString*searchString=al.searchString;
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
-    allArticleList.searchString=searchString;
+    [AllArticleList allArticleList].searchString=searchString;
     [sideTableViewController selectAllArticleList];
     [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
 }
@@ -822,15 +822,7 @@ spires_AppDelegate*_shared=nil;
     for(ArxivNewArticleList*l in a){
 	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
     }
-//    [NSThread detachNewThreadSelector:@selector(reloadAllArticleListMainWork:) toTarget:self withObject:a];
 }
-/*-(void)reloadAllArticleListMainWork:(NSArray*)a
-{
-    for(ArxivNewArticleList* al in a){
-	[al performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
-	[NSThread sleepForTimeInterval:1];
-    }
-}*/
 -(IBAction)openSelectionInQuickLook:(id)sender
 {
     if([[ac selectedObjects] count]==0)return;
@@ -1007,7 +999,7 @@ spires_AppDelegate*_shared=nil;
 	if([d hasSuffix:@"."]){
 	    d=[d substringToIndex:[d length]-1];
 	}
-	for(NSString*cat in [NSArray arrayWithObjects:@"hep-th",@"hep-ph",@"hep-ex",@"astro-ph",@"math-ph",@"math",nil]){
+	for(NSString*cat in [NSArray arrayWithObjects:@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math",nil]){
 	    if([x rangeOfString:cat].location!=NSNotFound){
 		d=[NSString stringWithFormat:@"%@/%@",cat,d];
 		break;
@@ -1018,55 +1010,33 @@ spires_AppDelegate*_shared=nil;
     else return nil;
 }
 
--(void)lookUpEprint:(NSURL*)url
-{
-    NSString*eprint=[self extractArXivID:[url absoluteString]];
-    if(eprint){
-	NSString*searchString=[@"eprint " stringByAppendingString:eprint];
-//	[articleListController setSelectionIndex:0];
-	[sideTableViewController selectAllArticleList];
-//	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
-	allArticleList.searchString=searchString;
-//	[self querySPIRES:searchString];
-	[self performSelector:@selector(querySPIRES:) 
-		   withObject:searchString 
-		   afterDelay:1];
-    }
-}
 -(void)handleURL:(NSURL*) url
 {
     NSLog(@"handles %@",url);
     if([[url scheme] isEqualTo:@"spires-search"]){
 	NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//	NSLog(@"%@",searchString);
-//	[articleListController setSelectionIndex:0];
-//	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:0]];
 	[sideTableViewController selectAllArticleList];
+	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	if(![allArticleList.searchString isEqualToString:searchString]){
 	    [historyController mark:self];
 	}
 	allArticleList.searchString=searchString;
 	[historyController mark:self];
 	[self querySPIRES:searchString];
-    }/*else if([[url scheme] isEqualTo:@"spires-download-and-open-pdf-internal"]){
-	Article*o=[[ac selectedObjects] objectAtIndex:0];
-	if(!o)
-	    return;
-	[pi startAnimation:self];
-	[[ArxivHelper sharedHelper] startDownloadPDFforID:o.eprint
-						 delegate:self 
-					   didEndSelector:@selector(pdfDownloadDidEnd:)
-						 userInfo:o];
-    }*/else if([[url scheme] isEqualTo:@"spires-open-pdf-internal"]){
+    }else if([[url scheme] isEqualTo:@"spires-open-pdf-internal"]){
 	[self openPDF:self];
     }else if([[url scheme] isEqualTo:@"spires-lookup-eprint"]){
-	[self lookUpEprint:url];
+	NSString*eprint=[self extractArXivID:[url absoluteString]];
+	if(eprint){
+	    NSString*searchString=[@"spires-search://eprint%20" stringByAppendingString:eprint];
+	    [self performSelector:@selector(handleURL:) 
+		       withObject:[NSURL URLWithString:searchString]
+		       afterDelay:1];
+	}	    
     }else if([[url scheme] isEqualTo:@"spires-get-bib-entry"]){
 	[self getBibEntries:self];
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
-//    }else if([[url scheme] isEqualTo:@"spires-quicklook-closed"]){
-//	[[PDFHelper sharedHelper] quickLookDidClose:self];
     }else if([[url scheme] isEqualTo:@"http"]){
 	/*
 	if([[url host] hasSuffix:@"arxiv.org"]||[[url host] hasSuffix:@"arXiv.org"]){

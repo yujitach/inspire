@@ -14,9 +14,9 @@
 {
 }
 
-+(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc;
-+(AllArticleList*)createAllArticleListInMOC:(NSManagedObjectContext*)moc;
-
+//+(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc;
+//+(AllArticleList*)createAllArticleListInMOC:(NSManagedObjectContext*)moc;
++(AllArticleList*)allArticleList; //this returns the allArticleList associated to the main MOC!
 @end
 
 

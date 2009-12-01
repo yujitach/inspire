@@ -15,12 +15,13 @@
 @class spires_AppDelegate;
 @interface BatchImportOperation : NSOperation {
     NSArray*elements;
-    NSManagedObjectContext*moc;
+    NSManagedObjectContext*secondMOC;
     Article*citedByTarget;
     Article*refersToTarget;
     ArticleList*list;
     spires_AppDelegate * delegate;
     NSOperation*parent;
+    NSMutableSet*generated;
 }
 -(BatchImportOperation*)initWithElements:(NSArray*)e 
 				//  andMOC:(NSManagedObjectContext*)m 

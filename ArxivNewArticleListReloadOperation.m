@@ -132,7 +132,7 @@
     }
     
     [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
-    AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:[MOC moc]];
+    AllArticleList*allArticleList=[AllArticleList allArticleList];
     [allArticleList addArticles:x];
     
     al.articles=nil;

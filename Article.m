@@ -57,6 +57,7 @@
 				  insertIntoManagedObjectContext:[self managedObjectContext]];
     self.data=data;
     [self setFlag:AFNone];
+    [super awakeFromInsert];
 }
 /* +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
 {

@@ -192,15 +192,12 @@
 -(void)loadArticleLists:(NSNotification*)notification
 {
 //   [articleListController didChangeArrangementCriteria];
-    BOOL needToSave=NO;
-    allArticleList=[AllArticleList allArticleListInMOC:[self managedObjectContext]];
-    if(!allArticleList){
-	allArticleList=[AllArticleList createAllArticleListInMOC:[self managedObjectContext]];
-	needToSave=YES;
-    }
+    allArticleList=[AllArticleList allArticleList];
 //    allArticleList.positionInView=[NSNumber numberWithInt:0];
 //    allArticleList.searchString=@"";
-    
+
+    BOOL needToSave=NO;
+
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
 	ArticleList*hepph=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];
