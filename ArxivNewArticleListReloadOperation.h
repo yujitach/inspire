@@ -11,7 +11,7 @@
 @class ArxivNewArticleList;
 @interface ArxivNewArticleListReloadOperation : NSOperation {
     ArxivNewArticleList* al;
-    NSManagedObjectContext*moc;
+    NSManagedObjectContext*secondMOC;
     NSString* listName;
 }
 -(NSOperation*)initWithArxivNewArticleList:(ArxivNewArticleList*)a;

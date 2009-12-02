@@ -222,36 +222,36 @@ l{
     [self treatElements:lookForSpiresKey withXMLKey:@"spires_key" andKey:@"spiresKey"];
     [self treatElements:lookForTitle withXMLKey:@"title" andKey:@"title"];
 
-    [self performSelectorOnMainThread:@selector(continuation:) withObject:nil waitUntilDone:YES];
-}
--(void)continuation:(id)neglected
-{
-    AllArticleList*allArticleList=[AllArticleList allArticleList];
-    [allArticleList addArticles:generated];
-
-    if(citedByTarget){
-	[citedByTarget addCitedBy:generated];
-    }
-    if(refersToTarget){
-	[refersToTarget addRefersTo:generated];
-    }
-    //    NSLog(@"add entry:%@",o);
-    if(list){
-	[list addArticles:generated];
-    }
-    NSError*error=nil;
-    BOOL success=[[MOC moc] save:&error];
-    if(!success){
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
-    }
-    if([generated count]==1){
-	Article*article=[generated anyObject];
-	NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:article]];
-	if(parent){
-	    [parent addDependency:op];
+    // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
+    // they're not guaranteed to be serialized!
+    dispatch_async(dispatch_get_main_queue(),^{
+	AllArticleList*allArticleList=[AllArticleList allArticleList];
+	[allArticleList addArticles:generated];
+	
+	if(citedByTarget){
+	    [citedByTarget addCitedBy:generated];
 	}
-	[[OperationQueues spiresQueue] addOperation:op];
-    }
+	if(refersToTarget){
+	    [refersToTarget addRefersTo:generated];
+	}
+	//    NSLog(@"add entry:%@",o);
+	if(list){
+	    [list addArticles:generated];
+	}
+	NSError*error=nil;
+	BOOL success=[[MOC moc] save:&error];
+	if(!success){
+	    [[MOC sharedMOCManager] presentMOCSaveError:error];
+	}
+	if([generated count]==1){
+	    Article*article=[generated anyObject];
+	    NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:article]];
+	    if(parent){
+		[parent addDependency:op];
+	    }
+	    [[OperationQueues spiresQueue] addOperation:op];
+	}
+    });
 }
 
 #pragma mark entry point

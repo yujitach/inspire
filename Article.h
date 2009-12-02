@@ -36,6 +36,7 @@ typedef enum {
 @property (retain) ArticleData*data;
 #pragma mark forwarded to data
 @property (retain) NSString * abstract;
+@property (retain) NSString * arxivCategory;
 @property (retain) NSNumber* citecount;
 @property (retain) NSString * comments;
 @property (retain) NSDate * date;

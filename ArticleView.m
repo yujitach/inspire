@@ -170,12 +170,20 @@
     return result;
     
 }
+-(NSString*)arxivCategory
+{
+    NSString* category=article.arxivCategory;
+    if(category && ![category isEqualToString:@""] && [article.eprint rangeOfString:@"/"].location==NSNotFound){
+	return [NSString stringWithFormat:@"[%@]",category];
+    }else{
+	return nil;
+    }
+}
 -(NSString*)comments
 {
-    if(article.comments==nil)
+    if(!article.comments)
 	return nil;
-    return [NSString stringWithFormat:@"<b>Comments:</b> %@",article.comments];
-    
+    return [NSString stringWithFormat:@"<b>Comments:</b> %@",article.comments];    
 }
 
 -(NSString*)title
@@ -189,7 +197,7 @@
     NSString* eprint= article.eprint;
     //return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
     NSString*path=[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint];
-
+    
     return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",path, eprint];
 }
 -(NSString*)pdf
@@ -297,7 +305,7 @@
 	return;	
     }
     NSMutableString* s=[NSMutableString stringWithString:templateForWebView];
-    for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",nil]){
+    for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",@"arxivCategory",nil]){
 	NSString* keyInHTML=[@"$" stringByAppendingString:key];
 	NSString* x=[self valueForKey:key];
 	if(!x)x=@"";
@@ -313,7 +321,7 @@
 }
 -(void)setArticle:(Article*)a
 {
-    NSArray*observedKeys=[NSArray arrayWithObjects:@"abstract",@"title",@"authors",@"texKey",@"pdfPath",@"journal",@"comments",nil];
+    NSArray*observedKeys=[NSArray arrayWithObjects:@"abstract",@"title",@"authors",@"texKey",@"pdfPath",@"journal",@"comments",@"arxivCategory",nil];
     if(article && article!=NSNoSelectionMarker && article!=NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 	    [article removeObserver:self forKeyPath:i];

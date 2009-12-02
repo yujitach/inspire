@@ -57,7 +57,8 @@
 {
     self=[super initWithCoder:coder];
     // refuse updating UI right after loaded from the NIB
-    refuseFiltering=YES;
+    // which is no longer necessary...
+    refuseFiltering=NO;
     return self;
 }
 -(BOOL)refuseFiltering

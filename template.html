@@ -15,6 +15,10 @@ body{
 .comments{
     font-size:90%;
 }
+.arxivCategory{
+    font-size:90%;
+    font-weight:bold;
+}
 .rightbox{
     float:right;
     text-align:right;
@@ -77,7 +81,10 @@ a.nonloudlink:hover{
 	<br>
 	<div>$author</div>
 	<br>
-	<div class="comments">$comments</div>
+	<div>
+	    <span class="comments">$comments</span> 
+	    <span class="arxivCategory">$arxivCategory</span>
+	</div>
 	<br>
 	<div id="abstract">$abstract</div>
 </body>

@@ -412,7 +412,8 @@ MOC*_sharedMOCManager=nil;
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager fileExistsAtPath:backupPath]){
-	FSPathMoveObjectToTrashSync([backupPath fileSystemRepresentation], NULL,  kFSFileOperationDefaultOptions);
+	[[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:backupPath]]
+				 completionHandler:nil];
     }
     if (![fileManager moveItemAtPath:[sourceStoreURL path]
 			      toPath:backupPath

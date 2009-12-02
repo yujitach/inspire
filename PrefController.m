@@ -157,12 +157,14 @@
 {
     NSFont *oldFont = [self currentFont];
     NSFont *newFont = [sender convertFont:oldFont];
+    NSLog(@"font changes to:%@",newFont);
     [self setCurrentFont:newFont];
 }
 -(IBAction)openFontPanel:(id)sender;
 {
     NSFontPanel*panel=[NSFontPanel sharedFontPanel];
 //    [panel setTarget:self];
+    [[NSFontManager sharedFontManager] setTarget:self];
     [panel setPanelFont:[self currentFont] isMultiple:NO];
     [panel makeKeyAndOrderFront:self];
 }

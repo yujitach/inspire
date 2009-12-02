@@ -90,6 +90,16 @@ ArxivHelper* _sharedHelper=nil;
 	comment=[comment stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
 	[dict setValue:comment forKey:@"comments"];
     }
+    
+    {
+	NSArray*ar=[elem elementsForName:@"arxiv:primary_category"];
+	if(ar && [ar count]>0){
+	    NSXMLElement*x=[ar objectAtIndex:0];
+	    NSString*pc=[[x attributeForName:@"term"] stringValue];
+	    [dict setValue:pc forKey:@"primaryCategory"];
+	}
+    }
+    
     int v=[[a lastObject] intValue];
     id dele=[dict valueForKey:@"delegate"];
     SEL selec=(SEL)[dict valueForKey:@"selector"];

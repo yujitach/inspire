@@ -320,7 +320,6 @@ spires_AppDelegate*_shared=nil;
 	texWatcherController=[[TeXWatcherController alloc]init];
     }
     
-  
  //   [historyController performSelector:@selector(mark:) withObject:self afterDelay:1];
 //    [[self managedObjectContext] processPendingChanges];
 //    [[[self managedObjectContext] undoManager] disableUndoRegistration];
@@ -374,7 +373,7 @@ spires_AppDelegate*_shared=nil;
     [self setupServices];
     [self checkOSVersion];
 
-    [self startUpdatingMainView:self];
+//    [self startUpdatingMainView:self];
     [self crashCheck:self];
     if(![[SpiresHelper sharedHelper] isOnline]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
@@ -448,14 +447,14 @@ spires_AppDelegate*_shared=nil;
 	NSLog(@"it's offline!");
     }
 }
--(void)startUpdatingMainView:(id)sender
+/*-(void)startUpdatingMainView:(id)sender
 {
     ac.refuseFiltering=NO;
 }
 -(void)stopUpdatingMainView:(id)sender
 {
     ac.refuseFiltering=YES;
-}
+}*/
 -(void)clearingUp:(id)sender
 {
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
@@ -726,7 +725,8 @@ spires_AppDelegate*_shared=nil;
     if(result!=NSAlertDefaultReturn)
 	return;
     NSString*path=a.pdfPath;
-    FSPathMoveObjectToTrashSync([path fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
+    [[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]]
+			     completionHandler:nil];
     [a setFlag:a.flag &(~AFHasPDF)];
     
 }
@@ -744,8 +744,10 @@ spires_AppDelegate*_shared=nil;
 	    // but somehow it doesn't work! so I manually delete 'em...
 	    [al removeArticlesObject:x];
 	    ArticleData*d=x.data;
+	    JournalEntry*j=x.journal;
 	    [[self managedObjectContext] deleteObject:d];
 	    [[self managedObjectContext] deleteObject:x];
+	    [[self managedObjectContext] deleteObject:j];
 	}
     }else if([al isKindOfClass:[SimpleArticleList class]]){
 	for(Article*x in a){
@@ -921,6 +923,7 @@ spires_AppDelegate*_shared=nil;
 	NSString* target=nil;
 	if(article.articleType==ATEprint){
 	    target=[@"eprint " stringByAppendingString:article.eprint];
+//	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:article]];
 	}else if(article.articleType==ATSpires){
 	    target=[@"spicite " stringByAppendingString:article.spicite];	
 	}else if(article.articleType==ATSpiresWithOnlyKey){
@@ -940,6 +943,60 @@ spires_AppDelegate*_shared=nil;
 	}else{
 	    [article setFlag:article.flag|AFIsFlagged];
 	}
+    }
+}
+#pragma mark check consistency
+-(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:entityName inManagedObjectContext:[self managedObjectContext]];
+    NSFetchRequest*req=[[NSFetchRequest alloc] init];
+    [req setEntity:entity];
+    [req setPredicate:predicate];
+    NSError*error=nil;
+    NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
+    NSLog(@"%d %@(s) found",(int)[a count],entityName);
+    return a;
+}
+-(IBAction)fixDataInconsistency:(id)sender;
+{
+    {
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Check consistency and fix"
+				      defaultButton:@"OK" 
+				    alternateButton:@"Cancel"
+					otherButton:nil
+			  informativeTextWithFormat:@"The check and fix will take some time (~1min). Do you want to proceed?"];
+	NSInteger result=[alert runModal];
+	if(result!=NSAlertDefaultReturn)
+	    return;
+    }
+    
+    NSMutableArray*badGuys=[NSMutableArray array];
+    NSArray*a;
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"Article" 
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"(not (self in %@)) || data == nil",[AllArticleList allArticleList].articles]]];
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"ArticleData"
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"JournalEntry"
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
+    
+    NSString*message=nil;
+    if([badGuys count]>0){
+	// "fixed" in the message below is a euphemism for "just deleted".
+	message=[NSString stringWithFormat:@"%d problematic entries were fixed.",(int)[badGuys count]];
+	for(NSManagedObject*obj in badGuys){
+	    [[self managedObjectContext] deleteObject:obj];
+	}
+	[self saveAction:self];
+    }else{
+	message=@"No problem found.";
+    }
+    {
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked"
+				      defaultButton:@"OK" 
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:message];
+	[alert runModal];
     }
 }
 #pragma mark PDF Association

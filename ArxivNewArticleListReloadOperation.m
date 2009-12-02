@@ -26,7 +26,7 @@
     self=[super init];
     al=a;
     listName=al.name;
-    moc=[MOC createSecondaryMOC];
+    secondMOC=[MOC createSecondaryMOC];
     return self;
 }
 -(NSString*)description
@@ -57,12 +57,12 @@
 	[ar setAuthorNames:array];
     }
 }
-
--(Article*)dealWith:(NSString*)s
+-(NSString*)eprintFromChunk:(NSString*)s
 {
-    //    NSLog(@"%@",s);
-    int i=[s rangeOfString:@"arXiv:"].location;
-    NSString*eprint=[s substringFromIndex:i];
+    NSRange r=[s rangeOfString:@"arXiv:"];
+    if(r.location==NSNotFound)
+	return nil;
+    NSString*eprint=[s substringFromIndex:r.location];
     {
 	NSArray*x=[eprint componentsSeparatedByString:@"</a>"];
 	eprint=[x objectAtIndex:0];
@@ -70,11 +70,16 @@
 	    eprint=[eprint substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}
     }
-    
+    return eprint;
+}
+-(Article*)dealWithChunk:(NSString*)s writeToArticle:(Article*)ar
+{
+    //    NSLog(@"%@",s);
+    NSString*eprint=[self eprintFromChunk:s];
     
     NSArray*a=[s componentsSeparatedByString:@"</span>"];
     NSString*title=[a objectAtIndex:2];
-    i=[title rangeOfString:@"</div>"].location;
+    int i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];
     title=[title stringByExpandingAmpersandEscapes];
     title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
@@ -102,16 +107,14 @@
 	abstract=nil;
     }
     
-    Article*ar=[Article articleWithEprint:eprint inMOC:moc];
-    if(!ar){
-	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-	ar=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
-	ar.eprint=eprint;
-    }
+    NSString*subj=[s stringByMatching:@"primary-subject\">(.+?)</span>" capture:1];
+    subj=[subj stringByMatching:@"\\((.+?)\\)" capture:1];
+    ar.eprint=eprint;
     ar.abstract=abstract;
     ar.version=[NSNumber numberWithInt:1];
     ar.title=title;
     ar.comments=comments;
+    ar.arxivCategory=subj;
     ArticleFlag af=ar.flag;
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldPutUnreadMarksForArxivNew"]){
 	af|=AFIsUnread;
@@ -120,32 +123,7 @@
     [self registerAuthorsInString:authorsList toArticle:ar];
     return ar;
 }
--(void)registerArticles:(NSArray*)y
-{
-    NSMutableSet*x=[NSMutableSet set];
-    [[MOC moc] disableUndo];
-    for(NSManagedObjectID* objectID in y){
-	Article*mo=(Article*)[[MOC moc] objectWithID:objectID];
-	[[MOC moc] refreshObject:mo.data mergeChanges:YES];
-	[[MOC moc] refreshObject:mo mergeChanges:YES];
-	[x addObject:mo];
-    }
-    
-    [(spires_AppDelegate*)[NSApp delegate] stopUpdatingMainView:self];
-    AllArticleList*allArticleList=[AllArticleList allArticleList];
-    [allArticleList addArticles:x];
-    
-    al.articles=nil;
-    [al addArticles:x];
-    NSError*error=nil;
-    BOOL success=[[MOC moc] save:&error];
-    if(!success){
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
-    }
-    [[MOC moc] enableUndo];
-    [(spires_AppDelegate*)[NSApp delegate] startUpdatingMainView:self]; 
-    [(spires_AppDelegate*)[NSApp delegate] clearingUp:self];        
-}
+
 -(void)main
 {
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
@@ -153,28 +131,61 @@
 								  waitUntilDone:NO];
     NSString*s=[[ArxivHelper sharedHelper] list:listName];
     
-    NSMutableArray*articles=[NSMutableArray array];
-    NSArray*a=[s componentsSeparatedByString:@"<dt>"];
-    for(int i=1;i<[a count];i++){
-	//	NSLog(@"%d",i);
-	Article*ar=[self dealWith:[a objectAtIndex:i]];
-	[articles addObject:ar];
+    NSMutableArray*a=[[s componentsSeparatedByString:@"<dt>"] mutableCopy];
+    NSMutableDictionary*dict=[NSMutableDictionary dictionary];
+    for(NSString*chunk in a){
+	NSString*eprint=[self eprintFromChunk:chunk];
+	if(eprint){
+	    [dict setObject:chunk forKey:eprint];
+	}
     }
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:secondMOC];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"eprint IN %@",[dict allKeys]];
+    [req setPredicate:pred];
+    [req setIncludesPropertyValues:NO];
+    [req setResultType:NSManagedObjectIDResultType];
+    NSArray*datas=[secondMOC executeFetchRequest:req error:nil];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[MOC moc] disableUndo];
 
-    NSError*error=nil;
-    BOOL success=[moc save:&error];
-    if(!success){
-	NSLog(@"secondary moc error");
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
-    }
+	
+	NSMutableSet*generated=[NSMutableSet set];
+	for(NSManagedObjectID*objID in datas){
+	    ArticleData* data=(ArticleData*)[[MOC moc] objectWithID:objID];
+	    if(!data.article){
+		NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
+		[[MOC moc] deleteObject:data];
+		continue;
+	    }
+	    NSString*v=[data valueForKey:@"eprint"];
+	    NSString*chunk=[dict objectForKey:v];
+	    [self dealWithChunk:chunk writeToArticle:data.article];
+	    [generated addObject:data.article];
+	    [dict removeObjectForKey:v];
+    	}
+	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+	for(NSString*chunk in [dict allValues]){
+	    Article*article=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
+	    [self dealWithChunk:chunk writeToArticle:article];
+	    [generated addObject:article];
+	}
+	
+	[[AllArticleList allArticleList] addArticles:generated];
+	
+	al.articles=generated;
+	
+	NSError*error=nil;
+	BOOL success=[[MOC moc] save:&error];
+	if(!success){
+	    [[MOC sharedMOCManager] presentMOCSaveError:error];
+	}
+	[[MOC moc] enableUndo];
+	[(spires_AppDelegate*)[NSApp delegate] clearingUp:self];        
+	
+    });
         
-    NSMutableArray*articleIDs=[NSMutableArray array];
-    for(Article*ar in articles){
-	[articleIDs addObject:[ar objectID]];
-    }
-    [self performSelectorOnMainThread:@selector(registerArticles:)
-			   withObject:articleIDs
-			waitUntilDone:YES];
 
     [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
 								     withObject:self

@@ -46,6 +46,7 @@
 @dynamic eprintForSorting;
 @dynamic data;
 @dynamic eprintForSortingAsString;
+@dynamic arxivCategory;
 +(void)initialize
 {
 //    eprintDict=[NSMutableDictionary dictionary];
@@ -537,6 +538,25 @@
     [self willChangeValueForKey:@"abstract"];
     [self.data setAbstract:value];
     [self didChangeValueForKey:@"abstract"];
+}
+
+
+- (NSString *)arxivCategory
+{
+    NSString * tmpValue;
+    
+    [self willAccessValueForKey:@"arxivCategory"];
+    tmpValue = [self.data arxivCategory];
+    [self didAccessValueForKey:@"arxivCategory"];
+    
+    return tmpValue;
+}
+
+- (void)setArxivCategory:(NSString *)value 
+{
+    [self willChangeValueForKey:@"arxivCategory"];
+    [self.data setArxivCategory:value];
+    [self didChangeValueForKey:@"arxivCategory"];
 }
 
 
