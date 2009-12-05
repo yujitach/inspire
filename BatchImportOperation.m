@@ -13,7 +13,7 @@
 #import "JournalEntry.h"
 #import "AllArticleList.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
-#import "spires_AppDelegate.h"
+#import "AppDelegate.h"
 #import "MOC.h"
 #import "ProgressIndicatorController.h"
 #import "NSString+magic.h"
@@ -31,9 +31,11 @@ l{
     }
     secondMOC=[MOC createSecondaryMOC];
     citedByTarget=c;
+    if(citedByTarget){
+	NSLog(@"citedByTarget:%@",citedByTarget.title);
+    }
     refersToTarget=r;
     list=l;
-    delegate=[NSApp delegate];
     generated=[NSMutableSet set];
     return self;
 }
@@ -175,6 +177,8 @@ l{
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
 
     dispatch_async(dispatch_get_main_queue(),^{
+	int i=0,j=0;
+	[[MOC moc] disableUndo];
 	for(NSManagedObjectID*objID in datas){
 	    ArticleData* data=(ArticleData*)[[MOC moc] objectWithID:objID];
 	    if(!data.article){
@@ -190,6 +194,7 @@ l{
 	    [self populatePropertiesOfArticle:data.article fromXML:e];
 	    [generated addObject:data.article];
 	    [a removeObject:e];
+	    i++;
     	}
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
 	for(NSXMLElement*e in a){
@@ -197,7 +202,10 @@ l{
 	    Article*article=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
 	    [self populatePropertiesOfArticle:article fromXML:e];
 	    [generated addObject:article];
+	    j++;
 	}
+	[[MOC moc] enableUndo];
+	NSLog(@"%d new, %d updated, based on %@",j,i,key);
     });
 }
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
@@ -225,6 +233,8 @@ l{
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
     dispatch_async(dispatch_get_main_queue(),^{
+	NSLog(@"total: %d",(int)[generated count]);
+
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	[allArticleList addArticles:generated];
 	
@@ -237,11 +247,6 @@ l{
 	//    NSLog(@"add entry:%@",o);
 	if(list){
 	    [list addArticles:generated];
-	}
-	NSError*error=nil;
-	BOOL success=[[MOC moc] save:&error];
-	if(!success){
-	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
 	if([generated count]==1){
 	    Article*article=[generated anyObject];
@@ -257,15 +262,22 @@ l{
 #pragma mark entry point
 -(void)main
 {
-    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
-								     withObject:self 
-								  waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[ProgressIndicatorController sharedController] startAnimation:self];	
+	[(id<AppDelegate>)[NSApp delegate] postMessage:@"Registering entries..."];
+    });
+    NSLog(@"registers %d entries",(int)[elements count]);
     [self batchAddEntriesOfSPIRES:elements];
-    
-    [delegate performSelectorOnMainThread:@selector(clearingUp:) withObject:nil waitUntilDone:NO];
-    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
-								     withObject:self 
-								  waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[(id<AppDelegate>)[NSApp delegate] postMessage:nil];
+	[(id<AppDelegate>)[NSApp delegate] clearingUpAfterRegistration:nil];	
+	NSError*error=nil;
+	BOOL success=[[MOC moc] save:&error];
+	if(!success){
+	    [[MOC sharedMOCManager] presentMOCSaveError:error];
+	}
+	[[ProgressIndicatorController sharedController] stopAnimation:self];	
+    });
 }
 
 @end

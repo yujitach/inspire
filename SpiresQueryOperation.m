@@ -10,6 +10,7 @@
 #import "Article.h"
 #import "BatchImportOperation.h"
 #import "ProgressIndicatorController.h"
+#import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
@@ -58,15 +59,18 @@
 	refersToTarget=nil;
     }
     [ProgressIndicatorController startAnimation:self];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Waiting reply from spires..."];
     self.isExecuting=YES;
     downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:userInfo:) userInfo:nil];
     if(!downloader){
+	[(id<AppDelegate>)[NSApp delegate] postMessage:nil];
 	[ProgressIndicatorController stopAnimation:self];
 	[self finish];
     }
 }
 -(void)spiresQueryDidEnd:(NSXMLDocument*)doc userInfo:(id)ignore
 {
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil];
     [ProgressIndicatorController stopAnimation:self];
     if(!doc){
 	[self finish];
@@ -99,6 +103,7 @@
 }
 -(void)cleanupToCancel
 {
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil];
     [ProgressIndicatorController stopAnimation:self];
 }
 @end

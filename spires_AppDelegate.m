@@ -455,7 +455,7 @@ spires_AppDelegate*_shared=nil;
 {
     ac.refuseFiltering=YES;
 }*/
--(void)clearingUp:(id)sender
+-(void)clearingUpAfterRegistration:(id)sender
 {
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
 	[ac setSelectionIndex:0];
@@ -944,6 +944,10 @@ spires_AppDelegate*_shared=nil;
 	    [article setFlag:article.flag|AFIsFlagged];
 	}
     }
+}
+-(void)postMessage:(NSString*)message
+{
+    wv.message=message;
 }
 #pragma mark check consistency
 -(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate

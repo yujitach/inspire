@@ -7,7 +7,6 @@
 //
 
 #import "SideOutlineViewController.h"
-#import "spires_AppDelegate.h"
 #import "Article.h"
 #import "ArticleList.h"
 #import "AllArticleList.h"
@@ -17,7 +16,7 @@
 #import "CannedSearch.h"
 #import "ImageAndTextCell.h"
 #import "MOC.h"
-
+#import "AppDelegate.h"
 
 /*@interface NSSourceListCell:NSTextFieldCell
 {

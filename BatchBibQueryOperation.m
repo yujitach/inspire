@@ -8,7 +8,6 @@
 
 #import "BatchBibQueryOperation.h"
 #import "Article.h"
-#import "spires_AppDelegate.h"
 #import "ProgressIndicatorController.h"
 #import "SpiresHelper.h"
 @implementation BatchBibQueryOperation

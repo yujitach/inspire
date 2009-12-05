@@ -12,31 +12,13 @@ body{
     font-family: $articleViewFontName, sans-serif;
     font-size:$articleViewFontSize;
 }
-.comments{
-    font-size:90%;
+a:link{
+    text-decoration:none;
+    color:rgb(59, 53, 244);
 }
-.arxivCategory{
-    font-size:90%;
-    font-weight:bold;
-}
-.rightbox{
-    float:right;
-    text-align:right;
-}
-.spires{
-    font-weight:medium;
-    font-size:110%;
-    margin-right:1em;
-    margin-left:1em;
-}
-
-.eprint{
-    font-weight:medium;
-    font-size:120%;
-    margin-bottom:.5em;
-}
-.journal{
-    font-size:120%;
+a:hover{
+    text-decoration:underline;
+    color:rgb(59, 53, 244);
 }
 a.nonloudlink:link{
     color:black;
@@ -45,12 +27,65 @@ a.nonloudlink:link{
 a.nonloudlink:hover{
     text-decoration:underline;
 }
+
+#divider{
+    background-color:#ccc;
+    color:#ccc;
+    height:1px;
+    border:1px;
+    margin-left:.3em;
+    margin-right:.3em;
+    margin-top:.4em;
+    margin-bottom:.4em;
+}
+.arxivCategory{
+    font-weight:bold;
+}
+#rightbox{
+    float:right;
+    text-align:right;
+    -webkit-border-radius:8pt;
+    padding-left:.7em;
+    padding-right:.7em;
+    padding-top:.2em;
+    padding-bottom:.2em;
+    margin:.2em;
+    background-color:rgba(200,200,200,0.3);
+    font-weight:medium;
+    font-size:100%;
+}
+
+.eprint{
+    font-weight:medium;
+    font-size:115%;
+    padding:.3em;
+    padding-top:.1em;
+}
+.author{
+    font-size:100%;
+    font-weight:bold;
+    padding:.3em;
+
+}
 .vol{
     font-weight:bold;
 }
 .title{
     font-weight:bold;
-    font-size:120%;
+    font-size:115%;
+    padding:.3em;
+}
+
+.comments{
+    font-size:90%;
+    padding:.3em;
+}
+
+.abstract{
+    padding-top:.3em;
+    padding-left:.3em;
+    padding-right:.3em;
+    text-align:justify;
 }
 .equation{
 /*    font-style:italic;*/
@@ -60,32 +95,93 @@ a.nonloudlink:hover{
 }
 </style>
 
+<style type="text/css" media="screen">
+	#centerBox{
+		visibility:$centerVisibility;
+		position:fixed;
+		text-align:center;
+		bottom:50%;
+		right:30%;
+		left:30%;
+		top:50%;
+		width:40%;
+		color:#888;
+	}
+</style>
+<style type="text/css" media="screen">
+	#mainBox{
+		visibility:$mainVisibility;
+	}
+</style>
+<style type="text/css" media="screen">
+	#messageBox{
+		visibility:$messageVisibility;
+		
+		position:fixed;
+		bottom:10pt;
+		right:10pt;
+		-webkit-border-radius:10pt;
+		padding-top:5pt;
+		padding-bottom:5pt;
+		padding-left:10pt;
+		padding-right:10pt;
+		background-color:rgba(0,0,0,0.8);
+		
+		border-style:solid;
+		border-color:rgba(100,100,100,1);
+		border-width:1.5pt;
+		
+		color:white;
+		font-weight:bold;
+		font-family:helvetica;
+		
+		-webkit-animation-name:blink;
+		-webkit-animation-duration:1s;
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-direction: alternate;	
+	 	-webkit-animation-timing-function: ease-in-out;
+	}
+	@-webkit-keyframes blink{
+		from{
+			opacity:.8;
+		}
+		to{
+			opacity:1;
+		}
+	}
+</style>
 
 </head>
 <body>
-    <div class="rightbox">
-	<span class="spires">$pdf</span><br>
-	<span class="spires">$spires</span><br>
-	<span class="spires">$citedBy</span><br>
-	<span class="spires">$refersTo</span><br> 
-	<span class="spires">$bibEntry</span><br> 
+<div id="mainBox">
+    <div id="rightbox">
+	<span>$pdf</span><br>
+	<span>$spires</span><br>
+	<span>$citedBy</span><br>
+	<span>$refersTo</span><br> 
+	<span>$bibEntry</span><br> 
 	
     </div>
-	<div>
-	    <span class="eprint">$eprint</span>  
-	    <span class="journal">$journal</span>
+	<div class="eprint">
+	    $eprint
+	    $journal
 	</div>
 	
-	<br>
-	<div class="title" id="title">$title</div>
-	<br>
-	<div>$author</div>
-	<br>
-	<div>
-	    <span class="comments">$comments</span> 
+	
+	<div class="title">$title</div>
+	<div class="author">$author</div>
+	<div class="comments">
+	    <span>$comments</span> 
 	    <span class="arxivCategory">$arxivCategory</span>
 	</div>
-	<br>
-	<div id="abstract">$abstract</div>
+	
+	<hr id="divider">
+	
+	<div class="abstract">$abstract</div>
+</div>
+<div id="messageBox">$message
+</div>
+<div id="centerBox">$centerMessage
+</div>
 </body>
 </html>

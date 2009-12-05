@@ -14,7 +14,7 @@
 #import "Article.h"
 #import "ArticleData.h"
 #import "AllArticleList.h"
-#import "spires_AppDelegate.h"
+#import "AppDelegate.h"
 #import "RegexKitLite.h"
 #import "NSString+XMLEntityDecoding.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
@@ -182,7 +182,7 @@
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
 	[[MOC moc] enableUndo];
-	[(spires_AppDelegate*)[NSApp delegate] clearingUp:self];        
+	[(id<AppDelegate>)[NSApp delegate] clearingUpAfterRegistration:self];        
 	
     });
         

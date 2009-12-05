@@ -95,8 +95,4 @@
 -(IBAction)turnOnOffLine:(id)sender;
 -(IBAction)progressQuit:(id)sender;
 -(IBAction)fixDataInconsistency:(id)sender;
--(void)showInfoOnAssociation;
--(void)clearingUp:(id)sender;
 @end
-extern NSString *ArticleDropPboardType;
-extern NSString *ArticleListDropPboardType;

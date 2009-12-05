@@ -412,8 +412,8 @@ MOC*_sharedMOCManager=nil;
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager fileExistsAtPath:backupPath]){
-	[[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:backupPath]]
-				 completionHandler:nil];
+	// Don't use async operation here! Think !
+	FSPathMoveObjectToTrashSync([backupPath fileSystemRepresentation], NULL,kFSFileOperationDefaultOptions);
     }
     if (![fileManager moveItemAtPath:[sourceStoreURL path]
 			      toPath:backupPath
@@ -429,6 +429,7 @@ MOC*_sharedMOCManager=nil;
 	[fileManager moveItemAtPath:backupPath
 			     toPath:[sourceStoreURL path]
 			      error:nil];
+
 	return NO;
     }
     

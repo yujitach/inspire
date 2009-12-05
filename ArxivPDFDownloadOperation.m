@@ -27,6 +27,7 @@
 {
     if(choice==NSAlertDefaultReturn){
 	[ProgressIndicatorController startAnimation:self];
+	[(id<AppDelegate>)[NSApp delegate] postMessage:@"Downloading PDF from arXiv..."]; 
 	[[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
 						 delegate:self 
 					   didEndSelector:@selector(pdfDownloadDidEnd:)];
@@ -38,6 +39,7 @@
 -(void)pdfDownloadDidEnd:(NSDictionary*)dict
 {
     BOOL success=[[dict valueForKey:@"success"] boolValue];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
     [ProgressIndicatorController stopAnimation:self];
     
     if(success){
@@ -64,6 +66,7 @@
 {
     if(choice==NSAlertDefaultReturn){
 	NSLog(@"OK, retry in %@ seconds",reloadDelay);
+	[(id<AppDelegate>)[NSApp delegate] postMessage:@"Waiting for arXiv to generate PDF..."]; 
 	[self performSelector:@selector(retry) withObject:nil afterDelay:[reloadDelay intValue]];
     }else{
 	[self finish];
@@ -74,6 +77,7 @@
 {
     //    NSLog(@"retry timer fired");
     [ProgressIndicatorController startAnimation:self];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Downloading PDF from arXiv..."]; 
     [[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
 					     delegate:self 
 				       didEndSelector:@selector(pdfDownloadDidEnd:)];
@@ -97,7 +101,8 @@
 }
 -(void)cleanupToCancel
 {
-    [ProgressIndicatorController startAnimation:self];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
+    [ProgressIndicatorController stopAnimation:self];
 }
 -(NSString*)description
 {

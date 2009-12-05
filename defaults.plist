@@ -6,6 +6,8 @@
 	<string>/opt/local/bin:/sw/bin:/usr/texbin:/usr/local/bin:/usr/local/teTeX/bin/powerpc-apple-darwin-current:/usr/local/teTeX/bin/i386-apple-darwin-current:/usr/bin:/bin</string>
 	<key>isOnline</key>
 	<true/>
+	<key>showDistractingMessage</key>
+	<true/>
 	<key>turnOnOfflineMenuItem</key>
 	<string>Turn Offline</string>
 	<key>articleViewFontName</key>
@@ -267,6 +269,10 @@
 		<string>≤</string>
 		<key>ge</key>
 		<string>≥</string>
+		<key>gsim</key>
+		<string>≳</string>
+		<key>lsim</key>
+		<string>≲</string>
 		<key>ne</key>
 		<string>≠</string>
 		<key>neq</key>
@@ -335,7 +341,10 @@
 	<array>
 		<string>ll</string>
 		<string>gg</string>
+		<string>times</string>
 		<string>over</string>
+		<string>prime</string>
+		<string>partial</string>
 	</array>
 	<key>abbreviations</key>
 	<array>

@@ -29,6 +29,10 @@
 							      forKeyPath:@"defaults.articleViewFontSize"
 								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 								 context:nil];
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+							      forKeyPath:@"defaults.showDistractingMessage"
+								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
+								 context:nil];
 }
 -(BOOL)acceptsFirstResponder
 {
@@ -183,7 +187,8 @@
 {
     if(!article.comments)
 	return nil;
-    return [NSString stringWithFormat:@"<b>Comments:</b> %@",article.comments];    
+    return article.comments;
+    //[NSString stringWithFormat:@"<b>Comments:</b> %@",article.comments];    
 }
 
 -(NSString*)title
@@ -198,7 +203,7 @@
     //return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
     NSString*path=[[ArxivHelper sharedHelper] arXivAbstractPathForID:eprint];
     
-    return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]",path, eprint];
+    return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]&nbsp;",path, eprint];
 }
 -(NSString*)pdf
 {
@@ -297,26 +302,39 @@
 #pragma mark KVO
 -(void)refresh
 {
+    NSString* t=templateForWebView;
     if(!article || article==NSNoSelectionMarker){
-	[[self mainFrame] loadHTMLString:@"<div style=\"text-align:center;font-family:optima\">No Selection</div>" baseURL:nil];
-	return;
+	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"hidden"];
+	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"visible"];
+	t=[t stringByReplacingOccurrencesOfString:@"$centerMessage" withString:@"No Selection"];
     }else if(article==NSMultipleValuesMarker){
-	[[self mainFrame] loadHTMLString:@"<div style=\"text-align:center;font-family:optima\">Multiple Selections</div>" baseURL:nil];
-	return;	
+	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"hidden"];
+	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"visible"];
+	t=[t stringByReplacingOccurrencesOfString:@"$centerMessage" withString:@"Multiple Selections"];
+    }else{
+	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"visible"];
+	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"hidden"];
+	NSMutableString*s=[t mutableCopy];
+	for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",@"arxivCategory",nil]){
+	    NSString* keyInHTML=[@"$" stringByAppendingString:key];
+	    NSString* x=[self valueForKey:key];
+	    if(!x)x=@"";
+	    if(x==NSNoSelectionMarker)x=@"";
+	    [s replaceOccurrencesOfString:keyInHTML
+			       withString:x    
+				  options:NSLiteralSearch
+				    range:NSMakeRange(0,[s length])];
+	}
+	t=s;
     }
-    NSMutableString* s=[NSMutableString stringWithString:templateForWebView];
-    for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",@"arxivCategory",nil]){
-	NSString* keyInHTML=[@"$" stringByAppendingString:key];
-	NSString* x=[self valueForKey:key];
-	if(!x)x=@"";
-	if(x==NSNoSelectionMarker)x=@"";
-	[s replaceOccurrencesOfString:keyInHTML
-			   withString:x    
-			      options:NSLiteralSearch
-				range:NSMakeRange(0,[s length])];
+    if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
+	t=[t stringByReplacingOccurrencesOfString:@"$messageVisibility" withString:@"visible"];
+	t=[t stringByReplacingOccurrencesOfString:@"$message" withString:message];
+    }else{
+	t=[t stringByReplacingOccurrencesOfString:@"$messageVisibility" withString:@"hidden"];
     }
  //      NSLog(@"%@",[self mainFrame]);
-    [[self mainFrame] loadHTMLString:s baseURL:nil];//[NSURL URLWithString:@""]];
+    [[self mainFrame] loadHTMLString:t baseURL:nil];//[NSURL URLWithString:@""]];
     
 }
 -(void)setArticle:(Article*)a
@@ -355,4 +373,14 @@
 {
     [self refresh];
 }
+-(NSString*)message
+{
+    return message;
+}
+-(void)setMessage:(NSString*)m
+{
+    message=m;
+    [self refresh];
+}
+
 @end

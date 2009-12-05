@@ -9,13 +9,13 @@
 #import "JournalPDFDownloadOperation.h"
 #import "SecureDownloader.h"
 #import "ProgressIndicatorController.h"
+#import "AppDelegate.h"
 #import "RegexKitLite.h"
 #import "Article.h"
 #import "JournalEntry.h"
 #import "NSString+XMLEntityDecoding.h"
 #import "PDFHelper.h"
 #import "NSURL+libraryProxy.h"
-#import "spires_AppDelegate.h"
 
 @implementation JournalPDFDownloadOperation
 -(JournalPDFDownloadOperation*)initWithArticle:(Article*)a
@@ -52,6 +52,7 @@
 	return;
     }
     [ProgressIndicatorController startAnimation:self];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Looking up journal webpage..."]; 
     downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]
 				      didEndSelector:@selector(journalHTMLDownloadDidEnd:) 
 					    delegate:self ];
@@ -59,6 +60,7 @@
 }
 -(void)journalHTMLDownloadDidEnd:(NSString*)path
 {
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
     [ProgressIndicatorController stopAnimation:self];
     if(path){
 	[self performSelector:@selector(continuation:)
@@ -126,7 +128,7 @@
 	NSLog(@"failed to download PDF. instead opens the journal webpage");
 	NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-	[(spires_AppDelegate*)[NSApp delegate] showInfoOnAssociation]; //cheating here...
+	[(id<AppDelegate>)[NSApp delegate] showInfoOnAssociation]; //cheating here...
 	[self finish];
 	return;
     }
@@ -138,10 +140,12 @@
 				      didEndSelector:@selector(journalPDFDownloadDidEnd:) 
 					    delegate:self ];
     [ProgressIndicatorController startAnimation:self];
+    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Downloading PDF..."]; 
     [downloader download];	
 }
 -(void)journalPDFDownloadDidEnd:(NSString*)path
 {
+    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
     [ProgressIndicatorController stopAnimation:self];
     if(path){
 	NSData*data=[[NSData dataWithContentsOfFile:path] subdataWithRange:NSMakeRange(0,4)];
@@ -150,7 +154,7 @@
 	    NSLog(@"failed to download PDF. instead opens the journal webpage");
 	    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
 	    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-	    [(spires_AppDelegate*)[NSApp delegate] showInfoOnAssociation]; //cheating here...
+	    [(id<AppDelegate>)[NSApp delegate] showInfoOnAssociation]; //cheating here...
 	}else{
 	    NSString*dest=[self destinationPath];
 	    if([[NSFileManager defaultManager] moveItemAtPath:path toPath:dest error:NULL]){
@@ -162,6 +166,6 @@
 }    
 -(void)cleanupToCancel
 {
-    [ProgressIndicatorController startAnimation:self];
+    [ProgressIndicatorController stopAnimation:self];
 }
 @end

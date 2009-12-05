@@ -62,6 +62,8 @@
 		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
 		334A6D270F96E02E005BC4A2 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; };
 		334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 334A6DAC0F96EC49005BC4A2 /* Localizable.strings */; };
+		334A8C3A10C8DB51000337CC /* spires-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3810C8DB51000337CC /* spires-red.png */; };
+		334A8C3B10C8DB51000337CC /* spires-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3910C8DB51000337CC /* spires-blue.png */; };
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
@@ -69,9 +71,7 @@
 		3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */; };
 		3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */ = {isa = PBXBuildFile; fileRef = 3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */; };
 		33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33649D1B0FFA8AF50002B187 /* WaitOperation.m */; };
-		3365B0880EA7F53100A847CE /* spires-red.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0850EA7F53100A847CE /* spires-red.ico */; };
 		3365B0890EA7F53100A847CE /* arxiv.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0860EA7F53100A847CE /* arxiv.ico */; };
-		3365B08A0EA7F53100A847CE /* spires-blue.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0870EA7F53100A847CE /* spires-blue.ico */; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
 		3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */; };
 		3365B30D0EA810CF00A847CE /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; };
@@ -270,6 +270,8 @@
 		334A6D240F96E02E005BC4A2 /* flagged.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flagged.png; sourceTree = "<group>"; };
 		334A6D250F96E02E005BC4A2 /* unread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread.png; sourceTree = "<group>"; };
 		334A6DAC0F96EC49005BC4A2 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		334A8C3810C8DB51000337CC /* spires-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spires-red.png"; sourceTree = "<group>"; };
+		334A8C3910C8DB51000337CC /* spires-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spires-blue.png"; sourceTree = "<group>"; };
 		334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineViewController.m; sourceTree = "<group>"; };
 		334AF2260F7098B9006EE7A0 /* SideOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineViewController.h; sourceTree = "<group>"; };
 		334AF2D50F70B95B006EE7A0 /* ArticleFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleFolder.h; sourceTree = "<group>"; };
@@ -282,9 +284,7 @@
 		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = bwtoolkit/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
 		33649D1A0FFA8AF50002B187 /* WaitOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOperation.h; sourceTree = "<group>"; };
 		33649D1B0FFA8AF50002B187 /* WaitOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOperation.m; sourceTree = "<group>"; };
-		3365B0850EA7F53100A847CE /* spires-red.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-red.ico"; sourceTree = "<group>"; };
 		3365B0860EA7F53100A847CE /* arxiv.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = arxiv.ico; sourceTree = "<group>"; };
-		3365B0870EA7F53100A847CE /* spires-blue.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = "spires-blue.ico"; sourceTree = "<group>"; };
 		3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresHelper.h; sourceTree = "<group>"; };
 		3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresHelper.m; sourceTree = "<group>"; };
 		3365B1F10EA8037C00A847CE /* SpiresPredicateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresPredicateTransformer.h; sourceTree = "<group>"; };
@@ -578,10 +578,10 @@
 				33255AAA0F3131F500538063 /* Acknowledgments.html */,
 				33EBF0370EA5C0830050B64A /* Release Notes.html */,
 				33B5621A0F3BB6510006E70D /* Requests.html */,
-				3365B0850EA7F53100A847CE /* spires-red.ico */,
 				3365B0860EA7F53100A847CE /* arxiv.ico */,
 				3304B8620F92C7B1002156A9 /* canned-search.png */,
-				3365B0870EA7F53100A847CE /* spires-blue.ico */,
+				334A8C3810C8DB51000337CC /* spires-red.png */,
+				334A8C3910C8DB51000337CC /* spires-blue.png */,
 				334A6D240F96E02E005BC4A2 /* flagged.png */,
 				332F485C0FF8748700B9363E /* hasPDF.png */,
 				334A6D250F96E02E005BC4A2 /* unread.png */,
@@ -1059,9 +1059,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
 				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
-				3365B0880EA7F53100A847CE /* spires-red.ico in Resources */,
 				3365B0890EA7F53100A847CE /* arxiv.ico in Resources */,
-				3365B08A0EA7F53100A847CE /* spires-blue.ico in Resources */,
 				3365B30D0EA810CF00A847CE /* defaults.plist in Resources */,
 				338420C70EA84CE500990706 /* template.html in Resources */,
 				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
@@ -1090,6 +1088,8 @@
 				338E9EC11037C8530059AE43 /* SnowLeopardAlert.rtf in Resources */,
 				333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */,
 				33F1991410C08505001F3F0F /* MigrationProgress.xib in Resources */,
+				334A8C3A10C8DB51000337CC /* spires-red.png in Resources */,
+				334A8C3B10C8DB51000337CC /* spires-blue.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,6 +45,7 @@ static AllArticleList*_allArticleList=nil;
 				insertIntoManagedObjectContext:nil];
     [mo setValue:@"spires" forKey:@"name"];
     [mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
+    mo.sortDescriptors=[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
     [moc insertObject:mo];	
     
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
@@ -74,7 +75,7 @@ static AllArticleList*_allArticleList=nil;
 }
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"spires-blue.ico"];
+    return [NSImage imageNamed:@"spires-blue.png"];
 }
 -(NSString*)placeholderForSearchField
 {

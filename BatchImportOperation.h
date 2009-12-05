@@ -19,7 +19,6 @@
     Article*citedByTarget;
     Article*refersToTarget;
     ArticleList*list;
-    spires_AppDelegate * delegate;
     NSOperation*parent;
     NSMutableSet*generated;
 }

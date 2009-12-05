@@ -11,7 +11,9 @@
 @class Article;
 @interface ArticleView : WebView {
     Article *article;
-     NSString*templateForWebView;
+    NSString*templateForWebView;
+    NSString*message;
 }
 -(void)setArticle:(Article*)a;
+@property(retain) NSString*message;
 @end

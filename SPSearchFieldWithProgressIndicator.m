@@ -7,13 +7,11 @@
 //
 
 #import "SPSearchFieldWithProgressIndicator.h"
-
 //@interface NSObject (privateCategoryToShutUpWarning)
 //-(NSString*)placeholderForSearchField;
 //@end
 @implementation SPSearchFieldWithProgressIndicator
 @synthesize progressQuitAction;
-
 -(void)awakeFromNib
 {
 //    NSLog(@"awake");

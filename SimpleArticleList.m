@@ -33,6 +33,6 @@
 }
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"spires-red.ico"];
+    return [NSImage imageNamed:@"spires-red.png"];
 }
 @end
