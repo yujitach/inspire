@@ -10,6 +10,7 @@
 #import "Article.h"
 #import "DumbOperation.h"
 #import "ArxivNewArticleListReloadOperation.h"
+#import "ReloadButton.h"
 
 @implementation ArxivNewArticleList 
 +(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
@@ -39,6 +40,13 @@
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"arxiv.ico"];
+}
+-(NSButtonCell*)button
+{
+    NSButtonCell* button=[[ReloadButton alloc] init];
+    [button setTarget:self];
+    [button setAction:@selector(reload)];
+    return button;
 }
 -(BOOL)searchStringEnabled
 {

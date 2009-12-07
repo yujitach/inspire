@@ -10,7 +10,9 @@
 
 
 @interface SideOutlineView : NSOutlineView {
-
+@private
+    NSInteger iMouseRow, iMouseCol;
+    NSCell *iMouseCell;    
 }
 
 @end

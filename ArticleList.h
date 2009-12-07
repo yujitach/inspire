@@ -21,6 +21,7 @@
 @property (retain) NSString* searchString;
 @property (retain) NSArray* sortDescriptors; // Transformable attribute.
 @property (readonly) NSImage* icon;
+@property (readonly) NSButtonCell* button;
 @property (readonly) NSString* placeholderForSearchField;
 @property (retain) NSNumber* positionInView;
 @property (readonly) BOOL searchStringEnabled;

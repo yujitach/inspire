@@ -1,3 +1,5 @@
+//This cell is a merger of two sample cells provided by Apple. -- Yuji
+
 /*
     ImageAndTextCell.m
     Copyright (c) 2001-2006, Apple Computer, Inc., all rights reserved.
@@ -43,11 +45,68 @@
  OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+ 
+ File: ImagePreviewCell.m
+ 
+ Abstract: Provides a cell implementation that draws an image, title, 
+ sub-title, and has a custom trackable button that highlights
+ when the mouse moves over it.
+ 
+ Version: 1.0
+ 
+ Disclaimer: IMPORTANT:  This Apple software is supplied to you by 
+ Apple Inc. ("Apple") in consideration of your agreement to the
+ following terms, and your use, installation, modification or
+ redistribution of this Apple software constitutes acceptance of these
+ terms.  If you do not agree with these terms, please do not use,
+ install, modify or redistribute this Apple software.
+ 
+ In consideration of your agreement to abide by the following terms, and
+ subject to these terms, Apple grants you a personal, non-exclusive
+ license, under Apple's copyrights in this original Apple software (the
+ "Apple Software"), to use, reproduce, modify and redistribute the Apple
+ Software, with or without modifications, in source and/or binary forms;
+ provided that if you redistribute the Apple Software in its entirety and
+ without modifications, you must retain this notice and the following
+ text and disclaimers in all such redistributions of the Apple Software. 
+ Neither the name, trademarks, service marks or logos of Apple Inc. 
+ may be used to endorse or promote products derived from the Apple
+ Software without specific prior written permission from Apple.  Except
+ as expressly stated in this notice, no other rights or licenses, express
+ or implied, are granted by Apple herein, including but not limited to
+ any patent rights that may be infringed by your derivative works or by
+ other works in which the Apple Software may be incorporated. 
+ 
+ The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
+ MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
+ THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
+ OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
+ 
+ IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
+ OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
+ MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
+ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
+ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ 
+ Copyright (C) 2006-2008 Apple Inc. All Rights Reserved. 
+ */ 
+
+
+
 #import "ImageAndTextCell.h"
 #import <AppKit/AppKit.h>
 
 @implementation ImageAndTextCell
-
+/*-(void)setHighlighted:(BOOL)flag
+{
+    [super setHighlighted:flag];
+}*/
+@synthesize showButton;
 - (id)init {
     if ((self = [super init])) {
         [self setLineBreakMode:NSLineBreakByTruncatingTail];
@@ -65,6 +124,7 @@
     ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
     // The image ivar will be directly copied; we need to retain or copy it.
     cell->image = [image retain];
+    cell->button = [button retain];
     return cell;
 }
 
@@ -81,6 +141,18 @@
     return image;
 }
 
+- (void)setButton:(NSButtonCell *)aButton {
+    if (aButton != button) {
+        [button release];
+        button = [aButton retain];
+    }
+}
+
+- (NSButtonCell *)button {
+    return button;
+}
+
+
 - (NSRect)imageRectForBounds:(NSRect)cellFrame {
     NSRect result;
     if (image != nil) {
@@ -93,6 +165,20 @@
     }
     return result;
 }
+
+- (NSRect)buttonRectForBounds:(NSRect)cellFrame {
+    NSRect result;
+    if (button != nil) {
+        result.size = [[button image] size];
+        result.origin = cellFrame.origin;
+        result.origin.x = result.origin.x + cellFrame.size.width-result.size.width;
+        result.origin.y += ceil((cellFrame.size.height - result.size.height) / 2);
+    } else {
+        result = NSZeroRect;
+    }
+    return result;
+}
+
 
 // We could manually implement expansionFrameWithFrame:inView: and drawWithExpansionFrame:inView: or just properly implement titleRectForBounds to get expansion tooltips to automatically work for us
 - (NSRect)titleRectForBounds:(NSRect)cellFrame {
@@ -110,14 +196,20 @@
 
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
-    NSRect textFrame, imageFrame;
+    NSRect textFrame, imageFrame,buttonFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
+/*    if(button){
+	NSDivideRect (textFrame, &buttonFrame, &textFrame, 3 + [[button image] size].width, NSMaxXEdge);
+    }*/
     [super editWithFrame: textFrame inView: controlView editor:textObj delegate:anObject event: theEvent];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
-    NSRect textFrame, imageFrame;
+    NSRect textFrame, imageFrame, buttonFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
+/*    if(button){
+	NSDivideRect (textFrame, &buttonFrame, &textFrame, 3 + [[button image] size].width, NSMaxXEdge);
+    }*/
     [super selectWithFrame: textFrame inView: controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
@@ -139,6 +231,17 @@
             imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
 
         [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+    }
+//    NSPoint pt=[[controlView window] mouseLocationOutsideOfEventStream];
+//    pt=[controlView convertPoint:pt fromView:nil];
+//    BOOL mouseIsIn=[[self controlView] mouse:pt inRect:cellFrame];    
+    if(button && showButton
+       //&&mouseIsIn
+       ){
+	NSRect buttonFrame;
+	NSDivideRect (cellFrame, &buttonFrame, &cellFrame, [[button image] size].width, NSMaxXEdge);
+	[button setHighlighted:[self isHighlighted]];
+	[button drawWithFrame:buttonFrame inView:controlView];
     }
     [super drawWithFrame:cellFrame inView:controlView];
 }
@@ -167,8 +270,67 @@
             return NSCellHitContentArea;
         }        
     }
+    if(button&&showButton){
+	NSRect buttonRect = [self buttonRectForBounds:cellFrame];
+	if (NSMouseInRect(point, buttonRect, [controlView isFlipped])) {
+	    return NSCellHitContentArea | NSCellHitTrackableArea;
+	} 
+    }
     // At this point, the cellFrame has been modified to exclude the portion for the image. Let the superclass handle the hit testing at this point.
     return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];    
+}
+
+#pragma mark Tracking Support
+- (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag {
+    [self setControlView:controlView];
+    [(NSControl *)[self controlView] updateCell:self];
+    if(!showButton){
+//	NSLog(@"tracking Start...");	
+	BOOL result=[super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:flag];
+//	NSLog(@"tracking End...");	
+	return result;
+    }
+    
+
+    NSRect infoButtonRect = [self buttonRectForBounds:cellFrame];
+//    NSLog(@"tracking start...");
+    BOOL result= [button trackMouse:theEvent inRect:infoButtonRect ofView:controlView untilMouseUp:flag];	
+//    NSLog(@"tracking end...");
+    return result;
+}    
+
+- (void)addTrackingAreasForView:(NSView *)controlView inRect:(NSRect)cellFrame withUserInfo:(NSDictionary *)userInfo mouseLocation:(NSPoint)mouseLocation {
+    if(!button) return;
+    
+    NSRect infoButtonRect = [self buttonRectForBounds:cellFrame];
+    
+    NSTrackingAreaOptions options = NSTrackingEnabledDuringMouseDrag | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;
+    
+//    [controlView setNeedsDisplayInRect:cellFrame];
+    [controlView display];
+    BOOL mouseIsInside = NSMouseInRect(mouseLocation, infoButtonRect, [controlView isFlipped]);
+    if (mouseIsInside) {
+        options |= NSTrackingAssumeInside;
+    }
+    
+    // We make the view the owner, and it delegates the calls back to the cell after it is properly setup for the corresponding row/column in the outlineview
+    NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:infoButtonRect options:options owner:controlView userInfo:userInfo];
+    [controlView addTrackingArea:area];
+    [area release];
+}
+
+- (void)mouseEntered:(NSEvent *)event {
+    if(button){
+	[button mouseEntered:event];
+    }
+    [(NSControl *)[self controlView] updateCell:self];
+}
+
+- (void)mouseExited:(NSEvent *)event {
+    if(button){
+	[button mouseExited:event];
+    }
+    [(NSControl *)[self controlView] updateCell:self];
 }
 
 

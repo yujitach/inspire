@@ -33,6 +33,10 @@
 {
     return nil;
 }
+-(NSButtonCell*)button
+{
+    return nil;
+}
 /*-(id)valueForUndefinedKey:(NSString*)key
 {
     if([key isEqualToString:@"sortDescriptor"]){

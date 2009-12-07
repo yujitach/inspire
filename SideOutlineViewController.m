@@ -287,7 +287,9 @@
 	       item:(NSTreeNode*)item
 {
     ArticleList*al=[item representedObject];
+    [cell setButton: al.button];
     [cell setImage: al.icon];
+    [cell setShowButton:[cell isHighlighted]];
 }
 
 - (NSDragOperation)outlineView:(NSOutlineView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedItem:(NSTreeNode*)item proposedChildIndex:(NSInteger)ind
