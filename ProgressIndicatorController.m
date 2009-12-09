@@ -29,17 +29,5 @@ ProgressIndicatorController*_sharedInstance=nil;
 {
     [pi stopAnimation:sender];
 }
-+(void)startAnimation:(id)sender;
-{
-    if(_sharedInstance){
-	[_sharedInstance startAnimation:sender];
-    }
-}
-+(void)stopAnimation:(id)sender;
-{
-    if(_sharedInstance){
-	[_sharedInstance stopAnimation:sender];
-    }
-}
 
 @end

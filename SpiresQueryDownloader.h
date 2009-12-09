@@ -10,7 +10,6 @@
 
 
 @interface SpiresQueryDownloader : NSObject {
-    id userInfo;
     id delegate;
     SEL sel;
     NSString*searchString;
@@ -19,5 +18,5 @@
     NSURLRequest*urlRequest;
     
 }
--(id)initWithQuery:(NSString*)s delegate:(id)d didEndSelector:(SEL)sel userInfo:(id)v;
+-(id)initWithQuery:(NSString*)s delegate:(id)d didEndSelector:(SEL)sel ;
 @end

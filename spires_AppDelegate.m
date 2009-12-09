@@ -7,44 +7,29 @@
 //
 
 #import "spires_AppDelegate.h"
-#import "spires_AppDelegate_SyncCategory.h"
+#import "spires_AppDelegate_actions.h"
 #import "AppDelegate.h"
 #import "MOC.h"
 
 #import "Article.h"
-#import "ArticleData.h"
-//#import "Author.h"
 #import "JournalEntry.h"
 
-#import "ArxivHelper.h"
 #import "SpiresHelper.h"
 
 #import "AllArticleList.h"
 #import "ArxivNewArticleList.h"
 #import "SimpleArticleList.h"
-#import "ArticleFolder.h"
-#import "CannedSearch.h"
 
 #import "ArticleView.h"
 
-//#import "SideTableViewController.h"
 #import "SideOutlineViewController.h"
 
 #import "HistoryController.h"
 
-#import "NSString+XMLEntityDecoding.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
-#import "NSURL+libraryProxy.h"
-#import "ImporterController.h"
 #import "IncrementalArrayController.h"
-#import "ActivityMonitorController.h"
-#import "PrefController.h"
-#import "TeXWatcherController.h"
 #import "MessageViewerController.h"
-#import "ArxivNewCreateSheetHelper.h"
 
 #import "PDFHelper.h"
-#import "BibViewController.h"
 #import "ProgressIndicatorController.h"
 
 #import "SpiresQueryOperation.h"
@@ -52,8 +37,6 @@
 #import "BatchBibQueryOperation.h"
 #import "LoadAbstractDOIOperation.h"
 #import "ArxivMetadataFetchOperation.h"
-#import "BibTeXKeyCopyOperation.h"
-#import "ArticleListReloadOperation.h"
 
 #import "SPSearchFieldWithProgressIndicator.h"
 
@@ -65,12 +48,10 @@
 #define TICK (.5)
 #define GRACEMIN (3.0/TICK)
 #define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivWaitInSeconds"]/TICK)
-NSString *ArticleListDropPboardType=@"articleListDropType";
 
-spires_AppDelegate*_shared=nil;
-
-@interface spires_AppDelegate (private)
--(void)timerFired:(NSTimer*)t;
+@interface spires_AppDelegate (Timers)
+-(void)timerForAbstractFired:(NSTimer*)t;
+-(void)clearUnreadFlagOfArticle:(NSTimer*)timer;
 @end
 
 @implementation spires_AppDelegate
@@ -102,16 +83,6 @@ spires_AppDelegate*_shared=nil;
     
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
 }
--(id)init
-{
-    self=[super init];
-    _shared=self;
-    return self;
-}
-+(spires_AppDelegate*)sharedDelegate
-{
-    return _shared;
-}
 #pragma mark NSApplication delegates
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
@@ -125,10 +96,6 @@ spires_AppDelegate*_shared=nil;
     [window makeKeyAndOrderFront:self];
 //    NSLog(@"%@",wv);
     return NO;
-}
--(void)rearrangePositionInViewForArticleLists
-{
-    [sideTableViewController rearrangePositionInViewForArticleLists];
 }
 -(void)handlePDF:(NSString*)path
 {
@@ -151,7 +118,7 @@ spires_AppDelegate*_shared=nil;
 	    [self handlePDF:path];
 	}else if([path hasSuffix:@".tex"]){
 	    [[OperationQueues spiresQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:path
-												       andMOC:[self managedObjectContext] byLookingUpWeb:YES]];
+												    andMOC:[MOC moc] byLookingUpWeb:YES]];
 	}
     }
 }
@@ -232,26 +199,7 @@ spires_AppDelegate*_shared=nil;
     }
 }*/
 
-#pragma mark article list management
-
--(BOOL)currentListIsArxivReplaced
-{
-//    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
-    ArticleList*al=[sideTableViewController currentArticleList];
-    if(![al isKindOfClass:[ArxivNewArticleList class]]){
-	return NO;
-    }
-    NSArray* a=[al.name componentsSeparatedByString:@"/"];
-    if([a count]>1 && [[a objectAtIndex:1] hasPrefix:@"rep"]){
-	return YES;
-    }
-    return NO;
-}
 #pragma mark UI glues
--(NSWindow*)mainWindow
-{
-    return window;
-}
 -(void)checkOSVersion
 {   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
     SInt32 major=10,minor=5,bugFix=6;
@@ -302,7 +250,7 @@ spires_AppDelegate*_shared=nil;
 	    context:nil];
     
     
-    [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
     countDown=0;
     [searchField setProgressQuitAction:@selector(progressQuit:)];
     // the following two lines are to go around a Leopard bug (?)
@@ -312,17 +260,10 @@ spires_AppDelegate*_shared=nil;
  // seems to be unnecessary once mouseDownCanMoveWindow is overriden Mar/31/2009
  */
 
-    activityMonitorController=[[ActivityMonitorController alloc] init];
-    if(!prefController){
-	prefController=[[PrefController alloc]init];
-    }
-    if(!texWatcherController){
-	texWatcherController=[[TeXWatcherController alloc]init];
-    }
     
  //   [historyController performSelector:@selector(mark:) withObject:self afterDelay:1];
-//    [[self managedObjectContext] processPendingChanges];
-//    [[[self managedObjectContext] undoManager] disableUndoRegistration];
+//    [[MOC moc] processPendingChanges];
+//    [[[MOC moc] undoManager] disableUndoRegistration];
   //  [self disableUndo];  
 }
 
@@ -335,6 +276,8 @@ spires_AppDelegate*_shared=nil;
     [NSApp setServicesProvider: self];
     NSUpdateDynamicServices();
     
+//    Now it's done in an Apple approved way, see Snow Leopard AppKit Release Notes and look for NSRequiredContext.
+//    But for "safety" I keep the following code intact... 
     // Force enable the Spires... entry in the Services menu and the context menu.
     // This is not morally right, and uses implementation details not public, but whatever...
     // when someone complains, I would implement an opt-out button in the Preferences.
@@ -375,7 +318,7 @@ spires_AppDelegate*_shared=nil;
 
 //    [self startUpdatingMainView:self];
     [self crashCheck:self];
-    if(![[SpiresHelper sharedHelper] isOnline]){
+    if(![self isOnline]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
 				      defaultButton:@"OK" 
 				    alternateButton:nil
@@ -391,12 +334,6 @@ spires_AppDelegate*_shared=nil;
     }
 */    
 //    [self updateFormatForAIfNeeded:self];
-}
--(void)clearUnreadFlagOfArticle:(NSTimer*)timer
-{
-    Article*a=[timer userInfo];
-    [a setFlag:[a flag]&(~AFIsUnread)];
-    unreadTimer=nil;
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -437,52 +374,13 @@ spires_AppDelegate*_shared=nil;
     }
 }
 
-#pragma mark SPIRES XML 
--(void)querySPIRES:(NSString*)search
-{
-    if([[SpiresHelper sharedHelper] isOnline]){
-    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
-										     andMOC:[self managedObjectContext]]];
-    }else{
-	NSLog(@"it's offline!");
-    }
-}
-/*-(void)startUpdatingMainView:(id)sender
-{
-    ac.refuseFiltering=NO;
-}
--(void)stopUpdatingMainView:(id)sender
-{
-    ac.refuseFiltering=YES;
-}*/
--(void)clearingUpAfterRegistration:(id)sender
-{
-    if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
-	[ac setSelectionIndex:0];
-    }
-    
-    [ac didChangeArrangementCriteria];    
-}
-#pragma mark Importer
--(IBAction)importSpiresXML:(id)sender
-{
-    NSOpenPanel*op=[NSOpenPanel openPanel];
-    [op setCanChooseFiles:YES];
-    [op setCanChooseDirectories:NO];
-    [op setMessage:@"Choose the SPIRES XML files to import..."];
-    [op setPrompt:@"Choose"];
-    [op setAllowsMultipleSelection:YES];
-    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"spires_xml",nil]];
-    NSInteger res=[op runModal];
-    if(res==NSOKButton){
-	if(!importerController){
-	    importerController=[[ImporterController alloc] init];//WithAppDelegate:self];
-	}
-	[importerController import:[op filenames]];
-    }
-    
-}
 #pragma mark Timers
+-(void)clearUnreadFlagOfArticle:(NSTimer*)timer
+{
+    Article*a=[timer userInfo];
+    [a setFlag:[a flag]&(~AFIsUnread)];
+    unreadTimer=nil;
+}
 
 -(void)loadAbstractUsingDOI:(Article*)a
 {
@@ -494,7 +392,7 @@ spires_AppDelegate*_shared=nil;
     [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 }
 
--(void)timerFired:(NSTimer*)t
+-(void)timerForAbstractFired:(NSTimer*)t
 {
     if(countDown>0){
 	countDown--;
@@ -526,7 +424,7 @@ spires_AppDelegate*_shared=nil;
 	    return;
     }
     
-    if([[SpiresHelper sharedHelper] isOnline]){
+    if([self isOnline]){
 	if(a.eprint && ![a.eprint isEqualToString:@""]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
 	}else if(a.doi && ![a.doi isEqualToString:@""]){
@@ -548,461 +446,98 @@ spires_AppDelegate*_shared=nil;
     return [resizer convertRect:[resizer thumbRect] toView:splitView]; 
 }*/
 
-#pragma mark Actions
--(IBAction)turnOnOffLine:(id)sender
+
+#pragma mark Public Interfaces
+
+
+-(BOOL)currentListIsArxivReplaced
 {
-    BOOL state=[[SpiresHelper sharedHelper] isOnline];
-    if(state){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to go offline?"
-				      defaultButton:@"Yes" 
-				    alternateButton:@"No"
-					otherButton:nil
-			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
-	NSUInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
-	    return;
+    //    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
+    ArticleList*al=[sideTableViewController currentArticleList];
+    if(![al isKindOfClass:[ArxivNewArticleList class]]){
+	return NO;
     }
-    [[SpiresHelper sharedHelper] setIsOnline:!state];
-
+    NSArray* a=[al.name componentsSeparatedByString:@"/"];
+    if([a count]>1 && [[a objectAtIndex:1] hasPrefix:@"rep"]){
+	return YES;
+    }
+    return NO;
 }
-
--(IBAction)progressQuit:(id)sender
+-(void)rearrangePositionInViewForArticleLists
 {
-    [OperationQueues cancelCurrentOperations];
-}
--(IBAction)changeFont:(id)sender;
-{
-    [prefController changeFont:sender];
-}
--(void)setFontSize:(float)size
-{
-    if(size<8 || size>20) return;
-    [[NSUserDefaults standardUserDefaults] setFloat:(float)size forKey:@"articleViewFontSize"];
-}
--(IBAction)zoomIn:(id)sender;
-{
-    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
-    [self setFontSize:fontSize+1];
-}
--(IBAction)zoomOut:(id)sender;
-{
-    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
-    [self setFontSize:fontSize-1];
-}
--(IBAction)showhideActivityMonitor:(id)sender;
-{
-    [activityMonitorController showhide:sender];
-}
--(IBAction)showPreferences:(id)sender;
-{
-    [prefController showWindow:sender];
-}
--(IBAction)showTeXWatcher:(id)sender;
-{
-    [texWatcherController showhide:sender];
-}
--(IBAction)showUsage:(id)sender;
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.sns.ias.edu/~yujitach/spires/usage.html"]];
-}
-
--(IBAction)openHomePage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.sns.ias.edu/~yujitach/spires/"]];
-}
--(IBAction)showReleaseNotes:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"Release Notes" ofType:@"html"]];    
-}
--(IBAction)showAcknowledgments:(id)sender;
-{
-    [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"Acknowledgments" ofType:@"html"]];    
-}
-/*-(IBAction)undo:(id)sender
-{
-    [self enableUndo];
-    [[self managedObjectContext] undo];
-    [self disableUndo];
-}
--(IBAction)redo:(id)sender
-{
-    [self enableUndo];
-    [[self managedObjectContext] redo];
-    [self disableUndo];
-}*/
--(void)dumpDebugInfo:(id)sender
-{
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    NSLog(@"%@",a);
-    NSLog(@"%@",a.data);
-/*    for(Article*b in a.citedBy){
-	NSLog(@"citedByEntry:%@",b);
-    }*/
-//    NSLog(@"%@",a.abstract);
-}
--(void)addArticleList:(id)sender
-{
-//    [self enableUndo];
-    NSEntityDescription*entityDesc=[NSEntityDescription entityForName:@"SimpleArticleList" inManagedObjectContext:[self managedObjectContext]];
-    SimpleArticleList* al=[[SimpleArticleList alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:[self managedObjectContext]];
-    al.name=@"untitled";
-    //    al.positionInView=[NSNumber numberWithInt:[[articleListController arrangedObjects] count]*2];
-//    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
-    [sideTableViewController addArticleList:al];
-//    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
     [sideTableViewController rearrangePositionInViewForArticleLists];
-//    [self disableUndo];
-}
-
--(void)addArxivArticleList:(id)sender
-{
-    if(!arxivNewCreateSheetHelper){
-	arxivNewCreateSheetHelper=[[ArxivNewCreateSheetHelper alloc] initWithWindow:window delegate:self];
-    }
-    [arxivNewCreateSheetHelper run];
 }
 -(void)addArxivArticleListWithName:(NSString*)name;
 {
-    ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:name inMOC:[self managedObjectContext]];
+    ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:name inMOC:[MOC moc]];
     [sideTableViewController addArticleList:al];
     [sideTableViewController rearrangePositionInViewForArticleLists];    
 }
--(void)addArticleFolder:(id)sender
+
+-(NSWindow*)mainWindow
 {
-    ArticleFolder* al=[ArticleFolder articleFolderWithName:@"untitled" inMOC:[self managedObjectContext]];
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
+    return window;
 }
--(void)addCannedSearch:(id)sender
+-(void)querySPIRES:(NSString*)search
 {
-    NSString*name=[[sideTableViewController currentArticleList] searchString];
-    if(!name || [name isEqualToString:@""]){
-	name=@"untitled";
+    if([self isOnline]){
+	[[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
+											 andMOC:[MOC moc]]];
+    }else{
+	NSLog(@"it's offline!");
     }
-    CannedSearch* al=[CannedSearch cannedSearchWithName:name inMOC:[self managedObjectContext]];
-    al.searchString=[[sideTableViewController currentArticleList] searchString];
-    al.sortDescriptors=[[sideTableViewController currentArticleList] sortDescriptors];
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
 }
-
--(void)deleteArticleList:(id)sender
+/*-(void)startUpdatingMainView:(id)sender
+ {
+ ac.refuseFiltering=NO;
+ }
+ -(void)stopUpdatingMainView:(id)sender
+ {
+ ac.refuseFiltering=YES;
+ }*/
+-(void)clearingUpAfterRegistration:(id)sender
 {
-    [sideTableViewController removeCurrentArticleList];
-}
-
--(void)sendBugReport:(id)sender
-{
-    NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-    NSInteger entries=[[[AllArticleList allArticleList] articles] count];
-    NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
-    NSNumber* size=[dict valueForKey:NSFileSize];
-    [[NSWorkspace sharedWorkspace]
-     openURL:[NSURL URLWithString:
-	      [[NSString stringWithFormat:
-		@"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@ (%d entries, %@ bytes)",
-		version,entries,size]
-	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
-}    
-
-/*-(IBAction)installHook:(id)sender
-{
-    NSString*pkg=[[NSBundle mainBundle] pathForResource:@"spiresHook" ofType:@"pkg"];
-  //  NSLog(@"%@",pkg);
-    [[NSWorkspace sharedWorkspace] openFile:pkg];
-}*/
--(IBAction)deletePDFForEntry:(id)sender
-{
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    if(!a.hasPDFLocally)
-	return;
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Do you really want to remove PDF?"
-				  defaultButton:@"Yes" 
-				alternateButton:@"No"
-				    otherButton:nil
-		      informativeTextWithFormat:@"PDF will be moved to the trash."];
-    NSUInteger result=[alert runModal];
-    if(result!=NSAlertDefaultReturn)
-	return;
-    NSString*path=a.pdfPath;
-    [[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]]
-			     completionHandler:nil];
-    [a setFlag:a.flag &(~AFHasPDF)];
+    if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
+	[ac setSelectionIndex:0];
+    }
     
-}
--(IBAction)deleteEntry:(id)sender
-{
-    ArticleList* al=[sideTableViewController currentArticleList];
-    if(!al){
-	NSBeep(); 
-	return;
-    }
-    NSArray*a=[ac selectedObjects];
-    if([al isKindOfClass:[AllArticleList class]]){
-	for(Article*x in a){
-	    // deleting x should be enough when the delete rules are correctly set up in mom,
-	    // but somehow it doesn't work! so I manually delete 'em...
-	    [al removeArticlesObject:x];
-	    ArticleData*d=x.data;
-	    JournalEntry*j=x.journal;
-	    [[self managedObjectContext] deleteObject:d];
-	    [[self managedObjectContext] deleteObject:x];
-	    [[self managedObjectContext] deleteObject:j];
-	}
-    }else if([al isKindOfClass:[SimpleArticleList class]]){
-	for(Article*x in a){
-	    [al removeArticlesObject:x];
-	}
-    }
-}
--(IBAction) search:(id)sender
-{
-//    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
-/*    NSArray *a=[articleListController selectedObjects];
-    if([a count]==0){
-	return;
-    }
-    ArticleList* al=[a objectAtIndex:0];*/
-    if(![[SpiresHelper sharedHelper] isOnline])
-	return;
-    ArticleList* al=[sideTableViewController currentArticleList];
-    if(!al){
-	return;
-    }
-    if([al isKindOfClass:[CannedSearch class]]){
-	[al reload];
-	return;
-    }
-    NSString*searchString=al.searchString;
-    if(searchString==nil || [searchString isEqualToString:@""])return;
-    [historyController mark:self];
-    [AllArticleList allArticleList].searchString=searchString;
-    [sideTableViewController selectAllArticleList];
-    [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
-}
--(IBAction) reloadSelection:(id)sender
-{
-    Article*o=[ac selection];
-    if(o==nil)return;
-    [ProgressIndicatorController startAnimation:self];
-    [historyController mark:self];
-    NSString*eprint=[o valueForKey:@"eprint"];
-    if(eprint && ![eprint isEqualToString:@""]){
-
-	[self querySPIRES:[NSString stringWithFormat:@"eprint %@",[o valueForKey:@"eprint"]]]; 	
-    }else{
-     [self querySPIRES:[NSString stringWithFormat:@"spicite %@",[o valueForKey:@"spicite"]]];
-    }
-    [ProgressIndicatorController stopAnimation:self];
-}
--(IBAction) reloadSelectedArticleList:(id)sender
-{
-    
-/*    int i=[articleListController selectionIndex];
-//    int i=[[articleListController selectionIndexPath] indexAtPosition:0];
-    if(i==0){
-	[self search:nil];
-    }
-    ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:i];*/
-    ArticleList* al=[sideTableViewController currentArticleList];
-    if([al isKindOfClass:[AllArticleList class]]){
-	[self search:nil];
-    }else{
-	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
-    }
-//    [al reload];
-}
--(IBAction)reloadAllArticleList:(id)sender
-{
-    NSEntityDescription*authorEntity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:[self managedObjectContext]];
-    NSFetchRequest*req=[[NSFetchRequest alloc]init];
-    [req setEntity:authorEntity];
-    NSPredicate*pred=[NSPredicate predicateWithValue:YES];
-    [req setPredicate:pred];
-    NSError*error=nil;
-    NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
-    for(ArxivNewArticleList*l in a){
-	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
-    }
-}
--(IBAction)openSelectionInQuickLook:(id)sender
-{
-    if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithQuickLook];
-}
--(IBAction)openSelectionInPDFViewer:(id)sender;
-{
-    if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithPrimaryViewer];
-}
--(IBAction)openSelectionInSecondaryPDFViewer:(id)sender;
-{
-    if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithSecondaryViewer];
+    [ac didChangeArrangementCriteria];    
 }
 
--(IBAction)openPDF:(id)sender
-{
-    Article*o=[[ac selectedObjects] objectAtIndex:0];
-    if(!o)
-	return;
-    //    int modifiers=GetCurrentKeyModifiers();
-    if([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask){
-	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithSecondaryViewer];
-    }else{
-	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithPrimaryViewer];
-    }
-}
-
--(IBAction)openJournal:(id)sender
-{
-    if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-//    NSString* univ=[[NSUserDefaults standardUserDefaults] objectForKey:@"universityLibraryToGetPDF"];
-//    if(univ && ![univ isEqualToString:@""]){
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]&& (!a.eprint || [a.eprint isEqualToString:@""])){
-	if(a.hasPDFLocally){
-	    [self openPDF:self];
-	    return;
-	}else if([[PDFHelper sharedHelper] downloadAndOpenPDFfromJournalForArticle:a]){ 
-	    // this returns NO when it's immediately clear it can't be downloaded
-	    return; 
-	}
-    }
-    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:a.doi];
-    [[NSWorkspace sharedWorkspace] openURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]];
-    [self showInfoOnAssociation];
-
-}
-
--(IBAction)openPDForJournal:(id)sender
-{
-    if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
-    if(a.hasPDFLocally || (a.eprint && ![a.eprint isEqualToString:@""]) ){
-	[self openPDF:sender];
-    }else{
-	[self openJournal:sender];
-    }
-}
-
--(IBAction)getBibEntriesWithoutDisplay:(id)sender
-{
-    NSArray*x=[ac selectedObjects];
-//    [NSThread detachNewThreadSelector:@selector(getBibEntriesMainWork:) toTarget:self withObject:x];
-    [[OperationQueues spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:x]];
-}
--(IBAction)getBibEntries:(id)sender
-{
-    [self getBibEntriesWithoutDisplay:sender];
-    [bibViewController setArticles:[ac selectedObjects]];
-    [bibViewController showWindow:sender];
-}
--(IBAction)copyBibKeyToPasteboard:(id)sender
-{
-    NSMutableArray*notReady=[NSMutableArray array];
-    NSOperation*op=[[BibTeXKeyCopyOperation alloc] initWithArticles:[ac selectedObjects]];
-    for(Article*a in [ac selectedObjects]){
-	if(!a.texKey || [a.texKey isEqualToString:@""]){
-	    [notReady addObject:a];	    
-	}
-    }
-    if([notReady count]>0){
-	NSOperation*bb=[[BatchBibQueryOperation alloc]initWithArray:notReady];
-	[[OperationQueues spiresQueue] addOperation:bb];
-	[op addDependency:bb];
-    }
-    [[OperationQueues spiresQueue] addOperation:op];
-}
--(IBAction)reloadFromSPIRES:(id)sender
-{
-    for(Article*article in [ac selectedObjects]){
-	NSString* target=nil;
-	if(article.articleType==ATEprint){
-	    target=[@"eprint " stringByAppendingString:article.eprint];
-//	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:article]];
-	}else if(article.articleType==ATSpires){
-	    target=[@"spicite " stringByAppendingString:article.spicite];	
-	}else if(article.articleType==ATSpiresWithOnlyKey){
-	    target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
-	}
-	if(target){
-	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
-											    andMOC:[self managedObjectContext]]];
-	}
-    }
-}
--(IBAction)toggleFlagged:(id)sender
-{
-    for(Article*article in [ac selectedObjects]){
-	if(article.flag & AFIsFlagged){
-	    [article setFlag:article.flag&~AFIsFlagged];
-	}else{
-	    [article setFlag:article.flag|AFIsFlagged];
-	}
-    }
-}
 -(void)postMessage:(NSString*)message
 {
     wv.message=message;
 }
-#pragma mark check consistency
--(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate
+-(void)makeTableViewFirstResponder
 {
-    NSEntityDescription*entity=[NSEntityDescription entityForName:entityName inManagedObjectContext:[self managedObjectContext]];
-    NSFetchRequest*req=[[NSFetchRequest alloc] init];
-    [req setEntity:entity];
-    [req setPredicate:predicate];
-    NSError*error=nil;
-    NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
-    NSLog(@"%d %@(s) found",(int)[a count],entityName);
-    return a;
+    [window makeFirstResponder:articleListView];
 }
--(IBAction)fixDataInconsistency:(id)sender;
+-(void)startProgressIndicator
 {
-    {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Check consistency and fix"
-				      defaultButton:@"OK" 
-				    alternateButton:@"Cancel"
-					otherButton:nil
-			  informativeTextWithFormat:@"The check and fix will take some time (~1min). Do you want to proceed?"];
-	NSInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
-	    return;
-    }
-    
-    NSMutableArray*badGuys=[NSMutableArray array];
-    NSArray*a;
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"Article" 
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"(not (self in %@)) || data == nil",[AllArticleList allArticleList].articles]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"ArticleData"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"JournalEntry"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    
-    NSString*message=nil;
-    if([badGuys count]>0){
-	// "fixed" in the message below is a euphemism for "just deleted".
-	message=[NSString stringWithFormat:@"%d problematic entries were fixed.",(int)[badGuys count]];
-	for(NSManagedObject*obj in badGuys){
-	    [[self managedObjectContext] deleteObject:obj];
-	}
-	[self saveAction:self];
+    [[ProgressIndicatorController sharedController] startAnimation:self];
+}
+-(void)stopProgressIndicator
+{
+    [[ProgressIndicatorController sharedController] stopAnimation:self];
+}
+
+@dynamic isOnline;
+-(void)setIsOnline:(BOOL)b
+{
+    [[NSUserDefaults standardUserDefaults] setBool:b forKey:@"isOnline"];
+    if(b){
+	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Offline",@"Turn Offline")
+						 forKey:@"turnOnOfflineMenuItem"];
     }else{
-	message=@"No problem found.";
-    }
-    {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked"
-				      defaultButton:@"OK" 
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:message];
-	[alert runModal];
+	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Online",@"Turn Online")
+						 forKey:@"turnOnOfflineMenuItem"];	
     }
 }
+-(BOOL)isOnline
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"isOnline"];
+}
+
 #pragma mark PDF Association
 -(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(NSString*)path
 {
@@ -1196,16 +731,6 @@ spires_AppDelegate*_shared=nil;
     }
 }
 #pragma mark Default provided by templates
--(NSManagedObjectContext*)managedObjectContext
-{
-    return [MOC moc];
-}
-/**
-    Returns the support folder for the application, used to store the Core Data
-    store file.  This code uses a folder named "spires" for
-    the content, either in the NSApplicationSupportDirectory location or (if the
-    former cannot be found), the system's temporary directory.
- */
 
 
 /**
@@ -1214,26 +739,9 @@ spires_AppDelegate*_shared=nil;
  */
  
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-    return [[self managedObjectContext] undoManager];
+    return [[MOC moc] undoManager];
 }
 
-
-/**
-    Performs the save action for the application, which is to send the save:
-    message to the application's managed object context.  Any encountered errors
-    are presented to the user.
- */
- 
-- (IBAction) saveAction:(id)sender {
-
-    NSError *error = nil;
-    if (![[self managedObjectContext] save:&error]) {
-	[[MOC sharedMOCManager] presentMOCSaveError:error];
-        [[NSApplication sharedApplication] presentError:error];
-    }/*else if([self syncEnabled]){
-	[self syncAction:self];
-    }*/
-}
 
 
 /**
@@ -1283,12 +791,12 @@ spires_AppDelegate*_shared=nil;
     return reply;
 }
 
--(void)applicationWillTerminate:(NSNotification*)note
+/*-(void)applicationWillTerminate:(NSNotification*)note
 {
-//    system("killall SpiresQuickLookHelper");
+    system("killall SpiresQuickLookHelper");
 }
 #pragma mark exception
-/*
+
 - (void)printStackTrace:(NSException *)e
 {
     NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];

@@ -11,6 +11,11 @@
 #import "NSString+magic.h"
 
 @implementation BibViewController
+-(id)init
+{
+    self=[super initWithWindowNibName:@"BibView"];
+    return self;
+}
 -(void)refresh
 {
     NSString*key=[[NSUserDefaults standardUserDefaults] stringForKey:@"bibType"];
@@ -27,7 +32,8 @@
 	x=[x magicTeXed];
     }
     [tv setString:x];
-    
+    [tv selectAll:self];
+
     if(!articles)return;
     if([articles count]==0) return;
     Article*a=[articles objectAtIndex:0];
@@ -71,6 +77,6 @@
 
 -(void)showWindow:(id)sender
 {
-    [window makeKeyAndOrderFront:sender];
+    [[self window] makeKeyAndOrderFront:sender];
 }
 @end

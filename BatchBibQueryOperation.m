@@ -8,7 +8,7 @@
 
 #import "BatchBibQueryOperation.h"
 #import "Article.h"
-#import "ProgressIndicatorController.h"
+#import "AppDelegate.h"
 #import "SpiresHelper.h"
 @implementation BatchBibQueryOperation
 -(BatchBibQueryOperation*)initWithArray:(NSArray*)a;
@@ -45,7 +45,9 @@
 }
 -(void)main
 {
-    [ProgressIndicatorController performSelectorOnMainThread:@selector(startAnimation:) withObject:self waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] startProgressIndicator];
+    });
     for(Article* article in articles){
 	if([self isCancelled])break;
 /*	if(article.texKey && ![article.texKey isEqualToString:@""]){
@@ -73,7 +75,9 @@
 	NSArray* arr=[NSArray arrayWithObjects:article,key,bib,latex,harvmac,harvmacKey,nil];
 	[self performSelectorOnMainThread:@selector(getBibEntriesInternal:) withObject:arr waitUntilDone:YES];
     }
-    [ProgressIndicatorController performSelectorOnMainThread:@selector(stopAnimation:) withObject:self waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] stopProgressIndicator];
+    });
 //    [self finish];
 }
 @end

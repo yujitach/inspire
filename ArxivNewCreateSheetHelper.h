@@ -10,13 +10,11 @@
 
 @class spires_AppDelegate;
 @interface ArxivNewCreateSheetHelper : NSObject {
-    NSWindow*windowToAttach;
-    spires_AppDelegate*delegate;
     IBOutlet NSWindow*sheet;
     NSString*head;
     NSString*tail;
 }
--(id)initWithWindow:(NSWindow*)w delegate:(spires_AppDelegate*)d;
+-(id)init;
 -(void)run;
 -(IBAction)OK:(id)sender;
 -(IBAction)cancel:(id)sender;

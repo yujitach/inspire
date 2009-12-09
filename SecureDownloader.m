@@ -13,12 +13,11 @@
 
 @implementation SecureDownloader
 
--(SecureDownloader*)initWithURL:(NSURL*)u didEndSelector:(SEL)s delegate:(id)d 
+-(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
 {
     self=[super init];
     url=u;
-    selector=s;
-    delegate=d;
+    handler=Block_copy(h);
     path=[[NSFileManager defaultManager] temporaryFileName];
 //    NSLog(@"%@",path);
     return self;
@@ -34,7 +33,7 @@
 #pragma mark Delegates
 - (NSWindow *)downloadWindowForAuthenticationSheet:(WebDownload *)sender
 {
-    return [(id<AppDelegate>)[NSApp delegate] mainWindow];
+    return [[NSApp appDelegate] mainWindow];
 }
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {
@@ -43,21 +42,20 @@
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
     
-    [delegate performSelector:selector withObject:nil];
+    handler(nil);
     NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error"
 				  defaultButton:@"OK"
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:@"Error: %@",[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];
 }
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
-    [delegate performSelector:selector withObject:path];
-
+    handler(path);
 }
 
 @end

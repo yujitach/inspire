@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface BibViewController : NSObject {
+@interface BibViewController : NSWindowController {
     NSArray* articles;
     IBOutlet NSTextView* tv;
-    IBOutlet NSWindow* window;
+//    IBOutlet NSWindow* window;
 }
 -(void)setArticles:(NSArray*)a;
 -(void)showWindow:(id)sender;

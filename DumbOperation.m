@@ -203,6 +203,13 @@ static NSOperationQueue*_Aqueue=nil;
 {
     return isFinished;
 }
+-(void)checkIfCancelled:(id)userInfo
+{
+    if([self isCancelled]){
+	[self cleanupToCancel];
+	[self finish];
+    }
+}
 -(void)setIsExecuting:(BOOL)b
 {
     [self willChangeValueForKey:@"isExecuting"];
@@ -213,13 +220,6 @@ static NSOperationQueue*_Aqueue=nil;
 	[cancelTimer invalidate];
     }
     [self didChangeValueForKey:@"isExecuting"];
-}
--(void)checkIfCancelled:(id)userInfo
-{
-    if([self isCancelled]){
-	[self cleanupToCancel];
-	[self finish];
-    }
 }
 -(void)setIsFinished:(BOOL)b
 {

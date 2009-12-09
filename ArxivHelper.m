@@ -45,73 +45,6 @@ ArxivHelper* _sharedHelper=nil;
     return [NSString stringWithFormat:@"%@abs/%@",[self arXivHead],arXivID];
 }
 
--(NSString*)valueForKey:(NSString*)key inXMLElement:(NSXMLElement*)element
-{
-    NSArray*a=[element elementsForName:key];
-    if(a==nil||[a count]==0)return nil;
-    NSString*s=[[a objectAtIndex:0] stringValue];
-    if(!s || [s isEqualToString:@""])
-	return nil;
-    return s;
-}
-
--(void)onlineMetaDataForID:(NSString*)arXivID delegate:(id)dele didEndSelector:(SEL)s
-{
-    NSMutableDictionary*dict=[NSMutableDictionary dictionary];
-    [dict setObject:dele forKey:@"delegate"];
-    [dict setObject:arXivID forKey:@"arXivID"];
-    [dict setObject:(id)s forKey:@"selector"];
-    [NSThread detachNewThreadSelector:@selector(onlineMetaDataForIDRealWork:) toTarget:self withObject:dict];
-}
--(void)onlineMetaDataForIDRealWork:(NSDictionary*)dict
-{
-    // see http://export.arxiv.org/api_help/docs/user-manual.html
-    NSString*arXivID=[dict valueForKey:@"arXivID"];
-    if([arXivID hasPrefix:@"arXiv:"]){
-	arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
-    }
-    NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"http://export.arxiv.org/api/query?id_list=%@",arXivID]];
-    NSLog(@"query:%@",url);
-    NSError*error=nil;
-    NSXMLDocument* doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
-    if(!doc){
-	NSLog(@"XML error: %@",error);
-    }
-    NSXMLElement* elem=[[[doc rootElement] elementsForName:@"entry"] objectAtIndex:0];
-//    NSMutableDictionary* dict=[NSMutableDictionary dictionary];
-    
-    NSString* s=[self valueForKey:@"id" inXMLElement:elem];
-    s=[s substringFromIndex:[(NSString*)@"http://arxiv.org/abs/" length]];
-    NSArray*a=[s componentsSeparatedByString:@"v"];
-    NSString* comment=[self valueForKey:@"arxiv:comment" inXMLElement:elem];
-    if(comment){
-	comment=[comment stringByReplacingOccurrencesOfString:@"\n " withString:@" "];
-	comment=[comment stringByReplacingOccurrencesOfString:@" \n" withString:@" "];
-	comment=[comment stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-	[dict setValue:comment forKey:@"comments"];
-    }
-    
-    {
-	NSArray*ar=[elem elementsForName:@"arxiv:primary_category"];
-	if(ar && [ar count]>0){
-	    NSXMLElement*x=[ar objectAtIndex:0];
-	    NSString*pc=[[x attributeForName:@"term"] stringValue];
-	    [dict setValue:pc forKey:@"primaryCategory"];
-	}
-    }
-    
-    int v=[[a lastObject] intValue];
-    id dele=[dict valueForKey:@"delegate"];
-    SEL selec=(SEL)[dict valueForKey:@"selector"];
-    if(v==0){
-	dict=nil;
-    }else{
-	[dict setValue:[NSNumber numberWithInt:v] forKey:@"version"];
-	NSString*abstract=[self valueForKey:@"summary" inXMLElement:elem];
-	[dict setValue:abstract forKey:@"abstract"];
-    }
-    [dele performSelectorOnMainThread:selec withObject:dict waitUntilDone:NO];
-}
 
 
 -(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)dele didEndSelector:(SEL)s;
@@ -251,7 +184,7 @@ ArxivHelper* _sharedHelper=nil;
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];

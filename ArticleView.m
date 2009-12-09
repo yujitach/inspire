@@ -14,6 +14,7 @@
 #import "ArxivHelper.h"
 #import "RegExKitLite.h"
 #import "NSString+magic.h"
+#import "spires_AppDelegate_actions.h"
 
 @implementation ArticleView
 #pragma mark UI glues

@@ -12,13 +12,16 @@
 #import "RegexKitLite.h"
 #import "AppDelegate.h"
 
+@interface SpiresQueryDownloader ()
+- (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
+@end
+
 @implementation SpiresQueryDownloader
 
 
--(id)initWithQuery:(NSString*)search delegate:(id)d didEndSelector:(SEL)selector userInfo:(id)v
+-(id)initWithQuery:(NSString*)search delegate:(id)d didEndSelector:(SEL)selector 
 {
     self=[super init];
-    userInfo=v;
     delegate=d;
     sel=selector;
     search=[search normalizedString];
@@ -163,14 +166,14 @@
 					alternateButton:@"No thanks"
 					    otherButton:nil informativeTextWithFormat:text];
 	    //[alert setAlertStyle:NSCriticalAlertStyle];
-	    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 			      modalDelegate:self 
 			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
 				contextInfo:nil];
 	    [t writeToFile:@"/tmp/spires-xml.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	}
     }
-    [delegate performSelector:sel withObject:doc withObject:userInfo];
+    [delegate performSelector:sel withObject:doc];
     temporaryData=nil;
     connection=nil;
     
@@ -194,13 +197,13 @@
 
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
-    [delegate performSelector:sel withObject:nil withObject:userInfo];
+    [delegate performSelector:sel withObject:nil];
     NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to SPIRES"
 				  defaultButton:@"OK"
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];

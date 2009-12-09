@@ -11,11 +11,10 @@
 @class WebDownload;
 @interface SecureDownloader : NSObject {
     WebDownload*downloader;
-    SEL selector;
-    id delegate;
+    void (^handler)(NSString*);
     NSURL*url;
     NSString*path;
 }
--(SecureDownloader*)initWithURL:(NSURL*)u didEndSelector:(SEL)s delegate:(id)t ;
+-(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
 -(void)download;
 @end

@@ -371,21 +371,5 @@ SpiresHelper*_sharedSpiresHelper=nil;
     return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", SPIRESWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 }
 
-#pragma mark online management
--(void)setIsOnline:(BOOL)b
-{
-    [[NSUserDefaults standardUserDefaults] setBool:b forKey:@"isOnline"];
-    if(b){
-	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Offline",@"Turn Offline")
-						 forKey:@"turnOnOfflineMenuItem"];
-    }else{
-	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Online",@"Turn Online")
-						 forKey:@"turnOnOfflineMenuItem"];	
-    }
-}
--(BOOL)isOnline
-{
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"isOnline"];
-}
 
 @end

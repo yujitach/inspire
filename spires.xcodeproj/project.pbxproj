@@ -12,8 +12,6 @@
 		330207AC0F5990210067714C /* MOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 330207AB0F5990210067714C /* MOC.m */; };
 		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
-		33071BC70EC1158A00957864 /* ImporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33071BC60EC1158A00957864 /* ImporterController.m */; };
-		33071BCF0EC1161900957864 /* Importer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33071BCE0EC1161900957864 /* Importer.xib */; };
 		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
 		330937360F39662800F214D6 /* spires.syncschema in Resources */ = {isa = PBXBuildFile; fileRef = 3309372A0F39662800F214D6 /* spires.syncschema */; };
 		330937610F39694800F214D6 /* ClientDescription.plist in Resources */ = {isa = PBXBuildFile; fileRef = 330937600F39694800F214D6 /* ClientDescription.plist */; };
@@ -41,6 +39,8 @@
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
+		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
+		332BD66210CEF3830032EF88 /* spires_AppDelegate_actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */; };
 		332D1B8F0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */; };
 		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
@@ -68,8 +68,6 @@
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
 		335937790F40052D00E3A39E /* BWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335937770F40052D00E3A39E /* BWSplitView.m */; settings = {COMPILER_FLAGS = "-Wno-error -Wno-shadow"; }; };
-		3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */; };
-		3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */ = {isa = PBXBuildFile; fileRef = 3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */; };
 		33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33649D1B0FFA8AF50002B187 /* WaitOperation.m */; };
 		3365B0890EA7F53100A847CE /* arxiv.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3365B0860EA7F53100A847CE /* arxiv.ico */; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
@@ -105,7 +103,6 @@
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
 		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
-		33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */; };
 		33B58BDA0F395ED600E23146 /* SyncServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B58BD90F395ED600E23146 /* SyncServices.framework */; };
 		33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8521B10CC851400EC0211 /* whiteOut.pdf */; };
 		33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524B10CC863000EC0211 /* blackOut.pdf */; };
@@ -154,6 +151,7 @@
 		33F1970910C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1970810C03D4F001F3F0F /* ArticleDataV4V5MigrationPolicy.m */; };
 		33F1991410C08505001F3F0F /* MigrationProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F1991310C08505001F3F0F /* MigrationProgress.xib */; };
 		33F1991A10C0853F001F3F0F /* MigrationProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1991910C0853F001F3F0F /* MigrationProgressController.m */; };
+		33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F2076B10CF828E0012F0B6 /* BibView.xib */; };
 		33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F614D110CC50C500EC3837 /* ReloadButton.m */; };
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* spires_AppDelegate.m */; };
@@ -234,6 +232,9 @@
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
+		332BD63510CECF500032EF88 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		332BD66010CEF3830032EF88 /* spires_AppDelegate_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate_actions.h; sourceTree = "<group>"; };
+		332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate_actions.m; sourceTree = "<group>"; };
 		332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleV1V2MigrationPolicy.h; sourceTree = "<group>"; };
 		332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleV1V2MigrationPolicy.m; sourceTree = "<group>"; };
 		332F19C30EA57B8E00758683 /* ArxivHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivHelper.h; sourceTree = "<group>"; };
@@ -284,8 +285,6 @@
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
 		335937770F40052D00E3A39E /* BWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSplitView.m; path = bwtoolkit/BWSplitView.m; sourceTree = "<group>"; };
 		335937780F40052D00E3A39E /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = bwtoolkit/BWSplitView.h; sourceTree = "<group>"; };
-		3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = GradientSplitViewDimpleVector.pdf; path = bwtoolkit/GradientSplitViewDimpleVector.pdf; sourceTree = "<group>"; };
-		3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GradientSplitViewDimpleBitmap.tif; path = bwtoolkit/GradientSplitViewDimpleBitmap.tif; sourceTree = "<group>"; };
 		33649D1A0FFA8AF50002B187 /* WaitOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOperation.h; sourceTree = "<group>"; };
 		33649D1B0FFA8AF50002B187 /* WaitOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOperation.m; sourceTree = "<group>"; };
 		3365B0860EA7F53100A847CE /* arxiv.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = arxiv.ico; sourceTree = "<group>"; };
@@ -421,6 +420,7 @@
 		33F1991310C08505001F3F0F /* MigrationProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MigrationProgress.xib; sourceTree = "<group>"; };
 		33F1991810C0853F001F3F0F /* MigrationProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MigrationProgressController.h; sourceTree = "<group>"; };
 		33F1991910C0853F001F3F0F /* MigrationProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MigrationProgressController.m; sourceTree = "<group>"; };
+		33F2076B10CF828E0012F0B6 /* BibView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BibView.xib; sourceTree = "<group>"; };
 		33F6142F10CC282900EC3837 /* CellTrackingRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellTrackingRect.h; sourceTree = "<group>"; };
 		33F6149F0EAA82F200DA8029 /* spiresHook.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = spiresHook.pkg; sourceTree = "<group>"; };
 		33F614D010CC50C500EC3837 /* ReloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReloadButton.h; sourceTree = "<group>"; };
@@ -540,14 +540,10 @@
 			isa = PBXGroup;
 			children = (
 				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
-				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
-				33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */,
-				338E9EB81037C5200059AE43 /* MessageViewer */,
-				33B485CB0F5B443200EBE022 /* Importer */,
-				33B485CA0F5B440900EBE022 /* PrefPane */,
 				7756732906782D8800D1FEB8 /* Models */,
 				33F883E80EAADAE000F5E9C6 /* Views and Cells */,
 				3395454D0F352F5A00D01E97 /* Controllers */,
+				33F2077B10CF859A0012F0B6 /* Window Controllers */,
 				331FD3A90F36B6AF00C16F73 /* App Delegate */,
 				33CC06FE0F3E4A20005B25F8 /* Operations */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -645,9 +641,12 @@
 			isa = PBXGroup;
 			children = (
 				333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */,
-				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
 				33B2CC751048D06D00BA5561 /* AppDelegate.h */,
+				332BD63510CECF500032EF88 /* AppDelegate.m */,
+				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
 				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
+				332BD66010CEF3830032EF88 /* spires_AppDelegate_actions.h */,
+				332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */,
 				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
 				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
 			);
@@ -691,8 +690,6 @@
 				33DE54180F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.h */,
 				33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */,
 				33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */,
-				3359377B0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf */,
-				3359377C0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif */,
 			);
 			name = BWToolKitFramework;
 			sourceTree = "<group>";
@@ -723,8 +720,6 @@
 				330170A20F56471B001DAC18 /* IncrementalArrayController.m */,
 				338AC4760F3691B40011414C /* ProgressIndicatorController.h */,
 				338AC4770F3691B40011414C /* ProgressIndicatorController.m */,
-				337B882D0F3575680005BA9C /* BibViewController.h */,
-				337B882E0F3575680005BA9C /* BibViewController.m */,
 				3315E8590EB6DAB200E56D7E /* HistoryController.h */,
 				3315E85A0EB6DAB200E56D7E /* HistoryController.m */,
 				334AF2260F7098B9006EE7A0 /* SideOutlineViewController.h */,
@@ -902,6 +897,29 @@
 			name = MigrationProgressIndicator;
 			sourceTree = "<group>";
 		};
+		33F2076810CF824C0012F0B6 /* BibView */ = {
+			isa = PBXGroup;
+			children = (
+				337B882D0F3575680005BA9C /* BibViewController.h */,
+				337B882E0F3575680005BA9C /* BibViewController.m */,
+				33F2076B10CF828E0012F0B6 /* BibView.xib */,
+			);
+			name = BibView;
+			sourceTree = "<group>";
+		};
+		33F2077B10CF859A0012F0B6 /* Window Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
+				33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */,
+				338E9EB81037C5200059AE43 /* MessageViewer */,
+				33B485CB0F5B443200EBE022 /* Importer */,
+				33B485CA0F5B440900EBE022 /* PrefPane */,
+				33F2076810CF824C0012F0B6 /* BibView */,
+			);
+			name = "Window Controllers";
+			sourceTree = "<group>";
+		};
 		33F883E80EAADAE000F5E9C6 /* Views and Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1073,14 +1091,11 @@
 				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
 				331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */,
 				3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */,
-				33071BCF0EC1161900957864 /* Importer.xib in Resources */,
 				33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */,
 				330937360F39662800F214D6 /* spires.syncschema in Resources */,
 				330937610F39694800F214D6 /* ClientDescription.plist in Resources */,
 				33B5621B0F3BB6510006E70D /* Requests.html in Resources */,
 				3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */,
-				3359377D0F4005C200E3A39E /* GradientSplitViewDimpleVector.pdf in Resources */,
-				3359377E0F4005C200E3A39E /* GradientSplitViewDimpleBitmap.tif in Resources */,
 				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
 				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
 				33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */,
@@ -1101,6 +1116,7 @@
 				33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */,
 				33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */,
 				33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */,
+				33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1191,7 +1207,6 @@
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
 				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
 				3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */,
-				33071BC70EC1158A00957864 /* ImporterController.m in Sources */,
 				334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */,
 				339544DC0F35277200D01E97 /* PrefController.m in Sources */,
 				3395458F0F3539B600D01E97 /* AppChooser.m in Sources */,
@@ -1206,7 +1221,6 @@
 				334A3A7A0F360E060078D121 /* BWAnchoredButton.m in Sources */,
 				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
-				33B58BD80F395C4800E23146 /* spires_AppDelegate_SyncCategory.m in Sources */,
 				33880ABF0F3BC0C600468F09 /* RegexKitLite.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
 				33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */,
@@ -1261,6 +1275,8 @@
 				332535E410C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m in Sources */,
 				33A2DBF210C1DDFD0008C14A /* ArticleData.m in Sources */,
 				33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */,
+				332BD63610CECF500032EF88 /* AppDelegate.m in Sources */,
+				332BD66210CEF3830032EF88 /* spires_AppDelegate_actions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1338,9 +1354,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_UNDECLARED_SELECTOR = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "-licucore";

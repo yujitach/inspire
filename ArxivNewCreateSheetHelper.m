@@ -7,14 +7,12 @@
 //
 
 #import "ArxivNewCreateSheetHelper.h"
-#import "spires_AppDelegate.h"
+#import "AppDelegate.h"
 
 @implementation ArxivNewCreateSheetHelper
--(id)initWithWindow:(NSWindow*)w delegate:(spires_AppDelegate*)d;
+-(id)init
 {
     self=[super init];
-    windowToAttach=w;
-    delegate=d;
     [NSBundle loadNibNamed:@"ArxivNewCreateSheet" owner:self];
     return self;
 }
@@ -23,7 +21,7 @@
     [self setValue:@"untitled" forKey:@"head"];
     [self setValue:@"new" forKey:@"tail"];
     [NSApp beginSheet:sheet
-       modalForWindow:windowToAttach
+       modalForWindow:[[NSApp appDelegate] mainWindow]
 	modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
 	  contextInfo:nil];
@@ -31,7 +29,7 @@
 -(IBAction)OK:(id)sender;
 {
     [NSApp endSheet:sheet];
-    [delegate addArxivArticleListWithName:[NSString stringWithFormat:@"%@/%@",head,tail]];
+    [[NSApp appDelegate] addArxivArticleListWithName:[NSString stringWithFormat:@"%@/%@",head,tail]];
 }
 -(IBAction)cancel:(id)sender;
 {

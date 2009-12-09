@@ -12,6 +12,10 @@
 #import "TeXBibGenerationOperation.h"
 #import "MOC.h"
 
+@interface TeXWatcherController ()
+-(void)bibtexOutput:(NSNotification*)aNotification;
+@end
+
 static TeXWatcherController*_shared;
 @implementation TeXWatcherController
 +(TeXWatcherController*)sharedController

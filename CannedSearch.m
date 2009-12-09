@@ -7,6 +7,7 @@
 //
 
 #import "CannedSearch.h"
+#import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "DumbOperation.h"
@@ -79,7 +80,7 @@
 }
 -(void)reload
 {
-    if(![[SpiresHelper sharedHelper] isOnline])
+    if(![[NSApp appDelegate] isOnline])
 	return;
     if(state==0){
 	state=1;

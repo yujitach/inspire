@@ -17,6 +17,7 @@
 #import "ImageAndTextCell.h"
 #import "MOC.h"
 #import "AppDelegate.h"
+#import "spires_AppDelegate_actions.h"
 
 /*@interface NSSourceListCell:NSTextFieldCell
 {
@@ -281,6 +282,14 @@
 }
 
 #pragma mark NSOutlineView delegate
+-(void)outlineViewSelectionDidChange:(NSNotification*)notification
+{
+    NSArray*a=[articleListController selectedObjects];
+    if([a count]==1){
+	[[NSApp appDelegate] makeTableViewFirstResponder];
+    }
+    [articleListView updateTrackingAreas];
+}
 - (void)outlineView:(NSOutlineView *)outlineView
     willDisplayCell:(ImageAndTextCell*)cell 
      forTableColumn:(NSTableColumn *)tableColumn 

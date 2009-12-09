@@ -9,11 +9,13 @@
 #import "SpiresQueryOperation.h"
 #import "Article.h"
 #import "BatchImportOperation.h"
-#import "ProgressIndicatorController.h"
 #import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
+@interface SpiresQueryOperation ()
+-(void)spiresQueryDidEnd:(NSXMLDocument*)doc;
+@end
 @implementation SpiresQueryOperation
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
 {
@@ -58,20 +60,20 @@
     }else{
 	refersToTarget=nil;
     }
-    [ProgressIndicatorController startAnimation:self];
-    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Waiting reply from spires..."];
+    [[NSApp appDelegate] startProgressIndicator];
+    [[NSApp appDelegate] postMessage:@"Waiting reply from spires..."];
     self.isExecuting=YES;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:userInfo:) userInfo:nil];
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:)];
     if(!downloader){
-	[(id<AppDelegate>)[NSApp delegate] postMessage:nil];
-	[ProgressIndicatorController stopAnimation:self];
+	[[NSApp appDelegate] postMessage:nil];
+	[[NSApp appDelegate] stopProgressIndicator];
 	[self finish];
     }
 }
--(void)spiresQueryDidEnd:(NSXMLDocument*)doc userInfo:(id)ignore
+-(void)spiresQueryDidEnd:(NSXMLDocument*)doc
 {
-    [(id<AppDelegate>)[NSApp delegate] postMessage:nil];
-    [ProgressIndicatorController stopAnimation:self];
+    [[NSApp appDelegate] postMessage:nil];
+    [[NSApp appDelegate] stopProgressIndicator];
     if(!doc){
 	[self finish];
 	return;
@@ -103,7 +105,7 @@
 }
 -(void)cleanupToCancel
 {
-    [(id<AppDelegate>)[NSApp delegate] postMessage:nil];
-    [ProgressIndicatorController stopAnimation:self];
+    [[NSApp appDelegate] postMessage:nil];
+    [[NSApp appDelegate] stopProgressIndicator];
 }
 @end

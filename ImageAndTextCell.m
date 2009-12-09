@@ -196,7 +196,7 @@
 
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
-    NSRect textFrame, imageFrame,buttonFrame;
+    NSRect textFrame, imageFrame;//,buttonFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
 /*    if(button){
 	NSDivideRect (textFrame, &buttonFrame, &textFrame, 3 + [[button image] size].width, NSMaxXEdge);
@@ -205,7 +205,7 @@
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
-    NSRect textFrame, imageFrame, buttonFrame;
+    NSRect textFrame, imageFrame;//, buttonFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
 /*    if(button){
 	NSDivideRect (textFrame, &buttonFrame, &textFrame, 3 + [[button image] size].width, NSMaxXEdge);
@@ -301,7 +301,7 @@
 
 - (void)addTrackingAreasForView:(NSView *)controlView inRect:(NSRect)cellFrame withUserInfo:(NSDictionary *)userInfo mouseLocation:(NSPoint)mouseLocation {
     if(!button) return;
-    
+    if(!showButton) return;
     NSRect infoButtonRect = [self buttonRectForBounds:cellFrame];
     
     NSTrackingAreaOptions options = NSTrackingEnabledDuringMouseDrag | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways;

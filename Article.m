@@ -389,7 +389,7 @@
 #pragma mark Misc.
 +(NSSet*)keyPathsForValuesAffectingPdfPath
 {
-    return [NSSet setWithObjects:@"pdfAlias",nil];
+    return [NSSet setWithObjects:@"pdfAlias",@"data.pdfAlias",nil];
 }
 -(ArticleType)articleType
 {

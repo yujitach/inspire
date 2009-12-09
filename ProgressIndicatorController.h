@@ -15,6 +15,4 @@
 +(ProgressIndicatorController*)sharedController;
 -(IBAction)startAnimation:(id)sender;
 -(IBAction)stopAnimation:(id)sender;
-+(IBAction)startAnimation:(id)sender;
-+(IBAction)stopAnimation:(id)sender;
 @end

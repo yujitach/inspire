@@ -8,7 +8,6 @@
 
 #import "JournalPDFDownloadOperation.h"
 #import "SecureDownloader.h"
-#import "ProgressIndicatorController.h"
 #import "AppDelegate.h"
 #import "RegexKitLite.h"
 #import "Article.h"
@@ -16,6 +15,11 @@
 #import "NSString+XMLEntityDecoding.h"
 #import "PDFHelper.h"
 #import "NSURL+libraryProxy.h"
+
+@interface JournalPDFDownloadOperation()
+-(void)continuation:(NSString*)path;
+@end
+
 
 @implementation JournalPDFDownloadOperation
 -(JournalPDFDownloadOperation*)initWithArticle:(Article*)a
@@ -51,32 +55,29 @@
 	[self finish];
 	return;
     }
-    [ProgressIndicatorController startAnimation:self];
-    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Looking up journal webpage..."]; 
+    [[NSApp appDelegate] startProgressIndicator];
+    [[NSApp appDelegate] postMessage:@"Looking up journal webpage..."]; 
     downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]
-				      didEndSelector:@selector(journalHTMLDownloadDidEnd:) 
-					    delegate:self ];
-    [downloader download];
-}
--(void)journalHTMLDownloadDidEnd:(NSString*)path
-{
-    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
-    [ProgressIndicatorController stopAnimation:self];
-    if(path){
-	[self performSelector:@selector(continuation:)
-		   withObject: path
-		   afterDelay:.5];
-    }else{
-	[self finish];
-	return;
-    }
+				   completionHandler:^(NSString*path){
+				       [[NSApp appDelegate] postMessage:nil]; 
+				       [[NSApp appDelegate] stopProgressIndicator];
+				       if(path){
+					   [self performSelector:@selector(continuation:)
+						      withObject: path
+						      afterDelay:.5];
+				       }else{
+					   [self finish];
+					   return;
+				       }
+				   } ];
+    [downloader download];				       
 }
 -(void)continuation:(NSString*)path
 {
     NSString*html=[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSString*pdf=nil;
     if(!pdf){ //APS
-	NSString*s=[html stringByMatching:@"trackPageview\\(.(/pdf/.+?).\\)" capture:1];
+	NSString*s=[html stringByMatching:@"(/pdf/.+?)\">PDF" capture:1];
 	if(s){
 	    pdf=[@"http://prola.aps.org" stringByAppendingString:s];
 	}
@@ -128,7 +129,7 @@
 	NSLog(@"failed to download PDF. instead opens the journal webpage");
 	NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-	[(id<AppDelegate>)[NSApp delegate] showInfoOnAssociation]; //cheating here...
+	[[NSApp appDelegate] showInfoOnAssociation]; //cheating here...
 	[self finish];
 	return;
     }
@@ -136,36 +137,33 @@
     NSLog(@"pdf detected at:%@",pdf);
     NSURL* proxiedURL=[[NSURL URLWithString:pdf] proxiedURLForELibrary];
     NSLog(@"proxied:%@",proxiedURL);
+    [[NSApp appDelegate] startProgressIndicator];
+    [[NSApp appDelegate] postMessage:@"Downloading PDF..."]; 
     downloader=[[SecureDownloader alloc] initWithURL:proxiedURL
-				      didEndSelector:@selector(journalPDFDownloadDidEnd:) 
-					    delegate:self ];
-    [ProgressIndicatorController startAnimation:self];
-    [(id<AppDelegate>)[NSApp delegate] postMessage:@"Downloading PDF..."]; 
+				   completionHandler:^(NSString*pdfPath){
+				       [[NSApp appDelegate] postMessage:nil]; 
+				       [[NSApp appDelegate] stopProgressIndicator];
+				       if(pdfPath){
+					   NSData*data=[[NSData dataWithContentsOfFile:pdfPath] subdataWithRange:NSMakeRange(0,4)];
+					   NSString*head=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+					   if(![head hasPrefix:@"%PDF"]){
+					       NSLog(@"failed to download PDF. instead opens the journal webpage");
+					       NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
+					       [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
+					       [[NSApp appDelegate] showInfoOnAssociation]; //cheating here...
+					   }else{
+					       NSString*dest=[self destinationPath];
+					       if([[NSFileManager defaultManager] moveItemAtPath:pdfPath toPath:dest error:NULL]){
+						   [article associatePDF:dest];
+					       }
+					   }
+				       }
+				       [self finish];				       
+				   }];
     [downloader download];	
 }
--(void)journalPDFDownloadDidEnd:(NSString*)path
-{
-    [(id<AppDelegate>)[NSApp delegate] postMessage:nil]; 
-    [ProgressIndicatorController stopAnimation:self];
-    if(path){
-	NSData*data=[[NSData dataWithContentsOfFile:path] subdataWithRange:NSMakeRange(0,4)];
-	NSString*head=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-	if(![head hasPrefix:@"%PDF"]){
-	    NSLog(@"failed to download PDF. instead opens the journal webpage");
-	    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
-	    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-	    [(id<AppDelegate>)[NSApp delegate] showInfoOnAssociation]; //cheating here...
-	}else{
-	    NSString*dest=[self destinationPath];
-	    if([[NSFileManager defaultManager] moveItemAtPath:path toPath:dest error:NULL]){
-		[article associatePDF:dest];
-	    }
-	}
-    }
-    [self finish];
-}    
 -(void)cleanupToCancel
 {
-    [ProgressIndicatorController stopAnimation:self];
+    [[NSApp appDelegate] stopProgressIndicator];
 }
 @end

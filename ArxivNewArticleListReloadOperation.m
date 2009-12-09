@@ -10,7 +10,6 @@
 #import "ArxivNewArticleList.h"
 #import "MOC.h"
 #import "ArxivHelper.h"
-#import "ProgressIndicatorController.h"
 #import "Article.h"
 #import "ArticleData.h"
 #import "AllArticleList.h"
@@ -126,9 +125,9 @@
 
 -(void)main
 {
-    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(startAnimation:)
-								     withObject:self
-								  waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] startProgressIndicator];
+    });
     NSString*s=[[ArxivHelper sharedHelper] list:listName];
     
     NSMutableArray*a=[[s componentsSeparatedByString:@"<dt>"] mutableCopy];
@@ -138,6 +137,21 @@
 	if(eprint){
 	    [dict setObject:chunk forKey:eprint];
 	}
+    }
+    if([[dict allKeys] count]==0){
+	dispatch_async(dispatch_get_main_queue(),^{
+	    [[NSApp appDelegate] stopProgressIndicator];
+	    NSAlert*alert=[NSAlert alertWithMessageText:@"Cannot reach arXiv." 
+					  defaultButton:@"OK"
+					alternateButton:nil
+					    otherButton:nil
+			      informativeTextWithFormat:@"Not connected to the internet, or arXiv is down."];
+	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
+			      modalDelegate:nil 
+			     didEndSelector:nil
+				contextInfo:nil];
+	});
+	return;
     }
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:secondMOC];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
@@ -182,13 +196,11 @@
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
 	[[MOC moc] enableUndo];
-	[(id<AppDelegate>)[NSApp delegate] clearingUpAfterRegistration:self];        
+	[[NSApp appDelegate] clearingUpAfterRegistration:self];        
 	
     });
-        
-
-    [[ProgressIndicatorController sharedController] performSelectorOnMainThread:@selector(stopAnimation:)
-								     withObject:self
-								  waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] stopProgressIndicator];
+    });
 }
 @end

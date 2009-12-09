@@ -16,6 +16,7 @@
 #import "JournalPDFDownloadOperation.h"
 #import "ArxivPDFDownloadOperation.h"
 #import "ArxivVersionCheckingOperation.h"
+#import "ArxivMetadataFetchOperation.h"
 #import "DeferredPDFOpenOperation.h"
 #import "AppDelegate.h"
 
@@ -136,15 +137,20 @@ NSString* pathShownWithQuickLook=nil;
 -(void)openPDFforArticle:(Article*)o usingViewer:(PDFViewerType)viewerType
 {
 
-    if(o.hasPDFLocally&&![(id<AppDelegate>)[NSApp delegate] currentListIsArxivReplaced]){
+    if(o.hasPDFLocally&&![[NSApp appDelegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if(o.articleType==ATEprint){
-	    if([[SpiresHelper sharedHelper] isOnline])
-		[[OperationQueues arxivQueue] addOperation:[[ArxivVersionCheckingOperation alloc] initWithArticle:o
-												      usingViewer:viewerType]];
+	    if([[NSApp appDelegate] isOnline]){
+		NSOperation*op1=[[ArxivMetadataFetchOperation alloc] initWithArticle:o];
+		NSOperation*op2=[[ArxivVersionCheckingOperation alloc] initWithArticle:o
+									  usingViewer:viewerType];
+		[op2 addDependency:op1];
+		[[OperationQueues arxivQueue] addOperation:op1];
+		[[OperationQueues arxivQueue] addOperation:op2];
+	    }
 	}
     }else if(o.articleType==ATEprint){
-	if([[SpiresHelper sharedHelper] isOnline]){
+	if([[NSApp appDelegate] isOnline]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES]];
 	    [[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
@@ -155,7 +161,7 @@ NSString* pathShownWithQuickLook=nil;
 				    alternateButton:nil
 					otherButton:nil
 			  informativeTextWithFormat:@"PDF can be associated by dropping into the lower pane."];
-	[alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+	[alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 			  modalDelegate:nil
 			 didEndSelector:nil
 			    contextInfo:nil];
@@ -164,7 +170,7 @@ NSString* pathShownWithQuickLook=nil;
 
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 {
-    if(![[SpiresHelper sharedHelper] isOnline])
+    if(![[NSApp appDelegate] isOnline])
 	return NO;
 
     NSString* doi=o.doi;

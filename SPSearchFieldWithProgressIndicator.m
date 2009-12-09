@@ -10,6 +10,10 @@
 //@interface NSObject (privateCategoryToShutUpWarning)
 //-(NSString*)placeholderForSearchField;
 //@end
+@interface SPSearchFieldWithProgressIndicator()
+-(IBAction)cancelButtonClicked:(id)sender;
+@end
+
 @implementation SPSearchFieldWithProgressIndicator
 @synthesize progressQuitAction;
 -(void)awakeFromNib

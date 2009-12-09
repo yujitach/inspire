@@ -12,6 +12,9 @@
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "RegexKitLite.h"
 
+@interface LoadAbstractDOIOperation ()
+-(void)loadAbstractUsingDOIRealWork:(NSString*)content;
+@end
 @implementation LoadAbstractDOIOperation
 -(LoadAbstractDOIOperation*)initWithArticle:(Article*)a;
 {
@@ -64,7 +67,7 @@
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"] containsObject:journalName]
 	     ){
-	NSArray*a=[content componentsSeparatedByString:@"aps-abstractbox aps-mediumtext\">"];
+	NSArray*a=[content componentsSeparatedByString:@"aps-abstractbox'>"];
 	if([a count]<2)
 	    goto BAIL;
 	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div>"];

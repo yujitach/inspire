@@ -20,13 +20,13 @@
 {
     return [NSString stringWithFormat:@"wait %f sec",(double)delay];
 }
+-(void)wakeUp:(id)neglected
+{
+    [self finish];
+}
 -(void)run
 {
     self.isExecuting=YES;
     [self performSelector:@selector(wakeUp:) withObject:nil afterDelay:delay];
-}
--(void)wakeUp:(id)neglected
-{
-    [self finish];
 }
 @end

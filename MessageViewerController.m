@@ -17,6 +17,10 @@
     [self showWindow:self];
     return self;
 }
+-(void)show:(NSTimer*)timer
+{
+    [[self window] makeKeyAndOrderFront:self];
+}
 -(void)awakeFromNib
 {
     [tv readRTFDFromFile:pathToRTF];
@@ -25,10 +29,6 @@
 						 selector:@selector(show:) 
 						 userInfo:nil 
 						  repeats:YES];
-}
--(void)show:(NSTimer*)timer
-{
-    [[self window] makeKeyAndOrderFront:self];
 }
 -(void)windowWillClose:(id)sender
 {

@@ -15,7 +15,6 @@
 #import "NSManagedObjectContext+TrivialAddition.h"
 #import "AppDelegate.h"
 #import "MOC.h"
-#import "ProgressIndicatorController.h"
 #import "NSString+magic.h"
 
 @implementation BatchImportOperation
@@ -263,20 +262,20 @@ l{
 -(void)main
 {
     dispatch_async(dispatch_get_main_queue(),^{
-	[[ProgressIndicatorController sharedController] startAnimation:self];	
-	[(id<AppDelegate>)[NSApp delegate] postMessage:@"Registering entries..."];
+	[[NSApp appDelegate] startProgressIndicator];
+	[[NSApp appDelegate] postMessage:@"Registering entries..."];
     });
     NSLog(@"registers %d entries",(int)[elements count]);
     [self batchAddEntriesOfSPIRES:elements];
     dispatch_async(dispatch_get_main_queue(),^{
-	[(id<AppDelegate>)[NSApp delegate] postMessage:nil];
-	[(id<AppDelegate>)[NSApp delegate] clearingUpAfterRegistration:nil];	
+	[[NSApp appDelegate] postMessage:nil];
+	[[NSApp appDelegate] clearingUpAfterRegistration:nil];	
 	NSError*error=nil;
 	BOOL success=[[MOC moc] save:&error];
 	if(!success){
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
-	[[ProgressIndicatorController sharedController] stopAnimation:self];	
+	[[NSApp appDelegate] stopProgressIndicator];
     });
 }
 

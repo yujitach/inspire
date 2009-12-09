@@ -13,7 +13,6 @@
 #import "RegexKitLite.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryOperation.h"
-#import "ProgressIndicatorController.h"
 #import "BatchBibQueryOperation.h"
 #import "WaitOperation.h"
 #import "NSString+magic.h"
@@ -281,7 +280,7 @@ static NSMutableArray*instances;
     if(listName&&![listName isEqualToString:@""]){
 	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
 	if(list){
-	    [(id<AppDelegate>)[NSApp delegate] rearrangePositionInViewForArticleLists];
+	    [[NSApp appDelegate] rearrangePositionInViewForArticleLists];
 	}
     }
     BOOL forceRefresh=twice&&[[dict objectForKey:@"forceRefresh"] boolValue];

@@ -27,6 +27,10 @@
 @synthesize article;
 @end
 
+@interface HistoryController ()
+-(IBAction)segControlClicked:(id)sender;
+@end
+
 @implementation HistoryController
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {

@@ -21,7 +21,6 @@
 }
 +(ArxivHelper*)sharedHelper;
 -(NSString*)arXivAbstractPathForID:(NSString*)arXivID;
--(void)onlineMetaDataForID:(NSString*)arXivID delegate:(id)delegate didEndSelector:(SEL)sel;
 -(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)delegate didEndSelector:(SEL)sel;
 -(NSXMLDocument*)xmlForPath:(NSString*)path;
 -(NSString*)list:(NSString*)path;

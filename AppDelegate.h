@@ -14,11 +14,21 @@ extern NSString *ArticleListDropPboardType;
 @protocol AppDelegate
 -(BOOL)currentListIsArxivReplaced;
 -(void)rearrangePositionInViewForArticleLists;
+-(void)addArxivArticleListWithName:(NSString*)name;
 -(NSWindow*)mainWindow;
 -(void)showInfoOnAssociation;
 -(void)handleURL:(NSURL*) url;
+-(void)querySPIRES:(NSString*)search;
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
+-(void)makeTableViewFirstResponder;
+-(void)startProgressIndicator;
+-(void)stopProgressIndicator;
+@property(assign) BOOL isOnline;
 /*-(void)startUpdatingMainView:(id)sender;
 -(void)stopUpdatingMainView:(id)sender;*/
+@end
+
+@interface NSApplication (AppDelegate)
+-(id<AppDelegate>)appDelegate;
 @end

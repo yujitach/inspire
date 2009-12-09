@@ -16,6 +16,9 @@
 #import "AppDelegate.h"
 // #import <Quartz/Quartz.h>
 
+@interface ArxivVersionCheckingOperation ()
+-(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore;
+@end
 
 @implementation ArxivVersionCheckingOperation
 -(ArxivVersionCheckingOperation*)initWithArticle:(Article*)a usingViewer:(PDFViewerType)t;
@@ -28,12 +31,6 @@
 -(NSString*)description
 {
     return [NSString stringWithFormat:@"version checking: %@", article.eprint];
-}
--(void)run
-{
-    self.isExecuting=YES;
-    [[ArxivHelper sharedHelper] onlineMetaDataForID:article.eprint delegate:self didEndSelector:@selector(info:) ];
-
 }
 
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
@@ -83,20 +80,10 @@
 }
 
 
-
--(void)info:(NSDictionary*)dict
+-(void)run
 {
-//    NSLog(@"???");
-    if(!dict){
-	[self finish];
-	return;
-    }
-    
-    article.abstract=[dict objectForKey:@"abstract"];
-    article.version=[dict objectForKey:@"version"];  
-    article.comments=[dict objectForKey:@"comments"];
-    
-    
+    self.isExecuting=YES;
+
     if(article.version==nil || [article.version intValue]==0 || !article.hasPDFLocally){
 	[self finish];
 	return;
@@ -119,7 +106,7 @@
     [alert setAlertStyle:NSWarningAlertStyle];
     //   [NSApp unhide:self];
     
-    [alert beginSheetModalForWindow:[(id<AppDelegate>)[NSApp delegate] mainWindow]
+    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:self 
 		     didEndSelector:@selector(downloadAlertDidEnd:code:context:)
 			contextInfo:nil];

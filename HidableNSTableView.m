@@ -7,9 +7,13 @@
 //
 
 #import "HidableNSTableView.h"
+#import "spires_AppDelegate_actions.h"
 
 // taken from http://www.fernlightning.com/doku.php?id=randd:dyntablecolumns
-
+@interface HidableNSTableView ()
+- (void)saveTableColumns:(NSNotification*)n;
+- (void)contextMenuSelected:(id)sender;
+@end
 @implementation HidableNSTableView
 -(void)awakeFromNib
 {
