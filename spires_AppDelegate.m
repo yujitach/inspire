@@ -389,6 +389,19 @@
     if(![knownJournals containsObject:a.journal.name]){
 	return;
     }
+    // prevent lots of access to the same article when the abstract loading fails 
+    {
+	if(!articlesAlreadyAccessedViaDOI){
+	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
+	}
+	if([articlesAlreadyAccessedViaDOI count]>1000){
+	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];	
+	}
+	if([articlesAlreadyAccessedViaDOI containsObject:a]){
+	    return;
+	}
+	[articlesAlreadyAccessedViaDOI addObject:a];
+    }
     [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 }
 

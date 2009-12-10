@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @class Article;
-//@class spires_AppDelegate;
 
 typedef enum _PDFViewerType{
     openWithPrimaryViewer,
@@ -18,8 +17,6 @@ typedef enum _PDFViewerType{
 } PDFViewerType;
 
 @interface PDFHelper : NSObject {
-//    IBOutlet NSWindow*window;
-//    IBOutlet spires_AppDelegate*appDelegate;
 }
 +(PDFHelper*)sharedHelper;
 -(void)openPDFFile:(NSString*)path usingViewer:(PDFViewerType)type;

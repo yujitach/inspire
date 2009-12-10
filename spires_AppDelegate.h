@@ -7,15 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
-#import <SyncServices/SyncServices.h>
 @class ArticleList;
 @class ArticleView;
-//@class SideTableViewController;
 @class SideOutlineViewController;
 @class Article;
 @class HistoryController;
-@class ImporterController;
 @class PDFHelper;
 @class BibViewController;
 @class ActivityMonitorController;
@@ -31,30 +27,32 @@
 @interface spires_AppDelegate : NSObject <AppDelegate>// <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
-    IBOutlet IncrementalArrayController* ac;
-    IBOutlet ArticleView*wv;
     IBOutlet NSToolbar*tb;
+    IBOutlet SPSearchFieldWithProgressIndicator*searchField;
+
+    IBOutlet SideOutlineViewController* sideTableViewController;
+    IBOutlet IncrementalArrayController* ac;
+    IBOutlet NSTableView* articleListView;    
+    IBOutlet ArticleView*wv;
+
+    
     IBOutlet HistoryController*historyController;
-//    ImporterController*importerController;
+    //    ImporterController*importerController;
     BibViewController *bibViewController;
     ActivityMonitorController* activityMonitorController;
     PrefController*prefController;
     TeXWatcherController*texWatcherController;
     MessageViewerController*messageViewerController;
     ArxivNewCreateSheetHelper*arxivNewCreateSheetHelper;
-    int countDown;
-    
-  /*  NSMutableArray* arxivLists;
-    NSMutableArray* articleLists;*/
-//    IBOutlet NSArrayController* articleListController;
-    IBOutlet NSTableView* articleListView;
-    IBOutlet SideOutlineViewController* sideTableViewController;
-    IBOutlet SPSearchFieldWithProgressIndicator*searchField;
-    
+
     NSTimer*unreadTimer;
+    int countDown;
+    NSMutableArray*articlesAlreadyAccessedViaDOI;
 }
 
 
 @end
 
-
+#import "spires_AppDelegate_actions.h"
+@interface spires_AppDelegate (actions) <spires_AppDelegate_actions>
+@end

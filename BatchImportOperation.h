@@ -12,7 +12,6 @@
 
 @class Article;
 @class ArticleList;
-@class spires_AppDelegate;
 @interface BatchImportOperation : NSOperation {
     NSArray*elements;
     NSManagedObjectContext*secondMOC;

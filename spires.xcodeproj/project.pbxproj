@@ -38,6 +38,7 @@
 		332535E410C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
+		33295A2D10D0717D000F6749 /* spires_DataModel 5.mom.old in Resources */ = {isa = PBXBuildFile; fileRef = 33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
 		332BD66210CEF3830032EF88 /* spires_AppDelegate_actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */; };
@@ -230,6 +231,7 @@
 		332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortDescriptorsV4V5MigrationPolicy.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "spires_DataModel 5.mom.old"; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
 		332BD63510CECF500032EF88 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -643,10 +645,10 @@
 				333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */,
 				33B2CC751048D06D00BA5561 /* AppDelegate.h */,
 				332BD63510CECF500032EF88 /* AppDelegate.m */,
-				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
-				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
 				332BD66010CEF3830032EF88 /* spires_AppDelegate_actions.h */,
 				332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */,
+				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
+				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
 				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
 				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
 			);
@@ -958,6 +960,7 @@
 				33A2DBF110C1DDFD0008C14A /* ArticleData.m */,
 				33B39E6E0EA4325E00734A06 /* Article.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
+				33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */,
 				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
 			);
 			name = Models;
@@ -1117,6 +1120,7 @@
 				33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */,
 				33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */,
 				33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */,
+				33295A2D10D0717D000F6749 /* spires_DataModel 5.mom.old in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

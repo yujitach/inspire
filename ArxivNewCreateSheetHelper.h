@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class spires_AppDelegate;
 @interface ArxivNewCreateSheetHelper : NSObject {
     IBOutlet NSWindow*sheet;
     NSString*head;

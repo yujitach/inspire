@@ -443,7 +443,58 @@ MOC*_sharedMOCManager=nil;
     //END:progressivelyMigrateURLMoveAndRecurse
 }
 
-
+-(BOOL)specialMigration
+{
+    NSError*error=nil;
+    NSDictionary *sourceMetadata = 
+    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
+							       URL:[NSURL fileURLWithPath:[self dataFilePath]]
+							     error:&error];
+    if (!sourceMetadata) return NO;
+    NSURL*oldMOMURL=[[NSBundle mainBundle] URLForResource:@"spires_DataModel 5.mom" withExtension:@"old"];
+    NSManagedObjectModel* mom1=[[NSManagedObjectModel alloc] initWithContentsOfURL:oldMOMURL];
+    
+    if (![mom1 isConfiguration:nil 
+	compatibleWithStoreMetadata:sourceMetadata]) {
+	NSLog(@"No need to special case migration.");
+	return NO;
+    }
+    NSURL*newMOMURL=[[NSBundle mainBundle] URLForResource:@"spires_DataModel 5" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
+    NSManagedObjectModel* mom2=[[NSManagedObjectModel  alloc] initWithContentsOfURL:newMOMURL];
+    
+    error=nil;
+    NSMappingModel*mm=[NSMappingModel inferredMappingModelForSourceModel:mom1
+							destinationModel:mom2 error:&error];
+    if(!mm){
+	NSLog(@"Should perform special case migration, but can't.");
+	return NO;
+    }
+    
+    NSValue *classValue = [[NSPersistentStoreCoordinator registeredStoreTypes] objectForKey:NSSQLiteStoreType];
+    Class sqliteStoreClass = (Class)[classValue pointerValue];
+    Class sqliteStoreMigrationManagerClass = [sqliteStoreClass migrationManagerClass];
+    
+    NSMigrationManager *manager = [[sqliteStoreMigrationManagerClass alloc]
+				   initWithSourceModel:mom1 destinationModel:mom2];
+    
+    error=nil;
+    NSString*destPath=[[self applicationSupportFolder] stringByAppendingPathComponent:@"specialMigrationTemporary.sqlite"];
+    if (![manager migrateStoreFromURL:[NSURL fileURLWithPath:[self dataFilePath]] type:NSSQLiteStoreType
+			      options:nil withMappingModel:mm toDestinationURL:[NSURL fileURLWithPath:destPath]
+		      destinationType:NSSQLiteStoreType destinationOptions:nil error:&error]) {
+	
+        NSLog(@"special case migration failed: %@", error);
+	
+        return NO;
+    }
+    FSPathMoveObjectToTrashSync([[self dataFilePath] fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
+    [[NSFileManager defaultManager] moveItemAtPath:destPath
+					    toPath:[self dataFilePath]
+					     error:&error];
+    NSLog(@"special case migration succeeded.");
+    
+    return YES;
+}
 -(void)performMigration
 {
     NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
@@ -451,11 +502,15 @@ MOC*_sharedMOCManager=nil;
 				alternateButton:nil
 				    otherButton:nil
 		      informativeTextWithFormat:@"To improve the search performance, "
-		   @"spires.app is going to precalculate various search keys and cache them. " 
+		   @"spires.app is going to precalculate various search keys and cache them, etc. " 
 		   @"This might take five minuites or more. "
 		   @"Spinning rainbow cursor will appear, but please wait patiently until it finishes. "
 		   @"Force quitting might corrupt the database."];
     [alert runModal];      
+    // this is a special code to initiate lightweight migration during developments
+    if([self specialMigration]){
+	return;
+    }
     NSError*error=nil;
     if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:[self dataFilePath]]
 				ofType:[self storeType]
