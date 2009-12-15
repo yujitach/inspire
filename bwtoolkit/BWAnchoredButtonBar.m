@@ -18,7 +18,7 @@ static NSColor *sideInsetColor, *borderedTopLineColor;
 static NSColor *resizeHandleColor, *resizeInsetColor;
 static NSGradient *gradient;
 static BOOL wasBorderedBar;
-static float scaleFactor = 0.0f;
+static CGFloat scaleFactor = 0.0f;
 
 @interface BWAnchoredButtonBar (BWABBPrivate)
 - (void)drawResizeHandleInRect:(NSRect)handleRect withColor:(NSColor *)color;
@@ -40,7 +40,7 @@ static float scaleFactor = 0.0f;
     middleTopColor		 = [[NSColor colorWithCalibratedWhite:(242.0f / 255.0f) alpha:1] retain];
     middleBottomColor	 = [[NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1] retain];
 	bottomColor			 = [[NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1] retain];
-	sideInsetColor		 = [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5] retain];
+	sideInsetColor		 = [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5f] retain];
 	borderedTopLineColor = [[NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1] retain];
     
 	gradient			 = [[NSGradient alloc] initWithColorsAndLocations:
@@ -50,8 +50,8 @@ static float scaleFactor = 0.0f;
 						   bottomColor, (CGFloat)1.0,
 						   nil];
 	
-	resizeHandleColor	 = [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.598] retain];
-	resizeInsetColor	 = [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.55] retain];
+	resizeHandleColor	 = [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.598f] retain];
+	resizeInsetColor	 = [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.55f] retain];
 }
 
 - (id)initWithFrame:(NSRect)frame 
@@ -98,7 +98,7 @@ static float scaleFactor = 0.0f;
 	if (splitView != nil && [splitView isVertical] && [self isResizable])
 	{
 		if ([splitView delegate] != nil && ([[splitView delegate] isKindOfClass:[BWAnchoredButtonBar class]] ||
-											[splitView isKindOfClass:[BWSplitView class]] && [[(BWSplitView *)splitView secondaryDelegate] isKindOfClass:[BWAnchoredButtonBar class]]))
+											([splitView isKindOfClass:[BWSplitView class]] && [[(BWSplitView *)splitView secondaryDelegate] isKindOfClass:[BWAnchoredButtonBar class]])))
 		{
 			// There's already an Anchored Button Bar set as the delegate so we need to set ourself as the split view delegate on
 			// the button bar. But since there can be multiple button bars, we need to set ourself as the delegate on the last

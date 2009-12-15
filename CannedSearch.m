@@ -9,10 +9,11 @@
 #import "CannedSearch.h"
 #import "AppDelegate.h"
 #import "SpiresHelper.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
 #import "DumbOperation.h"
 #import "SpiresQueryOperation.h"
 #import "ArticleListReloadOperation.h"
+#import "MOC.h"
+
 @implementation CannedSearch
 +(CannedSearch*)cannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {

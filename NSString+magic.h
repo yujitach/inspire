@@ -15,4 +15,5 @@
 -(NSString*)normalizedString;
 -(NSString*)quotedForShell;
 -(NSString*)capitalizedStringForName;
+-(NSString*)stringByExpandingAmpersandEscapes;
 @end

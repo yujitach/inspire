@@ -159,7 +159,7 @@
         result.size = [image size];
         result.origin = cellFrame.origin;
         result.origin.x += 3;
-        result.origin.y += ceil((cellFrame.size.height - result.size.height) / 2);
+        result.origin.y += (CGFloat)ceil((cellFrame.size.height - result.size.height) / 2);
     } else {
         result = NSZeroRect;
     }
@@ -172,7 +172,7 @@
         result.size = [[button image] size];
         result.origin = cellFrame.origin;
         result.origin.x = result.origin.x + cellFrame.size.width-result.size.width;
-        result.origin.y += ceil((cellFrame.size.height - result.size.height) / 2);
+        result.origin.y += (CGFloat)ceil((cellFrame.size.height - result.size.height) / 2);
     } else {
         result = NSZeroRect;
     }
@@ -226,9 +226,9 @@
         imageFrame.size = imageSize;
 
         if ([controlView isFlipped])
-            imageFrame.origin.y += ceil((cellFrame.size.height + imageFrame.size.height) / 2);
+            imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height + imageFrame.size.height) / 2);
         else
-            imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
+            imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height - imageFrame.size.height) / 2);
 
         [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
     }

@@ -98,7 +98,7 @@
 }
 -(IBAction)appSelected:(id)sender
 {
-    int i=[appToUsePopUp indexOfSelectedItem];
+    NSInteger i=[appToUsePopUp indexOfSelectedItem];
     NSString* bundleId=[apps objectAtIndex:i];
     [[NSUserDefaults standardUserDefaults] setObject:bundleId forKey:defaultsKey];
     

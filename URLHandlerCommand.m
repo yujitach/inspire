@@ -14,9 +14,8 @@
 - (id)performDefaultImplementation {
     NSString *urlString = [self directParameter];
 //    NSLog(@"handles:%@",urlString);
-    id<AppDelegate> delegate=[NSApp delegate];
     if([urlString hasPrefix:@"spires"]){
-	[delegate handleURL:[NSURL URLWithString:urlString]];
+	[[NSApp appDelegate] handleURL:[NSURL URLWithString:urlString]];
     }
     return nil;
 /*    iXDelegate* d=[NSApp delegate];

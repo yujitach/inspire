@@ -8,7 +8,6 @@
 
 #import "ArxivVersionCheckingOperation.h"
 #import "Article.h"
-#import "ArxivHelper.h"
 #import "ArxivPDFDownloadOperation.h"
 #import "DeferredPDFOpenOperation.h"
 #import "RegexKitLite.h"

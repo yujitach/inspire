@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol TableViewContextMenuDelegate
--(NSMenu*)tableView:(NSTableView*)tv contextMenuForColumn:(NSTableColumn*)col atRow:(int)i;
+-(NSMenu*)tableView:(NSTableView*)tv contextMenuForColumn:(NSTableColumn*)col atRow:(NSInteger)i;
 @end
 
 

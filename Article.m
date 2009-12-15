@@ -12,45 +12,26 @@
 #import "NSString+magic.h"
 #import "MOC.h"
 #import "ArticleData.h"
+#import "RegexKitLite.h"
+#import <objc/runtime.h>
 
-
-//NSMutableDictionary* eprintDict=nil;
-@interface Article (Primitives)
--(NSMutableSet*)primitiveAuthors;
-@end
 @implementation Article 
 
 @dynamic journal;
-@dynamic comments;
-@dynamic version;
-@dynamic pages;
-@dynamic doi;
-@dynamic eprint;
-@dynamic abstract;
-@dynamic citecount;
-@dynamic spicite;
-@dynamic title;
-@dynamic memo;
 @dynamic flagInternal;
-@dynamic date;
 @dynamic citedBy;
 @dynamic refersTo;
-@dynamic spiresKey;
-@dynamic texKey;
+@dynamic citecount;
 @dynamic uniqueId;
 @dynamic IdForCitation;
 @dynamic normalizedTitle;
 @dynamic longishAuthorListForA;
-@dynamic shortishAuthorList;
-@dynamic longishAuthorListForEA;
 @dynamic eprintForSorting;
 @dynamic data;
 @dynamic eprintForSortingAsString;
-@dynamic arxivCategory;
-+(void)initialize
-{
-//    eprintDict=[NSMutableDictionary dictionary];
-}
+
+
+#pragma mark Misc
 -(void)awakeFromInsert
 {
     NSEntityDescription*articleDataEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:[self managedObjectContext]];
@@ -230,18 +211,15 @@
 +(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
 {
     NSMutableArray*a=[NSMutableArray array];
+    NSString*collaboration=nil;
     for(NSString*s in array){
 	NSArray*q=[s componentsSeparatedByString:@", "];
 	NSString*lastName=[q objectAtIndex:0];
-	NSString*firstName=nil;
-	if([a count]>1){
-	    firstName=[a objectAtIndex:1];
-	}
-	if([lastName hasPrefix:@"collaboration"]){
-	    NSArray*c=[s componentsSeparatedByString:@" "];
-	    lastName=[[c lastObject] uppercaseString];
-	}else if([firstName hasPrefix:@"for the"]||[firstName hasPrefix:@"the"]){
-	    lastName=[firstName uppercaseString];
+	if([lastName rangeOfString:@"collaboration"].location!=NSNotFound){
+	    lastName=[lastName stringByReplacingOccurrencesOfRegex:@" *collaborations? *" withString:@""];
+	    lastName=[lastName uppercaseString];
+	    collaboration=lastName;
+	    continue;
 	}else{
 	    lastName=[lastName capitalizedStringForName];
 	}
@@ -249,7 +227,15 @@
     }
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
-    return [a componentsJoinedByString:@", "];
+    if(collaboration){
+	if([a count]>0){
+	    return [NSString stringWithFormat:@"%@ (%@)",collaboration,[a componentsJoinedByString:@", "]];
+	}else{
+	    return collaboration;
+	}
+    }else{
+	return [a componentsJoinedByString:@", "];
+    }
 }
 +(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
 {
@@ -311,6 +297,13 @@
 -(void)setAuthorNames:(NSArray *)authorNames
 {
     NSMutableArray*a=[NSMutableArray array];
+    if(self.collaboration){
+	NSMutableString*s=[[self.collaboration normalizedString] mutableCopy];
+	[s replaceOccurrencesOfRegex:@" *on +behalf +of +the *" withString:@""];
+	[s replaceOccurrencesOfRegex:@" *for +the *" withString:@""];
+	[s replaceOccurrencesOfRegex:@"^the *" withString:@""];
+	[a addObject:s];
+    }
     for(NSString*s in authorNames){
 	if(![s isEqualToString:@""]){
 	    [a addObject:[s normalizedString]];
@@ -337,12 +330,23 @@
     if([eprint isEqualToString:@""])return nil;
     return [Article eprintForSortingFromEprint:eprint];
 }
+
+/*- (NSString *)eprint 
+{
+    NSString * tmpValue;
+    
+//    [self willAccessValueForKey:@"eprint"];
+    tmpValue = [self.data eprint];
+//    [self didAccessValueForKey:@"eprint"];
+    
+    return tmpValue;
+}*/
 -(void)setEprint:(NSString*)e
 {
-    [self willChangeValueForKey:@"eprint"];
+//    [self willChangeValueForKey:@"eprint"];
     [self.data setEprint:e];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
-    [self didChangeValueForKey:@"eprint"];
+//    [self didChangeValueForKey:@"eprint"];
 }
 -(NSString*)eprintToShow
 {
@@ -356,12 +360,23 @@
     }
     return nil;
 }
+/*- (NSDate *)date 
+{
+    NSDate * tmpValue;
+    
+//    [self willAccessValueForKey:@"date"];
+    tmpValue = [self.data date];
+//    [self didAccessValueForKey:@"date"];
+    
+    return tmpValue;
+}*/
+
 -(void)setDate:(NSDate*)d
 {
-    [self willChangeValueForKey:@"date"];
+//    [self willChangeValueForKey:@"date"];
     [self.data setDate:d];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
-    [self didChangeValueForKey:@"date"];
+//    [self didChangeValueForKey:@"date"];
 }
 -(NSString*)quieterTitle //calculateQuieterTitle
 {
@@ -378,13 +393,23 @@
     return [self.title normalizedString];
 }
 
+/*- (NSString *)title
+{
+    NSString * tmpValue;
+    
+//    [self willAccessValueForKey:@"title"];
+    tmpValue = [self.data title];
+//    [self didAccessValueForKey:@"title"];
+    
+    return tmpValue;
+}*/
 -(void)setTitle:(NSString*)t
 {
-    [self willChangeValueForKey:@"title"];
+//    [self willChangeValueForKey:@"title"];
     [self.data setTitle:t];
     self.normalizedTitle=[self calculateNormalizedTitle];
 //    self.quieterTitle=[self calculateQuieterTitle];
-    [self didChangeValueForKey:@"title"];
+//    [self didChangeValueForKey:@"title"];
 }
 #pragma mark Misc.
 +(NSSet*)keyPathsForValuesAffectingPdfPath
@@ -520,121 +545,116 @@
 }
 
 #pragma mark Property Forwarding
-
-
-- (NSString *)abstract 
+/*
+- (NSString *)abstract
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"abstract"];
+//    [self willAccessValueForKey:@"abstract"];
     tmpValue = [self.data abstract];
-    [self didAccessValueForKey:@"abstract"];
+//    [self didAccessValueForKey:@"abstract"];
     
     return tmpValue;
 }
 
 - (void)setAbstract:(NSString *)value 
 {
-    [self willChangeValueForKey:@"abstract"];
+//    [self willChangeValueForKey:@"abstract"];
     [self.data setAbstract:value];
-    [self didChangeValueForKey:@"abstract"];
+//    [self didChangeValueForKey:@"abstract"];
 }
-
 
 - (NSString *)arxivCategory
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"arxivCategory"];
+//    [self willAccessValueForKey:@"arxivCategory"];
     tmpValue = [self.data arxivCategory];
-    [self didAccessValueForKey:@"arxivCategory"];
+//    [self didAccessValueForKey:@"arxivCategory"];
     
     return tmpValue;
 }
 
 - (void)setArxivCategory:(NSString *)value 
 {
-    [self willChangeValueForKey:@"arxivCategory"];
+//    [self willChangeValueForKey:@"arxivCategory"];
     [self.data setArxivCategory:value];
-    [self didChangeValueForKey:@"arxivCategory"];
+//    [self didChangeValueForKey:@"arxivCategory"];
 }
 
+- (NSString *)collaboration
+{
+    NSString * tmpValue;
+    
+//    [self willAccessValueForKey:@"collaboration"];
+    tmpValue = [self.data collaboration];
+//    [self didAccessValueForKey:@"collaboration"];
+    
+    return tmpValue;
+}
+
+- (void)setCollaboration:(NSString *)value 
+{
+//    [self willChangeValueForKey:@"collaboration"];
+    [self.data setCollaboration:value];
+//    [self didChangeValueForKey:@"collaboration"];
+}
 
 - (NSString *)comments 
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"comments"];
+//    [self willAccessValueForKey:@"comments"];
     tmpValue = [self.data comments];
-    [self didAccessValueForKey:@"comments"];
+//    [self didAccessValueForKey:@"comments"];
     
     return tmpValue;
 }
 
 - (void)setComments:(NSString *)value 
 {
-    [self willChangeValueForKey:@"comments"];
+//    [self willChangeValueForKey:@"comments"];
     [self.data setComments:value];
-    [self didChangeValueForKey:@"comments"];
+//    [self didChangeValueForKey:@"comments"];
 }
 
-- (NSDate *)date 
-{
-    NSDate * tmpValue;
-    
-    [self willAccessValueForKey:@"date"];
-    tmpValue = [self.data date];
-    [self didAccessValueForKey:@"date"];
-    
-    return tmpValue;
-}
 
 
 - (NSString *)doi 
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"doi"];
+//    [self willAccessValueForKey:@"doi"];
     tmpValue = [self.data doi];
-    [self didAccessValueForKey:@"doi"];
+//    [self didAccessValueForKey:@"doi"];
     
     return tmpValue;
 }
 
 - (void)setDoi:(NSString *)value 
 {
-    [self willChangeValueForKey:@"doi"];
+//    [self willChangeValueForKey:@"doi"];
     [self.data setDoi:value];
-    [self didChangeValueForKey:@"doi"];
+//    [self didChangeValueForKey:@"doi"];
 }
 
-- (NSString *)eprint 
-{
-    NSString * tmpValue;
-    
-    [self willAccessValueForKey:@"eprint"];
-    tmpValue = [self.data eprint];
-    [self didAccessValueForKey:@"eprint"];
-    
-    return tmpValue;
-}
 
 - (NSString *)longishAuthorListForEA
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"longishAuthorListForEA"];
+//    [self willAccessValueForKey:@"longishAuthorListForEA"];
     tmpValue = [self.data longishAuthorListForEA];
-    [self didAccessValueForKey:@"longishAuthorListForEA"];
+//    [self didAccessValueForKey:@"longishAuthorListForEA"];
     
     return tmpValue;
 }
 
 - (void)setLongishAuthorListForEA:(NSString *)value 
 {
-    [self willChangeValueForKey:@"longishAuthorListForEA"];
+//    [self willChangeValueForKey:@"longishAuthorListForEA"];
     [self.data setLongishAuthorListForEA:value];
-    [self didChangeValueForKey:@"longishAuthorListForEA"];
+//    [self didChangeValueForKey:@"longishAuthorListForEA"];
 }
 
 
@@ -643,18 +663,18 @@
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"memo"];
+//    [self willAccessValueForKey:@"memo"];
     tmpValue = [self.data memo];
-    [self didAccessValueForKey:@"memo"];
+//    [self didAccessValueForKey:@"memo"];
     
     return tmpValue;
 }
 
 - (void)setMemo:(NSString *)value 
 {
-    [self willChangeValueForKey:@"memo"];
+//    [self willChangeValueForKey:@"memo"];
     [self.data setMemo:value];
-    [self didChangeValueForKey:@"memo"];
+//    [self didChangeValueForKey:@"memo"];
 }
 
 
@@ -662,18 +682,18 @@
 {
     NSNumber * tmpValue;
     
-    [self willAccessValueForKey:@"pages"];
+//    [self willAccessValueForKey:@"pages"];
     tmpValue = [self.data pages];
-    [self didAccessValueForKey:@"pages"];
+//    [self didAccessValueForKey:@"pages"];
     
     return tmpValue;
 }
 
 - (void)setPages:(NSNumber *)value 
 {
-    [self willChangeValueForKey:@"pages"];
+//    [self willChangeValueForKey:@"pages"];
     [self.data setPages:value];
-    [self didChangeValueForKey:@"pages"];
+//    [self didChangeValueForKey:@"pages"];
 }
 
 
@@ -681,18 +701,18 @@
 {
     NSData * tmpValue;
     
-    [self willAccessValueForKey:@"pdfAlias"];
+//    [self willAccessValueForKey:@"pdfAlias"];
     tmpValue = [self.data pdfAlias];
-    [self didAccessValueForKey:@"pdfAlias"];
+//    [self didAccessValueForKey:@"pdfAlias"];
     
     return tmpValue;
 }
 
 - (void)setPdfAlias:(NSData *)value 
 {
-    [self willChangeValueForKey:@"pdfAlias"];
+//    [self willChangeValueForKey:@"pdfAlias"];
     [self.data setPdfAlias:value];
-    [self didChangeValueForKey:@"pdfAlias"];
+//    [self didChangeValueForKey:@"pdfAlias"];
 }
 
 
@@ -700,100 +720,168 @@
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"shortishAuthorList"];
+//    [self willAccessValueForKey:@"shortishAuthorList"];
     tmpValue = [self.data shortishAuthorList];
-    [self didAccessValueForKey:@"shortishAuthorList"];
+//    [self didAccessValueForKey:@"shortishAuthorList"];
     
     return tmpValue;
 }
 
 - (void)setShortishAuthorList:(NSString *)value 
 {
-    [self willChangeValueForKey:@"shortishAuthorList"];
+//    [self willChangeValueForKey:@"shortishAuthorList"];
     [self.data setShortishAuthorList:value];
-    [self didChangeValueForKey:@"shortishAuthorList"];
+//    [self didChangeValueForKey:@"shortishAuthorList"];
 }
 
 - (NSString *)spicite 
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"spicite"];
+ //   [self willAccessValueForKey:@"spicite"];
     tmpValue = [self.data spicite];
-    [self didAccessValueForKey:@"spicite"];
+//    [self didAccessValueForKey:@"spicite"];
     
     return tmpValue;
 }
 
 - (void)setSpicite:(NSString *)value 
 {
-    [self willChangeValueForKey:@"spicite"];
+//    [self willChangeValueForKey:@"spicite"];
     [self.data setSpicite:value];
-    [self didChangeValueForKey:@"spicite"];
+//    [self didChangeValueForKey:@"spicite"];
 }
 
 - (NSNumber *)spiresKey
 {
     NSNumber * tmpValue;
     
-    [self willAccessValueForKey:@"spiresKey"];
+//    [self willAccessValueForKey:@"spiresKey"];
     tmpValue = [self.data spiresKey];
-    [self didAccessValueForKey:@"spiresKey"];
+//    [self didAccessValueForKey:@"spiresKey"];
     
     return tmpValue;
 }
 
 - (void)setSpiresKey:(NSNumber *)value 
 {
-    [self willChangeValueForKey:@"spiresKey"];
+//    [self willChangeValueForKey:@"spiresKey"];
     [self.data setSpiresKey:value];
-    [self didChangeValueForKey:@"spiresKey"];
+//    [self didChangeValueForKey:@"spiresKey"];
 }
 
 - (NSString *)texKey 
 {
     NSString * tmpValue;
     
-    [self willAccessValueForKey:@"texKey"];
+//    [self willAccessValueForKey:@"texKey"];
     tmpValue = [self.data texKey];
-    [self didAccessValueForKey:@"texKey"];
+//    [self didAccessValueForKey:@"texKey"];
     
     return tmpValue;
 }
 
 - (void)setTexKey:(NSString *)value 
 {
-    [self willChangeValueForKey:@"texKey"];
+//    [self willChangeValueForKey:@"texKey"];
     [self.data setTexKey:value];
-    [self didChangeValueForKey:@"texKey"];
+//    [self didChangeValueForKey:@"texKey"];
 }
 
-- (NSString *)title 
-{
-    NSString * tmpValue;
-    
-    [self willAccessValueForKey:@"title"];
-    tmpValue = [self.data title];
-    [self didAccessValueForKey:@"title"];
-    
-    return tmpValue;
-}
 
 - (NSNumber *)version 
 {
     NSNumber * tmpValue;
     
-    [self willAccessValueForKey:@"version"];
+//    [self willAccessValueForKey:@"version"];
     tmpValue = [self.data version];
-    [self didAccessValueForKey:@"version"];
+//    [self didAccessValueForKey:@"version"];
     
     return tmpValue;
 }
 
 - (void)setVersion:(NSNumber *)value 
 {
-    [self willChangeValueForKey:@"version"];
+//    [self willChangeValueForKey:@"version"];
     [self.data setVersion:value];
-    [self didChangeValueForKey:@"version"];
+//    [self didChangeValueForKey:@"version"];
+}*/
+
+
+
+-(id)valueForUndefinedKey:(NSString *)key
+{
+    // this shouldn't be called if everything is working alright
+    NSLog(@"undefined getter for %@",key);
+    return [self.data valueForKey:key];
 }
+-(void)setValue:(id)obj forUndefinedKey:(NSString *)key
+{
+    // this shouldn't be called if everything is working alright
+    NSLog(@"undefined setter for %@",key);
+    [self.data setValue:obj forKey:key];
+}
+- (id)_getter_
+{
+//    return [self.data performSelector:_cmd];
+    return objc_msgSend(self.data, _cmd);
+}
+
+- (void)_setter_:(id)value 
+{
+//    [self.data performSelector:_cmd withObject:value];
+    objc_msgSend(self.data, _cmd,value);
+}
++(void)synthesizeForwarder:(NSString*)getterName
+{
+    NSString*setterName=[NSString stringWithFormat:@"set%@%@:",[[getterName substringToIndex:1] uppercaseString],[getterName substringFromIndex:1]];
+//    [forwardDict setObject:getterName forKey:setterName];
+    Method getter=class_getInstanceMethod(self, @selector(_getter_));
+    class_addMethod(self, NSSelectorFromString(getterName), method_getImplementation(getter), method_getTypeEncoding(getter));
+    Method setter=class_getInstanceMethod(self, @selector(_setter_:));
+    class_addMethod(self, NSSelectorFromString(setterName), method_getImplementation(setter), method_getTypeEncoding(setter));
+}
+
+@dynamic abstract;
+@dynamic arxivCategory;
+@dynamic collaboration;
+@dynamic comments;
+@dynamic date;
+@dynamic doi;
+@dynamic eprint;
+@dynamic longishAuthorListForEA;
+@dynamic memo;
+@dynamic pages;
+@dynamic shortishAuthorList;
+@dynamic texKey;
+@dynamic title;
+@dynamic version;
+@dynamic spicite;
+@dynamic spiresKey;
+
++(void)load
+{
+//    forwardDict=[NSMutableDictionary dictionary];
+    for(NSString*selectorName in [NSArray arrayWithObjects:
+				  @"abstract",
+				  @"arxivCategory",
+				  @"collaboration",
+				  @"comments",
+				  @"date",
+				  @"doi",
+				  @"eprint",
+				  @"longishAuthorListForEA",
+				  @"memo",
+				  @"pages",
+				  @"shortishAuthorList",
+				  @"texKey",
+				  @"title",
+				  @"version",
+				  @"spicite",
+				  @"spiresKey",
+				  nil]){
+	[self synthesizeForwarder:selectorName];
+    }
+}
+
 @end

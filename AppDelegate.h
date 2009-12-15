@@ -24,6 +24,8 @@ extern NSString *ArticleListDropPboardType;
 -(void)makeTableViewFirstResponder;
 -(void)startProgressIndicator;
 -(void)stopProgressIndicator;
+-(void)addToTeXLog:(NSString*)log;
+-(void)relaunch;
 @property(assign) BOOL isOnline;
 /*-(void)startUpdatingMainView:(id)sender;
 -(void)stopUpdatingMainView:(id)sender;*/

@@ -16,16 +16,10 @@
 -(void)bibtexOutput:(NSNotification*)aNotification;
 @end
 
-static TeXWatcherController*_shared;
 @implementation TeXWatcherController
-+(TeXWatcherController*)sharedController
-{
-    return _shared;
-}
 -(TeXWatcherController*)init
 {
     self=[super initWithWindowNibName:@"TeXWatcher"];
-    if(!_shared)_shared=self;
     return self;
 }
 -(void)addToLog:(NSString*)s
@@ -121,7 +115,7 @@ static TeXWatcherController*_shared;
     [op setCanCreateDirectories:YES];
     [op setMessage:@"Choose the folder to watch TeX files to generate bibliographies..."];
     [op setPrompt:@"Choose"];
-    int res=[op runModalForDirectory:currentSetting file:nil types:nil];
+    NSInteger res=[op runModalForDirectory:currentSetting file:nil types:nil];
     if(res==NSOKButton){
 	NSString*nextSetting=[[op filenames] objectAtIndex:0];
 	[self startWatching:nextSetting];

@@ -19,7 +19,6 @@
 }
 -(IBAction)setFolderToWatch:(id)sender;
 -(IBAction)clearFolderToWatch:(id)sender;
-+(TeXWatcherController*)sharedController;
 -(void)addToLog:(NSString*)s;
 @property (copy) NSString*pathToWatch;  // for some stupid reason it's kept with /Users/user abbreviated by ~.
 @end

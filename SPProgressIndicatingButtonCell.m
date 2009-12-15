@@ -8,7 +8,7 @@
 
 #import "SPProgressIndicatingButtonCell.h"
 #define ConvertAngle(a) (fmod((90.0-(a)), 360.0))
-#define DEG2RAD  0.017453292519943295
+#define DEG2RAD  ((CGFloat)0.017453292519943295)
 
 @implementation SPProgressIndicatingButtonCell
 @synthesize isSpinning;
@@ -47,48 +47,49 @@
 - (void)drawSpinningInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     // taken from http://www.harmless.de/cocoa-code.php
-    float flipFactor = ([controlView isFlipped] ? 1.0 : -1.0);
-    float cellSize = MIN(cellFrame.size.width, cellFrame.size.height);
+    CGFloat flipFactor = (CGFloat)([controlView isFlipped] ? 1.0 : -1.0);
+    CGFloat cellSize = MIN(cellFrame.size.width, cellFrame.size.height);
     NSPoint center = cellFrame.origin;
-    center.x += cellSize/2.0;
-    center.y += cellFrame.size.height/2.0;
-    float outerRadius;
-    float innerRadius;
-    float strokeWidth = cellSize*0.08;
+    center.x += cellSize/(CGFloat)2.0;
+    center.y += cellFrame.size.height/(CGFloat)2.0;
+    CGFloat outerRadius;
+    CGFloat innerRadius;
+    CGFloat strokeWidth = cellSize*(CGFloat)0.08;
     if (cellSize >= 32.0) {
-	outerRadius = cellSize*0.38;
-	innerRadius = cellSize*0.23;
+	outerRadius = cellSize*(CGFloat)0.38;
+	innerRadius = cellSize*(CGFloat)0.23;
     } else {
-	outerRadius = cellSize*0.48;
-	innerRadius = cellSize*0.27;
+	outerRadius = cellSize*(CGFloat)0.48;
+	innerRadius = cellSize*(CGFloat)0.27;
     }
-    outerRadius *= .75;
-    innerRadius *= .75;
-    float a; // angle
+    outerRadius *= (CGFloat).75;
+    innerRadius *= (CGFloat).75;
+    CGFloat a; // angle
     NSPoint inner;
     NSPoint outer;
     // remember defaults
     NSLineCapStyle previousLineCapStyle = [NSBezierPath defaultLineCapStyle];
-    float previousLineWidth = [NSBezierPath defaultLineWidth]; 
+    CGFloat previousLineWidth = [NSBezierPath defaultLineWidth]; 
     // new defaults for our loop
     [NSBezierPath setDefaultLineCapStyle:NSRoundLineCapStyle];
     [NSBezierPath setDefaultLineWidth:strokeWidth];
     if (isSpinning) {
-	a = (270+(step* 30))*DEG2RAD;
+	a = (CGFloat)(270+(step* 30))*DEG2RAD;
     } else {
-	a = 270*DEG2RAD;
+	a = (CGFloat)270*DEG2RAD;
     }
     a = flipFactor*a;
     int i;
     for (i = 0; i < 12; i++) {
 	//			[[NSColor colorWithCalibratedWhite:MIN(sqrt(i)*0.25, 0.8) alpha:1.0] set];
 	//			[[NSColor colorWithCalibratedWhite:0.0 alpha:1.0-sqrt(i)*0.25] set];
-	double redComponent=0;
-	double greenComponent=0;
-	double blueComponent=0;
-	[[NSColor colorWithCalibratedRed:redComponent green:greenComponent blue:blueComponent alpha:1.0-sqrt(i)*0.25] set];
-	outer = NSMakePoint(center.x+cos(a)*outerRadius, center.y+sin(a)*outerRadius);
-	inner = NSMakePoint(center.x+cos(a)*innerRadius, center.y+sin(a)*innerRadius);
+	CGFloat redComponent=0;
+	CGFloat greenComponent=0;
+	CGFloat blueComponent=0;
+	CGFloat alphaComponent=(CGFloat)(1.0-sqrt(i)*0.25);
+	[[NSColor colorWithCalibratedRed:redComponent green:greenComponent blue:blueComponent alpha:alphaComponent] set];
+	outer = NSMakePoint(center.x+(CGFloat)cos(a)*outerRadius, center.y+(CGFloat)sin(a)*outerRadius);
+	inner = NSMakePoint(center.x+(CGFloat)cos(a)*innerRadius, center.y+(CGFloat)sin(a)*innerRadius);
 	[NSBezierPath strokeLineFromPoint:inner toPoint:outer];
 	a -= flipFactor*30*DEG2RAD;
     }

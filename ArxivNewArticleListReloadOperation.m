@@ -15,8 +15,8 @@
 #import "AllArticleList.h"
 #import "AppDelegate.h"
 #import "RegexKitLite.h"
-#import "NSString+XMLEntityDecoding.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
+#import "NSString+magic.h"
+
 
 
 @implementation ArxivNewArticleListReloadOperation
@@ -78,7 +78,7 @@
     
     NSArray*a=[s componentsSeparatedByString:@"</span>"];
     NSString*title=[a objectAtIndex:2];
-    int i=[title rangeOfString:@"</div>"].location;
+    NSInteger i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];
     title=[title stringByExpandingAmpersandEscapes];
     title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];

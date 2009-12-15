@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AuxPanelController.h"
 
-
-@interface BibViewController : NSWindowController {
+@interface BibViewController : AuxPanelController {
     NSArray* articles;
     IBOutlet NSTextView* tv;
 //    IBOutlet NSWindow* window;

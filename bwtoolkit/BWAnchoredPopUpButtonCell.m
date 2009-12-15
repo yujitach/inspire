@@ -19,7 +19,7 @@ static NSColor *borderedSideBorderColor, *borderedTopBorderColor;
 static NSGradient *fillGradient;
 static NSImage *pullDownArrow;
 static NSShadow *contentShadow;
-static float arrowInset = 11.0;
+static CGFloat arrowInset = 11.0f;
 
 @interface NSCell (BWAPUBCPrivate)
 - (NSDictionary *)_textAttributes;
@@ -50,23 +50,23 @@ static float arrowInset = 11.0;
 	
 	topBorderColor			= [[NSColor colorWithCalibratedWhite:(202.0f / 255.0f) alpha:1] retain];
 	bottomBorderColor		= [[NSColor colorWithCalibratedWhite:(170.0f / 255.0f) alpha:1] retain];
-	sideBorderColor			= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2] retain];
-	sideInsetColor			= [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5] retain];
+	sideBorderColor			= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2f] retain];
+	sideInsetColor			= [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5f] retain];
 	
-	pressedColor			= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35] retain];
+	pressedColor			= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35f] retain];
 	
 	enabledTextColor	= [[NSColor colorWithCalibratedWhite:(10.0f / 255.0f) alpha:1] retain];
-	disabledTextColor	= [[enabledTextColor colorWithAlphaComponent:0.6] retain];
+	disabledTextColor	= [[enabledTextColor colorWithAlphaComponent:0.6f] retain];
 	
 	enabledImageColor	= [[NSColor colorWithCalibratedWhite:(72.0f / 255.0f) alpha:1] retain];
-	disabledImageColor	= [[enabledImageColor colorWithAlphaComponent:0.6] retain];
+	disabledImageColor	= [[enabledImageColor colorWithAlphaComponent:0.6f] retain];
 	
-	borderedSideBorderColor	= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25] retain];
+	borderedSideBorderColor	= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25f] retain];
 	borderedTopBorderColor	= [[NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1] retain];
 	
 	contentShadow = [[NSShadow alloc] init];
 	[contentShadow setShadowOffset:NSMakeSize(0,-1)];
-	[contentShadow setShadowColor:[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.75]];
+	[contentShadow setShadowColor:[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.75f]];
 
 	NSBundle *bundle = [NSBundle bundleForClass:[BWAnchoredPopUpButtonCell class]];		
 	pullDownArrow = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"ButtonBarPullDownArrow.pdf"]];
@@ -148,8 +148,8 @@ static float arrowInset = 11.0;
 	NSImage *arrow = [pullDownArrow bwTintedImageWithColor:[self imageColor]];
 	
 	NSAffineTransform* transform = [NSAffineTransform transform];
-	[transform translateXBy:0.0 yBy:cellFrame.size.height];
-	[transform scaleXBy:1.0 yBy:-1.0];
+	[transform translateXBy:0.0f yBy:cellFrame.size.height];
+	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	
 	[contentShadow set];
@@ -157,24 +157,24 @@ static float arrowInset = 11.0;
 	if ([self pullsDown])
 	{
 		// Draw pull-down arrow
-		drawPoint.y = roundf(cellFrame.size.height / 2) - 2;
-		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		drawPoint.y = (CGFloat)round(cellFrame.size.height / 2) - 2;
+		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 	}
 	else
 	{
 		// Draw bottom pop-up arrow
-		drawPoint.y = roundf(cellFrame.size.height / 2) - 4;
-		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		drawPoint.y = (CGFloat)round(cellFrame.size.height / 2) - 4;
+		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 		
 		// Draw top pop-up arrow
 		drawPoint.y -= 1;
 		
 		NSAffineTransform* transform2 = [NSAffineTransform transform];
-		[transform2 translateXBy:0.0 yBy:cellFrame.size.height];
-		[transform2 scaleXBy:1.0 yBy:-1.0];
+		[transform2 translateXBy:0.0f yBy:cellFrame.size.height];
+		[transform2 scaleXBy:1.0f yBy:-1.0f];
 		[transform2 concat];
 		
-		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[arrow drawAtPoint:drawPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
 		
 		[transform2 invert];
 		[transform2 concat];
@@ -246,8 +246,8 @@ static float arrowInset = 11.0;
 			newImage = [image bwTintedImageWithColor:[self imageColor]];
 
 		NSAffineTransform* transform = [NSAffineTransform transform];
-		[transform translateXBy:0.0 yBy:cellFrame.size.height];
-		[transform scaleXBy:1.0 yBy:-1.0];
+		[transform translateXBy:0.0f yBy:cellFrame.size.height];
+		[transform scaleXBy:1.0f yBy:-1.0f];
 		[transform concat];
 		
 		[newImage drawInRect:[self imageRectForBounds:cellFrame] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];

@@ -42,6 +42,11 @@
 #import "NSURL+libraryProxy.h"
 
 @implementation spires_AppDelegate (actions)
+-(NSNumber*)databaseSize
+{
+    NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
+    return [dict valueForKey:NSFileSize];
+}
 #pragma mark Binding
 -(NSManagedObjectContext*)managedObjectContext
 {
@@ -89,13 +94,6 @@
     float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
     [self setFontSize:fontSize-1];
 }
--(IBAction)showhideActivityMonitor:(id)sender;
-{
-    if(!activityMonitorController){
-	activityMonitorController=[[ActivityMonitorController alloc] init];
-    }
-    [activityMonitorController showhide:sender];
-}
 -(IBAction)showPreferences:(id)sender;
 {
     if(!prefController){
@@ -103,11 +101,12 @@
     }    
     [prefController showWindow:sender];
 }
+-(IBAction)showhideActivityMonitor:(id)sender;
+{
+    [activityMonitorController showhide:sender];
+}
 -(IBAction)showTeXWatcher:(id)sender;
 {
-    if(!texWatcherController){
-	texWatcherController=[[TeXWatcherController alloc]init];
-    }    
     [texWatcherController showhide:sender];
 }
 -(IBAction)showUsage:(id)sender;
@@ -198,8 +197,7 @@
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
     NSInteger entries=[[[AllArticleList allArticleList] articles] count];
-    NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
-    NSNumber* size=[dict valueForKey:NSFileSize];
+    NSNumber* size=[self databaseSize];
     [[NSWorkspace sharedWorkspace]
      openURL:[NSURL URLWithString:
 	      [[NSString stringWithFormat:
@@ -401,9 +399,6 @@
 -(IBAction)getBibEntries:(id)sender
 {
     [self getBibEntriesWithoutDisplay:sender];
-    if(!bibViewController){
-	bibViewController=[[BibViewController alloc] init];
-    }
     [bibViewController setArticles:[ac selectedObjects]];
     [bibViewController showWindow:sender];
 }
@@ -536,12 +531,29 @@
 	message=@"No problem found.";
     }
     {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked"
-				      defaultButton:@"OK" 
-				    alternateButton:nil
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked."
+				      defaultButton:@"Vacuum" 
+				    alternateButton:@"Cancel"
 					otherButton:nil
-			  informativeTextWithFormat:message];
-	[alert runModal];
+			  informativeTextWithFormat:[message stringByAppendingString:
+						     @" Do you proceed to vacuum-clean the database?" 
+						     @" It will again take some time and you need to wait patiently."
+						     @" The app relaunches itself after the cleanup."]];
+	NSInteger result=[alert runModal];
+	if(result==NSAlertDefaultReturn){
+	    [self saveAction:self];
+	    NSNumber*before=[self databaseSize];
+	    [[MOC sharedMOCManager] vacuum];
+	    [sideTableViewController selectAllArticleList];
+	    NSNumber*after=[self databaseSize];
+	    alert=[NSAlert alertWithMessageText:@"Done."
+				  defaultButton:@"Relaunch" 
+				alternateButton:nil
+				    otherButton:nil
+		      informativeTextWithFormat:[NSString stringWithFormat:@"%@ bytes --> %@ bytes",before,after]];
+	    [alert runModal];
+	    [self relaunch];
+	}
     }
 }
 

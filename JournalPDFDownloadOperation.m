@@ -12,7 +12,7 @@
 #import "RegexKitLite.h"
 #import "Article.h"
 #import "JournalEntry.h"
-#import "NSString+XMLEntityDecoding.h"
+#import "NSString+magic.h"
 #import "PDFHelper.h"
 #import "NSURL+libraryProxy.h"
 

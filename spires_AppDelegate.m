@@ -28,6 +28,9 @@
 
 #import "IncrementalArrayController.h"
 #import "MessageViewerController.h"
+#import "ActivityMonitorController.h"
+#import "TeXWatcherController.h"
+#import "BibViewController.h"
 
 #import "PDFHelper.h"
 #import "ProgressIndicatorController.h"
@@ -334,6 +337,10 @@
     }
 */    
 //    [self updateFormatForAIfNeeded:self];
+    activityMonitorController=[[ActivityMonitorController alloc] init];
+    texWatcherController=[[TeXWatcherController alloc]init];
+    bibViewController=[[BibViewController alloc] init];
+   
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -533,7 +540,21 @@
 {
     [[ProgressIndicatorController sharedController] stopAnimation:self];
 }
-
+-(void)addToTeXLog:(NSString*)s
+{
+    [texWatcherController addToLog:s];
+}
+-(void)relaunch
+{
+    NSString*path=[[NSBundle mainBundle] pathForResource:@"SpiresRelaunchHelper" 
+						  ofType:@""];
+    NSArray*arguments=[NSArray arrayWithObjects:
+		       @"spires",
+		       [NSString stringWithFormat:@"%d",[[NSProcessInfo processInfo] processIdentifier]],
+		       nil];
+    [NSTask launchedTaskWithLaunchPath:path arguments:arguments];
+    [NSApp terminate:self];
+}
 @dynamic isOnline;
 -(void)setIsOnline:(BOOL)b
 {

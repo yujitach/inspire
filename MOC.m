@@ -10,6 +10,21 @@
 #import "MigrationProgressController.h"
 #import "DumbOperation.h"
 
+@implementation NSManagedObjectContext (TrivialAddition)
+-(void)enableUndo
+{
+    [self processPendingChanges];
+    [[self undoManager] enableUndoRegistration];    
+}
+-(void)disableUndo
+{
+    [self processPendingChanges];
+    [[self undoManager] disableUndoRegistration];    
+}
+
+@end
+
+
 MOC*_sharedMOCManager=nil;
 @interface MOC(Private)
 -(void)performMigration;
@@ -521,6 +536,30 @@ MOC*_sharedMOCManager=nil;
     }
     [[NSApplication sharedApplication] requestUserAttention:NSInformationalRequest];
 }
-
-
+#pragma mark Vacuum-cleaner
+-(void)vacuum
+{
+    NSError*error=nil;
+    if(![[self managedObjectContext] save:&error]){
+	NSLog(@"save error:%@. Proceed...",error);
+    }
+    NSPersistentStoreCoordinator*psc=[self persistentStoreCoordinator];
+    NSArray*stores=[psc persistentStores];
+    error=nil;
+    if(![psc removePersistentStore:[stores objectAtIndex:0] error:&error]){
+	NSLog(@"couldn't remove:%@",error);
+	return;
+    }
+    error=nil;
+    NSMutableDictionary*options=[NSMutableDictionary dictionary];
+    [options setObject:[NSNumber numberWithBool:YES] forKey:NSSQLiteManualVacuumOption];
+    [options setObject:[NSNumber numberWithBool:YES] forKey:NSSQLiteAnalyzeOption];
+    if (![psc addPersistentStoreWithType:[self storeType]
+			   configuration:nil 
+				     URL:[NSURL fileURLWithPath:[self dataFilePath]] 
+				 options:options
+				   error:&error]){
+	NSLog(@"something really bad:%@",error);
+    }
+}
 @end

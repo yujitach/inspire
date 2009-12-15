@@ -58,7 +58,7 @@
     while((column = [enumerator nextObject])) {
 	[cols addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 			 [[column headerCell] title], @"title",
-			 [NSNumber numberWithFloat:[column width]], @"width",
+			 [NSNumber numberWithFloat:(float)[column width]], @"width",
 			 nil]];
     }
     [[NSUserDefaults standardUserDefaults] setObject:cols forKey:saveName];

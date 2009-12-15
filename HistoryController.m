@@ -124,8 +124,8 @@
 }
 - (IBAction)segControlClicked:(id)sender
 {
-    int clickedSegment = [sc selectedSegment];
-    int clickedSegmentTag = [[sc cell] tagForSegment:clickedSegment];
+    NSInteger clickedSegment = [sc selectedSegment];
+    NSInteger clickedSegmentTag = [[sc cell] tagForSegment:clickedSegment];
     if(clickedSegmentTag==0){
 	[self backward:sender];
     }else{

@@ -44,7 +44,7 @@
 			  nil];
 	NSArray*characters=[NSArray arrayWithObjects:@"&",@"<",@">",@"\"",@" ",nil];
 	    
-	int i, count = [codes count];
+	NSInteger i, count = [codes count];
 	    
 		// Html
 	for(i = 0; i < count; i++)

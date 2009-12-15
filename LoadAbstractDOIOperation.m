@@ -9,8 +9,8 @@
 #import "LoadAbstractDOIOperation.h"
 #import "Article.h"
 #import "JournalEntry.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
 #import "RegexKitLite.h"
+#import "MOC.h"
 
 @interface LoadAbstractDOIOperation ()
 -(void)loadAbstractUsingDOIRealWork:(NSString*)content;

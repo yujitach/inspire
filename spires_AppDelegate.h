@@ -52,7 +52,3 @@
 
 
 @end
-
-#import "spires_AppDelegate_actions.h"
-@interface spires_AppDelegate (actions) <spires_AppDelegate_actions>
-@end

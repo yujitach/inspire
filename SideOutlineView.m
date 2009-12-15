@@ -36,8 +36,8 @@
 	}
     }
     if(!hasFolder){
-	frame.origin.x-=[self indentationPerLevel];
-	frame.size.width+=[self indentationPerLevel];
+	frame.origin.x-=[self indentationPerLevel]-3;
+	frame.size.width+=[self indentationPerLevel]-3;
 	return frame;	
     }
     if ( [[self tableColumns] objectAtIndex:column] == [self outlineTableColumn] ) {

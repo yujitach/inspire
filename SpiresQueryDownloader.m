@@ -139,7 +139,7 @@
 	 NSLog(@"malformed XML patched");
 	 }*/
 	
-	NSString*s=[t stringByReplacingOccurrencesOfRegex:@"\\[<.+? ([A-Z]) .+?>\\]" withString:@"$1"];
+/*	NSString*s=[t stringByReplacingOccurrencesOfRegex:@"\\[<.+? ([A-Z]) .+?>\\]" withString:@"$1"];
 	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<.+? ([A-Z])>\\]" withString:@"$1"];
 	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<([A-Z]) .+?>\\]" withString:@"$1"];
 	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<ANGSTROM SIGN>\\]" withString:@"A"];
@@ -150,7 +150,7 @@
 	    [t writeToFile:@"/tmp/spires-xml-after.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	    t=s;
 	    
-	}
+	}*/
 	
 	if([searchString hasPrefix:@"r"]){
 	    t=[self transformBibtexToXML:t];

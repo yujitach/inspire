@@ -12,7 +12,7 @@
 @implementation ArticleData
 @dynamic abstract;
 @dynamic arxivCategory;
-@dynamic  citecount;
+@dynamic  collaboration;
 @dynamic  comments;
 @dynamic  date;
 @dynamic  doi;

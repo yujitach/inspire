@@ -11,7 +11,7 @@
 @implementation NSColor (BWAdditions)
 
 //  Use this method to draw 1 px wide lines independent of scale factor. Handy for resolution independent drawing. Still needs some work - there are issues with drawing at the edges of views.
-- (void)bwDrawPixelThickLineAtPosition:(int)posInPixels withInset:(int)insetInPixels inRect:(NSRect)aRect inView:(NSView *)view horizontal:(BOOL)isHorizontal flip:(BOOL)shouldFlip
+- (void)bwDrawPixelThickLineAtPosition:(NSInteger)posInPixels withInset:(NSInteger)insetInPixels inRect:(NSRect)aRect inView:(NSView *)view horizontal:(BOOL)isHorizontal flip:(BOOL)shouldFlip
 {
 	// Convert the given rectangle from points to pixels
 	aRect = [view convertRectToBase:aRect];
@@ -23,13 +23,13 @@
 	if (isHorizontal)
 	{
 		if ([view isFlipped])
-			aRect.origin.y -= 0.5;
+			aRect.origin.y -= (CGFloat)0.5;
 		else
-			aRect.origin.y += 0.5;
+			aRect.origin.y += (CGFloat)0.5;
 	}
 	else
 	{
-		aRect.origin.x += 0.5;
+		aRect.origin.x += (CGFloat)0.5;
 	}
 	
 	NSSize sizeInPixels = aRect.size;
@@ -46,11 +46,11 @@
 			posInPixels = sizeInPixels.width - posInPixels - 1;
 	}
 	
-	float posInPoints = posInPixels / [[NSScreen mainScreen] userSpaceScaleFactor];
-	float insetInPoints = insetInPixels / [[NSScreen mainScreen] userSpaceScaleFactor];
+	CGFloat posInPoints = posInPixels / [[NSScreen mainScreen] userSpaceScaleFactor];
+	CGFloat insetInPoints = insetInPixels / [[NSScreen mainScreen] userSpaceScaleFactor];
 	
 	// Calculate line start and end points
-	float startX, startY, endX, endY;
+	CGFloat startX, startY, endX, endY;
 	
 	if (isHorizontal)
 	{

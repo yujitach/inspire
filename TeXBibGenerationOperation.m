@@ -16,7 +16,6 @@
 #import "BatchBibQueryOperation.h"
 #import "WaitOperation.h"
 #import "NSString+magic.h"
-#import "TeXWatcherController.h"
 #import "AppDelegate.h"
 
 static NSMutableArray*instances;
@@ -98,7 +97,7 @@ static NSMutableArray*instances;
 	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
     [logString appendString:@" not found in local database. Looking up...\n"];
-    [[TeXWatcherController sharedController]addToLog:logString];
+    [[NSApp appDelegate] addToTeXLog:logString];
     NSOperation*op=[[TeXBibGenerationOperation alloc] initWithTeXFile:texFile 
 							       andMOC:moc
 						       byLookingUpWeb:NO];
@@ -158,10 +157,10 @@ static NSMutableArray*instances;
     }
     
     if([toAdd count]>0){
-	[[TeXWatcherController sharedController] addToLog:[NSString stringWithFormat:@"adding entries to %@\n",bibFile]];
+	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",bibFile]];
 	NSMutableString*appendix=[NSMutableString string];
 	for(Article*a in toAdd){
-	    [[TeXWatcherController sharedController] addToLog:[[a texKey] stringByAppendingString:@", "]];
+	    [[NSApp appDelegate] addToTeXLog:[[a texKey] stringByAppendingString:@", "]];
 	    NSString*bib=[a extraForKey:@"bibtex"];
 	    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
 	    bib=[bib magicTeXed];
@@ -175,9 +174,9 @@ static NSMutableArray*instances;
 	}    
 	NSString*result=[NSString stringWithFormat:@"%@\n\n%@",org,appendix];
 	[result writeToFile:bibFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	[[TeXWatcherController sharedController] addToLog:@"Done.\n"];
+	[[NSApp appDelegate] addToTeXLog:@"Done.\n"];
     }else{
-	[[TeXWatcherController sharedController] addToLog:@"Nothing to add.\n"];	
+	[[NSApp appDelegate] addToTeXLog:@"Nothing to add.\n"];	
     }
 
 }
@@ -238,7 +237,7 @@ static NSMutableArray*instances;
     }
     
     [s writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
-    [[TeXWatcherController sharedController]addToLog:[NSString stringWithFormat:@"%@ generated\n",outputPath]];
+    [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"%@ generated\n",outputPath]];
 }
 -(NSArray*)fullCitationsForFile:(NSString*)file andInfo:(NSDictionary*)dict
 {

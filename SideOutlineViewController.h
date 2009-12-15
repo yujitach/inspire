@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "TableViewContextMenuCategory.h"
 
 //@class spires_AppDelegate;
 @class ArticleList;
 @class AllArticleList;
-@interface SideOutlineViewController : NSObject {
+@interface SideOutlineViewController : NSObject<TableViewContextMenuDelegate> {
     IBOutlet NSTreeController* articleListController;
     IBOutlet NSOutlineView* articleListView;
 //    IBOutlet spires_AppDelegate* appDelegate;

@@ -30,6 +30,7 @@ typedef enum {
 @property (retain) NSString * flagInternal;
 @property (retain) NSSet* citedBy;
 @property (retain) NSSet* refersTo;
+@property (retain) NSNumber* citecount;
 @property (retain) NSString*normalizedTitle;
 @property (retain) NSString*longishAuthorListForA;
 @property (retain) NSNumber *eprintForSorting;
@@ -37,7 +38,7 @@ typedef enum {
 #pragma mark forwarded to data
 @property (retain) NSString * abstract;
 @property (retain) NSString * arxivCategory;
-@property (retain) NSNumber* citecount;
+@property (retain) NSString * collaboration;
 @property (retain) NSString * comments;
 @property (retain) NSDate * date;
 @property (retain) NSString * doi;

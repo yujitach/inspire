@@ -130,6 +130,20 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }
     return nil;
 }
+-(NSPredicate*)cnPredicate:(NSString*)operand
+{
+    NSArray*a=[operand componentsSeparatedByString:@" "];
+    NSMutableArray*b=[NSMutableArray array];
+    for(NSString*s in a){
+	if(![s isEqualTo:@""]){
+	    [b addObject:s];
+	}
+    }
+    NSString*norm=[[b componentsJoinedByString:@" "] normalizedString];
+    NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.collaboration contains[c] %@",norm];	    
+    NSPredicate*pred1=[NSPredicate predicateWithFormat:@"longishAuthorListForA contains %@",norm];
+    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];    
+}
 -(NSPredicate*)eaPredicate:(NSString*)operand
 {
     operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
@@ -252,6 +266,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	return @selector(eaPredicate:);
     }else if([operator hasPrefix:@"j"]){
 	return @selector(journalPredicate:);
+    }else if([operator hasPrefix:@"cn"]){
+	return @selector(cnPredicate:);
     }else if([operator hasPrefix:@"c"]){
 	return @selector(citedByPredicate:);
     }else if([operator hasPrefix:@"r"]){

@@ -36,8 +36,8 @@
 
 -(void)selectMirrorToUse:(NSString*)mirror
 {
-    int i=0;
-    int c=[mirrorToUsePopUp numberOfItems];
+    NSInteger i=0;
+    NSInteger c=[mirrorToUsePopUp numberOfItems];
     for(i=0;i<c;i++){
 	if([[mirrorToUsePopUp itemTitleAtIndex:i] isEqualToString:mirror]){
 	    [mirrorToUsePopUp selectItemAtIndex:i];
@@ -49,8 +49,8 @@
 
 -(void)selectBibToUse:(NSString*)bib
 {
-    int i=0;
-    int c=[bibPopUp numberOfItems];
+    NSInteger i=0;
+    NSInteger c=[bibPopUp numberOfItems];
     for(i=0;i<c;i++){
 	if([[bibPopUp itemTitleAtIndex:i] isEqualToString:bib]){
 	    [bibPopUp selectItemAtIndex:i];
@@ -69,7 +69,7 @@
     [op setCanCreateDirectories:YES];
     [op setMessage:@"Choose the folder to save PDFs..."];
     [op setPrompt:@"Choose"];
-    int res=[op runModalForDirectory:currentSetting file:nil types:nil];
+    NSInteger res=[op runModalForDirectory:currentSetting file:nil types:nil];
     if(res==NSOKButton){
 	NSString*nextSetting=[[op filenames] objectAtIndex:0];
 	[[NSUserDefaults standardUserDefaults] setObject:[nextSetting stringByAbbreviatingWithTildeInPath] 
@@ -90,7 +90,7 @@
 }
 -(IBAction)pdfRadioSelected:(id)sender;
 {
-    int i=[journalPDFRadio selectedRow];
+    NSInteger i=[journalPDFRadio selectedRow];
     [[NSUserDefaults standardUserDefaults] setBool:(i==0?YES:NO) forKey:@"tryToDownloadJournalPDF"];
 }
 
@@ -141,7 +141,7 @@
     [self willChangeValueForKey:@"currentFont"];
     [self willChangeValueForKey:@"currentFontString"];
     [[NSUserDefaults standardUserDefaults] setValue:[newFont fontName] forKey:@"articleViewFontName"];
-    [[NSUserDefaults standardUserDefaults] setFloat:[newFont pointSize] forKey:@"articleViewFontSize"];
+    [[NSUserDefaults standardUserDefaults] setFloat:(float)[newFont pointSize] forKey:@"articleViewFontSize"];
     [self didChangeValueForKey:@"currentFontString"];
     [self didChangeValueForKey:@"currentFont"];    
 }

@@ -16,6 +16,7 @@
 #import "NSString+magic.h"
 #import "spires_AppDelegate_actions.h"
 
+static NSArray*observedKeys=nil;
 @implementation ArticleView
 #pragma mark UI glues
 -(void)awakeFromNib
@@ -34,6 +35,17 @@
 							      forKeyPath:@"defaults.showDistractingMessage"
 								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 								 context:nil];
+    NSError*error;
+    NSString*templateForWebView=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" 
+												   ofType:@"html"] 
+							  encoding:NSUTF8StringEncoding
+							     error:&error];
+    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
+    observedKeys=[NSArray arrayWithObjects:
+		  @"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
+		  @"journal",@"pdfPath",@"title",@"texKey",nil];
+
+    
 }
 -(BOOL)acceptsFirstResponder
 {
@@ -111,13 +123,18 @@
     return s;
 }
 #pragma mark Property Generation
--(NSString*)author
+-(NSString*)authors
 {
     NSArray*names=[article.longishAuthorListForEA componentsSeparatedByString:@"; "];
+    NSString*collaboration=nil;
     NSMutableArray* a=[NSMutableArray array];
     for(NSString*x in names){
 	if(![x isEqualToString:@""]){
-	    [a addObject:x];
+	    if([x rangeOfString:@"collaboration"].location!=NSNotFound){
+		collaboration=x;
+	    }else{
+		[a addObject:x];
+	    }
 	}
     }
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -148,8 +165,21 @@
 	[result appendString:@"</a>"];
 	[b addObject: result];
     }
-    
-    return [b componentsJoinedByString:@", "];
+    if(collaboration){
+	collaboration=[collaboration uppercaseString];
+	collaboration=[collaboration stringByReplacingOccurrencesOfRegex:@"COLLABORATION(S?)" withString:@"Collaboration$1"];
+	NSString* searchString=[collaboration stringByReplacingOccurrencesOfRegex:@"Collaborations?" withString:@""];
+	searchString=[NSString stringWithFormat:@"spires-search://cn %@",searchString];
+	searchString=[searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSMutableString*result=[NSMutableString stringWithFormat:@"<a href=\"%@\">",searchString];
+	[result appendFormat:@"%@</a>",collaboration];
+	if([b count]>0 && [b count]<10){
+	    [result appendFormat:@" (%@)",[b componentsJoinedByString:@", "]];
+	}
+	return result;
+    }else{
+	return [b componentsJoinedByString:@", "];
+    }
 }
 -(NSString*)abstract
 {
@@ -206,7 +236,7 @@
     
     return [NSString stringWithFormat:@"[<a class=\"nonloudlink\" href=\"%@\">%@</a>]&nbsp;",path, eprint];
 }
--(NSString*)pdf
+-(NSString*)pdfPath
 {
     if(article.articleType==ATEprint ){
 //	if(article.hasPDFLocally){
@@ -263,7 +293,7 @@
     }
     return str;
 }
--(NSString*)bibEntry{
+-(NSString*)texKey{
     NSString* x=article.texKey;
     if(x &&[[[NSUserDefaults standardUserDefaults] stringForKey:@"bibType"] isEqualToString:@"harvmac"]){
 	x=[article extraForKey:@"harvmacKey"];
@@ -303,62 +333,46 @@
 #pragma mark KVO
 -(void)refresh
 {
-    NSString* t=templateForWebView;
+    DOMDocument*doc=[[self mainFrame] DOMDocument];
     if(!article || article==NSNoSelectionMarker){
-	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"hidden"];
-	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"visible"];
-	t=[t stringByReplacingOccurrencesOfString:@"$centerMessage" withString:@"No Selection"];
+	[doc getElementById:@"mainBox"].style.visibility=@"hidden";
+	[doc getElementById:@"centerBox"].style.visibility=@"visible";
+	((DOMHTMLElement*)[doc getElementById:@"centerBox"]).innerHTML=@"No Selection";
     }else if(article==NSMultipleValuesMarker){
-	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"hidden"];
-	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"visible"];
-	t=[t stringByReplacingOccurrencesOfString:@"$centerMessage" withString:@"Multiple Selections"];
+	[doc getElementById:@"mainBox"].style.visibility=@"hidden";
+	[doc getElementById:@"centerBox"].style.visibility=@"visible";
+	((DOMHTMLElement*)[doc getElementById:@"centerBox"]).innerHTML=@"Multiple Selections";
     }else{
-	t=[t stringByReplacingOccurrencesOfString:@"$mainVisibility" withString:@"visible"];
-	t=[t stringByReplacingOccurrencesOfString:@"$centerVisibility" withString:@"hidden"];
-	NSMutableString*s=[t mutableCopy];
-	for(NSString* key in [NSArray arrayWithObjects:@"articleViewFontSize",@"articleViewFontName",@"abstract",@"comments",@"title",@"eprint",@"author",@"pdf",@"spires",@"journal",@"bibEntry",@"citedBy",@"refersTo",@"arxivCategory",nil]){
-	    NSString* keyInHTML=[@"$" stringByAppendingString:key];
+	[doc getElementById:@"mainBox"].style.visibility=@"visible";
+	[doc getElementById:@"centerBox"].style.visibility=@"hidden";
+	NSMutableArray*keys=[NSMutableArray arrayWithObjects:@"spires",@"citedBy",@"refersTo",nil];
+	[keys addObjectsFromArray:observedKeys];
+	for(NSString* key in keys){
 	    NSString* x=[self valueForKey:key];
 	    if(!x)x=@"";
 	    if(x==NSNoSelectionMarker)x=@"";
-	    [s replaceOccurrencesOfString:keyInHTML
-			       withString:x    
-				  options:NSLiteralSearch
-				    range:NSMakeRange(0,[s length])];
+	    ((DOMHTMLElement*)[doc getElementById:key]).innerHTML=x;
 	}
-	t=s;
+	[doc getElementById:@"mainBox"].style.fontSize=[self articleViewFontSize];
+	[doc getElementById:@"mainBox"].style.fontFamily=[self articleViewFontName];
     }
     if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
-	t=[t stringByReplacingOccurrencesOfString:@"$messageVisibility" withString:@"visible"];
-	t=[t stringByReplacingOccurrencesOfString:@"$message" withString:message];
+	[doc getElementById:@"messageBox"].style.visibility=@"visible";
+	((DOMHTMLElement*)[doc getElementById:@"messageBox"]).innerHTML=message;
     }else{
-	t=[t stringByReplacingOccurrencesOfString:@"$messageVisibility" withString:@"hidden"];
+	[doc getElementById:@"messageBox"].style.visibility=@"hidden";
     }
  //      NSLog(@"%@",[self mainFrame]);
-    [[self mainFrame] loadHTMLString:t baseURL:nil];//[NSURL URLWithString:@""]];
     
 }
 -(void)setArticle:(Article*)a
 {
-    NSArray*observedKeys=[NSArray arrayWithObjects:@"abstract",@"title",@"authors",@"texKey",@"pdfPath",@"journal",@"comments",@"arxivCategory",nil];
     if(article && article!=NSNoSelectionMarker && article!=NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 	    [article removeObserver:self forKeyPath:i];
 	}
     }
     article=a;
-    NSError*error=nil;
-/*    if(!a || a==NSNoSelectionMarker || a==NSNotApplicableMarker){
-//	NSLog(@"article:nil");
-	templateForWebView=nil;
-    }else if(a==NS){
-    }else{*/
-//	NSLog(@"%@",article);
-	templateForWebView=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" 
-											  ofType:@"html"] 
-						 encoding:NSUTF8StringEncoding
-						    error:&error];
-//    }
     if(article&& article!=NSNoSelectionMarker && article!=NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 		[article addObserver:self

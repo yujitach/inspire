@@ -13,8 +13,8 @@
 -(NSMenu*)menuForEvent:(NSEvent*)event
 {
     NSPoint mousePoint = [self convertPoint:[event locationInWindow] fromView:nil];
-    int row = [self rowAtPoint:mousePoint];
-    int column = [self columnAtPoint:mousePoint];
+    NSInteger row = [self rowAtPoint:mousePoint];
+    NSInteger column = [self columnAtPoint:mousePoint];
     NSTableColumn*col=nil;
     if(column!=-1){
 	col=[[self tableColumns] objectAtIndex:column];

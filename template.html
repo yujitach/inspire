@@ -9,8 +9,6 @@
 body{
     background-repeat: repeat;
     background-color:white;color:black;
-    font-family: $articleViewFontName, sans-serif;
-    font-size:$articleViewFontSize;
 }
 a:link{
     text-decoration:none;
@@ -38,10 +36,7 @@ a.nonloudlink:hover{
     margin-top:.4em;
     margin-bottom:.4em;
 }
-.arxivCategory{
-    font-weight:bold;
-}
-#rightbox{
+#rightBox{
     float:right;
     text-align:right;
     -webkit-border-radius:8pt;
@@ -55,13 +50,17 @@ a.nonloudlink:hover{
     font-size:100%;
 }
 
-.eprint{
+#eprintBox{
     font-weight:medium;
     font-size:115%;
     padding:.3em;
     padding-top:.1em;
 }
-.author{
+#eprint{
+}
+#journal{
+}
+#authors{
     font-size:100%;
     font-weight:bold;
     padding:.3em;
@@ -70,18 +69,23 @@ a.nonloudlink:hover{
 .vol{
     font-weight:bold;
 }
-.title{
+#title{
     font-weight:bold;
     font-size:115%;
     padding:.3em;
 }
 
-.comments{
+#commentBox{
     font-size:90%;
     padding:.3em;
 }
+#comments{
+}
+#arxivCategory{
+    font-weight:bold;
+}
 
-.abstract{
+#abstract{
     padding-top:.3em;
     padding-left:.3em;
     padding-right:.3em;
@@ -97,7 +101,7 @@ a.nonloudlink:hover{
 
 <style type="text/css" media="screen">
 	#centerBox{
-		visibility:$centerVisibility;
+		visibility:visible;
 		position:fixed;
 		text-align:center;
 		bottom:50%;
@@ -106,17 +110,18 @@ a.nonloudlink:hover{
 		top:50%;
 		width:40%;
 		color:#888;
+		font-size:12pt;
+		font-family:helvetica;
 	}
 </style>
 <style type="text/css" media="screen">
 	#mainBox{
-		visibility:$mainVisibility;
+		visibility:hidden;
 	}
 </style>
 <style type="text/css" media="screen">
 	#messageBox{
-		visibility:$messageVisibility;
-		
+		visibility:hidden;
 		position:fixed;
 		bottom:10pt;
 		right:10pt;
@@ -134,6 +139,7 @@ a.nonloudlink:hover{
 		color:white;
 		font-weight:bold;
 		font-family:helvetica;
+		font-size:12pt;
 		
 		-webkit-animation-name:blink;
 		-webkit-animation-duration:1s;
@@ -143,7 +149,7 @@ a.nonloudlink:hover{
 	}
 	@-webkit-keyframes blink{
 		from{
-			opacity:.8;
+			opacity:.7;
 		}
 		to{
 			opacity:1;
@@ -154,34 +160,34 @@ a.nonloudlink:hover{
 </head>
 <body>
 <div id="mainBox">
-    <div id="rightbox">
-	<span>$pdf</span><br>
-	<span>$spires</span><br>
-	<span>$citedBy</span><br>
-	<span>$refersTo</span><br> 
-	<span>$bibEntry</span><br> 
+    <div id="rightBox">
+	<span id="pdfPath"></span><br>
+	<span id="spires"></span><br>
+	<span id="citedBy"></span><br>
+	<span id="refersTo"></span><br> 
+	<span id="texKey"></span><br> 
 	
     </div>
-	<div class="eprint">
-	    $eprint
-	    $journal
+	<div id="eprintBox">
+	    <span id="eprint"></span>
+	    <span id="journal"></span>
 	</div>
 	
 	
-	<div class="title">$title</div>
-	<div class="author">$author</div>
-	<div class="comments">
-	    <span>$comments</span> 
-	    <span class="arxivCategory">$arxivCategory</span>
+	<div id="title"></div>
+	<div id="authors"></div>
+	<div id="commentBox">
+	    <span id="comments"></span> 
+	    <span id="arxivCategory"></span>
 	</div>
 	
 	<hr id="divider">
 	
-	<div class="abstract">$abstract</div>
+	<div id="abstract"></div>
 </div>
-<div id="messageBox">$message
+<div id="messageBox">
 </div>
-<div id="centerBox">$centerMessage
+<div id="centerBox">
 </div>
 </body>
 </html>

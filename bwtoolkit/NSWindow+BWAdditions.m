@@ -17,10 +17,10 @@
 
 	if ([self isSheet])
 	{
-		float oldWidth = [self frame].size.width;
-		float newWidth = newSize.width;
+		CGFloat oldWidth = [self frame].size.width;
+		CGFloat newWidth = newSize.width;
 		
-		float difference = oldWidth - newWidth;
+		CGFloat difference = oldWidth - newWidth;
 		
 		windowFrame.origin.x += difference / 2;
 	}

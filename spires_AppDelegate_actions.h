@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@protocol spires_AppDelegate_actions
+#import "spires_AppDelegate.h"
+@interface spires_AppDelegate (actions)
 
 -(IBAction)sendBugReport:(id)sender;
 -(IBAction)saveAction:(id)sender;

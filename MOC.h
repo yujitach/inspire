@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface NSManagedObjectContext (TrivialAddition)
+-(void)disableUndo;
+-(void)enableUndo;
+@end
 
 @interface MOC : NSObject {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -25,4 +29,5 @@
 - (NSString *)applicationSupportFolder;
 - (NSString *)dataFilePath;
 -(void)presentMOCSaveError:(NSError*)error;
+-(void)vacuum;
 @end

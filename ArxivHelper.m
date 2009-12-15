@@ -63,14 +63,14 @@ ArxivHelper* _sharedHelper=nil;
 					     delegate:self];
 }
 
--(NSXMLDocument*)xmlForPath:(NSString*)path
+/*-(NSXMLDocument*)xmlForPath:(NSString*)path
 {
     NSString*p=[[path componentsSeparatedByString:@"/"]objectAtIndex:0];
     NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/rss/%@",[self arXivHead],p]];
     NSError*error=nil;
     NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0   error:&error];
     return doc;
-}
+}*/
 
 -(NSString*)list_internal:(NSString*)path
 {

@@ -34,7 +34,7 @@
 -(void)run
 {
     
-    if([search hasPrefix:@"c"]){
+    if([search hasPrefix:@"c "]){
 	NSString*ccc=[[search componentsSeparatedByString:@"and"] objectAtIndex:0];
 	NSArray*a=[ccc componentsSeparatedByString:@" "];
 	if([a count]!=2) return;

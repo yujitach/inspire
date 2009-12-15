@@ -47,23 +47,23 @@ static NSShadow *contentShadow;
 	
 	topBorderColor		= [[NSColor colorWithCalibratedWhite:(202.0f / 255.0f) alpha:1] retain];
 	bottomBorderColor	= [[NSColor colorWithCalibratedWhite:(170.0f / 255.0f) alpha:1] retain];
-	sideBorderColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2] retain];
-	sideInsetColor		= [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5] retain];
+	sideBorderColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2f] retain];
+	sideInsetColor		= [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5f] retain];
 	
-	pressedColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35] retain];
+	pressedColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35f] retain];
 	
-	enabledTextColor	= [[NSColor colorWithCalibratedWhite:(10.0f / 255.0f) alpha:1] retain];
-	disabledTextColor	= [[enabledTextColor colorWithAlphaComponent:0.6] retain];
+	enabledTextColor	= [[NSColor colorWithCalibratedWhite:(10.0f / 255.0f) alpha:1.0f] retain];
+	disabledTextColor	= [[enabledTextColor colorWithAlphaComponent:0.6f] retain];
 	
-	enabledImageColor	= [[NSColor colorWithCalibratedWhite:(72.0f / 255.0f) alpha:1] retain];
-	disabledImageColor	= [[enabledImageColor colorWithAlphaComponent:0.6] retain];
+	enabledImageColor	= [[NSColor colorWithCalibratedWhite:(72.0f / 255.0f) alpha:1.0f] retain];
+	disabledImageColor	= [[enabledImageColor colorWithAlphaComponent:0.6f] retain];
 	
-	borderedSideBorderColor	= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25] retain];
-	borderedTopBorderColor	= [[NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1] retain];
+	borderedSideBorderColor	= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25f] retain];
+	borderedTopBorderColor	= [[NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1.0f] retain];
 
 	contentShadow = [[NSShadow alloc] init];
 	[contentShadow setShadowOffset:NSMakeSize(0,-1)];
-	[contentShadow setShadowColor:[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.75]];
+	[contentShadow setShadowColor:[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.75f]];
 }
 
 - (NSControlSize)controlSize

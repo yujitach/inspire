@@ -23,7 +23,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -159,7 +158,7 @@
 								</object>
 								<object class="NSMenuItem" id="285199375">
 									<reference key="NSMenu" ref="123765298"/>
-									<string key="NSTitle">Fix database inconsistency...</string>
+									<string key="NSTitle">Fix and clean database...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="893455832"/>
@@ -889,7 +888,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{518, 406}</string>
 				<object class="NSView" key="NSWindowView" id="823886803">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -918,6 +917,7 @@
 															<int key="NSvFlags">4368</int>
 															<string key="NSFrameSize">{111, 494}</string>
 															<reference key="NSSuperview" ref="214336243"/>
+															<reference key="NSWindow"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -1016,6 +1016,7 @@
 													</object>
 													<string key="NSFrame">{{1, 1}, {111, 494}}</string>
 													<reference key="NSSuperview" ref="802101631"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="746025844"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="746025844"/>
@@ -1027,6 +1028,7 @@
 													<int key="NSvFlags">-2147483392</int>
 													<string key="NSFrame">{{97, 1}, {15, 479}}</string>
 													<reference key="NSSuperview" ref="802101631"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="802101631"/>
 													<string key="NSAction">_doScroller:</string>
@@ -1037,6 +1039,7 @@
 													<int key="NSvFlags">-2147483392</int>
 													<string key="NSFrame">{{1, 480}, {111, 15}}</string>
 													<reference key="NSSuperview" ref="802101631"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<int key="NSsFlags">1</int>
 													<reference key="NSTarget" ref="802101631"/>
@@ -1046,6 +1049,7 @@
 											</object>
 											<string key="NSFrame">{{0, 22}, {113, 496}}</string>
 											<reference key="NSSuperview" ref="550046862"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="214336243"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">562</int>
@@ -1064,6 +1068,7 @@
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{29, -1}, {31, 24}}</string>
 													<reference key="NSSuperview" ref="900143501"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<bool key="NSEnabled">YES</bool>
 													<object class="BWAnchoredButtonCell" key="NSCell" id="522356724">
@@ -1089,6 +1094,7 @@
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{-1, -1}, {32, 24}}</string>
 													<reference key="NSSuperview" ref="900143501"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<bool key="NSEnabled">YES</bool>
 													<object class="BWAnchoredPopUpButtonCell" key="NSCell" id="817588642">
@@ -1184,6 +1190,7 @@
 											</object>
 											<string key="NSFrame">{{1, 0}, {111, 23}}</string>
 											<reference key="NSSuperview" ref="550046862"/>
+											<reference key="NSWindow"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<bool key="BWABBIsResizable">YES</bool>
 											<bool key="BWABBIsAtBottom">YES</bool>
@@ -1193,6 +1200,7 @@
 									</object>
 									<string key="NSFrameSize">{112, 518}</string>
 									<reference key="NSSuperview" ref="974293226"/>
+									<reference key="NSWindow"/>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSClassName">NSView</string>
 								</object>
@@ -1216,6 +1224,7 @@
 															<int key="NSvFlags">4352</int>
 															<string key="NSFrameSize">{461, 208}</string>
 															<reference key="NSSuperview" ref="888495451"/>
+															<reference key="NSWindow"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="214612490">
@@ -1223,6 +1232,7 @@
 																<int key="NSvFlags">256</int>
 																<string key="NSFrameSize">{461, 17}</string>
 																<reference key="NSSuperview" ref="918157741"/>
+																<reference key="NSWindow"/>
 																<int key="NSViewLayerContentsRedrawPolicy">2</int>
 																<reference key="NSTableView" ref="972063408"/>
 															</object>
@@ -1231,6 +1241,7 @@
 																<int key="NSvFlags">256</int>
 																<string key="NSFrame">{{461, 0}, {16, 17}}</string>
 																<reference key="NSSuperview" ref="60439783"/>
+																<reference key="NSWindow"/>
 																<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															</object>
 															<object class="NSMutableArray" key="NSTableColumns">
@@ -1432,6 +1443,7 @@
 													</object>
 													<string key="NSFrame">{{0, 17}, {461, 208}}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="972063408"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="972063408"/>
@@ -1443,6 +1455,7 @@
 													<int key="NSvFlags">256</int>
 													<string key="NSFrame">{{461, 17}, {15, 208}}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="60439783"/>
 													<string key="NSAction">_doScroller:</string>
@@ -1453,6 +1466,7 @@
 													<int key="NSvFlags">-2147483392</int>
 													<string key="NSFrame">{{-100, -100}, {565, 15}}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSWindow"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<int key="NSsFlags">1</int>
 													<reference key="NSTarget" ref="60439783"/>
@@ -1468,6 +1482,7 @@
 													</object>
 													<string key="NSFrameSize">{461, 17}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="214612490"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="214612490"/>
@@ -1478,6 +1493,7 @@
 											</object>
 											<string key="NSFrameSize">{476, 225}</string>
 											<reference key="NSSuperview" ref="210164845"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="888495451"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">16</int>
@@ -1514,6 +1530,7 @@
 											</object>
 											<string key="NSFrame">{{0, 235}, {476, 283}}</string>
 											<reference key="NSSuperview" ref="210164845"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<string key="FrameName"/>
@@ -1542,12 +1559,14 @@
 									</object>
 									<string key="NSFrame">{{113, 0}, {476, 518}}</string>
 									<reference key="NSSuperview" ref="974293226"/>
+									<reference key="NSWindow"/>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<int key="NSDividerStyle">3</int>
 								</object>
 							</object>
 							<string key="NSFrameSize">{589, 518}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSIsVertical">YES</bool>
 							<int key="NSDividerStyle">2</int>
@@ -1555,6 +1574,8 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{589, 518}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 1002}}</string>
 				<string key="NSMinSize">{518, 460}</string>
@@ -1601,6 +1622,9 @@
 					<string>quieterTitle</string>
 					<string>flagImage</string>
 					<string>eprintToShow</string>
+					<string>data.version</string>
+					<string>data.citecount</string>
+					<string>data.shortishAuthorList</string>
 				</object>
 				<bool key="NSAutomaticallyPreparesContent">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy">
@@ -1811,54 +1835,6 @@
 						<reference key="destination" ref="670326971"/>
 					</object>
 					<int key="connectionID">449</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.citecount</string>
-						<reference key="source" ref="403129108"/>
-						<reference key="destination" ref="670326971"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="403129108"/>
-							<reference key="NSDestination" ref="670326971"/>
-							<string key="NSLabel">value: arrangedObjects.citecount</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.citecount</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">450</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.version</string>
-						<reference key="source" ref="447463737"/>
-						<reference key="destination" ref="670326971"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="447463737"/>
-							<reference key="NSDestination" ref="670326971"/>
-							<string key="NSLabel">value: arrangedObjects.version</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.version</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">598</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.shortishAuthorList</string>
-						<reference key="source" ref="377773388"/>
-						<reference key="destination" ref="670326971"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="377773388"/>
-							<reference key="NSDestination" ref="670326971"/>
-							<string key="NSLabel">value: arrangedObjects.shortishAuthorList</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.shortishAuthorList</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">650</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2460,6 +2436,54 @@
 						<reference key="destination" ref="972063408"/>
 					</object>
 					<int key="connectionID">1298</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.citecount</string>
+						<reference key="source" ref="403129108"/>
+						<reference key="destination" ref="670326971"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="403129108"/>
+							<reference key="NSDestination" ref="670326971"/>
+							<string key="NSLabel">value: arrangedObjects.citecount</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.citecount</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1302</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.shortishAuthorList</string>
+						<reference key="source" ref="377773388"/>
+						<reference key="destination" ref="670326971"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="377773388"/>
+							<reference key="NSDestination" ref="670326971"/>
+							<string key="NSLabel">value: arrangedObjects.shortishAuthorList</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.shortishAuthorList</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1303</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.version</string>
+						<reference key="source" ref="447463737"/>
+						<reference key="destination" ref="670326971"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="447463737"/>
+							<reference key="NSDestination" ref="670326971"/>
+							<string key="NSLabel">value: arrangedObjects.version</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.version</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1304</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3767,7 +3791,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1298</int>
+			<int key="maxID">1304</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3921,7 +3945,7 @@
 					<string key="className">NSManagedObjectContext</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">NSManagedObjectContext+TrivialAddition.h</string>
+						<string key="minorKey">MOC.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3943,13 +3967,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">bwtoolkit/NSView+BWAdditions.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSWindow</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">bwtoolkit/NSWindow+BWAdditions.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

@@ -63,14 +63,14 @@
 	}
 	NSString* bib=[[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target] objectAtIndex:0];
 	if([self isCancelled])break;
-	int r=[bib rangeOfString:@"{"].location;
-	int t=[bib rangeOfString:@","].location;
+	NSInteger r=[bib rangeOfString:@"{"].location;
+	NSInteger t=[bib rangeOfString:@","].location;
 	NSString* key=[bib substringWithRange:NSMakeRange(r+1, t-r-1)];
 	NSString* latex=[[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target] objectAtIndex:0];
 	if([self isCancelled])break;
 	NSString* harvmac=[[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target] objectAtIndex:0];
 	if([self isCancelled])break;
-	int q=[harvmac rangeOfString:@"\n"].location;
+	NSInteger q=[harvmac rangeOfString:@"\n"].location;
 	NSString* harvmacKey=[harvmac substringWithRange:NSMakeRange(1,q-1)];
 	NSArray* arr=[NSArray arrayWithObjects:article,key,bib,latex,harvmac,harvmacKey,nil];
 	[self performSelectorOnMainThread:@selector(getBibEntriesInternal:) withObject:arr waitUntilDone:YES];

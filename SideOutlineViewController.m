@@ -394,12 +394,12 @@
 //	NSLog(@"al:%@ was at %@",aa.name,aa.positionInView);
 //    }
 //    NSLog(@"dropping into index:%d",index);
-    for(int c=0;c<[droppedObjects count];c++){
+    for(NSInteger c=0;c<[droppedObjects count];c++){
 	ArticleList*dropped=[droppedObjects objectAtIndex:c];
 	dropped.positionInView=[NSNumber numberWithInteger:2*(ind+c)];	
 //	NSLog(@"al:%@ now at %@",al.name,al.positionInView);
     }
-    for(int c=ind;c<[ch count];c++){
+    for(NSInteger c=ind;c<[ch count];c++){
 	ArticleList*pre=[ch objectAtIndex:c];
 	if([droppedObjects containsObject:pre])
 	    continue;
@@ -423,7 +423,7 @@
 	return YES;
 }
 
--(NSMenu*)tableView:(NSOutlineView*)ov contextMenuForColumn:(NSTableColumn*)col atRow:(int)i;
+-(NSMenu*)tableView:(NSOutlineView*)ov contextMenuForColumn:(NSTableColumn*)col atRow:(NSInteger)i;
 {
 //    NSLog(@"context menu for %@:%d",col,i);
     NSMenu* menu=[[NSMenu alloc] initWithTitle:@"context menu"];

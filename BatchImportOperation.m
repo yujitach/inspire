@@ -12,7 +12,6 @@
 #import "ArticleData.h"
 #import "JournalEntry.h"
 #import "AllArticleList.h"
-#import "NSManagedObjectContext+TrivialAddition.h"
 #import "AppDelegate.h"
 #import "MOC.h"
 #import "NSString+magic.h"
@@ -126,15 +125,11 @@ l{
     for(NSXMLElement*e in a){
 	[array addObject:[e stringValue]];
     }
+    
+    // Here I'm cheating: -setAuthorNames: puts the collaboration name in the author list,
+    // so "collaboration" needs to be set up before that
+    [self setStringToArticle:o forKey:@"collaboration" inXMLElement:element];
     [o setAuthorNames:array];
-/*    int u=[a count];
-    if(u>30)u=30; // why on earth I put this line in the first place?? (March/4/2009)
-    // now I understand... it just takes too much time to register many authors. (March6/2009)
-    for(int i=0;i<u;i++){
-	NSXMLElement* e=[a objectAtIndex:i];
-	[array addObject:[e stringValue]];
-    }
-    [o setAuthorNames:a];*/
     
     
     [self setStringToArticle:o forKey:@"doi" inXMLElement:element];

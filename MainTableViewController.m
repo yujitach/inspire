@@ -77,7 +77,7 @@
 {
     return NO;
 }
--(NSMenu*)tableView:(NSTableView*)tvv contextMenuForColumn:(NSTableColumn*)col atRow:(int)i;
+-(NSMenu*)tableView:(NSTableView*)tvv contextMenuForColumn:(NSTableColumn*)col atRow:(NSInteger)i;
 {
     //    NSLog(@"context menu for %@:%d",col,i);
     //	[tvv selectRow:i byExtendingSelection:NO];
