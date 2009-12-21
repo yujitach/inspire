@@ -157,7 +157,7 @@
 {
     NSFont *oldFont = [self currentFont];
     NSFont *newFont = [sender convertFont:oldFont];
-    NSLog(@"font changes to:%@",newFont);
+//    NSLog(@"font changes to:%@",newFont);
     [self setCurrentFont:newFont];
 }
 -(IBAction)openFontPanel:(id)sender;

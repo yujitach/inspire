@@ -42,6 +42,13 @@
     NSString*dest=[[NSString stringWithFormat:@"%@/%@",dir,file] stringByExpandingTildeInPath];
     return dest;
 }
+-(void)failed
+{
+    //	NSLog(@"failed to download PDF. instead opens the journal webpage");
+    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
+    [[NSApp appDelegate] showInfoOnAssociation]; //cheating here...    
+}
 -(void)run
 {
     
@@ -66,6 +73,7 @@
 						      withObject: path
 						      afterDelay:.5];
 				       }else{
+					   [self failed];
 					   [self finish];
 					   return;
 				       }
@@ -126,15 +134,12 @@
 	}
     }
     if(!pdf){
-	NSLog(@"failed to download PDF. instead opens the journal webpage");
-	NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-	[[NSApp appDelegate] showInfoOnAssociation]; //cheating here...
+	[self failed];
 	[self finish];
 	return;
     }
     pdf=[pdf stringByExpandingAmpersandEscapes];
-    NSLog(@"pdf detected at:%@",pdf);
+//    NSLog(@"pdf detected at:%@",pdf);
     NSURL* proxiedURL=[[NSURL URLWithString:pdf] proxiedURLForELibrary];
     NSLog(@"proxied:%@",proxiedURL);
     [[NSApp appDelegate] startProgressIndicator];
@@ -147,10 +152,7 @@
 					   NSData*data=[[NSData dataWithContentsOfFile:pdfPath] subdataWithRange:NSMakeRange(0,4)];
 					   NSString*head=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 					   if(![head hasPrefix:@"%PDF"]){
-					       NSLog(@"failed to download PDF. instead opens the journal webpage");
-					       NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
-					       [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
-					       [[NSApp appDelegate] showInfoOnAssociation]; //cheating here...
+					       [self failed];
 					   }else{
 					       NSString*dest=[self destinationPath];
 					       if([[NSFileManager defaultManager] moveItemAtPath:pdfPath toPath:dest error:NULL]){

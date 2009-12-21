@@ -12,6 +12,8 @@
 #import "Article.h"
 #import "MOC.h"
 
+
+
 SpiresHelper*_sharedSpiresHelper=nil;
 @implementation SpiresHelper
 +(SpiresHelper*)sharedHelper
@@ -55,14 +57,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 {
     Article*a=nil;
     if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound){
-	a=[Article articleWithEprint:operand inMOC:[MOC moc]];
-    }else if([operand hasPrefix:@"key"]){
-	NSArray* arr=[operand componentsSeparatedByString:@" "];
-	if([arr count]==2){
-	    a=[Article articleWith:[arr objectAtIndex:1]
-		      inDataForKey:@"spiresKey"
-			     inMOC:[MOC moc]];
-	}
+	a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
     }
     if(a){
 	return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){

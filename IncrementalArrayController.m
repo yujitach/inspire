@@ -58,10 +58,10 @@
     self=[super initWithCoder:coder];
     // refuse updating UI right after loaded from the NIB
     // which is no longer necessary...
-    refuseFiltering=NO;
+    // refuseFiltering=NO;
     return self;
 }
--(BOOL)refuseFiltering
+/*-(BOOL)refuseFiltering
 {
     return refuseFiltering;
 }
@@ -70,7 +70,7 @@
     markedString=nil;
     [self rearrangeObjects];
     refuseFiltering=b;
-}
+}*/
 -(void)mark;
 {
     NSString*s=[tf stringValue];
@@ -83,8 +83,8 @@
 - (NSArray *)arrangeObjects:(NSArray *)objects
 {
     NSString*s=[tf stringValue];
-    if(self.refuseFiltering)
-	return previousArray;
+//    if(self.refuseFiltering)
+//	return previousArray;
     NSString*mark=markedString;
     [self mark];
 //  Now try to shortcut the filtering depending on the search string.

@@ -189,12 +189,10 @@
     }
 }
 
--(void)loadArticleLists:(NSNotification*)notification
+-(void)loadArticleLists;
 {
-//   [articleListController didChangeArrangementCriteria];
+    // should be called from applicationDidFinishLaunching of the app delegate
     allArticleList=[AllArticleList allArticleList];
-//    allArticleList.positionInView=[NSNumber numberWithInt:0];
-//    allArticleList.searchString=@"";
 
     BOOL needToSave=NO;
 
@@ -255,9 +253,10 @@
     // unnesessary CoreData load due to the selection during the launch.
     // This call initiates the fetch. Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
-    @synchronized([MOC moc]){
-	[self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
-    }
+    [[MOC moc] lock];
+    [MOC sharedMOCManager].isUIready=YES;
+    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
+    [[MOC moc] unlock];
 }
 /*-(void)saveArticleLists
 {
@@ -274,11 +273,6 @@
     NSSortDescriptor*desc=[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
     [articleListController setSortDescriptors:[NSArray arrayWithObject:desc]];
     [articleListView setSortDescriptors:[NSArray arrayWithObject:desc]];
-//    [self loadArticleLists:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-					     selector:@selector(loadArticleLists:)
-						 name:NSApplicationDidFinishLaunchingNotification
-					       object:nil];
 }
 
 #pragma mark NSOutlineView delegate

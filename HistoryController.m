@@ -36,11 +36,11 @@
 {
     SEL theAction = [anItem action];
     if(theAction==@selector(forward:)){
-	return index<[array count]-1;
+	return idx<[array count]-1;
     }
     
     if(theAction==@selector(backward:)){
-	return index!=0;
+	return idx!=0;
     }
     
     return NO;
@@ -48,20 +48,20 @@
 -(void)reflect
 {
     if([array count]>0){
-	HistoryEntry*entry=[array objectAtIndex:index-1];
+	HistoryEntry*entry=[array objectAtIndex:idx-1];
 //	[articleListController setSelectedObjects:[NSArray arrayWithObject:entry.articleList]];
 	[sideTableViewController selectArticleList:entry.articleList];
 /*
  ArticleList*al=entry.articleList;
-	[articleListController setSelectionIndexPath:[NSIndexPath indexPathWithIndex:[[al positionInView] intValue]]];
+	[articleListController setSelectionIndexPath:[NSIndexPath idxPathWithIndex:[[al positionInView] intValue]]];
  */
 //	NSLog(@"%@",entry.article);
 	if(entry.article)//[ac setSelectedObjects:[NSArray arrayWithObject:entry.article]];
 	    [self performSelector:@selector(setArticle:) withObject:entry.article afterDelay:0.1];
 	entry.articleList.searchString=entry.searchString;
     }
-    [sc setEnabled:((index>1)?YES:NO) forSegment:0];
-    [sc setEnabled:((index<[array count])?YES:NO) forSegment:1];
+    [sc setEnabled:((idx>1)?YES:NO) forSegment:0];
+    [sc setEnabled:((idx<[array count])?YES:NO) forSegment:1];
 }
 -(void)setArticle:(Article*)a
 {
@@ -69,7 +69,7 @@
 }
 - (void)awakeFromNib
 {
-    index=0;
+    idx=0;
     array=[NSMutableArray array];
     [[sc cell] setTag:0 forSegment:0];
     [[sc cell] setTag:1 forSegment:1];
@@ -80,16 +80,16 @@
 -(IBAction)forward:(id)sender
 {
 //    NSLog(@"f");
-    if(index<[array count]){
-	index++;
+    if(idx<[array count]){
+	idx++;
 	[self reflect];
     }
 }
 -(IBAction)backward:(id)sender
 {
 //    NSLog(@"b");
-    if(index>0){
-	index--;
+    if(idx>0){
+	idx--;
 	[self reflect];
     }
 }
@@ -105,9 +105,9 @@
     entry.searchString=al.searchString;
     entry.articleList=al;
     entry.article=a;
-    if(index != [array count]){
+    if(idx != [array count]){
 	NSMutableArray*ar=[NSMutableArray array];
-	for(int i=0;i<index;i++){
+	for(int i=0;i<idx;i++){
 	    [ar addObject:[array objectAtIndex:i]];
 	}
 	array=ar;
@@ -117,9 +117,9 @@
 	// do nothing
     }else{
 	[array addObject:entry];
-	index++;	    
+	idx++;	    
     }
-    if(index>1)[sc setEnabled:YES forSegment:0];
+    if(idx>1)[sc setEnabled:YES forSegment:0];
     [sc setEnabled:NO forSegment:1];
 }
 - (IBAction)segControlClicked:(id)sender

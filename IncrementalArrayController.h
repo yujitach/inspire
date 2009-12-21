@@ -14,8 +14,8 @@
     NSArray*previousArray;
     IBOutlet NSTextField*tf;
 //    IBOutlet NSArrayController*articleListController;
-    BOOL refuseFiltering;
+//    BOOL refuseFiltering;
     NSPredicate* listPredicate;
 }
-@property BOOL refuseFiltering;
+//@property BOOL refuseFiltering;
 @end

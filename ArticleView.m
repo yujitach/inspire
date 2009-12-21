@@ -334,17 +334,20 @@ static NSArray*observedKeys=nil;
 -(void)refresh
 {
     DOMDocument*doc=[[self mainFrame] DOMDocument];
+    DOMHTMLElement*mainBox=(DOMHTMLElement*)[doc getElementById:@"mainBox"];
+    DOMHTMLElement*centerBox=(DOMHTMLElement*)[doc getElementById:@"centerBox"];
+    DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
     if(!article || article==NSNoSelectionMarker){
-	[doc getElementById:@"mainBox"].style.visibility=@"hidden";
-	[doc getElementById:@"centerBox"].style.visibility=@"visible";
-	((DOMHTMLElement*)[doc getElementById:@"centerBox"]).innerHTML=@"No Selection";
+	mainBox.style.visibility=@"hidden";
+	centerBox.style.visibility=@"visible";
+	centerBox.innerHTML=@"No Selection";
     }else if(article==NSMultipleValuesMarker){
-	[doc getElementById:@"mainBox"].style.visibility=@"hidden";
-	[doc getElementById:@"centerBox"].style.visibility=@"visible";
-	((DOMHTMLElement*)[doc getElementById:@"centerBox"]).innerHTML=@"Multiple Selections";
+	mainBox.style.visibility=@"hidden";
+	centerBox.style.visibility=@"visible";
+	centerBox.innerHTML=@"Multiple Selections";
     }else{
-	[doc getElementById:@"mainBox"].style.visibility=@"visible";
-	[doc getElementById:@"centerBox"].style.visibility=@"hidden";
+	mainBox.style.visibility=@"visible";
+	centerBox.style.visibility=@"hidden";
 	NSMutableArray*keys=[NSMutableArray arrayWithObjects:@"spires",@"citedBy",@"refersTo",nil];
 	[keys addObjectsFromArray:observedKeys];
 	for(NSString* key in keys){
@@ -353,15 +356,16 @@ static NSArray*observedKeys=nil;
 	    if(x==NSNoSelectionMarker)x=@"";
 	    ((DOMHTMLElement*)[doc getElementById:key]).innerHTML=x;
 	}
-	[doc getElementById:@"mainBox"].style.fontSize=[self articleViewFontSize];
-	[doc getElementById:@"mainBox"].style.fontFamily=[self articleViewFontName];
+	mainBox.style.fontSize=[self articleViewFontSize];
+	mainBox.style.fontFamily=[self articleViewFontName];
     }
     if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
-	[doc getElementById:@"messageBox"].style.visibility=@"visible";
-	((DOMHTMLElement*)[doc getElementById:@"messageBox"]).innerHTML=message;
+	messageBox.style.visibility=@"visible";
+	messageBox.innerHTML=message;
     }else{
-	[doc getElementById:@"messageBox"].style.visibility=@"hidden";
+	messageBox.style.visibility=@"hidden";
     }
+    doc.body.scrollTop=0;
  //      NSLog(@"%@",[self mainFrame]);
     
 }

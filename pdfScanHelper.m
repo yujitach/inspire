@@ -14,7 +14,7 @@ int main(int argc,char**argv){
 	return 1;
     NSString*pdfPath=[NSString stringWithUTF8String:argv[1]];
     NSString*outPath=[NSString stringWithUTF8String:argv[2]];
-    NSLog(@"scanning PDF:%@",pdfPath);
+//    NSLog(@"scanning PDF:%@",pdfPath);
     PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
     PDFPage* p=[d pageAtIndex:0];
     NSString* s=[p string];

@@ -70,7 +70,7 @@
 -(void)retryAlertDidEnd:(NSAlert*)alert code:(int)choice context:(void*)ignore
 {
     if(choice==NSAlertDefaultReturn){
-	NSLog(@"OK, retry in %@ seconds",reloadDelay);
+//	NSLog(@"OK, retry in %@ seconds",reloadDelay);
 	[[NSApp appDelegate] postMessage:@"Waiting for arXiv to generate PDF..."]; 
 	[self performSelector:@selector(retry) withObject:nil afterDelay:[reloadDelay intValue]];
     }else{

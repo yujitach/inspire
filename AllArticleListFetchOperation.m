@@ -50,7 +50,7 @@ void warmUpIfSuitable(void)
 {
     return @"Warming up the cache...";
 }
--(void)fetchlist
+/*-(void)fetchlist
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"AllArticleList" inManagedObjectContext:moc];
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
@@ -73,7 +73,7 @@ void warmUpIfSuitable(void)
     for(NSManagedObject*x in a){
 	[[MOC moc] deleteObject:x];
     }
-}
+}*/
 -(void)fetch:(NSUInteger)count
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
@@ -94,15 +94,14 @@ void warmUpIfSuitable(void)
      rather late in the initialization process, at the last line of
 	    -loadArticleLists:
      in SideOutlineViewController.m.
-     There too, the access to the moc is guarded by @synchronized(moc).
+     There too, the access to the moc is guarded by [moc lock].
      Afterwards, no guard of the main moc is necessary because
      the main moc is used solely from the main thread from that point on.
      */
-    @synchronized(moc){
+    [moc lock];
+    if(![MOC sharedMOCManager].isUIready)
 	[self fetch:0];
-//	[self ad];
-//	[self fetchlist];
-    }
+    [moc unlock];
 }
 
 @end

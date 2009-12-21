@@ -206,12 +206,6 @@
 	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 }    
 
-/*-(IBAction)installHook:(id)sender
- {
- NSString*pkg=[[NSBundle mainBundle] pathForResource:@"spiresHook" ofType:@"pkg"];
- //  NSLog(@"%@",pkg);
- [[NSWorkspace sharedWorkspace] openFile:pkg];
- }*/
 -(IBAction)deletePDFForEntry:(id)sender
 {
     Article*a=[[ac selectedObjects] objectAtIndex:0];

@@ -9,6 +9,9 @@
 
 #import "ArticleData.h"
 
+// This file doens'nt need to be compiled and linked, as long as no method is actually defined
+// CoreData automatically generates them
+
 @implementation ArticleData
 @dynamic abstract;
 @dynamic arxivCategory;

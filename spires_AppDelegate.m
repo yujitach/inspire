@@ -336,11 +336,10 @@
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SnowLeopardAlertShown"];
     }
 */    
-//    [self updateFormatForAIfNeeded:self];
     activityMonitorController=[[ActivityMonitorController alloc] init];
     texWatcherController=[[TeXWatcherController alloc]init];
     bibViewController=[[BibViewController alloc] init];
-   
+    [sideTableViewController loadArticleLists];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -642,7 +641,7 @@
 
 -(void)handleURL:(NSURL*) url
 {
-    NSLog(@"handles %@",url);
+//    NSLog(@"handles %@",url);
     if([[url scheme] isEqualTo:@"spires-search"]){
 	NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	[sideTableViewController selectAllArticleList];

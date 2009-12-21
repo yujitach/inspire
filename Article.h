@@ -62,17 +62,10 @@ typedef enum {
 @property (retain) NSString *eprintForSortingAsString;
 
 
-//+(Article*)newArticleInMOC:(NSManagedObjectContext*)moc;
-+(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
-+(Article*)articleWithEprint:(NSString*)eprint inMOC:(NSManagedObjectContext*)moc;
+//+(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
-
-+(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
-+(NSString*)longishAuthorListForEAFromAuthorNames:(NSArray*)array;
-+(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
-+(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
-+(ArticleFlag)flagFromFlagInternal:(NSString*)flagInternal;
 +(NSString*)eprintForSortingFromEprint:(NSString*)eprint;
+
 -(void)associatePDF:(NSString*)path;
 -(void)setExtra:(id)content forKey:(NSString*)key;
 -(id)extraForKey:(NSString*)key;

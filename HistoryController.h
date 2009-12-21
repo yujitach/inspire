@@ -16,7 +16,7 @@
     IBOutlet SideOutlineViewController* sideTableViewController;
     IBOutlet NSSegmentedControl*sc;
     NSMutableArray* array;
-    int index;
+    int idx;
 }
 -(IBAction)forward:(id)sender;
 -(IBAction)backward:(id)sender;

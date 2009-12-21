@@ -41,6 +41,9 @@
 	NSString*s=[a objectAtIndex:1];
 	if([s isEqualToString:@""])return;
 	citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
+	if(!citedByTarget){
+	    NSLog(@"citedByTarget couldn't be obtained for %@",search);
+	}	
     }else{
 	citedByTarget=nil;
     }
@@ -52,10 +55,14 @@
 	    if([s isEqualToString:@""])return;
 	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else if([a count]==3){
+	    // r key nnnnnnn
 	    NSString*s=[a objectAtIndex:2];
-	    refersToTarget=[Article articleWith:s inDataForKey:@"spiresKey" inMOC:moc];
+	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else{
 	    refersToTarget=nil;
+	}
+	if(!refersToTarget){
+	    NSLog(@"refersToTarget couldn't be obtained for %@",search);
 	}
     }else{
 	refersToTarget=nil;
@@ -93,9 +100,6 @@
 	[op setParent:parent];
     }
     [[OperationQueues sharedQueue] addOperation:op];
-//    if([search hasPrefix:@"tex"]){
-	// this cheat guarantees that texKey is always generated for a lookup of a texKey.
-//    }
     
     [self finish];
 }

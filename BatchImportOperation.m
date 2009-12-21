@@ -27,11 +27,8 @@ l{
     if([elements count]>cap){
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
     }
-    secondMOC=[MOC createSecondaryMOC];
+    secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     citedByTarget=c;
-    if(citedByTarget){
-	NSLog(@"citedByTarget:%@",citedByTarget.title);
-    }
     refersToTarget=r;
     list=l;
     generated=[NSMutableSet set];
@@ -233,9 +230,11 @@ l{
 	[allArticleList addArticles:generated];
 	
 	if(citedByTarget){
+	    NSLog(@"added to %@",citedByTarget.title);
 	    [citedByTarget addCitedBy:generated];
 	}
 	if(refersToTarget){
+	    NSLog(@"added to %@",refersToTarget.title);
 	    [refersToTarget addRefersTo:generated];
 	}
 	//    NSLog(@"add entry:%@",o);

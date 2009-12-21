@@ -1,4 +1,6 @@
-
+// Taken from
+// http://0xced.blogspot.com/2006/06/relaunch-your-cocoa-application-by.html
+// http://snipplr.com/view/3923/relaunch-an-application/
 #import <AppKit/AppKit.h>
 
 @interface TerminationListener : NSObject

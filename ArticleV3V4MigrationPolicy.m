@@ -10,8 +10,7 @@
 #import "NSString+magic.h"
 #import "RegexKitLite.h"
 #import "Article.h"
-#import "MOC.h"
-//#import "NDAlias.h"
+#import "ArticlePrivate.h"
 
 
 typedef enum {

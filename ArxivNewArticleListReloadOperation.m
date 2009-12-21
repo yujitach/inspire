@@ -25,7 +25,7 @@
     self=[super init];
     al=a;
     listName=al.name;
-    secondMOC=[MOC createSecondaryMOC];
+    secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     return self;
 }
 -(NSString*)description

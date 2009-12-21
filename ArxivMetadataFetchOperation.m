@@ -81,7 +81,10 @@
 	article.abstract=[dict objectForKey:@"abstract"];
 	article.version=[dict objectForKey:@"version"];    
 	article.comments=[dict objectForKey:@"comments"];
-	article.title=[self valueForKey:@"title" inXMLElement:elem];
+	NSString*title=[self valueForKey:@"title" inXMLElement:elem];
+	if(![[article.title lowercaseString] isEqualToString:[title lowercaseString]]){
+	    article.title=title;
+	}
 	article.arxivCategory=[dict objectForKey:@"primaryCategory"];
 	[[article managedObjectContext] enableUndo];
     });}

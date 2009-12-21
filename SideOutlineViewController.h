@@ -25,5 +25,6 @@
 //-(void)removeArticleList:(ArticleList*)al;
 -(void)removeCurrentArticleList;
 -(void)selectAllArticleList;
+-(void)loadArticleLists;
 -(void)selectArticleList:(ArticleList*)al;
 @end

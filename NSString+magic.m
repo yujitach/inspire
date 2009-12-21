@@ -80,7 +80,7 @@ static void loadMagic(){
     NSMutableArray*b=[NSMutableArray array];
     NSArray*abbrevs=[[NSUserDefaults standardUserDefaults] arrayForKey:@"abbreviations"];
     NSArray*preps=[[NSUserDefaults standardUserDefaults] arrayForKey:@"prepositions"];
-    for(int i=0;i<[a count];i++){
+    for(NSUInteger i=0;i<[a count];i++){
 	NSString*s=[a objectAtIndex:i];
 	if(![abbrevs containsObject:s] && ![s hasPrefix:@"SU("] && ![s hasPrefix:@"SO("]){
 	    s=[s lowercaseString];
@@ -174,7 +174,7 @@ static void loadMagic(){
 			  nil];
 	NSArray*characters=[NSArray arrayWithObjects:@"&",@"<",@">",@"\"",@" ",nil];
 	
-	NSInteger i, count = [codes count];
+	NSUInteger i, count = [codes count];
 	
 	// Html
 	for(i = 0; i < count; i++)

@@ -13,6 +13,7 @@
 #import "RegexKitLite.h"
 #import "NSString+magic.h"
 #import "AppDelegate.h"
+#import "NSFileManager+TemporaryFileName.h"
 // #import <Quartz/Quartz.h>
 
 @interface ArxivVersionCheckingOperation ()
@@ -42,11 +43,12 @@
 //    p=nil;
     // This is off-loaded to an external helper because PDFKit sometimes crashes,
     // in particular in 64 bit mode.
-    NSString*tmpFile=[NSString stringWithFormat:@"/tmp/spiresPDFScannerTemporary-%d",getuid()];
+    NSString*tmpFile=[[NSFileManager defaultManager] temporaryFileName];
     NSString*script=[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""];
     NSString* command=[NSString stringWithFormat:@"%@ %@ %@" ,[script quotedForShell], [pdfPath quotedForShell], tmpFile];
     system([command UTF8String]);
     NSString*s=[NSString stringWithContentsOfFile:tmpFile encoding:NSUTF8StringEncoding error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:tmpFile error:NULL];
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
@@ -74,7 +76,7 @@
 	    return 0;
     }
     int version=[versionString intValue];
-    NSLog(@"version %d detected",version);
+//    NSLog(@"version %d detected",version);
     return version;
 }
 

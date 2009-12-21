@@ -18,9 +18,9 @@
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;    
 //    NSManagedObjectContext *secondaryManagedObjectContext;    
+    BOOL isUIready;
 }
 +(NSManagedObjectContext*)moc;
-+(NSManagedObjectContext*)createSecondaryMOC;
 +(MOC*)sharedMOCManager;
 -(BOOL)migrationNeeded;
 - (NSManagedObjectModel *)managedObjectModel;
@@ -30,4 +30,5 @@
 - (NSString *)dataFilePath;
 -(void)presentMOCSaveError:(NSError*)error;
 -(void)vacuum;
+@property(assign) BOOL isUIready;
 @end

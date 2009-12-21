@@ -7,6 +7,7 @@
 //
 
 #import "Article.h"
+#import "ArticlePrivate.h"
 #import "Author.h"
 #import "AllArticleList.h"
 #import "NSString+magic.h"
@@ -14,6 +15,7 @@
 #import "ArticleData.h"
 #import "RegexKitLite.h"
 #import <objc/runtime.h>
+
 
 @implementation Article 
 
@@ -75,40 +77,6 @@
 {
     return [self.eprintForSorting stringValue];
 }
-+(Article*)articleWithEprint:(NSString *)eprint inMOC:(NSManagedObjectContext *)moc
-{
-    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-    NSFetchRequest*req=[[NSFetchRequest alloc]init];
-    [req setEntity:articleEntity];
-    NSString*es=[Article eprintForSortingFromEprint:eprint];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"eprintForSorting = %@",es];
-    [req setPredicate:pred];
-    [req setIncludesPropertyValues:YES];
-    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"data"]];
-    [req setReturnsObjectsAsFaults:NO];
-    [req setFetchLimit:10];
-    NSError*error=nil;
-    NSArray*a=[moc executeFetchRequest:req error:&error];
-    if(a==nil || [a count]==0){
-	return nil;
-    }else{
-	NSRange r=[eprint rangeOfString:@"/"];
-	if(r.location!=NSNotFound){
-	    // old style eprint
-	    NSString*prefix=[eprint substringToIndex:r.location];
-	    for(Article*ar in a){
-		if([ar.data.eprint hasPrefix:prefix]){
-		    return ar;
-		}
-	    }
-	    return nil;
-	}else{
-	    // new style eprint
-	    Article*ar=[a objectAtIndex:0];
-	    return ar;
-	}
-    }    
-}
 +(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
@@ -133,14 +101,19 @@
 }
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc
 {
-    if([idToLookUp hasPrefix:@"arXiv:"]){
-	return [Article articleWithEprint:idToLookUp inMOC:moc];
+//    NSLog(@"finding article with id %@",idToLookUp);
+    NSString*eprint=nil;
+    if([[idToLookUp lowercaseString] hasPrefix:@"arxiv:"]){
+	eprint=[[idToLookUp lowercaseString] stringByReplacingOccurrencesOfString:@"arxiv" withString:@"arXiv"];
+    }else if([idToLookUp rangeOfString:@"."].location!=NSNotFound){
+	eprint=[@"arXiv:" stringByAppendingString:idToLookUp];
+    }else if([idToLookUp rangeOfString:@"/"].location!=NSNotFound){
+	eprint=idToLookUp;
     }
-    if([idToLookUp rangeOfString:@"."].location!=NSNotFound){
-	return [Article articleWithEprint:idToLookUp inMOC:moc];
-    }
-    if([idToLookUp rangeOfString:@"/"].location!=NSNotFound){
-	return [Article articleWithEprint:idToLookUp inMOC:moc];
+    if(eprint){
+	return [Article articleWith:eprint
+		       inDataForKey:@"eprint"
+			      inMOC:moc];	
     }
     if([idToLookUp rangeOfString:@","].location!=NSNotFound){
 	return [Article articleWith:[idToLookUp uppercaseString]
@@ -152,7 +125,15 @@
 		       inDataForKey:@"texKey"
 			      inMOC:moc];
     }
-    return nil;
+    if([[idToLookUp lowercaseString] hasPrefix:@"key"]){
+	NSArray* arr=[idToLookUp componentsSeparatedByString:@" "];
+	if([arr count]>1){
+	    idToLookUp=[arr lastObject];
+	}
+    }
+    return [Article articleWith:idToLookUp
+		   inDataForKey:@"spiresKey"
+			  inMOC:[MOC moc]];
 }
 
 
@@ -331,22 +312,10 @@
     return [Article eprintForSortingFromEprint:eprint];
 }
 
-/*- (NSString *)eprint 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"eprint"];
-    tmpValue = [self.data eprint];
-//    [self didAccessValueForKey:@"eprint"];
-    
-    return tmpValue;
-}*/
 -(void)setEprint:(NSString*)e
 {
-//    [self willChangeValueForKey:@"eprint"];
     [self.data setEprint:e];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
-//    [self didChangeValueForKey:@"eprint"];
 }
 -(NSString*)eprintToShow
 {
@@ -360,23 +329,11 @@
     }
     return nil;
 }
-/*- (NSDate *)date 
-{
-    NSDate * tmpValue;
-    
-//    [self willAccessValueForKey:@"date"];
-    tmpValue = [self.data date];
-//    [self didAccessValueForKey:@"date"];
-    
-    return tmpValue;
-}*/
 
 -(void)setDate:(NSDate*)d
 {
-//    [self willChangeValueForKey:@"date"];
     [self.data setDate:d];
     self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
-//    [self didChangeValueForKey:@"date"];
 }
 -(NSString*)quieterTitle //calculateQuieterTitle
 {
@@ -393,28 +350,15 @@
     return [self.title normalizedString];
 }
 
-/*- (NSString *)title
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"title"];
-    tmpValue = [self.data title];
-//    [self didAccessValueForKey:@"title"];
-    
-    return tmpValue;
-}*/
 -(void)setTitle:(NSString*)t
 {
-//    [self willChangeValueForKey:@"title"];
     [self.data setTitle:t];
     self.normalizedTitle=[self calculateNormalizedTitle];
-//    self.quieterTitle=[self calculateQuieterTitle];
-//    [self didChangeValueForKey:@"title"];
 }
 #pragma mark Misc.
 +(NSSet*)keyPathsForValuesAffectingPdfPath
 {
-    return [NSSet setWithObjects:@"pdfAlias",@"data.pdfAlias",nil];
+    return [NSSet setWithObjects:@"data.pdfAlias",nil];
 }
 -(ArticleType)articleType
 {
@@ -546,281 +490,24 @@
 
 #pragma mark Property Forwarding
 /*
-- (NSString *)abstract
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"abstract"];
-    tmpValue = [self.data abstract];
-//    [self didAccessValueForKey:@"abstract"];
-    
-    return tmpValue;
-}
+ Here comes the Objective-C runtime voodoo.
+ 
+ Other parts of the program, written before the split of the entity Article 
+ into Article and ArticleData, assume that every property is defined on Article.
+ The split between Article and ArticleData is an implementation detail,
+ so I don't want to rewrite the other parts of the program (unless it's crucial
+ for the speed, like the design of the NSPredicates for the query).
+ 
+ Then, it's necessary to forward self.pages to self.data.pages etc.
+ It is tedious and error-prone to write them manually, so they are synthesized
+ at the launch time. Many thanks to Mike Ash who personally taught me the error
+ in my original approach. 
+ 
+ Some of the setters are already defined above. They are not "overriden",
+ because class_addMethod fails if there's already a method defined with the same name.
+ 
+ */
 
-- (void)setAbstract:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"abstract"];
-    [self.data setAbstract:value];
-//    [self didChangeValueForKey:@"abstract"];
-}
-
-- (NSString *)arxivCategory
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"arxivCategory"];
-    tmpValue = [self.data arxivCategory];
-//    [self didAccessValueForKey:@"arxivCategory"];
-    
-    return tmpValue;
-}
-
-- (void)setArxivCategory:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"arxivCategory"];
-    [self.data setArxivCategory:value];
-//    [self didChangeValueForKey:@"arxivCategory"];
-}
-
-- (NSString *)collaboration
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"collaboration"];
-    tmpValue = [self.data collaboration];
-//    [self didAccessValueForKey:@"collaboration"];
-    
-    return tmpValue;
-}
-
-- (void)setCollaboration:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"collaboration"];
-    [self.data setCollaboration:value];
-//    [self didChangeValueForKey:@"collaboration"];
-}
-
-- (NSString *)comments 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"comments"];
-    tmpValue = [self.data comments];
-//    [self didAccessValueForKey:@"comments"];
-    
-    return tmpValue;
-}
-
-- (void)setComments:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"comments"];
-    [self.data setComments:value];
-//    [self didChangeValueForKey:@"comments"];
-}
-
-
-
-- (NSString *)doi 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"doi"];
-    tmpValue = [self.data doi];
-//    [self didAccessValueForKey:@"doi"];
-    
-    return tmpValue;
-}
-
-- (void)setDoi:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"doi"];
-    [self.data setDoi:value];
-//    [self didChangeValueForKey:@"doi"];
-}
-
-
-- (NSString *)longishAuthorListForEA
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"longishAuthorListForEA"];
-    tmpValue = [self.data longishAuthorListForEA];
-//    [self didAccessValueForKey:@"longishAuthorListForEA"];
-    
-    return tmpValue;
-}
-
-- (void)setLongishAuthorListForEA:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"longishAuthorListForEA"];
-    [self.data setLongishAuthorListForEA:value];
-//    [self didChangeValueForKey:@"longishAuthorListForEA"];
-}
-
-
-
-- (NSString *)memo 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"memo"];
-    tmpValue = [self.data memo];
-//    [self didAccessValueForKey:@"memo"];
-    
-    return tmpValue;
-}
-
-- (void)setMemo:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"memo"];
-    [self.data setMemo:value];
-//    [self didChangeValueForKey:@"memo"];
-}
-
-
-- (NSNumber *)pages 
-{
-    NSNumber * tmpValue;
-    
-//    [self willAccessValueForKey:@"pages"];
-    tmpValue = [self.data pages];
-//    [self didAccessValueForKey:@"pages"];
-    
-    return tmpValue;
-}
-
-- (void)setPages:(NSNumber *)value 
-{
-//    [self willChangeValueForKey:@"pages"];
-    [self.data setPages:value];
-//    [self didChangeValueForKey:@"pages"];
-}
-
-
-- (NSData *)pdfAlias 
-{
-    NSData * tmpValue;
-    
-//    [self willAccessValueForKey:@"pdfAlias"];
-    tmpValue = [self.data pdfAlias];
-//    [self didAccessValueForKey:@"pdfAlias"];
-    
-    return tmpValue;
-}
-
-- (void)setPdfAlias:(NSData *)value 
-{
-//    [self willChangeValueForKey:@"pdfAlias"];
-    [self.data setPdfAlias:value];
-//    [self didChangeValueForKey:@"pdfAlias"];
-}
-
-
-- (NSString *)shortishAuthorList 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"shortishAuthorList"];
-    tmpValue = [self.data shortishAuthorList];
-//    [self didAccessValueForKey:@"shortishAuthorList"];
-    
-    return tmpValue;
-}
-
-- (void)setShortishAuthorList:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"shortishAuthorList"];
-    [self.data setShortishAuthorList:value];
-//    [self didChangeValueForKey:@"shortishAuthorList"];
-}
-
-- (NSString *)spicite 
-{
-    NSString * tmpValue;
-    
- //   [self willAccessValueForKey:@"spicite"];
-    tmpValue = [self.data spicite];
-//    [self didAccessValueForKey:@"spicite"];
-    
-    return tmpValue;
-}
-
-- (void)setSpicite:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"spicite"];
-    [self.data setSpicite:value];
-//    [self didChangeValueForKey:@"spicite"];
-}
-
-- (NSNumber *)spiresKey
-{
-    NSNumber * tmpValue;
-    
-//    [self willAccessValueForKey:@"spiresKey"];
-    tmpValue = [self.data spiresKey];
-//    [self didAccessValueForKey:@"spiresKey"];
-    
-    return tmpValue;
-}
-
-- (void)setSpiresKey:(NSNumber *)value 
-{
-//    [self willChangeValueForKey:@"spiresKey"];
-    [self.data setSpiresKey:value];
-//    [self didChangeValueForKey:@"spiresKey"];
-}
-
-- (NSString *)texKey 
-{
-    NSString * tmpValue;
-    
-//    [self willAccessValueForKey:@"texKey"];
-    tmpValue = [self.data texKey];
-//    [self didAccessValueForKey:@"texKey"];
-    
-    return tmpValue;
-}
-
-- (void)setTexKey:(NSString *)value 
-{
-//    [self willChangeValueForKey:@"texKey"];
-    [self.data setTexKey:value];
-//    [self didChangeValueForKey:@"texKey"];
-}
-
-
-- (NSNumber *)version 
-{
-    NSNumber * tmpValue;
-    
-//    [self willAccessValueForKey:@"version"];
-    tmpValue = [self.data version];
-//    [self didAccessValueForKey:@"version"];
-    
-    return tmpValue;
-}
-
-- (void)setVersion:(NSNumber *)value 
-{
-//    [self willChangeValueForKey:@"version"];
-    [self.data setVersion:value];
-//    [self didChangeValueForKey:@"version"];
-}*/
-
-
-
--(id)valueForUndefinedKey:(NSString *)key
-{
-    // this shouldn't be called if everything is working alright
-    NSLog(@"undefined getter for %@",key);
-    return [self.data valueForKey:key];
-}
--(void)setValue:(id)obj forUndefinedKey:(NSString *)key
-{
-    // this shouldn't be called if everything is working alright
-    NSLog(@"undefined setter for %@",key);
-    [self.data setValue:obj forKey:key];
-}
 - (id)_getter_
 {
 //    return [self.data performSelector:_cmd];
@@ -835,7 +522,6 @@
 +(void)synthesizeForwarder:(NSString*)getterName
 {
     NSString*setterName=[NSString stringWithFormat:@"set%@%@:",[[getterName substringToIndex:1] uppercaseString],[getterName substringFromIndex:1]];
-//    [forwardDict setObject:getterName forKey:setterName];
     Method getter=class_getInstanceMethod(self, @selector(_getter_));
     class_addMethod(self, NSSelectorFromString(getterName), method_getImplementation(getter), method_getTypeEncoding(getter));
     Method setter=class_getInstanceMethod(self, @selector(_setter_:));
@@ -861,7 +547,6 @@
 
 +(void)load
 {
-//    forwardDict=[NSMutableDictionary dictionary];
     for(NSString*selectorName in [NSArray arrayWithObjects:
 				  @"abstract",
 				  @"arxivCategory",
@@ -884,4 +569,17 @@
     }
 }
 
+
+/*-(id)valueForUndefinedKey:(NSString *)key
+ {
+ // this shouldn't be called if everything is working alright
+ NSLog(@"undefined getter for %@",key);
+ return [self.data valueForKey:key];
+ }
+ -(void)setValue:(id)obj forUndefinedKey:(NSString *)key
+ {
+ // this shouldn't be called if everything is working alright
+ NSLog(@"undefined setter for %@",key);
+ [self.data setValue:obj forKey:key];
+ }*/
 @end
