@@ -9,6 +9,7 @@
 #import "SpiresQueryOperation.h"
 #import "Article.h"
 #import "BatchImportOperation.h"
+#import "WaitOperation.h"
 #import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
@@ -17,19 +18,13 @@
 -(void)spiresQueryDidEnd:(NSXMLDocument*)doc;
 @end
 @implementation SpiresQueryOperation
+@synthesize importer;
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
 {
     [super init];
     search=q;
     moc=m;
     return self;
-}
--(void)setParent:(NSOperation*)p
-{
-    parent=p;
-    if(parent){
-	[parent addDependency:self];
-    }    
 }
 -(void)run
 {
@@ -92,16 +87,12 @@
 	[self finish];
 	return;
     }
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithElements:elements
+    importer=[[BatchImportOperation alloc] initWithElements:elements
 							  citedBy:citedByTarget
 							 refersTo:refersToTarget
 					    registerToArticleList:nil];
-    if(parent){
-	[op setParent:parent];
-    }
-    [[OperationQueues sharedQueue] addOperation:op];
-    
     [self finish];
+    [[OperationQueues sharedQueue] addOperation:importer];    
 }
 -(NSString*)description
 {

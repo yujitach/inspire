@@ -31,6 +31,7 @@
 #import "ActivityMonitorController.h"
 #import "TeXWatcherController.h"
 #import "BibViewController.h"
+#import "PrefController.h"
 
 #import "PDFHelper.h"
 #import "ProgressIndicatorController.h"
@@ -90,9 +91,6 @@
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
     [window makeKeyWindow];
-    // delay is necessary because this is also called during the spires-quicklook-ended call.
-//    [[PDFHelper sharedHelper] performSelector:@selector(activateQuickLookIfNecessary) withObject:nil afterDelay:0];
-//    NSLog(@"%@",wv);
 }
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)app
 {
@@ -223,7 +221,7 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
 	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL-Unstable"]]];	
     }
-//    NSLog(@"awake");
+
 //    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
     
@@ -244,36 +242,25 @@
     
     [ac addObserver:self
 	 forKeyPath:@"selection"
-	    options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+	    options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 	    context:nil];
 
     [ac addObserver:self
 	 forKeyPath:@"arrangedObjects"
-	    options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+	    options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 	    context:nil];
     
     
     [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
     countDown=0;
     [searchField setProgressQuitAction:@selector(progressQuit:)];
-    // the following two lines are to go around a Leopard bug (?)
-    // where the textfield in the toolbar sometimes doesn't receive the mouse down, which is instead thought of as initiating drag.
-/*    [tb setVisible:NO];
-    [self performSelector:@selector(showToolBar:) withObject:self afterDelay:.1];
- // seems to be unnecessary once mouseDownCanMoveWindow is overriden Mar/31/2009
- */
 
-    
- //   [historyController performSelector:@selector(mark:) withObject:self afterDelay:1];
-//    [[MOC moc] processPendingChanges];
-//    [[[MOC moc] undoManager] disableUndoRegistration];
-  //  [self disableUndo];  
+    prefController=[[PrefController alloc]init];
+    activityMonitorController=[[ActivityMonitorController alloc] init];
+    texWatcherController=[[TeXWatcherController alloc]init];
+    bibViewController=[[BibViewController alloc] init];
 }
 
-/*-(void)showToolBar:(id)sender
-{
-    [tb setVisible:YES];
-}*/
 -(void)setupServices
 {
     [NSApp setServicesProvider: self];
@@ -312,14 +299,9 @@
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
-/*    if([self syncEnabled]){
-	[self syncSetupAtStartup];
-    }
-*/    
     [self setupServices];
     [self checkOSVersion];
 
-//    [self startUpdatingMainView:self];
     [self crashCheck:self];
     if(![self isOnline]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
@@ -335,11 +317,10 @@
 	// this window controller shows itself automatically!
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SnowLeopardAlertShown"];
     }
-*/    
-    activityMonitorController=[[ActivityMonitorController alloc] init];
-    texWatcherController=[[TeXWatcherController alloc]init];
-    bibViewController=[[BibViewController alloc] init];
+*/  
+    // loadArticleLists starts the CoreData fetch from the main thread.
     [sideTableViewController loadArticleLists];
+    [window makeKeyAndOrderFront:self];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -460,10 +441,6 @@
 	countDown=(int)GRACEMIN;
     }
 }
-//#pragma mark Split View Delegates
-/*-(NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
-    return [resizer convertRect:[resizer thumbRect] toView:splitView]; 
-}*/
 
 
 #pragma mark Public Interfaces

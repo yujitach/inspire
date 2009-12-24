@@ -75,8 +75,5 @@
 		 context:nil];
 }
 
--(void)showWindow:(id)sender
-{
-    [[self window] makeKeyAndOrderFront:sender];
-}
+
 @end

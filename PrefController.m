@@ -16,7 +16,7 @@
     return self;
 }
 #pragma mark Time Machine
--(IBAction)timeMachineSettingChanged:(id)sender;
+/*-(IBAction)timeMachineSettingChanged:(id)sender;
 {
     BOOL shouldBackUp=[[NSUserDefaults standardUserDefaults] boolForKey:@"shouldBackUpDatabaseInTimeMachine"];
     NSLog(@"time machine backup %@",(shouldBackUp?@"enabled":@"disabled"));
@@ -31,7 +31,7 @@
     NSURL*url=[NSURL fileURLWithPath:path];
     CSBackupIsItemExcluded((CFURLRef)url,&excluded);
     [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
-}
+}*/
 #pragma mark Mirrors
 
 -(void)selectMirrorToUse:(NSString*)mirror
@@ -104,7 +104,7 @@
     [self selectMirrorToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"mirrorToUse"]];
     [self selectBibToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"bibType"]];
     
-    {// change in v0.98
+/*    {// change in v0.98
 	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"nameChangeInJournalRegExDone"]){
 	    NSString*l=[[NSUserDefaults standardUserDefaults] objectForKey:@"universityLibraryToGetPDF"];
 	    if([l isEqualToString:@"Princeton"]){
@@ -112,7 +112,7 @@
 	    }
 	    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"nameChangeInJournalRegExDone"];
 	}
-    }
+    }*/
     NSDictionary* regexes=[[NSUserDefaults standardUserDefaults] objectForKey:@"regExpsForUniversityLibrary"]; 
     NSMutableArray* array=[NSMutableArray array];
     for(NSString* s in [regexes keyEnumerator]){
@@ -121,29 +121,38 @@
     [self setValue:array forKey:@"libraries"];
     [journalPDFRadio selectCellAtRow:([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]?0:1) column:0];
     
-    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
-							      forKeyPath:@"values.articleViewFontSize" 
-								 options:NSKeyValueObservingOptionNew context:nil];
-    [self readTimeMachineState];
+//    [self readTimeMachineState];
 }
 #pragma mark Font
-
+-(float)fontSize
+{
+    return [[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
+}
+-(void)setFontSize:(float)size
+{
+    if(size<8 || size>20) return;
+    [[NSUserDefaults standardUserDefaults] setFloat:(float)size forKey:@"articleViewFontSize"];
+}
++(NSSet*)keyPathsForValuesAffectingCurrentFont
+{
+    return [NSSet setWithObject:@"fontSize"];
+}
 -(NSFont*)currentFont
 {
     NSString*name=[[NSUserDefaults standardUserDefaults] valueForKey:@"articleViewFontName"];
-    CGFloat size=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
+    CGFloat size=self.fontSize;
     NSFont*font= [NSFont fontWithName:name size:size];
 //    NSLog(@"font:%@",font);
     return font;
 }
 -(void)setCurrentFont:(NSFont*)newFont
 {
-    [self willChangeValueForKey:@"currentFont"];
-    [self willChangeValueForKey:@"currentFontString"];
     [[NSUserDefaults standardUserDefaults] setValue:[newFont fontName] forKey:@"articleViewFontName"];
     [[NSUserDefaults standardUserDefaults] setFloat:(float)[newFont pointSize] forKey:@"articleViewFontSize"];
-    [self didChangeValueForKey:@"currentFontString"];
-    [self didChangeValueForKey:@"currentFont"];    
+}
++(NSSet*)keyPathsForValuesAffectingCurrentFontString
+{
+    return [NSSet setWithObjects:@"currentFont",@"fontSize",nil];
 }
 -(NSString*)currentFontString
 {
@@ -167,10 +176,5 @@
     [[NSFontManager sharedFontManager] setTarget:self];
     [panel setPanelFont:[self currentFont] isMultiple:NO];
     [panel makeKeyAndOrderFront:self];
-}
--(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    [self willChangeValueForKey:@"currentFontString"];
-    [self didChangeValueForKey:@"currentFontString"];
 }
 @end

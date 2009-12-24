@@ -15,5 +15,4 @@
 //    IBOutlet NSWindow* window;
 }
 -(void)setArticles:(NSArray*)a;
--(void)showWindow:(id)sender;
 @end

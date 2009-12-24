@@ -7,7 +7,6 @@
 //
 
 #import "BatchImportOperation.h"
-#import "BatchBibQueryOperation.h"
 #import "Article.h"
 #import "ArticleData.h"
 #import "JournalEntry.h"
@@ -17,9 +16,12 @@
 #import "NSString+magic.h"
 
 @implementation BatchImportOperation
+@synthesize generated;
 -(BatchImportOperation*)initWithElements:(NSArray*)e // andMOC:(NSManagedObjectContext*)m 
-				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)
-l{
+				 citedBy:(Article*)c 
+				refersTo:(Article*)r 
+		   registerToArticleList:(ArticleList*)l
+{
     [super init];
     elements=[e copy];
     NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
@@ -33,13 +35,6 @@ l{
     list=l;
     generated=[NSMutableSet set];
     return self;
-}
--(void)setParent:(NSOperation*)p
-{
-    parent=p;
-    if(parent){
-	[parent addDependency:self];
-    }    
 }
 -(BOOL)isEqual:(id)obj
 {
@@ -241,14 +236,6 @@ l{
 	if(list){
 	    [list addArticles:generated];
 	}
-	if([generated count]==1){
-	    Article*article=[generated anyObject];
-	    NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[NSArray arrayWithObject:article]];
-	    if(parent){
-		[parent addDependency:op];
-	    }
-	    [[OperationQueues spiresQueue] addOperation:op];
-	}
     });
 }
 
@@ -271,6 +258,15 @@ l{
 	}
 	[[NSApp appDelegate] stopProgressIndicator];
     });
+    
+    // need to delay running of the completion handler after all of the async calls!
+    void (^handler)(void)=[self completionBlock];
+    if(handler){
+	[self setCompletionBlock:nil];
+	dispatch_async(dispatch_get_main_queue(),^{
+	    handler();
+	});
+    }
 }
 
 @end

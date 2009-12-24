@@ -11,14 +11,15 @@
 #import "DumbOperation.h"
 @class Article;
 @class SpiresQueryDownloader;
+@class BatchImportOperation;
 @interface SpiresQueryOperation : ConcurrentOperation {
     NSString*search;
     Article*citedByTarget;
     Article*refersToTarget;
     NSManagedObjectContext*moc;
     SpiresQueryDownloader*downloader;
-    NSOperation*parent;
+    BatchImportOperation*importer;
 }
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
--(void)setParent:(NSOperation*)p;
+@property(readonly) BatchImportOperation*importer;
 @end

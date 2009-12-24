@@ -11,9 +11,11 @@
 @class DirWatcher;
 @interface TeXWatcherController : AuxPanelController {
     IBOutlet NSTextView* tv;
+    NSMutableAttributedString*ts;
     NSImage*image;
     DirWatcher*dw;
     NSMutableDictionary*parents;
+    NSTask*task;
     NSPipe*pipe;
 }
 -(IBAction)clearFolderToWatch:(id)sender;

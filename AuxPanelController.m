@@ -10,12 +10,19 @@
 
 
 @implementation AuxPanelController
--(AuxPanelController*)initWithWindowNibName:(NSString*)nibName
+-(void)windowDidLoad
 {
-    nibIsVisibleKey=[nibName stringByAppendingString:@"IsVisible"];
-    self=[super initWithWindowNibName:nibName];
     [[self window] setLevel:NSNormalWindowLevel];
     [[self window] setIsVisible:[[NSUserDefaults standardUserDefaults] boolForKey:nibIsVisibleKey]];
+    [[self window] setDelegate:self];
+}
+-(id)initWithWindowNibName:(NSString*)nibName
+{
+    self=[super initWithWindowNibName:nibName];
+    nibIsVisibleKey=[nibName stringByAppendingString:@"IsVisible"];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:nibIsVisibleKey]){
+	[self showWindow:self];
+    }
     return self;
 }
 -(void)showhide:(id)sender

@@ -545,7 +545,7 @@
 @dynamic spicite;
 @dynamic spiresKey;
 
-+(void)load
++(void)load  // don't change it to +initialize! it's too late, somehow.
 {
     for(NSString*selectorName in [NSArray arrayWithObjects:
 				  @"abstract",

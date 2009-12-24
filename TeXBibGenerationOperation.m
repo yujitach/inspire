@@ -14,11 +14,37 @@
 #import "SpiresHelper.h"
 #import "SpiresQueryOperation.h"
 #import "BatchBibQueryOperation.h"
+#import "BatchImportOperation.h"
 #import "WaitOperation.h"
 #import "NSString+magic.h"
 #import "AppDelegate.h"
 
-static NSMutableArray*instances;
+static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
+{
+    NSArray*inputs=[dict objectForKey:@"inputs"];
+    if([inputs count]==0){
+	return [dict objectForKey:@"citationsInOrder"];
+    }
+    NSMutableArray*citations=[[dict objectForKey:@"citationsInOrder"] mutableCopy];
+    for(NSString*subfile in inputs){
+	if(![subfile hasSuffix:@".tex"]){
+	    subfile=[subfile stringByAppendingString:@".tex"];
+	}
+	NSString*fullPath=[[file stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",subfile];
+	NSDictionary*subDict=[TeXBibGenerationOperation infoForTeXFile:fullPath];
+	NSArray*subCitations=fullCitationsForFileAndInfo(fullPath,subDict);
+	if(subCitations){
+	    for(NSString*key in subCitations){
+		if(![citations containsObject:key]){
+		    [citations addObject:key];
+		}
+	    }
+	}
+    }
+    return citations;
+}
+
+
 @implementation TeXBibGenerationOperation
 +(NSDictionary*)infoForTeXFile:(NSString*)texFile
 {
@@ -41,21 +67,6 @@ static NSMutableArray*instances;
     texFile=t;
     moc=m;
     twice=b;
-    if(!instances){
-	instances=[NSMutableArray array];
-    }
-    NSMutableArray*tbr=[NSMutableArray array];
-    for(NSOperation*op in instances){
-	if([op isFinished]){
-	    [tbr addObject:op];
-	}else{
-	    [self addDependency:op];
-	}
-    }
-    for(NSOperation*o in tbr){
-	[instances removeObject:o];
-    }
-    [instances addObject:self];
     return self;
 }
 -(NSString*)description
@@ -67,15 +78,81 @@ static NSMutableArray*instances;
     [super addDependency:op];
     NSLog(@"dependency added:%@",op);
 }*/
--(void)generateLookUps:(NSArray*)array
+
+
+-(NSString*)bibFilePath
+{
+    NSString*bibname=[dict valueForKey:@"BibTeXFile"];
+    if(![bibname hasSuffix:@".bib"]){
+	bibname=[bibname stringByAppendingString:@".bib"];
+    }
+    NSString*bibFile=[[texFile stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",bibname];
+    return bibFile;
+}
+
+
+-(NSString*)idForKey:(NSString*)key
+{
+    NSString*map=[mappings objectForKey:key];
+    if(map){
+	return map;
+    }else{
+	return key;
+    }
+}
+-(BOOL)setup
+{
+    dict=[TeXBibGenerationOperation infoForTeXFile:texFile];
+    BOOL isBibTeX=[[dict objectForKey:@"isBibTeX"] boolValue];
+    if(!isBibTeX){
+	return NO;
+    }
+    citations=fullCitationsForFileAndInfo(texFile,dict);
+    mappings=[dict objectForKey:@"mappings"];
+    
+    
+    {
+	NSString*org=[NSString stringWithContentsOfFile:[self bibFilePath] encoding:NSUTF8StringEncoding error:nil];
+	NSArray*lines=[org componentsSeparatedByString:@"\n"];
+	NSMutableArray*e=[NSMutableArray array];
+	for(NSString*line in lines){
+	    NSString*entry=[line stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
+	    if(entry &&![entry isEqualToString:@""]){
+		[e addObject:entry];
+	    }
+	}
+	entriesAlreadyInBib=e;
+    }
+    
+    {
+	keyToArticle=[NSMutableDictionary dictionary];
+	for(NSString*key in citations){
+	    Article*a=[Article intelligentlyFindArticleWithId:[self idForKey:key] inMOC:moc];
+	    if(a){
+		[keyToArticle setObject:a forKey:key];
+	    }
+	}
+    }
+    return YES;
+}
+
+-(void)addQueries:(NSArray*)queries toOps:(NSMutableArray*)ops
+{
+    NSString*realQuery=[queries componentsJoinedByString:@" or "];
+    NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:realQuery 
+							andMOC:moc];
+    [ops addObject:op];    
+}
+-(void)generateLookUps:(NSArray*)keys
 {
     
     if(!twice){
 	return;
     }
     NSMutableString*logString=[NSMutableString string];
-    NSMutableArray*ops=[NSMutableArray array];
-    for(NSString*idToLookUp in array){
+    NSMutableArray*queries=[NSMutableArray array];
+    for(NSString*key in keys){
+	NSString*idToLookUp=[self idForKey:key];
 	[logString appendFormat:@"%@ ",idToLookUp];
 	NSString*query=nil;
 	if([idToLookUp hasPrefix:@"arXiv:"]){
@@ -91,84 +168,118 @@ static NSMutableArray*instances;
 	    query=nil;
 	}
 	if(query){
-	    NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:query 
-								andMOC:moc];
-	    [ops addObject:op];
-	    [[OperationQueues spiresQueue] addOperation:op];
-	    [[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
+	    [queries addObject:query];
 	}
     }
+
+    NSMutableArray*tmp=[NSMutableArray array];
+    NSMutableArray*ops=[NSMutableArray array];
+    for(NSString*query in queries){
+	[tmp addObject:query];
+	if([tmp count]>3){
+	    [self addQueries:tmp toOps:ops];
+	    [tmp removeAllObjects];
+	}
+    }
+    if([tmp count]>0){
+	[self addQueries:tmp toOps:ops];
+    }    
+    
+    NSOperation*again=[[TeXBibGenerationOperation alloc] initWithTeXFile:texFile 
+								  andMOC:moc
+							  byLookingUpWeb:NO];
+    for(SpiresQueryOperation*q in ops){
+	[again addDependency:q];
+	[q setCompletionBlock:^{
+	    [q.importer setCompletionBlock:^{
+		NSSet*generated=q.importer.generated;
+		if(!generated)return;
+		NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[generated allObjects]];
+		[again addDependency:op];
+		[[OperationQueues spiresQueue] addOperation:op];
+		NSOperation*wop=[[WaitOperation alloc] initWithTimeInterval:1];
+		[again addDependency:wop];
+		[[OperationQueues spiresQueue] addOperation:wop];	    
+	    }];
+	    [again addDependency:q.importer];
+	}];
+	[[OperationQueues spiresQueue] addOperation:q];
+	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
+    }
+    [[OperationQueues spiresQueue] addOperation:again];
     [logString appendString:@" not found in local database. Looking up...\n"];
     [[NSApp appDelegate] addToTeXLog:logString];
-    NSOperation*op=[[TeXBibGenerationOperation alloc] initWithTeXFile:texFile 
-							       andMOC:moc
-						       byLookingUpWeb:NO];
-    for(SpiresQueryOperation*o in ops){
-	[o setParent:op];
-    }
-    [[OperationQueues spiresQueue] addOperation:op];
-    
 }
--(NSArray*)entriesAlreadyInBib:(NSString*)bibFile
+
+-(void)lookUpThingsNotFoundInDatabase
 {
-    NSString*org=[NSString stringWithContentsOfFile:bibFile encoding:NSUTF8StringEncoding error:nil];
-    NSArray*lines=[org componentsSeparatedByString:@"\n"];
-    NSMutableArray*entriesAlreadyInBib=[NSMutableArray array];
-    for(NSString*line in lines){
-	NSString*entry=[line stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
-	if(entry &&![entry isEqualToString:@""]){
-	    [entriesAlreadyInBib addObject:entry];
-	}
+    BOOL forceRefresh=twice&&[[dict objectForKey:@"forceRefresh"] boolValue];
+    if(forceRefresh){
+	NSLog(@"forcing refresh of bibliography data");
     }
-    return entriesAlreadyInBib;
-}
--(NSString*)bibFileForDict:(NSDictionary*)dict
-{
-    BOOL isBibTeX=[[dict valueForKey:@"isBibTeX"] boolValue];
-    if(!isBibTeX)
-	return nil;
-    NSString*bibname=[dict valueForKey:@"BibTeXFile"];
-    if(![bibname hasSuffix:@".bib"]){
-	bibname=[bibname stringByAppendingString:@".bib"];
-    }
-    NSString*bibFile=[[texFile stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",bibname];
-    return bibFile;
-}
--(void)generateBibTeXFromInfo:(NSDictionary*)dict citations:(NSArray*)citations notFoundLocally:(NSArray*)notFound
-{
-    NSString*bibFile=[self bibFileForDict:dict];
-    NSDictionary*mappings=[dict objectForKey:@"mappings"];
-    NSArray*entriesAlreadyInBib=[self entriesAlreadyInBib:bibFile];
-    NSMutableDictionary*toAdd=[NSMutableDictionary dictionary];
+    NSMutableArray* notFound=[NSMutableArray array];
     for(NSString*key in citations){
-	NSString*idToLookUp=[mappings objectForKey:key];
-	if(!idToLookUp){
-	    idToLookUp=key;
+	NSString*idForKey=[self idForKey:key];
+	Article*a=[keyToArticle objectForKey:key];
+	if(a){
+	    NSString*latex=[a extraForKey:@"latex"];
+	    if(!latex || forceRefresh){
+		[notFound addObject:idForKey];		
+	    }
+	}else{
+	    if(  ![entriesAlreadyInBib containsObject:key] 
+	       || [idForKey rangeOfString:@":"].location!=NSNotFound){
+		    [notFound addObject:idForKey];  
+	    }
 	}
-	if([notFound containsObject:idToLookUp]){
-	    continue;
+    }
+    if([notFound count]>0){
+	[self generateLookUps:notFound];
+    }    
+}
+-(void)registerEntriesToList
+{
+    SimpleArticleList*list=nil;
+    NSString* listName=[dict objectForKey:@"listName"];
+    NSArray*toAddToList=[keyToArticle allValues];
+    if(listName&&![listName isEqualToString:@""]&&[toAddToList count]>0){
+	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
+	if(list){
+	    [[NSApp appDelegate] rearrangePositionInViewForArticleLists];
+	    [list addArticles:[NSSet setWithArray:toAddToList]];
 	}
+    }
+}
+
+-(void)reallyGenerateBibFile
+{
+    NSMutableArray*toAddToBib=[NSMutableArray array];
+    for(NSString*key in citations){
 	if([entriesAlreadyInBib containsObject:key]){
 	    continue;
 	}
-	Article*a=[Article intelligentlyFindArticleWithId:idToLookUp inMOC:moc];
-	if(!a){
-	    continue;
-	}else{
+	Article*a=[keyToArticle objectForKey:key];
+	if(a){
 	    NSString* bib=[a extraForKey:@"bibtex"];
 	    if(bib){
-		[toAdd setObject:a forKey:key];
+		[toAddToBib addObject:key];
 	    }
 	}
 	
     }
     
-    if([toAdd count]>0){
-	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",bibFile]];
+    
+    
+    if([toAddToBib count]>0){
+	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",[[self bibFilePath] lastPathComponent]]];
 	NSMutableString*appendix=[NSMutableString string];
-	for(NSString* key in [toAdd allKeys]){
-	    Article*a=[toAdd objectForKey:key];
-	    [[NSApp appDelegate] addToTeXLog:[[a texKey] stringByAppendingString:@", "]];
+	for(NSString* key in toAddToBib){
+	    Article*a=[keyToArticle objectForKey:key];
+	    NSString*kk=key;
+	    if(![key isEqualToString:[a texKey]]){
+		kk=[key stringByAppendingFormat:@"(=%@)",[a texKey]];
+	    }
+	    [[NSApp appDelegate] addToTeXLog:[kk stringByAppendingString:@", "]];
 	    NSString*bib=[a extraForKey:@"bibtex"];
 	    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
 	    bib=[bib magicTeXed];
@@ -176,160 +287,32 @@ static NSMutableArray*instances;
 	    [appendix appendString:bib];
 	    [appendix appendString:@"\n\n"];	    
 	}
-	NSString*org=[NSString stringWithContentsOfFile:bibFile encoding:NSUTF8StringEncoding error:nil];
+	NSString*org=[NSString stringWithContentsOfFile:[self bibFilePath] encoding:NSUTF8StringEncoding error:nil];
 	if(!org){
 	    org=@"";
 	}    
 	NSString*result=[NSString stringWithFormat:@"%@\n\n%@",org,appendix];
-	[result writeToFile:bibFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	[result writeToFile:[self bibFilePath] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	[[NSApp appDelegate] addToTeXLog:@"Done.\n"];
     }else{
 	[[NSApp appDelegate] addToTeXLog:@"Nothing to add.\n"];	
     }
-
-}
-/*-(void)generateReferencesTeXFromInfo:(NSDictionary*)dict citations:(NSArray*)citations notFoundLocally:(NSArray*)notFound
-{
-    NSDictionary* definitions=[dict objectForKey:@"definitions"];
-    NSDictionary* mappings=[dict objectForKey:@"mappings"];
-
-    NSString* output=[dict objectForKey:@"outputFile"];
-    if(!output || [output isEqualToString:@""]){
-	//	    output=@"bibliography.tex";
-	[self finish];
-	return;
-    }
-    if(![output hasSuffix:@".tex"]){
-	output=[output stringByAppendingString:@".tex"];
-    }
-    NSString* outputPath=[[texFile stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",output];
-    NSLog(@"outputPath:%@",outputPath);
-    NSMutableString* result=[NSMutableString stringWithString:@"%This file is autogenerated. Do not edit.\n\n"];
-    //    NSMutableArray* found=[NSMutableArray array];
-    for(NSString*key in citations){
-	[result appendFormat:@"\\bibitem{%@}\n",key];
-	NSString*def=[definitions objectForKey:key];
-	if(def){
-	    [result appendFormat:@"%@\n",def];
-	    continue;
-	}
-	NSString*idToLookUp=key;
-	NSString*head=key;
-	NSString*map=[mappings objectForKey:key];
-	if(map){
-	    idToLookUp=map;
-	    head=[head stringByAppendingFormat:@" = %@",idToLookUp];
-	}
-	NSString*notFoundString=[NSString stringWithFormat:@" %@ not yet found in database -- will be updated in a minuite\n",head];
-	Article*a=[Article intelligentlyFindArticleWithId:idToLookUp inMOC:moc];
-	if(!a){
-	    [result appendString:notFoundString];
-	}else{
-	    NSString* bib=nil;
-	    if((bib=[a extraForKey:@"latex"])){
-		bib=[bib stringByReplacingOccurrencesOfRegex:@"%\\\\cite.+?\n" withString:@""];
-		bib=[bib stringByReplacingOccurrencesOfRegex:@"\\\\bibitem.+?\n" withString:@""];
-		[result appendString:[bib magicTeXed]];
-	    }else{
-		[result appendString:notFoundString];
-	    }
-	}
-    }
     
-    NSString*s=result;//[result magicTeXed];
-    NSString*articleTitle=[dict objectForKey:@"articleTitle"];
-    if([articleTitle isEqualToString:@"none"]){
-	s=[s stringByReplacingOccurrencesOfRegex:@"``(.+?)''" withString:@"\\\\relax "];
-    }else if([articleTitle isEqualToString:@"italic"]){
-	s=[s stringByReplacingOccurrencesOfRegex:@"``(.+?)''" withString:@"{\\\\itshape $1}"];
-    }
-    
-    [s writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
-    [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"%@ generated\n",outputPath]];
-}*/
--(NSArray*)fullCitationsForFile:(NSString*)file andInfo:(NSDictionary*)dict
-{
-    NSArray*inputs=[dict objectForKey:@"inputs"];
-    if([inputs count]==0){
-	return [dict objectForKey:@"citationsInOrder"];
-    }
-    NSMutableArray*citations=[[dict objectForKey:@"citationsInOrder"] mutableCopy];
-    for(NSString*subfile in inputs){
-	if(![subfile hasSuffix:@".tex"]){
-	    subfile=[subfile stringByAppendingString:@".tex"];
-	}
-	NSString*fullPath=[[file stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",subfile];
-	NSDictionary*subDict=[TeXBibGenerationOperation infoForTeXFile:fullPath];
-	NSArray*subCitations=[self fullCitationsForFile:fullPath andInfo:subDict];
-	if(subCitations){
-	    for(NSString*key in subCitations){
-		if(![citations containsObject:key]){
-		    [citations addObject:key];
-		}
-	    }
-	}
-    }
-    return citations;
 }
 -(void)run
 {
     self.isExecuting=YES;
-    NSDictionary*dict=[TeXBibGenerationOperation infoForTeXFile:texFile];
-    NSArray* citations=[self fullCitationsForFile:texFile andInfo:dict];
-    NSDictionary* mappings=[dict objectForKey:@"mappings"];
-    NSString* listName=[dict objectForKey:@"listName"];
-    BOOL isBibTeX=[[dict objectForKey:@"isBibTeX"] boolValue];
-    if(!isBibTeX){
+    
+    if(![self setup]){
 	// non bibtex biblio generation is no longer supported!
 	NSLog(@"no \\bibliography found in %@",texFile);
 	[self finish];
-	return;
-    }
-    NSArray*entriesAlreadyInBib=[self entriesAlreadyInBib:[self bibFileForDict:dict]];
-    SimpleArticleList*list=nil;
-    if(listName&&![listName isEqualToString:@""]){
-	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
-	if(list){
-	    [[NSApp appDelegate] rearrangePositionInViewForArticleLists];
-	}
-    }
-    BOOL forceRefresh=twice&&[[dict objectForKey:@"forceRefresh"] boolValue];
-    if(forceRefresh){
-	NSLog(@"forcing refresh of bibliography data");
+	return;	
     }
 
-    NSMutableArray* notFound=[NSMutableArray array];
-    for(NSString*key in citations){
-	NSString*idToLookUp=key;
-	NSString*map=[mappings objectForKey:key];
-	if(map){
-	    idToLookUp=map;
-	}	
-	Article*a=[Article intelligentlyFindArticleWithId:idToLookUp inMOC:moc];
-	if(list && a){
-	    [list addArticlesObject:a];
-	}
-	if(isBibTeX && [entriesAlreadyInBib containsObject:key] && !forceRefresh){
-	    continue;
-	}
-	if(!a){
-	    [notFound addObject:idToLookUp];
-	}else{
-	    NSString*latex=[a extraForKey:@"latex"];
-	    if(latex){
-		if(forceRefresh){
-		    [notFound addObject:idToLookUp];		
-		}
-	    }else{
-		[notFound addObject:idToLookUp];
-	    }
-	}
-    }
-    if([notFound count]>0){
-	[self generateLookUps:notFound];
-    }
-    
-    [self generateBibTeXFromInfo:dict citations:citations notFoundLocally:notFound];
+    [self lookUpThingsNotFoundInDatabase];
+    [self registerEntriesToList];
+    [self reallyGenerateBibFile];    
     [self finish];
 }
 

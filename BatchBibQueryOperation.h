@@ -11,6 +11,7 @@
 
 @interface BatchBibQueryOperation : NSOperation {
     NSArray*articles;
+    NSMutableArray*targets;
 }
 -(BatchBibQueryOperation*)initWithArray:(NSArray*)a;
 @end

@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface AuxPanelController : NSWindowController {
+// NSWindowController which autosaves the window visibility across relaunch.
+@interface AuxPanelController :NSWindowController<NSWindowDelegate> {
     NSString*nibIsVisibleKey;
 }
 -(void)showhide:(id)sender;

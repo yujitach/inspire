@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AuxPanelController.h"
 
-
-@interface PrefController : NSWindowController {
+@interface PrefController : AuxPanelController {
     IBOutlet NSPopUpButton* mirrorToUsePopUp;
     IBOutlet NSPopUpButton* bibPopUp;
     IBOutlet NSMatrix*journalPDFRadio;
@@ -24,5 +24,6 @@
 -(IBAction)bibSelected:(id)sender;
 -(IBAction)pdfRadioSelected:(id)sender;
 -(IBAction)setFolderForPDF:(id)sender;
--(IBAction)timeMachineSettingChanged:(id)sender;
+//-(IBAction)timeMachineSettingChanged:(id)sender;
+@property float fontSize;
 @end

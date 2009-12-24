@@ -192,6 +192,14 @@
 -(void)loadArticleLists;
 {
     // should be called from applicationDidFinishLaunching of the app delegate
+
+    // This call initiates the CoreData access from the main thread.
+    // lock is to wait until the warm-up is done.
+    [[MOC moc] lock];
+    [MOC sharedMOCManager].isUIready=YES;
+    [[MOC moc] unlock];
+    [articleListController prepareContent];
+
     allArticleList=[AllArticleList allArticleList];
 
     BOOL needToSave=NO;
@@ -204,24 +212,6 @@
 	hepth.positionInView=[NSNumber numberWithInt:4];
 	needToSave=YES;
     }
-/*    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"replacedListPrepared"]){
-	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"replacedListPrepared"];
-	NSEntityDescription*authorEntity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:[self managedObjectContext]];
-	NSFetchRequest*req=[[NSFetchRequest alloc]init];
-	[req setEntity:authorEntity];
-	NSPredicate*pred=[NSPredicate predicateWithValue:YES];
-	[req setPredicate:pred];
-	NSError*error=nil;
-	NSArray*a=[[self managedObjectContext] executeFetchRequest:req error:&error];
-	if([a count]>0){
-	    for(ArticleList* al in a){
-		NSArray* x=[al.name componentsSeparatedByString:@"/"];
-		ArticleList*replaced=[ArxivNewArticleList arXivNewArticleListWithName:[NSString stringWithFormat:@"%@/%@",[x objectAtIndex:0],@"replaced"]
-										inMOC:[self managedObjectContext]];
-		replaced.positionInView=[NSNumber numberWithInt:[al.positionInView intValue]+1];
-	    }
-	}
-    }*/
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"flaggedListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"flaggedListPrepared"];
@@ -238,7 +228,6 @@
 	needToSave=YES;
     }
     
-//    [articleListController setSortDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES]]];
     [articleListController rearrangeObjects];
 
     [self rearrangePositionInViewForArticleLists];
@@ -249,14 +238,9 @@
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
     }
-    // NSTreeController's "avoid empty selection" is now unchecked in the NIB to reduce
-    // unnesessary CoreData load due to the selection during the launch.
-    // This call initiates the fetch. Somehow directly calling selectAllArticleList doesn't work,
+    // Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
-    [[MOC moc] lock];
-    [MOC sharedMOCManager].isUIready=YES;
     [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
-    [[MOC moc] unlock];
 }
 /*-(void)saveArticleLists
 {

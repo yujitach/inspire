@@ -18,11 +18,10 @@
     Article*citedByTarget;
     Article*refersToTarget;
     ArticleList*list;
-    NSOperation*parent;
     NSMutableSet*generated;
 }
 -(BatchImportOperation*)initWithElements:(NSArray*)e 
 				//  andMOC:(NSManagedObjectContext*)m 
 				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)l;
--(void)setParent:(NSOperation*)p;
+@property(readonly) NSMutableSet*generated;
 @end

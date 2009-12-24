@@ -13,6 +13,11 @@
     NSString*texFile;
     NSManagedObjectContext*moc;
     BOOL twice;
+    NSDictionary*dict;
+    NSArray*citations;
+    NSDictionary*mappings;
+    NSMutableDictionary* keyToArticle;
+    NSArray*entriesAlreadyInBib;
 }
 -(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b;
 +(NSDictionary*)infoForTeXFile:(NSString*)file;

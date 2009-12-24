@@ -20,8 +20,63 @@
 -(TeXWatcherController*)init
 {
     self=[super initWithWindowNibName:@"TeXWatcher"];
+    if(!ts){// might be already initiallized because [super init] might load the nib!
+	ts=[[NSMutableAttributedString alloc] initWithString:@""];
+    }
+    self.pathToWatch=self.pathToWatch; // looks silly, but it loads from defaults the path to watch, and initiates the watch.
+    [[NSNotificationCenter defaultCenter] addObserver:self  
+					     selector:@selector(bibtexOutput:) 
+						 name:NSFileHandleReadCompletionNotification
+					       object:nil];    
     return self;
 }
+#pragma mark UI glues
+-(void)addToLog:(NSString*)s
+{
+    NSColor*color=[NSColor blackColor];
+    if([s rangeOfString:@"modified"].location!=NSNotFound){
+	color=[NSColor colorWithCalibratedRed:0.665f green:0.052f blue:0.569f alpha:1.000f];
+    }else if([s rangeOfString:@"watch"].location!=NSNotFound){
+	color=[NSColor colorWithCalibratedRed:0.000f green:0.456f blue:0.000f alpha:1.000f];
+    }
+    NSAttributedString*as=[[NSAttributedString alloc] initWithString:s 
+							  attributes:[NSDictionary dictionaryWithObject:color
+												 forKey:NSForegroundColorAttributeName]
+			   ];
+    NSRange endRange;
+    
+    endRange.location = [ts length];
+    endRange.length = 0;
+    [ts replaceCharactersInRange:endRange withAttributedString:as];
+    endRange.length = [as length];
+    [tv scrollRangeToVisible:endRange];
+}
+-(void)awakeFromNib
+{
+    NSTextStorage*newts=[tv textStorage];
+    if(ts){
+	[newts replaceCharactersInRange:NSMakeRange(0,0) withAttributedString:ts];
+    }
+    ts=newts;
+}
+
++(NSSet*)keyPathsForValuesAffectingMessage
+{
+    return [NSSet setWithObject:@"pathToWatch"];
+}
+-(NSString*)message
+{
+    if(self.pathToWatch){
+	return @"Watching the folder...";
+    }else{
+	return nil;
+    }
+}
+-(IBAction)clearFolderToWatch:(id)sender;
+{
+    self.pathToWatch=nil;
+}
+
 #pragma mark analysis of TeX files' mutual inclusion
 -(void)updateParentsFor:(NSString*)texFullPath
 {
@@ -108,37 +163,6 @@
 	return nil;
     }
 }
-#pragma mark UI glues
--(void)addToLog:(NSString*)s
-{
-    [tv setString:[[tv string] stringByAppendingString:s]];
-    [tv scrollRangeToVisible:NSMakeRange([[tv string] length]-1,1)];
-}
-
-+(NSSet*)keyPathsForValuesAffectingMessage
-{
-    return [NSSet setWithObject:@"pathToWatch"];
-}
--(NSString*)message
-{
-    if(self.pathToWatch){
-	return @"Watching the folder...";
-    }else{
-	return nil;
-    }
-}
--(void)awakeFromNib
-{
-    self.pathToWatch=self.pathToWatch; // looks silly, but it loads from defaults the path to watch, and initiates the watch.
-    [[NSNotificationCenter defaultCenter] addObserver:self  
-					     selector:@selector(bibtexOutput:) 
-						 name:NSFileHandleReadCompletionNotification
-					       object:nil];
-}
--(IBAction)clearFolderToWatch:(id)sender;
-{
-    self.pathToWatch=nil;
-}
 
 #pragma mark bibtex handling
 
@@ -155,10 +179,14 @@
 	[self addToLog:[NSString stringWithFormat:@"%@ modified, but seems to contain TeX compilation error\n",[file lastPathComponent]]];	
 	return;	
     }
+    if([content rangeOfString:@"\nHere is how much"].location==NSNotFound){
+	[self addToLog:[NSString stringWithFormat:@"%@ modified, but compilation seems to be still going on\n",[file lastPathComponent]]];	
+	return;	
+    }    
     [self addToLog:[NSString stringWithFormat:@"%@ modified, running bibtex\n",[file lastPathComponent]]];
     NSString*fileTrunk=[[file lastPathComponent] stringByDeletingPathExtension];
     setenv("PATH",[[[NSUserDefaults standardUserDefaults] valueForKey:@"texBinaryPath"] UTF8String],1);
-    NSTask*task=[[NSTask alloc] init];
+    task=[[NSTask alloc] init];
     [task setLaunchPath:@"/usr/bin/env"];
     [task setCurrentDirectoryPath:[self folderOfURL:self.pathToWatch]];
     [task setArguments:[NSArray arrayWithObjects:@"bibtex",fileTrunk,nil]];
@@ -199,7 +227,8 @@
 	    [self addToLog:[NSString stringWithFormat:@"%@ modified, which is a subfile of %@. Generating bib\n",[file lastPathComponent],[mainFile lastPathComponent]]];	    
 	}
 	[[OperationQueues spiresQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:mainFile
-												andMOC:[MOC moc] byLookingUpWeb:YES]];
+												andMOC:[MOC moc] 
+											byLookingUpWeb:YES]];
     }else if([file hasSuffix:@".log"]){
 	[self performSelector:@selector(runBibTeXForLog:) withObject:file afterDelay:1];
     }
@@ -208,11 +237,7 @@
 
 #pragma mark Drag-and-Drop support for the image well
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    NSPasteboard *pboard;
-//    NSDragOperation sourceDragMask;
-    
-//    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
+    NSPasteboard *pboard=[sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
 	return NSDragOperationCopy;
@@ -220,11 +245,7 @@
     return NSDragOperationNone;
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    NSPasteboard *pboard;
-//    NSDragOperation sourceDragMask;
-    
-//    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
+    NSPasteboard *pboard=[sender draggingPasteboard];
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
         NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];

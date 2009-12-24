@@ -79,26 +79,16 @@
 {
     [prefController changeFont:sender];
 }
--(IBAction)setFontSize:(float)size
-{
-    if(size<8 || size>20) return;
-    [[NSUserDefaults standardUserDefaults] setFloat:(float)size forKey:@"articleViewFontSize"];
-}
 -(IBAction)zoomIn:(id)sender;
 {
-    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
-    [self setFontSize:fontSize+1];
+    prefController.fontSize=prefController.fontSize+1;
 }
 -(IBAction)zoomOut:(id)sender;
 {
-    float fontSize=[[NSUserDefaults standardUserDefaults] floatForKey:@"articleViewFontSize"];
-    [self setFontSize:fontSize-1];
+    prefController.fontSize=prefController.fontSize-1;
 }
 -(IBAction)showPreferences:(id)sender;
 {
-    if(!prefController){
-	prefController=[[PrefController alloc]init];
-    }    
     [prefController showWindow:sender];
 }
 -(IBAction)showhideActivityMonitor:(id)sender;

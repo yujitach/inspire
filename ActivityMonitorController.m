@@ -21,10 +21,6 @@
     [activityController rearrangeObjects];
     [activityController didChangeArrangementCriteria];
 }
--(NSString*)windowFrameAutosaveName
-{
-    return @"Activity";
-}
 -(ActivityMonitorController*)init
 {
     self=[super initWithWindowNibName:@"ActivityMonitor"];
