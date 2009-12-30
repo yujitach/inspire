@@ -24,11 +24,11 @@
 {
     [super init];
     elements=[e copy];
-    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
+/*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
     if([elements count]>cap){
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
-    }
+    }*/
     secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     citedByTarget=c;
     refersToTarget=r;
@@ -191,7 +191,7 @@
 	    j++;
 	}
 	[[MOC moc] enableUndo];
-	NSLog(@"%d new, %d updated, based on %@",j,i,key);
+//	NSLog(@"%d new, %d updated, based on %@",j,i,key);
     });
 }
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
@@ -219,7 +219,7 @@
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
     dispatch_async(dispatch_get_main_queue(),^{
-	NSLog(@"total: %d",(int)[generated count]);
+//	NSLog(@"total: %d",(int)[generated count]);
 
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	[allArticleList addArticles:generated];
@@ -246,7 +246,7 @@
 	[[NSApp appDelegate] startProgressIndicator];
 	[[NSApp appDelegate] postMessage:@"Registering entries..."];
     });
-    NSLog(@"registers %d entries",(int)[elements count]);
+//    NSLog(@"registers %d entries",(int)[elements count]);
     [self batchAddEntriesOfSPIRES:elements];
     dispatch_async(dispatch_get_main_queue(),^{
 	[[NSApp appDelegate] postMessage:nil];

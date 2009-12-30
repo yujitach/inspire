@@ -74,6 +74,11 @@
     }else{
 	[dict setValue:[NSNumber numberWithInt:v] forKey:@"version"];
 	NSString*abstract=[self valueForKey:@"summary" inXMLElement:elem];
+	// abstract is kept as an HTML, but XML decoder automatically converts &-escapes into real alphabets.
+	// so I need to reverse them. Ugh.
+	abstract=[abstract stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+	abstract=[abstract stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+	abstract=[abstract stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
 	[dict setValue:abstract forKey:@"abstract"];
     }
     if(dict){dispatch_async(dispatch_get_main_queue(),^{

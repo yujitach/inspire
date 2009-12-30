@@ -12,6 +12,7 @@
 @implementation AuxPanelController
 -(void)windowDidLoad
 {
+    [self setWindowFrameAutosaveName:[self windowNibName]];
     [[self window] setLevel:NSNormalWindowLevel];
     [[self window] setIsVisible:[[NSUserDefaults standardUserDefaults] boolForKey:nibIsVisibleKey]];
     [[self window] setDelegate:self];

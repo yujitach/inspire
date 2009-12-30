@@ -1016,6 +1016,7 @@
 													</object>
 													<string key="NSFrame">{{1, 1}, {111, 494}}</string>
 													<reference key="NSSuperview" ref="802101631"/>
+													<reference key="NSNextKeyView" ref="746025844"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="746025844"/>
 													<reference key="NSBGColor" ref="510175501"/>
@@ -1045,6 +1046,7 @@
 											</object>
 											<string key="NSFrame">{{0, 22}, {113, 496}}</string>
 											<reference key="NSSuperview" ref="550046862"/>
+											<reference key="NSNextKeyView" ref="214336243"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">562</int>
 											<reference key="NSVScroller" ref="847518726"/>
@@ -1430,6 +1432,7 @@
 													</object>
 													<string key="NSFrame">{{0, 17}, {461, 208}}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSNextKeyView" ref="972063408"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="972063408"/>
 													<reference key="NSBGColor" ref="510175501"/>
@@ -1465,6 +1468,7 @@
 													</object>
 													<string key="NSFrameSize">{461, 17}</string>
 													<reference key="NSSuperview" ref="60439783"/>
+													<reference key="NSNextKeyView" ref="214612490"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSDocView" ref="214612490"/>
 													<reference key="NSBGColor" ref="510175501"/>
@@ -1474,6 +1478,7 @@
 											</object>
 											<string key="NSFrameSize">{476, 225}</string>
 											<reference key="NSSuperview" ref="210164845"/>
+											<reference key="NSNextKeyView" ref="888495451"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">16</int>
 											<reference key="NSVScroller" ref="410030910"/>
@@ -1509,6 +1514,7 @@
 											</object>
 											<string key="NSFrame">{{0, 235}, {476, 283}}</string>
 											<reference key="NSSuperview" ref="210164845"/>
+											<reference key="NSNextKeyView"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<string key="FrameName"/>
 											<string key="GroupName"/>
@@ -2448,6 +2454,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1304</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="483958638"/>
+						<reference key="destination" ref="612578685"/>
+					</object>
+					<int key="connectionID">1305</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3755,7 +3769,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1304</int>
+			<int key="maxID">1305</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

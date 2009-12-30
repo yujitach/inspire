@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="3"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -67,7 +68,6 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{515, 14}</string>
 											<reference key="NSSuperview" ref="1001527758"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="49844264">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -151,7 +151,6 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {515, 447}}</string>
 									<reference key="NSSuperview" ref="654204569"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="728916917"/>
 									<reference key="NSDocView" ref="728916917"/>
 									<reference key="NSBGColor" ref="384012464"/>
@@ -166,7 +165,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{501, 1}, {15, 418}}</string>
 									<reference key="NSSuperview" ref="654204569"/>
-									<reference key="NSWindow"/>
 									<reference key="NSTarget" ref="654204569"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.89142858982086182</double>
@@ -176,7 +174,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="654204569"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="654204569"/>
 									<string key="NSAction">_doScroller:</string>
@@ -186,7 +183,6 @@
 							</object>
 							<string key="NSFrame">{{-1, -15}, {517, 449}}</string>
 							<reference key="NSSuperview" ref="338304629"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1001527758"/>
 							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="351633311"/>
@@ -196,12 +192,11 @@
 					</object>
 					<string key="NSFrameSize">{515, 433}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{50, 66}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
-				<string key="NSFrameAutosaveName">Bibliography</string>
+				<string key="NSFrameAutosaveName"/>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -360,14 +355,10 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">AuxPanelController</string>
-					<string key="superclassName">NSObject</string>
+					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">showhide:</string>
 						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">window</string>
-						<string key="NS.object.0">NSWindow</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -377,10 +368,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">BibViewController</string>
 					<string key="superclassName">AuxPanelController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">showWindow:</string>
-						<string key="NS.object.0">id</string>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">tv</string>
 						<string key="NS.object.0">NSTextView</string>
@@ -994,6 +981,18 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSWindowScripting.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSWindowController</string>
+					<string key="superclassName">NSResponder</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showWindow:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSWindowController.h</string>
 					</object>
 				</object>
 			</object>

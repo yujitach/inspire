@@ -62,14 +62,6 @@ static void loadMagic(){
 				    error:NULL];
     }
     return result;
-/*    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
-    NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
-    NSString*script=[[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"perl"] stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl %@ <%@ >%@" , [script quotedForShell],inPath,outPath];
-    NSError*error=nil;
-    [quieter writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
-    system([command UTF8String]);
-    return [[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];*/
 }
 -(NSString*)quieterVersion
 {
@@ -231,5 +223,64 @@ static void loadMagic(){
 	return escaped;    // Note this is autoreleased
     }
 }
-
+#pragma mark MockTeX
+-(NSString*)stringByConvertingTeXintoHTML
+{
+    NSMutableString*s=[NSMutableString stringWithString:self];
+    //    [s replaceOccurrencesOfString:@">" withString:@"&gt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    //    [s replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    
+    [s replaceOccurrencesOfString:@"\n" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    [s replaceOccurrencesOfString:@"\\ " withString:@"SpaceMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    [s replaceOccurrencesOfString:@"\\_" withString:@"UnderscoreMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    
+    {
+	NSDictionary* texMacrosWithoutArguments=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArguments"];
+	NSArray* prepositions=[[NSUserDefaults standardUserDefaults] objectForKey:@"prepositions"];
+	NSArray* stop=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash"];
+	for(NSString* key in [texMacrosWithoutArguments keyEnumerator]){
+	    //	    NSString* from=[NSString stringWithFormat:@"\\\\%@(_|\\W|\\d)",key];
+	    NSString* from=[NSString stringWithFormat:@"\\\\%@",key];
+	    //	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
+	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
+	    NSString* rep=[NSString stringWithFormat:@"%@",to];
+	    [s replaceOccurrencesOfRegex:from withString:rep];
+	    [s replaceOccurrencesOfRegex:from withString:rep];
+	    if([prepositions containsObject:key])
+		continue;
+	    if([stop containsObject:key])
+		continue;
+	    from=[NSString stringWithFormat:@"(\\W)%@(\\W)",key];
+	    rep=[NSString stringWithFormat:@"$1%@$2",to];
+	    [s replaceOccurrencesOfRegex:from withString:rep];
+	    [s replaceOccurrencesOfRegex:from withString:rep];
+	}
+    }
+    
+    {
+	NSDictionary* texMacrosWithOneArgument=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithOneArgument"];
+	for(NSString* key in [texMacrosWithOneArgument keyEnumerator]){
+	    NSString* from=[NSString stringWithFormat:@"\\\\%@ +(.)",key];
+	    NSString* to=[texMacrosWithOneArgument objectForKey:key];
+	    [s replaceOccurrencesOfRegex:from withString:to];
+	    
+	    from=[NSString stringWithFormat:@"\\\\%@\\{(.+?)\\}",key];
+	    [s replaceOccurrencesOfRegex:from withString:to];
+	}
+    }
+    
+    {
+	NSArray* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
+	for(NSArray* pair in texRegExps){
+	    NSString* from=[pair objectAtIndex:0];
+	    NSString* to=[pair objectAtIndex:1];
+	    [s replaceOccurrencesOfRegex:from withString:to];	
+	}
+	[s replaceOccurrencesOfString:@"SpaceMarker" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+	[s replaceOccurrencesOfString:@"UnderscoreMarker" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+	[s replaceOccurrencesOfString:@"`" withString:NSLocalizedString(@"`",@"`") options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+	[s replaceOccurrencesOfString:@"'" withString:NSLocalizedString(@"'",@"'") options:NSLiteralSearch range:NSMakeRange(0,[s length])];
+    }
+    return s;
+}
 @end

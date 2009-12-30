@@ -344,6 +344,7 @@
 		<string>times</string>
 		<string>over</string>
 		<string>prime</string>
+		<string>Pi</string>
 		<string>partial</string>
 	</array>
 	<key>abbreviations</key>
@@ -386,6 +387,7 @@
 		<string>MSSM</string>
 		<string>nMSSM</string>
 		<string>NMSSM</string>
+		<string>NS</string>
 		<string>PAMELA</string>
 		<string>PCAC</string>
 		<string>PeV</string>

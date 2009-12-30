@@ -62,66 +62,7 @@ static NSArray*observedKeys=nil;
 	[super keyDown:ev];
     }
 }
-#pragma mark MockTeX
--(NSString*)mockTeX:(NSString*)string
-{
-    NSMutableString*s=[NSMutableString stringWithString:string];
-//    [s replaceOccurrencesOfString:@">" withString:@"&gt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-//    [s replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
 
-    [s replaceOccurrencesOfString:@"\n" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    [s replaceOccurrencesOfString:@"\\ " withString:@"SpaceMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    [s replaceOccurrencesOfString:@"\\_" withString:@"UnderscoreMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    
-    {
-	NSDictionary* texMacrosWithoutArguments=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArguments"];
-	NSArray* prepositions=[[NSUserDefaults standardUserDefaults] objectForKey:@"prepositions"];
-	NSArray* stop=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash"];
-	for(NSString* key in [texMacrosWithoutArguments keyEnumerator]){
-//	    NSString* from=[NSString stringWithFormat:@"\\\\%@(_|\\W|\\d)",key];
-	    NSString* from=[NSString stringWithFormat:@"\\\\%@",key];
-//	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
-	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
-	    NSString* rep=[NSString stringWithFormat:@"%@",to];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    if([prepositions containsObject:key])
-		continue;
-	    if([stop containsObject:key])
-		continue;
-	    from=[NSString stringWithFormat:@"(\\W)%@(\\W)",key];
-	    rep=[NSString stringWithFormat:@"$1%@$2",to];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	}
-    }
-    
-    {
-	NSDictionary* texMacrosWithOneArgument=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithOneArgument"];
-	for(NSString* key in [texMacrosWithOneArgument keyEnumerator]){
-	    NSString* from=[NSString stringWithFormat:@"\\\\%@ +(.)",key];
-	    NSString* to=[texMacrosWithOneArgument objectForKey:key];
-	    [s replaceOccurrencesOfRegex:from withString:to];
-	    
-	    from=[NSString stringWithFormat:@"\\\\%@\\{(.+?)\\}",key];
-	    [s replaceOccurrencesOfRegex:from withString:to];
-	}
-    }
-        
-    {
-	NSArray* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
-	for(NSArray* pair in texRegExps){
-	    NSString* from=[pair objectAtIndex:0];
-	    NSString* to=[pair objectAtIndex:1];
-	    [s replaceOccurrencesOfRegex:from withString:to];	
-	}
-	[s replaceOccurrencesOfString:@"SpaceMarker" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"UnderscoreMarker" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"}" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"{" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    }
-    return s;
-}
 #pragma mark Property Generation
 -(NSString*)authors
 {
@@ -183,24 +124,9 @@ static NSArray*observedKeys=nil;
 }
 -(NSString*)abstract
 {
- /*   NSString*tmp=article.abstract;
-    if(!tmp){
-	return nil;
-    }
-    NSMutableString*a=[NSMutableString stringWithString:tmp];
-    int location;
-    while((location=[a rangeOfString:@"_"].location)!=NSNotFound){
-	NSString*s=[a substringWithRange:NSMakeRange(location+1,1)];
-	[a replaceCharactersInRange:NSMakeRange(location,2) withString:[NSString stringWithFormat:@"<sub>%@</sub>",s]];
-    }
-    while((location=[a rangeOfString:@"^"].location)!=NSNotFound){
-	NSString*s=[a substringWithRange:NSMakeRange(location+1,1)];
-	[a replaceCharactersInRange:NSMakeRange(location,2) withString:[NSString stringWithFormat:@"<sub>%@</sub>",s]];
-    }
-    return a;*/
     if(article.abstract==nil)
 	return nil;
-    NSString* result= [[self mockTeX:article.abstract] stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
+    NSString* result= [[article.abstract stringByConvertingTeXintoHTML] stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
 //    NSLog(@"%@",result);
     return result;
     
@@ -224,7 +150,7 @@ static NSArray*observedKeys=nil;
 
 -(NSString*)title
 {
-    return [self mockTeX:[article valueForKey:@"quieterTitle"]];
+    return [[article valueForKey:@"quieterTitle"] stringByConvertingTeXintoHTML];
 }
 -(NSString*)eprint
 {

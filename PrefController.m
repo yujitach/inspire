@@ -10,21 +10,24 @@
 #import "MOC.h"
 
 @implementation PrefController
--(PrefController*)init
-{
-    self=[super initWithWindowNibName:@"PrefPane"];
-    return self;
-}
 #pragma mark Time Machine
-/*-(IBAction)timeMachineSettingChanged:(id)sender;
+-(void)setShouldBackUp:(BOOL)shouldBackUp
 {
-    BOOL shouldBackUp=[[NSUserDefaults standardUserDefaults] boolForKey:@"shouldBackUpDatabaseInTimeMachine"];
-    NSLog(@"time machine backup %@",(shouldBackUp?@"enabled":@"disabled"));
     NSString*path=[[MOC sharedMOCManager] dataFilePath];
     NSURL*url=[NSURL fileURLWithPath:path];
-    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),true);
+    NSLog(@"time machine backup: %@",(shouldBackUp?@"enabled":@"disabled"));
+    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),true);    
 }
--(void)readTimeMachineState;
+-(IBAction)timeMachineSettingChanged:(id)sender;
+{
+    BOOL shouldBackUp=[[NSUserDefaults standardUserDefaults] boolForKey:@"shouldBackUpDatabaseInTimeMachine"];
+    [self setShouldBackUp:shouldBackUp];
+}
+-(void)applicationWillTerminate:(NSNotification*)notification
+{
+    [self setShouldBackUp:YES];
+}
+/*-(void)readTimeMachineState;
 {
     Boolean excluded;
     NSString*path=[[MOC sharedMOCManager] dataFilePath];
@@ -32,6 +35,17 @@
     CSBackupIsItemExcluded((CFURLRef)url,&excluded);
     [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
 }*/
+
+-(PrefController*)init
+{
+    self=[super initWithWindowNibName:@"PrefPane"];
+    [self timeMachineSettingChanged:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+					     selector:@selector(applicationWillTerminate:) 
+						 name:NSApplicationWillTerminateNotification
+					       object:nil];
+    return self;
+}
 #pragma mark Mirrors
 
 -(void)selectMirrorToUse:(NSString*)mirror

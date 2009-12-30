@@ -140,16 +140,11 @@
 }
 -(IBAction)addArticleList:(id)sender
 {
-    //    [self enableUndo];
     NSEntityDescription*entityDesc=[NSEntityDescription entityForName:@"SimpleArticleList" inManagedObjectContext:[MOC moc]];
     SimpleArticleList* al=[[SimpleArticleList alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:[MOC moc]];
     al.name=@"untitled";
-    //    al.positionInView=[NSNumber numberWithInt:[[articleListController arrangedObjects] count]*2];
-    //    [articleListController insertObject:al atArrangedObjectIndex:[[articleListController arrangedObjects] count]];
     [sideTableViewController addArticleList:al];
-    //    [articleListController insertObject:al atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
     [sideTableViewController rearrangePositionInViewForArticleLists];
-    //    [self disableUndo];
 }
 
 -(void)addArxivArticleList:(id)sender
@@ -225,15 +220,12 @@
     NSArray*a=[ac selectedObjects];
     if([al isKindOfClass:[AllArticleList class]]){
 	for(Article*x in a){
-	    // deleting x should be enough when the delete rules are correctly set up in mom,
-	    // but somehow it doesn't work! so I manually delete 'em...
 	    [al removeArticlesObject:x];
-	    ArticleData*d=x.data;
-	    JournalEntry*j=x.journal;
-	    [[MOC moc] deleteObject:d];
 	    [[MOC moc] deleteObject:x];
-	    [[MOC moc] deleteObject:j];
 	}
+	[self saveAction:self]; 
+	// otherwise, the to-be-deleted but not-really-deleted-on-disk entries haunt
+	// us in the CoreData queries
     }else if([al isKindOfClass:[SimpleArticleList class]]){
 	for(Article*x in a){
 	    [al removeArticlesObject:x];
