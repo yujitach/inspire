@@ -13,7 +13,7 @@ extern NSString *ArticleListDropPboardType;
 
 @protocol AppDelegate
 -(BOOL)currentListIsArxivReplaced;
--(void)rearrangePositionInViewForArticleLists;
+-(void)addSimpleArticleListWithName:(NSString*)name;
 -(void)addArxivArticleListWithName:(NSString*)name;
 -(NSWindow*)mainWindow;
 -(void)showInfoOnAssociation;

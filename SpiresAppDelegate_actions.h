@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "spires_AppDelegate.h"
-@interface spires_AppDelegate (actions)
+#import "SpiresAppDelegate.h"
+@interface SpiresAppDelegate (actions)
 
 -(IBAction)sendBugReport:(id)sender;
 -(IBAction)saveAction:(id)sender;
@@ -29,7 +29,6 @@
 -(IBAction)openSelectionInSecondaryPDFViewer:(id)sender;
 -(IBAction)showReleaseNotes:(id)sender;
 -(IBAction)showAcknowledgments:(id)sender;
--(IBAction)showUsage:(id)sender;
 -(IBAction)showhideActivityMonitor:(id)sender;
 -(IBAction)showPreferences:(id)sender;
 -(IBAction)showTeXWatcher:(id)sender;

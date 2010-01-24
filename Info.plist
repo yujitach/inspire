@@ -68,14 +68,14 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Spires...</string>
+				<string>Look Up using Spires</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>handleServicesLookupSpires</string>
-			<key>NSPortName</key>
-			<string>spires</string>
 			<key>NSRequiredContext</key>
 			<dict/>
+			<key>NSPortName</key>
+			<string>spires</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>

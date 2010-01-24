@@ -36,10 +36,9 @@
 		3322D4C91042471900D8820D /* spires_DataModel 4.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
-		33295A2D10D0717D000F6749 /* spires_DataModel 5.mom.old in Resources */ = {isa = PBXBuildFile; fileRef = 33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
-		332BD66210CEF3830032EF88 /* spires_AppDelegate_actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */; };
+		332BD66210CEF3830032EF88 /* SpiresAppDelegate_actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD66110CEF3830032EF88 /* SpiresAppDelegate_actions.m */; };
 		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
 		332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */; };
@@ -154,7 +153,7 @@
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FD743310DEDDFE0081C00D /* DropAcceptingImageView.m */; };
 		33FD744A10DEE15E0081C00D /* drop.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FD744910DEE15E0081C00D /* drop.png */; };
-		77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* spires_AppDelegate.m */; };
+		77C8280E06725ACE000B614F /* SpiresAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* SpiresAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -247,12 +246,11 @@
 		332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortDescriptorsV4V5MigrationPolicy.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "spires_DataModel 5.mom.old"; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
 		332BD63510CECF500032EF88 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		332BD66010CEF3830032EF88 /* spires_AppDelegate_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate_actions.h; sourceTree = "<group>"; };
-		332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate_actions.m; sourceTree = "<group>"; };
+		332BD66010CEF3830032EF88 /* SpiresAppDelegate_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresAppDelegate_actions.h; sourceTree = "<group>"; };
+		332BD66110CEF3830032EF88 /* SpiresAppDelegate_actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresAppDelegate_actions.m; sourceTree = "<group>"; };
 		332D1B8D0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleV1V2MigrationPolicy.h; sourceTree = "<group>"; };
 		332D1B8E0F5761AB00B0AFBC /* ArticleV1V2MigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleV1V2MigrationPolicy.m; sourceTree = "<group>"; };
 		332F19C30EA57B8E00758683 /* ArxivHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivHelper.h; sourceTree = "<group>"; };
@@ -446,8 +444,8 @@
 		33FD743310DEDDFE0081C00D /* DropAcceptingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingImageView.m; sourceTree = "<group>"; };
 		33FD744910DEE15E0081C00D /* drop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop.png; sourceTree = "<group>"; };
 		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		77C8280B06725ACE000B614F /* spires_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spires_AppDelegate.h; sourceTree = "<group>"; };
-		77C8280C06725ACE000B614F /* spires_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spires_AppDelegate.m; sourceTree = "<group>"; };
+		77C8280B06725ACE000B614F /* SpiresAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresAppDelegate.h; sourceTree = "<group>"; };
+		77C8280C06725ACE000B614F /* SpiresAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresAppDelegate.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* spires.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spires.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -657,10 +655,10 @@
 				333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */,
 				33B2CC751048D06D00BA5561 /* AppDelegate.h */,
 				332BD63510CECF500032EF88 /* AppDelegate.m */,
-				332BD66010CEF3830032EF88 /* spires_AppDelegate_actions.h */,
-				332BD66110CEF3830032EF88 /* spires_AppDelegate_actions.m */,
-				77C8280B06725ACE000B614F /* spires_AppDelegate.h */,
-				77C8280C06725ACE000B614F /* spires_AppDelegate.m */,
+				332BD66010CEF3830032EF88 /* SpiresAppDelegate_actions.h */,
+				332BD66110CEF3830032EF88 /* SpiresAppDelegate_actions.m */,
+				77C8280B06725ACE000B614F /* SpiresAppDelegate.h */,
+				77C8280C06725ACE000B614F /* SpiresAppDelegate.m */,
 				33B58BD60F395C4800E23146 /* spires_AppDelegate_SyncCategory.h */,
 				33B58BD70F395C4800E23146 /* spires_AppDelegate_SyncCategory.m */,
 			);
@@ -1011,7 +1009,6 @@
 				33B39E6E0EA4325E00734A06 /* Article.h */,
 				3378C2AB10D8954B006F7B53 /* ArticlePrivate.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
-				33295A2C10D0717D000F6749 /* spires_DataModel 5.mom.old */,
 				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
 			);
 			name = Models;
@@ -1187,7 +1184,6 @@
 				33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */,
 				33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */,
 				33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */,
-				33295A2D10D0717D000F6749 /* spires_DataModel 5.mom.old in Resources */,
 				3305A35B10D44907001142FC /* arxiv.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
@@ -1272,7 +1268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				77C8280E06725ACE000B614F /* spires_AppDelegate.m in Sources */,
+				77C8280E06725ACE000B614F /* SpiresAppDelegate.m in Sources */,
 				337D6F220F56F9770098643F /* spires_DataModel.xcdatamodeld in Sources */,
 				33B39E700EA4325E00734A06 /* Article.m in Sources */,
 				330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */,
@@ -1346,7 +1342,7 @@
 				33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */,
 				33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */,
 				332BD63610CECF500032EF88 /* AppDelegate.m in Sources */,
-				332BD66210CEF3830032EF88 /* spires_AppDelegate_actions.m in Sources */,
+				332BD66210CEF3830032EF88 /* SpiresAppDelegate_actions.m in Sources */,
 				33CCB5A210D9F29F00D51CDE /* Migrator.m in Sources */,
 				33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */,
 				33CCB5A510D9F2AF00D51CDE /* ArticleDataV4V5MigrationPolicy.m in Sources */,

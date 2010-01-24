@@ -23,8 +23,5 @@
 -(void)main
 {
     [list performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
-//    [NSThread sleepForTimeInterval:1];
-    usleep(1000*1000); //sleep 1s
-//    [self finish];
 }
 @end

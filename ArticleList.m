@@ -20,12 +20,6 @@
 @dynamic parent;
 @dynamic children;
 
-/*-(id)init
-{
-    [super init];
-    self.sortDescriptor=[NSSet set];
-    return self;
-}*/
 -(void)reload
 {
 }
@@ -37,14 +31,6 @@
 {
     return nil;
 }
-/*-(id)valueForUndefinedKey:(NSString*)key
-{
-    if([key isEqualToString:@"sortDescriptor"]){
-	return [[NSSortDescriptor alloc] init];
-    }else{
-	return [super valueForUndefinedKey:key];
-    }
-}*/
 -(BOOL)searchStringEnabled
 {
     return YES;

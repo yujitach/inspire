@@ -14,7 +14,7 @@
 {
 }
 
-+(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
++(ArxivNewArticleList*)createArXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
 
 @end
 

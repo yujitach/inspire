@@ -20,7 +20,7 @@
 	<div class="centerImage">
 			<img width="600" src="screenshot.png">
 	</div>
-	<div class="centerImage">Watch <a href="spiresUsage-basic.mov">the instruction video</a>!<!-- see <a href="spires-dot-app-in-action.mov">spires.app in action</a>!--></div>
+	<div class="centerImage">Watch the instruction video <a href="spires-usage-1.m4v">part 1</a> <a href="spires-usage-2.m4v">part 1</a> <a href="spires-usage-3.m4v">part 3</a>.<!-- see <a href="spires-dot-app-in-action.mov">spires.app in action</a>!--></div>
 	<div class="mainContent">
 		<div class="date">What does it do?</div>
 		<ul class="list">
@@ -34,8 +34,8 @@
 		<div class="text">
 			Please download the app:
 			<ul>
-				<li>For OS X <a href="zips/spires_1.2.3.zip">10.6 Snow Leopard</a></li>
-				<li>For OS X <a href="zips/spires_1.1.20.zip">10.5 Leopard</a></li>
+				<li>For OS X <a href="zips/spires_1.3.zip">10.6 Snow Leopard</a></li>
+				<li>For OS X <a href="zips/spires_1.1.21.zip">10.5 Leopard</a></li>
 			</ul>
 			Then, please open the preferences pane by spires→Preferences, and set the directory for keeping  PDFs. <br>
 			If you don't, ~/Desktop is used by default. It will soon clutter your desktop into a mess, though.<br>
@@ -61,6 +61,7 @@
 				<ul>
 				<li><code>a(uthor) name</code>,</li>
 				<li><code>c(ites) key</code></li>
+				<li><code>cn collaboration</code></li>
 				<li><code>d(ate) year</code></li>
 				<li><code>ea name</code>.		</li>		
 				<li><code>e(print) number</code>,	</li>			
@@ -68,32 +69,17 @@
 				<li><code>t(itle) title</code>,</li>
 				<li><code>to(pcite) number</code>,	</li>		
 				</ul>
-				and their simple "and" combinations.
+				and their simple "and", "and not" combinations.
 			</li>
 			<li>Example: <code>a Maldacena and t holography and d &gt; 2000</code>
 		</ul>
-		<div class="date">System Hook</div>
-		<div class="centerImage">
-						<img width="500" src="screenshot2.png">
-		
-		</div>
-		<div class="text">
-			By going spires→Install System Hook, you can add "search in spires" menu to the contextual menus
-			of a few apps.<br>
-			The hook is installed in /Library/InputManagers/.<br>
-			Known to works with <ul>
-				<li>Mailer: Mail.app</li>
-				<li>Browser: Safari.app (both version 3&amp;4), WebKit.app</li>
-				<li>PDF Viewer: Preview.app, Skim.app</li>
-				</ul>
-		</div>
 		<div class="date">Extra Info</div>
 		<div class="text">
 			<ul>
-				<li><a href="usage.html">Advanced Usage</a></li>
 				<li><a href="Release Notes.html">Release Notes</a></li>
 				<li><a href="Requests.html">Requested Features</a> check before emailing yours to me!</li>
 				<li><a href="Acknowledgments.html">List of open source components used</a></li>
+				<li><a href="historical-screenshots.html">Screen shots</a>  of older versions.</li>
 			</ul>
 		</div>
 		<div class="date">Data harvested</div>
@@ -109,9 +95,9 @@
 				<div class="text">
 					Many. 
 					<ul>
-						<li>
+<!--						<li>
 							It slows down to a crawl once there are more than 50000 entries. ArXiv has ~ 5 x 10<sup>5</sup> entries, so I'd like to make spires.app easily handle that amount, but it seems to need a significant change in plumbing.	
-						</li>
+						</li> -->
 		<!--				<li>
 							In v0.96, the internal is massively rewritten so that many operations can be posted simultaneously. But it can happen one operation gets stuck and prevents everything else from running, although the UI should work. You need to quit and restart in such cases... You can check what's going on by opening up the activity monitor via spires→Activity Monitor; if it happens please tell me what gets stuck!
 						</li>-->

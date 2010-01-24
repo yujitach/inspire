@@ -13,25 +13,15 @@
 #import "ReloadButton.h"
 
 @implementation ArxivNewArticleList 
-+(ArxivNewArticleList*)arXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
++(ArxivNewArticleList*)createArXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
-    NSEntityDescription*authorEntity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:moc];
-    NSFetchRequest*req=[[NSFetchRequest alloc]init];
-    [req setEntity:authorEntity];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"name = %@",s];
-    [req setPredicate:pred];
-    NSError*error=nil;
-    NSArray*a=[moc executeFetchRequest:req error:&error];
-    if([a count]>0){
-	return [a objectAtIndex:0];
-    }else{
-	ArxivNewArticleList* mo=[[NSManagedObject alloc] initWithEntity:authorEntity 
-				    insertIntoManagedObjectContext:moc];
-	[mo setValue:s forKey:@"name"];
-	NSSortDescriptor *sd=[[NSSortDescriptor  alloc] initWithKey:@"eprintForSorting" ascending:YES];
-	[mo setSortDescriptors:[NSArray arrayWithObjects:sd,nil]];	
-	return mo;
-    }
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:moc];
+    ArxivNewArticleList* mo=[[NSManagedObject alloc] initWithEntity:entity 
+				     insertIntoManagedObjectContext:moc];
+    mo.name=s;
+    NSSortDescriptor *sd=[[NSSortDescriptor  alloc] initWithKey:@"eprintForSorting" ascending:YES];
+    [mo setSortDescriptors:[NSArray arrayWithObjects:sd,nil]];	
+    return mo;
 }
 -(void)reload
 {

@@ -12,5 +12,5 @@
 @interface ArticleFolder : ArticleList {
 
 }
-+(ArticleFolder*)articleFolderWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
++(ArticleFolder*)createArticleFolderWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
 @end

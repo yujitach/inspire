@@ -43,6 +43,21 @@
 	    s=[s stringByReplacingOccurrencesOfString:@"." withString:@". "];
 	    NSArray*x=[s componentsSeparatedByString:@" "];
 	    NSString*lastName=[x lastObject];
+	    if([lastName isEqualTo:@""] && [x count]>=3){
+		// Names like "A. Bates, Jr." comes here
+		NSString*n1=[x objectAtIndex:[x count]-3];
+		NSString*n2=[x objectAtIndex:[x count]-2];
+		lastName=[NSString stringWithFormat:@"%@ %@",n1,n2];
+		x=[x subarrayWithRange:NSMakeRange(0,[x count]-2)];
+	    }
+	    {
+		NSArray*particles=[NSArray arrayWithObjects:@"de",@"van",@"del",@"von",nil];
+		NSString*pen=[x objectAtIndex:[x count]-2];
+		if([x count]>=2 && [particles containsObject:[pen lowercaseString]] ){
+		    lastName=[NSString stringWithFormat:@"%@ %@",pen,lastName];
+		    x=[x subarrayWithRange:NSMakeRange(0,[x count]-1)];
+		}
+	    }
 	    NSMutableArray*b=[NSMutableArray array];
 	    for(int j=0;j<[x count]-1;j++){
 		NSString*t=[x objectAtIndex:j];

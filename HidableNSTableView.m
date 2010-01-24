@@ -7,7 +7,7 @@
 //
 
 #import "HidableNSTableView.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate_actions.h"
 
 // taken from http://www.fernlightning.com/doku.php?id=randd:dyntablecolumns
 @interface HidableNSTableView ()
@@ -84,7 +84,7 @@
     if([[ev characters] isEqualToString:@" "]){
 	[NSApp sendAction:@selector(openSelectionInQuickLook:) to:nil from:self];
     }else if([ev keyCode]==0x24|| [ev keyCode]==76){ // if return or enter
-	[NSApp sendAction:@selector(openPDF:) to:nil from:self];
+	[NSApp sendAction:@selector(openPDForJournal:) to:nil from:self];
     }else{
 	[super keyDown:ev];
     }

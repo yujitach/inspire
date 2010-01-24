@@ -17,7 +17,6 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;    
-//    NSManagedObjectContext *secondaryManagedObjectContext;    
     BOOL isUIready;
 }
 +(NSManagedObjectContext*)moc;

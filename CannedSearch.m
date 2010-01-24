@@ -15,23 +15,13 @@
 #import "MOC.h"
 
 @implementation CannedSearch
-+(CannedSearch*)cannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
++(CannedSearch*)createCannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"CannedSearch" inManagedObjectContext:moc];
-    NSFetchRequest*req=[[NSFetchRequest alloc]init];
-    [req setEntity:entity];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"name = %@",s];
-    [req setPredicate:pred];
-    NSError*error=nil;
-    NSArray*a=[moc executeFetchRequest:req error:&error];
-    if([a count]>0){
-	return [a objectAtIndex:0];
-    }else{
-	CannedSearch* mo=[[NSManagedObject alloc] initWithEntity:entity 
-				       insertIntoManagedObjectContext:moc];
-	[mo setValue:s forKey:@"name"];
-	return mo;
-    }    
+    CannedSearch* mo=[[NSManagedObject alloc] initWithEntity:entity 
+			      insertIntoManagedObjectContext:moc];
+    mo.name=s;
+    return mo;
 }
 -(void)reloadLocalWithCap:(NSUInteger)cap
 {
@@ -52,9 +42,7 @@
     NSSet*set=[NSSet setWithArray:a];
     modifying=YES;
     [[self managedObjectContext] disableUndo];
-    [self willChangeValueForKey:@"articles"];
-    [self setPrimitiveValue:set forKey:@"articles"];
-    [self didChangeValueForKey:@"articles"];
+    self.articles=set;
     [[self managedObjectContext] enableUndo];
     modifying=NO;
 }
@@ -83,18 +71,30 @@
 {
     if(![[NSApp appDelegate] isOnline])
 	return;
-    if(state==0){
-	state=1;
-	[[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:[self searchString]
-											 andMOC:[self managedObjectContext]]];
-	[[OperationQueues spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
-    }else if(state==1){
-	state=2;
-	[[OperationQueues spiresQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:self]];
-    }else if(state==2){
-	[self reloadLocal];
-	state=0;
-    }
+    NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:[self searchString]
+							andMOC:[self managedObjectContext]];
+    [op setCompletionBlock:^{
+	[self performSelectorOnMainThread:@selector(reloadLocal) withObject:nil waitUntilDone:NO];
+    }];
+    [[OperationQueues spiresQueue] addOperation:op];
+}
+-(void)prepareForDeletion
+{
+    modifying=YES;
+    /* without this, "articles" will resurrect during the deletion
+     because deletion itself invokes -articles, which fires -reloadLocal.
+     This totally confuses CoreData and the next save will fail, 
+     even when the delete rule is correctly specified! Ugh.
+     Well, this assumes that prepareForDeletion is called 
+     right after -[NSManagedObjectContext deleteObject:] is called,
+     before -articles is called to perform Delete Propagation.
+     I think it's guaranteed, see the "Discussion" in the documentation,
+     which says "
+     You can implement this method to perform any operations required 
+     before the object is deleted, such as custom propagation 
+     before relationships are torn down, 
+     or reconfiguration of objects using key-value observing."
+    */ 
 }
 -(NSSet*)articles
 {

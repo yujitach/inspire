@@ -10,7 +10,7 @@
 #import "Article.h"
 #import "HidableNSTableView.h"
 #import "AppDelegate.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate_actions.h"
 
 @implementation MainTableViewController
 -(void)awakeFromNib

@@ -43,13 +43,7 @@
     [self setFlag:AFNone];
     [super awakeFromInsert];
 }
-/* +(Article*)newArticleInMOC:(NSManagedObjectContext*)moc
-{
-    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-    Article*a=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:moc];
-    [[AllArticleList allArticleListInMOC:moc] addArticlesObject:a];
-    return a;
-}*/
+
 
 +(NSString*)eprintForSortingFromEprint:(NSString*)eprint
 {

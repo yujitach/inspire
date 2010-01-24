@@ -73,11 +73,6 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 {
     return [NSString stringWithFormat:@"tex bib generation:%@",texFile];
 }
-/*-(void)addDependency:(NSOperation*)op
-{
-    [super addDependency:op];
-    NSLog(@"dependency added:%@",op);
-}*/
 
 
 -(NSString*)bibFilePath
@@ -244,10 +239,11 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     NSArray*toAddToList=[keyToArticle allValues];
     if(listName&&![listName isEqualToString:@""]&&[toAddToList count]>0){
 	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
-	if(list){
-	    [[NSApp appDelegate] rearrangePositionInViewForArticleLists];
-	    [list addArticles:[NSSet setWithArray:toAddToList]];
+	if(!list){
+	    [[NSApp appDelegate] addSimpleArticleListWithName:listName];
+	    list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
 	}
+	[list addArticles:[NSSet setWithArray:toAddToList]];
     }
 }
 

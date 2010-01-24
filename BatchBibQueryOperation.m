@@ -81,6 +81,5 @@
     dispatch_async(dispatch_get_main_queue(),^{
 	[[NSApp appDelegate] stopProgressIndicator];
     });
-//    [self finish];
 }
 @end

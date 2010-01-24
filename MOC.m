@@ -41,32 +41,8 @@ MOC*_sharedMOCManager=nil;
 }
 -(MOC*)init
 {
-    self=[super init];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSaveNotificationReceived:) name:NSManagedObjectContextDidSaveNotification object:nil];
-/*    [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryForIndividualEntries] 
-					       attributes:nil];
-*/
-    return self;
+    return [super init];
 }
-/*-(void)didSaveNotificationReceived:(NSNotification*)n 
- // It is inherently evil to try conflict resolution automatically for any entities.
- // one needs to think what to do for each entity type!
-{
-    NSManagedObjectContext*moc=[n object];
-    if(moc!=[self secondaryManagedObjectContext])
-	return;
-    NSDictionary*dict=[n userInfo];
-    NSArray*inserted=[dict objectForKey:NSInsertedObjectsKey];
-    NSArray*updated=[dict objectForKey:NSUpdatedObjectsKey];
-//    NSLog(@"%d inserted:%@",(int)[inserted count],inserted);
-//    NSLog(@"%d updated:%@",(int)[updated count], updated);
-    for(NSManagedObject* o in inserted){
-	[[self managedObjectContext] refreshObject:[[self managedObjectContext] objectWithID:[o objectID]] mergeChanges:YES];
-    }
-    for(NSManagedObject* o in updated){
-	[[self managedObjectContext] refreshObject:[[self managedObjectContext] objectWithID:[o objectID]] mergeChanges:YES];
-    }    
-}*/
 - (NSString *)applicationSupportFolder {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -220,9 +196,6 @@ MOC*_sharedMOCManager=nil;
 
 - (NSManagedObjectContext *) createSecondaryMOC {
     
-/*    if (secondaryManagedObjectContext != nil) {
-        return secondaryManagedObjectContext;
-    }*/
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     NSManagedObjectContext*secondaryManagedObjectContext=nil;

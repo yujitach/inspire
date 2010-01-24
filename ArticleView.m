@@ -14,7 +14,7 @@
 #import "ArxivHelper.h"
 #import "RegExKitLite.h"
 #import "NSString+magic.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate_actions.h"
 
 static NSArray*observedKeys=nil;
 @implementation ArticleView
@@ -40,7 +40,8 @@ static NSArray*observedKeys=nil;
 												   ofType:@"html"] 
 							  encoding:NSUTF8StringEncoding
 							     error:&error];
-    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
+    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];    
+    
     observedKeys=[NSArray arrayWithObjects:
 		  @"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
 		  @"journal",@"pdfPath",@"title",@"texKey",nil];
@@ -57,7 +58,7 @@ static NSArray*observedKeys=nil;
     if([[ev characters] isEqualToString:@" "]){
 	[NSApp sendAction:@selector(openSelectionInQuickLook:) to:nil from:self];
     }else if([ev keyCode]==0x24 || [ev keyCode]==76){ // if return or enter
-	[NSApp sendAction:@selector(openPDF:) to:nil from:self];
+	[NSApp sendAction:@selector(openPDForJournal:) to:nil from:self];
     }else{
 	[super keyDown:ev];
     }
@@ -201,16 +202,20 @@ static NSArray*observedKeys=nil;
     }
     return nil;
 }
+-(NSString*)journalNumber:(JournalEntry*)j
+{
+    if(j.volume){
+	return [NSString stringWithFormat:@"<span class=\"vol\">%@</span> (%@) %@",j.volume,j.year,j.page];
+    }else{
+	return @"";
+    }
+}
 -(NSString*)journal{
     if(!article.journal)return nil;
     JournalEntry*j=article.journal;
-    NSString* str=[NSString stringWithFormat:@"%@ <span class=\"vol\">%@</span> (%@) %@",j.name,j.volume,j.year,j.page];
-    if(article.eprint && ![article.eprint isEqualTo:@""]){
+    NSString* str=[NSString stringWithFormat:@"%@ %@",j.name,[self journalNumber:j]];
+    if((article.eprint && ![article.eprint isEqualTo:@""]) || article.hasPDFLocally){
 	str=[NSString stringWithFormat:@"<a class=\"nonloudlink\" href=\"spires-open-journal://\">%@</a>",str];
-	return str;
-    }
-    if(article.hasPDFLocally){
-	str=[NSString stringWithFormat:@"<a class=\"nonloudlink\" href=\"spires-open-journal://\">%@</a>",str];	
 	return str;
     }
     if(article.doi && ![article.doi isEqualTo:@""]){
@@ -292,6 +297,7 @@ static NSArray*observedKeys=nil;
 	messageBox.style.visibility=@"hidden";
     }
     doc.body.scrollTop=0;
+    [doc.body focus];
  //      NSLog(@"%@",[self mainFrame]);
     
 }

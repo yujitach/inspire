@@ -17,21 +17,9 @@
 #import "ImageAndTextCell.h"
 #import "MOC.h"
 #import "AppDelegate.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate_actions.h"
 
-/*@interface NSSourceListCell:NSTextFieldCell
-{
-}
-- (id)copyWithZone:(struct _NSZone *)fp8;
-- (id)init;
-- (id)initWithCoder:(id)fp8;
-- (void)dealloc;
-- (void)setImage:(id)fp8;
-- (id)image;
-- (float)imageSize;
-- (unsigned int)hitTestForEvent:(id)fp8 inRect:(struct _NSRect)fp12 ofView:(id)fp28;
-- (struct _NSRect)expansionFrameWithFrame:(struct _NSRect)fp8 inView:(id)fp24;
-@end*/
+
 
 @implementation SideOutlineViewController
 -(NSManagedObjectContext*)managedObjectContext
@@ -60,6 +48,7 @@
 {
     [articleListController insertObject:al 
 	      atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
+    [self rearrangePositionInViewForArticleLists];
 }
 
 -(void)selectAllArticleList;
@@ -206,23 +195,23 @@
 
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
-	ArticleList*hepph=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];
+	ArticleList*hepph=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];
 	hepph.positionInView=[NSNumber numberWithInt:2];
-	ArticleList*hepth=[ArxivNewArticleList arXivNewArticleListWithName:@"hep-th/new" inMOC:[self managedObjectContext]];
+	ArticleList*hepth=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-th/new" inMOC:[self managedObjectContext]];
 	hepth.positionInView=[NSNumber numberWithInt:4];
 	needToSave=YES;
     }
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"flaggedListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"flaggedListPrepared"];
-	CannedSearch*f=[CannedSearch cannedSearchWithName:@"flagged" inMOC:[self managedObjectContext]];
+	CannedSearch*f=[CannedSearch createCannedSearchWithName:@"flagged" inMOC:[self managedObjectContext]];
 	f.searchString=@"f flagged";
 	f.positionInView=[NSNumber numberWithInt:100];
 	needToSave=YES;
     }
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"pdfListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"pdfListPrepared"];
-	CannedSearch*f=[CannedSearch cannedSearchWithName:@"has pdf" inMOC:[self managedObjectContext]];
+	CannedSearch*f=[CannedSearch createCannedSearchWithName:@"has pdf" inMOC:[self managedObjectContext]];
 	f.searchString=@"f pdf";
 	f.positionInView=[NSNumber numberWithInt:200];
 	needToSave=YES;
@@ -406,7 +395,7 @@
 //    NSLog(@"context menu for %@:%d",col,i);
     NSMenu* menu=[[NSMenu alloc] initWithTitle:@"context menu"];
     if(i==-1){
-	[menu insertItemWithTitle:@"Add List..." 
+	[menu insertItemWithTitle:@"Add Playlist..." 
 			   action:@selector(addArticleList:)
 		    keyEquivalent:@""
 			  atIndex:0];
@@ -414,12 +403,12 @@
 			   action:@selector(addArticleFolder:)
 		    keyEquivalent:@""
 			  atIndex:1];
-	[menu insertItemWithTitle:@"Add Saved Search..." 
-			   action:@selector(addCannedSearch:)
-		    keyEquivalent:@""
-			  atIndex:2];
 	[menu insertItemWithTitle:@"Add arxiv/new..." 
 			   action:@selector(addArxivArticleList:)
+		    keyEquivalent:@""
+			  atIndex:2];
+	[menu insertItemWithTitle:@"Save Current Search..." 
+			   action:@selector(addCannedSearch:)
 		    keyEquivalent:@""
 			  atIndex:3];
     }else{

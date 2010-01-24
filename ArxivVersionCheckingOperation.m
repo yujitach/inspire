@@ -35,14 +35,8 @@
 
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {
-/*    NSLog(@"scanning PDF:%@",pdfPath);
-    PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
-    PDFPage* p=[d pageAtIndex:0];
-    NSString* s=[p string];*/
-//    d=nil;
-//    p=nil;
-    // This is off-loaded to an external helper because PDFKit sometimes crashes,
-    // in particular in 64 bit mode.
+    // The main work is off-loaded to an external helper because PDFKit sometimes crashes,
+    // in particular in 64 bit mode, in 10.5. It's OK now, but still off-loaded...
     NSString*tmpFile=[[NSFileManager defaultManager] temporaryFileName];
     NSString*script=[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""];
     NSString* command=[NSString stringWithFormat:@"%@ %@ %@" ,[script quotedForShell], [pdfPath quotedForShell], tmpFile];
@@ -59,16 +53,7 @@
     }
 //    NSLog(@"%@",s);
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
-/*    NSScanner* scanner=[NSScanner scannerWithString:s];
-    [scanner scanUpToString:@"arXiv:" intoString:NULL];
-    [scanner scanString:@"arXiv:" intoString:NULL];
-    [scanner scanUpToString:@"v" intoString:NULL];
-    [scanner scanString:@"v" intoString:NULL];
-    NSString*tmp;
-    [scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&tmp];
- int version=[[tmp substringToIndex:1] intValue];
 
- */
     NSString* versionString=[s stringByMatching:@"arXiv:.{9}v(.)" capture:1];
     if(!versionString){
 	versionString=[s stringByMatching:@"arXiv:.+?/.{7}v(.)" capture:1];

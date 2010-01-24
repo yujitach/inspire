@@ -117,40 +117,8 @@
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
 	//	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-	// spires' results sometimes contain 0xA0, non-breaking space...
 	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
-	/*	NSArray*a=[t componentsSeparatedByString:@"</title>"];
-	 NSMutableArray*b=[NSMutableArray array];
-	 for(NSString*i in a){
-	 NSRange r=[i rangeOfString:@"<title>" options:NSBackwardsSearch];
-	 if(r.location!=NSNotFound){
-	 NSString*front=[i substringToIndex:r.location+[@"<title>" length]];
-	 NSString*back=[i substringFromIndex:r.location+[@"<title>" length]];
-	 back=[back stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-	 back=[back stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
-	 back=[back stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-	 [b addObject:[front stringByAppendingString:back]];
-	 }else{
-	 [b addObject:i];
-	 }
-	 }
-	 NSString*s=[b componentsJoinedByString:@"</title>"];
-	 if(![t isEqualToString:s]){
-	 NSLog(@"malformed XML patched");
-	 }*/
-	
-/*	NSString*s=[t stringByReplacingOccurrencesOfRegex:@"\\[<.+? ([A-Z]) .+?>\\]" withString:@"$1"];
-	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<.+? ([A-Z])>\\]" withString:@"$1"];
-	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<([A-Z]) .+?>\\]" withString:@"$1"];
-	s=[s stringByReplacingOccurrencesOfRegex:@"\\[<ANGSTROM SIGN>\\]" withString:@"A"];
-	s=[s stringByReplacingOccurrencesOfRegex:@"&([^;]{10})" withString:@"&amp;$1"];
-	if(![t isEqualToString:s]){
-	    NSLog(@"malformed XML patched");
-	    [s writeToFile:@"/tmp/spires-xml-before.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-	    [t writeToFile:@"/tmp/spires-xml-after.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-	    t=s;
-	    
-	}*/
+
 	
 	if([searchString hasPrefix:@"r"]){
 	    t=[self transformBibtexToXML:t];

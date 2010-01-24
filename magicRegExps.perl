@@ -8,12 +8,12 @@ s/!!/%%/g;
 s/~.~/~/;
 s/([,.a-zA-Z]) *([01-9]+) *\(/$1 \\textbf{$2} (/g;
 s/,'' *([A-Z].*) *\\t/,'' \\textsl{$1}\\t/g;
-s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }
+s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/math.dg/math.DG/gi;
     s/math.ag/math.AG/gi;
     s/%%CITATION/%%CITATIO/;
     s/&/\\&/g;
-    s/ '/ `/g;  #`
+    s/ '/ `/g;  #`'
     
     
     #Equations

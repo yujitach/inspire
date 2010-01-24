@@ -187,7 +187,7 @@
     //END:progressivelyMigrateURLMoveAndRecurse
 }
 
--(BOOL)specialMigration
+/*-(BOOL)specialMigration
 {
     NSError*error=nil;
     NSDictionary *sourceMetadata = 
@@ -238,7 +238,7 @@
     NSLog(@"special case migration succeeded.");
     
     return YES;
-}
+}*/
 -(void)performMigration
 {
     NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
@@ -252,9 +252,9 @@
 		   @"Force quitting might corrupt the database."];
     [alert runModal];      
     // this is a special code to initiate lightweight migration during developments
-    if([self specialMigration]){
+/*    if([self specialMigration]){
 	return;
-    }
+    }*/
     NSError*error=nil;
     if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:dataFilePath]
 				ofType:NSSQLiteStoreType

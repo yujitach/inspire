@@ -24,13 +24,13 @@
 
 #import "AppDelegate.h"
 
-@interface spires_AppDelegate : NSObject <AppDelegate>// <NSPersistentStoreCoordinatorSyncing>
+@interface SpiresAppDelegate : NSObject <AppDelegate>// <NSPersistentStoreCoordinatorSyncing>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSToolbar*tb;
     IBOutlet SPSearchFieldWithProgressIndicator*searchField;
 
-    IBOutlet SideOutlineViewController* sideTableViewController;
+    IBOutlet SideOutlineViewController* sideOutlineViewController;
     IBOutlet IncrementalArrayController* ac;
     IBOutlet NSTableView* articleListView;    
     IBOutlet ArticleView*wv;

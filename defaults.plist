@@ -83,84 +83,60 @@
 		<string>Phys.Rept.</string>
 	</array>
 	<key>htmlTeXRegExps</key>
-	<array>
-		<array>
-			<string>-+&gt;</string>
-			<string>→</string>
-		</array>
-		<array>
-			<string>\*\*</string>
-			<string>^</string>
-		</array>
-		<array>
-			<string>\+-</string>
-			<string>±</string>
-		</array>
-		<array>
-			<string>([^\\])_\{([^\}]*)\}</string>
-			<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
-		</array>
-		<array>
-			<string>([^\\])_(.)</string>
-			<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
-		</array>
-		<array>
-			<string>([^\\$])\^\{([^\}]*)\}</string>
-			<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
-		</array>
-		<array>
-			<string>([^\\$])\^(.)</string>
-			<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
-		</array>
-		<array>
-			<string>\$([^\$]+)\$</string>
-			<string>&lt;span class=&quot;equation&quot;&gt;$1&lt;/span&gt;</string>
-		</array>
-		<array>
-			<string>\\&quot;([aeiou])</string>
-			<string>&amp;$1uml;</string>
-		</array>
-		<array>
-			<string>\\&apos;([aeiou])</string>
-			<string>&amp;$1acute;</string>
-		</array>
-		<array>
-			<string>``</string>
-			<string>“</string>
-		</array>
-		<array>
-			<string>&apos;&apos;</string>
-			<string>”</string>
-		</array>
-		<array>
-			<string>-+&amp;gt;</string>
-			<string>→</string>
-		</array>
-		<array>
-			<string>N *= *([01-9]+)</string>
-			<string>&lt;span style=&quot;font-style:italic&quot;&gt;N&lt;/span&gt;=$1</string>
-		</array>
-		<array>
-			<string> x </string>
-			<string>×</string>
-		</array>
-		<array>
-			<string>\\v\{c\}</string>
-			<string>č</string>
-		</array>
-		<array>
-			<string>\\v c</string>
-			<string>č</string>
-		</array>
-		<array>
-			<string>\\v\{r\}</string>
-			<string>ř</string>
-		</array>
-		<array>
-			<string>\\v r</string>
-			<string>ř</string>
-		</array>
-	</array>
+	<dict>
+		<key> x </key>
+		<string>×</string>
+		<key>&apos;&apos;</key>
+		<string>”</string>
+		<key>([^\\$])\^(.)</key>
+		<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
+		<key>([^\\$])\^\{([^\}]*)\}</key>
+		<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
+		<key>([^\\$])\^\(([^\})]*)\)</key>
+		<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
+		<key>([^\\$])\^(\d+)</key>
+		<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
+		<key>([^\\])_(.)</key>
+		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
+		<key>([^\\])_\{([^\}]*)\}</key>
+		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
+		<key>([^\\$])_\(([^\})]*)\)</key>
+		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
+		<key>([^\\$])_(\d+)</key>
+		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
+		<key>-&amp;gt;</key>
+		<string>→</string>
+		<key>&amp;lt;-&amp;gt;</key>
+		<string>↔</string>
+		<key>&amp;lt;→</key>
+		<string>↔</string>
+		<key>-+&amp;gt;</key>
+		<string>→</string>
+		<key>-+&gt;</key>
+		<string>→</string>
+		<key>\$([^\$]+)\$</key>
+		<string>&lt;span class=&quot;equation&quot;&gt;$1&lt;/span&gt;</string>
+		<key>\*\*</key>
+		<string>^</string>
+		<key>\+-</key>
+		<string>±</string>
+		<key>\\&quot;([aeiou])</key>
+		<string>&amp;$1uml;</string>
+		<key>\\&apos;([aeiou])</key>
+		<string>&amp;$1acute;</string>
+		<key>\\v c</key>
+		<string>č</string>
+		<key>\\v r</key>
+		<string>ř</string>
+		<key>\\v\{c\}</key>
+		<string>č</string>
+		<key>\\v\{r\}</key>
+		<string>ř</string>
+		<key>``</key>
+		<string>“</string>
+		<key>N *= *([01-9]+)</key>
+		<string>&lt;span style=&quot;font-style:italic&quot;&gt;N&lt;/span&gt;=$1</string>
+	</dict>
 	<key>htmlTeXMacrosWithoutArguments</key>
 	<dict>
 		<key>alpha</key>
@@ -259,10 +235,18 @@
 		<string>∂</string>
 		<key>to</key>
 		<string>→</string>
+		<key>rightarrow</key>
+		<string>→</string>
+		<key>leftarrow</key>
+		<string>←</string>
+		<key>leftrightarrow</key>
+		<string>↔</string>
 		<key>infty</key>
 		<string>∞</string>
 		<key>oplus</key>
 		<string>⊕</string>
+		<key>odot</key>
+		<string>⊙</string>
 		<key>otimes</key>
 		<string>⊗</string>
 		<key>le</key>
@@ -334,6 +318,8 @@
 		<string>&lt;i&gt;$1&lt;/i&gt;</string>
 		<key>mathcal</key>
 		<string>&lt;i&gt;$1&lt;/i&gt;</string>
+		<key>mathbb</key>
+		<string>&lt;span style=&quot;font-family:msbm5&quot;&gt;$1&lt;/span&gt;</string>
 		<key>emph</key>
 		<string>&lt;b&gt;$1&lt;/b&gt;</string>
 	</dict>

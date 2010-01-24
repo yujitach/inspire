@@ -91,9 +91,7 @@ void warmUpIfSuitable(void)
 {
     /* the main NIB is arranged so that no access to the main MOC
      is performed until a definite line in the code is reached, 
-     rather late in the initialization process, at the last line of
-	    -loadArticleLists:
-     in SideOutlineViewController.m.
+     rather late in the initialization process.
      There too, the access to the moc is guarded by [moc lock].
      Afterwards, no guard of the main moc is necessary because
      the main moc is used solely from the main thread from that point on.

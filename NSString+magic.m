@@ -238,7 +238,8 @@ static void loadMagic(){
 	NSDictionary* texMacrosWithoutArguments=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArguments"];
 	NSArray* prepositions=[[NSUserDefaults standardUserDefaults] objectForKey:@"prepositions"];
 	NSArray* stop=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash"];
-	for(NSString* key in [texMacrosWithoutArguments keyEnumerator]){
+	NSEnumerator* keys=[[[texMacrosWithoutArguments allKeys] sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator];
+	for(NSString* key in keys){
 	    //	    NSString* from=[NSString stringWithFormat:@"\\\\%@(_|\\W|\\d)",key];
 	    NSString* from=[NSString stringWithFormat:@"\\\\%@",key];
 	    //	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
@@ -250,7 +251,7 @@ static void loadMagic(){
 		continue;
 	    if([stop containsObject:key])
 		continue;
-	    from=[NSString stringWithFormat:@"(\\W)%@(\\W)",key];
+	    from=[NSString stringWithFormat:@"([^A-Za-z])%@([^A-Za-z])",key];
 	    rep=[NSString stringWithFormat:@"$1%@$2",to];
 	    [s replaceOccurrencesOfRegex:from withString:rep];
 	    [s replaceOccurrencesOfRegex:from withString:rep];
@@ -270,10 +271,10 @@ static void loadMagic(){
     }
     
     {
-	NSArray* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
-	for(NSArray* pair in texRegExps){
-	    NSString* from=[pair objectAtIndex:0];
-	    NSString* to=[pair objectAtIndex:1];
+	NSDictionary* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
+	NSEnumerator* reversed=[[[texRegExps allKeys] sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator];
+	for(NSString* from in reversed){
+	    NSString* to=[texRegExps objectForKey:from];
 	    [s replaceOccurrencesOfRegex:from withString:to];	
 	}
 	[s replaceOccurrencesOfString:@"SpaceMarker" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];

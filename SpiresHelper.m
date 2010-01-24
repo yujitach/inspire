@@ -55,10 +55,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)refersToPredicate:(NSString*)operand
 {
-    Article*a=nil;
-    if([operand rangeOfString:@":"].location!=NSNotFound || [operand rangeOfString:@"/"].location!=NSNotFound){
-	a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
-    }
+    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
     if(a){
 	return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
 	    return [a.refersTo containsObject:ar];
@@ -100,7 +97,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSString*last=[x lastObject];
 	if([x count]==1){
 	    //		return [NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-	    NSString*query=[NSString stringWithFormat:@"; %@",last];
+	    NSString*query=[NSString stringWithFormat:@" %@",last];
 	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,query];
 	}
 	NSMutableArray*y=[NSMutableArray array];
@@ -291,6 +288,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
     SEL operator=NULL;
     NSString*operand=nil;
     for(NSString*s in a){
+	BOOL not=NO;
+	if([s stringByMatching:@"^ *(not) +(.+)$" capture:1]){
+	    not=YES;
+	    s=[s stringByMatching:@"^ *(not) +(.+)$" capture:2];
+	}
 	SEL op=[self extractOperator:s];
 	if(!op && !operator)
 	    return nil;
@@ -304,8 +306,12 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    continue;
 	operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
 	NSPredicate*p=[self performSelector:operator withObject:operand];
-	if(p)	
+	if(p){
+	    if(not){
+		p=[NSCompoundPredicate notPredicateWithSubpredicate:p];
+	    }
 	    [arr addObject:p];
+	}
     }
     NSPredicate*pred=nil;
     if([arr count]==0){

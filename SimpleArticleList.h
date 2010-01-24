@@ -13,6 +13,7 @@
 @interface SimpleArticleList :  ArticleList  
 {
 }
++(SimpleArticleList*)createSimpleArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
 +(SimpleArticleList*)simpleArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
 
 

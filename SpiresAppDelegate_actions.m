@@ -6,9 +6,9 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import "spires_AppDelegate.h"
+#import "SpiresAppDelegate.h"
 #import "AppDelegate.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate_actions.h"
 
 #import "SpiresHelper.h"
 #import "PDFHelper.h"
@@ -38,10 +38,11 @@
 #import "BatchBibQueryOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "SpiresQueryOperation.h"
+#import "WaitOperation.h"
 
 #import "NSURL+libraryProxy.h"
 
-@implementation spires_AppDelegate (actions)
+@implementation SpiresAppDelegate (actions)
 -(NSNumber*)databaseSize
 {
     NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
@@ -99,10 +100,6 @@
 {
     [texWatcherController showhide:sender];
 }
--(IBAction)showUsage:(id)sender;
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.sns.ias.edu/~yujitach/spires/usage.html"]];
-}
 
 -(IBAction)openHomePage:(id)sender
 {
@@ -116,18 +113,6 @@
 {
     [[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"Acknowledgments" ofType:@"html"]];    
 }
-/*-(IBAction)undo:(id)sender
- {
- [self enableUndo];
- [[MOC moc] undo];
- [self disableUndo];
- }
- -(IBAction)redo:(id)sender
- {
- [self enableUndo];
- [[MOC moc] redo];
- [self disableUndo];
- }*/
 -(IBAction)dumpDebugInfo:(id)sender
 {
     Article*a=[[ac selectedObjects] objectAtIndex:0];
@@ -140,11 +125,7 @@
 }
 -(IBAction)addArticleList:(id)sender
 {
-    NSEntityDescription*entityDesc=[NSEntityDescription entityForName:@"SimpleArticleList" inManagedObjectContext:[MOC moc]];
-    SimpleArticleList* al=[[SimpleArticleList alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:[MOC moc]];
-    al.name=@"untitled";
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
+    [self addSimpleArticleListWithName:@"untitled"];
 }
 
 -(void)addArxivArticleList:(id)sender
@@ -156,26 +137,30 @@
 }
 -(void)addArticleFolder:(id)sender
 {
-    ArticleFolder* al=[ArticleFolder articleFolderWithName:@"untitled" inMOC:[MOC moc]];
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
+    ArticleFolder* al=[ArticleFolder createArticleFolderWithName:@"untitled" inMOC:[MOC moc]];
+    [sideOutlineViewController addArticleList:al];
 }
 -(void)addCannedSearch:(id)sender
 {
-    NSString*name=[[sideTableViewController currentArticleList] searchString];
+    NSString*name=[[AllArticleList allArticleList] searchString];
     if(!name || [name isEqualToString:@""]){
-	name=@"untitled";
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Sorry..."
+				      defaultButton:@"OK"
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:@"To save search, please first specify the query at the search box!"];	
+	[alert runModal];
+	return;
     }
-    CannedSearch* al=[CannedSearch cannedSearchWithName:name inMOC:[MOC moc]];
-    al.searchString=[[sideTableViewController currentArticleList] searchString];
-    al.sortDescriptors=[[sideTableViewController currentArticleList] sortDescriptors];
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];
+    CannedSearch* al=[CannedSearch createCannedSearchWithName:name inMOC:[MOC moc]];
+    al.searchString=[[sideOutlineViewController currentArticleList] searchString];
+    al.sortDescriptors=[[sideOutlineViewController currentArticleList] sortDescriptors];
+    [sideOutlineViewController addArticleList:al];
 }
 
 -(void)deleteArticleList:(id)sender
 {
-    [sideTableViewController removeCurrentArticleList];
+    [sideOutlineViewController removeCurrentArticleList];
 }
 
 -(IBAction)sendBugReport:(id)sender
@@ -212,7 +197,7 @@
 }
 -(IBAction)deleteEntry:(id)sender
 {
-    ArticleList* al=[sideTableViewController currentArticleList];
+    ArticleList* al=[sideOutlineViewController currentArticleList];
     if(!al){
 	NSBeep(); 
 	return;
@@ -234,15 +219,9 @@
 }
 -(IBAction) search:(id)sender
 {
-    //    ArticleList*al= [[articleListController arrangedObjects] objectAtIndex:[articleListController selectionIndex]];
-    /*    NSArray *a=[articleListController selectedObjects];
-     if([a count]==0){
-     return;
-     }
-     ArticleList* al=[a objectAtIndex:0];*/
     if(![self isOnline])
 	return;
-    ArticleList* al=[sideTableViewController currentArticleList];
+    ArticleList* al=[sideOutlineViewController currentArticleList];
     if(!al){
 	return;
     }
@@ -254,7 +233,7 @@
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
     [AllArticleList allArticleList].searchString=searchString;
-    [sideTableViewController selectAllArticleList];
+    [sideOutlineViewController selectAllArticleList];
     [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
 }
 -(IBAction) reloadSelection:(id)sender
@@ -274,20 +253,13 @@
 }
 -(IBAction) reloadSelectedArticleList:(id)sender
 {
-    
-    /*    int i=[articleListController selectionIndex];
-     //    int i=[[articleListController selectionIndexPath] indexAtPosition:0];
-     if(i==0){
-     [self search:nil];
-     }
-     ArticleList* al=[[articleListController arrangedObjects] objectAtIndex:i];*/
-    ArticleList* al=[sideTableViewController currentArticleList];
+    ArticleList* al=[sideOutlineViewController currentArticleList];
     if([al isKindOfClass:[AllArticleList class]]){
 	[self search:nil];
     }else{
 	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
-    //    [al reload];
 }
 -(IBAction)reloadAllArticleList:(id)sender
 {
@@ -300,6 +272,7 @@
     NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
     for(ArxivNewArticleList*l in a){
 	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
+	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
 }
 -(IBAction)openSelectionInQuickLook:(id)sender
@@ -369,7 +342,6 @@
 -(IBAction)getBibEntriesWithoutDisplay:(id)sender
 {
     NSArray*x=[ac selectedObjects];
-    //    [NSThread detachNewThreadSelector:@selector(getBibEntriesMainWork:) toTarget:self withObject:x];
     [[OperationQueues spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:x]];
 }
 -(IBAction)getBibEntries:(id)sender
@@ -520,7 +492,7 @@
 	    [self saveAction:self];
 	    NSNumber*before=[self databaseSize];
 	    [[MOC sharedMOCManager] vacuum];
-	    [sideTableViewController selectAllArticleList];
+	    [sideOutlineViewController selectAllArticleList];
 	    NSNumber*after=[self databaseSize];
 	    alert=[NSAlert alertWithMessageText:@"Done."
 				  defaultButton:@"Relaunch" 

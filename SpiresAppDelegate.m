@@ -6,8 +6,8 @@
 //  Copyright Y. Tachikawa 2008 . All rights reserved.
 //
 
-#import "spires_AppDelegate.h"
-#import "spires_AppDelegate_actions.h"
+#import "SpiresAppDelegate.h"
+#import "SpiresAppDelegate_actions.h"
 #import "AppDelegate.h"
 #import "MOC.h"
 
@@ -47,18 +47,17 @@
 #import <Sparkle/SUUpdater.h>
 #import <Quartz/Quartz.h>
 //#import <ExceptionHandling/NSExceptionHandler.h>
-//#import "QuickLookInternal.h"
 
 #define TICK (.5)
 #define GRACEMIN (3.0/TICK)
 #define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivWaitInSeconds"]/TICK)
 
-@interface spires_AppDelegate (Timers)
+@interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
 -(void)clearUnreadFlagOfArticle:(NSTimer*)timer;
 @end
 
-@implementation spires_AppDelegate
+@implementation SpiresAppDelegate
 +(void)initialize
 {
     NSData* data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
@@ -203,6 +202,7 @@
 #pragma mark UI glues
 -(void)checkOSVersion
 {   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
+    // but is used to urge users whenever a new minor version of OS X comes out!
     SInt32 major=10,minor=5,bugFix=6;
     Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
@@ -226,11 +226,6 @@
 //    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
     
     
-/*    if([[[NSUserDefaults standardUserDefaults] stringForKey:@"pdfDir"] isEqualToString:@"~/Desktop"]){
-	[self setFolderForPDF:self];
-    }*/
-    
-//    [resizer setHasThumb:YES];
     for(NSToolbarItem*ti in [tb items]){
 	if([[ti  label] isEqualToString:@"Search Field"]){
 	    NSSize s=[ti minSize];
@@ -286,7 +281,7 @@
 	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_context_menu"];
 	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_services_menu"];
 	[status setObject:m
-		   forKey:@"com.yujitach.spires - Spires... - handleServicesLookupSpires"];
+		   forKey:@"com.yujitach.spires - Look Up using Spires - handleServicesLookupSpires"];
     }
     NSData* data=[NSPropertyListSerialization dataWithPropertyList:dict
 							    format:NSPropertyListBinaryFormat_v1_0
@@ -294,6 +289,8 @@
 							     error:NULL];
     [data writeToFile:pbsPlistPath
 	   atomically:YES];
+    system("/System/Library/CoreServices/pbs -flush");
+    system("/System/Library/CoreServices/pbs -flush_userdefs");
     
 }
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
@@ -319,7 +316,7 @@
     }
 */  
     // loadArticleLists starts the CoreData fetch from the main thread.
-    [sideTableViewController loadArticleLists];
+    [sideOutlineViewController loadArticleLists];
     [window makeKeyAndOrderFront:self];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -350,13 +347,10 @@
     }else if([keyPath isEqualToString:@"arrangedObjects"]){
 	NSInteger num=[[ac arrangedObjects] count];
 	NSString*head=@"spires";
-//	NSArray*a=[articleListController selectedObjects];
-//    if(a && [a count]>0){
-	ArticleList*al=[sideTableViewController currentArticleList];
+	ArticleList*al=[sideOutlineViewController currentArticleList];
 	if(al){
 	    head=al.name;
 	}
-//	}
 	[window setTitle:[NSString stringWithFormat:@"%@ (%d %@)",head,num,(num==1?@"entry":@"entries")]];
     }
 }
@@ -396,7 +390,6 @@
 {
     if(countDown>0){
 	countDown--;
-//	[bar setDoubleValue:countDown];
 	return;
     }
     NSArray*arr=[ac selectedObjects];
@@ -448,8 +441,7 @@
 
 -(BOOL)currentListIsArxivReplaced
 {
-    //    ArticleList* al=[[articleListController selectedObjects] objectAtIndex:0];
-    ArticleList*al=[sideTableViewController currentArticleList];
+    ArticleList*al=[sideOutlineViewController currentArticleList];
     if(![al isKindOfClass:[ArxivNewArticleList class]]){
 	return NO;
     }
@@ -459,15 +451,15 @@
     }
     return NO;
 }
--(void)rearrangePositionInViewForArticleLists
+-(void)addSimpleArticleListWithName:(NSString*)name;
 {
-    [sideTableViewController rearrangePositionInViewForArticleLists];
+    SimpleArticleList* al=[SimpleArticleList createSimpleArticleListWithName:name inMOC:[MOC moc]];
+    [sideOutlineViewController addArticleList:al];
 }
 -(void)addArxivArticleListWithName:(NSString*)name;
 {
-    ArxivNewArticleList* al=[ArxivNewArticleList arXivNewArticleListWithName:name inMOC:[MOC moc]];
-    [sideTableViewController addArticleList:al];
-    [sideTableViewController rearrangePositionInViewForArticleLists];    
+    ArxivNewArticleList* al=[ArxivNewArticleList createArXivNewArticleListWithName:name inMOC:[MOC moc]];
+    [sideOutlineViewController addArticleList:al];
 }
 
 -(NSWindow*)mainWindow
@@ -621,7 +613,7 @@
 //    NSLog(@"handles %@",url);
     if([[url scheme] isEqualTo:@"spires-search"]){
 	NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	[sideTableViewController selectAllArticleList];
+	[sideOutlineViewController selectAllArticleList];
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	if(![allArticleList.searchString isEqualToString:searchString]){
 	    [historyController mark:self];
@@ -797,15 +789,10 @@
             reply = NSTerminateCancel;
         }
     }
-//    [self saveArticleLists];
     return reply;
 }
 
-/*-(void)applicationWillTerminate:(NSNotification*)note
-{
-    system("killall SpiresQuickLookHelper");
-}
-#pragma mark exception
+/* #pragma mark exception
 
 - (void)printStackTrace:(NSException *)e
 {

@@ -44,8 +44,16 @@
     NSXMLDocument* doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
     if(!doc){
 	NSLog(@"XML error: %@",error);
+	return;
     }
-    NSXMLElement* elem=[[[doc rootElement] elementsForName:@"entry"] objectAtIndex:0];
+    NSXMLElement* elem=nil;
+    {
+	NSArray*ar=[[doc rootElement] elementsForName:@"entry"];
+	if(!ar || [ar count]==0){
+	    return;
+	}
+	elem=[ar objectAtIndex:0];
+    }
     NSMutableDictionary* dict=[NSMutableDictionary dictionary];
     
     NSString* s=[self valueForKey:@"id" inXMLElement:elem];
