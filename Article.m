@@ -144,7 +144,7 @@
     NSMutableString*result=[NSMutableString string];
     for(NSString*s in a){
 	[result appendString:@"; "];
-	if([s hasPrefix:@"collaboration"]){
+	if([s rangeOfString:@"collaboration"].location!=NSNotFound){
 	    [result appendString:s];
 	    continue;
 	}
@@ -195,6 +195,12 @@
 	    lastName=[lastName uppercaseString];
 	    collaboration=lastName;
 	    continue;
+	}else if([lastName isEqualTo:@"group"] || [lastName isEqualTo:@"groups"] || [lastName isEqualTo:@"physics"] ){
+	    if([q count]>1){
+		lastName=[q objectAtIndex:1];
+		lastName=[lastName stringByReplacingOccurrencesOfRegex:@" *the *" withString:@""];
+		lastName=[lastName capitalizedString];
+	    }
 	}else{
 	    lastName=[lastName capitalizedStringForName];
 	}
@@ -268,20 +274,40 @@
 }
 
 #pragma mark Sort Key Precalculation 
-
+-(NSString*)tweakCollaborationName:(NSString*)c
+{
+    NSMutableString*s=[[c normalizedString] mutableCopy];
+    [s replaceOccurrencesOfRegex:@" *on +behalf +of +the *" withString:@""];
+    [s replaceOccurrencesOfRegex:@" *for +the *" withString:@""];
+    [s replaceOccurrencesOfRegex:@"^ *the *" withString:@""];
+    if([s rangeOfString:@"collaboration"].location==NSNotFound){
+	[s appendString:@" collaboration"];
+    }
+    return s;
+}
 -(void)setAuthorNames:(NSArray *)authorNames
 {
     NSMutableArray*a=[NSMutableArray array];
     if(self.collaboration){
-	NSMutableString*s=[[self.collaboration normalizedString] mutableCopy];
-	[s replaceOccurrencesOfRegex:@" *on +behalf +of +the *" withString:@""];
-	[s replaceOccurrencesOfRegex:@" *for +the *" withString:@""];
-	[s replaceOccurrencesOfRegex:@"^the *" withString:@""];
-	[a addObject:s];
+	[a addObject:[self tweakCollaborationName:self.collaboration]];
     }
     for(NSString*s in authorNames){
-	if(![s isEqualToString:@""]){
-	    [a addObject:[s normalizedString]];
+	NSString*t=[s normalizedString];
+	if(![t isEqualToString:@""]){
+	    if([t rangeOfString:@"collaboration"].location!=NSNotFound){
+		if(self.collaboration){
+		    continue;
+		}else{
+		    if([t rangeOfString:@", "].location!=NSNotFound){
+			NSArray*x=[t componentsSeparatedByString:@", "];
+			t=[NSString stringWithFormat:@"%@ %@",[x objectAtIndex:1],[x objectAtIndex:0]];
+		    }
+		    self.collaboration=t;
+		    [a addObject:[self tweakCollaborationName:self.collaboration]];		    
+		}
+	    }else{
+		[a addObject:t];
+	    }
 	}
     }
     self.shortishAuthorList=[Article shortishAuthorListFromAuthorNames:a];

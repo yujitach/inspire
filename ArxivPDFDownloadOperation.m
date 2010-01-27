@@ -49,8 +49,11 @@
     
     if(success){
 	NSData* data=[dict valueForKey:@"pdfData"];
-	[data writeToFile:article.pdfPath atomically:NO];
-	[article associatePDF:article.pdfPath];
+	if(![data writeToFile:article.pdfPath atomically:NO]){
+	    [[NSApp appDelegate] presentFileSaveError];
+	}else{
+	    [article associatePDF:article.pdfPath];
+	}
 	[self finish];
     }else if([dict objectForKey:@"shouldReloadAfter"]){
 	reloadDelay=[dict objectForKey:@"shouldReloadAfter"];

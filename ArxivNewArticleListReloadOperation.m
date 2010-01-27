@@ -50,7 +50,7 @@
 		lastName=[NSString stringWithFormat:@"%@ %@",n1,n2];
 		x=[x subarrayWithRange:NSMakeRange(0,[x count]-2)];
 	    }
-	    {
+	    if([x count]>=2){
 		NSArray*particles=[NSArray arrayWithObjects:@"de",@"van",@"del",@"von",nil];
 		NSString*pen=[x objectAtIndex:[x count]-2];
 		if([x count]>=2 && [particles containsObject:[pen lowercaseString]] ){
@@ -92,6 +92,15 @@
     NSString*eprint=[self eprintFromChunk:s];
     
     NSArray*a=[s componentsSeparatedByString:@"</span>"];
+    if([a count]<4)
+	return nil;
+    /*
+     a[0], a[1] :junk
+     a[2]: title
+     a[3]: authors
+     a[4]: comments or abstract
+     a[5]: abstract if there're comments
+     */
     NSString*title=[a objectAtIndex:2];
     NSInteger i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];

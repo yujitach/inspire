@@ -279,10 +279,25 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }    
 }
 
+-(NSString*)removePrecedingFfrom:(NSString*)t
+{
+    // this is for old timers who tend to type "fin" at the beginning of the query
+    // unfortunately I already used "f" as the query for the flag field,
+    // so some special treatment is necessary... Ugh.
+    NSString*s=[t stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
+    if(![s hasPrefix:@"f"]){
+	return s;
+    }
+    if([s hasPrefix:@"f fl"] || [s hasPrefix:@"f pd"] || [s hasPrefix:@"f unre"]){
+	return s;
+    }
+    return [s stringByReplacingOccurrencesOfRegex:@"^ *f\\w* " withString:@""];
+}
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string
 {
     //    string=[string stringByReplacingOccurrencesOfString:@" and " withString:@" & "];
     string=[string normalizedString];
+    string=[self removePrecedingFfrom:string];
     NSArray*a=[string componentsSeparatedByString:@" and "];
     NSMutableArray*arr=[NSMutableArray array];
     SEL operator=NULL;

@@ -66,6 +66,8 @@
     NSMutableDictionary* defaultDict=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:&format error:&error];
 
     //sythesize the list of all known journals
+    
+    NSArray* annualReviewJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AnnualReviewJournals"];
     NSArray* elsevierJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"];
     NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
     NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
@@ -74,6 +76,7 @@
     NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
     NSArray* ptpJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"PTPJournals"];
     NSMutableArray* knownJournals=[NSMutableArray array ];
+    [knownJournals addObjectsFromArray:annualReviewJournals];
     [knownJournals addObjectsFromArray:elsevierJournals];
     [knownJournals addObjectsFromArray:apsJournals];
     [knownJournals addObjectsFromArray:aipJournals];
@@ -539,7 +542,16 @@
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"isOnline"];
 }
-
+-(void)presentFileSaveError
+{
+    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Downloaded, but can't be saved???"
+				  defaultButton:@"OK" 
+				alternateButton:nil
+				    otherButton:nil
+		      informativeTextWithFormat:@"can't save the file. Please check if the folder to save PDFs is correctly set up."];
+    [alert runModal];
+    [self showPreferences:self];
+}
 #pragma mark PDF Association
 -(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(NSString*)path
 {

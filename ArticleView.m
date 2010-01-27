@@ -95,6 +95,10 @@ static NSArray*observedKeys=nil;
 	    }else if([[c objectAtIndex:1] hasPrefix:@"for the"]){
 		[result appendString:[last uppercaseString]];
 		last=@" Collaboration";		
+	    }else if([last isEqualTo:@"group"]||
+		     [last isEqualTo:@"groups"]||
+		     [last isEqualTo:@"physics"]){
+		[result appendFormat:@"%@ ",[[c objectAtIndex:1] capitalizedString]];		
 	    }else{
 		for(NSString*i in d){
 		    if(!i || [i isEqualToString:@""]) continue;

@@ -84,6 +84,12 @@
 {
     NSString*html=[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSString*pdf=nil;
+    if(!pdf){//Annual Reviews
+	NSString*s=[html stringByMatching:@"/doi/pdf(.+?)\"" capture:1];
+	if(s){
+	    pdf=[NSString stringWithFormat:@"http://arjournals.annualreviews.org/doi/pdf%@",s];
+	}
+    }    
     if(!pdf){ //APS
 	NSString*s=[html stringByMatching:@"(/pdf/.+?)\">PDF" capture:1];
 	if(s){
@@ -103,10 +109,14 @@
 	}	
     }
     if(!pdf){ // Elsevier
-	NSString*s=[html stringByMatching:@"(/science.+?sdarticle.pdf)\"" capture:1];
-	if(s){
-	    pdf=[@"http://www.sciencedirect.com" stringByAppendingString:s];
-	}		
+	NSArray*x=[html componentsSeparatedByString:@"featureCount"];
+	if([x count]>=2){
+	    NSString*chunk=[x objectAtIndex:1];
+	    NSString*s=[chunk stringByMatching:@"(/science.+?sdarticle.pdf)\"" capture:1];
+	    if(s){
+		pdf=[@"http://www.sciencedirect.com" stringByAppendingString:s];
+	    }		
+	}
     }
     if(!pdf){ //IOP
 	NSString*s=[html stringByMatching:@"<meta name=\"citation_pdf_url\"(.+?)/>" capture:1];
@@ -139,7 +149,7 @@
 	return;
     }
     pdf=[pdf stringByExpandingAmpersandEscapes];
-//    NSLog(@"pdf detected at:%@",pdf);
+    NSLog(@"pdf detected at:%@",pdf);
     NSURL* proxiedURL=[[NSURL URLWithString:pdf] proxiedURLForELibrary];
     NSLog(@"proxied:%@",proxiedURL);
     [[NSApp appDelegate] startProgressIndicator];
@@ -157,6 +167,10 @@
 					       NSString*dest=[self destinationPath];
 					       if([[NSFileManager defaultManager] moveItemAtPath:pdfPath toPath:dest error:NULL]){
 						   [article associatePDF:dest];
+					       }else{
+						   if(![[NSFileManager defaultManager] fileExistsAtPath:dest]){
+						       [[NSApp appDelegate] presentFileSaveError];
+						   }
 					       }
 					   }
 				       }

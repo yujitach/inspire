@@ -60,7 +60,17 @@
 	NSArray*a=[content componentsSeparatedByString:@"Abstract</h3><p>"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@" </div><!-- articleText -->"];
+	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div><!-- articleText -->"];
+	if([a count]<1)
+	    goto BAIL;
+	abstract=[a objectAtIndex:0];
+    }else if(
+	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"AnnualReviewJournals"] containsObject:journalName]
+	     ){
+	NSArray*a=[content componentsSeparatedByString:@"<p class=\"first last\">"];
+	if([a count]<2)
+	    goto BAIL;
+	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</p>"];
 	if([a count]<1)
 	    goto BAIL;
 	abstract=[a objectAtIndex:0];

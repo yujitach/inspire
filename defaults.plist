@@ -44,14 +44,32 @@
 	</dict>
 	<key>tryToDownloadJournalPDF</key>
 	<true/>
+	<key>AnnualReviewJournals</key>
+	<array>
+		<string>Ann.Rev.Nucl.Part.Sci.</string>
+		<string>Ann.Rev.Astron.Astrophys.</string>
+	</array>
 	<key>IOPJournals</key>
 	<array>
 		<string>Class.Quant.Grav.</string>
+		<string>J.Phys.</string>
+		<string>Chin.Phys.</string>
+		<string>Astron.J.</string>
+		<string>Astrophys.J.</string>
+		<string>Astrophys.J.Suppl.</string>
+		<string>Astrophys.J.Lett.</string>
+		<string>Europhys.Lett.</string>
+		<string>Phys.Scripta</string>
+		<string>Rept.Progr.Phys.</string>
+		<string>Phys.Usp.</string>
+		<string>J.Phys.Conf.Ser.</string>
 	</array>
 	<key>WSJournals</key>
 	<array>
 		<string>Int.J.Mod.Phys.</string>
 		<string>Mod.Phys.Lett.</string>
+		<string>Rev.Math.Phys.</string>
+		<string>Int.J.Geom.Meth.Mod.Phys.</string>
 	</array>
 	<key>PTPJournals</key>
 	<array>
@@ -61,17 +79,52 @@
 	<key>AIPJournals</key>
 	<array>
 		<string>J.Math.Phys.</string>
+		<string>Appl.Phys.Lett.</string>
+		<string>J.Appl.Phys.</string>
+		<string>Rev.Sci.Instrum.</string>
+		<string>AIP Conf.Proc.</string>
 	</array>
 	<key>SpringerJournals</key>
 	<array>
 		<string>Commun.Math.Phys.</string>
 		<string>Comm.Math.Phys.</string>
+		<string>Nuovo Cim.</string>
+		<string>Z.Phys.</string>
+		<string>Acta Phys.Hung.</string>
+		<string>Astron.Astrophys.</string>
+		<string>Astron.Astrophys.Rev.</string>
+		<string>Astron.Lett.</string>
+		<string>Astron.Rep.</string>
+		<string>Astrophysics</string>
+		<string>Astrophys.Space Sci.</string>
+		<string>Eur.Phys.J.</string>
+		<string>Exper.Astron.</string>
+		<string>Found.Phys.</string>
+		<string>Found.Phys.Lett.</string>
+		<string>Front.Phys.China</string>
+		<string>Gen.Rel.Grav.</string>
+		<string>Int.J.Theor.Phys.</string>
+		<string>JETP Lett.</string>
+		<string>J.Astrophys.Astron.</string>
+		<string>J.Exp.Theor.Phys.</string>
+		<string>J.Statist.Phys.</string>
+		<string>Lett.Math.Phys.</string>
+		<string>Math.Phys.Anal.Geom.</string>
+		<string>Phys.Atom.Nucl.</string>
+		<string>Phys.Part.Nucl.</string>
+		<string>Phys.Part.Nucl.Lett.</string>
+		<string>Pramana</string>
+		<string>Russ.Phys.J.</string>
+		<string>Solar Phys.</string>
+		<string>Space Sci.Rev.</string>
+		<string>Theor.Math.Phys.</string>
 	</array>
 	<key>APSJournals</key>
 	<array>
 		<string>Phys.Rev.</string>
 		<string>Phys.Rev.Lett.</string>
 		<string>Rev.Mod.Phys.</string>
+		<string>Physics</string>
 	</array>
 	<key>ElsevierJournals</key>
 	<array>
@@ -81,6 +134,23 @@
 		<string>Annals Phys.</string>
 		<string>Ann.Phys.</string>
 		<string>Phys.Rept.</string>
+		<string>J.Comput.Phys.</string>
+		<string>Rept.Math.Phys.</string>
+		<string>Prog.Part.Nucl.Phys.</string>
+		<string>Comput.Phys.Commun.</string>
+		<string>Chaos Solitons Fractals</string>
+		<string>Opt.Commun.</string>
+		<string>Geochim.Cosmochim.Acta</string>
+		<string>Comptes Rendus Physique</string>
+		<string>Cryogenics</string>
+		<string>Physica</string>
+		<string>Atom.Data Nucl.Data Tabl.</string>
+		<string>Astropart.Phys.</string>
+		<string>Annales Henri Poincare</string>
+		<string>Thin Solid Films</string>
+		<string>Appl.Surf.Sci.</string>
+		<string>Nucl.Instrum.Meth.</string>
+		<string>Vacuum</string>
 	</array>
 	<key>htmlTeXRegExps</key>
 	<dict>
