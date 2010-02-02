@@ -48,11 +48,6 @@
     NSDictionary* dict=[[NSFileManager defaultManager] attributesOfItemAtPath:[[MOC sharedMOCManager] dataFilePath] error:NULL];
     return [dict valueForKey:NSFileSize];
 }
-#pragma mark Binding
--(NSManagedObjectContext*)managedObjectContext
-{
-    return [MOC moc];
-}
 
 #pragma mark Actions
 -(IBAction)turnOnOffLine:(id)sender
@@ -445,6 +440,79 @@
     NSLog(@"%d %@(s) found",(int)[a count],entityName);
     return a;
 }
+
+
+-(void)dealWithError:(NSError*)e
+{
+    NSLog(@"dealing with error:%@",e);
+    NSDictionary*info=[e userInfo];
+    NSManagedObject*mo=[info objectForKey:NSValidationObjectErrorKey];
+    if(mo){
+	@try {
+	    [[MOC moc] deleteObject:mo];
+	}
+	@catch (NSException * ex) {
+	}
+	@finally {
+	}
+    }
+}
+-(void)dealWithPossiblyMultipleErrors:(NSError*)error
+{
+    NSDictionary*info=[error userInfo];
+    NSArray*errors=[info objectForKey:NSDetailedErrorsKey];
+    if(errors){
+	for(NSError*err in errors){
+	    [self dealWithError:err];
+	}
+    }else{
+	[self dealWithError:error];
+    }    
+}
+-(BOOL)saveAndDeleteInvalidObjects
+{
+    NSError*error;
+    BOOL b=NO;
+    @try{
+	b=[[MOC moc] save:&error];
+    }
+    @catch(NSException*e){
+    }
+    @finally{
+    }
+    if(!b){
+	[self dealWithPossiblyMultipleErrors:error];
+	return NO;
+    }else{
+	return YES;
+    }
+}
+-(NSString*)fixDataInconsistencyMainWork
+{
+    NSString*message=nil;
+    NSMutableArray*badGuys=[NSMutableArray array];
+    
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"Article" 
+				  //						 matchingPredicate:[NSPredicate predicateWithFormat:@"(not (self in %@)) || data == nil",[AllArticleList allArticleList].articles]]];
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"data == nil"]]];
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"ArticleData"
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
+    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"JournalEntry"
+						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
+    
+    if([badGuys count]>0){
+	// "fixed" in the message below is a euphemism for "just deleted".
+	for(NSManagedObject*obj in badGuys){
+	    [[MOC moc] deleteObject:obj];
+	}
+	[self saveAndDeleteInvalidObjects];
+	message=[NSString stringWithFormat:@"%d problematic entries were fixed.",(int)[badGuys count]];
+    }else{
+	message=@"No problem found.";
+    }
+    return message;
+}
+
 -(IBAction)fixDataInconsistency:(id)sender;
 {
     {
@@ -457,36 +525,16 @@
 	if(result!=NSAlertDefaultReturn)
 	    return;
     }
-    
-    NSMutableArray*badGuys=[NSMutableArray array];
-
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"Article" 
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"(not (self in %@)) || data == nil",[AllArticleList allArticleList].articles]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"ArticleData"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"JournalEntry"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    
-    NSString*message=nil;
-    if([badGuys count]>0){
-	// "fixed" in the message below is a euphemism for "just deleted".
-	message=[NSString stringWithFormat:@"%d problematic entries were fixed.",(int)[badGuys count]];
-	for(NSManagedObject*obj in badGuys){
-	    [[MOC moc] deleteObject:obj];
-	}
-	[self saveAction:self];
-    }else{
-	message=@"No problem found.";
-    }
+    NSString*message=[self fixDataInconsistencyMainWork];
     {
 	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked."
 				      defaultButton:@"Vacuum" 
-				    alternateButton:@"Cancel"
+				    alternateButton:@"Relaunch"
 					otherButton:nil
 			  informativeTextWithFormat:[message stringByAppendingString:
-						     @" Do you proceed to vacuum-clean the database?" 
+						     @" Do you proceed to vacuum-clean the database before the relaunch?" 
 						     @" It will again take some time and you need to wait patiently."
-						     @" The app relaunches itself after the cleanup."]];
+						     ]];
 	NSInteger result=[alert runModal];
 	if(result==NSAlertDefaultReturn){
 	    [self saveAction:self];
@@ -500,11 +548,69 @@
 				    otherButton:nil
 		      informativeTextWithFormat:[NSString stringWithFormat:@"%@ bytes --> %@ bytes",before,after]];
 	    [alert runModal];
-	    [self relaunch];
 	}
+	[self relaunch];
     }
 }
 
 
 
+-(void)listAndCull
+{
+    NSArray*x;
+    x=[self managedObjectsOfEntityNamed:@"Article"
+			      matchingPredicate:[NSPredicate predicateWithValue:YES]];
+    for(Article*a in x){
+	@try {
+	    NSError*error;
+	    if(![a validateForUpdate:&error]){
+		NSLog(@"validation error found for: %@",a);
+		[self dealWithPossiblyMultipleErrors:error];
+	    }
+	    if(![a.data validateForUpdate:&error]){
+		NSLog(@"validation error found for: %@",a.data);
+		[self dealWithPossiblyMultipleErrors:error];
+	    }
+	}
+	@catch (NSException * e) {
+	    NSLog(@"name:%@ reason:%@ userInfo:%@",e.name, e.reason, e.userInfo);
+	    [[MOC moc] deleteObject:a.data];
+	    [[MOC moc] deleteObject:a];
+	    if([e.reason hasPrefix:@"CoreData could not fulfill a fault"]){
+		NSArray*affected=[e.userInfo objectForKey:NSAffectedObjectsErrorKey];
+		for(NSManagedObject*mo in affected){
+		    [[MOC moc] deleteObject:mo];
+		}
+	    }    
+	}
+    }
+    for(int i=0;i<10;i++){
+	NSLog(@"tries to save...");
+	if([self saveAndDeleteInvalidObjects])
+	    break;
+    }    
+}
+-(IBAction)regenerateMainList:(id)sender;
+{
+    for(int i=0;i<4;i++){
+	NSLog(@"list and cull: trial %d",i);
+	[self listAndCull];
+	NSArray*x=[self managedObjectsOfEntityNamed:@"Article"
+				  matchingPredicate:[NSPredicate predicateWithValue:YES]];
+	@try{
+	    [AllArticleList allArticleList].articles=[NSSet setWithArray:x];
+	}
+	@finally{
+	}
+	[self fixDataInconsistencyMainWork];
+    }
+    {
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Done"
+				      defaultButton:@"OK" 
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:@"You might want to repeat this process, by quitting and relaunching, etc."];
+	[alert runModal];
+    }    
+}
 @end

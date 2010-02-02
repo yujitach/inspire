@@ -331,6 +331,8 @@
 		<string>≠</string>
 		<key>neq</key>
 		<string>≠</string>
+		<key>equiv</key>
+		<string>≡</string>
 		<key>leq</key>
 		<string>≤</string>
 		<key>geq</key>

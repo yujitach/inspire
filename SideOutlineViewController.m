@@ -182,14 +182,11 @@
 {
     // should be called from applicationDidFinishLaunching of the app delegate
 
-    // This call initiates the CoreData access from the main thread.
-    // lock is to wait until the warm-up is done.
-    [[MOC moc] lock];
-    [MOC sharedMOCManager].isUIready=YES;
-    [[MOC moc] unlock];
-    [articleListController prepareContent];
 
     allArticleList=[AllArticleList allArticleList];
+//    allArticleList.searchString=nil;
+
+    [articleListController prepareContent];
 
     BOOL needToSave=NO;
 
@@ -247,7 +244,14 @@
     [articleListController setSortDescriptors:[NSArray arrayWithObject:desc]];
     [articleListView setSortDescriptors:[NSArray arrayWithObject:desc]];
 }
-
+-(void)detachFromMOC
+{
+    [articleListController setManagedObjectContext:nil];
+}
+-(void)attachToMOC
+{
+    [articleListController setManagedObjectContext:[MOC moc]];
+}
 #pragma mark NSOutlineView delegate
 -(void)outlineViewSelectionDidChange:(NSNotification*)notification
 {
@@ -437,7 +441,6 @@
     }
     return menu;
 }
-
 
 
 @end

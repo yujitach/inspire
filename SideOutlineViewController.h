@@ -27,4 +27,6 @@
 -(void)selectAllArticleList;
 -(void)loadArticleLists;
 -(void)selectArticleList:(ArticleList*)al;
+-(void)detachFromMOC;
+-(void)attachToMOC;
 @end

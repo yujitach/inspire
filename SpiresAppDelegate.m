@@ -92,12 +92,11 @@
 #pragma mark NSApplication delegates
 - (void)applicationWillBecomeActive:(NSNotification *)notification
 {
-    [window makeKeyWindow];
+    [window makeKeyAndOrderFront:self];
 }
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)app
 {
     [window makeKeyAndOrderFront:self];
-//    NSLog(@"%@",wv);
     return NO;
 }
 -(void)handlePDF:(NSString*)path
@@ -296,6 +295,16 @@
     system("/System/Library/CoreServices/pbs -flush_userdefs");
     
 }
+-(void)showWelcome
+{
+    NSString*welcome=@"v1.3alert";
+    NSString*key=[welcome stringByAppendingString:@"Shown"];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
+	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
+	// this window controller shows itself automatically!
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
+    }    
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
@@ -311,14 +320,16 @@
 			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
 	[alert runModal];
     }
-/* This alert below is no longer necessary... it only runs on Snow Leopard anyway!
- if(![[NSUserDefaults standardUserDefaults] boolForKey:@"SnowLeopardAlertShown"]){
-	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:@"SnowLeopardAlert" ofType:@"rtf"]];
-	// this window controller shows itself automatically!
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SnowLeopardAlertShown"];
+    [self showWelcome];
+    // This lock is to wait until the warm-up in the background is done.
+    [[MOC moc] lock];
+    [MOC sharedMOCManager].isUIready=YES;
+    [[MOC moc] unlock];
+
+    // attachToMOC attaches the MOC to the UI.
+    if(!([NSEvent modifierFlags]&NSAlternateKeyMask)){
+	[sideOutlineViewController attachToMOC];
     }
-*/  
-    // loadArticleLists starts the CoreData fetch from the main thread.
     [sideOutlineViewController loadArticleLists];
     [window makeKeyAndOrderFront:self];
 }
@@ -769,6 +780,7 @@
     NSError *error=nil;
     int reply = NSTerminateNow;
     NSManagedObjectContext*managedObjectContext=[MOC moc];
+    [sideOutlineViewController detachFromMOC];
     if (managedObjectContext != nil) {
         if ([managedObjectContext commitEditing]) {
             if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {

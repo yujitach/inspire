@@ -38,6 +38,7 @@
 -(IBAction)turnOnOffLine:(id)sender;
 -(IBAction)progressQuit:(id)sender;
 -(IBAction)fixDataInconsistency:(id)sender;
+-(IBAction)regenerateMainList:(id)sender;
 -(IBAction)openPDF:(id)sender;
 -(IBAction)openJournal:(id)sender;
 -(IBAction)openPDForJournal:(id)sender;
@@ -49,5 +50,4 @@
 -(IBAction)saveAction:(id)sender;
 -(IBAction)reloadFromSPIRES:(id)sender;
 
-@property(readonly) NSManagedObjectContext*managedObjectContext;
 @end
