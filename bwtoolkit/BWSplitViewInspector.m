@@ -8,16 +8,18 @@
 
 #import "BWSplitViewInspector.h"
 #import "NSView+BWAdditions.h"
+#import "NSEvent+BWAdditions.h"
 
 @interface BWSplitViewInspector (BWSVIPrivate)
-- (void)updateControls;
+- (void)updateSizeInputFields;
 - (BOOL)toggleDividerCheckboxVisibilityWithAnimation:(BOOL)shouldAnimate;
 - (void)updateSizeLabels;
+- (void)updateUnitPopupSelections;
 @end
 
 @implementation BWSplitViewInspector
 
-@synthesize subviewPopupSelection, subviewPopupContent, collapsiblePopupSelection, collapsiblePopupContent, minUnitPopupSelection, maxUnitPopupSelection, splitView, dividerCheckboxCollapsed;
+@synthesize subviewPopupSelection, subviewPopupContent, collapsiblePopupContent, minUnitPopupSelection, maxUnitPopupSelection, splitView, dividerCheckboxCollapsed;
 
 - (NSString *)viewNibName 
 {
@@ -26,27 +28,12 @@
 
 - (void)awakeFromNib
 {
-	[minField setDelegate:self];
-	[maxField setDelegate:self];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(dividerThicknessChanged:)
-												 name:@"BWSplitViewDividerThicknessChanged"
-											   object:splitView];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(orientationChanged:)
-												 name:@"BWSplitViewOrientationChanged"
-											   object:splitView];
-}
-
-- (void)dividerThicknessChanged:(NSNotification *)notification
-{
-	[self toggleDividerCheckboxVisibilityWithAnimation:YES];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:minField];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:maxField];
 }
 
 - (void)updateSizeLabels
-{
+{	
 	if ([splitView isVertical])
 	{
 		[maxLabel setStringValue:@"Max Width"];
@@ -59,20 +46,6 @@
 	}
 }
 
-- (void)orientationChanged:(NSNotification *)notification
-{
-	[self updateSizeLabels];
-	[self toggleDividerCheckboxVisibilityWithAnimation:YES];
-}
-
-- (void)setCollapsiblePopupSelection:(int)index
-{
-	collapsiblePopupSelection = index;
-	
-	[splitView setCollapsiblePopupSelection:index];
-	[self toggleDividerCheckboxVisibilityWithAnimation:YES];
-}
-
 - (void)setSplitView:(BWSplitView *)aSplitView
 {
     if (splitView != aSplitView) 
@@ -82,14 +55,10 @@
 		
 		[self toggleDividerCheckboxVisibilityWithAnimation:NO];
     }
-}
-
-- (void)setDividerCheckboxWantsLayer:(NSString *)flag
-{
-	if ([flag isEqualToString:@"YES"])
-		[dividerCheckbox setWantsLayer:YES];
 	else
-		[dividerCheckbox setWantsLayer:NO];
+	{
+		[self toggleDividerCheckboxVisibilityWithAnimation:YES];
+	}
 }
 
 - (BOOL)toggleDividerCheckboxVisibilityWithAnimation:(BOOL)shouldAnimate
@@ -102,7 +71,7 @@
 	else
 		return NO;
 	
-	float duration = 0.1, alpha;
+	float alpha, duration = [NSEvent bwShiftKeyIsDown] ? 0.1 * 10 : 0.1;
 	NSRect targetFrame = NSZeroRect;
 	
 	if (dividerCheckboxCollapsed)
@@ -116,26 +85,18 @@
 		alpha = 0.0;
 	}
 		
-	[self performSelector:@selector(setDividerCheckboxWantsLayer:) withObject:@"YES" afterDelay:0];
-	
 	if (shouldAnimate)
 	{
 		[NSAnimationContext beginGrouping];
 		[[NSAnimationContext currentContext] setDuration:duration];
-		[[dividerCheckbox animator] setAlphaValue:alpha];
-		[[[self view] animator] setFrame:targetFrame];
+		[[dividerCheckbox bwAnimator] setAlphaValue:alpha];
+		[[[self view] bwAnimator] setFrame:targetFrame];
 		[NSAnimationContext endGrouping];
-		
-		if (dividerCheckboxCollapsed)
-			[self performSelector:@selector(setDividerCheckboxWantsLayer:) withObject:@"NO" afterDelay:duration];
 	}
 	else
 	{
 		[dividerCheckbox setAlphaValue:alpha];
 		[[self view] setFrame:targetFrame];
-		
-		if (dividerCheckboxCollapsed)
-			[self performSelector:@selector(setDividerCheckboxWantsLayer:) withObject:@"NO" afterDelay:0];
 	}
 	
 	dividerCheckboxCollapsed = !dividerCheckboxCollapsed;
@@ -148,7 +109,10 @@
 	[super refresh];
 
 	if ([[self inspectedObjects] count] > 0)
-	{
+	{	
+		[autosizingView setSplitView:[[self inspectedObjects] objectAtIndex:0]];
+		[autosizingView layoutButtons];
+
 		[self setSplitView:[[self inspectedObjects] objectAtIndex:0]];
 		
 		// Populate the subview popup button
@@ -172,14 +136,11 @@
 			[self setCollapsiblePopupContent:[NSMutableArray arrayWithObjects:@"None", @"Left Pane", @"Right Pane",nil]];
 		else
 			[self setCollapsiblePopupContent:[NSMutableArray arrayWithObjects:@"None", @"Top Pane", @"Bottom Pane",nil]];
+		
+		[self updateSizeLabels];
+		[self updateSizeInputFields];
+		[self updateUnitPopupSelections];
 	}
-	
-	// Refresh autosizing view
-	[autosizingView setSplitView:splitView];
-	[autosizingView layoutButtons];
-	
-	[self updateSizeLabels];
-	[self updateControls];
 }
 
 + (BOOL)supportsMultipleObjectInspection
@@ -209,55 +170,62 @@
 	[splitView setMaxUnits:tempMaxUnits];
 }
 
-- (void)controlTextDidChange:(NSNotification *)aNotification
+- (void)updateUnitPopupSelections
 {
-	if ([aNotification object] == minField)
-	{
+	minUnitPopupSelection = [[[splitView minUnits] objectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]] intValue];
+	maxUnitPopupSelection = [[[splitView maxUnits] objectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]] intValue];
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
+{	
+	if ([aNotification object] == minField || aNotification == nil)
+	{	
 		if ([minField stringValue] != nil && [[minField stringValue] isEqualToString:@""] == NO && [[minField stringValue] isEqualToString:@" "] == NO)
 		{
 			NSNumber *minValue = [NSNumber numberWithInt:[minField intValue]];
-			NSMutableDictionary *tempMinValues = [[splitView minValues] mutableCopy];
+			NSMutableDictionary *tempMinValues = [[[splitView minValues] mutableCopy] autorelease];
 			[tempMinValues setObject:minValue forKey:[NSNumber numberWithInt:[self subviewPopupSelection]]];
 			[splitView setMinValues:tempMinValues];
 		}
 		else
 		{
-			NSMutableDictionary *tempMinValues = [[splitView minValues] mutableCopy];
+			NSMutableDictionary *tempMinValues = [[[splitView minValues] mutableCopy] autorelease];
 			[tempMinValues removeObjectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]];
 			[splitView setMinValues:tempMinValues];
 		}
 	}
-	else if ([aNotification object] == maxField)
-	{
+	
+	if ([aNotification object] == maxField || aNotification == nil)
+	{	
 		if ([maxField stringValue] != nil && [[maxField stringValue] isEqualToString:@""] == NO && [[maxField stringValue] isEqualToString:@" "] == NO)
 		{
 			NSNumber *maxValue = [NSNumber numberWithInt:[maxField intValue]];
-			NSMutableDictionary *tempMaxValues = [[splitView maxValues] mutableCopy];
+			NSMutableDictionary *tempMaxValues = [[[splitView maxValues] mutableCopy] autorelease];
 			[tempMaxValues setObject:maxValue forKey:[NSNumber numberWithInt:[self subviewPopupSelection]]];
 			[splitView setMaxValues:tempMaxValues];
 		}
 		else
 		{
-			NSMutableDictionary *tempMaxValues = [[splitView maxValues] mutableCopy];
+			NSMutableDictionary *tempMaxValues = [[[splitView maxValues] mutableCopy] autorelease];
 			[tempMaxValues removeObjectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]];
 			[splitView setMaxValues:tempMaxValues];
 		}
 	}
 }
 
-- (int)collapsiblePopupSelection
-{
-	return [splitView collapsiblePopupSelection];
-}
-
 - (void)setSubviewPopupSelection:(int)index
-{
+{ 
+	// If someone types into the text field and chooses a different subview without hitting return or clicking out of the field,
+	// the controlTextDidEndEditing notification won't fire and the value won't be saved. So we fire it manually here. 
+	[self controlTextDidEndEditing:nil];
+	
 	subviewPopupSelection = index;
 	
-	[self updateControls];
+	// Update the input text fields with the values in the new subview
+	[self updateSizeInputFields];
 }
 
-- (void)updateControls
+- (void)updateSizeInputFields
 {
 	[minField setObjectValue:[[splitView minValues] objectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]]];
 	[maxField setObjectValue:[[splitView maxValues] objectForKey:[NSNumber numberWithInt:[self subviewPopupSelection]]]];

@@ -23,6 +23,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="57"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -160,16 +161,6 @@
 									<reference key="NSMenu" ref="123765298"/>
 									<string key="NSTitle">Fix and clean database...</string>
 									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="893455832"/>
-									<reference key="NSMixedImage" ref="424226900"/>
-								</object>
-								<object class="NSMenuItem" id="832707190">
-									<reference key="NSMenu" ref="123765298"/>
-									<bool key="NSIsAlternate">YES</bool>
-									<string key="NSTitle">Regenerate the main list...</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">524288</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="893455832"/>
 									<reference key="NSMixedImage" ref="424226900"/>
@@ -2438,14 +2429,6 @@
 					</object>
 					<int key="connectionID">1306</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">regenerateMainList:</string>
-						<reference key="source" ref="612578685"/>
-						<reference key="destination" ref="832707190"/>
-					</object>
-					<int key="connectionID">1308</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2540,7 +2523,6 @@
 							<reference ref="614519532"/>
 							<reference ref="571586341"/>
 							<reference ref="285199375"/>
-							<reference ref="832707190"/>
 						</object>
 						<reference key="parent" ref="376192112"/>
 					</object>
@@ -3326,11 +3308,6 @@
 						<reference key="object" ref="285199375"/>
 						<reference key="parent" ref="123765298"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1307</int>
-						<reference key="object" ref="832707190"/>
-						<reference key="parent" ref="123765298"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3390,7 +3367,6 @@
 					<string>130.IBEditorWindowLastContentRect</string>
 					<string>130.IBPluginDependency</string>
 					<string>130.ImportedFromIB2</string>
-					<string>1307.IBPluginDependency</string>
 					<string>131.IBPluginDependency</string>
 					<string>131.ImportedFromIB2</string>
 					<string>134.IBPluginDependency</string>
@@ -3588,7 +3564,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -3671,7 +3646,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{60, 104}, {313, 323}}</string>
+					<string>{{60, 124}, {313, 303}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4068,7 +4043,6 @@
 							<string>openSelectionInQuickLook:</string>
 							<string>openSelectionInSecondaryPDFViewer:</string>
 							<string>progressQuit:</string>
-							<string>regenerateMainList:</string>
 							<string>reloadAllArticleList:</string>
 							<string>reloadFromSPIRES:</string>
 							<string>reloadSelectedArticleList:</string>
@@ -4088,7 +4062,6 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

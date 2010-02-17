@@ -555,7 +555,7 @@
 
 
 
--(void)listAndCull
+/*-(void)listAndCull
 {
     NSArray*x;
     x=[self managedObjectsOfEntityNamed:@"Article"
@@ -612,5 +612,5 @@
 			  informativeTextWithFormat:@"You might want to repeat this process, by quitting and relaunching, etc."];
 	[alert runModal];
     }    
-}
+}*/
 @end

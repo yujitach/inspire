@@ -387,9 +387,9 @@
 		<key>rm</key>
 		<string>$1</string>
 		<key>cal</key>
-		<string>&lt;i&gt;$1&lt;/i&gt;</string>
+		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
 		<key>mathcal</key>
-		<string>&lt;i&gt;$1&lt;/i&gt;</string>
+		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
 		<key>mathbb</key>
 		<string>&lt;span style=&quot;font-family:msbm5&quot;&gt;$1&lt;/span&gt;</string>
 		<key>emph</key>

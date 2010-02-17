@@ -8,6 +8,7 @@
 
 #import "ArxivMetadataFetchOperation.h"
 #import "Article.h"
+#import "RegexKitLite.h"
 #import "MOC.h"
 
 @implementation ArxivMetadataFetchOperation
@@ -95,6 +96,8 @@
 	article.version=[dict objectForKey:@"version"];    
 	article.comments=[dict objectForKey:@"comments"];
 	NSString*title=[self valueForKey:@"title" inXMLElement:elem];
+	title=[title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+	title=[title stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
 	if(![[article.title lowercaseString] isEqualToString:[title lowercaseString]]){
 	    article.title=title;
 	}
