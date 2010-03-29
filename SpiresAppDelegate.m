@@ -67,14 +67,14 @@
 
     //sythesize the list of all known journals
     
-    NSArray* annualReviewJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AnnualReviewJournals"];
-    NSArray* elsevierJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"];
-    NSArray* apsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"];
-    NSArray* aipJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"];
-    NSArray* iopJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"IOPJournals"];
-    NSArray* springerJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"];
-    NSArray* wsJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"];
-    NSArray* ptpJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"PTPJournals"];
+    NSArray* annualReviewJournals=[defaultDict objectForKey:@"AnnualReviewJournals"];
+    NSArray* elsevierJournals=[defaultDict objectForKey:@"ElsevierJournals"];
+    NSArray* apsJournals=[defaultDict objectForKey:@"APSJournals"];
+    NSArray* aipJournals=[defaultDict objectForKey:@"AIPJournals"];
+    NSArray* iopJournals=[defaultDict objectForKey:@"IOPJournals"];
+    NSArray* springerJournals=[defaultDict objectForKey:@"SpringerJournals"];
+    NSArray* wsJournals=[defaultDict objectForKey:@"WSJournals"];
+    NSArray* ptpJournals=[defaultDict objectForKey:@"PTPJournals"];
     NSMutableArray* knownJournals=[NSMutableArray array ];
     [knownJournals addObjectsFromArray:annualReviewJournals];
     [knownJournals addObjectsFromArray:elsevierJournals];
