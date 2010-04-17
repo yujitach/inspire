@@ -18,6 +18,7 @@
 
 @interface JournalPDFDownloadOperation()
 -(void)continuation:(NSString*)path;
+-(void)preContinuation:(NSString*)path;
 @end
 
 
@@ -69,9 +70,9 @@
 				       [[NSApp appDelegate] postMessage:nil]; 
 				       [[NSApp appDelegate] stopProgressIndicator];
 				       if(path){
-					   [self performSelector:@selector(continuation:)
+					   [self performSelector:@selector(preContinuation:)
 						      withObject: path
-						      afterDelay:.5];
+						      afterDelay:0];
 				       }else{
 					   [self failed];
 					   [self finish];
@@ -79,6 +80,35 @@
 				       }
 				   } ];
     [downloader download];				       
+}
+-(void)preContinuation:(NSString*)originalPath
+{
+    NSString*html=[NSString stringWithContentsOfFile:originalPath encoding:NSUTF8StringEncoding error:nil];
+    if([html rangeOfString:@"Get the article at ScienceDirect"].location!=NSNotFound){
+	NSString*s=[html stringByMatching:@"value=\"(http://.+?)\"" capture:1];
+	NSLog(@"stupid Elsevier locator found:%@",s);
+	s=[s stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+	NSURL*newURL=[NSURL URLWithString:s];
+	[[NSApp appDelegate] startProgressIndicator];
+	[[NSApp appDelegate] postMessage:@"resolving Elsevier locator..."]; 
+	downloader=[[SecureDownloader alloc] initWithURL:newURL
+				       completionHandler:^(NSString*path){
+					   [[NSApp appDelegate] postMessage:nil]; 
+					   [[NSApp appDelegate] stopProgressIndicator];
+					   if(path){
+					       [self performSelector:@selector(continuation:)
+							  withObject: path
+							  afterDelay:.5];
+					   }else{
+					       [self failed];
+					       [self finish];
+					       return;
+					   }
+				       } ];
+	[downloader download];		
+    }else{
+	[self continuation:originalPath];
+    }
 }
 -(void)continuation:(NSString*)path
 {

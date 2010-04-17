@@ -47,6 +47,17 @@
     NSString*s=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
     if(!s){
 	NSLog(@"error while loading %@: %@",url, error);
+	return;
+    }
+    if([s rangeOfString:@"Get the article at ScienceDirect"].location!=NSNotFound){
+	NSLog(@"stupid Elsevier locator found");
+	s=[s stringByMatching:@"value=\"(http://.+?)\"" capture:1];
+	NSURL*newURL=[NSURL URLWithString:s];
+	s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
+	if(!s){
+	    NSLog(@"error while loading %@: %@",url, error);
+	    return;
+	}
     }
     [self performSelectorOnMainThread:@selector(loadAbstractUsingDOIRealWork:) withObject:s waitUntilDone:YES];
 }
