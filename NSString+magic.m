@@ -224,6 +224,15 @@ static void loadMagic(){
     }
 }
 #pragma mark MockTeX
+-(NSComparisonResult)compareFirstWithLength:(NSString*)string
+{
+    if([self length]>[string length]){
+	return NSOrderedDescending;
+    }else if([self length]<[string length]){
+	return NSOrderedAscending;
+    }else
+	return [self compare:string];
+}
 -(NSString*)stringByConvertingTeXintoHTML
 {
     NSMutableString*s=[NSMutableString stringWithString:self];
@@ -272,7 +281,7 @@ static void loadMagic(){
     
     {
 	NSDictionary* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
-	NSEnumerator* reversed=[[[texRegExps allKeys] sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator];
+	NSEnumerator* reversed=[[[texRegExps allKeys] sortedArrayUsingSelector:@selector(compareFirstWithLength:)] reverseObjectEnumerator];
 	for(NSString* from in reversed){
 	    NSString* to=[texRegExps objectForKey:from];
 	    [s replaceOccurrencesOfRegex:from withString:to];	

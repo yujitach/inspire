@@ -154,6 +154,14 @@
 	</array>
 	<key>htmlTeXRegExps</key>
 	<dict>
+		<key>\\cal\{(.+?)\}</key>
+		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
+		<key>\{\\cal (.+?)\}</key>
+		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
+		<key>\{\\rm (.+?)\}</key>
+		<string>$1</string>
+		<key>\\rm\{(.+?)\}</key>
+		<string>$1</string>
 		<key> x </key>
 		<string>×</string>
 		<key>&apos;&apos;</key>
@@ -172,8 +180,10 @@
 		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
 		<key>([^\\$])_\(([^\})]*)\)</key>
 		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
-		<key>([^\\$])_(\d+)</key>
+		<key>([^\\$])_([^\{\} ]+)</key>
 		<string>$1&lt;sub&gt;$2&lt;/sub&gt;</string>
+		<key>([^\\$])\^([^\{\} ]+)</key>
+		<string>$1&lt;sup&gt;$2&lt;/sup&gt;</string>
 		<key>-&amp;gt;</key>
 		<string>→</string>
 		<key>&amp;lt;-&amp;gt;</key>
@@ -206,6 +216,8 @@
 		<string>“</string>
 		<key>N *= *([01-9]+)</key>
 		<string>&lt;span style=&quot;font-style:italic&quot;&gt;N&lt;/span&gt;=$1</string>
+		<key>\{\}</key>
+		<string>&lt;span&gt;&lt;/span&gt;</string>
 	</dict>
 	<key>htmlTeXMacrosWithoutArguments</key>
 	<dict>
@@ -384,10 +396,12 @@
 		<string>&lt;span class=&quot;overline&quot;&gt;$1&lt;/span&gt;</string>
 		<key>overline</key>
 		<string>&lt;span class=&quot;overline&quot;&gt;$1&lt;/span&gt;</string>
-		<key>rm</key>
+		<key>text</key>
 		<string>$1</string>
-		<key>cal</key>
-		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
+		<key>textrm</key>
+		<string>$1</string>
+		<key>mathrm</key>
+		<string>$1</string>
 		<key>mathcal</key>
 		<string>&lt;span style=&quot;font-family:Apple-Chancery&quot;&gt;$1&lt;/span&gt;</string>
 		<key>mathbb</key>
