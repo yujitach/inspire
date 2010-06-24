@@ -8,6 +8,7 @@
 
 #import "NSString+magic.h"
 #import "RegexKitLite.h"
+#import <WebKit/WebKit.h>
 
 static NSArray*magicRegExps=nil;
 static void loadMagic(){
@@ -235,62 +236,16 @@ static void loadMagic(){
 }
 -(NSString*)stringByConvertingTeXintoHTML
 {
-    NSMutableString*s=[NSMutableString stringWithString:self];
-    //    [s replaceOccurrencesOfString:@">" withString:@"&gt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    //    [s replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    
-    [s replaceOccurrencesOfString:@"\n" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    [s replaceOccurrencesOfString:@"\\ " withString:@"SpaceMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    [s replaceOccurrencesOfString:@"\\_" withString:@"UnderscoreMarker" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    
-    {
-	NSDictionary* texMacrosWithoutArguments=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArguments"];
-	NSArray* prepositions=[[NSUserDefaults standardUserDefaults] objectForKey:@"prepositions"];
-	NSArray* stop=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash"];
-	NSEnumerator* keys=[[[texMacrosWithoutArguments allKeys] sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator];
-	for(NSString* key in keys){
-	    //	    NSString* from=[NSString stringWithFormat:@"\\\\%@(_|\\W|\\d)",key];
-	    NSString* from=[NSString stringWithFormat:@"\\\\%@",key];
-	    //	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
-	    NSString* to=[texMacrosWithoutArguments objectForKey:key];
-	    NSString* rep=[NSString stringWithFormat:@"%@",to];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    if([prepositions containsObject:key])
-		continue;
-	    if([stop containsObject:key])
-		continue;
-	    from=[NSString stringWithFormat:@"([^A-Za-z])%@([^A-Za-z])",key];
-	    rep=[NSString stringWithFormat:@"$1%@$2",to];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	    [s replaceOccurrencesOfRegex:from withString:rep];
-	}
+    static WebScriptObject*wso=nil;
+    if(!wso){
+	static WebView*wv=nil;
+	wv=[[WebView alloc] init];
+	NSString*script=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tex" ofType:@"js"]
+						  encoding:NSUTF8StringEncoding
+						     error:NULL];
+	[wv stringByEvaluatingJavaScriptFromString:script];
+	wso=[wv windowScriptObject];
     }
-    
-    {
-	NSDictionary* texMacrosWithOneArgument=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXMacrosWithOneArgument"];
-	for(NSString* key in [texMacrosWithOneArgument keyEnumerator]){
-	    NSString* from=[NSString stringWithFormat:@"\\\\%@ +(.)",key];
-	    NSString* to=[texMacrosWithOneArgument objectForKey:key];
-	    [s replaceOccurrencesOfRegex:from withString:to];
-	    
-	    from=[NSString stringWithFormat:@"\\\\%@\\{(.+?)\\}",key];
-	    [s replaceOccurrencesOfRegex:from withString:to];
-	}
-    }
-    
-    {
-	NSDictionary* texRegExps=[[NSUserDefaults standardUserDefaults] objectForKey:@"htmlTeXRegExps"];
-	NSEnumerator* reversed=[[[texRegExps allKeys] sortedArrayUsingSelector:@selector(compareFirstWithLength:)] reverseObjectEnumerator];
-	for(NSString* from in reversed){
-	    NSString* to=[texRegExps objectForKey:from];
-	    [s replaceOccurrencesOfRegex:from withString:to];	
-	}
-	[s replaceOccurrencesOfString:@"SpaceMarker" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"UnderscoreMarker" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"`" withString:NSLocalizedString(@"`",@"`") options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-	[s replaceOccurrencesOfString:@"'" withString:NSLocalizedString(@"'",@"'") options:NSLiteralSearch range:NSMakeRange(0,[s length])];
-    }
-    return s;
+    return [wso callWebScriptMethod:@"texify" withArguments:[NSArray arrayWithObject:self]];
 }
 @end
