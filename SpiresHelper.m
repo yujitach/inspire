@@ -126,6 +126,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)cnPredicate:(NSString*)operand
 {
+    if([operand length]<3){
+	return nil;
+    }
     NSArray*a=[operand componentsSeparatedByString:@" "];
     NSMutableArray*b=[NSMutableArray array];
     for(NSString*s in a){
@@ -217,6 +220,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 {
     if([operand isEqualToString:@""])
 	return nil; 
+    if([operand length]<4)
+	return nil;
     NSString*norm=[operand normalizedString];
     NSString*es=[Article eprintForSortingFromEprint:norm];
     NSPredicate*pred1=[NSPredicate predicateWithFormat:@"eprintForSortingAsString contains %@",es];
