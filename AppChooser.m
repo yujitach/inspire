@@ -61,6 +61,21 @@
     }
     
     {
+	CFURLRef url;
+	OSStatus err=LSFindApplicationForInfo(kLSUnknownCreator, NULL, (CFStringRef)@"TeXShop.app", NULL, &url);
+	if(err!=kLSApplicationNotFoundErr){
+	    NSBundle* bundle=[NSBundle bundleWithURL:(NSURL*)url];
+	    NSString* bundleId=[bundle bundleIdentifier];
+	    NSMenuItem* mi=[self menuItemForApp:bundleId];
+	    if(mi){
+		[apps addObject:bundleId];
+		[menuForApps addItem:mi];	    
+	    }
+	}
+	CFRelease(url);
+    }
+    
+    {
 	NSArray* a=NSMakeCollectable(LSCopyAllHandlersForURLScheme((CFStringRef)@"http"));
 	
 	for(NSString* bundleId in a){

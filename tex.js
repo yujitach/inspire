@@ -1,37 +1,38 @@
-var htmlTeXRegExps={
-    "([^\\\\$])\\^\\(([^\\})]*)\\)" : "$1<sup>$2</sup>",
-    "([^\\\\$])_\\(([^\\})]*)\\)" : "$1<sub>$2</sub>",
-    "([^\\\\$])\\^\\{([^\\}]*)\\}" : "$1<sup>$2</sup>",
-    "([^\\\\$])\\^([^\\{\\} ]+)" : "$1<sup>$2</sup>",
-    "([^\\\\])_\\{([^\\}]*)\\}" : "$1<sub>$2</sub>",
-    "([^\\\\$])_([^\\{\\} ]+)" : "$1<sub>$2</sub>",
-    "\\{\\\\cal (.+?)\\}" : "<span style=\"font-family:Apple-Chancery\">$1</span>",
-    "N *= *([01-9]+)" : "<span style=\"font-style:italic\">N</span>=$1",
-    "([^\\\\$])\\^(\\d+)" : "$1<sup>$2</sup>",
-    "\\{\\\\rm (.+?)\\}" : "$1",
-    "\\\\cal\\{(.+?)\\}" : "<span style=\"font-family:Apple-Chancery\">$1</span>",
-    "\\\\rm\\{(.+?)\\}" : "$1",
-    "([^\\\\$])\\^(.)" : "$1<sup>$2</sup>",
-    "\\\\'([aeiou])" : "&$1acute;",
-    "\\\\\"([aeiou])" : "&$1uml;",
-    "\\$([^\\$]+)\\$" : "<span class=\"equation\">$1</span>",
-    "([^\\\\])_(.)" : "$1<sub>$2</sub>",
-    "&lt;-&gt;" : "↔",
-    "\\\\v\\{r\\}" : "ř",
-    "\\\\v\\{c\\}" : "č",
-    "-+&gt;" : "→",
-    "\\\\v r" : "ř",
-    "\\\\v c" : "č",
-    "-&gt;" : "→",
-    "&lt;→" : "↔",
-    "\\{\\}" : "<span></span>",
-    "\\*\\*" : "^",
-    "\\+-" : "±",
-    "-+>" : "→",
-    " x " : "×",
-    "``" : "“",
-    "''" : "”"
-};
+var htmlTeXRegExps=[
+["([^\\\\$])\\^([-\\d]+)","$1<sup>$2</sup>"],
+["([^\\\\$])\\^\\(([^\\})]*)\\)","$1<sup>$2</sup>"],
+["([^\\\\$])\\^\\{([^\\}]*)\\}","$1<sup>$2</sup>"],
+["([^\\\\$])\\^([^\\{\\} ]+)","$1<sup>$2</sup>"],
+["([^\\\\$])\\^(.)","$1<sup>$2</sup>"],
+["([^\\\\$])_([-\\d]+)","$1<sub>$2</sub>"],
+["([^\\\\$])_\\(([^\\})]*)\\)","$1<sub>$2</sub>"],
+["([^\\\\])_\\{([^\\}]*)\\}","$1<sub>$2</sub>"],
+["([^\\\\$])_([^\\{\\} ]+)","$1<sub>$2</sub>"],
+["([^\\\\])_(.)","$1<sub>$2</sub>"],
+["\\{\\\\cal (.+?)\\}","<span style=\"font-family:Apple-Chancery\">$1</span>"],
+["N *= *([01-9]+)","<span style=\"font-style:italic\">N</span>=$1"],
+["\\{\\\\rm (.+?)\\}","$1"],
+["\\\\cal\\{(.+?)\\}","<span style=\"font-family:Apple-Chancery\">$1</span>"],
+["\\\\rm\\{(.+?)\\}","$1"],
+["\\\\'([aeiou])","&$1acute;"],
+["\\\\\"([aeiou])","&$1uml;"],
+["\\$([^\\$]+)\\$","<span class=\"equation\">$1</span>"],
+["&lt;-&gt;","↔"],
+["\\\\v\\{r\\}","ř"],
+["\\\\v\\{c\\}","č"],
+["-+&gt;","→"],
+["\\\\v r","ř"],
+["\\\\v c","č"],
+["-&gt;","→"],
+["&lt;→","↔"],
+["\\{\\}","<span></span>"],
+["\\*\\*","^"],
+["\\+-","±"],
+["-+>","→"],
+[" x ","×"],
+["``","“"],
+["''","”"],
+];
 var htmlTeXMacrosWithoutArguments={
     "zeta" : "ζ",
     "xi" : "ξ",
@@ -122,6 +123,7 @@ var htmlTeXMacrosWithOneArgument={
     "bar" : "<span class=\"overline\">$1</span>",
     "textrm" : "$1",
     "mathrm" : "$1",
+    "mathbf" : "<i><b>$1</b></i>",
     "mathbb" : "<span style=\"font-family:msbm5\">$1</span>",
     "mathcal" : "<span style=\"font-family:Apple-Chancery\">$1</span>",
     "emph" : "<b>$1</b>",
@@ -156,6 +158,9 @@ var prepositions=[
 		  "of",
 		  "on",
 		  "over",
+		"le",
+		"la",
+		"les",
 		  "the",
 		  "to",
 		  "via",
@@ -193,9 +198,10 @@ function texify(s){
 	to=htmlTeXMacrosWithOneArgument[key];
     }    
     
-    for(key in htmlTeXRegExps){
-	from=new RegExp(key,"g");
-	to=htmlTeXRegExps[key];
+    for(i=0;i<htmlTeXRegExps.length;i++){
+	pair=htmlTeXRegExps[i];
+	from=new RegExp(pair[0],"g");
+	to=pair[1];
 	s=s.replace(from,to);
     }	
     

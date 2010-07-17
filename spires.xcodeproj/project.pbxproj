@@ -44,7 +44,6 @@
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
 		332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
-		3331BD3211D423F0001F9B4B /* tex.js in Sources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; };
 		3331BD3311D42402001F9B4B /* tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; };
 		333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */; };
 		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
@@ -1361,7 +1360,6 @@
 				33CCB5A910D9F2B200D51CDE /* SortDescriptorsV4V5MigrationPolicy.m in Sources */,
 				33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */,
 				33A06DA410DFDE97003EF208 /* DummyBWSplitView.m in Sources */,
-				3331BD3211D423F0001F9B4B /* tex.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
