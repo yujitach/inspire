@@ -107,7 +107,7 @@
     entry.article=a;
     if(idx != [array count]){
 	NSMutableArray*ar=[NSMutableArray array];
-	for(int i=0;i<idx;i++){
+	for(NSUInteger i=0;i<idx;i++){
 	    [ar addObject:[array objectAtIndex:i]];
 	}
 	array=ar;

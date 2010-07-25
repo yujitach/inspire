@@ -37,7 +37,7 @@
     NSArray*authors=[tmp componentsSeparatedByString:@"\">"];
     NSMutableArray* array=[NSMutableArray array];
     if([authors count]>1){
-	for(int i=1;i<[authors count];i++){
+	for(NSUInteger i=1;i<[authors count];i++){
 	    NSString*s=[authors objectAtIndex:i];
 	    s=[[s componentsSeparatedByString:@"</a>"] objectAtIndex:0];
 	    s=[s stringByReplacingOccurrencesOfString:@"." withString:@". "];
@@ -59,7 +59,7 @@
 		}
 	    }
 	    NSMutableArray*b=[NSMutableArray array];
-	    for(int j=0;j<[x count]-1;j++){
+	    for(NSUInteger j=0;j<[x count]-1;j++){
 		NSString*t=[x objectAtIndex:j];
 		if(![t isEqualToString:@""]){
 		    [b addObject:t];

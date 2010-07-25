@@ -120,7 +120,7 @@
     
     NSPoint mouseLocation = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
     
-    for (NSInteger row = visibleRows.location; row < visibleRows.location + visibleRows.length; row++ ) {
+    for (NSUInteger row = visibleRows.location; row < visibleRows.location + visibleRows.length; row++ ) {
         // If it is a "full width" cell, we don't have to go through the rows
         NSCell *fullWidthCell = [self preparedCellAtColumn:-1 row:row];
         if (fullWidthCell) {

@@ -365,12 +365,12 @@
 //	NSLog(@"al:%@ was at %@",aa.name,aa.positionInView);
 //    }
 //    NSLog(@"dropping into index:%d",index);
-    for(NSInteger c=0;c<[droppedObjects count];c++){
+    for(NSUInteger c=0;c<[droppedObjects count];c++){
 	ArticleList*dropped=[droppedObjects objectAtIndex:c];
 	dropped.positionInView=[NSNumber numberWithInteger:2*(ind+c)];	
 //	NSLog(@"al:%@ now at %@",al.name,al.positionInView);
     }
-    for(NSInteger c=ind;c<[ch count];c++){
+    for(NSUInteger c=ind;c<[ch count];c++){
 	ArticleList*pre=[ch objectAtIndex:c];
 	if([droppedObjects containsObject:pre])
 	    continue;

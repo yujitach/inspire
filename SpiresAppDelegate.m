@@ -209,7 +209,7 @@
     Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
     Gestalt(gestaltSystemVersionBugFix, &bugFix);
-    NSLog(@"OS version:%d.%d.%d",major,minor,bugFix);
+    NSLog(@"OS version:%d.%d.%d",(int)major,(int)minor,(int)bugFix);
     if(minor == 6 && bugFix<2){
 	NSLog(@"OS update should be available...");
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]

@@ -40,7 +40,7 @@
 	NSArray*a=[search componentsSeparatedByString:@" "];
 	NSString*s=nil;
 	if([a count]>1){
-	    int i=1;
+	    NSUInteger i=1;
 	    for(i=1;i<[a count];i++){
 		s=[a objectAtIndex:i];
 		if(![s isEqualToString:@""])break;

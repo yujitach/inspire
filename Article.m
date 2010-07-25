@@ -15,6 +15,7 @@
 #import "ArticleData.h"
 #import "RegexKitLite.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 
 
 @implementation Article 

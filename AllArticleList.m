@@ -28,7 +28,7 @@ static AllArticleList*_allArticleList=nil;
 	return [a objectAtIndex:0];
     }else if([a count]>1){
 	NSLog(@"inconsistency detected ... there are more than one AllArticleLists!");
-	for(int i=1;i<[a count];i++){
+	for(NSUInteger i=1;i<[a count];i++){
 	    AllArticleList*al=[a objectAtIndex:i];
 	    [moc deleteObject:al];
 	}

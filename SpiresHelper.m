@@ -103,7 +103,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    return [NSPredicate predicateWithFormat:@"%K contains %@",key,query];
 	}
 	NSMutableArray*y=[NSMutableArray array];
-	for(int i=0;i<[x count]-1;i++){
+	for(NSUInteger i=0;i<[x count]-1;i++){
 	    [y addObject:[x objectAtIndex:i]];
 	}
 	NSString* first=[self normalizedFirstAndMiddleNames:y];
@@ -152,7 +152,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    operand=[a objectAtIndex:0];
 	}else{
 	    operand=[[a lastObject] stringByAppendingString:@","];
-	    for(int i=0;i<[a count]-1;i++){
+	    for(NSUInteger i=0;i<[a count]-1;i++){
 		operand=[operand stringByAppendingString:@" "];
 		operand=[operand stringByAppendingString:[a objectAtIndex:i]];
 	    }
@@ -359,7 +359,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
-    for(int i=1;i<[a count];i++){
+    for(NSUInteger i=1;i<[a count];i++){
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
@@ -378,7 +378,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
-    for(int i=1;i<[a count];i++){
+    for(NSUInteger i=1;i<[a count];i++){
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
@@ -395,7 +395,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
-    for(int i=1;i<[a count];i++){
+    for(NSUInteger i=1;i<[a count];i++){
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringWithRange:NSMakeRange(1,r.location-1)];

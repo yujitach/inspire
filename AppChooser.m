@@ -38,7 +38,7 @@
 }
 -(NSUInteger)indexForBundleId:(NSString*)bundleId
 {
-    for(int i=0;i<[apps count];i++){
+    for(NSUInteger i=0;i<[apps count];i++){
 	if([[apps objectAtIndex:i] compare:bundleId options:NSCaseInsensitiveSearch]==NSOrderedSame){
 	    return i;
 	}
