@@ -29,14 +29,6 @@ var htmlTeXRegExps=[
 ["([^\\\\$])_([^+-]+[+-][^+-\\s]+)","$1<sub>$2</sub>"],
 // Finally everything except for spaces
 ["([^\\\\$])_([\\S]+)","$1<sub>$2</sub>"],
-/* Do not use naive replacements
-["([^\\\\$])\\^([-\\d]+)","$1<sup>$2</sup>"],
-["([^\\\\$])\\^(.)","$1<sup>$2</sup>"],
-["([^\\\\$])\\^([^\\{\\} ]+)","$1<sup>$2</sup>"],
-["([^\\\\$])_([-\\d]+)","$1<sub>$2</sub>"],
-["([^\\\\])_(.)","$1<sub>$2</sub>"],
-["([^\\\\$])_([^\\{\\} ]+)","$1<sub>$2</sub>"],
-*/
 // {\cal X} and {\mathcal{X}}
 ["\\\\cal\\{(.+?)\\}","<span style=\"font-family:Apple-Chancery\">$1</span>"],
 ["\\{\\\\cal (.+?)\\}","<span style=\"font-family:Apple-Chancery\">$1</span>"],
@@ -59,6 +51,9 @@ var htmlTeXRegExps=[
 ["\\{\\}","<span></span>"],
 ["\\*\\*","^"],
 ["\\+-","±"],
+["\\+/-","±"],
+["---","&mdash;"],
+["--","&ndash;"],
 ["-+>","→"],
 [" x ","×"],
 ["``","“"],
@@ -74,6 +69,7 @@ var htmlTeXMacrosWithoutArguments={
     "times" : "×",
     "theta" : "θ",
     "tau" : "τ",
+    "sum" : "∑",
     "sqrt" : "√",
     "sim" : "〜",
     "sigma" : "σ",
@@ -96,6 +92,7 @@ var htmlTeXMacrosWithoutArguments={
     "nu" : "ν",
     "neq" : "≠",
     "ne" : "≠",
+    "nabla" : "∇",
     "mu" : "μ",
     "mp" : "∓",
     "lsim" : "≲",
@@ -122,7 +119,9 @@ var htmlTeXMacrosWithoutArguments={
     "ell" : "ℓ",
     "delta" : "δ",
     "circ" : "o",
+    "cup" : "∪",
     "chi" : "χ",
+    "cap" : "∩",
     "beta" : "β",
     "approx" : "≈",
     "alpha" : "α",
@@ -147,14 +146,18 @@ var htmlTeXMacrosWithoutArguments={
     "Epsilon" : "Ε",
     "Delta" : "Δ",
     "Chi" : "Χ",
+    "Bmu" : "Βμ",
     "Beta" : "Β",
-    "Alpha" : "Α"
+    "Alpha" : "Α",
+    "AA" : "Å"
 };
 var htmlTeXMacrosWithOneArgument={
+    "cite" : "[$1]",
     "bar" : "<span class=\"overline\">$1</span>",
     "textrm" : "$1",
     "mathrm" : "$1",
     "mathbf" : "<i><b>$1</b></i>",
+    "textbf" : "<i><b>$1</b></i>",
     "mathbb" : "<span style=\"font-family:msbm5\">$1</span>",
     "mathcal" : "<span style=\"font-family:Apple-Chancery\">$1</span>",
     "emph" : "<b>$1</b>",
@@ -166,6 +169,7 @@ var htmlTeXMacrosWithoutArgumentsWhichRequireBackSlash=
  "ll",
  "gg",
  "times",
+ "sum",
  "over",
  "prime",
  "Pi",
