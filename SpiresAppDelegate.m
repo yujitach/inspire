@@ -327,10 +327,13 @@
     [[MOC moc] unlock];
 
     // attachToMOC attaches the MOC to the UI.
-    if(!([NSEvent modifierFlags]&NSAlternateKeyMask)){
-	[sideOutlineViewController attachToMOC];
-    }
+//    if(!([NSEvent modifierFlags]&NSAlternateKeyMask)){
+    [sideOutlineViewController attachToMOC];
+//   }
     [sideOutlineViewController loadArticleLists];
+    if([NSEvent modifierFlags]&NSAlternateKeyMask){
+	[AllArticleList allArticleList].searchString=nil;
+    }
     [window makeKeyAndOrderFront:self];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

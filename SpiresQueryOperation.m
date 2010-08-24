@@ -82,7 +82,7 @@
     }
     NSXMLElement* root=[doc rootElement];
     NSArray*elements=[root elementsForName:@"document"];
-    NSLog(@"spires returned %d entries",[elements count]);
+    NSLog(@"spires returned %d entries",(int)[elements count]);
     if([self isCancelled]){
 	[self finish];
 	return;

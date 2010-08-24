@@ -32,6 +32,7 @@
 //  and that is detected by the fact that it will trigger this method without changing the search string.
     if(!mark || [s isEqualToString:mark] || [mark hasSuffix:@" "] || ![s hasPrefix:mark]){
 //	NSLog(@"refiltering: %@:",s);
+//	NSLog(@"desc:%@",[self sortDescriptors]);
 	previousArray=[super arrangeObjects:objects];
 	return previousArray;
     }else{ // shares the same prefix
