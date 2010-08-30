@@ -11,6 +11,7 @@
 @interface SpiresAppDelegate (actions)
 
 -(IBAction)sendBugReport:(id)sender;
+-(IBAction)installSafariExtension:(id)sender;
 -(IBAction)saveAction:(id)sender;
 -(IBAction)search:(id)sender;
 -(IBAction)reloadSelection:(id)sender;

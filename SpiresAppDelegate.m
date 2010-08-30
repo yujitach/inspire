@@ -60,6 +60,9 @@
 @implementation SpiresAppDelegate
 +(void)initialize
 {
+    if(self!=[SpiresAppDelegate class]){
+	return;
+    }
     NSData* data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
     NSError* error=nil;
     NSPropertyListFormat format;
@@ -210,7 +213,7 @@
     Gestalt(gestaltSystemVersionMinor, &minor);
     Gestalt(gestaltSystemVersionBugFix, &bugFix);
     NSLog(@"OS version:%d.%d.%d",(int)major,(int)minor,(int)bugFix);
-    if(minor == 6 && bugFix<2){
+    if(minor == 6 && bugFix<4){
 	NSLog(@"OS update should be available...");
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]
 						      options:NSWorkspaceLaunchWithoutActivation
@@ -305,6 +308,22 @@
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
     }    
 }
+-(void)safariExtensionRecommendation
+{
+    NSString*key=@"safariExtensionRecommendationShown";
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];	
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to install a Safari Extension?"
+				      defaultButton:@"Yes" 
+				    alternateButton:@"No"
+					otherButton:nil
+			  informativeTextWithFormat:@"This extension makes Safari typeset the pseudo-TeX code in the abstract of the arxiv pages just as this app does. You can install it later from the menu spires→Install Safari extension."];
+	NSUInteger result=[alert runModal];
+	if(result!=NSAlertDefaultReturn)
+	    return;
+	[self installSafariExtension:self];
+    }    
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
@@ -321,6 +340,7 @@
 	[alert runModal];
     }
     [self showWelcome];
+    [self safariExtensionRecommendation];
     // This lock is to wait until the warm-up in the background is done.
     [[MOC moc] lock];
     [MOC sharedMOCManager].isUIready=YES;

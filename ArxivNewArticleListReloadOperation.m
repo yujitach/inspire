@@ -51,7 +51,7 @@
 		x=[x subarrayWithRange:NSMakeRange(0,[x count]-2)];
 	    }
 	    if([x count]>=2){
-		NSArray*particles=[NSArray arrayWithObjects:@"de",@"van",@"del",@"von",nil];
+		NSArray*particles=[NSArray arrayWithObjects:@"de",@"le",@"van",@"del",@"von",nil];
 		NSString*pen=[x objectAtIndex:[x count]-2];
 		if([x count]>=2 && [particles containsObject:[pen lowercaseString]] ){
 		    lastName=[NSString stringWithFormat:@"%@ %@",pen,lastName];

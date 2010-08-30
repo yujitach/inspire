@@ -56,9 +56,6 @@ NSString* pathShownWithQuickLook=nil;
     self=[super init];
     return self;
 }
-+(void)initialize
-{
-}
 -(NSString*)displayNameForApp:(NSString*)bundleId
 {
     NSWorkspace* ws=[NSWorkspace sharedWorkspace];

@@ -50,6 +50,26 @@
 }
 
 #pragma mark Actions
+#define SafariExtension @"arXivTeXifier"
+#define SafariExtensionExtension @"safariextz"
+-(IBAction)installSafariExtension:(id)sender;
+{
+    NSString*tildedPath=@"~/Library/Safari/Extensions/" SafariExtension @"." SafariExtensionExtension;
+    NSString*path=[tildedPath stringByExpandingTildeInPath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:path]){
+	NSAlert*alert=[NSAlert alertWithMessageText:@"Safari extension already installed."
+				      defaultButton:@"OK" 
+				    alternateButton:nil
+					otherButton:nil
+			  informativeTextWithFormat:@"Thank you, you already have my Safari extension installed."];
+	[alert runModal];
+    }else{
+	NSString*extension=[[NSBundle mainBundle] pathForResource:SafariExtension ofType:SafariExtensionExtension];
+	NSString*tmpLocation=@"/tmp/SafariExtensionExtension" SafariExtension @"." SafariExtensionExtension;
+	[[NSFileManager defaultManager] copyItemAtPath:extension toPath:tmpLocation error:NULL];
+	[[NSWorkspace sharedWorkspace] openFile:tmpLocation];
+    }
+}
 -(IBAction)turnOnOffLine:(id)sender
 {
     BOOL state=[self isOnline];
