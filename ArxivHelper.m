@@ -83,6 +83,9 @@ ArxivHelper* _sharedHelper=nil;
     NSString* s=nil;
     if(data){
 	s=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	if(!s){
+	    s=[[NSString alloc] initWithData:data encoding:NSISOLatin1StringEncoding];
+	}
     }
     if(!s)return nil;  
     if([s isEqualToString:@""]) return nil;

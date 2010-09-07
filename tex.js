@@ -41,6 +41,7 @@ var htmlTeXRegExps=[
 */
 ["N *= *([01-9]+)","<span style=\"font-style:italic\">N</span>=$1"],
 ["\\\\'([aeiou])","&$1acute;"],
+["\\\\`([aeiou])","&$1grave;"],
 ["\\\\\"([aeiou])","&$1uml;"],
 // To rip off extra $'s
 ["\\$([^\\$]+)\\$","<span class=\"equation\">$1</span>"],

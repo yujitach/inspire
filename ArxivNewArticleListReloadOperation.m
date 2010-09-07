@@ -153,7 +153,7 @@
 	[[NSApp appDelegate] startProgressIndicator];
     });
     NSString*s=[[ArxivHelper sharedHelper] list:listName];
-    
+
     NSMutableArray*a=[[s componentsSeparatedByString:@"<dt>"] mutableCopy];
     NSMutableDictionary*dict=[NSMutableDictionary dictionary];
     for(NSString*chunk in a){
