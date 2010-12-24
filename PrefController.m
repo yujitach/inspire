@@ -61,6 +61,19 @@
     [self mirrorSelected: self];
 }
 
+-(void)selectDatabaseToUse:(NSString*)mirror
+{
+    NSInteger i=0;
+    NSInteger c=[databaseToUsePopUp numberOfItems];
+    for(i=0;i<c;i++){
+	if([[databaseToUsePopUp itemTitleAtIndex:i] isEqualToString:mirror]){
+	    [databaseToUsePopUp selectItemAtIndex:i];
+	    break;
+	}
+    }
+    [self databaseSelected: self];
+}
+
 -(void)selectBibToUse:(NSString*)bib
 {
     NSInteger i=0;
@@ -97,6 +110,11 @@
     NSString*mirrorToUse=[mirrorToUsePopUp titleOfSelectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:mirrorToUse forKey:@"mirrorToUse"];
 }
+-(IBAction)databaseSelected:(id)sender;
+{
+    NSString*databaseToUse=[databaseToUsePopUp titleOfSelectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:databaseToUse forKey:@"databaseToUse"];
+}
 -(IBAction)bibSelected:(id)sender;
 {
     NSString*bibToUse=[bibPopUp titleOfSelectedItem];
@@ -114,8 +132,11 @@
 {
     [mirrorToUsePopUp removeAllItems];
     [mirrorToUsePopUp addItemsWithTitles:[[NSUserDefaults standardUserDefaults] objectForKey:@"arXivMirrors"]];
+    [databaseToUsePopUp removeAllItems];
+    [databaseToUsePopUp addItemsWithTitles:[NSArray arrayWithObjects:@"spires",@"inspire",nil]];
     
     [self selectMirrorToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"mirrorToUse"]];
+    [self selectDatabaseToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"]];
     [self selectBibToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"bibType"]];
     
 /*    {// change in v0.98

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+@class Article;
 @interface SpiresQueryDownloader : NSObject {
     id delegate;
     SEL sel;
@@ -16,7 +16,12 @@
     NSMutableData*temporaryData;
     NSURLConnection*connection;
     NSURLRequest*urlRequest;
-    
+    BOOL inspire;
+    NSUInteger total;
+    NSUInteger sofar;
+    Article*article;
 }
--(id)initWithQuery:(NSString*)s delegate:(id)d didEndSelector:(SEL)sel ;
+// note that didEndSelector can be called **multiple times**.
+// It's guaranteed to be always on the main thread.
+-(id)initWithQuery:(NSString*)s forArticle:(Article*)a delegate:(id)d  didEndSelector:(SEL)sel ;
 @end

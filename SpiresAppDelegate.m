@@ -213,7 +213,7 @@
     Gestalt(gestaltSystemVersionMinor, &minor);
     Gestalt(gestaltSystemVersionBugFix, &bugFix);
     NSLog(@"OS version:%d.%d.%d",(int)major,(int)minor,(int)bugFix);
-    if(minor == 6 && bugFix<4){
+    if(minor == 6 && bugFix<5){
 	NSLog(@"OS update should be available...");
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]
 						      options:NSWorkspaceLaunchWithoutActivation
@@ -300,7 +300,7 @@
 }
 -(void)showWelcome
 {
-    NSString*welcome=@"v1.3alert";
+    NSString*welcome=@"v1.4alert";
     NSString*key=[welcome stringByAppendingString:@"Shown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];

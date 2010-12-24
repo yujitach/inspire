@@ -10,7 +10,6 @@
 #import "Article.h"
 #import "BatchImportOperation.h"
 #import "WaitOperation.h"
-#import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
@@ -32,10 +31,17 @@
     if([search hasPrefix:@"c "]){
 	NSString*ccc=[[search componentsSeparatedByString:@"and"] objectAtIndex:0];
 	NSArray*a=[ccc componentsSeparatedByString:@" "];
-	if([a count]!=2) return;
-	NSString*s=[a objectAtIndex:1];
-	if([s isEqualToString:@""])return;
-	citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
+	if([a count]==2){
+	    NSString*s=[a objectAtIndex:1];
+	    if([s isEqualToString:@""])return;
+	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
+	}else if([a count]==3){
+	    // c key nnnnnnn
+	    NSString*s=[a objectAtIndex:2];
+	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
+	}else{
+	    citedByTarget=nil;
+	}
 	if(!citedByTarget){
 	    NSLog(@"citedByTarget couldn't be obtained for %@",search);
 	}	
@@ -62,20 +68,20 @@
     }else{
 	refersToTarget=nil;
     }
-    [[NSApp appDelegate] startProgressIndicator];
-    [[NSApp appDelegate] postMessage:@"Waiting reply from spires..."];
     self.isExecuting=YES;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search delegate:self didEndSelector:@selector(spiresQueryDidEnd:)];
+    Article*a=nil;
+    if(refersToTarget){
+	a=refersToTarget;
+    }else if(citedByTarget){
+	a=citedByTarget;
+    }
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search forArticle:a delegate:self didEndSelector:@selector(spiresQueryDidEnd:)];
     if(!downloader){
-	[[NSApp appDelegate] postMessage:nil];
-	[[NSApp appDelegate] stopProgressIndicator];
 	[self finish];
     }
 }
 -(void)spiresQueryDidEnd:(NSXMLDocument*)doc
 {
-    [[NSApp appDelegate] postMessage:nil];
-    [[NSApp appDelegate] stopProgressIndicator];
     if(!doc){
 	[self finish];
 	return;
@@ -97,10 +103,5 @@
 -(NSString*)description
 {
     return [NSString stringWithFormat:@"spires query:%@",search];
-}
--(void)cleanupToCancel
-{
-    [[NSApp appDelegate] postMessage:nil];
-    [[NSApp appDelegate] stopProgressIndicator];
 }
 @end

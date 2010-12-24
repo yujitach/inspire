@@ -245,6 +245,10 @@ static NSArray*observedKeys=nil;
     if(article.spicite && ![article.spicite isEqualToString:@""]){
 	return [NSString stringWithFormat:@"<a href=\"spires-search://c %@\">cited by</a>",article.spicite];
     }
+    if([[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"] isEqualToString:@"inspire"] 
+       && article.spiresKey && [article.spiresKey integerValue]!=0){
+	return [NSString stringWithFormat:@"<a href=\"spires-search://c key %@\">cited by</a>",article.spiresKey];
+    }
     return @"<del>cited by</del>";
 }
 -(NSString*)refersTo{

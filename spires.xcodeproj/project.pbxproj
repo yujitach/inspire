@@ -74,6 +74,8 @@
 		337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; };
 		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
 		337D6F220F56F9770098643F /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */; };
+		337FC28712C4914F008995BF /* marc2spires.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 337FC28612C4914F008995BF /* marc2spires.xsl */; };
+		337FC2F612C4ABB6008995BF /* v1.4alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 337FC2F512C4ABB6008995BF /* v1.4alert.rtf */; };
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
@@ -322,6 +324,8 @@
 		337B882D0F3575680005BA9C /* BibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibViewController.h; sourceTree = "<group>"; };
 		337B882E0F3575680005BA9C /* BibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibViewController.m; sourceTree = "<group>"; };
 		337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		337FC28612C4914F008995BF /* marc2spires.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = marc2spires.xsl; sourceTree = "<group>"; };
+		337FC2F512C4ABB6008995BF /* v1.4alert.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = v1.4alert.rtf; sourceTree = "<group>"; };
 		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
 		338432100F70CFB80040BDA6 /* SideOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineView.h; sourceTree = "<group>"; };
 		338432110F70CFB80040BDA6 /* SideOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineView.m; sourceTree = "<group>"; };
@@ -602,6 +606,7 @@
 				33B09C7C10D4AB66001A9B50 /* UI graphics */,
 				3309372A0F39662800F214D6 /* spires.syncschema */,
 				3302844D122B525500D684B2 /* arXivTeXifier.safariextz */,
+				337FC28612C4914F008995BF /* marc2spires.xsl */,
 				330937600F39694800F214D6 /* ClientDescription.plist */,
 				3331BD3111D423F0001F9B4B /* tex.js */,
 				3333B8CE0F3584B500251984 /* magic.perl */,
@@ -615,6 +620,7 @@
 				33B5621A0F3BB6510006E70D /* Requests.html */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
 				33197128111153DA003A8C2B /* v1.3alert.rtf */,
+				337FC2F512C4ABB6008995BF /* v1.4alert.rtf */,
 				338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
@@ -1206,6 +1212,8 @@
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
 				33197129111153DA003A8C2B /* v1.3alert.rtf in Resources */,
 				3302844E122B525500D684B2 /* arXivTeXifier.safariextz in Resources */,
+				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
+				337FC2F612C4ABB6008995BF /* v1.4alert.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

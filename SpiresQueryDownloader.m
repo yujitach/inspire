@@ -11,30 +11,21 @@
 #import "NSString+magic.h"
 #import "RegexKitLite.h"
 #import "AppDelegate.h"
+#import "Article.h"
 
 @interface SpiresQueryDownloader ()
 - (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
+- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
 @end
 
 @implementation SpiresQueryDownloader
-
-
--(id)initWithQuery:(NSString*)search delegate:(id)d didEndSelector:(SEL)selector 
+-(BOOL)useInspire
 {
-    self=[super init];
-    delegate=d;
-    sel=selector;
-    search=[search normalizedString];
-    // 29/6/2009
-    // differences in the query strings of the real web spires and those of my spires app should be addressed more properly
-    // than this
-    search=[search stringByReplacingOccurrencesOfRegex:@"^e " withString:@"eprint "];
-    search=[search stringByReplacingOccurrencesOfRegex:@" e " withString:@" eprint "];
-    search=[search stringByReplacingOccurrencesOfRegex:@"^ep " withString:@"eprint "];
-    search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
-    // end target of the comment above
-    searchString=search;
-    
+    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
+    return [database isEqualToString:@"inspire"];
+}
+-(NSURL*)urlForSpiresForString:(NSString*)search
+{
     NSURL*url=nil;
     if([search hasPrefix:@"r"]){
 	NSArray*a=[search componentsSeparatedByString:@" "];
@@ -64,6 +55,68 @@
 	escapedSearch=[escapedSearch stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
 	url=  [NSURL URLWithString:[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESXMLHEAD, escapedSearch]];
     }
+    return url;
+}
+#define MAXPERQUERY 50
+-(NSURL*)urlForInspireForString:(NSString*)search
+{
+    NSString*inspireQuery=nil;
+    if([search hasPrefix:@"r"]||[search hasPrefix:@"c "]){
+	NSString*rec=nil;
+	NSNumber*inspireKey=[article extraForKey:@"inspireKey"];
+	if(inspireKey && [inspireKey integerValue]!=0){
+	    rec=[NSString stringWithFormat:@"recid:%@",inspireKey];
+	}else if(article.eprint && ![article.eprint isEqualToString:@""]){
+	    rec=[NSString stringWithFormat:@"%@",article.eprint];
+	}else if(article.spiresKey && [article.spiresKey integerValue]!=0){
+	    NSString*str=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=find+key+%@&rg=1&of=xm",article.spiresKey];
+	    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:str]
+								   options:0
+								     error:NULL];
+	    NSArray*a=[[doc rootElement] nodesForXPath:@"record/controlfield" error:NULL];
+	    NSLog(@"%@",a);
+	    if([a count]>0){
+		NSXMLElement*e=[a objectAtIndex:0];
+		NSLog(@"%@",e);
+		NSNumber*n=[NSNumber numberWithInteger:[[e stringValue] integerValue]];
+		[article setExtra:n forKey:@"inspireKey"];
+		rec=[NSString stringWithFormat:@"recid:%@",n];
+	    }
+	}else{
+	    return nil;
+	}
+	NSString*head=nil;
+	if([search hasPrefix:@"r"]){
+	    head=@"citedby";
+	}else{
+	    head=@"refersto";
+	}
+	inspireQuery=[NSString stringWithFormat:@"%@:%@",head,rec];
+    }else{
+	inspireQuery=[NSString stringWithFormat:@"find+%@",search];
+    }
+    NSString*str=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=%@&rg=%d&of=xm",inspireQuery,MAXPERQUERY];
+    str=[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
+    return [NSURL URLWithString:str];
+}
+-(id)initWithQuery:(NSString*)search forArticle:(Article*)a delegate:(id)d didEndSelector:(SEL)selector 
+{
+    self=[super init];
+    delegate=d;
+    sel=selector;
+    article=a;
+    search=[search normalizedString];
+    // 29/6/2009
+    // differences in the query strings of the real web spires and those of my spires app should be addressed more properly
+    // than this
+    search=[search stringByReplacingOccurrencesOfRegex:@"^e " withString:@"eprint "];
+    search=[search stringByReplacingOccurrencesOfRegex:@" e " withString:@" eprint "];
+    search=[search stringByReplacingOccurrencesOfRegex:@"^ep " withString:@"eprint "];
+    search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
+    // end target of the comment above
+    searchString=search;
+    inspire=[self useInspire];
+    NSURL*url=inspire?[self urlForInspireForString:search]:[self urlForSpiresForString:search];
     NSLog(@"fetching:%@",url);
     urlRequest=[NSURLRequest requestWithURL:url
 				cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -72,6 +125,8 @@
     temporaryData=[NSMutableData data];
     connection=[NSURLConnection connectionWithRequest:urlRequest
 					     delegate:self];
+    [[NSApp appDelegate] startProgressIndicator];
+    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Waiting reply from %@...",(inspire?@"inspire":@"spires")]];
     return self;
 }
 #pragma mark Bibtex parser
@@ -111,25 +166,109 @@
 {
     [temporaryData appendData:data];
 }
+-(NSXMLDocument*)docFromSpiresData:(NSError**)error
+{
+    //	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+    NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
+    
+    
+    if([searchString hasPrefix:@"r"]){
+	t=[self transformBibtexToXML:t];
+    }
+    return [[NSXMLDocument alloc] initWithXMLString:t options:0 error:error];
+}
+-(NSURL*)xslURL
+{
+    static NSURL*xslURL=nil;
+    if(!xslURL){
+	xslURL=[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"marc2spires" ofType:@"xsl"]];
+    }
+    return xslURL;
+}
+-(void)dealWithTooManyResults
+{
+    NSString*text=[NSString stringWithFormat:@"The server found %d entries for your query; so far only %d entries are downloaded.\n Do you want to continue downloading the rest? Mostly the rest are very old.", (int)total, (int)sofar
+		   ];
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Many results found"
+				  defaultButton:@"No thanks"
+				alternateButton:@"Continue"
+				    otherButton:nil informativeTextWithFormat:text];
+    //[alert setAlertStyle:NSCriticalAlertStyle];
+    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
+		      modalDelegate:self 
+		     didEndSelector:@selector(tooManyAlertDidEnd:returnCode:contextInfo:)
+			contextInfo:nil];
+}
+
+- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored
+{
+    if(returnCode==NSAlertAlternateReturn){
+	NSString*urlString=[[urlRequest URL] absoluteString];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+	    while(sofar<total){
+		NSError*error;
+		dispatch_async(dispatch_get_main_queue(),^{
+		    [[NSApp appDelegate] startProgressIndicator];
+		    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"%d entries out of %d downloaded",(int)sofar,(int)total ]];
+		});
+		NSURL*url=[NSURL URLWithString:[NSString stringWithFormat:@"%@&jrec=%d",urlString,(int)sofar+1]];
+		NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url
+								       options:0
+									 error:&error];
+		NSXMLDocument*transformed=[doc objectByApplyingXSLTAtURL:[self xslURL]
+							       arguments:nil
+								   error:&error];
+		NSArray*a=[[transformed rootElement] nodesForXPath:@"document" error:NULL];
+		sofar+=[a count];
+		dispatch_async(dispatch_get_main_queue(),^{
+		    [[NSApp appDelegate] postMessage:nil];
+		    [[NSApp appDelegate] stopProgressIndicator];
+		    [delegate performSelector:sel withObject:transformed];
+		});		
+	    }
+	});
+    }
+}
+
+
+-(NSXMLDocument*)docFromInspireData:(NSError**)error
+{
+    if(total==0){
+	NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+	NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
+	total=[t intValue];
+    }
+    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:temporaryData 
+						  options:0
+						    error:error];
+    if(!doc)
+	return nil;
+    NSXMLDocument*transformed=[doc objectByApplyingXSLTAtURL:[self xslURL]
+						   arguments:nil
+						       error:error];    
+    
+    NSArray*a=[[transformed rootElement] nodesForXPath:@"document" error:NULL];
+    sofar=[a count];
+    if(sofar!= total){
+	[self dealWithTooManyResults];
+    }
+    return transformed;
+}
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
 {
-    NSError*error=nil;
+    [[NSApp appDelegate] postMessage:nil];
+    [[NSApp appDelegate] stopProgressIndicator];
+
+    NSError*error;
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
-	//	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
-
-	
-	if([searchString hasPrefix:@"r"]){
-	    t=[self transformBibtexToXML:t];
-	}
-	doc=[[NSXMLDocument alloc] initWithXMLString:t options:0 error:&error];
+	doc=inspire?[self docFromInspireData:&error]:[self docFromSpiresData:&error];
 	if(!doc){
 	    NSLog(@"xml problem:%@",error);
 	    NSString*text=[NSString stringWithFormat:@"Please report it and help develop this app.\n"
 			   @"Clicking Yes will open up an email.\n"
 			   ];
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"SPIRES returned malformed XML"
+	    NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"%@ returned malformed XML",inspire?@"Inspire":@"SPIRES"]
 					  defaultButton:@"Yes"
 					alternateButton:@"No thanks"
 					    otherButton:nil informativeTextWithFormat:text];
@@ -138,7 +277,6 @@
 			      modalDelegate:self 
 			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
 				contextInfo:nil];
-	    [t writeToFile:@"/tmp/spires-xml.xml" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	}
     }
     [delegate performSelector:sel withObject:doc];
@@ -155,7 +293,7 @@
 	[[NSWorkspace sharedWorkspace]
 	 openURL:[NSURL URLWithString:
 		  [[NSString stringWithFormat:
-		    @"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@&body=Following SPIRES query returned an XML error:\r\n%@",
+		    @"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@&body=Following SPIRES/Inspire query returned an XML error:\r\n%@",
 		    version,urlString]
 		   stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 	
@@ -166,7 +304,10 @@
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
     [delegate performSelector:sel withObject:nil];
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to SPIRES"
+    [[NSApp appDelegate] postMessage:nil];
+    [[NSApp appDelegate] stopProgressIndicator];
+
+    NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Connection Error to %@",inspire?@"Inspire":@"SPIRES"]
 				  defaultButton:@"OK"
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];

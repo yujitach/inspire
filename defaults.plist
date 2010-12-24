@@ -263,6 +263,8 @@
 	</array>
 	<key>mirrorToUse</key>
 	<string></string>
+	<key>databaseToUse</key>
+	<string>inspire</string>
 	<key>pdfDir</key>
 	<string>~/Desktop</string>
 	<key>arXivWaitInSeconds</key>

@@ -134,6 +134,13 @@
     [self setIntToArticle:o forKey:@"pages" inXMLElement:element];
     [self setJournalToArticle:o inXMLElement:element];
     [self setDateToArticle:o inXMLElement:element];
+    
+    NSString*inspireKey=[self valueForKey:@"inspire_key" inXMLElement:element];
+    if(inspireKey){
+	[o setExtra:[NSNumber numberWithInteger:[inspireKey integerValue]]
+	     forKey:@"inspireKey"];
+    }
+    
 }
 
 #pragma mark Main Logic
@@ -243,20 +250,20 @@
 -(void)main
 {
     dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] startProgressIndicator];
-	[[NSApp appDelegate] postMessage:@"Registering entries..."];
+//	[[NSApp appDelegate] startProgressIndicator];
+//	[[NSApp appDelegate] postMessage:@"Registering entries..."];
     });
 //    NSLog(@"registers %d entries",(int)[elements count]);
     [self batchAddEntriesOfSPIRES:elements];
     dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] postMessage:nil];
+//	[[NSApp appDelegate] postMessage:nil];
 	[[NSApp appDelegate] clearingUpAfterRegistration:nil];	
 	NSError*error=nil;
 	BOOL success=[[MOC moc] save:&error];
 	if(!success){
 	    [[MOC sharedMOCManager] presentMOCSaveError:error];
 	}
-	[[NSApp appDelegate] stopProgressIndicator];
+//	[[NSApp appDelegate] stopProgressIndicator];
     });
     
     // need to delay running of the completion handler after all of the async calls!
