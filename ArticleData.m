@@ -28,6 +28,7 @@
 @dynamic  shortishAuthorList;
 @dynamic  spicite;
 @dynamic  spiresKey;
+@dynamic  inspireKey;
 @dynamic  texKey;
 @dynamic  title;
 @dynamic  version;

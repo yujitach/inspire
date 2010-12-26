@@ -63,7 +63,7 @@
     NSString*inspireQuery=nil;
     if([search hasPrefix:@"r"]||[search hasPrefix:@"c "]){
 	NSString*rec=nil;
-	NSNumber*inspireKey=[article extraForKey:@"inspireKey"];
+	NSNumber*inspireKey=article.inspireKey;
 	if(inspireKey && [inspireKey integerValue]!=0){
 	    rec=[NSString stringWithFormat:@"recid:%@",inspireKey];
 	}else if(article.eprint && ![article.eprint isEqualToString:@""]){
@@ -79,7 +79,7 @@
 		NSXMLElement*e=[a objectAtIndex:0];
 		NSLog(@"%@",e);
 		NSNumber*n=[NSNumber numberWithInteger:[[e stringValue] integerValue]];
-		[article setExtra:n forKey:@"inspireKey"];
+		article.inspireKey=n;
 		rec=[NSString stringWithFormat:@"recid:%@",n];
 	    }
 	}else{

@@ -565,6 +565,7 @@
 @dynamic version;
 @dynamic spicite;
 @dynamic spiresKey;
+@dynamic inspireKey;
 
 +(void)load  // don't change it to +initialize! it's too late, somehow.
 {
@@ -585,6 +586,7 @@
 				  @"version",
 				  @"spicite",
 				  @"spiresKey",
+				  @"inspireKey",
 				  nil]){
 	[self synthesizeForwarder:selectorName];
     }

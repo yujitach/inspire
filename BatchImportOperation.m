@@ -137,8 +137,7 @@
     
     NSString*inspireKey=[self valueForKey:@"inspire_key" inXMLElement:element];
     if(inspireKey){
-	[o setExtra:[NSNumber numberWithInteger:[inspireKey integerValue]]
-	     forKey:@"inspireKey"];
+	o.inspireKey=[NSNumber numberWithInteger:[inspireKey integerValue]];
     }
     
 }

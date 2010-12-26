@@ -187,7 +187,7 @@
     //END:progressivelyMigrateURLMoveAndRecurse
 }
 
-/*-(BOOL)specialMigration
+-(BOOL)specialMigration
 {
     NSError*error=nil;
     NSDictionary *sourceMetadata = 
@@ -195,7 +195,7 @@
 							       URL:[NSURL fileURLWithPath:dataFilePath]
 							     error:&error];
     if (!sourceMetadata) return NO;
-    NSURL*oldMOMURL=[mainBundle URLForResource:@"spires_DataModel 5.mom" withExtension:@"old"];
+    NSURL*oldMOMURL=[mainBundle URLForResource:@"spires_DataModel 5" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
     NSManagedObjectModel* mom1=[[NSManagedObjectModel alloc] initWithContentsOfURL:oldMOMURL];
     
     if (![mom1 isConfiguration:nil 
@@ -203,7 +203,7 @@
 	NSLog(@"No need to special case migration.");
 	return NO;
     }
-    NSURL*newMOMURL=[mainBundle URLForResource:@"spires_DataModel 5" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
+    NSURL*newMOMURL=[mainBundle URLForResource:@"spires_DataModel 6" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
     NSManagedObjectModel* mom2=[[NSManagedObjectModel  alloc] initWithContentsOfURL:newMOMURL];
     
     error=nil;
@@ -238,7 +238,7 @@
     NSLog(@"special case migration succeeded.");
     
     return YES;
-}*/
+}
 -(void)performMigration
 {
     NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
@@ -252,9 +252,9 @@
 		   @"Force quitting might corrupt the database."];
     [alert runModal];      
     // this is a special code to initiate lightweight migration during developments
-/*    if([self specialMigration]){
+    if([self specialMigration]){
 	return;
-    }*/
+    }
     NSError*error=nil;
     if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:dataFilePath]
 				ofType:NSSQLiteStoreType

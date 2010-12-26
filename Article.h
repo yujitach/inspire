@@ -52,6 +52,7 @@ typedef enum {
 @property (retain) NSNumber * version;
 @property (retain) NSString * spicite;
 @property (retain) NSNumber * spiresKey;
+@property (retain) NSNumber * inspireKey;
 #pragma mark generated
 @property (assign,readonly) BOOL  hasPDFLocally; 
 @property (assign,readonly) ArticleType articleType;

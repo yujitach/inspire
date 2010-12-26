@@ -76,6 +76,7 @@
 		337D6F220F56F9770098643F /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */; };
 		337FC28712C4914F008995BF /* marc2spires.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 337FC28612C4914F008995BF /* marc2spires.xsl */; };
 		337FC2F612C4ABB6008995BF /* v1.4alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 337FC2F512C4ABB6008995BF /* v1.4alert.rtf */; };
+		3381564A12C5C25D008CD596 /* v5-v6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */; };
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
@@ -326,6 +327,8 @@
 		337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		337FC28612C4914F008995BF /* marc2spires.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = marc2spires.xsl; sourceTree = "<group>"; };
 		337FC2F512C4ABB6008995BF /* v1.4alert.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = v1.4alert.rtf; sourceTree = "<group>"; };
+		3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
+		3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v5-v6.xcmappingmodel"; sourceTree = "<group>"; };
 		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
 		338432100F70CFB80040BDA6 /* SideOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineView.h; sourceTree = "<group>"; };
 		338432110F70CFB80040BDA6 /* SideOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineView.m; sourceTree = "<group>"; };
@@ -1379,6 +1382,7 @@
 				33CCB5A910D9F2B200D51CDE /* SortDescriptorsV4V5MigrationPolicy.m in Sources */,
 				33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */,
 				33A06DA410DFDE97003EF208 /* DummyBWSplitView.m in Sources */,
+				3381564A12C5C25D008CD596 /* v5-v6.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1820,12 +1824,14 @@
 				33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */,
 				332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */,
 				33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */,
+				3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */,
 				33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */,
 				33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */,
 				332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */,
 				33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */,
+				3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */,
 			);
-			currentVersion = 33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */;
+			currentVersion = 3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */;
 			path = spires_DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
