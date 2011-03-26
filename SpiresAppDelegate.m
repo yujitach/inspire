@@ -475,6 +475,11 @@
 
 #pragma mark Public Interfaces
 
+-(BOOL)useInspire
+{
+    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
+    return [database isEqualToString:@"inspire"];
+}
 
 -(BOOL)currentListIsArxivReplaced
 {

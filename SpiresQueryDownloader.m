@@ -15,15 +15,10 @@
 
 @interface SpiresQueryDownloader ()
 - (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
-- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
+//- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
 @end
 
 @implementation SpiresQueryDownloader
--(BOOL)useInspire
-{
-    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
-    return [database isEqualToString:@"inspire"];
-}
 -(NSURL*)urlForSpiresForString:(NSString*)search
 {
     NSURL*url=nil;
@@ -115,7 +110,7 @@
     search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
     // end target of the comment above
     searchString=search;
-    inspire=[self useInspire];
+    inspire=[[NSApp appDelegate] useInspire];
     NSURL*url=inspire?[self urlForInspireForString:search]:[self urlForSpiresForString:search];
     NSLog(@"fetching:%@",url);
     urlRequest=[NSURLRequest requestWithURL:url
@@ -187,7 +182,7 @@
 }
 -(void)dealWithTooManyResults
 {
-    NSString*text=[NSString stringWithFormat:@"The server found %d entries for your query; so far only %d entries are downloaded.\n Do you want to continue downloading the rest? Mostly the rest are very old.", (int)total, (int)sofar
+/*    NSString*text=[NSString stringWithFormat:@"The server found %d entries for your query; so far only %d entries are downloaded.\n Do you want to continue downloading the rest? Mostly the rest are very old.", (int)total, (int)sofar
 		   ];
     NSAlert*alert=[NSAlert alertWithMessageText:@"Many results found"
 				  defaultButton:@"No thanks"
@@ -202,7 +197,7 @@
 
 - (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored
 {
-    if(returnCode==NSAlertAlternateReturn){
+    if(returnCode==NSAlertAlternateReturn){*/
 	NSString*urlString=[[urlRequest URL] absoluteString];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
 	    while(sofar<total){
@@ -227,7 +222,7 @@
 		});		
 	    }
 	});
-    }
+//    }
 }
 
 

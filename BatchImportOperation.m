@@ -7,6 +7,7 @@
 //
 
 #import "BatchImportOperation.h"
+#import "InspireCitationNumberRefreshOperation.h"
 #import "Article.h"
 #import "ArticleData.h"
 #import "JournalEntry.h"
@@ -241,6 +242,10 @@
 	//    NSLog(@"add entry:%@",o);
 	if(list){
 	    [list addArticles:generated];
+	}
+	if([[NSApp appDelegate] useInspire]){
+	    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
+	    [[OperationQueues spiresQueue] addOperation:op];
 	}
     });
 }

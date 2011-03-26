@@ -27,6 +27,7 @@ extern NSString *ArticleListDropPboardType;
 -(void)addToTeXLog:(NSString*)log;
 -(void)relaunch;
 -(void)presentFileSaveError;
+-(BOOL)useInspire;
 @property(assign) BOOL isOnline;
 /*-(void)startUpdatingMainView:(id)sender;
 -(void)stopUpdatingMainView:(id)sender;*/
