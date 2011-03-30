@@ -213,7 +213,7 @@
     Gestalt(gestaltSystemVersionMinor, &minor);
     Gestalt(gestaltSystemVersionBugFix, &bugFix);
     NSLog(@"OS version:%d.%d.%d",(int)major,(int)minor,(int)bugFix);
-    if(minor == 6 && bugFix<5){
+    if(minor == 6 && bugFix<7){
 	NSLog(@"OS update should be available...");
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]
 						      options:NSWorkspaceLaunchWithoutActivation
@@ -340,7 +340,7 @@
 	[alert runModal];
     }
     [self showWelcome];
-    [self safariExtensionRecommendation];
+//    [self safariExtensionRecommendation];
     // This lock is to wait until the warm-up in the background is done.
     [[MOC moc] lock];
     [MOC sharedMOCManager].isUIready=YES;
@@ -493,12 +493,12 @@
     }
     return NO;
 }
--(void)addSimpleArticleListWithName:(NSString*)name;
+-(void)addSimpleArticleListWithName:(NSString*)name
 {
     SimpleArticleList* al=[SimpleArticleList createSimpleArticleListWithName:name inMOC:[MOC moc]];
     [sideOutlineViewController addArticleList:al];
 }
--(void)addArxivArticleListWithName:(NSString*)name;
+-(void)addArxivArticleListWithName:(NSString*)name
 {
     ArxivNewArticleList* al=[ArxivNewArticleList createArXivNewArticleListWithName:name inMOC:[MOC moc]];
     [sideOutlineViewController addArticleList:al];
@@ -600,7 +600,7 @@
     }
 }
 
-- (void) infoAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void) infoAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     if ([[alert suppressionButton] state] == NSOnState) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];

@@ -53,15 +53,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.3.9</string>
+	<string>1.4.0</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>OSAScriptingDefinition</key>
-	<string>spires.sdef</string>
 	<key>NSServices</key>
 	<array>
 		<dict>
@@ -72,25 +70,27 @@
 			</dict>
 			<key>NSMessage</key>
 			<string>handleServicesLookupSpires</string>
-			<key>NSRequiredContext</key>
-			<dict/>
 			<key>NSPortName</key>
 			<string>spires</string>
+			<key>NSRequiredContext</key>
+			<dict/>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
 			</array>
 		</dict>
 	</array>
-	<key>SUFeedURL</key>
-	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update.xml</string>
+	<key>OSAScriptingDefinition</key>
+	<string>spires.sdef</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update.xml</string>
 	<key>SUFeedURL-Unstable</key>
 	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update-unstable.xml</string>
-	<key>SUScheduledCheckInterval</key>
-	<integer>36000</integer>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>36000</integer>
 </dict>
 </plist>

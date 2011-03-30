@@ -205,15 +205,19 @@
 {
     NSMutableArray*lookForEprint=[NSMutableArray array];
     NSMutableArray*lookForSpiresKey=[NSMutableArray array];
+    NSMutableArray*lookForDOI=[NSMutableArray array];
     NSMutableArray*lookForTitle=[NSMutableArray array];
     for(NSXMLElement*element in a){
 	NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
 	NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
+	NSString*doi=[self valueForKey:@"doi" inXMLElement:element];
 	NSString*title=[self valueForKey:@"title" inXMLElement:element];
 	if(eprint){
 	    [lookForEprint addObject:element];
 	}else if(spiresKey){
 	    [lookForSpiresKey addObject:element];
+	}else if(doi){
+	    [lookForDOI addObject:element];
 	}else if(title){
 	    [lookForTitle addObject:element];
 	}

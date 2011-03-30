@@ -12,6 +12,8 @@
 @interface InspireCitationNumberRefreshOperation : NSOperation {
     NSSet*articles;
     NSMutableDictionary*recidToArticle;
+    int tot;
+    int sofar;
 }
 -(InspireCitationNumberRefreshOperation*)initWithArticles:(NSSet*)a;
 @end

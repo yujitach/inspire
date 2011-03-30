@@ -231,7 +231,10 @@
 	
         return NO;
     }
-    FSPathMoveObjectToTrashSync([dataFilePath fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
+//    FSPathMoveObjectToTrashSync([dataFilePath fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
+    [[NSFileManager defaultManager] moveItemAtPath:dataFilePath
+					    toPath:[dataFilePath stringByAppendingString:@".ver5"]
+					     error:&error];
     [[NSFileManager defaultManager] moveItemAtPath:destPath
 					    toPath:dataFilePath
 					     error:&error];

@@ -1,3 +1,4 @@
+#ifndef __clang_analyzer__
 //
 //  RegexKitLite.m
 //  http://regexkit.sourceforge.net/
@@ -2634,3 +2635,4 @@ exitNow2:
 #endif // _RKL_BLOCKS_ENABLED
 
 @end
+#endif // __clang__static_analyzer

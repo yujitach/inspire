@@ -18,11 +18,23 @@
     recidToArticle=[NSMutableDictionary dictionary];
     for(Article*a in articles){
 	[recidToArticle setObject:a forKey:[a.inspireKey stringValue]];
+	tot++;
     }
     return self;
 }
+-(NSString*)description
+{
+    if([articles count]==0){
+	return @"invalid query operation";
+    }else{
+	Article* a=[articles anyObject];
+	return [NSString stringWithFormat:@"bib query for %@ etc.",a.title];
+    }
+}
 -(void)dealWith:(NSArray*)x
 {
+    sofar+=(int)[x count];
+
     NSString*urlString=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=recid:%@&of=hb",
 			[x componentsJoinedByString:@"+or+recid:"]];
     urlString=[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -46,6 +58,7 @@
 	}
     }
     dispatch_async(dispatch_get_main_queue(),^{
+//	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Refreshing citations %d/%d",sofar,tot]];
 	for(NSString*rec in [recidToCites allKeys]){
 	    NSString*cited=[recidToCites objectForKey:rec];
 	    Article*article=[recidToArticle objectForKey:rec];
@@ -57,6 +70,9 @@
 }
 -(void)main
 {
+/*    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] startProgressIndicator];
+    });    */
     NSMutableArray*a=[NSMutableArray array];
     for(NSString*recid in [recidToArticle allKeys]){
 	[a addObject:recid];
@@ -68,5 +84,9 @@
     if([a count]>0){
 	[self dealWith:a];
     }
+/*    dispatch_async(dispatch_get_main_queue(),^{
+	[[NSApp appDelegate] postMessage:nil];
+	[[NSApp appDelegate] stopProgressIndicator];
+    });        */
 }
 @end
