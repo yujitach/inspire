@@ -10,7 +10,6 @@
 		330170A30F56471B001DAC18 /* IncrementalArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 330170A20F56471B001DAC18 /* IncrementalArrayController.m */; };
 		3301FC960F715B270039E0B5 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3301FC950F715B270039E0B5 /* ImageAndTextCell.m */; };
 		330207AC0F5990210067714C /* MOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 330207AB0F5990210067714C /* MOC.m */; };
-		3302844E122B525500D684B2 /* arXivTeXifier.safariextz in Resources */ = {isa = PBXBuildFile; fileRef = 3302844D122B525500D684B2 /* arXivTeXifier.safariextz */; };
 		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		3305A35B10D44907001142FC /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; };
@@ -156,6 +155,7 @@
 		33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */; };
 		33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F2076B10CF828E0012F0B6 /* BibView.xib */; };
 		33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F614D110CC50C500EC3837 /* ReloadButton.m */; };
+		33F6692213436392002A402E /* arXivTeXifier.safariextz in Resources */ = {isa = PBXBuildFile; fileRef = 33F6692113436392002A402E /* arXivTeXifier.safariextz */; };
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FD743310DEDDFE0081C00D /* DropAcceptingImageView.m */; };
 		33FD744A10DEE15E0081C00D /* drop.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FD744910DEE15E0081C00D /* drop.png */; };
@@ -453,6 +453,7 @@
 		33F6142F10CC282900EC3837 /* CellTrackingRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellTrackingRect.h; sourceTree = "<group>"; };
 		33F614D010CC50C500EC3837 /* ReloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReloadButton.h; sourceTree = "<group>"; };
 		33F614D110CC50C500EC3837 /* ReloadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReloadButton.m; sourceTree = "<group>"; };
+		33F6692113436392002A402E /* arXivTeXifier.safariextz */ = {isa = PBXFileReference; lastKnownFileType = file; path = arXivTeXifier.safariextz; sourceTree = "<group>"; };
 		33FA970A0EA8E6DD003961AD /* ArticleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleView.h; sourceTree = "<group>"; };
 		33FA970B0EA8E6DD003961AD /* ArticleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleView.m; sourceTree = "<group>"; };
 		33FD743210DEDDFE0081C00D /* DropAcceptingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingImageView.h; sourceTree = "<group>"; };
@@ -627,6 +628,7 @@
 				33197128111153DA003A8C2B /* v1.3alert.rtf */,
 				337FC2F512C4ABB6008995BF /* v1.4alert.rtf */,
 				338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */,
+				33F6692113436392002A402E /* arXivTeXifier.safariextz */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -1218,9 +1220,9 @@
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
 				33197129111153DA003A8C2B /* v1.3alert.rtf in Resources */,
-				3302844E122B525500D684B2 /* arXivTeXifier.safariextz in Resources */,
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				337FC2F612C4ABB6008995BF /* v1.4alert.rtf in Resources */,
+				33F6692213436392002A402E /* arXivTeXifier.safariextz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
