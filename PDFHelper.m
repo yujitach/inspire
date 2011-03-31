@@ -135,7 +135,7 @@ NSString* pathShownWithQuickLook=nil;
 
     if(o.hasPDFLocally&&![[NSApp appDelegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
-	if(o.articleType==ATEprint){
+	if([o isEprint]){
 	    if([[NSApp appDelegate] isOnline]){
 		NSOperation*op1=[[ArxivMetadataFetchOperation alloc] initWithArticle:o];
 		NSOperation*op2=[[ArxivVersionCheckingOperation alloc] initWithArticle:o
@@ -145,7 +145,7 @@ NSString* pathShownWithQuickLook=nil;
 		[[OperationQueues arxivQueue] addOperation:op2];
 	    }
 	}
-    }else if(o.articleType==ATEprint){
+    }else if([o isEprint]){
 	if([[NSApp appDelegate] isOnline]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES]];
 	    [[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 

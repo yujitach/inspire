@@ -8,12 +8,6 @@
 
 #import <CoreData/CoreData.h>
 typedef enum {
-    ATEprint,
-    ATSpires,
-    ATSpiresWithOnlyKey,
-    ATGeneric
-} ArticleType;
-typedef enum {
     AFNone=0,
     AFIsUnread=1,
     AFIsFlagged=2,
@@ -54,10 +48,10 @@ typedef enum {
 @property (retain) NSNumber * spiresKey;
 @property (retain) NSNumber * inspireKey;
 #pragma mark generated
-@property (assign,readonly) BOOL  hasPDFLocally; 
-@property (assign,readonly) ArticleType articleType;
+@property (assign,readonly) BOOL hasPDFLocally; 
+@property (assign,readonly) BOOL isEprint;
 @property (retain,readonly) NSString * pdfPath; 
-@property (retain,readonly) NSString* uniqueId;
+@property (retain,readonly) NSString* uniqueSpiresQueryString;
 @property (retain,readonly) NSString* IdForCitation;
 @property (assign) ArticleFlag flag;
 @property (retain) NSString *eprintForSortingAsString;

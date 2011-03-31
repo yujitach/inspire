@@ -702,7 +702,7 @@
 	Article*o=[[ac selectedObjects] objectAtIndex:0];
 	if(!o)
 	    return;
-	if(o.articleType==ATEprint){
+	if([o isEprint]){
 	    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF association to an eprint"
 					  defaultButton:@"Yes" 
 					alternateButton:@"Cancel"

@@ -159,7 +159,7 @@ static NSArray*observedKeys=nil;
 }
 -(NSString*)eprint
 {
-    if(article.articleType!=ATEprint)
+    if(![article isEprint])
 	return nil;
     NSString* eprint= article.eprint;
     //return [NSString stringWithFormat:@"[%@]&nbsp;&nbsp;", eprint];
@@ -169,7 +169,7 @@ static NSArray*observedKeys=nil;
 }
 -(NSString*)pdfPath
 {
-    if(article.articleType==ATEprint ){
+    if([article isEprint]){
 //	if(article.hasPDFLocally){
 	    return @"<a href=\"spires-open-pdf-internal://\">pdf</a>";
 //	}else{
@@ -189,14 +189,7 @@ static NSArray*observedKeys=nil;
     }
 }
 -(NSString*)spires{
-    NSString* target=nil;
-    if(article.articleType==ATEprint){
-	target=[@"eprint " stringByAppendingString:article.eprint];
-    }else if(article.articleType==ATSpires){
-	target=[@"spicite " stringByAppendingString:article.spicite];	
-    }else if(article.articleType==ATSpiresWithOnlyKey){
-	target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
-    }
+    NSString* target=[article uniqueSpiresQueryString];
     if(target){
 	NSURL*url=[[SpiresHelper sharedHelper] spiresURLForQuery:target];
 	NSString* urlString=[url absoluteString];

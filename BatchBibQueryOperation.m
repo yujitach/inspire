@@ -18,14 +18,7 @@
     articles=[a copy];
     targets=[NSMutableArray array];
     for(Article* article in articles){
-	NSString* target=nil;
-	if(article.articleType==ATEprint){
-	    target=[@"eprint " stringByAppendingString:article.eprint];
-	}else if(article.articleType==ATSpires){
-	    target=[@"spicite " stringByAppendingString:article.spicite];	
-	}else if(article.articleType==ATSpiresWithOnlyKey){
-	    target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
-	}
+	NSString* target=[article uniqueSpiresQueryString];
 	if(!target)
 	    target=(NSString*)[NSNull null];
 	[targets addObject:target];

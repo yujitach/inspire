@@ -25,7 +25,6 @@
 @dynamic citedBy;
 @dynamic refersTo;
 @dynamic citecount;
-@dynamic uniqueId;
 @dynamic IdForCitation;
 @dynamic normalizedTitle;
 @dynamic longishAuthorListForA;
@@ -381,17 +380,6 @@
 {
     return [NSSet setWithObjects:@"data.pdfAlias",nil];
 }
--(ArticleType)articleType
-{
-    if(self.eprint && ![self.eprint isEqualToString:@""]){
-	return ATEprint;
-    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
-	return ATSpires;
-    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
-	return ATSpiresWithOnlyKey;
-    }
-    return ATGeneric;
-}
 -(NSString*)pdfPath
 {
     if(self.data.pdfAlias){
@@ -411,7 +399,7 @@
 	}else{
 	    [self associatePDF:nil];
 	}
-    }else if(self.articleType==ATEprint){
+    }else if([self isEprint]){
 	NSString* name=self.eprint;
 	if([name hasPrefix:@"arXiv:"]){
 	    name=[name substringFromIndex:[(NSString*)@"arXiv:" length]];
@@ -434,7 +422,10 @@
 								  error:&error];
     [self setFlag:self.flag | AFHasPDF];
 }
-
+-(BOOL)isEprint
+{
+    return self.eprint && ![self.eprint isEqualToString:@""];
+}
 -(BOOL)hasPDFLocally
 {
     BOOL b= [[NSFileManager defaultManager] fileExistsAtPath:self.pdfPath];
@@ -451,39 +442,33 @@
     if(self.texKey && ![self.texKey isEqualToString:@""]){
 	return self.texKey;
     }
-    if(self.articleType==ATEprint){
+    if([self isEprint]){
 	NSString*s=self.eprint;
 	if([s hasPrefix:@"arXiv:"]){
 	    return [s substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}else{
 	    return s;
 	}
-    }else if(self.articleType==ATSpires){
+    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
 	return self.spicite;
-    }else if(self.articleType==ATSpiresWithOnlyKey){
+    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
 	return [self.spiresKey stringValue];
     }else{
 	return @"shouldn't happen";
     }
 }
--(NSString*)uniqueId
+-(NSString*)uniqueSpiresQueryString
 {
-    if(self.articleType==ATEprint){
-	NSString*s=self.eprint;
-	s=[s stringByReplacingOccurrencesOfString:@"/" withString:@""];
-	if([s hasPrefix:@"arXiv:"]){
-	    return [s substringFromIndex:[(NSString*)@"arXiv:" length]];
-	}else{
-	    return s;
-	}
-    }else if(self.articleType==ATSpires){
-	return self.spicite;
-    }else if(self.articleType==ATSpiresWithOnlyKey){
-	return [self.spiresKey stringValue];
-    }else{
-	return @"shouldn't happen";
+    if([self isEprint]){
+	return [@"eprint " stringByAppendingString:self.eprint];
+    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
+	return [@"spicite " stringByAppendingString:self.spicite];	
+    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
+	return [@"key " stringByAppendingString:[self.spiresKey stringValue]];	
     }
+    return nil;
 }
+
 -(NSImage*)flagImage
 {
     ArticleFlag af=self.flag;

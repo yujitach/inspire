@@ -384,15 +384,7 @@
 -(IBAction)reloadFromSPIRES:(id)sender
 {
     for(Article*article in [ac selectedObjects]){
-	NSString* target=nil;
-	if(article.articleType==ATEprint){
-	    target=[@"eprint " stringByAppendingString:article.eprint];
-	    //	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:article]];
-	}else if(article.articleType==ATSpires){
-	    target=[@"spicite " stringByAppendingString:article.spicite];	
-	}else if(article.articleType==ATSpiresWithOnlyKey){
-	    target=[@"key " stringByAppendingString:[article.spiresKey stringValue]];	
-	}
+	NSString* target=[article uniqueSpiresQueryString];
 	if(target){
 	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
 											    andMOC:[MOC moc]]];
