@@ -9,6 +9,7 @@
 #import "InspireCitationNumberRefreshOperation.h"
 #import "Article.h"
 #import "RegexKitLite.h"
+#import "SpiresHelper.h"
 
 @implementation InspireCitationNumberRefreshOperation
 -(InspireCitationNumberRefreshOperation*)initWithArticles:(NSSet*)aa;
@@ -35,10 +36,8 @@
 {
     sofar+=(int)[x count];
 
-    NSString*urlString=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=recid:%@&of=hb",
-			[x componentsJoinedByString:@"+or+recid:"]];
-    urlString=[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL*url=[NSURL URLWithString:urlString];
+    NSString*query=[NSString stringWithFormat: @"recid:%@&of=hb",[x componentsJoinedByString:@" or recid:"]];
+    NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:query];
     NSString*result=[NSString stringWithContentsOfURL:url
 					     encoding:NSUTF8StringEncoding
 						error:NULL];

@@ -468,6 +468,16 @@
     }
     return nil;
 }
+-(NSString*)uniqueInspireQueryString
+{
+    if(self.inspireKey &&[self.inspireKey integerValue]!=0){
+        return [NSString stringWithFormat:@"recid:%@",self.inspireKey];
+    }
+    if([self isEprint]){
+	return [@"eprint " stringByAppendingString:self.eprint];
+    }
+    return [NSString stringWithFormat:@"title:\"%@\"",self.title];   
+}
 
 -(NSImage*)flagImage
 {

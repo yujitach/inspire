@@ -123,7 +123,7 @@
     if(!pdf){ //APS
 	NSString*s=[html stringByMatching:@"(/pdf/.+?)\">PDF" capture:1];
 	if(s){
-	    pdf=[@"http://prola.aps.org" stringByAppendingString:s];
+	    pdf= [[[NSURL alloc] initWithString:s relativeToURL:[downloader url]] absoluteString];
 	}
     }
     if(!pdf){ //AIP

@@ -64,8 +64,9 @@
 	}else if(article.eprint && ![article.eprint isEqualToString:@""]){
 	    rec=[NSString stringWithFormat:@"%@",article.eprint];
 	}else if(article.spiresKey && [article.spiresKey integerValue]!=0){
-	    NSString*str=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=find+key+%@&rg=1&of=xm",article.spiresKey];
-	    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:str]
+            NSString*query=[NSString stringWithFormat:@"find key %@&rg=1&of=xm",article.spiresKey];
+            NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:query];
+            NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url
 								   options:0
 								     error:NULL];
 	    NSArray*a=[[doc rootElement] nodesForXPath:@"record/controlfield" error:NULL];
@@ -90,9 +91,8 @@
     }else{
 	inspireQuery=[NSString stringWithFormat:@"find+%@",search];
     }
-    NSString*str=[NSString stringWithFormat:@"http://inspirebeta.net/search?p=%@&rg=%d&of=xm",inspireQuery,MAXPERQUERY];
-    str=[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
-    return [NSURL URLWithString:str];
+    NSString*str=[NSString stringWithFormat:@"%@&rg=%d&of=xm",inspireQuery,MAXPERQUERY];
+    return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }
 -(id)initWithQuery:(NSString*)search forArticle:(Article*)a delegate:(id)d didEndSelector:(SEL)selector 
 {

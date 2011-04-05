@@ -52,6 +52,7 @@ typedef enum {
 @property (assign,readonly) BOOL isEprint;
 @property (retain,readonly) NSString * pdfPath; 
 @property (retain,readonly) NSString* uniqueSpiresQueryString;
+@property (retain,readonly) NSString* uniqueInspireQueryString;
 @property (retain,readonly) NSString* IdForCitation;
 @property (assign) ArticleFlag flag;
 @property (retain) NSString *eprintForSortingAsString;

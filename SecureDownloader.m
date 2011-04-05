@@ -12,6 +12,7 @@
 #import <WebKit/WebKit.h>
 
 @implementation SecureDownloader
+@synthesize url;
 
 -(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
 {
@@ -52,6 +53,11 @@
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];
+}
+- (NSURLRequest *)download:(NSURLDownload *)download willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
+{
+    url = [request URL];
+    return request;
 }
 - (void)downloadDidFinish:(NSURLDownload *)download
 {

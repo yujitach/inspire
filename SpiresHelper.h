@@ -15,6 +15,8 @@
 #define SPIRESLATEX2HEAD @"http://www.slac.stanford.edu/spires/find/hep/wwwbrieflatex2?rawcmd=find+"
 #define SPIRESHARVMACHEAD @"http://www.slac.stanford.edu/spires/find/hep/wwwbriefharvmac?rawcmd=find+"
 
+#define INSPIREWWWHEAD @"http://inspirebeta.net/search?p="
+
 
 @interface SpiresHelper : NSObject {
       
@@ -23,6 +25,7 @@
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string;
 //-(NSPredicate*) simplePredicateFromSPIRESsearchString:(NSString*)string;
 -(NSURL*)spiresURLForQuery:(NSString*)search;
+-(NSURL*)inspireURLForQuery:(NSString*)search;
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search;
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search;
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search;

@@ -410,5 +410,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
     return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", SPIRESWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 }
 
+-(NSURL*)inspireURLForQuery:(NSString*)search
+{
+    return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+}
+
 
 @end

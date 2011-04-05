@@ -14,13 +14,6 @@
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		3305A35B10D44907001142FC /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; };
 		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
-		33096C8D0F6FE59F009208B2 /* MOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 330207AB0F5990210067714C /* MOC.m */; };
-		33096C8E0F6FE5A7009208B2 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
-		33096C900F6FE5B6009208B2 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
-		33096C910F6FE5BB009208B2 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
-		33096C9B0F6FE9E9009208B2 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
-		33096D570F6FEB28009208B2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C82804067257F0000B614F /* CoreData.framework */; };
-		33096D5A0F6FEB85009208B2 /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
 		3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */; };
 		330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 330AF0E90EA5428E0009B674 /* HidableNSTableView.m */; };
 		331299110EA6AA4500A7F496 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
@@ -33,7 +26,6 @@
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
-		3322D4C91042471900D8820D /* spires_DataModel 4.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
@@ -108,12 +100,6 @@
 		33BEC4510F92707B00807A8E /* v1-v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */; };
 		33BF1F0F10DA9F520070C4CC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
-		33C8D54D0F6F591900EBF26C /* SpiresInputMethod.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D54C0F6F591900EBF26C /* SpiresInputMethod.tiff */; };
-		33C8D5500F6F59CF00EBF26C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D54F0F6F59CF00EBF26C /* InfoPlist.strings */; };
-		33C8D5700F6F5B9100EBF26C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8D56E0F6F5B9100EBF26C /* main.m */; };
-		33C8D5710F6F5B9100EBF26C /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 33C8D56F0F6F5B9100EBF26C /* MainMenu.nib */; };
-		33C8D5740F6F5C1100EBF26C /* InputMethodKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C8D5730F6F5C1100EBF26C /* InputMethodKit.framework */; };
-		33C8D5770F6F5C6900EBF26C /* SpiresInputMethodController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C8D5750F6F5C6900EBF26C /* SpiresInputMethodController.m */; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
 		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
@@ -133,10 +119,7 @@
 		33CCB5A810D9F2B100D51CDE /* ArticleV3V4MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F46520FF83A1000B9363E /* ArticleV3V4MigrationPolicy.m */; };
 		33CCB5A910D9F2B200D51CDE /* SortDescriptorsV4V5MigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 332535E310C0D30900FD9D14 /* SortDescriptorsV4V5MigrationPolicy.m */; };
 		33D0C25510D9F50600C3D642 /* SpiresRelaunchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A4968210D6BE150002EDF3 /* SpiresRelaunchHelper.m */; };
-		33D8AA6B0EAA67F400619A6F /* spiresHook.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D8AA6A0EAA67F400619A6F /* spiresHook.m */; };
-		33D8AA6D0EAA683D00619A6F /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 33D8AA6C0EAA683D00619A6F /* Info */; };
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
-		33D8ADA20EAA69F500619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DE54190F71B0EE004E3A5C /* BWAnchoredPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */; };
 		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
 		33DE54230F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */; };
@@ -388,7 +371,6 @@
 		33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = spires_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
 		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
-		33C8D52D0F6F574300EBF26C /* Spires IM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spires IM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C8D52F0F6F574300EBF26C /* SpiresInputMethod-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpiresInputMethod-Info.plist"; sourceTree = "<group>"; };
 		33C8D54C0F6F591900EBF26C /* SpiresInputMethod.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SpiresInputMethod.tiff; path = InputMethod/SpiresInputMethod.tiff; sourceTree = "<group>"; };
 		33C8D54F0F6F59CF00EBF26C /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = InputMethod/InfoPlist.strings; sourceTree = "<group>"; };
@@ -417,7 +399,6 @@
 		33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchBibQueryOperation.m; sourceTree = "<group>"; };
 		33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMonitorController.h; sourceTree = "<group>"; };
 		33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMonitorController.m; sourceTree = "<group>"; };
-		33D8AA610EAA679C00619A6F /* spiresHook.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spiresHook.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D8AA620EAA679C00619A6F /* spiresHook-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "spiresHook-Info.plist"; sourceTree = "<group>"; };
 		33D8AA690EAA67F400619A6F /* spiresHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spiresHook.h; sourceTree = "<group>"; };
 		33D8AA6A0EAA67F400619A6F /* spiresHook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = spiresHook.m; sourceTree = "<group>"; };
@@ -472,23 +453,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				33BF1F0F10DA9F520070C4CC /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33C8D52B0F6F574300EBF26C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33096D570F6FEB28009208B2 /* CoreData.framework in Frameworks */,
-				33C8D5740F6F5C1100EBF26C /* InputMethodKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33D8AA5F0EAA679C00619A6F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33D8ADA20EAA69F500619A6F /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,9 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* spires.app */,
-				33D8AA610EAA679C00619A6F /* spiresHook.bundle */,
 				33E755160F58E38000A21A86 /* pdfScanHelper */,
-				33C8D52D0F6F574300EBF26C /* Spires IM.app */,
 				33A496EE10D6C3AA0002EDF3 /* SpiresRelaunchHelper */,
 			);
 			name = Products;
@@ -1057,41 +1019,6 @@
 			productReference = 33A496EE10D6C3AA0002EDF3 /* SpiresRelaunchHelper */;
 			productType = "com.apple.product-type.tool";
 		};
-		33C8D52C0F6F574300EBF26C /* SpiresInputMethod */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 33C8D5320F6F574500EBF26C /* Build configuration list for PBXNativeTarget "SpiresInputMethod" */;
-			buildPhases = (
-				33C8D5290F6F574300EBF26C /* Resources */,
-				33C8D52A0F6F574300EBF26C /* Sources */,
-				33C8D52B0F6F574300EBF26C /* Frameworks */,
-				331C40DD0F6F69E90005BCCF /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SpiresInputMethod;
-			productName = SpiresInputMethod;
-			productReference = 33C8D52D0F6F574300EBF26C /* Spires IM.app */;
-			productType = "com.apple.product-type.application";
-		};
-		33D8AA600EAA679C00619A6F /* spiresHook */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 33D8AA650EAA679D00619A6F /* Build configuration list for PBXNativeTarget "spiresHook" */;
-			buildPhases = (
-				33D8AA5D0EAA679C00619A6F /* Resources */,
-				33D8AA5E0EAA679C00619A6F /* Sources */,
-				33D8AA5F0EAA679C00619A6F /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = spiresHook;
-			productName = spiresHook;
-			productReference = 33D8AA610EAA679C00619A6F /* spiresHook.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		33E755150F58E38000A21A86 /* pdfScanHelper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33E7551C0F58E39E00A21A86 /* Build configuration list for PBXNativeTarget "pdfScanHelper" */;
@@ -1153,31 +1080,11 @@
 				8D1107260486CEB800E47090 /* spires */,
 				33E755150F58E38000A21A86 /* pdfScanHelper */,
 				33A496ED10D6C3AA0002EDF3 /* SpiresRelaunchHelper */,
-				33C8D52C0F6F574300EBF26C /* SpiresInputMethod */,
-				33D8AA600EAA679C00619A6F /* spiresHook */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		33C8D5290F6F574300EBF26C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33C8D54D0F6F591900EBF26C /* SpiresInputMethod.tiff in Resources */,
-				33C8D5500F6F59CF00EBF26C /* InfoPlist.strings in Resources */,
-				33C8D5710F6F5B9100EBF26C /* MainMenu.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33D8AA5D0EAA679C00619A6F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33D8AA6D0EAA683D00619A6F /* Info in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D1107290486CEB800E47090 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1229,19 +1136,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		331C40DD0F6F69E90005BCCF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "killall Spires\\ IM\ncp -r $BUILD_DIR/Release/Spires\\ IM.app/ /Library/Input\\ Methods/Spires\\ IM.app/";
-		};
 		33256CF80F734D6B004CCC03 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1263,30 +1157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				33D0C25510D9F50600C3D642 /* SpiresRelaunchHelper.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33C8D52A0F6F574300EBF26C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33C8D5700F6F5B9100EBF26C /* main.m in Sources */,
-				33C8D5770F6F5C6900EBF26C /* SpiresInputMethodController.m in Sources */,
-				33096C8D0F6FE59F009208B2 /* MOC.m in Sources */,
-				33096C8E0F6FE5A7009208B2 /* Article.m in Sources */,
-				33096C900F6FE5B6009208B2 /* ArticleList.m in Sources */,
-				33096C910F6FE5BB009208B2 /* JournalEntry.m in Sources */,
-				33096C9B0F6FE9E9009208B2 /* NSString+magic.m in Sources */,
-				33096D5A0F6FEB85009208B2 /* AllArticleList.m in Sources */,
-				3322D4C91042471900D8820D /* spires_DataModel 4.xcdatamodel in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33D8AA5E0EAA679C00619A6F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33D8AA6B0EAA67F400619A6F /* spiresHook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1618,109 +1488,6 @@
 			};
 			name = Release;
 		};
-		33C8D5300F6F574400EBF26C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "SpiresInputMethod-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-licucore",
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = SpiresInputMethod;
-			};
-			name = Debug;
-		};
-		33C8D5310F6F574400EBF26C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "SpiresInputMethod-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-licucore",
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Spires IM";
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		33D8AA630EAA679D00619A6F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "spiresHook-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = spiresHook;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		33D8AA640EAA679D00619A6F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "spiresHook-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = spiresHook;
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		33E755180F58E38000A21A86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1799,24 +1566,6 @@
 			buildConfigurations = (
 				33A496F010D6C3AB0002EDF3 /* Debug */,
 				33A496F110D6C3AB0002EDF3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		33C8D5320F6F574500EBF26C /* Build configuration list for PBXNativeTarget "SpiresInputMethod" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33C8D5300F6F574400EBF26C /* Debug */,
-				33C8D5310F6F574400EBF26C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		33D8AA650EAA679D00619A6F /* Build configuration list for PBXNativeTarget "spiresHook" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33D8AA630EAA679D00619A6F /* Debug */,
-				33D8AA640EAA679D00619A6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

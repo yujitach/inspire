@@ -17,4 +17,5 @@
 }
 -(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
 -(void)download;
+@property (readonly) NSURL*url;
 @end

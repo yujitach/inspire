@@ -188,7 +188,20 @@ static NSArray*observedKeys=nil;
 	return @"<del>pdf</del>";
     }
 }
--(NSString*)spires{
+-(NSString*)inspire_
+{
+    NSString* target=[article uniqueInspireQueryString];
+    if(target){
+        NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:target];
+	NSString* urlString=[url absoluteString];
+	return [NSString stringWithFormat:@"<a href=\"%@&of=hd\">inspire</a>",urlString];
+    }else{
+	return [NSString stringWithFormat:@"<del>spires</del>"];
+    }
+    return nil;
+}
+-(NSString*)spires_
+{
     NSString* target=[article uniqueSpiresQueryString];
     if(target){
 	NSURL*url=[[SpiresHelper sharedHelper] spiresURLForQuery:target];
@@ -198,6 +211,14 @@ static NSArray*observedKeys=nil;
 	return [NSString stringWithFormat:@"<del>spires</del>"];
     }
     return nil;
+}
+-(NSString*)spires
+{
+    if([[NSApp appDelegate] useInspire]){
+        return [self inspire_];
+    }else{
+        return [self spires_];
+    }
 }
 -(NSString*)journalNumber:(JournalEntry*)j
 {
