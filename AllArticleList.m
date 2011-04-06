@@ -19,8 +19,6 @@ static AllArticleList*_allArticleList=nil;
     {
 	NSFetchRequest*req=[[NSFetchRequest alloc]init];
 	[req setEntity:authorEntity];
-	NSPredicate*pred=[NSPredicate predicateWithFormat:@"name = 'spires'"];
-	[req setPredicate:pred];
 	NSError*error=nil;
 	a=[moc executeFetchRequest:req error:&error];
     }

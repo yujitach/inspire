@@ -474,7 +474,7 @@
         return [NSString stringWithFormat:@"recid:%@",self.inspireKey];
     }
     if([self isEprint]){
-	return [@"eprint " stringByAppendingString:self.eprint];
+	return [@"eprint:" stringByAppendingString:self.eprint];
     }
     return [NSString stringWithFormat:@"title:\"%@\"",self.title];   
 }

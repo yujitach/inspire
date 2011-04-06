@@ -8,6 +8,7 @@
 
 #import "PrefController.h"
 #import "MOC.h"
+#import "AllArticleList.h"
 
 @implementation PrefController
 #pragma mark Time Machine
@@ -35,11 +36,16 @@
     CSBackupIsItemExcluded((CFURLRef)url,&excluded);
     [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
 }*/
-
+-(void)setAllArticleName
+{
+    AllArticleList*allArticleList=[AllArticleList allArticleList];
+    allArticleList.name=[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"];
+}
 -(PrefController*)init
 {
     self=[super initWithWindowNibName:@"PrefPane"];
     [self timeMachineSettingChanged:self];
+    [self setAllArticleName];
     [[NSNotificationCenter defaultCenter] addObserver:self
 					     selector:@selector(applicationWillTerminate:) 
 						 name:NSApplicationWillTerminateNotification
@@ -114,6 +120,7 @@
 {
     NSString*databaseToUse=[databaseToUsePopUp titleOfSelectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:databaseToUse forKey:@"databaseToUse"];
+    [self setAllArticleName];
 }
 -(IBAction)bibSelected:(id)sender;
 {
