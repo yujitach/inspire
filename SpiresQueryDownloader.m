@@ -88,6 +88,8 @@
 	    head=@"refersto";
 	}
 	inspireQuery=[NSString stringWithFormat:@"%@:%@",head,rec];
+    }else if([search hasPrefix:@"doi"]){
+        inspireQuery=[search stringByReplacingOccurrencesOfRegex:@"^doi " withString:@"doi:"];
     }else{
 	inspireQuery=[NSString stringWithFormat:@"find+%@",search];
     }

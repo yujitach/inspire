@@ -71,8 +71,8 @@
 		[apps addObject:bundleId];
 		[menuForApps addItem:mi];	    
 	    }
+            CFRelease(url);
 	}
-	CFRelease(url);
     }
     
     {
