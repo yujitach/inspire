@@ -16,6 +16,13 @@
 
 @implementation SPSearchFieldWithProgressIndicator
 @synthesize progressQuitAction;
+-(BOOL)isKindOfClass:(Class)aClass
+{
+    // this is to fight with stupid Lion behavior
+    if([NSStringFromClass(aClass) isEqualToString:@"NSSearchField"])
+        return NO;
+    return [super isKindOfClass:aClass];
+}
 -(void)awakeFromNib
 {
 //    NSLog(@"awake");

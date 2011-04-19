@@ -373,7 +373,9 @@
 		if(unreadTimer){
 		    [unreadTimer invalidate];
 		}
-		unreadTimer=[NSTimer scheduledTimerWithTimeInterval:1
+                NSTimeInterval delay=[[NSUserDefaults standardUserDefaults] floatForKey:@"unreadTimerDelay"];
+                if(delay<0.01)delay=1;
+		unreadTimer=[NSTimer scheduledTimerWithTimeInterval:delay
 							     target:self 
 							   selector:@selector(clearUnreadFlagOfArticle:) 
 							   userInfo:ar 

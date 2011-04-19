@@ -108,6 +108,8 @@
 	</array>
 	<key>arXivWaitInSeconds</key>
 	<integer>5</integer>
+	<key>unreadTimerDelay</key>
+	<integer>1</integer>
 	<key>askBeforeDownloadingPDF</key>
 	<true/>
 	<key>batchImportCap</key>

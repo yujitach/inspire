@@ -167,7 +167,7 @@
 }
 
 - (NSRect)buttonRectForBounds:(NSRect)cellFrame {
-    NSRect result;
+/*    NSRect result;
     if (button != nil) {
         result.size = [[button image] size];
         result.origin = cellFrame.origin;
@@ -176,7 +176,8 @@
     } else {
         result = NSZeroRect;
     }
-    return result;
+    return result;*/
+    return [self imageRectForBounds:cellFrame];
 }
 
 
@@ -214,8 +215,8 @@
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    if (image != nil) {
-        NSRect	imageFrame;
+ //   if (image != nil) {
+        NSRect imageFrame;
         NSSize imageSize = [image size];
         NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3 + imageSize.width, NSMinXEdge);
         if ([self drawsBackground]) {
@@ -225,23 +226,17 @@
         imageFrame.origin.x += 3;
         imageFrame.size = imageSize;
 
+//    }
+    if(button && showButton){
+	[button setHighlighted:[self isHighlighted]];
+	[button drawWithFrame:imageFrame inView:controlView];
+    }else{
         if ([controlView isFlipped])
             imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height + imageFrame.size.height) / 2);
         else
             imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-
-        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
-    }
-//    NSPoint pt=[[controlView window] mouseLocationOutsideOfEventStream];
-//    pt=[controlView convertPoint:pt fromView:nil];
-//    BOOL mouseIsIn=[[self controlView] mouse:pt inRect:cellFrame];    
-    if(button && showButton
-       //&&mouseIsIn
-       ){
-	NSRect buttonFrame;
-	NSDivideRect (cellFrame, &buttonFrame, &cellFrame, [[button image] size].width, NSMaxXEdge);
-	[button setHighlighted:[self isHighlighted]];
-	[button drawWithFrame:buttonFrame inView:controlView];
+        
+        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];    
     }
     [super drawWithFrame:cellFrame inView:controlView];
 }
@@ -255,7 +250,7 @@
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView {
     NSPoint point = [controlView convertPoint:[event locationInWindow] fromView:nil];
     // If we have an image, we need to see if the user clicked on the image portion.
-    if (image != nil) {
+ /*   if (image != nil) {
         // This code closely mimics drawWithFrame:inView:
         NSSize imageSize = [image size];
         NSRect imageFrame;
@@ -269,7 +264,7 @@
             // By returning the correct parts, we allow NSTableView to correctly begin an edit when the text portion is clicked on.
             return NSCellHitContentArea;
         }        
-    }
+    }*/
     if(button&&showButton){
 	NSRect buttonRect = [self buttonRectForBounds:cellFrame];
 	if (NSMouseInRect(point, buttonRect, [controlView isFlipped])) {
@@ -314,23 +309,26 @@
     }
     
     // We make the view the owner, and it delegates the calls back to the cell after it is properly setup for the corresponding row/column in the outlineview
-    NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:infoButtonRect options:options owner:controlView userInfo:userInfo];
+    NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:infoButtonRect 
+                                                        options:options owner:controlView userInfo:userInfo];
     [controlView addTrackingArea:area];
     [area release];
 }
 
 - (void)mouseEntered:(NSEvent *)event {
+    [(NSControl *)[self controlView] updateCell:self];
     if(button){
 	[button mouseEntered:event];
+//        [self setShowButton:YES];
     }
-    [(NSControl *)[self controlView] updateCell:self];
 }
 
 - (void)mouseExited:(NSEvent *)event {
+    [(NSControl *)[self controlView] updateCell:self];
     if(button){
 	[button mouseExited:event];
+//        [self setShowButton:NO];
     }
-    [(NSControl *)[self controlView] updateCell:self];
 }
 
 

@@ -380,6 +380,10 @@
 {
     return [NSSet setWithObjects:@"data.pdfAlias",nil];
 }
+-(BOOL)trashContainsFileWithName:(NSString*)path
+{
+    return [[path stringByAbbreviatingWithTildeInPath] hasPrefix:@"~/.Trash"];
+}
 -(NSString*)pdfPath
 {
     if(self.data.pdfAlias){
@@ -392,7 +396,7 @@
 					       error:&error];
 	if(url){
 	    NSString* path=[url path];
-	    if(isStale){
+	    if(isStale && ![self trashContainsFileWithName:path]){
 		[self associatePDF:path];
 	    }
 	    return path;
@@ -429,7 +433,7 @@
 -(BOOL)hasPDFLocally
 {
     BOOL b= [[NSFileManager defaultManager] fileExistsAtPath:self.pdfPath];
-    if(b){
+    if(b && ![self trashContainsFileWithName:self.pdfPath]){
 	[self setFlag:self.flag | AFHasPDF];
 	if(!self.data.pdfAlias){
 	    [self associatePDF:self.pdfPath];
