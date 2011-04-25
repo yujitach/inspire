@@ -50,9 +50,14 @@
     NSMenu* menuForApps=[[NSMenu alloc] init];
 
     {
-	NSArray* a=NSMakeCollectable(LSCopyAllRoleHandlersForContentType(kUTTypePDF,kLSRolesAll));
-	
-	for(NSString* bundleId in a){
+        system("touch /tmp/a.pdf");
+        NSURL*dummy=[NSURL fileURLWithPath:@"/tmp/a.pdf"];
+	NSArray* a=NSMakeCollectable(LSCopyApplicationURLsForURL((CFURLRef)dummy,kLSRolesAll));
+
+	for(NSURL* url in a){
+            NSBundle*bundle=[NSBundle bundleWithURL:url];
+            NSString*bundleId=[bundle bundleIdentifier];
+            if([apps containsObject:bundleId])continue;
 	    NSMenuItem* mi=[self menuItemForApp:bundleId];
 	    if(!mi)continue;
 	    [apps addObject:bundleId];
@@ -60,7 +65,7 @@
 	}
     }
     
-    {
+/*    {
 	CFURLRef url;
 	OSStatus err=LSFindApplicationForInfo(kLSUnknownCreator, NULL, (CFStringRef)@"TeXShop.app", NULL, &url);
 	if(err!=kLSApplicationNotFoundErr){
@@ -73,12 +78,12 @@
 	    }
             CFRelease(url);
 	}
-    }
+    }*/
     
     {
 	NSArray* a=NSMakeCollectable(LSCopyAllHandlersForURLScheme((CFStringRef)@"http"));
-	
 	for(NSString* bundleId in a){
+            if([apps containsObject:bundleId])continue;
 	    NSMenuItem* mi=[self menuItemForApp:bundleId];
 	    if(!mi)continue;
 	    [apps addObject:bundleId];

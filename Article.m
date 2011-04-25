@@ -467,12 +467,12 @@
 	return [@"eprint " stringByAppendingString:self.eprint];
     }else if(self.texKey && ![self.texKey isEqualToString:@""]){
         return [@"texkey " stringByAppendingString:self.texKey];        
-    }else if(self.doi && ![self.doi isEqualToString:@""]){
-        return [@"doi " stringByAppendingString:self.doi];        
     }else if(self.spicite && ![self.spicite isEqualToString:@""]){
 	return [@"spicite " stringByAppendingString:self.spicite];	
     }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
 	return [@"key " stringByAppendingString:[self.spiresKey stringValue]];	
+    }else if(self.doi && ![self.doi isEqualToString:@""]){
+        return [@"doi " stringByAppendingString:self.doi];        
     }
     return nil;
 }

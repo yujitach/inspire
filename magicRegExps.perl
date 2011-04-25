@@ -6,7 +6,7 @@ s/%%/!!/g;
 s/  %/  /g; # if $wanttitleofpapers;
 s/!!/%%/g;
 s/~.~/~/;
-s/([,.a-zA-Z]) *([01-9]+) *\(/$1 \\textbf{$2} (/g;
+s/ ([,.a-zA-Z]+) *([01-9]+) *\(/$1 \\textbf{$2} (/g;
 s/,'' *([A-Z].*) *\\t/,'' \\textsl{$1}\\t/g;
 s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/math.dg/math.DG/gi;
@@ -40,6 +40,10 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/([^\$])\\times/$1\$\\times\$/ig;
     s/SU\((.)\)/\$SU($1)\$/;
     s/SU\((...)\)/\$SU($1)\$/;
+    s/SL\((.)\)/\$SL($1)\$/;
+    s/SL\((...)\)/\$SL($1)\$/;
+    s/SL([1-9])/\$SL($1)\$/i;
+    s/W([1-9])/\$W_$1\$/i;
     s/N\(c\)/\\hbox{\$N_c\$}/i;
     s/N\(f\)/\\hbox{\$N_f\$}/i;
     s/O\((.)\)/\$O($1)\$/i;
@@ -57,13 +61,17 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/R\(2\)/\$R^2\$/g;
     s/G\(2\)/\$G_2\$/g;
     s/Z\(2\)/\$Z_2\$/g;
+    s/A_\{(.+?)\}/\$A_{$1}\$/g;
+    s/A_([^{])/\$A_{$1}\$/g; #}
     s/D_(.)/\$D_{$1}\$/g;
     s/E_(.)/\$E_{$1}\$/g;
+    s/A\((.)\)/\$A_{$1}\$/g;
     s/D\((.)\)/\$D_{$1}\$/g;
     s/E\((.)\)/\$E_{$1}\$/g;
     s/S2/\$S^2\$/g;
     s/S3/\$S^3\$/g;
     s/Electric +- +magnetic/Electric--magnetic/g;
+    s/M *-+ *[Tt]heory/M-theory/g;
     s/prepotential +F +/prepotential \$F\$ /ig;
     s/modulus +u +/modulus \$u\$ /ig;
     s/(en)hancon/$1han\\c{c}on/ig;
@@ -72,6 +80,7 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/d=4/\$d=4\$/ig;
     s/O6-/O\$6^-\$/g;
     s/A-D-E/A-D-E/ig;
+    s/AGT/AGT/ig;
     s/\(p,q\) +7/\$[p,q]\$ 7/ig;
     s/\(p,q\) +5/\$(p,q)\$ 5/ig;
     s/\(p,q\) +(w)/\$(p,q)\$ $1/ig;
@@ -106,6 +115,7 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/K\.[ ~]*I\./K.-I./ig;
     s/(K)aehler/$1\\"ahler/ig; #"
     s/(K)ahler/$1\\"ahler/gi;  #"
+    s/Kozcaz/Koz\\c{c}az/gi;  
     s/Lindstrom/Lindstr\\"om/g;  #"
     s/Lust,/L\\"ust,/g;  #"
     s/McKernan/M\\raise.5ex\\hbox{c}Kernan/g;
@@ -129,3 +139,4 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/in the Noether/is the Noether/;
     s/%%CITATIO/%%CITATION/;
     s/^ *//;
+    s/ +/ /;
