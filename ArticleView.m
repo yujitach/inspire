@@ -155,7 +155,12 @@ static NSArray*observedKeys=nil;
 
 -(NSString*)title
 {
-    return [[article valueForKey:@"quieterTitle"] stringByConvertingTeXintoHTML];
+    NSString*s=article.quieterTitle;
+    s=[s stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    s=[s stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+    s=[s stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    s=[s stringByConvertingTeXintoHTML];
+    return s;
 }
 -(NSString*)eprint
 {

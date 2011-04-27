@@ -19,6 +19,8 @@ typedef enum {
 {
 }
 
+// title should contain strings WITHOUT ampersand-escapes,
+// abstract should contain strings WITH ampersand-escapes.
 #pragma mark intrinsic
 @property (retain) JournalEntry * journal;
 @property (retain) NSString * flagInternal;
@@ -50,6 +52,7 @@ typedef enum {
 #pragma mark generated
 @property (assign,readonly) BOOL hasPDFLocally; 
 @property (assign,readonly) BOOL isEprint;
+@property (retain,readonly) NSString * quieterTitle; 
 @property (retain,readonly) NSString * pdfPath; 
 @property (retain,readonly) NSString* uniqueSpiresQueryString;
 @property (retain,readonly) NSString* uniqueInspireQueryString;
@@ -58,7 +61,6 @@ typedef enum {
 @property (retain) NSString *eprintForSortingAsString;
 
 
-//+(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
 +(NSString*)eprintForSortingFromEprint:(NSString*)eprint;
 

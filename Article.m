@@ -61,7 +61,7 @@
 	x=[a objectAtIndex:1];
 	x=[x stringByAppendingString:@"0"];
     }
-    if([x hasPrefix:@"0"]){
+    if(![x hasPrefix:@"9"]){
 	return [@"20" stringByAppendingString:x];
     }
     return [@"19" stringByAppendingString:x];

@@ -136,6 +136,14 @@
     [self setJournalToArticle:o inXMLElement:element];
     [self setDateToArticle:o inXMLElement:element];
     
+    if(o.abstract){
+        NSString*abstract=o.abstract;
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+	abstract=[abstract stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+	abstract=[abstract stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+        o.abstract=abstract;
+    }
+    
     NSString*inspireKey=[self valueForKey:@"inspire_key" inXMLElement:element];
     if(inspireKey){
 	o.inspireKey=[NSNumber numberWithInteger:[inspireKey integerValue]];
