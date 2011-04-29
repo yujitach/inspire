@@ -108,8 +108,6 @@
 	</array>
 	<key>arXivWaitInSeconds</key>
 	<integer>5</integer>
-	<key>unreadTimerDelay</key>
-	<integer>1</integer>
 	<key>askBeforeDownloadingPDF</key>
 	<true/>
 	<key>batchImportCap</key>
@@ -167,6 +165,17 @@
 	<true/>
 	<key>mirrorToUse</key>
 	<string></string>
+	<key>particles</key>
+	<array>
+		<string>&apos;t</string>
+		<string>de</string>
+		<string>del</string>
+		<string>den</string>
+		<string>di</string>
+		<string>le</string>
+		<string>van</string>
+		<string>von</string>
+	</array>
 	<key>pdfDir</key>
 	<string>~/Desktop</string>
 	<key>prepositions</key>
@@ -269,6 +278,8 @@
 	<string>Turn Offline</string>
 	<key>universityLibraryToGetPDF</key>
 	<string>None</string>
+	<key>unreadTimerDelay</key>
+	<integer>1</integer>
 	<key>UpdaterWillFollowUnstableVersions</key>
 	<false/>
 	<key>WSJournals</key>

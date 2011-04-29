@@ -83,13 +83,12 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	while([operand hasSuffix:@" "]){
 	    operand=[operand substringToIndex:[operand length]-1];
 	}
-	
-	operand=[operand stringByReplacingOccurrencesOfString:@"van " withString:@"van+"];
-	operand=[operand stringByReplacingOccurrencesOfString:@"Van " withString:@"Van+"];
-	operand=[operand stringByReplacingOccurrencesOfString:@"de " withString:@"de+"];
-	operand=[operand stringByReplacingOccurrencesOfString:@"De " withString:@"De+"];
-	operand=[operand stringByReplacingOccurrencesOfString:@"di " withString:@"di+"];
-	operand=[operand stringByReplacingOccurrencesOfString:@"Di " withString:@"Di+"];
+	NSArray*particles=[[NSUserDefaults standardUserDefaults] objectForKey:@"particles"];
+        for(NSString*particle in particles){
+            NSString*a=[particle stringByAppendingString:@" "];
+            NSString*b=[particle stringByAppendingString:@"+"];
+            operand=[operand stringByReplacingOccurrencesOfString:a withString:b];            
+        }
 	NSArray*xx=[operand componentsSeparatedByString:@" "];
 	NSMutableArray*x=[NSMutableArray array];
 	for(NSString* s in xx){

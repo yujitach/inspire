@@ -79,8 +79,9 @@ static NSArray*observedKeys=nil;
 	    }
 	}
     }
-    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
+//    [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     NSMutableArray*b=[NSMutableArray array];
+    NSArray*particles=[[NSUserDefaults standardUserDefaults] objectForKey:@"particles"];
     for(NSString*s in a){
 	NSString* searchString=[NSString stringWithFormat:@"spires-search://a %@",s];
 	searchString=[searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -102,8 +103,13 @@ static NSArray*observedKeys=nil;
 	    }else{
 		for(NSString*i in d){
 		    if(!i || [i isEqualToString:@""]) continue;
-		    [result appendString:[[i substringToIndex:1] capitalizedStringForName]];
-		    [result appendString:@". "];
+                    if(![particles containsObject:i]){
+                        [result appendString:[[i substringToIndex:1] capitalizedStringForName]];
+                        [result appendString:@". "];
+                    }else{
+                        [result appendString:i];                        
+                        [result appendString:@" "];                        
+                    }
 		}
 	    }
 	}

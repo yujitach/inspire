@@ -115,20 +115,23 @@ static void loadMagic(){
 }
 -(NSString*)capitalizedStringForName;
 {
+    NSArray*particles=[[NSUserDefaults standardUserDefaults] objectForKey:@"particles"];
+    for(NSString*particle in particles){
+        NSString*a=[particle stringByAppendingString:@" "];
+        if([self hasPrefix:a] || [self hasPrefix:[a capitalizedString]] 
+        || [self hasPrefix:[a uppercaseString]]){
+            NSString*rest=[[self substringFromIndex:[a length]] capitalizedString];
+            return [a stringByAppendingString:rest];
+        }
+    }
     if([self hasPrefix:@"Mc"]||[self hasPrefix:@"mc"]){
 	return [@"Mc" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
-    }else if([self hasPrefix:@"de "]||[self hasPrefix:@"De "]){
-	return [@"de " stringByAppendingString:[[self substringFromIndex:3] capitalizedString]];
     }else if([self hasPrefix:@"d'"]||[self hasPrefix:@"D'"]){
 	return [@"D'" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
     }else if([self hasPrefix:@"o'"]||[self hasPrefix:@"O'"]){
 	return [@"O'" stringByAppendingString:[[self substringFromIndex:2] capitalizedString]];
     }else if([self hasPrefix:@"Van den "]||[self hasPrefix:@"van den "]){
 	return [@"Van den" stringByAppendingString:[[self substringFromIndex:[@"Van den " length]] capitalizedString]];
-    }else if([self hasPrefix:@"Van "]||[self hasPrefix:@"van "]){
-	return [@"Van " stringByAppendingString:[[self substringFromIndex:4] capitalizedString]];
-    }else if([self hasPrefix:@"'t "]||[self hasPrefix:@"'T "]){
-	return [@"'t " stringByAppendingString:[[self substringFromIndex:3] capitalizedString]];
     }else{
 	return [self capitalizedString];
     }
