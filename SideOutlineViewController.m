@@ -226,6 +226,7 @@
     }
     // Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
+    
     [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
 }
 /*-(void)saveArticleLists

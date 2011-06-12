@@ -27,7 +27,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     }
     NSMutableArray*citations=[[dict objectForKey:@"citationsInOrder"] mutableCopy];
     for(NSString*subfile in inputs){
-	if(![subfile hasSuffix:@".tex"]){
+	if([subfile rangeOfString:@"."].location==NSNotFound){
 	    subfile=[subfile stringByAppendingString:@".tex"];
 	}
 	NSString*fullPath=[[file stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",subfile];

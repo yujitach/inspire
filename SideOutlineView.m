@@ -22,10 +22,18 @@
 
 
 
-
+-(CGFloat)indentationPerLevel
+{
+    return 10;
+}
 - (NSRect)frameOfCellAtColumn:(NSInteger)column row:(NSInteger)row
 {
     NSRect frame = [super frameOfCellAtColumn:column row:row];
+    NSRect dummy = [super frameOfCellAtColumn:column row:0];
+    NSInteger level=[self levelForRow:row];
+    frame.origin.x=dummy.origin.x+level*[self indentationPerLevel];
+    frame.size.width=dummy.size.width-level*[self indentationPerLevel];
+//    NSLog(@"level:%d row:%d rect:%@",(int)[self levelForRow:row],(int)row,NSStringFromRect(frame));
     BOOL hasFolder=NO;
     for(int i=0;i<[self numberOfRows];i++){
 	NSTreeNode*item=[self itemAtRow:i];
@@ -64,6 +72,8 @@
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row;
 {    
     NSRect frame = [super frameOfOutlineCellAtRow:row];
+    NSRect dummy = [super frameOfCellAtColumn:0 row:row];
+    frame.origin.x=dummy.origin.x-12;
     
     CGFloat indent = [self indentationPerLevel];
     if ( indent > kMaxFirstLevelIndentation )

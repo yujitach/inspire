@@ -49,7 +49,8 @@
     });
     for(NSUInteger i=0;i<[articles count];i++){
 	Article* article=[articles objectAtIndex:i];
-	NSString*target=[targets objectAtIndex:i];	
+	NSString*target=[targets objectAtIndex:i];
+	NSLog(@"looking up %@",target);
 	if([self isCancelled])break;
 	if(!target) continue;
 	NSString* bib=[[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target] objectAtIndex:0];
