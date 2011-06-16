@@ -72,7 +72,7 @@
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row;
 {    
     NSRect frame = [super frameOfOutlineCellAtRow:row];
-    NSRect dummy = [super frameOfCellAtColumn:0 row:row];
+    NSRect dummy = [self frameOfCellAtColumn:0 row:row];
     frame.origin.x=dummy.origin.x-12;
     
     CGFloat indent = [self indentationPerLevel];
