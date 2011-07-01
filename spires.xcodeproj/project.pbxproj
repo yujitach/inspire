@@ -40,6 +40,7 @@
 		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
+		3343E9FE13B7FE5000258D0C /* v1.4.4alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3343E9FD13B7FE5000258D0C /* v1.4.4alert.rtf */; };
 		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
 		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
@@ -263,6 +264,7 @@
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
 		3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXIDsLookUpOperation.h; sourceTree = "<group>"; };
 		3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXIDsLookUpOperation.m; sourceTree = "<group>"; };
+		3343E9FD13B7FE5000258D0C /* v1.4.4alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.4.4alert.rtf; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
 		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "bwtoolkit/NSView+BWAdditions.m"; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
 				33197128111153DA003A8C2B /* v1.3alert.rtf */,
 				337FC2F512C4ABB6008995BF /* v1.4alert.rtf */,
+				3343E9FD13B7FE5000258D0C /* v1.4.4alert.rtf */,
 				338E9EC01037C8530059AE43 /* SnowLeopardAlert.rtf */,
 				33F6692113436392002A402E /* arXivTeXifier.safariextz */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
@@ -1130,6 +1133,7 @@
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				337FC2F612C4ABB6008995BF /* v1.4alert.rtf in Resources */,
 				33F6692213436392002A402E /* arXivTeXifier.safariextz in Resources */,
+				3343E9FE13B7FE5000258D0C /* v1.4.4alert.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

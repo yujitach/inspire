@@ -169,6 +169,9 @@
 -(void)runBibTeXForLog:(NSString*)file
 {
     NSString*content=[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:NULL];
+    if(!content){
+        content=[NSString stringWithContentsOfFile:file encoding:NSISOLatin1StringEncoding error:NULL];
+    }
     if(![content hasPrefix:@"This is"]){
 	[self addToLog:[NSString stringWithFormat:@"%@ modified, but doesn't seem to be a .log for a TeX compilation\n",[file lastPathComponent]]];	
 	return;

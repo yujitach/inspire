@@ -143,6 +143,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 -(NSPredicate*)eaPredicate:(NSString*)operand
 {
     operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    if([operand length]<3){
+	return nil;
+    }
     if([operand rangeOfString:@","].location==NSNotFound){
 	NSArray* a=[operand componentsSeparatedByString:@" "];
 	if([a count]==0)

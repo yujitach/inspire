@@ -39,6 +39,7 @@ var htmlTeXRegExps=[
 /* DELETED: Everything except for spaces
 ["([^\\\\$])_([\\S]+)","$1<sub>$2</sub>"],
 */
+//["\\\\acute\\{\\\\text\\{a\\}\\}","á"],
 ["N *= *([01-9]+)","<span style=\"font-style:italic\">N</span>=$1"],
 ["\\\\'([aeiou])","&$1acute;"],
 ["\\\\`([aeiou])","&$1grave;"],
@@ -48,9 +49,13 @@ var htmlTeXRegExps=[
 ["&lt;-&gt;","↔"],
 ["\\\\v\\{r\\}","ř"],
 ["\\\\v\\{c\\}","č"],
+["\\\\v\\{C\\}","Č"],
 ["-+&gt;","→"],
 ["\\\\v r","ř"],
 ["\\\\v c","č"],
+["\\\\v C","Č"],
+["\\\\'y","ý"],
+["\\\\ae","æ"],
 ["-&gt;","→"],
 ["&lt;→","↔"],
 ["\\{\\}","<span></span>"],
@@ -58,12 +63,15 @@ var htmlTeXRegExps=[
 ["\\+-","±"],
 ["\\+/-","±"],
 ["---","&mdash;"],
+/* DELETED: We need -- as it is.
 ["--","&ndash;"],
+*/
 ["-+>","→"],
 [" x ","×"],
 ["``","“"],
 ["''","”"],
 [" *\\\\, *"," "],
+["\\\\ast","*"],
 ];
 var htmlTeXMacrosWithoutArguments={
     "zeta" : "ζ",
@@ -102,6 +110,7 @@ var htmlTeXMacrosWithoutArguments={
     "nabla" : "∇",
     "mu" : "μ",
     "mp" : "∓",
+    "lesssim" : "≲",
     "lsim" : "≲",
     "ll" : "≪",
     "leq" : "≤",
@@ -115,6 +124,7 @@ var htmlTeXMacrosWithoutArguments={
     "infty" : "∞",
     "in" : "∈",
     "hbar" : "ħ",
+    "gtrsim" : "≳",
     "gsim" : "≳",
     "gg" : "≫",
     "geq" : "≥",
@@ -123,6 +133,7 @@ var htmlTeXMacrosWithoutArguments={
     "eta" : "η",
     "equiv" : "≡",
     "epsilon" : "ε",
+    "varepsilon" : "ε",
     "ell" : "ℓ",
     "delta" : "δ",
     "circ" : "o",
