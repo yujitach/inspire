@@ -255,10 +255,6 @@
     countDown=0;
     [searchField setProgressQuitAction:@selector(progressQuit:)];
 
-    prefController=[[PrefController alloc]init];
-    activityMonitorController=[[ActivityMonitorController alloc] init];
-    texWatcherController=[[TeXWatcherController alloc]init];
-    bibViewController=[[BibViewController alloc] init];
 }
 
 -(void)setupServices
@@ -355,6 +351,11 @@
 	[AllArticleList allArticleList].searchString=nil;
     }
     [window makeKeyAndOrderFront:self];
+    prefController=[[PrefController alloc]init];
+    activityMonitorController=[[ActivityMonitorController alloc] init];
+    texWatcherController=[[TeXWatcherController alloc]init];
+    bibViewController=[[BibViewController alloc] init];
+
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
