@@ -13,7 +13,7 @@
 +(ArticleFolder*)createArticleFolderWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:moc];
-    ArticleFolder* mo=[[NSManagedObject alloc] initWithEntity:entity 
+    ArticleFolder* mo=(ArticleFolder*)[[NSManagedObject alloc] initWithEntity:entity 
 			       insertIntoManagedObjectContext:moc];
     mo.name=s;
     return mo;

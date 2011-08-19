@@ -16,7 +16,7 @@ ProgressIndicatorController*_sharedInstance=nil;
 }
 -(ProgressIndicatorController*)init
 {
-    [super init];
+    self=[super init];
  //   NSLog(@"PIController registered");
     _sharedInstance=self;
     return self;

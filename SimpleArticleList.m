@@ -28,7 +28,7 @@
 +(SimpleArticleList*)createSimpleArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"SimpleArticleList" inManagedObjectContext:moc];
-    SimpleArticleList* mo=[[NSManagedObject alloc] initWithEntity:entity
+    SimpleArticleList* mo=(SimpleArticleList*)[[NSManagedObject alloc] initWithEntity:entity
 				   insertIntoManagedObjectContext:moc];
     mo.name=s;
     return mo;

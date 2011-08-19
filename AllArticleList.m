@@ -39,7 +39,7 @@ static AllArticleList*_allArticleList=nil;
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"AllArticleList" inManagedObjectContext:moc];
 
-    AllArticleList* mo=[[NSManagedObject alloc] initWithEntity:entity
+    AllArticleList* mo=(AllArticleList*)[[NSManagedObject alloc] initWithEntity:entity
 				insertIntoManagedObjectContext:nil];
     [mo setValue:@"spires" forKey:@"name"];
     [mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];

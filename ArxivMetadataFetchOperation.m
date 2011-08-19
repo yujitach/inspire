@@ -14,7 +14,7 @@
 @implementation ArxivMetadataFetchOperation
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;
 {
-    [super init];
+    self=[super init];
     article=a;
     arXivID=a.eprint;
     return self;

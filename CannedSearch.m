@@ -18,7 +18,7 @@
 +(CannedSearch*)createCannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"CannedSearch" inManagedObjectContext:moc];
-    CannedSearch* mo=[[NSManagedObject alloc] initWithEntity:entity 
+    CannedSearch* mo=(CannedSearch*)[[NSManagedObject alloc] initWithEntity:entity 
 			      insertIntoManagedObjectContext:moc];
     mo.name=s;
     return mo;

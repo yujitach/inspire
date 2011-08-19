@@ -23,7 +23,7 @@
 				refersTo:(Article*)r 
 		   registerToArticleList:(ArticleList*)l
 {
-    [super init];
+    self=[super init];
     elements=[e copy];
 /*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
@@ -200,7 +200,7 @@
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
 	for(NSXMLElement*e in a){
 	    //	NSLog(@"%@=%@ not found, %@",key,[self valueForKey:xmlKey inXMLElement:e],e);
-	    Article*article=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
+	    Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
 	    [self populatePropertiesOfArticle:article fromXML:e];
 	    [generated addObject:article];
 	    j++;

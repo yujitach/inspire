@@ -12,7 +12,7 @@
 @implementation DeferredPDFOpenOperation
 -(DeferredPDFOpenOperation*)initWithArticle:(Article*)a usingViewer:(PDFViewerType)t;
 {
-    [super init];
+    self=[super init];
     article=a;
     type=t;
     return self;

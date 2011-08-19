@@ -22,7 +22,7 @@
 
 -(ArxivPDFDownloadOperation*)initWithArticle:(Article*)a shouldAsk:(BOOL)ask;
 {
-    [super init];
+    self=[super init];
     article=a;
     shouldAsk=ask;
     return self;

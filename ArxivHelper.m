@@ -20,7 +20,7 @@ ArxivHelper* _sharedHelper=nil;
 }
 -(ArxivHelper*)init
 {
-    [super init];
+    self=[super init];
     connections=[NSMutableArray array];
     return self;
 }

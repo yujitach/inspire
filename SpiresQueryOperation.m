@@ -20,7 +20,7 @@
 @synthesize importer;
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
 {
-    [super init];
+    self=[super init];
     search=q;
     moc=m;
     return self;

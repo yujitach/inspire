@@ -16,7 +16,7 @@
 +(ArxivNewArticleList*)createArXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArxivNewArticleList" inManagedObjectContext:moc];
-    ArxivNewArticleList* mo=[[NSManagedObject alloc] initWithEntity:entity 
+    ArxivNewArticleList* mo=(ArxivNewArticleList*)[[NSManagedObject alloc] initWithEntity:entity 
 				     insertIntoManagedObjectContext:moc];
     mo.name=s;
     NSSortDescriptor *sd=[[NSSortDescriptor  alloc] initWithKey:@"eprintForSorting" ascending:YES];

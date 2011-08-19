@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class WebDownload;
-@interface SecureDownloader : NSObject {
+@interface SecureDownloader : NSObject<NSURLDownloadDelegate> {
     WebDownload*downloader;
     void (^handler)(NSString*);
     NSURL*url;

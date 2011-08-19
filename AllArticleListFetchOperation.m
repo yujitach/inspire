@@ -23,7 +23,7 @@ void warmUpIfSuitable(void)
 {
     //This code is called before NSApplicationMain,
     //so we need to start the garbage collector manually to avoid leaks(?)
-    objc_startCollectorThread();
+//    objc_startCollectorThread();
     if([[MOC sharedMOCManager] migrationNeeded]){
 	return;
     }

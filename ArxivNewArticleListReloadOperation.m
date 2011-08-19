@@ -205,7 +205,7 @@
     	}
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
 	for(NSString*chunk in [dict allValues]){
-	    Article*article=[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
+	    Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
 	    [self dealWithChunk:chunk writeToArticle:article];
 	    [generated addObject:article];
 	}

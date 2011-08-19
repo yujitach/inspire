@@ -14,7 +14,7 @@
 @implementation BatchBibQueryOperation
 -(BatchBibQueryOperation*)initWithArray:(NSArray*)a;
 {
-    [super init];
+    self=[super init];
     articles=[a copy];
     targets=[NSMutableArray array];
     for(Article* article in articles){

@@ -53,7 +53,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.4.5</string>
+	<string>1.4.7</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
@@ -85,9 +85,9 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update.xml</string>
+	<string>http://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
 	<key>SUFeedURL-Unstable</key>
-	<string>http://www.sns.ias.edu/~yujitach/spires/spires-Update-unstable.xml</string>
+	<string>http://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>

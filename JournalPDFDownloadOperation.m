@@ -25,7 +25,7 @@
 @implementation JournalPDFDownloadOperation
 -(JournalPDFDownloadOperation*)initWithArticle:(Article*)a
 {
-    [super init];
+    self=[super init];
     article=a;
     return self;
 }

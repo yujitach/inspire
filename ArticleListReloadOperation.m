@@ -12,7 +12,7 @@
 @implementation ArticleListReloadOperation
 -(ArticleListReloadOperation*)initWithArticleList:(ArticleList*)l;
 {
-    [super init];
+    self=[super init];
     list=l;
     return self;
 }

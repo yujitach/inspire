@@ -17,7 +17,7 @@
     NSString*path=[[MOC sharedMOCManager] dataFilePath];
     NSURL*url=[NSURL fileURLWithPath:path];
     NSLog(@"time machine backup: %@",(shouldBackUp?@"enabled":@"disabled"));
-    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),true);    
+    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),false);    
 }
 -(IBAction)timeMachineSettingChanged:(id)sender;
 {
@@ -102,9 +102,13 @@
     [op setCanCreateDirectories:YES];
     [op setMessage:@"Choose the folder to save PDFs..."];
     [op setPrompt:@"Choose"];
-    NSInteger res=[op runModalForDirectory:currentSetting file:nil types:nil];
+    [op setDirectoryURL:[NSURL fileURLWithPath:currentSetting]];
+    [op setCanChooseFiles:NO];
+    [op setCanChooseDirectories:YES];
+    NSInteger res=[op runModal];
     if(res==NSOKButton){
-	NSString*nextSetting=[[op filenames] objectAtIndex:0];
+        NSURL*folderURL=[[op URLs] objectAtIndex:0];
+	NSString*nextSetting=[folderURL path];
 	[[NSUserDefaults standardUserDefaults] setObject:[nextSetting stringByAbbreviatingWithTildeInPath] 
 						  forKey:@"pdfDir"];
     }
