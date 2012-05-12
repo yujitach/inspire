@@ -52,7 +52,7 @@ NSString* pathShownWithQuickLook=nil;
     }
     return _helper;
 }
--init
+-(id)init
 {
     self=[super init];
     return self;

@@ -26,11 +26,19 @@ static AllArticleList*_allArticleList=nil;
 	return [a objectAtIndex:0];
     }else if([a count]>1){
 	NSLog(@"inconsistency detected ... there are more than one AllArticleLists!");
+        AllArticleList*max=[a objectAtIndex:0];
 	for(NSUInteger i=1;i<[a count];i++){
 	    AllArticleList*al=[a objectAtIndex:i];
-	    [moc deleteObject:al];
+            if([al.articles count]>[max.articles count]){
+                max=al;
+            }
 	}
-	return [a objectAtIndex:0];
+        for(AllArticleList*al in a){
+            if(al!=max){
+                [moc deleteObject:al];
+            }
+        }
+	return max;
     }else{
 	return nil;
     }

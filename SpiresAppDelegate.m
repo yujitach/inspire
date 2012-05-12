@@ -480,8 +480,9 @@
 
 -(BOOL)useInspire
 {
-    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
-    return [database isEqualToString:@"inspire"];
+    return YES;
+//    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
+//    return [database isEqualToString:@"inspire"];
 }
 
 -(BOOL)currentListIsArxivReplaced

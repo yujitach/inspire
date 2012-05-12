@@ -54,6 +54,7 @@
 	if([self isCancelled])break;
 	if(!target) continue;
 	NSString* bib=[[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target] objectAtIndex:0];
+        if(!bib)break;
 	if([self isCancelled])break;
 	NSInteger r=[bib rangeOfString:@"{"].location;
 	NSInteger t=[bib rangeOfString:@","].location;

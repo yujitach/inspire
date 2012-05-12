@@ -15,7 +15,7 @@
 #define SPIRESLATEX2HEAD @"http://www.slac.stanford.edu/spires/find/hep/wwwbrieflatex2?rawcmd=find+"
 #define SPIRESHARVMACHEAD @"http://www.slac.stanford.edu/spires/find/hep/wwwbriefharvmac?rawcmd=find+"
 
-#define INSPIREWWWHEAD @"http://inspirebeta.net/search?p="
+#define INSPIREWWWHEAD @"http://inspirehep.net/search?p="
 
 
 @interface SpiresHelper : NSObject {

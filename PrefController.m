@@ -39,7 +39,7 @@
 -(void)setAllArticleName
 {
     AllArticleList*allArticleList=[AllArticleList allArticleList];
-    allArticleList.name=[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"];
+    allArticleList.name=@"inspire"; //[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"];
 }
 -(PrefController*)init
 {
@@ -65,19 +65,6 @@
 	}
     }
     [self mirrorSelected: self];
-}
-
--(void)selectDatabaseToUse:(NSString*)mirror
-{
-    NSInteger i=0;
-    NSInteger c=[databaseToUsePopUp numberOfItems];
-    for(i=0;i<c;i++){
-	if([[databaseToUsePopUp itemTitleAtIndex:i] isEqualToString:mirror]){
-	    [databaseToUsePopUp selectItemAtIndex:i];
-	    break;
-	}
-    }
-    [self databaseSelected: self];
 }
 
 -(void)selectBibToUse:(NSString*)bib
@@ -120,12 +107,7 @@
     NSString*mirrorToUse=[mirrorToUsePopUp titleOfSelectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:mirrorToUse forKey:@"mirrorToUse"];
 }
--(IBAction)databaseSelected:(id)sender;
-{
-    NSString*databaseToUse=[databaseToUsePopUp titleOfSelectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:databaseToUse forKey:@"databaseToUse"];
-    [self setAllArticleName];
-}
+
 -(IBAction)bibSelected:(id)sender;
 {
     NSString*bibToUse=[bibPopUp titleOfSelectedItem];
@@ -142,12 +124,8 @@
 -(void)awakeFromNib
 {
     [mirrorToUsePopUp removeAllItems];
-    [mirrorToUsePopUp addItemsWithTitles:[[NSUserDefaults standardUserDefaults] objectForKey:@"arXivMirrors"]];
-    [databaseToUsePopUp removeAllItems];
-    [databaseToUsePopUp addItemsWithTitles:[NSArray arrayWithObjects:@"spires",@"inspire",nil]];
-    
+    [mirrorToUsePopUp addItemsWithTitles:[[NSUserDefaults standardUserDefaults] objectForKey:@"arXivMirrors"]];    
     [self selectMirrorToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"mirrorToUse"]];
-    [self selectDatabaseToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"]];
     [self selectBibToUse:[[NSUserDefaults standardUserDefaults] objectForKey:@"bibType"]];
     
 /*    {// change in v0.98

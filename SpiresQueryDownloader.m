@@ -91,7 +91,11 @@
     }else if([search hasPrefix:@"doi"]){
         inspireQuery=[search stringByReplacingOccurrencesOfRegex:@"^doi " withString:@"doi:"];
     }else{
-	inspireQuery=[NSString stringWithFormat:@"find+%@",search];
+        if(![search hasPrefix:@"find"]){
+            inspireQuery=[NSString stringWithFormat:@"find+%@",search];
+        }else{
+            inspireQuery=search;
+        }
     }
     NSString*str=[NSString stringWithFormat:@"%@&rg=%d&of=xm",inspireQuery,MAXPERQUERY];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];

@@ -155,7 +155,7 @@ static NSArray*observedKeys=nil;
 {
     if(!article.comments)
 	return nil;
-    return article.comments;
+    return [article.comments stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
     //[NSString stringWithFormat:@"<b>Comments:</b> %@",article.comments];    
 }
 

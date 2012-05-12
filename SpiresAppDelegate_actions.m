@@ -361,9 +361,10 @@
 }
 -(IBAction)getBibEntries:(id)sender
 {
-    [self getBibEntriesWithoutDisplay:sender];
-    [bibViewController setArticles:[ac selectedObjects]];
+    if([self isOnline])
+        [self getBibEntriesWithoutDisplay:sender];
     [bibViewController showWindow:sender];
+    [bibViewController setArticles:[ac selectedObjects]];
 }
 -(IBAction)copyBibKeyToPasteboard:(id)sender
 {
