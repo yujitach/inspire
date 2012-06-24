@@ -353,10 +353,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
 #pragma mark Bib Entries Query
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESBIBTEXHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
+//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
 
 
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
@@ -366,6 +366,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
+        x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
+        x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 	[result addObject:x];
     }
     return result;
@@ -373,10 +375,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESLATEX2HEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
+//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
 
 
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
@@ -386,6 +389,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
+        x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
+        x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 	[result addObject:x];
     }
     return result;
@@ -393,10 +398,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESHARVMACHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-    //    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+
+    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
-    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
+  //  NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
     NSArray*a=[s componentsSeparatedByString:@"<pre>"];
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
@@ -404,6 +410,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	NSString*x=[a objectAtIndex:i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringWithRange:NSMakeRange(1,r.location-1)];
+        x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
+        x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 	[result addObject:x];
     }
     return result;
