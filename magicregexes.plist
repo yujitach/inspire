@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>magicRegExps</key>
+<array>
+<array><string>\$</string><string></string></array>
+<array><string>%%</string><string>!!</string></array>
+<array><string>  %</string><string>  </string></array>
+<array><string>!!</string><string>%%</string></array>
+<array><string>~.~</string><string>~</string></array>
+<array><string>([,.a-zA-Z]) *([01-9]+) *\(</string><string>$1 \\textbf{$2} (</string></array>
+<array><string>,'' *([A-Z].*) *\\t</string><string>,'' \\textsl{$1}\\t</string></array>
+<array><string>([^\['{]+){\\bf</string><string>{\\slshape $1}{\\bf</string></array>
+<array><string>math.dg</string><string>math.DG</string></array>
+<array><string>math.ag</string><string>math.AG</string></array>
+<array><string>%%CITATION</string><string>\n%%CITATIO</string></array>
+<array><string>&amp;</string><string>\\&amp;</string></array>
+<array><string>``(.+?)''</string><string>lowercased($1)</string></array>
+<array><string> '</string><string> `</string></array>
+<array><string>\^(.)</string><string>\$^$1\$</string></array>
+<array><string>E *Theta *\</string><string> *2 *Pi</string></array>
+<array><string>X +S\*\*2</string><string> \$\\times\\ S^2\$ </string></array>
+<array><string>X +S\*\*3</string><string> \$\\times\\ S^3\$ </string></array>
+<array><string> x </string><string> \$\\times\$ </string></array>
+<array><string> Z-min</string><string> \$Z\$-min</string></array>
+<array><string>chiSB</string><string>\$\\chi\$SB</string></array>
+<array><string>N *= *(\d)</string><string>\${\\mathcal{N}}\\!=$1\$</string></array>
+<array><string> N </string><string> \$N\$ </string></array>
+<array><string>N ?= ?\( ?1 ?, ?0 ?\)</string><string>\$\\mathcal{N}=(1,0)\$</string></array>
+<array><string>U\(1\)R</string><string>\$U(1)_R\$</string></array>
+<array><string>'a-theorem'</string><string>`a-theorem'</string></array>
+<array><string> c Theorem</string><string> \$c\$-Theorem</string></array>
+<array><string>maximizes +a,</string><string>maximizes \$a\$,</string></array>
+<array><string>a-maximi([sz])ation</string><string>\$a\$-maximi$1ation</string></array>
+<array><string>AdS\(5\) +x +T\(11\)</string><string>\$\\AdS_5\$ \$\\times\$ \$T^{1,1}\$</string></array>
+<array><string>AdS\(5\)</string><string>\$\\mathrm{AdS}_5\$</string></array>
+<array><string>AdS_([\d])</string><string>\$\\mathrm{AdS}_$1\$</string></array>
+<array><string>CFT_([\d])</string><string>CFT\$_$1\$</string></array>
+<array><string>S\^5</string><string>\$S^5\$</string></array>
+<array><string>([^\$])\\times</string><string>$1\$\\times\$</string></array>
+<array><string>SU\((.)\)</string><string>\$SU($1)\$</string></array>
+<array><string>SU\((...)\)</string><string>\$SU($1)\$</string></array>
+<array><string>N\(c\)</string><string>\\hbox{\$N_c\$}</string></array>
+<array><string>N\(f\)</string><string>\\hbox{\$N_f\$}</string></array>
+<array><string>O\((.)\)</string><string>\$O($1)\$</string></array>
+<array><string>SO\((.)\)</string><string>\$SO($1)\$</string></array>
+<array><string>(SU)\(2\|2\)</string><string>\$$1(2|2)\$</string></array>
+<array><string>(PSU)\(2,2\|4\)</string><string>\$$1(2,2|4)\$</string></array>
+<array><string>L\(p,q\$\|\$r\)</string><string>\$L^{p,q|r}\$</string></array>
+<array><string>L\(p,q,r\)</string><string>\$L^{p,q,r}\$</string></array>
+<array><string>Y *\( *p *, *q *\)</string><string>\$Y^{p,q}\$</string></array>
+<array><string>Y *(\*\*)* *\( *p *, *q *\)</string><string>\$Y^{p,q}\$</string></array>
+<array><string>S\((.)\)</string><string>\$S^$1\$</string></array>
+<array><string>R\^2</string><string>\$R^2\$</string></array>
+<array><string>(.)\*\*(.)</string><string>\$ $1^$2\$</string></array>
+<array><string>T\(11\)</string><string>\$T^{1,1}\$</string></array>
+<array><string>R\(2\)</string><string>\$R^2\$</string></array>
+<array><string>G\(2\)</string><string>\$G_2\$</string></array>
+<array><string>Z\(2\)</string><string>\$Z_2\$</string></array>
+<array><string>D_(.)</string><string>\$D_{$1}\$</string></array>
+<array><string>E_(.)</string><string>\$E_{$1}\$</string></array>
+<array><string>D\((.)\)</string><string>\$D_{$1}\$</string></array>
+<array><string>E\((.)\)</string><string>\$E_{$1}\$</string></array>
+<array><string>S2</string><string>\$S^2\$</string></array>
+<array><string>S3</string><string>\$S^3\$</string></array>
+<array><string>Electric +- +magnetic</string><string>Electric--magnetic</string></array>
+<array><string>prepotential +F +</string><string>prepotential \$F\$ </string></array>
+<array><string>modulus +u +</string><string>modulus \$u\$ </string></array>
+<array><string>(en)hancon</string><string>$1han\\c{c}on</string></array>
+<array><string>Lee-+yang</string><string>Lee--Yang</string></array>
+<array><string>u-plane</string><string>\$u\$-plane</string></array>
+<array><string>d=4</string><string>\$d=4\$</string></array>
+<array><string>O6-</string><string>O\$6^-\$</string></array>
+<array><string>A-D-E</string><string>A-D-E</string></array>
+<array><string>\(p,q\) +7</string><string>\$[p,q]\$ 7</string></array>
+<array><string>\(p,q\) +5</string><string>\$(p,q)\$ 5</string></array>
+<array><string>\(p,q\) +(w)</string><string>\$(p,q)\$ $1</string></array>
+<array><string>Anti-De +Sitter</string><string>Anti-de~Sitter</string></array>
+<array><string>(k)ahler</string><string>$1\\"ahler</string></array>
+<array><string>hyperK</string><string>hyperk</string></array>
+<array><string>\*\*(\d)</string><string>\$^$1\$</string></array>
+<array><string>Asterisque</string><string>Ast\\'erisque</string></array>
+<array><string>Alvarez</string><string>\\'Alvarez</string></array>
+<array><string>Gomez</string><string>G\\'omez</string></array>
+<array><string>Barbon</string><string>Barb\\'on</string></array>
+<array><string>Banados</string><string>Ba\\~nados</string></array>
+<array><string>Billo,</string><string>Bill\\'o,</string></array>
+<array><string>Breitenlohner</string><string>Breitenl\\"ohner</string></array>
+<array><string>Compere</string><string>Comp\\`ere</string></array>
+<array><string>Cvetic</string><string>Cveti{\\v c}</string></array>
+<array><string>de +la +ossa</string><string>de la Ossa</string></array>
+<array><string>Fre,</string><string>Fr\\`e,</string></array>
+<array><string>-Gaume</string><string>-Gaum\\'e</string></array>
+<array><string>Garcia-</string><string>Garc{\\'\\i a-}</string></array>
+<array><string>G\\.odel</string><string>G\\"odel</string></array>
+<array><string>Grana</string><string>Gra\\~na</string></array>
+<array><string>Gunayd</string><string>G\\"unayd</string></array>
+<array><string>Guven</string><string>G\\"uven</string></array>
+<array><string>H\.~+Lu</string><string>H.~L\\"u</string></array>
+<array><string>H\.[ ~]*z\.</string><string>H.-Z.</string></array>
+<array><string>Horvathy</string><string>Horv\\'athy</string></array>
+<array><string>Hubsch</string><string>H\\"ubsch</string></array>
+<array><string>Inonu</string><string>\\.{I}n\\"on\\"u</string></array>
+<array><string>K\.[ ~]*I\.</string><string>K.-I.</string></array>
+<array><string>(K)aehler</string><string>$1\\"ahler</string></array>
+<array><string>(K)ahler</string><string>$1\\"ahler</string></array>
+<array><string>Lindstrom</string><string>Lindstr\\"om</string></array>
+<array><string>Lust,</string><string>L\\"ust,</string></array>
+<array><string>McKernan</string><string>M\\raise.5ex\\hbox{c}Kernan</string></array>
+<array><string>Marino</string><string>Mari\\~no</string></array>
+<array><string>Martinez</string><string>Mart{\\'\\i ne}z</string></array>
+<array><string>Mendez-Escobar</string><string>M\\'ende{z-Es}cobar</string></array>
+<array><string>Mueck</string><string>M\\"uck</string></array>
+<array><string>O.~Tafjord</string><string>\\O.~Tafjord</string></array>
+<array><string>P.[ ~]*Zayas</string><string>Pando~Zayas</string></array>
+<array><string>Plucker</string><string>Pl\\"ucker</string></array>
+<array><string>Rocek</string><string>Ro\\v{c}ek</string></array>
+<array><string>Ronen</string><string>R.</string></array>
+<array><string>Schafer-Nameki</string><string>Sch\\"afe{r-Na}meki</string></array>
+<array><string>Schrodinger</string><string>Schr\\"odinger</string></array>
+<array><string>Schroedinger</string><string>Schr\\"odinger</string></array>
+<array><string>Schr\\.odinger</string><string>Schr\\"odinger</string></array>
+<array><string>Spalinski</string><string>Spa\\l inski</string></array>
+<array><string>Vazquez</string><string>V\\'azquez</string></array>
+<array><string>in the Noether</string><string>is the Noether</string></array>
+<array><string>%%CITATIO</string><string>%%CITATION</string></array>
+</array>
+</dict>
+</plist>

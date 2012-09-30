@@ -1,0 +1,156 @@
+<html>
+<head>
+<style type="text/css">
+body{
+    background-repeat: repeat;
+    background-color:white;color:black;
+    font-family: optima, sans-serif;
+    font-size:10pt;
+}
+dt{
+    padding:1ex 1ex 1ex 1ex;
+    font-weight:bold;
+}
+.warning{
+    font-weight:bold;
+    color:#aa4444;
+}
+</style>
+</head>
+<body>
+<dl>
+    <dt>1.4.9 (May/22/2012)</dt>
+    <dd>Bug fixes for the bibliography fetcher, due to the closure of the original SPIRES website. (thanks to Joe Minahan for reporting.)
+    </dd>
+    <dt>1.4.8 (May/6/2012)</dt>
+    <dd>Small bug fixes (thanks to Geoffrey.) Now signed correctly so it should work on OS X 10.8 Mountain Lion. 
+    </dd>
+    <dt>1.4.7 (Nov/13/2011)</dt>
+    <dd>Small bug fixes. Removed the options to use the spires server backend.
+    </dd>
+        <dt>1.4.6 (Aug/17/2011)</dt>
+        <dd>Update server is moved to IPMU.
+        </dd>
+        <dt>1.4.5 (Jul/19/2011)</dt>
+        <dd>Fixed a bug which prevents launching the app on Lion when the database is big.
+        <div class="warning">Please install this before upgrading to Lion!</div>
+        </dd>
+        <dt>1.4.4 (Jun/28/2011)</dt>
+        <dd>Small bug fixes; Final release before Lion.</dd>
+        <dt>1.4.3 (Jun/12/2011)</dt>
+        <dd>Small bug fixes and small changes as a prepartion for Lion.</dd>
+        <dt>1.4.2 (May/1/2011)</dt>
+        <dd>Bug fixes. Arxiv reload buttons are slightly moved, as a precaution to transition to Lion. I'm sorry for the change, but please get used to it.</dd>
+        <dt>1.4.1 (Apr/15/2011)</dt>
+        <dd>Bug fixes.</dd>
+	<dt>1.4.0 (Apr/1/2011)</dt>
+	<dd>Now supports the Inspire database as the backend.</dd>
+	<dt>1.3.3 (Sep/6/2010)</dt>
+	<dd>One bug fix so that you can read today's hep-th. Stricly speaking, the bug is on the arxiv server: the XHTML file it serves states it uses UTF8, but in reality the abstract of an entry was in Latin-1. 
+	This confused my app. Alas. (Sep/7: the admin of the arxiv corrected the database itself, so the version 1.3.2 will work. But you're encouraged to update it anyway.)</dd>
+	<dt>1.3.2 (Aug/31/2010)</dt>
+	<dd>Many small bug fixes. Incorporates the better pseudo-TeX'ing code by Suzuki-kun. Includes a Safari Extension.</dd>
+	<dt>1.3.1 (Mar/29/2010)</dt>
+	<dd>Fixed a stupid bug which prevented the app to look up &amp; download old journal articles automatically. Thanks to N. Iizuka.
+	<div class="warning">Please do report whatever inconvenience and/or a bug you found to me. Don't think it might bother me; I heartily welcome it. 
+	Your one email can improve the lives of ~100 other theorists!</div>
+	</dd>
+	<dt>1.3 (Feb/1/2010)</dt>
+	<dd><span class="warning">This update will again upgrade the database format and there is no going back.</span>
+	Massive speed improvements (thanks to Michele for ideas), UI polish (thanks to Ryo), etc. 
+	Please see the <a href="http://www.sns.ias.edu/~yujitach/spires/">homepage</a> for detailed info.
+	</dd>
+	<dt>1.2.3 (Dec/9/2009)</dt>
+	<dd>A critical bug fix, surfaced due to the change in the APS website.</dd>
+	<dt>1.2.2 (Oct/31/2009)</dt>
+	<dd>Support for Int.J.Mod.Phys., Mod.Phys.Lett., and Prog.Theor.Phys. Other bug fixes.</dd>
+	<dt>1.2.1 (Sep/28/2009)</dt>
+	<dd>Cumulative small bug fixes.</dd>
+	<dt>1.2.0 (Aug/29/2009)</dt>
+	<dd>Preliminary release for Snow Leopard; fixed two critical bugs which made the app unusable on SL.</dd>
+	<dt>1.1.20 (Aug/24/2009)</dt>
+	<dd>More small bug fixes. Will be the final update for Leopard.</dd>
+	<dt>1.1.19 (Aug/06/2009)</dt>
+	<dd>Two more small bug fixes. </dd>
+	<dt>1.1.18 (Aug/04/2009)</dt>
+	<dd>Small bug fixes. </dd>
+	<dt>1.1.16 (Jul/09/2009)</dt>
+	<dd><span class="warning">This update will again upgrade the database format and there is no going back.</span>
+	Many bug fixes. Articles with PDF downloaded are now marked by a green blob.</dd>
+	<dt>1.1.12 (Jun/22/2009)</dt>
+	<dd>Small bug fixes. Removed the 64 bit version for now... somehow the 32 bit version seems stabler.</dd>
+	<dt>1.1.10 (Apr/26/2009)</dt>
+	<dd><span class="warning">This update will upgrade the database format and there is no going back.</span> <br/>
+	Added "flags" field; status can be added automatically when checking arxiv/new. Many bug fixes.</dd>
+	<dt>1.1.4 (Apr/5/2009)</dt>
+	<dd>You can now stop a query by clicking the spinning progress indicator. Bug fixes.</dd>
+	<dt>1.1 (Mar/25/2009)</dt>
+	<dd>Folders in the sidebar (use the plus button in the bottom-left corner). <br>
+	You can now change the font size etc. for the main article view, use the preference pane. <br>
+	Bibliography auto-generation now supports "force refresh" mode, see sample.tex. <br>
+	And minor bug fixes. (e.g. Now works when placed inside a directory with spaces, double quotes, or back slashes in its name.)</dd>
+	<dt>1.0.3 (Mar/15/2009)</dt>
+	<dd>Bug fixes</dd>
+	<dt>1.0 (Mar/6/2009)</dt>
+	<dd><span class="warning">This update will upgrade the database format and there is no going back.</span> <br/>Massive speed improvements, lots of replumbing behind the scenes.
+	Now it should handle 30000 entries without problems.</dd>
+	<dt>0.980 (Feb/25/2009)</dt>
+	<dd>Now tries to download PDF from journal web pages. Bug fixes. Updated version of Sparkle.</dd>
+	<dt>0.97 (Feb/18/2009)</dt>
+	<dd>Bug fixes. Crash reporter.</dd>
+	<dt>0.96 (Feb/8/2009)</dt>
+	<dd>Automatic bibliography generator &amp; ability to download PDFs from university library subscriptions. See Usage in the webpage or in the Help. Lots of replumbing behind the scenes.<dd>
+	<dt>0.95 (Feb/3/2009)</dt>
+	<dd>Minor bug fixes.<dd>
+	<dt>0.94 (Feb/2/2009)</dt>
+	<dd>Minor bug fixes.<dd>
+	<dt>0.93 (Feb/1/2009)</dt>
+	<dd>0.92 had a nasty crasher. (It seems one needs to compare bundle ids case insensitively...) Should be fixed now.</dd>
+	<dt>0.92 (Feb/1/2009)</dt>
+	<dd>Incorporated some suggestions. (bibtex query, arxiv/replacements etc.) It involved a rather massive rewrite;
+	maybe some bugs have been introduced. Please report if you find any.</dd>
+	<dt>0.91 (Jan/28/2009)</dt>
+	<dd>Now shows a link to the journal webpage if it can be guessed and no eprint is available.
+	Yes I'm reading the somewhat older literature these days so I added this feature...</dd>
+	<dt>0.90 (Jan/27/2009)</dt>
+	<dd>"Choose folders" panel now shows "Create New Folder" button.</dd>
+	<dt>0.89 (Jan/7/2009)</dt>
+	<dd>System hook now works with the WebKit Nightly.</dd>
+	<dt>0.88 (Nov/25/2008)</dt>
+	<dd>Version checking now shows Comments: field. The source-list sort order is now correctly saved.</dd>
+	<dt>0.87 (Nov/3/2008)</dt>
+	<dd>Bug fixes. Speed Improvements. (Mostly came from moving to sqlite backend.)</dd>
+	<dt>0.86 (Nov/2/2008)</dt>
+	<dd>Refers to. (currently only works for eprints)</dd>
+	<dt>0.85 (Oct/28/2008)</dt>
+	<dd>Bug Fixes &amp; Back/Forward button.</dd>
+	<dt>0.84 (Oct/27/2008)</dt>
+	<dd>Bug Fixes. (Reloading arxiv now really reloads clearing web caches. Behavior of "a" was also corrected. 
+	My sloppy coding starts to slow down the response of the app once there are more than 3000 entries in the database...
+	Maybe I need to clean up the code and optimize. Ugh.)</dd>
+	<dt>0.83 (Oct/26/2008)</dt>
+	<dd>Bug Fixes. cited by.</dd>
+	<dt>0.82 (Oct/25/2008)</dt>
+	<dd>Bug Fixes. j and ea.</dd>
+	<dt>0.81 (Oct/23/2008)</dt>
+	<dd>Bug Fixes.</dd>
+<dt>0.8 (Oct/22/2008)</dt>
+<dd>Bug Fixes.</dd>
+<dt>0.7 (Oct/21/2008)</dt>
+<dd>Abstracts from Journal Web Pages.</dd>
+<dt>0.6 (Oct/19/2008)</dt>
+<dd>Bug Fixes.</dd>
+<dt>0.5 (Oct/18/2008)</dt>
+<dd>Input Manager Hack support. Safari won't call spires.app if the URL has ?doNotCallSpires at the end.
+"Playlist" support.</dd>
+<dt>0.4 (Oct/16/2008)</dt>
+<dd>usablity enhancements. Refactoring.</dd>
+<dt>0.3 (Oct/15/2008)</dt>
+<dd>Hep-th/new.</dd>
+<dt>0.2 (Oct/14/2008)</dt>
+<dd>Sparkle.</dd>
+<dt>0.1 (Oct/13/2008)</dt>
+<dd>barely usable version.</dd>
+</dl>
+</body>
+</html>
