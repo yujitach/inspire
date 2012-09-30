@@ -17,7 +17,7 @@
     NSString*path=[[MOC sharedMOCManager] dataFilePath];
     NSURL*url=[NSURL fileURLWithPath:path];
     NSLog(@"time machine backup: %@",(shouldBackUp?@"enabled":@"disabled"));
-    CSBackupSetItemExcluded((CFURLRef)url,(shouldBackUp?false:true),false);    
+    CSBackupSetItemExcluded((__bridge CFURLRef)url,(shouldBackUp?false:true),false);    
 }
 -(IBAction)timeMachineSettingChanged:(id)sender;
 {

@@ -164,7 +164,7 @@
     system("grep spires /var/log/system.log | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.log");
     system("bzip2 -dc /var/log/system.log.0.bz2 | grep spires | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.0.log");
     system("rm /tmp/SpiresCrashReport/*.tar.bz2");
-    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%d.tar.bz2 *.log *.crash",time(NULL) ];
+    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%ld.tar.bz2 *.log *.crash",(unsigned long)time(NULL) ];
     system([line UTF8String]);
     system("rm /tmp/SpiresCrashReport/*.log");
     system("rm /tmp/SpiresCrashReport/*.crash");
@@ -267,7 +267,7 @@
     // Force enable the Spires... entry in the Services menu and the context menu.
     // This is not morally right, and uses implementation details not public, but whatever...
     // when someone complains, I would implement an opt-out button in the Preferences.
-    NSString*pbsPlistPath=[@"~/Library/Preferences/pbs.plist" stringByExpandingTildeInPath];
+/*    NSString*pbsPlistPath=[@"~/Library/Preferences/pbs.plist" stringByExpandingTildeInPath];
     NSMutableDictionary*dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:pbsPlistPath]
 							      mutabilityOption:NSPropertyListMutableContainers
 									format:NULL
@@ -292,7 +292,7 @@
 	   atomically:YES];
     system("/System/Library/CoreServices/pbs -flush");
     system("/System/Library/CoreServices/pbs -flush_userdefs");
-    
+    */
 }
 -(void)showWelcome
 {
@@ -391,7 +391,7 @@
 	if(al){
 	    head=al.name;
 	}
-	[window setTitle:[NSString stringWithFormat:@"%@ (%d %@)",head,num,(num==1?@"entry":@"entries")]];
+	[window setTitle:[NSString stringWithFormat:@"%@ (%d %@)",head,(int)num,(num==1?@"entry":@"entries")]];
     }
 }
 
@@ -715,7 +715,7 @@
 	    [alert beginSheetModalForWindow:window
 			      modalDelegate:self 
 			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:[url path]];	    	    
+				contextInfo:(__bridge void *)([url path])];	    	    
 	}else if(o.hasPDFLocally){
 	    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF already associated"
 					  defaultButton:@"Change" 
@@ -725,7 +725,7 @@
 	    [alert beginSheetModalForWindow:window
 			      modalDelegate:self 
 			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:[url path]];	    
+				contextInfo:(__bridge void *)([url path])];	    
 	}else{
 	    [o associatePDF:[url path]];
 	}

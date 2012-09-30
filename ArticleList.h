@@ -14,16 +14,16 @@
 {
 }
 
-@property (retain) NSString* name;
-@property (retain) ArticleList* parent;
-@property (retain) NSSet* children;
-@property (retain) NSSet* articles;
-@property (retain) NSString* searchString;
-@property (retain) NSArray* sortDescriptors; // Transformable attribute.
+@property  NSString* name;
+@property  ArticleList* parent;
+@property  NSSet* children;
+@property  NSSet* articles;
+@property  NSString* searchString;
+@property  NSArray* sortDescriptors; // Transformable attribute.
 @property (readonly) NSImage* icon;
 @property (readonly) NSButtonCell* button;
 @property (readonly) NSString* placeholderForSearchField;
-@property (retain) NSNumber* positionInView;
+@property  NSNumber* positionInView;
 @property (readonly) BOOL searchStringEnabled;
 -(void)reload;
 

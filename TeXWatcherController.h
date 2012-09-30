@@ -21,5 +21,5 @@
 -(IBAction)clearFolderToWatch:(id)sender;
 -(void)addToLog:(NSString*)s;
 @property (copy) NSURL*pathToWatch;  
-@property (retain) NSImage*image;
+@property  NSImage*image;
 @end

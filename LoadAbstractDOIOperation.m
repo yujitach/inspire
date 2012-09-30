@@ -9,7 +9,7 @@
 #import "LoadAbstractDOIOperation.h"
 #import "Article.h"
 #import "JournalEntry.h"
-#import "RegexKitLite.h"
+#import "NSString+magic.h"
 #import "MOC.h"
 
 @interface LoadAbstractDOIOperation ()

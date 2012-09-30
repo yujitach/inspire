@@ -9,7 +9,6 @@
 #import "JournalPDFDownloadOperation.h"
 #import "SecureDownloader.h"
 #import "AppDelegate.h"
-#import "RegexKitLite.h"
 #import "Article.h"
 #import "JournalEntry.h"
 #import "NSString+magic.h"

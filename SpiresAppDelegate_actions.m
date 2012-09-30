@@ -32,7 +32,7 @@
 #import "ArxivNewArticleList.h"
 #import "ArticleFolder.h"
 #import "CannedSearch.h"
-
+#import "IncrementalArrayController.h"
 #import "DumbOperation.h"
 #import "ArticleListReloadOperation.h"
 #import "BatchBibQueryOperation.h"
@@ -41,6 +41,8 @@
 #import "WaitOperation.h"
 
 #import "NSURL+libraryProxy.h"
+
+#import "NSString+magic.h"
 
 @implementation SpiresAppDelegate (actions)
 -(NSNumber*)databaseSize
@@ -86,7 +88,32 @@
     [self setIsOnline:!state];
     
 }
-
+-(IBAction)dumpBibtexFile:(id)sender;
+{
+    NSLog(@"start dumping");
+    NSString*bibFilePath=[@"~/Desktop/all.bib" stringByExpandingTildeInPath];
+    NSSet*articles=[[AllArticleList allArticleList] articles];
+    NSMutableString*appendix=[NSMutableString string];
+    for(Article*a in articles){
+        NSString*key=[a texKey];
+        if(!key)
+            continue;
+        if([key isEqualToString:@""])
+            continue;
+        NSString* bib=[a extraForKey:@"bibtex"];
+        if(!bib)
+            continue;
+        if([bib isEqualToString:@""])
+            continue;
+        bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
+	bib=[bib magicTeXed];
+	bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:key];
+	[appendix appendString:bib];
+	[appendix appendString:@"\n\n"];
+    }
+    [appendix writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    NSLog(@"finished dumping");
+}
 -(IBAction)progressQuit:(id)sender
 {
     [OperationQueues cancelCurrentOperations];
@@ -187,7 +214,7 @@
      openURL:[NSURL URLWithString:
 	      [[NSString stringWithFormat:
 		@"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@ (%d entries, %@ bytes)",
-		version,entries,size]
+		version,(int)entries,size]
 	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 }    
 
@@ -544,7 +571,7 @@
 				      defaultButton:@"Vacuum" 
 				    alternateButton:@"Relaunch"
 					otherButton:nil
-			  informativeTextWithFormat:[message stringByAppendingString:
+			  informativeTextWithFormat:@"%@",[message stringByAppendingString:
 						     @" Do you proceed to vacuum-clean the database before the relaunch?" 
 						     @" It will again take some time and you need to wait patiently."
 						     ]];
@@ -559,7 +586,7 @@
 				  defaultButton:@"Relaunch" 
 				alternateButton:nil
 				    otherButton:nil
-		      informativeTextWithFormat:[NSString stringWithFormat:@"%@ bytes --> %@ bytes",before,after]];
+		      informativeTextWithFormat:@"%@",[NSString stringWithFormat:@"%@ bytes --> %@ bytes",before,after]];
 	    [alert runModal];
 	}
 	[self relaunch];

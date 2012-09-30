@@ -22,43 +22,43 @@ typedef enum {
 // title should contain strings WITHOUT ampersand-escapes,
 // abstract should contain strings WITH ampersand-escapes.
 #pragma mark intrinsic
-@property (retain) JournalEntry * journal;
-@property (retain) NSString * flagInternal;
-@property (retain) NSSet* citedBy;
-@property (retain) NSSet* refersTo;
-@property (retain) NSNumber* citecount;
-@property (retain) NSString*normalizedTitle;
-@property (retain) NSString*longishAuthorListForA;
-@property (retain) NSNumber *eprintForSorting;
-@property (retain) ArticleData*data;
+@property  JournalEntry * journal;
+@property  NSString * flagInternal;
+@property  NSSet* citedBy;
+@property  NSSet* refersTo;
+@property  NSNumber* citecount;
+@property  NSString*normalizedTitle;
+@property  NSString*longishAuthorListForA;
+@property  NSNumber *eprintForSorting;
+@property  ArticleData*data;
 #pragma mark forwarded to data
-@property (retain) NSString * abstract;
-@property (retain) NSString * arxivCategory;
-@property (retain) NSString * collaboration;
-@property (retain) NSString * comments;
-@property (retain) NSDate * date;
-@property (retain) NSString * doi;
-@property (retain) NSString * eprint;
-@property (retain) NSString*longishAuthorListForEA;
-@property (retain) NSString * memo;
-@property (retain) NSNumber * pages;
-@property (retain) NSString*shortishAuthorList;
-@property (retain) NSString* texKey;
-@property (retain) NSString * title;
-@property (retain) NSNumber * version;
-@property (retain) NSString * spicite;
-@property (retain) NSNumber * spiresKey;
-@property (retain) NSNumber * inspireKey;
+@property  NSString * abstract;
+@property  NSString * arxivCategory;
+@property  NSString * collaboration;
+@property  NSString * comments;
+@property  NSDate * date;
+@property  NSString * doi;
+@property  NSString * eprint;
+@property  NSString*longishAuthorListForEA;
+@property  NSString * memo;
+@property  NSNumber * pages;
+@property  NSString*shortishAuthorList;
+@property  NSString* texKey;
+@property  NSString * title;
+@property  NSNumber * version;
+@property  NSString * spicite;
+@property  NSNumber * spiresKey;
+@property  NSNumber * inspireKey;
 #pragma mark generated
 @property (assign,readonly) BOOL hasPDFLocally; 
 @property (assign,readonly) BOOL isEprint;
-@property (retain,readonly) NSString * quieterTitle; 
-@property (retain,readonly) NSString * pdfPath; 
-@property (retain,readonly) NSString* uniqueSpiresQueryString;
-@property (retain,readonly) NSString* uniqueInspireQueryString;
-@property (retain,readonly) NSString* IdForCitation;
+@property (readonly) NSString * quieterTitle; 
+@property (readonly) NSString * pdfPath; 
+@property (readonly) NSString* uniqueSpiresQueryString;
+@property (readonly) NSString* uniqueInspireQueryString;
+@property (readonly) NSString* IdForCitation;
 @property (assign) ArticleFlag flag;
-@property (retain) NSString *eprintForSortingAsString;
+@property  NSString *eprintForSortingAsString;
 
 
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;

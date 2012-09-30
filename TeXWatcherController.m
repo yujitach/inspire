@@ -84,7 +84,7 @@
     NSArray*inputs=[dict objectForKey:@"inputs"];
     if(inputs && [inputs count]>0){
 	[self addToLog:[NSString stringWithFormat:@"%@ includes %@\n",[texFullPath lastPathComponent],[inputs componentsJoinedByString:@", "]]];
-	for(NSString*i in inputs){
+	for(__strong NSString*i in inputs){
 	    if(![i hasSuffix:@".tex"]){
 		i=[i stringByAppendingString:@".tex"];
 	    }

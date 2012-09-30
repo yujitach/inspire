@@ -12,7 +12,6 @@
 #import "JournalEntry.h"
 #import "SpiresHelper.h"
 #import "ArxivHelper.h"
-#import "RegExKitLite.h"
 #import "NSString+magic.h"
 #import "SpiresAppDelegate_actions.h"
 

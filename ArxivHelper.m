@@ -173,6 +173,7 @@ ArxivHelper* _sharedHelper=nil;
 	    }
 	}
     }
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [delegate performSelector:sel withObject:returnDict];
     connection=nil;
 }
@@ -185,7 +186,7 @@ ArxivHelper* _sharedHelper=nil;
     NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to arXiv"
 				  defaultButton:@"OK"
 				alternateButton:nil
-				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
+				    otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:nil 

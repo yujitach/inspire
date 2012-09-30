@@ -110,10 +110,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [iMouseCell release];
-    [super dealloc];
-}
 
 
 - (void)updateTrackingAreas {
@@ -165,7 +161,6 @@
         NSCell *cell = [self preparedCellAtColumn:colVal row:rowVal];
         // Only set the mouseCell properties AFTER calling preparedCellAtColumn:row:.
         if (iMouseCell != cell) {
-            [iMouseCell release];
             // Store off the col/row
             iMouseCol = colVal;
             iMouseRow = rowVal;
@@ -186,7 +181,6 @@
         [cell setControlView:self];
         [cell mouseExited:event];
         // We are now done with the copied cell
-        [iMouseCell release];
         iMouseCell = nil;
         iMouseCol = -1;
         iMouseRow = -1;

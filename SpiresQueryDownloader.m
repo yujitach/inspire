@@ -9,7 +9,6 @@
 #import "SpiresQueryDownloader.h"
 #import "SpiresHelper.h"
 #import "NSString+magic.h"
-#import "RegexKitLite.h"
 #import "AppDelegate.h"
 #import "Article.h"
 
@@ -224,6 +223,7 @@
 		dispatch_async(dispatch_get_main_queue(),^{
 		    [[NSApp appDelegate] postMessage:nil];
 		    [[NSApp appDelegate] stopProgressIndicator];
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		    [delegate performSelector:sel withObject:transformed];
 		});		
 	    }
@@ -272,7 +272,7 @@
 	    NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"%@ returned malformed XML",inspire?@"Inspire":@"SPIRES"]
 					  defaultButton:@"Yes"
 					alternateButton:@"No thanks"
-					    otherButton:nil informativeTextWithFormat:text];
+					    otherButton:nil informativeTextWithFormat:@"%@",text];
 	    //[alert setAlertStyle:NSCriticalAlertStyle];
 	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 			      modalDelegate:self 
@@ -311,7 +311,7 @@
     NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Connection Error to %@",inspire?@"Inspire":@"SPIRES"]
 				  defaultButton:@"OK"
 				alternateButton:nil
-				    otherButton:nil informativeTextWithFormat:[error localizedDescription]];
+				    otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
 		      modalDelegate:nil 

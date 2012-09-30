@@ -33,10 +33,10 @@ static NSShadow *contentShadow;
 
 + (void)initialize;
 {
-    fillStop1			= [[NSColor colorWithCalibratedWhite:(253.0f / 255.0f) alpha:1] retain];
-    fillStop2			= [[NSColor colorWithCalibratedWhite:(242.0f / 255.0f) alpha:1] retain];
-    fillStop3			= [[NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1] retain];
-	fillStop4			= [[NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1] retain];
+    fillStop1			= [NSColor colorWithCalibratedWhite:(253.0f / 255.0f) alpha:1];
+    fillStop2			= [NSColor colorWithCalibratedWhite:(242.0f / 255.0f) alpha:1];
+    fillStop3			= [NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1];
+	fillStop4			= [NSColor colorWithCalibratedWhite:(230.0f / 255.0f) alpha:1];
 	
     fillGradient		= [[NSGradient alloc] initWithColorsAndLocations:
 						   fillStop1, (CGFloat)0.0,
@@ -45,21 +45,21 @@ static NSShadow *contentShadow;
 						   fillStop4, (CGFloat)1.0,
 						   nil];
 	
-	topBorderColor		= [[NSColor colorWithCalibratedWhite:(202.0f / 255.0f) alpha:1] retain];
-	bottomBorderColor	= [[NSColor colorWithCalibratedWhite:(170.0f / 255.0f) alpha:1] retain];
-	sideBorderColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2f] retain];
-	sideInsetColor		= [[NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5f] retain];
+	topBorderColor		= [NSColor colorWithCalibratedWhite:(202.0f / 255.0f) alpha:1];
+	bottomBorderColor	= [NSColor colorWithCalibratedWhite:(170.0f / 255.0f) alpha:1];
+	sideBorderColor		= [NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.2f];
+	sideInsetColor		= [NSColor colorWithCalibratedWhite:(255.0f / 255.0f) alpha:0.5f];
 	
-	pressedColor		= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35f] retain];
+	pressedColor		= [NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.35f];
 	
-	enabledTextColor	= [[NSColor colorWithCalibratedWhite:(10.0f / 255.0f) alpha:1.0f] retain];
-	disabledTextColor	= [[enabledTextColor colorWithAlphaComponent:0.6f] retain];
+	enabledTextColor	= [NSColor colorWithCalibratedWhite:(10.0f / 255.0f) alpha:1.0f];
+	disabledTextColor	= [enabledTextColor colorWithAlphaComponent:0.6f];
 	
-	enabledImageColor	= [[NSColor colorWithCalibratedWhite:(72.0f / 255.0f) alpha:1.0f] retain];
-	disabledImageColor	= [[enabledImageColor colorWithAlphaComponent:0.6f] retain];
+	enabledImageColor	= [NSColor colorWithCalibratedWhite:(72.0f / 255.0f) alpha:1.0f];
+	disabledImageColor	= [enabledImageColor colorWithAlphaComponent:0.6f];
 	
-	borderedSideBorderColor	= [[NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25f] retain];
-	borderedTopBorderColor	= [[NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1.0f] retain];
+	borderedSideBorderColor	= [NSColor colorWithCalibratedWhite:(0.0f / 255.0f) alpha:0.25f];
+	borderedTopBorderColor	= [NSColor colorWithCalibratedWhite:(190.0f / 255.0f) alpha:1.0f];
 
 	contentShadow = [[NSShadow alloc] init];
 	[contentShadow setShadowOffset:NSMakeSize(0,-1)];
@@ -141,7 +141,7 @@ static NSShadow *contentShadow;
 
 - (NSDictionary *)_textAttributes
 {
-	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	[attributes addEntriesFromDictionary:[super _textAttributes]];
 	[attributes setObject:[self textColor] forKey:NSForegroundColorAttributeName];
 	[attributes setObject:[NSFont systemFontOfSize:11] forKey:NSFontAttributeName];

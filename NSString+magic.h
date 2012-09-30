@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "RegexKitLite.h"
 
 
 @interface NSString (NSString_magic)
@@ -17,4 +18,9 @@
 -(NSString*)capitalizedStringForName;
 -(NSString*)stringByExpandingAmpersandEscapes;
 -(NSString*)stringByConvertingTeXintoHTML;
+//-(NSString*)stringByReplacingOccurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
+@end
+
+@interface NSMutableString (NSMutableString_magic)
+//-(void)replaceOcuurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
 @end

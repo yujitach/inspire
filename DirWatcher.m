@@ -24,8 +24,8 @@ static void fsEventCallbackFunction(
 				    const FSEventStreamEventFlags eventFlags[],
 				    const FSEventStreamEventId eventIds[])
 {
-    NSArray*a=eventPaths;
-    DirWatcher*w=clientCallBackInfo;
+    NSArray*a=(__bridge NSArray*)eventPaths;
+    DirWatcher*w=(__bridge DirWatcher*)clientCallBackInfo;
     [w fsEventCallbackWithNumberOfEvents:numEvents paths:a flags: eventFlags ids:eventIds];
 }
 
@@ -37,10 +37,10 @@ static void fsEventCallbackFunction(
     pathToWatch=path;
     delegate=d;
     date=[NSDate date];
-    CFArrayRef paths=CFRetain([NSArray arrayWithObject:pathToWatch]);
+    CFArrayRef paths=(__bridge_retained CFTypeRef)([NSArray arrayWithObject:pathToWatch]);
     FSEventStreamContext context;
     context.version=0;
-    context.info=self;
+    context.info=(__bridge void *)(self);
     context.retain=NULL;
     context.release=NULL;
     context.copyDescription=NULL;
@@ -57,12 +57,11 @@ static void fsEventCallbackFunction(
     FSEventStreamStart(stream);
     return self;
 }
--(void)finalize
+-(void)dealloc
 {
     FSEventStreamStop(stream);
     FSEventStreamInvalidate(stream);
     FSEventStreamRelease(stream);
-    [super finalize];
 }
 -(void)report
 {

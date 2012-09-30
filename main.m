@@ -12,10 +12,10 @@
 
 int main(int argc, char *argv[])
 {
-    warmUpIfSuitable();
-    
-    [NSValueTransformer setValueTransformer:[[SpiresPredicateTransformer alloc] init]
+    @autoreleasepool{
+            warmUpIfSuitable();
+            [NSValueTransformer setValueTransformer:[[SpiresPredicateTransformer alloc] init]
 				    forName:@"SpiresPredicateTransformer"];    
-    
-    return NSApplicationMain(argc,  (const char **) argv);
+            return NSApplicationMain(argc,  (const char **) argv);
+    }
 }

@@ -34,7 +34,7 @@
     
     [mi setTitle:s];
     [mi setImage:icon];
-    return [mi autorelease];
+    return mi;
 }
 -(NSUInteger)indexForBundleId:(NSString*)bundleId
 {
@@ -52,7 +52,7 @@
     {
         system("touch /tmp/a.pdf");
         NSURL*dummy=[NSURL fileURLWithPath:@"/tmp/a.pdf"];
-	NSArray* a=NSMakeCollectable(LSCopyApplicationURLsForURL((CFURLRef)dummy,kLSRolesAll));
+	NSArray* a=(__bridge_transfer NSArray*)LSCopyApplicationURLsForURL((__bridge CFURLRef)dummy,kLSRolesAll);
 
 	for(NSURL* url in a){
             NSBundle*bundle=[NSBundle bundleWithURL:url];
@@ -81,7 +81,7 @@
     }*/
     
     {
-	NSArray* a=NSMakeCollectable(LSCopyAllHandlersForURLScheme((CFStringRef)@"http"));
+	NSArray* a=CFBridgingRelease(LSCopyAllHandlersForURLScheme((CFStringRef)@"http"));
 	for(NSString* bundleId in a){
             if([apps containsObject:bundleId])continue;
 	    NSMenuItem* mi=[self menuItemForApp:bundleId];
@@ -92,9 +92,9 @@
     }
     
     defaultsKey=[[appToUsePopUp itemAtIndex:0] title];
-    NSURL*url;
-    LSGetApplicationForInfo(0,0,(CFStringRef)@"pdf",kLSRolesAll,NULL,(CFURLRef*)&url);
-    NSString*defaultBundleId=[[NSBundle bundleWithPath:[url path]] bundleIdentifier];
+    CFURLRef url;
+    LSGetApplicationForInfo(0,0,(CFStringRef)@"pdf",kLSRolesAll,NULL,&url);
+    NSString*defaultBundleId=[[NSBundle bundleWithPath:[(__bridge NSURL*)url path]] bundleIdentifier];
     NSString*chosenId=[[NSUserDefaults standardUserDefaults] stringForKey:defaultsKey];
 //    NSLog(@"defaultBundleId:%@",defaultBundleId);
 //    NSLog(@"chosenId:%@",chosenId);

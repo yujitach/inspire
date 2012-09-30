@@ -8,7 +8,7 @@
 
 #import "ArxivMetadataFetchOperation.h"
 #import "Article.h"
-#import "RegexKitLite.h"
+#import "NSString+magic.h"
 #import "MOC.h"
 
 @implementation ArxivMetadataFetchOperation

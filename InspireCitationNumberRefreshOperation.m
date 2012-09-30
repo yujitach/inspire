@@ -8,7 +8,7 @@
 
 #import "InspireCitationNumberRefreshOperation.h"
 #import "Article.h"
-#import "RegexKitLite.h"
+#import "NSString+magic.h"
 #import "SpiresHelper.h"
 
 @implementation InspireCitationNumberRefreshOperation

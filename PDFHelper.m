@@ -10,7 +10,6 @@
 #import "Article.h"
 #import "JournalEntry.h"
 #import "SpiresHelper.h"
-#import "RegExKitLite.h"
 #import "NSString+magic.h"
 #import "JournalPDFDownloadOperation.h"
 #import "ArxivPDFDownloadOperation.h"
@@ -192,14 +191,11 @@ NSString* pathShownWithQuickLook=nil;
 }
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {
-    // The main work is off-loaded to an external helper because PDFKit sometimes crashes,
-    // in particular in 64 bit mode, in 10.5. It's OK now, but still off-loaded...
-    NSString*tmpFile=[[NSFileManager defaultManager] temporaryFileName];
-    NSString*script=[[NSBundle mainBundle] pathForResource:@"pdfScanHelper" ofType:@""];
-    NSString* command=[NSString stringWithFormat:@"%@ %@ %@" ,[script quotedForShell], [pdfPath quotedForShell], tmpFile];
-    system([command UTF8String]);
-    NSString*s=[NSString stringWithContentsOfFile:tmpFile encoding:NSUTF8StringEncoding error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:tmpFile error:NULL];
+    
+    PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
+    PDFPage* p=[d pageAtIndex:0];
+    NSString* s=[p string];
+    
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     

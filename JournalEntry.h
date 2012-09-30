@@ -14,12 +14,12 @@
 {
 }
 
-@property (retain) NSString * volume;
-@property (retain) NSString * name;
-@property (retain) NSNumber * year;
-@property (retain) NSString * page;
-@property (retain) NSNumber * endPage;
-@property (retain) Article * article;
+@property  NSString * volume;
+@property  NSString * name;
+@property  NSNumber * year;
+@property  NSString * page;
+@property  NSNumber * endPage;
+@property  Article * article;
 +(JournalEntry*)journalEntryWithName:(NSString*)name Volume:(NSString*)volume Year:(int)year Page:(NSString*)page inMOC:(NSManagedObjectContext*)moc;
 @end
 

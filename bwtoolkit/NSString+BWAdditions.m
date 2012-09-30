@@ -13,10 +13,10 @@
 + (NSString *)bwRandomUUID
 {
 	CFUUIDRef uuidObj = CFUUIDCreate(nil);
-	NSString *newUUID = (NSString*)CFMakeCollectable(CFUUIDCreateString(nil, uuidObj));
+	NSString *newUUID = (__bridge_transfer NSString*)CFUUIDCreateString(nil, uuidObj);
 	CFRelease(uuidObj);
 	
-	return [newUUID autorelease];
+	return newUUID;
 }
 
 @end

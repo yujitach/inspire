@@ -96,7 +96,7 @@
 	//If we found a mapping model then proceed
 	if (mappingModel) break;
 	//Release the target model and keep looking
-	[targetModel release], targetModel = nil;
+	targetModel = nil;
     }
     //We have tested every model, if nil here we failed
     if (!mappingModel) {
@@ -177,7 +177,7 @@
 	return NO;
     }
     
-    [[NSGarbageCollector defaultCollector] collectExhaustively];
+//    [[NSGarbageCollector defaultCollector] collectExhaustively];
     
     //We may not be at the "current" model yet, so recurse
     return [self progressivelyMigrateURL:sourceStoreURL

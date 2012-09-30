@@ -7,7 +7,6 @@
 //
 
 #import "NSString+magic.h"
-#import "RegexKitLite.h"
 #import <WebKit/WebKit.h>
 
 static NSArray*magicRegExps=nil;
@@ -100,8 +99,8 @@ static void loadMagic(){
     
     NSMutableString *result = [NSMutableString stringWithString:self];
     
-    CFStringNormalize((CFMutableStringRef)result, kCFStringNormalizationFormD);
-    CFStringFold((CFMutableStringRef)result, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
+    CFStringNormalize((__bridge CFMutableStringRef)result, kCFStringNormalizationFormD);
+    CFStringFold((__bridge CFMutableStringRef)result, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
     
     return result;
     
@@ -212,11 +211,11 @@ static void loadMagic(){
 		    unsigned int tempInt = 0;
 		    NSScanner *scanner = [NSScanner scannerWithString: [value substringFromIndex: 1]];
 		    [scanner scanHexInt: &tempInt];
-		    [escaped insertString: [NSString stringWithFormat: @"%C", tempInt] atIndex: entityRange.location];
+		    [escaped insertString: [NSString stringWithFormat: @"%C", (unsigned short)tempInt] atIndex: entityRange.location];
 		}
 		else
 		{
-		    [escaped insertString: [NSString stringWithFormat: @"%C", [value intValue]] atIndex: entityRange.location];
+		    [escaped insertString: [NSString stringWithFormat: @"%C", (unsigned short)[value intValue]] atIndex: entityRange.location];
 		}
 		i = start.location;
 	    }

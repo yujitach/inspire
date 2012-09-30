@@ -44,7 +44,7 @@
 
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"registering to database %d elements",[elements count]];
+    return [NSString stringWithFormat:@"registering to database %d elements",(int)[elements count]];
 }
 
 #pragma mark setters from XML

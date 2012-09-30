@@ -10,7 +10,6 @@
 #import "Article.h"
 #import "ArxivPDFDownloadOperation.h"
 #import "DeferredPDFOpenOperation.h"
-#import "RegexKitLite.h"
 #import "NSString+magic.h"
 #import "AppDelegate.h"
 #import "PDFHelper.h"

@@ -18,7 +18,7 @@
 {
     self=[super init];
     url=u;
-    handler=Block_copy(h);
+    handler=[h copy];
     path=[[NSFileManager defaultManager] temporaryFileName];
 //    NSLog(@"%@",path);
     return self;

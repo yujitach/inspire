@@ -18,5 +18,5 @@
 @interface DropAcceptingImageView : NSImageView {
     id delegate;
 }
-@property(retain) id delegate;
+@property id delegate;
 @end

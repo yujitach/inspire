@@ -10,7 +10,6 @@
 #import "Article.h"
 #import "SimpleArticleList.h"
 #import "SideTableViewController.h"
-#import "RegexKitLite.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryOperation.h"
 #import "BatchBibQueryOperation.h"
@@ -26,7 +25,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	return [dict objectForKey:@"citationsInOrder"];
     }
     NSMutableArray*citations=[[dict objectForKey:@"citationsInOrder"] mutableCopy];
-    for(NSString*subfile in inputs){
+    for(__strong NSString*subfile in inputs){
 	if([subfile rangeOfString:@"."].location==NSNotFound){
 	    subfile=[subfile stringByAppendingString:@".tex"];
 	}

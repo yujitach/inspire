@@ -14,5 +14,5 @@
     NSString*message;
 }
 -(void)setArticle:(Article*)a;
-@property(retain) NSString*message;
+@property NSString*message;
 @end

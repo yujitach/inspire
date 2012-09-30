@@ -115,23 +115,18 @@
     return self;
 }
 
-- (void)dealloc {
-    [image release];
-    [super dealloc];
-}
 
 - (id)copyWithZone:(NSZone *)zone {
     ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
     // The image ivar will be directly copied; we need to retain or copy it.
-    cell->image = [image retain];
-    cell->button = [button retain];
+    cell->image = image;
+    cell->button = button;
     return cell;
 }
 
 - (void)setImage:(NSImage *)anImage {
     if (anImage != image) {
-        [image release];
-        image = [anImage retain];
+        image = anImage;
 	// well, I shouldn't hard code...
 	[image setSize:NSMakeSize(16, 16)];
     }
@@ -143,8 +138,7 @@
 
 - (void)setButton:(NSButtonCell *)aButton {
     if (aButton != button) {
-        [button release];
-        button = [aButton retain];
+        button = aButton;
     }
 }
 
@@ -312,7 +306,6 @@
     NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:infoButtonRect 
                                                         options:options owner:controlView userInfo:userInfo];
     [controlView addTrackingArea:area];
-    [area release];
 }
 
 - (void)mouseEntered:(NSEvent *)event {

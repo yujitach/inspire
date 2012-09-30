@@ -7,7 +7,6 @@
 //
 
 #import "SpiresHelper.h"
-#import "RegexKitLite.h"
 #import "NSString+magic.h"
 #import "Article.h"
 #import "MOC.h"
@@ -311,7 +310,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSMutableArray*arr=[NSMutableArray array];
     SEL operator=NULL;
     NSString*operand=nil;
-    for(NSString*s in a){
+    for(__strong NSString*s in a){
 	BOOL not=NO;
 	if([s stringByMatching:@"^ *(not) +(.+)$" capture:1]){
 	    not=YES;
@@ -329,6 +328,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	if([operand length]<2)
 	    continue;
 	operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	NSPredicate*p=[self performSelector:operator withObject:operand];
 	if(p){
 	    if(not){
