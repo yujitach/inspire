@@ -7,6 +7,7 @@
 //
 
 #import "DumbOperation.h"
+#import "NetworkOperationQueue.h"
 
 static NSOperationQueue*_queue=nil;
 static NSOperationQueue*_Squeue=nil;
@@ -39,7 +40,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)spiresQueue;
 {
     if(!_Squeue){
-	_Squeue=[[NSOperationQueue alloc] init];
+	_Squeue=[[NetworkOperationQueue alloc] initWithHost:@"inspirehep.net" andWaitBetweenOperations:5];
 	[_Squeue setMaxConcurrentOperationCount:1];
     }
     return _Squeue;
@@ -47,7 +48,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)arxivQueue;
 {
     if(!_Aqueue){
-	_Aqueue=[[UniqueOperationQueue alloc] init];
+	_Aqueue=[[NetworkOperationQueue alloc] initWithHost:@"arxiv.org" andWaitBetweenOperations:5];
 	[_Aqueue setMaxConcurrentOperationCount:1];
     }
     return _Aqueue;

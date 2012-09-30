@@ -18,39 +18,7 @@
 @end
 
 @implementation SpiresQueryDownloader
--(NSURL*)urlForSpiresForString:(NSString*)search
-{
-    NSURL*url=nil;
-    if([search hasPrefix:@"r"]){
-	NSArray*a=[search componentsSeparatedByString:@" "];
-	NSString*s=nil;
-	if([a count]>1){
-	    NSUInteger i=1;
-	    for(i=1;i<[a count];i++){
-		s=[a objectAtIndex:i];
-		if(![s isEqualToString:@""])break;
-	    }
-	    if([s isEqualToString:@"key"]){
-		if(i+1>[a count]-1)return nil;
-		s=[s stringByAppendingFormat:@"=%@",[a objectAtIndex:i+1]];
-	    }
-	}
-	NSString*x=[SPIRESREFHEAD stringByAppendingString:s];
-	url=[NSURL URLWithString:[x stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    }else{
-	NSString*trailer=[[NSUserDefaults standardUserDefaults] stringForKey:@"spiresQueryTrailer"];
-	if(trailer && ![trailer isEqualToString:@""]){
-	    search=[search stringByAppendingFormat:@" and %@",trailer];
-	}
-	NSString*escapedSearch=[search stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ];
-	escapedSearch=[escapedSearch stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];
-	escapedSearch=[escapedSearch stringByReplacingOccurrencesOfString:@"(" withString:@"%28"];
-	escapedSearch=[escapedSearch stringByReplacingOccurrencesOfString:@")" withString:@"%29"];
-	escapedSearch=[escapedSearch stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-	url=  [NSURL URLWithString:[NSString stringWithFormat:@"%@%@&server=sunspi5", SPIRESXMLHEAD, escapedSearch]];
-    }
-    return url;
-}
+
 #define MAXPERQUERY 50
 -(NSURL*)urlForInspireForString:(NSString*)search
 {
@@ -96,15 +64,15 @@
             inspireQuery=search;
         }
     }
-    NSString*str=[NSString stringWithFormat:@"%@&rg=%d&of=xm",inspireQuery,MAXPERQUERY];
+    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm",inspireQuery,(int)startIndex+1,MAXPERQUERY];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }
--(id)initWithQuery:(NSString*)search forArticle:(Article*)a delegate:(id)d didEndSelector:(SEL)selector 
+-(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start forArticle:(Article*)a whenDone:(WhenDoneClosure)wd
 {
     self=[super init];
-    delegate=d;
-    sel=selector;
+    whenDone=wd;
     article=a;
+    startIndex=start;
     search=[search normalizedString];
     // 29/6/2009
     // differences in the query strings of the real web spires and those of my spires app should be addressed more properly
@@ -115,8 +83,7 @@
     search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
     // end target of the comment above
     searchString=search;
-    inspire=[[NSApp appDelegate] useInspire];
-    NSURL*url=inspire?[self urlForInspireForString:search]:[self urlForSpiresForString:search];
+    NSURL*url=[self urlForInspireForString:search];
     NSLog(@"fetching:%@",url);
     urlRequest=[NSURLRequest requestWithURL:url
 				cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -125,30 +92,16 @@
     temporaryData=[NSMutableData data];
     connection=[NSURLConnection connectionWithRequest:urlRequest
 					     delegate:self];
-    [[NSApp appDelegate] startProgressIndicator];
-    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Waiting reply from %@...",(inspire?@"inspire":@"spires")]];
+    if(start==0){
+        [[NSApp appDelegate] startProgressIndicator];
+        [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
+    }
     return self;
 }
 #pragma mark Bibtex parser
 
 -(NSString*)transformBibtexToXML:(NSString*)s
 {
-    //    NSLog(@"ok...");
-    /*    NSTask* task=[[NSTask alloc] init];
-     [task setLaunchPath:@"/usr/bin/perl"];
-     [task setCurrentDirectoryPath:@"/tmp"];
-     [task setArguments: [NSArray arrayWithObjects: [[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"],  nil]];
-     NSPipe*pipe=[NSPipe pipe];
-     [task setStandardOutput:pipe];
-     [task setStandardInput:pipe];
-     [task launch];
-     [[pipe fileHandleForWriting] writeData:[s dataUsingEncoding:NSUTF8StringEncoding]];
-     [[pipe fileHandleForWriting] closeFile];
-     [task waitUntilExit];
-     NSData*data=[[pipe fileHandleForReading] readDataToEndOfFile];
-     
-     NSString*result= [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];*/
-    // prays the path to the app doesn't contain any ' ...
     NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
     NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
     NSString*script=[[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"];
@@ -185,60 +138,11 @@
     }
     return xslURL;
 }
--(void)dealWithTooManyResults
-{
-/*    NSString*text=[NSString stringWithFormat:@"The server found %d entries for your query; so far only %d entries are downloaded.\n Do you want to continue downloading the rest? Mostly the rest are very old.", (int)total, (int)sofar
-		   ];
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Many results found"
-				  defaultButton:@"No thanks"
-				alternateButton:@"Continue"
-				    otherButton:nil informativeTextWithFormat:text];
-    //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-		      modalDelegate:self 
-		     didEndSelector:@selector(tooManyAlertDidEnd:returnCode:contextInfo:)
-			contextInfo:nil];
-}
-
-- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored
-{
-    if(returnCode==NSAlertAlternateReturn){*/
-	NSString*urlString=[[urlRequest URL] absoluteString];
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-	    while(sofar<total){
-		NSError*error;
-		dispatch_async(dispatch_get_main_queue(),^{
-		    [[NSApp appDelegate] startProgressIndicator];
-		    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"%d entries out of %d downloaded",(int)sofar,(int)total ]];
-		});
-		NSURL*url=[NSURL URLWithString:[NSString stringWithFormat:@"%@&jrec=%d",urlString,(int)sofar+1]];
-		NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url
-								       options:0
-									 error:&error];
-		NSXMLDocument*transformed=[doc objectByApplyingXSLTAtURL:[self xslURL]
-							       arguments:nil
-								   error:&error];
-		NSArray*a=[[transformed rootElement] nodesForXPath:@"document" error:NULL];
-		sofar+=[a count];
-		dispatch_async(dispatch_get_main_queue(),^{
-		    [[NSApp appDelegate] postMessage:nil];
-		    [[NSApp appDelegate] stopProgressIndicator];
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-		    [delegate performSelector:sel withObject:transformed];
-		});		
-	    }
-	});
-//    }
-}
 
 
 -(NSXMLDocument*)docFromInspireData:(NSError**)error
 {
-    if(total==0){
-	NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-	NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
-	total=[t intValue];
-    }
+
     NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:temporaryData 
 						  options:0
 						    error:error];
@@ -248,11 +152,6 @@
 						   arguments:nil
 						       error:error];    
     
-    NSArray*a=[[transformed rootElement] nodesForXPath:@"document" error:NULL];
-    sofar=[a count];
-    if(sofar!= total){
-	[self dealWithTooManyResults];
-    }
     return transformed;
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
@@ -260,16 +159,22 @@
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
 
+    if(total==0){
+	NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+	NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
+	total=[t intValue];
+    }
+    
     NSError*error;
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
-	doc=inspire?[self docFromInspireData:&error]:[self docFromSpiresData:&error];
+	doc=[self docFromInspireData:&error];
 	if(!doc){
 	    NSLog(@"xml problem:%@",error);
 	    NSString*text=[NSString stringWithFormat:@"Please report it and help develop this app.\n"
 			   @"Clicking Yes will open up an email.\n"
 			   ];
-	    NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"%@ returned malformed XML",inspire?@"Inspire":@"SPIRES"]
+	    NSAlert*alert=[NSAlert alertWithMessageText:@"Inspire returned malformed XML"
 					  defaultButton:@"Yes"
 					alternateButton:@"No thanks"
 					    otherButton:nil informativeTextWithFormat:@"%@",text];
@@ -280,7 +185,7 @@
 				contextInfo:nil];
 	}
     }
-    [delegate performSelector:sel withObject:doc];
+    whenDone(doc,total);
     temporaryData=nil;
     connection=nil;
     
@@ -294,7 +199,7 @@
 	[[NSWorkspace sharedWorkspace]
 	 openURL:[NSURL URLWithString:
 		  [[NSString stringWithFormat:
-		    @"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@&body=Following SPIRES/Inspire query returned an XML error:\r\n%@",
+		    @"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@&body=Following Inspire query returned an XML error:\r\n%@",
 		    version,urlString]
 		   stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 	
@@ -304,11 +209,11 @@
 
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
-    [delegate performSelector:sel withObject:nil];
+    whenDone(nil,0);
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
 
-    NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Connection Error to %@",inspire?@"Inspire":@"SPIRES"]
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to Inspire"
 				  defaultButton:@"OK"
 				alternateButton:nil
 				    otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];

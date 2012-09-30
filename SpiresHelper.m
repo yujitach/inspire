@@ -15,13 +15,27 @@
 
 SpiresHelper*_sharedSpiresHelper=nil;
 @implementation SpiresHelper
+{
+    NSManagedObjectContext*moc;
+}
+-(SpiresHelper*)initWithMOC:(NSManagedObjectContext*)moc_{
+    if(self=[super init]){
+        moc=moc_;
+    }
+    return self;
+}
 +(SpiresHelper*)sharedHelper
 {
     if(!_sharedSpiresHelper){
-	_sharedSpiresHelper=[[SpiresHelper alloc]init];
+	_sharedSpiresHelper=[[SpiresHelper alloc]initWithMOC:[MOC moc]];
     }
     return _sharedSpiresHelper;
 }
++(SpiresHelper*)helperWithMOC:(NSManagedObjectContext*)moc_
+{
+    return [[SpiresHelper alloc] initWithMOC:moc_];
+}
+
 -(NSPredicate*)topcitePredicate:(NSString*)operand
 {
     NSArray* a=[operand componentsSeparatedByString:@"+"];
@@ -47,18 +61,26 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSPredicate*)citedByPredicate:(NSString*)operand
 {
-    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
-    return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
+    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:moc];
+    if(a){
+        return [NSPredicate predicateWithFormat:@"refersTo contains %@", a];
+    }else{
+        return [NSPredicate predicateWithValue:NO];
+    }
+/*    return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
 	return [a.citedBy containsObject:ar];
     }];
+ */
 }
 -(NSPredicate*)refersToPredicate:(NSString*)operand
 {
-    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:[MOC moc]];
+    Article*a=[Article intelligentlyFindArticleWithId:operand inMOC:moc];
     if(a){
-	return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
+/*	return [NSPredicate predicateWithBlock:^(id ar,NSDictionary*dict){
 	    return [a.refersTo containsObject:ar];
 	}];
+ */
+        return [NSPredicate predicateWithFormat:@"citedBy contains %@", a];
     }else{
 	return [NSPredicate predicateWithValue:NO];
     }
@@ -325,7 +347,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	}else{
 	    operand=s;
 	}
-	if([operand length]<2)
+	if([operand length]<3)
 	    continue;
 	operand=[operand stringByReplacingOccurrencesOfString:@"#" withString:@""];
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -418,10 +440,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 
 
--(NSURL*)spiresURLForQuery:(NSString*)search
-{
-    return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", SPIRESWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
-}
+
 
 -(NSURL*)inspireURLForQuery:(NSString*)search
 {

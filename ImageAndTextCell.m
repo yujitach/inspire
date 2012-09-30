@@ -225,12 +225,13 @@
 	[button setHighlighted:[self isHighlighted]];
 	[button drawWithFrame:imageFrame inView:controlView];
     }else{
-        if ([controlView isFlipped])
+/*        if ([controlView isFlipped])
             imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height + imageFrame.size.height) / 2);
         else
             imageFrame.origin.y += (CGFloat)ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-        
-        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];    
+  */      
+//        [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+        [image drawInRect:NSMakeRect(imageFrame.origin.x,imageFrame.origin.y,image.size.width,image.size.width) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
     }
     [super drawWithFrame:cellFrame inView:controlView];
 }

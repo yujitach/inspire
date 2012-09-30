@@ -69,8 +69,6 @@
 }
 -(void)reload
 {
-    if(![[NSApp appDelegate] isOnline])
-	return;
     NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:[self searchString]
 							andMOC:[self managedObjectContext]];
     [op setCompletionBlock:^{

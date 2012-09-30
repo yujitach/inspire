@@ -255,10 +255,8 @@
 	if(list){
 	    [list addArticles:generated];
 	}
-	if([[NSApp appDelegate] useInspire]){
 	    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
 	    [[OperationQueues spiresQueue] addOperation:op];
-	}
     });
 }
 

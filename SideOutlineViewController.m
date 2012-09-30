@@ -183,8 +183,6 @@
     // should be called from applicationDidFinishLaunching of the app delegate
 
 
-    allArticleList=[AllArticleList allArticleList];
-//    allArticleList.searchString=nil;
 
     [articleListController prepareContent];
 

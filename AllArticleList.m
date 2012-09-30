@@ -8,10 +8,14 @@
 
 #import "AllArticleList.h"
 #import "MOC.h"
+#import "SpiresHelper.h"
+#import "ArticleFetchOperation.h"
 
 static AllArticleList*_allArticleList=nil;
-@implementation AllArticleList 
-
+@implementation AllArticleList
+{
+    ArticleFetchOperation*currentFetchOperation;
+}
 +(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc
 {
     NSArray* a=nil;
@@ -49,7 +53,7 @@ static AllArticleList*_allArticleList=nil;
 
     AllArticleList* mo=(AllArticleList*)[[NSManagedObject alloc] initWithEntity:entity
 				insertIntoManagedObjectContext:nil];
-    [mo setValue:@"spires" forKey:@"name"];
+    [mo setValue:@"inspire" forKey:@"name"];
     [mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
     mo.sortDescriptors=[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
     [moc insertObject:mo];	
@@ -58,6 +62,7 @@ static AllArticleList*_allArticleList=nil;
     NSFetchRequest*req=[[NSFetchRequest alloc]init];
     [req setEntity:articleEntity];
     [req setPredicate:[NSPredicate predicateWithValue:YES]];
+    [req setFetchLimit:LOADED_ENTRIES_MAX];
     NSError*error=nil;
     NSArray*a=[moc executeFetchRequest:req error:&error];
     NSSet* s=[NSSet setWithArray:a];
@@ -76,8 +81,52 @@ static AllArticleList*_allArticleList=nil;
     }
     return _allArticleList;
 }
+-(void)awakeFromFetch
+{
+    self.articles=nil;
+    [self reload];
+}
+-(NSString*)searchString
+{
+    return [self primitiveValueForKey:@"searchString"];
+}
+-(void)setSearchString:(NSString *)newSearchString
+{
+    [self willChangeValueForKey:@"searchString"];
+    [self setPrimitiveValue:newSearchString forKey:@"searchString"];
+    [self reload];
+    [self didChangeValueForKey:@"searchString"];
+}
+/*
+ 
+ if(!mark || [s isEqualToString:mark] || [mark hasSuffix:@" "] || ![s hasPrefix:mark]){
+ //	NSLog(@"refiltering: %@:",s);
+ //	NSLog(@"desc:%@",[self sortDescriptors]);
+ previousArray=[super arrangeObjects:objects];
+ return previousArray;
+ }else{ // shares the same prefix
+ NSRange r=[s rangeOfString:mark];
+ NSString*t=[s substringFromIndex:r.location+r.length];
+ if(t && [t rangeOfString:@" "].location!=NSNotFound ){
+ //	    NSLog(@"refiltering!: %@:",s);
+ previousArray=[super arrangeObjects:objects];
+ }else{
+ //	NSLog(@"shortcutting: %@:",s);
+ previousArray=[super arrangeObjects:previousArray];
+ }
+ return previousArray;
+ }
+
+ 
+ */
 -(void)reload
 {
+//    NSLog(@"reloading internally:%@",self.searchString);
+    if(currentFetchOperation) {
+        [currentFetchOperation cancel];
+    }
+    currentFetchOperation=[[ArticleFetchOperation alloc] initWithQuery:self.searchString forArticleList:self];
+    [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }
 -(NSImage*)icon
 {

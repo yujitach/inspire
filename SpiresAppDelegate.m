@@ -10,6 +10,8 @@
 #import "SpiresAppDelegate_actions.h"
 #import "AppDelegate.h"
 #import "MOC.h"
+#import "DumbOperation.h"
+#import "ArticleFetchOperation.h"
 
 #import "Article.h"
 #import "JournalEntry.h"
@@ -26,7 +28,6 @@
 
 #import "HistoryController.h"
 
-#import "IncrementalArrayController.h"
 #import "MessageViewerController.h"
 #import "ActivityMonitorController.h"
 #import "TeXWatcherController.h"
@@ -44,6 +45,7 @@
 
 #import "SPSearchFieldWithProgressIndicator.h"
 
+
 #import <Sparkle/SUUpdater.h>
 #import <Quartz/Quartz.h>
 //#import <ExceptionHandling/NSExceptionHandler.h>
@@ -58,6 +60,7 @@
 @end
 
 @implementation SpiresAppDelegate
+
 +(void)initialize
 {
     if(self!=[SpiresAppDelegate class]){
@@ -205,7 +208,7 @@
 }*/
 
 #pragma mark UI glues
--(void)checkOSVersion
+/*-(void)checkOSVersion
 {   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
     // but is used to urge users whenever a new minor version of OS X comes out!
     SInt32 major=10,minor=5,bugFix=6;
@@ -220,7 +223,7 @@
 						configuration:nil
 							error:NULL];
     }
-}
+}*/
 -(void)awakeFromNib
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
@@ -262,37 +265,6 @@
     [NSApp setServicesProvider: self];
     NSUpdateDynamicServices();
     
-//    Now it's done in an Apple approved way, see Snow Leopard AppKit Release Notes and look for NSRequiredContext.
-//    But for "safety" I keep the following code intact... 
-    // Force enable the Spires... entry in the Services menu and the context menu.
-    // This is not morally right, and uses implementation details not public, but whatever...
-    // when someone complains, I would implement an opt-out button in the Preferences.
-/*    NSString*pbsPlistPath=[@"~/Library/Preferences/pbs.plist" stringByExpandingTildeInPath];
-    NSMutableDictionary*dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:pbsPlistPath]
-							      mutabilityOption:NSPropertyListMutableContainers
-									format:NULL
-							      errorDescription:NULL];
-    NSMutableDictionary*status=[dict objectForKey:@"NSServicesStatus"];
-    if(!status){
-	status=[NSMutableDictionary dictionary];
-	[dict setObject:status forKey:@"NSServicesStatus"];
-    }
-    if(status){
-	NSMutableDictionary*m=[NSMutableDictionary dictionary];
-	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_context_menu"];
-	[m setObject:[NSNumber numberWithBool:YES] forKey:@"enabled_services_menu"];
-	[status setObject:m
-		   forKey:@"com.yujitach.spires - Look Up using Spires - handleServicesLookupSpires"];
-    }
-    NSData* data=[NSPropertyListSerialization dataWithPropertyList:dict
-							    format:NSPropertyListBinaryFormat_v1_0
-							   options:0
-							     error:NULL];
-    [data writeToFile:pbsPlistPath
-	   atomically:YES];
-    system("/System/Library/CoreServices/pbs -flush");
-    system("/System/Library/CoreServices/pbs -flush_userdefs");
-    */
 }
 -(void)showWelcome
 {
@@ -318,23 +290,15 @@
 	if(result!=NSAlertDefaultReturn)
 	    return;
 	[self installSafariExtension:self];
-    }    
+    }
 }
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
     [self setupServices];
-    [self checkOSVersion];
 
     [self crashCheck:self];
-    if(![self isOnline]){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"You're in the Offline mode."
-				      defaultButton:@"OK" 
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
-	[alert runModal];
-    }
+    
     [self showWelcome];
 //    [self safariExtensionRecommendation];
     // This lock is to wait until the warm-up in the background is done.
@@ -357,6 +321,21 @@
     bibViewController=[[BibViewController alloc] init];
 
 }
+-(BOOL)busyUpdating
+{
+    NSArray*a=[[OperationQueues sharedQueue] operations];
+    int i=0;
+    for(NSOperation *op in a){
+        if([op isKindOfClass:[ArticleFetchOperation class]]){
+            i++;
+        }
+    }
+    if(i>=2){
+        return YES;
+    }else{
+        return NO;
+    }
+}
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"selection"]){
@@ -368,6 +347,9 @@
 	    [wv setArticle:NSMultipleValuesMarker];
 	}else{
 //	    NSLog(@"selection:%a",a);
+            if([self busyUpdating]){
+                return;
+            }
 	    Article*ar=[a objectAtIndex:0];
 	    [wv setArticle:ar];
 	    if(ar.flag & AFIsUnread){
@@ -391,7 +373,11 @@
 	if(al){
 	    head=al.name;
 	}
-	[window setTitle:[NSString stringWithFormat:@"%@ (%d %@)",head,(int)num,(num==1?@"entry":@"entries")]];
+        NSString*howmany=[NSString stringWithFormat:@"%d %@",(int)num,(num==1?@"entry":@"entries") ];
+        if(num>=LOADED_ENTRIES_MAX){
+            howmany=[NSString stringWithFormat:@"more than %d entries", (int)LOADED_ENTRIES_MAX];
+        }
+	[window setTitle:[NSString stringWithFormat:@"%@ (%@)",head,howmany]];
     }
 }
 
@@ -457,7 +443,6 @@
 	    return;
     }
     
-    if([self isOnline]){
 	if(a.eprint && ![a.eprint isEqualToString:@""]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
 	}else if(a.doi && ![a.doi isEqualToString:@""]){
@@ -468,7 +453,6 @@
 	    //	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:[NSArray arrayWithObject:a]]];
 	    //	[self getBibEntriesWithoutDisplay:self];
 	}
-    }
     countDown=(int)GRACE;
     if(countDown<GRACEMIN){
 	countDown=(int)GRACEMIN;
@@ -478,12 +462,6 @@
 
 #pragma mark Public Interfaces
 
--(BOOL)useInspire
-{
-    return YES;
-//    NSString*database=[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"];
-//    return [database isEqualToString:@"inspire"];
-}
 
 -(BOOL)currentListIsArxivReplaced
 {
@@ -514,12 +492,7 @@
 }
 -(void)querySPIRES:(NSString*)search
 {
-    if([self isOnline]){
-	[[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search
-											 andMOC:[MOC moc]]];
-    }else{
-	NSLog(@"it's offline!");
-    }
+        [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 /*-(void)startUpdatingMainView:(id)sender
  {
@@ -568,22 +541,6 @@
 		       nil];
     [NSTask launchedTaskWithLaunchPath:path arguments:arguments];
     [NSApp terminate:self];
-}
-@dynamic isOnline;
--(void)setIsOnline:(BOOL)b
-{
-    [[NSUserDefaults standardUserDefaults] setBool:b forKey:@"isOnline"];
-    if(b){
-	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Offline",@"Turn Offline")
-						 forKey:@"turnOnOfflineMenuItem"];
-    }else{
-	[[NSUserDefaults standardUserDefaults] setValue:NSLocalizedString(@"Turn Online",@"Turn Online")
-						 forKey:@"turnOnOfflineMenuItem"];	
-    }
-}
--(BOOL)isOnline
-{
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"isOnline"];
 }
 -(void)presentFileSaveError
 {

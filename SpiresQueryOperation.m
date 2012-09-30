@@ -13,9 +13,6 @@
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
-@interface SpiresQueryOperation ()
--(void)spiresQueryDidEnd:(NSXMLDocument*)doc;
-@end
 @implementation SpiresQueryOperation
 @synthesize importer;
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
@@ -44,7 +41,7 @@
 	}
 	if(!citedByTarget){
 	    NSLog(@"citedByTarget couldn't be obtained for %@",search);
-	}	
+	}
     }else{
 	citedByTarget=nil;
     }
@@ -69,36 +66,42 @@
 	refersToTarget=nil;
     }
     self.isExecuting=YES;
+    [self startAt:0];
+}
+-(void)startAt:(NSUInteger)start
+{
     Article*a=nil;
     if(refersToTarget){
 	a=refersToTarget;
     }else if(citedByTarget){
 	a=citedByTarget;
     }
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search forArticle:a delegate:self didEndSelector:@selector(spiresQueryDidEnd:)];
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSXMLDocument*doc,NSUInteger total){
+        if(!doc){
+            [self finish];
+            return;
+        }
+        NSXMLElement* root=[doc rootElement];
+        NSArray*elements=[root elementsForName:@"document"];
+        NSLog(@"spires returned %d entries",(int)[elements count]);
+        if([self isCancelled]){
+            [self finish];
+            return;
+        }
+        importer=[[BatchImportOperation alloc] initWithElements:elements
+                                                        citedBy:citedByTarget
+                                                       refersTo:refersToTarget
+                                          registerToArticleList:nil];
+        [[OperationQueues sharedQueue] addOperation:importer];
+        if(start+[elements count]<total){
+            [self startAt:start+[elements count]];
+        }else{
+            [self finish];
+        }
+    }];
     if(!downloader){
 	[self finish];
     }
-}
--(void)spiresQueryDidEnd:(NSXMLDocument*)doc
-{
-    if(!doc){
-	[self finish];
-	return;
-    }
-    NSXMLElement* root=[doc rootElement];
-    NSArray*elements=[root elementsForName:@"document"];
-    NSLog(@"spires returned %d entries",(int)[elements count]);
-    if([self isCancelled]){
-	[self finish];
-	return;
-    }
-    importer=[[BatchImportOperation alloc] initWithElements:elements
-							  citedBy:citedByTarget
-							 refersTo:refersToTarget
-					    registerToArticleList:nil];
-    [self finish];
-    [[OperationQueues sharedQueue] addOperation:importer];    
 }
 -(NSString*)description
 {

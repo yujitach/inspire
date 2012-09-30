@@ -15,7 +15,6 @@
 @class PDFHelper;
 @class BibViewController;
 @class ActivityMonitorController;
-@class IncrementalArrayController;
 @class PrefController;
 @class TeXWatcherController;
 @class MessageViewerController;
@@ -31,7 +30,7 @@
     IBOutlet SPSearchFieldWithProgressIndicator*searchField;
 
     IBOutlet SideOutlineViewController* sideOutlineViewController;
-    IBOutlet IncrementalArrayController* ac;
+    IBOutlet NSArrayController* ac;
     IBOutlet NSTableView* articleListView;    
     IBOutlet ArticleView*wv;
 

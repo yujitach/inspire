@@ -37,7 +37,6 @@
 -(IBAction)openHomePage:(id)sender;
 -(IBAction)zoomIn:(id)sender;
 -(IBAction)zoomOut:(id)sender;
--(IBAction)turnOnOffLine:(id)sender;
 -(IBAction)progressQuit:(id)sender;
 -(IBAction)fixDataInconsistency:(id)sender;
 //-(IBAction)regenerateMainList:(id)sender;

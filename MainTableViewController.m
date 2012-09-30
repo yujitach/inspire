@@ -94,7 +94,7 @@
 		       action:@selector(toggleFlagged:)
 		keyEquivalent:@""
 		      atIndex:0];	
-    [menu insertItemWithTitle:[@"Reload data from " stringByAppendingString:(([[NSApp appDelegate] useInspire])?@"inspire":@"spires")] 
+    [menu insertItemWithTitle:@"Reload data from inspire"
 		       action:@selector(reloadFromSPIRES:)
 		keyEquivalent:@""
 		      atIndex:1];	

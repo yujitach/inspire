@@ -133,7 +133,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 -(void)addQueries:(NSArray*)queries toOps:(NSMutableArray*)ops
 {
     NSString*realQuery=[queries componentsJoinedByString:@" or "];
-    NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:realQuery 
+    NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:realQuery
 							andMOC:moc];
     [ops addObject:op];    
 }

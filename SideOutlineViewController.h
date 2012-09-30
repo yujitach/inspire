@@ -11,12 +11,10 @@
 
 //@class spires_AppDelegate;
 @class ArticleList;
-@class AllArticleList;
 @interface SideOutlineViewController : NSObject<TableViewContextMenuDelegate> {
     IBOutlet NSTreeController* articleListController;
     IBOutlet NSOutlineView* articleListView;
 //    IBOutlet spires_AppDelegate* appDelegate;
-    AllArticleList*allArticleList;
     
 }
 -(void)rearrangePositionInViewForArticleLists;

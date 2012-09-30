@@ -9,13 +9,10 @@
 #import <CoreData/CoreData.h>
 #import "ArticleList.h"
 
+#define LOADED_ENTRIES_MAX 1000
 
 @interface AllArticleList :  ArticleList  
-{
-}
 
-//+(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc;
-//+(AllArticleList*)createAllArticleListInMOC:(NSManagedObjectContext*)moc;
 +(AllArticleList*)allArticleList; //this returns the allArticleList associated to the main MOC!
 @end
 

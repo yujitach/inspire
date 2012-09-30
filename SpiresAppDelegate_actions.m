@@ -32,7 +32,6 @@
 #import "ArxivNewArticleList.h"
 #import "ArticleFolder.h"
 #import "CannedSearch.h"
-#import "IncrementalArrayController.h"
 #import "DumbOperation.h"
 #import "ArticleListReloadOperation.h"
 #import "BatchBibQueryOperation.h"
@@ -72,22 +71,7 @@
 	[[NSWorkspace sharedWorkspace] openFile:tmpLocation];
     }
 }
--(IBAction)turnOnOffLine:(id)sender
-{
-    BOOL state=[self isOnline];
-    if(state){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to go offline?"
-				      defaultButton:@"Yes" 
-				    alternateButton:@"No"
-					otherButton:nil
-			  informativeTextWithFormat:@"You can go online again from\n the menu spires:Turn online."];
-	NSUInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
-	    return;
-    }
-    [self setIsOnline:!state];
-    
-}
+
 -(IBAction)dumpBibtexFile:(id)sender;
 {
     NSLog(@"start dumping");
@@ -261,8 +245,6 @@
 }
 -(IBAction) search:(id)sender
 {
-    if(![self isOnline])
-	return;
     ArticleList* al=[sideOutlineViewController currentArticleList];
     if(!al){
 	return;
@@ -275,6 +257,7 @@
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
     [AllArticleList allArticleList].searchString=searchString;
+    [[AllArticleList allArticleList] reload];
     [sideOutlineViewController selectAllArticleList];
     [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
 }
@@ -388,8 +371,7 @@
 }
 -(IBAction)getBibEntries:(id)sender
 {
-    if([self isOnline])
-        [self getBibEntriesWithoutDisplay:sender];
+    [self getBibEntriesWithoutDisplay:sender];
     [bibViewController showWindow:sender];
     [bibViewController setArticles:[ac selectedObjects]];
 }
@@ -414,8 +396,7 @@
     for(Article*article in [ac selectedObjects]){
 	NSString* target=[article uniqueSpiresQueryString];
 	if(target){
-	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target 
-											    andMOC:[MOC moc]]];
+	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target andMOC:[MOC moc]]];
 	}
     }
 }

@@ -136,21 +136,17 @@ NSString* pathShownWithQuickLook=nil;
     if(o.hasPDFLocally&&![[NSApp appDelegate] currentListIsArxivReplaced]){
 	[self openPDFFile:o.pdfPath usingViewer:viewerType];
 	if([o isEprint]){
-	    if([[NSApp appDelegate] isOnline]){
 		NSOperation*op1=[[ArxivMetadataFetchOperation alloc] initWithArticle:o];
 		NSOperation*op2=[[ArxivVersionCheckingOperation alloc] initWithArticle:o
 									  usingViewer:viewerType];
 		[op2 addDependency:op1];
 		[[OperationQueues arxivQueue] addOperation:op1];
 		[[OperationQueues arxivQueue] addOperation:op2];
-	    }
 	}
     }else if([o isEprint]){
-	if([[NSApp appDelegate] isOnline]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES]];
 	    [[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
 											     usingViewer:viewerType]];
-	}
     }else{
 	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
 				      defaultButton:@"OK" 
@@ -166,8 +162,6 @@ NSString* pathShownWithQuickLook=nil;
 
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 {
-    if(![[NSApp appDelegate] isOnline])
-	return NO;
 
     NSString* doi=o.doi;
     if(!doi || [doi isEqualToString:@""])
