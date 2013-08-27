@@ -29,13 +29,16 @@
 #define BATCHSIZE 10
 -(void)main
 {
-    NSFetchRequest*req=[[NSFetchRequest alloc] initWithEntityName:@"Article"];
+    NSFetchRequest*req=[[NSFetchRequest alloc] init];
     NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
     SpiresHelper*helper=[SpiresHelper helperWithMOC:moc];
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+    [req setEntity:entity];
     NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
     [req setPredicate:predicate];
     [req setFetchLimit:BATCHSIZE];
     [req setResultType:NSManagedObjectIDResultType];
+    [req setIncludesPropertyValues:YES];
     NSMutableArray*total=[NSMutableArray array];
     while(1){
         if([self isCancelled]){

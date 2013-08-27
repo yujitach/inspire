@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<dictionary class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="com.apple.InterfaceBuilder.CocoaPlugin">2840</string>
-			<string key="com.apple.WebKitIBPlugin">1810</string>
+			<string key="com.apple.InterfaceBuilder.CocoaPlugin">3084</string>
+			<string key="com.apple.WebKitIBPlugin">2053</string>
 		</dictionary>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSArrayController</string>
@@ -619,6 +619,8 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{19, 14}, {40, 25}}</string>
 								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="326685293">
 									<int key="NSCellFlags">-2080374784</int>
@@ -666,6 +668,8 @@
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{15, 14}, {48, 25}}</string>
 								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSegmentedCell" key="NSCell" id="421670007">
 									<int key="NSCellFlags">67108864</int>
@@ -720,6 +724,8 @@
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{0, 14}, {329, 22}}</string>
 								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<int key="NSTag">2</int>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSearchFieldCell" key="NSCell" id="619182554">
@@ -2178,26 +2184,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.searchString</string>
-						<reference key="source" ref="925810204"/>
-						<reference key="destination" ref="491577384"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="925810204"/>
-							<reference key="NSDestination" ref="491577384"/>
-							<string key="NSLabel">value: selection.searchString</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.searchString</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1214</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: selection.searchStringEnabled</string>
 						<reference key="source" ref="925810204"/>
 						<reference key="destination" ref="491577384"/>
@@ -2219,6 +2205,22 @@
 						<reference key="destination" ref="491577384"/>
 					</object>
 					<int key="connectionID">1250</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.searchString</string>
+						<reference key="source" ref="925810204"/>
+						<reference key="destination" ref="491577384"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="925810204"/>
+							<reference key="NSDestination" ref="491577384"/>
+							<string key="NSLabel">value: selection.searchString</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.searchString</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1313</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3276,7 +3278,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1312</int>
+			<int key="maxID">1313</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3385,25 +3387,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/HistoryController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">IncrementalArrayController</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">tf</string>
-						<string key="NS.object.0">NSTextField</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">tf</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">tf</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IncrementalArrayController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3565,7 +3548,6 @@
 						<string key="deletePDFForEntry:">id</string>
 						<string key="dumpBibtexFile:">id</string>
 						<string key="dumpDebugInfo:">id</string>
-						<string key="fixDataInconsistency:">id</string>
 						<string key="getBibEntries:">id</string>
 						<string key="getBibEntriesWithoutDisplay:">id</string>
 						<string key="installSafariExtension:">id</string>
@@ -3590,7 +3572,6 @@
 						<string key="showTeXWatcher:">id</string>
 						<string key="showhideActivityMonitor:">id</string>
 						<string key="toggleFlagged:">id</string>
-						<string key="turnOnOffLine:">id</string>
 						<string key="zoomIn:">id</string>
 						<string key="zoomOut:">id</string>
 					</dictionary>
@@ -3633,10 +3614,6 @@
 						</object>
 						<object class="IBActionInfo" key="dumpDebugInfo:">
 							<string key="name">dumpDebugInfo:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fixDataInconsistency:">
-							<string key="name">fixDataInconsistency:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="getBibEntries:">
@@ -3735,10 +3712,6 @@
 							<string key="name">toggleFlagged:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="turnOnOffLine:">
-							<string key="name">turnOnOffLine:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="zoomIn:">
 							<string key="name">zoomIn:</string>
 							<string key="candidateClassName">id</string>
@@ -3749,7 +3722,7 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="ac">IncrementalArrayController</string>
+						<string key="ac">NSArrayController</string>
 						<string key="articleListView">NSTableView</string>
 						<string key="historyController">HistoryController</string>
 						<string key="searchField">SPSearchFieldWithProgressIndicator</string>
@@ -3761,7 +3734,7 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="ac">
 							<string key="name">ac</string>
-							<string key="candidateClassName">IncrementalArrayController</string>
+							<string key="candidateClassName">NSArrayController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="articleListView">
 							<string key="name">articleListView</string>

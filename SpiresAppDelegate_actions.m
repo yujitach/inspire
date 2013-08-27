@@ -129,7 +129,7 @@
 
 -(IBAction)openHomePage:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.sns.ias.edu/~yujitach/spires/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://member.ipmu.jp/yuji.tachikawa/spires/"]];
 }
 -(IBAction)showReleaseNotes:(id)sender
 {
@@ -197,7 +197,7 @@
     [[NSWorkspace sharedWorkspace]
      openURL:[NSURL URLWithString:
 	      [[NSString stringWithFormat:
-		@"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@ (%d entries, %@ bytes)",
+		@"mailto:yuji.tachikawa@ipmu.jp?subject=spires.app Bugs/Suggestions for v.%@ (%d entries, %@ bytes)",
 		version,(int)entries,size]
 	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 }    
@@ -272,7 +272,7 @@
 	
 	[self querySPIRES:[NSString stringWithFormat:@"eprint %@",[o valueForKey:@"eprint"]]]; 	
     }else{
-	[self querySPIRES:[NSString stringWithFormat:@"spicite %@",[o valueForKey:@"spicite"]]];
+//	[self querySPIRES:[NSString stringWithFormat:@"spicite %@",[o valueForKey:@"spicite"]]];
     }
     [[NSApp appDelegate] stopProgressIndicator];
 }
@@ -428,29 +428,8 @@
       }*/
 }
 
-
-#pragma mark Importer
-/*-(IBAction)importSpiresXML:(id)sender
-{
-    NSOpenPanel*op=[NSOpenPanel openPanel];
-    [op setCanChooseFiles:YES];
-    [op setCanChooseDirectories:NO];
-    [op setMessage:@"Choose the SPIRES XML files to import..."];
-    [op setPrompt:@"Choose"];
-    [op setAllowsMultipleSelection:YES];
-    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"spires_xml",nil]];
-    NSInteger res=[op runModal];
-    if(res==NSOKButton){
-	if(!importerController){
-	    importerController=[[ImporterController alloc] init];//WithAppDelegate:self];
-	}
-	[importerController import:[op filenames]];
-    }
-    
-}*/
-
 #pragma mark check consistency
--(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate
+/*-(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:entityName inManagedObjectContext:[MOC moc]];
     NSFetchRequest*req=[[NSFetchRequest alloc] init];
@@ -573,7 +552,7 @@
 	[self relaunch];
     }
 }
-
+*/
 
 
 /*-(void)listAndCull

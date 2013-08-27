@@ -30,6 +30,9 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	    subfile=[subfile stringByAppendingString:@".tex"];
 	}
 	NSString*fullPath=[[file stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",subfile];
+        if(![[NSFileManager defaultManager] fileExistsAtPath:fullPath]){
+            continue;
+        }
 	NSDictionary*subDict=[TeXBibGenerationOperation infoForTeXFile:fullPath];
 	NSArray*subCitations=fullCitationsForFileAndInfo(fullPath,subDict);
 	if(subCitations){
@@ -184,9 +187,10 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 							  byLookingUpWeb:NO];
     for(SpiresQueryOperation*q in ops){
 	[again addDependency:q];
+        SpiresQueryOperation*p=q;
 	[q setCompletionBlock:^{
-	    [q.importer setCompletionBlock:^{
-		NSSet*generated=q.importer.generated;
+	    [p.importer setCompletionBlock:^{
+		NSSet*generated=p.importer.generated;
 		if(!generated)return;
 		NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[generated allObjects]];
 		[again addDependency:op];
@@ -195,7 +199,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 		[again addDependency:wop];
 		[[OperationQueues spiresQueue] addOperation:wop];	    
 	    }];
-	    [again addDependency:q.importer];
+	    [again addDependency:p.importer];
 	}];
 	[[OperationQueues spiresQueue] addOperation:q];
 	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];

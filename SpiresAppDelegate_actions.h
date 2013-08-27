@@ -38,7 +38,7 @@
 -(IBAction)zoomIn:(id)sender;
 -(IBAction)zoomOut:(id)sender;
 -(IBAction)progressQuit:(id)sender;
--(IBAction)fixDataInconsistency:(id)sender;
+//-(IBAction)fixDataInconsistency:(id)sender;
 //-(IBAction)regenerateMainList:(id)sender;
 -(IBAction)openPDF:(id)sender;
 -(IBAction)openJournal:(id)sender;
@@ -48,7 +48,6 @@
 -(IBAction)deleteEntry:(id)sender;
 -(IBAction)deletePDFForEntry:(id)sender;
 -(IBAction)toggleFlagged:(id)sender;
--(IBAction)saveAction:(id)sender;
 -(IBAction)reloadFromSPIRES:(id)sender;
 
 @end

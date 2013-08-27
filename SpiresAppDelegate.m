@@ -268,7 +268,7 @@
 }
 -(void)showWelcome
 {
-    NSString*welcome=@"v1.4.4alert";
+    NSString*welcome=@"v1.5.0alert";
     NSString*key=[welcome stringByAppendingString:@"Shown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
@@ -302,9 +302,9 @@
     [self showWelcome];
 //    [self safariExtensionRecommendation];
     // This lock is to wait until the warm-up in the background is done.
-    [[MOC moc] lock];
-    [MOC sharedMOCManager].isUIready=YES;
-    [[MOC moc] unlock];
+//    [[MOC moc] lock];
+//    [MOC sharedMOCManager].isUIready=YES;
+//    [[MOC moc] unlock];
 
     // attachToMOC attaches the MOC to the UI.
 //    if(!([NSEvent modifierFlags]&NSAlternateKeyMask)){

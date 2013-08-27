@@ -226,8 +226,8 @@
     // so it's called on the next event loop using afterDelay:0.
     
     [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:1];
-    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:3];
-    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:5];
+//    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:3];
+//    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:5];
 }
 /*-(void)saveArticleLists
 {

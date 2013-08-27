@@ -64,7 +64,7 @@
 	<xsl:template name="abstract">
 		<xsl:for-each select="m:datafield[@tag='520']">
 			<abstract>
-				<xsl:value-of select="m:subfield"/>
+				<xsl:value-of select="m:subfield[@code='a']"/>
 			</abstract>
 		</xsl:for-each>
 	</xsl:template>
@@ -80,7 +80,7 @@
 	<xsl:template name="title">
 		<xsl:for-each select="m:datafield[@tag='245']">
 			<title>
-				<xsl:value-of select="m:subfield"/>
+				<xsl:value-of select="m:subfield[@code='a']"/>
 			</title>
 		</xsl:for-each>
 	</xsl:template>

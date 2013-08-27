@@ -89,7 +89,9 @@
 		i=[i stringByAppendingString:@".tex"];
 	    }
 	    i=[[texFullPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:i];
-	    [parents setObject:texFullPath forKey:i];
+            if([[NSFileManager defaultManager] fileExistsAtPath:i]){
+                [parents setObject:texFullPath forKey:i];                
+            }
 	}
     }
 }
