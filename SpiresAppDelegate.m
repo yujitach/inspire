@@ -73,14 +73,14 @@
 
     //sythesize the list of all known journals
     
-    NSArray* annualReviewJournals=[defaultDict objectForKey:@"AnnualReviewJournals"];
-    NSArray* elsevierJournals=[defaultDict objectForKey:@"ElsevierJournals"];
-    NSArray* apsJournals=[defaultDict objectForKey:@"APSJournals"];
-    NSArray* aipJournals=[defaultDict objectForKey:@"AIPJournals"];
-    NSArray* iopJournals=[defaultDict objectForKey:@"IOPJournals"];
-    NSArray* springerJournals=[defaultDict objectForKey:@"SpringerJournals"];
-    NSArray* wsJournals=[defaultDict objectForKey:@"WSJournals"];
-    NSArray* ptpJournals=[defaultDict objectForKey:@"PTPJournals"];
+    NSArray* annualReviewJournals=defaultDict[@"AnnualReviewJournals"];
+    NSArray* elsevierJournals=defaultDict[@"ElsevierJournals"];
+    NSArray* apsJournals=defaultDict[@"APSJournals"];
+    NSArray* aipJournals=defaultDict[@"AIPJournals"];
+    NSArray* iopJournals=defaultDict[@"IOPJournals"];
+    NSArray* springerJournals=defaultDict[@"SpringerJournals"];
+    NSArray* wsJournals=defaultDict[@"WSJournals"];
+    NSArray* ptpJournals=defaultDict[@"PTPJournals"];
     NSMutableArray* knownJournals=[NSMutableArray array ];
     [knownJournals addObjectsFromArray:annualReviewJournals];
     [knownJournals addObjectsFromArray:elsevierJournals];
@@ -90,7 +90,7 @@
     [knownJournals addObjectsFromArray:springerJournals];
     [knownJournals addObjectsFromArray:wsJournals];
     [knownJournals addObjectsFromArray:ptpJournals];
-    [defaultDict setObject:knownJournals forKey:@"KnownJournals"];
+    defaultDict[@"KnownJournals"] = knownJournals;
     
     
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
@@ -145,7 +145,7 @@
 	if(![path hasPrefix:@"spires"])
 	    continue;
 	NSDictionary *fileAttributes = [fm attributesOfItemAtPath:[crashDir stringByAppendingFormat:@"/%@",path] error:NULL];
-	NSDate* modDate=[fileAttributes objectForKey:NSFileModificationDate];
+	NSDate* modDate=fileAttributes[NSFileModificationDate];
 	if([modDate compare:date]==NSOrderedDescending){
 	    date=modDate;
 	    s=path;
@@ -227,7 +227,7 @@
 -(void)awakeFromNib
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
-	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SUFeedURL-Unstable"]]];	
+	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[NSBundle mainBundle] infoDictionary][@"SUFeedURL-Unstable"]]];	
     }
 
 //    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
@@ -350,7 +350,7 @@
             if([self busyUpdating]){
                 return;
             }
-	    Article*ar=[a objectAtIndex:0];
+	    Article*ar=a[0];
 	    [wv setArticle:ar];
 	    if(ar.flag & AFIsUnread){
 		if(unreadTimer){
@@ -399,7 +399,7 @@
     NSArray*arr=[ac selectedObjects];
     if(!arr)return;
     if([arr count]==0)return;
-    Article*a=[arr objectAtIndex:0];
+    Article*a=arr[0];
 
     
     if(a.abstract && ![a.abstract isEqualToString:@""]){
@@ -409,7 +409,7 @@
 	int j=(int)[aaa indexOfObject:a];
 	int i;
 	for(i=j;i<(int)[aaa count] && i<j+threshold ;i++){
-	    a=[aaa objectAtIndex:i];
+	    a=aaa[i];
 	    if(!a.eprint && !a.doi)
 		continue;
 	    if(!a.abstract || [a.abstract isEqualToString:@""])
@@ -468,7 +468,7 @@
 	return NO;
     }
     NSArray* a=[al.name componentsSeparatedByString:@"/"];
-    if([a count]>1 && [[a objectAtIndex:1] hasPrefix:@"rep"]){
+    if([a count]>1 && [a[1] hasPrefix:@"rep"]){
 	return YES;
     }
     return NO;
@@ -533,10 +533,8 @@
 {
     NSString*path=[[NSBundle mainBundle] pathForResource:@"SpiresRelaunchHelper" 
 						  ofType:@""];
-    NSArray*arguments=[NSArray arrayWithObjects:
-		       @"spires",
-		       [NSString stringWithFormat:@"%d",[[NSProcessInfo processInfo] processIdentifier]],
-		       nil];
+    NSArray*arguments=@[@"spires",
+		       [NSString stringWithFormat:@"%d",[[NSProcessInfo processInfo] processIdentifier]]];
     [NSTask launchedTaskWithLaunchPath:path arguments:arguments];
     [NSApp terminate:self];
 }
@@ -554,7 +552,7 @@
 -(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(NSString*)path
 {
     if(choice==NSAlertDefaultReturn){
-	Article*o=[[ac selectedObjects]objectAtIndex:0];
+	Article*o=[ac selectedObjects][0];
 	[o associatePDF:path];
     }
 }
@@ -607,7 +605,7 @@
 	if([d hasSuffix:@"."]){
 	    d=[d substringToIndex:[d length]-1];
 	}
-	for(NSString*cat in [NSArray arrayWithObjects:@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math",nil]){
+	for(NSString*cat in @[@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math"]){
 	    if([x rangeOfString:cat].location!=NSNotFound){
 		d=[NSString stringWithFormat:@"%@/%@",cat,d];
 		break;
@@ -658,7 +656,7 @@
 	    [self showInfoOnAssociation];
 	}
     }else if([[url scheme] isEqualTo:@"file"]){
-	Article*o=[[ac selectedObjects] objectAtIndex:0];
+	Article*o=[ac selectedObjects][0];
 	if(!o)
 	    return;
 	if([o isEprint]){
@@ -721,11 +719,11 @@
 }
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
-    NSURL* url=[element objectForKey:WebElementLinkURLKey];
+    NSURL* url=element[WebElementLinkURLKey];
     if(url && [[url scheme] rangeOfString:@"open-pdf"].location!=NSNotFound){
 	NSMenuItem* mi1=[[NSMenuItem alloc] initWithTitle:[@"Open in " stringByAppendingString:[[PDFHelper sharedHelper] displayNameForViewer:openWithPrimaryViewer]] action:@selector(openSelectionInPDFViewer:) keyEquivalent:@""];
 	NSMenuItem* mi2=[[NSMenuItem alloc] initWithTitle:[@"Open in " stringByAppendingString:[[PDFHelper sharedHelper] displayNameForViewer:openWithSecondaryViewer]] action:@selector(openSelectionInSecondaryPDFViewer:) keyEquivalent:@""];
-	return [NSArray arrayWithObjects: mi1, mi2, nil];
+	return @[mi1, mi2];
     }
     return defaultMenuItems;
 }
@@ -734,9 +732,9 @@
     if([[pasteboard types] containsObject:NSURLPboardType]){
 	NSURL* url=[NSURL URLFromPasteboard:pasteboard];
 	if([[url scheme] isEqualToString:@"spires-get-bib-entry"]){
-	    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType]
+	    [pasteboard declareTypes:@[NSStringPboardType]
 			       owner:nil];
-	    Article*a=[[ac selectedObjects] objectAtIndex:0];
+	    Article*a=[ac selectedObjects][0];
 	    [pasteboard setString:[a IdForCitation]
 			  forType:NSStringPboardType];
 	}

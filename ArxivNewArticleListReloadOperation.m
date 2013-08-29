@@ -37,21 +37,21 @@
     NSMutableArray* array=[NSMutableArray array];
     if([authors count]>1){
 	for(NSUInteger i=1;i<[authors count];i++){
-	    NSString*s=[authors objectAtIndex:i];
-	    s=[[s componentsSeparatedByString:@"</a>"] objectAtIndex:0];
+	    NSString*s=authors[i];
+	    s=[s componentsSeparatedByString:@"</a>"][0];
 	    s=[s stringByReplacingOccurrencesOfString:@"." withString:@". "];
 	    NSArray*x=[s componentsSeparatedByString:@" "];
 	    NSString*lastName=[x lastObject];
 	    if([lastName isEqualTo:@""] && [x count]>=3){
 		// Names like "A. Bates, Jr." comes here
-		NSString*n1=[x objectAtIndex:[x count]-3];
-		NSString*n2=[x objectAtIndex:[x count]-2];
+		NSString*n1=x[[x count]-3];
+		NSString*n2=x[[x count]-2];
 		lastName=[NSString stringWithFormat:@"%@ %@",n1,n2];
 		x=[x subarrayWithRange:NSMakeRange(0,[x count]-2)];
 	    }
 	    if([x count]>=2){
 		NSArray*particles=[[NSUserDefaults standardUserDefaults] objectForKey:@"particles"];
-		NSString*pen=[x objectAtIndex:[x count]-2];
+		NSString*pen=x[[x count]-2];
 		if([x count]>=2 && [particles containsObject:[pen lowercaseString]] ){
 		    lastName=[NSString stringWithFormat:@"%@ %@",pen,lastName];
 		    x=[x subarrayWithRange:NSMakeRange(0,[x count]-1)];
@@ -59,7 +59,7 @@
 	    }
 	    NSMutableArray*b=[NSMutableArray array];
 	    for(NSUInteger j=0;j<[x count]-1;j++){
-		NSString*t=[x objectAtIndex:j];
+		NSString*t=x[j];
 		if(![t isEqualToString:@""]){
 		    [b addObject:t];
 		}
@@ -78,7 +78,7 @@
     NSString*eprint=[s substringFromIndex:r.location];
     {
 	NSArray*x=[eprint componentsSeparatedByString:@"</a>"];
-	eprint=[x objectAtIndex:0];
+	eprint=x[0];
 	if([eprint rangeOfString:@"/"].location!=NSNotFound){
 	    eprint=[eprint substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}
@@ -100,20 +100,20 @@
      a[4]: comments or abstract
      a[5]: abstract if there're comments
      */
-    NSString*title=[a objectAtIndex:2];
+    NSString*title=a[2];
     NSInteger i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];
     title=[title stringByExpandingAmpersandEscapes];
     title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
     //    NSLog(@"%@",title);
-    NSString*authorsList=[a objectAtIndex:3];
+    NSString*authorsList=a[3];
     i=[authorsList rangeOfString:@"</div>"].location;
     authorsList=[authorsList substringToIndex:i];
     authorsList=[authorsList stringByExpandingAmpersandEscapes];
     
     NSString*comments=nil;
-    if([[a objectAtIndex:3] rangeOfString:@"omments"].location!=NSNotFound){
-	comments=[a objectAtIndex:4];
+    if([a[3] rangeOfString:@"omments"].location!=NSNotFound){
+	comments=a[4];
 	i=[comments rangeOfString:@"</div>"].location;
 	comments=[comments substringToIndex:i];
 	comments=[comments stringByExpandingAmpersandEscapes];
@@ -121,8 +121,8 @@
     //    NSLog(@"%@",authorsList);
     NSString*abstract=[a lastObject];
     if([abstract rangeOfString:@"<p>"].location!=NSNotFound){
-	abstract=[[abstract componentsSeparatedByString:@"<p>"]objectAtIndex:1];
-	abstract=[[abstract componentsSeparatedByString:@"</p>"]objectAtIndex:0];
+	abstract=[abstract componentsSeparatedByString:@"<p>"][1];
+	abstract=[abstract componentsSeparatedByString:@"</p>"][0];
 	//	abstract=[abstract stringByExpandingAmpersandEscapes];
 	// abstract is fed to the html view anyway, so there's no need to expand &...; escapes here.
     }else{
@@ -133,7 +133,7 @@
     subj=[subj stringByMatching:@"\\((.+?)\\)" capture:1];
     ar.eprint=eprint;
     ar.abstract=abstract;
-    ar.version=[NSNumber numberWithInt:1];
+    ar.version=@1;
     ar.title=title;
     ar.comments=comments;
     ar.arxivCategory=subj;
@@ -158,7 +158,7 @@
     for(NSString*chunk in a){
 	NSString*eprint=[self eprintFromChunk:chunk];
 	if(eprint){
-	    [dict setObject:chunk forKey:eprint];
+	    dict[eprint] = chunk;
 	}
     }
     if([[dict allKeys] count]==0){
@@ -197,7 +197,7 @@
 		continue;
 	    }
 	    NSString*v=[data valueForKey:@"eprint"];
-	    NSString*chunk=[dict objectForKey:v];
+	    NSString*chunk=dict[v];
 	    [self dealWithChunk:chunk writeToArticle:data.article];
 	    [generated addObject:data.article];
 	    [dict removeObjectForKey:v];

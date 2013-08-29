@@ -27,15 +27,15 @@
 {
     
     if([search hasPrefix:@"c "]){
-	NSString*ccc=[[search componentsSeparatedByString:@"and"] objectAtIndex:0];
+	NSString*ccc=[search componentsSeparatedByString:@"and"][0];
 	NSArray*a=[ccc componentsSeparatedByString:@" "];
 	if([a count]==2){
-	    NSString*s=[a objectAtIndex:1];
+	    NSString*s=a[1];
 	    if([s isEqualToString:@""])return;
 	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else if([a count]==3){
 	    // c key nnnnnnn
-	    NSString*s=[a objectAtIndex:2];
+	    NSString*s=a[2];
 	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else{
 	    citedByTarget=nil;
@@ -47,15 +47,15 @@
 	citedByTarget=nil;
     }
     if([search hasPrefix:@"r"]){
-	NSString*ccc=[[search componentsSeparatedByString:@"and"] objectAtIndex:0];
+	NSString*ccc=[search componentsSeparatedByString:@"and"][0];
 	NSArray*a=[ccc componentsSeparatedByString:@" "];
 	if([a count]==2){
-	    NSString*s=[a objectAtIndex:1];
+	    NSString*s=a[1];
 	    if([s isEqualToString:@""])return;
 	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else if([a count]==3){
 	    // r key nnnnnnn
-	    NSString*s=[a objectAtIndex:2];
+	    NSString*s=a[2];
 	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
 	}else{
 	    refersToTarget=nil;

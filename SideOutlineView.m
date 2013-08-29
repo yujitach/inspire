@@ -48,7 +48,7 @@
 	frame.size.width+=[self indentationPerLevel]-3;
 	return frame;	
     }
-    if ( [[self tableColumns] objectAtIndex:column] == [self outlineTableColumn] ) {
+    if ( [self tableColumns][column] == [self outlineTableColumn] ) {
 	
 	CGFloat indent = [self indentationPerLevel];
 	
@@ -115,7 +115,7 @@
 - (void)updateTrackingAreas {
     for (NSTrackingArea *area in [self trackingAreas]) {
         // We have to uniquely identify our own tracking areas
-        if (([area owner] == self) && ([[area userInfo] objectForKey:@"Row"] != nil)) {
+        if (([area owner] == self) && ([area userInfo][@"Row"] != nil)) {
             [self removeTrackingArea:area];
         }
     }
@@ -132,14 +132,14 @@
         if (fullWidthCell) {
             if ([fullWidthCell respondsToSelector:@selector(addTrackingAreasForView:inRect:withUserInfo:mouseLocation:)]) {
                 NSInteger col = -1;
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:col], @"Col", [NSNumber numberWithInteger:row], @"Row", nil];
+                NSDictionary *userInfo = @{@"Col": @(col), @"Row": [NSNumber numberWithInteger:row]};
                 [fullWidthCell addTrackingAreasForView:self inRect:[self frameOfCellAtColumn:col row:row] withUserInfo:userInfo mouseLocation:mouseLocation];
             }
         } else {
             for (NSInteger col = [visibleColIndexes firstIndex]; col != NSNotFound; col = [visibleColIndexes indexGreaterThanIndex:col]) {
                 NSCell *cell = [self preparedCellAtColumn:col row:row];
                 if ([cell respondsToSelector:@selector(addTrackingAreasForView:inRect:withUserInfo:mouseLocation:)]) {
-                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:col], @"Col", [NSNumber numberWithInteger:row], @"Row", nil];
+                    NSDictionary *userInfo = @{@"Col": @(col), @"Row": [NSNumber numberWithInteger:row]};
                     [cell addTrackingAreasForView:self inRect:[self frameOfCellAtColumn:col row:row] withUserInfo:userInfo mouseLocation:mouseLocation];
                 }
             }

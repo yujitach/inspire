@@ -46,7 +46,7 @@ typedef enum {
 @property  NSString* texKey;
 @property  NSString * title;
 @property  NSNumber * version;
-@property  NSString * spicite;
+//@property  NSString * spicite;
 @property  NSNumber * spiresKey;
 @property  NSNumber * inspireKey;
 #pragma mark generated
@@ -58,7 +58,7 @@ typedef enum {
 @property (readonly) NSString* uniqueInspireQueryString;
 @property (readonly) NSString* IdForCitation;
 @property (assign) ArticleFlag flag;
-@property  NSString *eprintForSortingAsString;
+//@property  NSString *eprintForSortingAsString;
 
 
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;

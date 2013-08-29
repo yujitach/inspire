@@ -71,67 +71,67 @@
 	NSArray*a=[content componentsSeparatedByString:@"Abstract</h3><p>"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div><!-- articleText -->"];
+	a=[a[1] componentsSeparatedByString:@"</div><!-- articleText -->"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];
+	abstract=a[0];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"AnnualReviewJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"<p class=\"first last\">"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</p>"];
+	a=[a[1] componentsSeparatedByString:@"</p>"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];
+	abstract=a[0];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"APSJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"aps-abstractbox'>"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div>"];
+	a=[a[1] componentsSeparatedByString:@"</div>"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];
+	abstract=a[0];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"IOPJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"Abstract.</strong>"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</p>"];
+	a=[a[1] componentsSeparatedByString:@"</p>"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];
+	abstract=a[0];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"Abstract&nbsp;&nbsp;</span>"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div>"];
+	a=[a[1] componentsSeparatedByString:@"</div>"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];
+	abstract=a[0];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"AIPJournals"] containsObject:journalName]
 	){
 	NSArray*a=[content componentsSeparatedByString:@"<div id=\"abstract\">"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</div>"];
+	a=[a[1] componentsSeparatedByString:@"</div>"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];	
+	abstract=a[0];	
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"WSJournals"] containsObject:journalName]
 	     ){
 	NSArray*a=[content componentsSeparatedByString:@"Abstract:</b>"];
 	if([a count]<2)
 	    goto BAIL;
-	NSString*s=[[a objectAtIndex:1] stringByMatching:@"<div class=\"text\">(.+)</div>"];
+	NSString*s=[a[1] stringByMatching:@"<div class=\"text\">(.+)</div>"];
 	if(s && ![s isEqualToString:@""]){
 	    abstract=s;
 	}
@@ -141,10 +141,10 @@
 	NSArray*a=[content componentsSeparatedByString:@"<p class=\"abstract\">"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[[a objectAtIndex:1] componentsSeparatedByString:@"</p><!-- end abstract -->"];
+	a=[a[1] componentsSeparatedByString:@"</p><!-- end abstract -->"];
 	if([a count]<1)
 	    goto BAIL;
-	abstract=[a objectAtIndex:0];	
+	abstract=a[0];	
     }
     if(abstract){
 	abstract=[abstract stringByReplacingOccurrencesOfString:@"<p>" withString:@""];

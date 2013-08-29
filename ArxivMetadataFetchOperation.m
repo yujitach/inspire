@@ -27,7 +27,7 @@
 {
     NSArray*a=[element elementsForName:key];
     if(a==nil||[a count]==0)return nil;
-    NSString*s=[[a objectAtIndex:0] stringValue];
+    NSString*s=[a[0] stringValue];
     if(!s || [s isEqualToString:@""])
 	return nil;
     return s;
@@ -53,7 +53,7 @@
 	if(!ar || [ar count]==0){
 	    return;
 	}
-	elem=[ar objectAtIndex:0];
+	elem=ar[0];
     }
     NSMutableDictionary* dict=[NSMutableDictionary dictionary];
     
@@ -71,7 +71,7 @@
     {
 	NSArray*ar=[elem elementsForName:@"arxiv:primary_category"];
 	if(ar && [ar count]>0){
-	    NSXMLElement*x=[ar objectAtIndex:0];
+	    NSXMLElement*x=ar[0];
 	    NSString*pc=[[x attributeForName:@"term"] stringValue];
 	    [dict setValue:pc forKey:@"primaryCategory"];
 	}
@@ -81,7 +81,7 @@
     if(v==0){
 	dict=nil;
     }else{
-	[dict setValue:[NSNumber numberWithInt:v] forKey:@"version"];
+	[dict setValue:@(v) forKey:@"version"];
 	NSString*abstract=[self valueForKey:@"summary" inXMLElement:elem];
 	// abstract is kept as an HTML, but XML decoder automatically converts &-escapes into real alphabets.
 	// so I need to reverse them. Ugh.
@@ -92,16 +92,16 @@
     }
     if(dict){dispatch_async(dispatch_get_main_queue(),^{
 	[[article managedObjectContext] disableUndo];
-	article.abstract=[dict objectForKey:@"abstract"];
-	article.version=[dict objectForKey:@"version"];    
-	article.comments=[dict objectForKey:@"comments"];
+	article.abstract=dict[@"abstract"];
+	article.version=dict[@"version"];    
+	article.comments=dict[@"comments"];
 	NSString*title=[self valueForKey:@"title" inXMLElement:elem];
 	title=[title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
 	title=[title stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
 	if(![[article.title lowercaseString] isEqualToString:[title lowercaseString]]){
 	    article.title=title;
 	}
-	article.arxivCategory=[dict objectForKey:@"primaryCategory"];
+	article.arxivCategory=dict[@"primaryCategory"];
 	[[article managedObjectContext] enableUndo];
     });}
 }

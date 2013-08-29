@@ -41,9 +41,8 @@ static NSArray*observedKeys=nil;
 							     error:&error];
     [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];    
     
-    observedKeys=[NSArray arrayWithObjects:
-		  @"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
-		  @"journal",@"pdfPath",@"title",@"texKey",nil];
+    observedKeys=@[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
+		  @"journal",@"pdfPath",@"title",@"texKey"];
 
     
 }
@@ -86,19 +85,19 @@ static NSArray*observedKeys=nil;
 	searchString=[searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSMutableString*result=[NSMutableString stringWithFormat:@"<a href=\"%@\">",searchString];
 	NSArray* c=[s componentsSeparatedByString:@", "];
-	NSString* last=[c objectAtIndex:0];
+	NSString* last=c[0];
 	if([c count]>1){
-	    NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	    NSArray* d=[c[1] componentsSeparatedByString:@" "];
 	    if([last hasPrefix:@"collaboration"]){
 		[result appendString:[[d lastObject] uppercaseString]];
 		last=@" Collaboration";
-	    }else if([[c objectAtIndex:1] hasPrefix:@"for the"]){
+	    }else if([c[1] hasPrefix:@"for the"]){
 		[result appendString:[last uppercaseString]];
 		last=@" Collaboration";		
 	    }else if([last isEqualTo:@"group"]||
 		     [last isEqualTo:@"groups"]||
 		     [last isEqualTo:@"physics"]){
-		[result appendFormat:@"%@ ",[[c objectAtIndex:1] capitalizedString]];		
+		[result appendFormat:@"%@ ",[c[1] capitalizedString]];		
 	    }else{
 		for(NSString*i in d){
 		    if(!i || [i isEqualToString:@""]) continue;
@@ -246,9 +245,9 @@ static NSArray*observedKeys=nil;
     if(article.eprint && ![article.eprint isEqualToString:@""]){
 	return [NSString stringWithFormat:@"<a href=\"spires-search://c %@\">cited by</a>",article.eprint];
     }
-    if(article.spicite && ![article.spicite isEqualToString:@""]){
-	return [NSString stringWithFormat:@"<a href=\"spires-search://c %@\">cited by</a>",article.spicite];
-    }
+//    if(article.spicite && ![article.spicite isEqualToString:@""]){
+//	return [NSString stringWithFormat:@"<a href=\"spires-search://c %@\">cited by</a>",article.spicite];
+//    }
     if([[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"] isEqualToString:@"inspire"] 
        && article.spiresKey && [article.spiresKey integerValue]!=0){
 	return [NSString stringWithFormat:@"<a href=\"spires-search://c key %@\">cited by</a>",article.spiresKey];

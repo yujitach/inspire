@@ -29,7 +29,7 @@
 @dynamic longishAuthorListForA;
 @dynamic eprintForSorting;
 @dynamic data;
-@dynamic eprintForSortingAsString;
+//@dynamic eprintForSortingAsString;
 
 
 #pragma mark Misc
@@ -57,7 +57,7 @@
     NSArray*a=[eprint componentsSeparatedByString:@"/"];
     NSString*x=eprint;
     if([a count]>1){
-	x=[a objectAtIndex:1];
+	x=a[1];
 	x=[x stringByAppendingString:@"0"];
     }
     if(![x hasPrefix:@"9"]){
@@ -79,7 +79,7 @@
     [req setPredicate:pred];
 
     [req setIncludesPropertyValues:YES];
-    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"article"]];
+    [req setRelationshipKeyPathsForPrefetching:@[@"article"]];
     [req setReturnsObjectsAsFaults:NO];
     
     [req setFetchLimit:1];
@@ -88,7 +88,7 @@
     if(a==nil || [a count]==0){
 	return nil;
     }else{
-	ArticleData*ad=[a objectAtIndex:0];
+	ArticleData*ad=a[0];
 	return ad.article;
     }
 }
@@ -156,10 +156,10 @@
 	    [result appendString:s];
 	    continue;
 	}
-	NSString* last=[c objectAtIndex:0];
+	NSString* last=c[0];
 	[result appendString:last];
 	[result appendString:@", "];
-	NSArray* d=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	NSArray* d=[c[1] componentsSeparatedByString:@" "];
 	for(NSString*i in d){
 	    if(!i || [i isEqualToString:@""]) continue;
 	    [result appendString:[i substringToIndex:1]];
@@ -188,7 +188,7 @@
     NSString*collaboration=nil;
     for(NSString*s in array){
 	NSArray*q=[s componentsSeparatedByString:@", "];
-	NSString*lastName=[q objectAtIndex:0];
+	NSString*lastName=q[0];
 	if([lastName rangeOfString:@"collaboration"].location!=NSNotFound){
 	    lastName=[lastName stringByReplacingOccurrencesOfRegex:@" *collaborations? *" withString:@""];
 	    lastName=[lastName uppercaseString];
@@ -196,7 +196,7 @@
 	    continue;
 	}else if([lastName isEqualTo:@"group"] || [lastName isEqualTo:@"groups"] || [lastName isEqualTo:@"physics"] ){
 	    if([q count]>1){
-		lastName=[q objectAtIndex:1];
+		lastName=q[1];
 		lastName=[lastName stringByReplacingOccurrencesOfRegex:@" *the *" withString:@""];
 		lastName=[lastName capitalizedString];
 	    }
@@ -299,7 +299,7 @@
 		}else{
 		    if([t rangeOfString:@", "].location!=NSNotFound){
 			NSArray*x=[t componentsSeparatedByString:@", "];
-			t=[NSString stringWithFormat:@"%@ %@",[x objectAtIndex:1],[x objectAtIndex:0]];
+			t=[NSString stringWithFormat:@"%@ %@",x[1],x[0]];
 		    }
 		    self.collaboration=t;
 		    [a addObject:[self tweakCollaborationName:self.collaboration]];		    
@@ -334,7 +334,7 @@
 -(void)setEprint:(NSString*)e
 {
     [self.data setEprint:e];
-    self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
+    self.eprintForSorting=@([[self calculateEprintForSorting] intValue]);
 }
 -(NSString*)eprintToShow
 {
@@ -352,7 +352,7 @@
 -(void)setDate:(NSDate*)d
 {
     [self.data setDate:d];
-    self.eprintForSorting=[NSNumber numberWithInt:[[self calculateEprintForSorting] intValue]];
+    self.eprintForSorting=@([[self calculateEprintForSorting] intValue]);
 }
 -(NSString*)quieterTitle //calculateQuieterTitle
 {
@@ -452,10 +452,12 @@
 	}else{
 	    return s;
 	}
-    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
-	return self.spicite;
-    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
-	return [self.spiresKey stringValue];
+//    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
+//	return self.spicite;
+//    }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
+//	return [self.spiresKey stringValue];
+    }else if(self.inspireKey &&[self.inspireKey integerValue]!=0){
+        return [self.inspireKey stringValue];
     }else{
 	return @"shouldn't happen";
     }
@@ -466,8 +468,8 @@
 	return [@"eprint " stringByAppendingString:self.eprint];
     }else if(self.texKey && ![self.texKey isEqualToString:@""]){
         return [@"texkey " stringByAppendingString:self.texKey];        
-    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
-	return [@"spicite " stringByAppendingString:self.spicite];	
+//    }else if(self.spicite && ![self.spicite isEqualToString:@""]){
+//	return [@"spicite " stringByAppendingString:self.spicite];
     }else if(self.spiresKey && [self.spiresKey integerValue]!=0){
 	return [@"key " stringByAppendingString:[self.spiresKey stringValue]];	
     }else if(self.doi && ![self.doi isEqualToString:@""]){
@@ -568,14 +570,13 @@
 @dynamic texKey;
 @dynamic title;
 @dynamic version;
-@dynamic spicite;
+//@dynamic spicite;
 @dynamic spiresKey;
 @dynamic inspireKey;
 
 +(void)load  // don't change it to +initialize! it's too late, somehow.
 {
-    for(NSString*selectorName in [NSArray arrayWithObjects:
-				  @"abstract",
+    for(NSString*selectorName in @[@"abstract",
 				  @"arxivCategory",
 				  @"collaboration",
 				  @"comments",
@@ -589,10 +590,9 @@
 				  @"texKey",
 				  @"title",
 				  @"version",
-				  @"spicite",
+//				  @"spicite",
 				  @"spiresKey",
-				  @"inspireKey",
-				  nil]){
+				  @"inspireKey"]){
 	[self synthesizeForwarder:selectorName];
     }
 }

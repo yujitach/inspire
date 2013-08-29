@@ -18,7 +18,7 @@ static void loadMagic(){
     for(NSString*line in [contents componentsSeparatedByString:@"\n"]){
 	NSArray*foo=[line componentsSeparatedByString:@"/"];
 	if([foo count]>=3){
-	    NSArray*bar=[NSArray arrayWithObjects:[foo objectAtIndex:1], [foo objectAtIndex:2],nil];
+	    NSArray*bar=@[foo[1], foo[2]];
 	    [a addObject:bar];
 	}
     }
@@ -53,8 +53,8 @@ static void loadMagic(){
     }
     NSMutableString*result=[quieter mutableCopy];
     for(NSArray*pair in magicRegExps){
-	NSString*from=[pair objectAtIndex:0];
-	NSString*to=[pair objectAtIndex:1];
+	NSString*from=pair[0];
+	NSString*to=pair[1];
 	[result replaceOccurrencesOfRegex:from 
 			       withString:to 
 				  options:RKLCaseless|RKLMultiline 
@@ -73,7 +73,7 @@ static void loadMagic(){
     NSArray*abbrevs=[[NSUserDefaults standardUserDefaults] arrayForKey:@"abbreviations"];
     NSArray*preps=[[NSUserDefaults standardUserDefaults] arrayForKey:@"prepositions"];
     for(NSUInteger i=0;i<[a count];i++){
-	NSString*s=[a objectAtIndex:i];
+	NSString*s=a[i];
 	if(![abbrevs containsObject:s] && ![s hasPrefix:@"SU("] && ![s hasPrefix:@"SO("]){
 	    s=[s lowercaseString];
 	    if(i==0 || ![preps containsObject:s]){
@@ -150,35 +150,20 @@ static void loadMagic(){
 	return source;
     }else{
 	NSMutableString *escaped = [NSMutableString stringWithString: source];
-	NSArray *codes = [NSArray arrayWithObjects: 
-			  @"&amp;", @"&lt;", @"&gt;", @"&quot;",
-			  @"&nbsp;", /*@"&iexcl;", @"&cent;", @"&pound;", @"&curren;", @"&yen;", @"&brvbar;",
-				      @"&sect;", @"&uml;", @"&copy;", @"&ordf;", @"&laquo;", @"&not;", @"&shy;", @"&reg;",
-				      @"&macr;", @"&deg;", @"&plusmn;", @"&sup2;", @"&sup3;", @"&acute;", @"&micro;",
-				      @"&para;", @"&middot;", @"&cedil;", @"&sup1;", @"&ordm;", @"&raquo;", @"&frac14;",
-				      @"&frac12;", @"&frac34;", @"&iquest;", @"&Agrave;", @"&Aacute;", @"&Acirc;",
-				      @"&Atilde;", @"&Auml;", @"&Aring;", @"&AElig;", @"&Ccedil;", @"&Egrave;",
-				      @"&Eacute;", @"&Ecirc;", @"&Euml;", @"&Igrave;", @"&Iacute;", @"&Icirc;", @"&Iuml;",
-				      @"&ETH;", @"&Ntilde;", @"&Ograve;", @"&Oacute;", @"&Ocirc;", @"&Otilde;", @"&Ouml;",
-				      @"&times;", @"&Oslash;", @"&Ugrave;", @"&Uacute;", @"&Ucirc;", @"&Uuml;", @"&Yacute;",
-				      @"&THORN;", @"&szlig;", @"&agrave;", @"&aacute;", @"&acirc;", @"&atilde;", @"&auml;",
-				      @"&aring;", @"&aelig;", @"&ccedil;", @"&egrave;", @"&eacute;", @"&ecirc;", @"&euml;",
-				      @"&igrave;", @"&iacute;", @"&icirc;", @"&iuml;", @"&eth;", @"&ntilde;", @"&ograve;",
-				      @"&oacute;", @"&ocirc;", @"&otilde;", @"&ouml;", @"&divide;", @"&oslash;", @"&ugrave;",
-				      @"&uacute;", @"&ucirc;", @"&uuml;", @"&yacute;", @"&thorn;", @"&yuml;",*/
-			  nil];
-	NSArray*characters=[NSArray arrayWithObjects:@"&",@"<",@">",@"\"",@" ",nil];
+	NSArray *codes = @[@"&amp;", @"&lt;", @"&gt;", @"&quot;",
+			  @"&nbsp;"];
+	NSArray*characters=@[@"&",@"<",@">",@"\"",@" "];
 	
 	NSUInteger i, count = [codes count];
 	
 	// Html
 	for(i = 0; i < count; i++)
 	{
-	    NSRange range = [source rangeOfString: [codes objectAtIndex: i]];
+	    NSRange range = [source rangeOfString: codes[i]];
 	    if(range.location != NSNotFound)
 	    {
-		[escaped replaceOccurrencesOfString: [codes objectAtIndex: i] 
-					 withString: [characters objectAtIndex:i]
+		[escaped replaceOccurrencesOfString: codes[i] 
+					 withString: characters[i]
 					    options: NSLiteralSearch 
 					      range: NSMakeRange(0, [escaped length])];
 	    }
@@ -248,6 +233,6 @@ static void loadMagic(){
 	[wv stringByEvaluatingJavaScriptFromString:script];
 	wso=[wv windowScriptObject];
     }
-    return [wso callWebScriptMethod:@"texify" withArguments:[NSArray arrayWithObject:self]];
+    return [wso callWebScriptMethod:@"texify" withArguments:@[self]];
 }
 @end

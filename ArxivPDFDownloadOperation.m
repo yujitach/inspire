@@ -55,8 +55,8 @@
 	    [article associatePDF:article.pdfPath];
 	}
 	[self finish];
-    }else if([dict objectForKey:@"shouldReloadAfter"]){
-	reloadDelay=[dict objectForKey:@"shouldReloadAfter"];
+    }else if(dict[@"shouldReloadAfter"]){
+	reloadDelay=dict[@"shouldReloadAfter"];
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
 				      defaultButton:@"OK" 
 				    alternateButton:@"Cancel downloading"

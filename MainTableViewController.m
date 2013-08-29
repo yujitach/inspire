@@ -62,7 +62,7 @@
     for(Article*i in a){
 	[b addObject:[[i objectID] URIRepresentation]];
     }
-    [pboard declareTypes:[NSArray arrayWithObjects:NSStringPboardType,ArticleDropPboardType,nil] owner:nil];
+    [pboard declareTypes:@[NSStringPboardType,ArticleDropPboardType] owner:nil];
     [pboard setData:[NSKeyedArchiver archivedDataWithRootObject:b] forType:ArticleDropPboardType];
     NSMutableString* s=[NSMutableString string];
     for(Article* i in a){

@@ -24,7 +24,7 @@
     JournalEntry* mo=(JournalEntry*)[[NSManagedObject alloc] initWithEntity:journalEntity
 				 insertIntoManagedObjectContext:moc];
     mo.volume=vol;
-    mo.year=[NSNumber numberWithInt:year];
+    mo.year=@(year);
     mo.name=name;
     mo.page=page;
     return mo;

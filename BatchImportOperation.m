@@ -52,7 +52,7 @@
 {
     NSArray*a=[element elementsForName:key];
     if(a==nil||[a count]==0)return nil;
-    NSString*s=[[a objectAtIndex:0] stringValue];
+    NSString*s=[a[0] stringValue];
     if(!s || [s isEqualToString:@""])
 	return nil;
     return s;
@@ -61,7 +61,7 @@
 {
     NSString* s=[self valueForKey:key inXMLElement:e];
     if(s)
-	[a setValue:[NSNumber numberWithInt:[s intValue]] forKey:key];
+	[a setValue:@([s intValue]) forKey:key];
 }
 -(void)setStringToArticle:(Article*)a forKey:(NSString*)key inXMLElement:(NSXMLElement*)e
 {
@@ -82,7 +82,7 @@
     if(a.journal)return;
     NSArray* x=[e elementsForName:@"journal"];
     if(!x || [x count]==0) return;
-    NSXMLElement* element=[x objectAtIndex:0];
+    NSXMLElement* element=x[0];
     NSString *name=[self valueForKey:@"name" inXMLElement:element];
     if(!name || [name isEqualToString:@""])return;
     JournalEntry*j=[JournalEntry journalEntryWithName:name
@@ -107,7 +107,7 @@
     NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
     NSString*title=[self valueForKey:@"title" inXMLElement:element];
 
-    o.spiresKey=[NSNumber numberWithInteger:[spiresKey integerValue]];
+    o.spiresKey=@([spiresKey integerValue]);
     o.eprint=eprint;
     o.title=title;
     
@@ -146,7 +146,7 @@
     
     NSString*inspireKey=[self valueForKey:@"inspire_key" inXMLElement:element];
     if(inspireKey){
-	o.inspireKey=[NSNumber numberWithInteger:[inspireKey integerValue]];
+	o.inspireKey=@([inspireKey integerValue]);
     }
     
 }
@@ -159,7 +159,7 @@
     NSMutableDictionary*dict=[NSMutableDictionary dictionary];
     for(NSXMLElement*e in a){
 	NSString*v=[self valueForKey:xmlKey inXMLElement:e];
-	[dict setObject:e forKey:v];
+	dict[v] = e;
     }
     NSArray*values=[dict allKeys];
     values=[values sortedArrayUsingSelector:@selector(compare:)];
@@ -172,7 +172,7 @@
     [req setResultType:NSManagedObjectIDResultType];
     //    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"article"]];
     //    [req setReturnsObjectsAsFaults:YES];
-    [req setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:key
+    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:key
 										   ascending:YES]]];
     NSError*error=nil;
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
@@ -191,7 +191,7 @@
 	    if([v isKindOfClass:[NSNumber class]]){
 		v=[(NSNumber*)v stringValue];
 	    }
-	    NSXMLElement*e=[dict objectForKey:v];
+	    NSXMLElement*e=dict[v];
 	    [self populatePropertiesOfArticle:data.article fromXML:e];
 	    [generated addObject:data.article];
 	    [a removeObject:e];

@@ -79,7 +79,7 @@
 }
 -(void)removeCurrentArticleList;
 {
-    ArticleList*al=[[articleListController selectedObjects] objectAtIndex:0];
+    ArticleList*al=[articleListController selectedObjects][0];
     if([al isKindOfClass:[ArticleFolder class]]){
 	NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Do you want to remove folder %@",al.name]
 				      defaultButton:@"Yes" 
@@ -98,7 +98,7 @@
 -(void)updatePositionInViewFor:(ArticleList*)al to:(NSInteger)i
 {
     if([al.positionInView integerValue]!=i){
-	al.positionInView=[NSNumber numberWithInteger:i];
+	al.positionInView=@(i);
     }
 }
 -(NSArray*)articleListsInArticleList:(ArticleList*)parent
@@ -111,13 +111,13 @@
 	[request setEntity:entity];
 	NSPredicate*pred=[NSPredicate predicateWithFormat:@"parent == nil"];
 	[request setPredicate:pred];
-	[request setSortDescriptors:[NSArray arrayWithObject:desc]];
+	[request setSortDescriptors:@[desc]];
 	
 	NSError*error=nil;
 	array=[[self managedObjectContext] executeFetchRequest:request error:&error];
     }else{
 	array=[parent.children allObjects];
-	array=[array sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+	array=[array sortedArrayUsingDescriptors:@[desc]];
     }
     return array;
 }
@@ -201,9 +201,9 @@
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
 	ArticleList*hepph=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];
-	hepph.positionInView=[NSNumber numberWithInt:2];
+	hepph.positionInView=@2;
 	ArticleList*hepth=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-th/new" inMOC:[self managedObjectContext]];
-	hepth.positionInView=[NSNumber numberWithInt:4];
+	hepth.positionInView=@4;
 	needToSave=YES;
     }
     
@@ -211,14 +211,14 @@
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"flaggedListPrepared"];
 	CannedSearch*f=[CannedSearch createCannedSearchWithName:@"flagged" inMOC:[self managedObjectContext]];
 	f.searchString=@"f flagged";
-	f.positionInView=[NSNumber numberWithInt:100];
+	f.positionInView=@100;
 	needToSave=YES;
     }
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"pdfListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"pdfListPrepared"];
 	CannedSearch*f=[CannedSearch createCannedSearchWithName:@"has pdf" inMOC:[self managedObjectContext]];
 	f.searchString=@"f pdf";
-	f.positionInView=[NSNumber numberWithInt:200];
+	f.positionInView=@200;
 	needToSave=YES;
     }
     
@@ -248,12 +248,12 @@
     NSActionCell* browserCell = [[ImageAndTextCell alloc] init];//[[NSSourceListCell alloc] init];
     [browserCell setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
     [[articleListView tableColumnWithIdentifier:@"name"] setDataCell:browserCell];   
-    [articleListView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,ArticleDropPboardType,ArticleListDropPboardType,nil]];
+    [articleListView registerForDraggedTypes:@[NSFilenamesPboardType,ArticleDropPboardType,ArticleListDropPboardType]];
     [articleListView setIndentationPerLevel:20];
 
     NSSortDescriptor*desc=[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
-    [articleListController setSortDescriptors:[NSArray arrayWithObject:desc]];
-    [articleListView setSortDescriptors:[NSArray arrayWithObject:desc]];
+    [articleListController setSortDescriptors:@[desc]];
+    [articleListView setSortDescriptors:@[desc]];
 }
 -(void)detachFromMOC
 {
@@ -308,7 +308,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
     NSMutableArray*paths=[NSMutableArray array];
-    [pboard declareTypes:[NSArray arrayWithObject:ArticleListDropPboardType] owner:self];
+    [pboard declareTypes:@[ArticleListDropPboardType] owner:self];
     for(NSTreeNode*item in items){
 	if([[item representedObject] isKindOfClass:[AllArticleList class]])
 	    return NO;
@@ -377,12 +377,12 @@
 //    }
 //    NSLog(@"dropping into index:%d",index);
     for(NSUInteger c=0;c<[droppedObjects count];c++){
-	ArticleList*dropped=[droppedObjects objectAtIndex:c];
+	ArticleList*dropped=droppedObjects[c];
 	dropped.positionInView=[NSNumber numberWithInteger:2*(ind+c)];	
 //	NSLog(@"al:%@ now at %@",al.name,al.positionInView);
     }
     for(NSUInteger c=ind;c<[ch count];c++){
-	ArticleList*pre=[ch objectAtIndex:c];
+	ArticleList*pre=ch[c];
 	if([droppedObjects containsObject:pre])
 	    continue;
 	pre.positionInView=[NSNumber numberWithInteger:2*(c+[paths count])];

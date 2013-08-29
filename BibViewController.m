@@ -36,7 +36,7 @@
 
     if(!articles)return;
     if([articles count]==0) return;
-    Article*a=[articles objectAtIndex:0];
+    Article*a=articles[0];
     NSString*c=nil;
     if([key isEqualToString:@"harvmac"]){
 	c=[a extraForKey:@"harvmacKey"];
@@ -44,7 +44,7 @@
 	c=a.texKey;
     }
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:[NSArray arrayWithObject:NSStringPboardType ] owner:self];
+    [pb declareTypes:@[NSStringPboardType] owner:self];
     [pb setString:c forType:NSStringPboardType];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

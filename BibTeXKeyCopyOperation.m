@@ -37,7 +37,7 @@
 	}
     }
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:[NSArray arrayWithObject:NSStringPboardType ] owner:self];
+    [pb declareTypes:@[NSStringPboardType] owner:self];
     [pb setString:s forType:NSStringPboardType];
     [[NSSound soundNamed:@"Submarine"] play];
     [self finish];

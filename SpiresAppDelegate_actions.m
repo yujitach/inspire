@@ -140,7 +140,7 @@
 }
 -(IBAction)dumpDebugInfo:(id)sender
 {
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     NSLog(@"%@",a);
     NSLog(@"%@",a.data);
     /*    for(Article*b in a.citedBy){
@@ -203,7 +203,7 @@
 
 -(IBAction)deletePDFForEntry:(id)sender
 {
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     if(!a.hasPDFLocally)
 	return;
     NSAlert*alert=[NSAlert alertWithMessageText:@"Do you really want to remove PDF?"
@@ -215,7 +215,7 @@
     if(result!=NSAlertDefaultReturn)
 	return;
     NSString*path=a.pdfPath;
-    [[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]]
+    [[NSWorkspace sharedWorkspace] recycleURLs:@[[NSURL fileURLWithPath:path]]
 			     completionHandler:nil];
     [a setFlag:a.flag &(~AFHasPDF)];
     
@@ -302,25 +302,25 @@
 -(IBAction)openSelectionInQuickLook:(id)sender
 {
     if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithQuickLook];
 }
 -(IBAction)openSelectionInPDFViewer:(id)sender;
 {
     if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithPrimaryViewer];
 }
 -(IBAction)openSelectionInSecondaryPDFViewer:(id)sender;
 {
     if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithSecondaryViewer];
 }
 
 -(IBAction)openPDF:(id)sender
 {
-    Article*o=[[ac selectedObjects] objectAtIndex:0];
+    Article*o=[ac selectedObjects][0];
     if(!o)
 	return;
     //    int modifiers=GetCurrentKeyModifiers();
@@ -334,7 +334,7 @@
 -(IBAction)openJournal:(id)sender
 {
     if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     //    NSString* univ=[[NSUserDefaults standardUserDefaults] objectForKey:@"universityLibraryToGetPDF"];
     //    if(univ && ![univ isEqualToString:@""]){
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"tryToDownloadJournalPDF"]&& (!a.eprint || [a.eprint isEqualToString:@""])){
@@ -355,7 +355,7 @@
 -(IBAction)openPDForJournal:(id)sender
 {
     if([[ac selectedObjects] count]==0)return;
-    Article*a=[[ac selectedObjects] objectAtIndex:0];
+    Article*a=[ac selectedObjects][0];
     if(a.hasPDFLocally || (a.eprint && ![a.eprint isEqualToString:@""]) ){
 	[self openPDF:sender];
     }else{

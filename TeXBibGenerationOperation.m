@@ -19,11 +19,11 @@
 
 static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 {
-    NSArray*inputs=[dict objectForKey:@"inputs"];
+    NSArray*inputs=dict[@"inputs"];
     if([inputs count]==0){
-	return [dict objectForKey:@"citationsInOrder"];
+	return dict[@"citationsInOrder"];
     }
-    NSMutableArray*citations=[[dict objectForKey:@"citationsInOrder"] mutableCopy];
+    NSMutableArray*citations=[dict[@"citationsInOrder"] mutableCopy];
     for(__strong NSString*subfile in inputs){
 	if([subfile rangeOfString:@"."].location==NSNotFound){
 	    subfile=[subfile stringByAppendingString:@".tex"];
@@ -89,7 +89,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 
 -(NSString*)idForKey:(NSString*)key
 {
-    NSString*map=[mappings objectForKey:key];
+    NSString*map=mappings[key];
     if(map){
 	return map;
     }else{
@@ -99,12 +99,12 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 -(BOOL)setup
 {
     dict=[TeXBibGenerationOperation infoForTeXFile:texFile];
-    BOOL isBibTeX=[[dict objectForKey:@"isBibTeX"] boolValue];
+    BOOL isBibTeX=[dict[@"isBibTeX"] boolValue];
     if(!isBibTeX){
 	return NO;
     }
     citations=fullCitationsForFileAndInfo(texFile,dict);
-    mappings=[dict objectForKey:@"mappings"];
+    mappings=dict[@"mappings"];
     
     
     {
@@ -125,7 +125,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	for(NSString*key in citations){
 	    Article*a=[Article intelligentlyFindArticleWithId:[self idForKey:key] inMOC:moc];
 	    if(a){
-		[keyToArticle setObject:a forKey:key];
+		keyToArticle[key] = a;
 	    }
 	}
     }
@@ -210,14 +210,14 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 
 -(void)lookUpThingsNotFoundInDatabase
 {
-    BOOL forceRefresh=twice&&[[dict objectForKey:@"forceRefresh"] boolValue];
+    BOOL forceRefresh=twice&&[dict[@"forceRefresh"] boolValue];
     if(forceRefresh){
 	NSLog(@"forcing refresh of bibliography data");
     }
     NSMutableArray* notFound=[NSMutableArray array];
     for(NSString*key in citations){
 	NSString*idForKey=[self idForKey:key];
-	Article*a=[keyToArticle objectForKey:key];
+	Article*a=keyToArticle[key];
 	if(a){
 	    NSString*latex=[a extraForKey:@"latex"];
 	    if(!latex || forceRefresh){
@@ -237,7 +237,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 -(void)registerEntriesToList
 {
     SimpleArticleList*list=nil;
-    NSString* listName=[dict objectForKey:@"listName"];
+    NSString* listName=dict[@"listName"];
     NSArray*toAddToList=[keyToArticle allValues];
     if(listName&&![listName isEqualToString:@""]&&[toAddToList count]>0){
 	list=[SimpleArticleList simpleArticleListWithName:listName inMOC:moc];
@@ -256,7 +256,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	if([entriesAlreadyInBib containsObject:key]){
 	    continue;
 	}
-	Article*a=[keyToArticle objectForKey:key];
+	Article*a=keyToArticle[key];
 	if(a){
 	    NSString* bib=[a extraForKey:@"bibtex"];
 	    if(bib){
@@ -272,7 +272,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",[[self bibFilePath] lastPathComponent]]];
 	NSMutableString*appendix=[NSMutableString string];
 	for(NSString* key in toAddToBib){
-	    Article*a=[keyToArticle objectForKey:key];
+	    Article*a=keyToArticle[key];
 	    NSString*kk=key;
 	    if(![key isEqualToString:[a texKey]]){
 		kk=[key stringByAppendingFormat:@"(=%@)",[a texKey]];

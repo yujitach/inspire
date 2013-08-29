@@ -39,7 +39,7 @@
 -(NSUInteger)indexForBundleId:(NSString*)bundleId
 {
     for(NSUInteger i=0;i<[apps count];i++){
-	if([[apps objectAtIndex:i] compare:bundleId options:NSCaseInsensitiveSearch]==NSOrderedSame){
+	if([apps[i] compare:bundleId options:NSCaseInsensitiveSearch]==NSOrderedSame){
 	    return i;
 	}
     }
@@ -119,7 +119,7 @@
 -(IBAction)appSelected:(id)sender
 {
     NSInteger i=[appToUsePopUp indexOfSelectedItem];
-    NSString* bundleId=[apps objectAtIndex:i];
+    NSString* bundleId=apps[i];
     [[NSUserDefaults standardUserDefaults] setObject:bundleId forKey:defaultsKey];
     
 }

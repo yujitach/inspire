@@ -20,7 +20,7 @@
 				     insertIntoManagedObjectContext:moc];
     mo.name=s;
     NSSortDescriptor *sd=[[NSSortDescriptor  alloc] initWithKey:@"eprintForSorting" ascending:YES];
-    [mo setSortDescriptors:[NSArray arrayWithObjects:sd,nil]];	
+    [mo setSortDescriptors:@[sd]];	
     return mo;
 }
 -(void)reload

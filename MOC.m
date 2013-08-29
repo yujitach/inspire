@@ -46,7 +46,7 @@ MOC*_sharedMOCManager=nil;
 - (NSString *)applicationSupportFolder {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+    NSString *basePath = ([paths count] > 0) ? paths[0] : NSTemporaryDirectory();
     NSString* appSupportFolder= [basePath stringByAppendingPathComponent:@"spires"];
     
     NSFileManager *fileManager=[NSFileManager defaultManager];
@@ -217,7 +217,7 @@ MOC*_sharedMOCManager=nil;
     NSDictionary* dict=[error userInfo];
     NSLog(@"userInfo:%@",dict);
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
-	NSArray* detailedErrors=[dict objectForKey:@"NSDetailedErrors"];
+	NSArray* detailedErrors=dict[@"NSDetailedErrors"];
 	if(detailedErrors){
 	    for(NSError*e in detailedErrors){
 		NSLog(@"moc suberror:%@",e);
@@ -239,14 +239,14 @@ MOC*_sharedMOCManager=nil;
     NSPersistentStoreCoordinator*psc=[self persistentStoreCoordinator];
     NSArray*stores=[psc persistentStores];
     error=nil;
-    if(![psc removePersistentStore:[stores objectAtIndex:0] error:&error]){
+    if(![psc removePersistentStore:stores[0] error:&error]){
 	NSLog(@"couldn't remove:%@",error);
 	return;
     }
     error=nil;
     NSMutableDictionary*options=[NSMutableDictionary dictionary];
-    [options setObject:[NSNumber numberWithBool:YES] forKey:NSSQLiteManualVacuumOption];
-    [options setObject:[NSNumber numberWithBool:YES] forKey:NSSQLiteAnalyzeOption];
+    options[NSSQLiteManualVacuumOption] = @YES;
+    options[NSSQLiteAnalyzeOption] = @YES;
     if (![psc addPersistentStoreWithType:[self storeType]
 			   configuration:nil 
 				     URL:[NSURL fileURLWithPath:[self dataFilePath]] 

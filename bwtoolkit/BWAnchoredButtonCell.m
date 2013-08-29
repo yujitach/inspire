@@ -143,9 +143,9 @@ static NSShadow *contentShadow;
 {
 	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	[attributes addEntriesFromDictionary:[super _textAttributes]];
-	[attributes setObject:[self textColor] forKey:NSForegroundColorAttributeName];
-	[attributes setObject:[NSFont systemFontOfSize:11] forKey:NSFontAttributeName];
-	[attributes setObject:contentShadow forKey:NSShadowAttributeName];
+	attributes[NSForegroundColorAttributeName] = [self textColor];
+	attributes[NSFontAttributeName] = [NSFont systemFontOfSize:11];
+	attributes[NSShadowAttributeName] = contentShadow;
 	
 	return attributes;
 }

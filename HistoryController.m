@@ -48,7 +48,7 @@
 -(void)reflect
 {
     if([array count]>0){
-	HistoryEntry*entry=[array objectAtIndex:idx-1];
+	HistoryEntry*entry=array[idx-1];
 //	[articleListController setSelectedObjects:[NSArray arrayWithObject:entry.articleList]];
 	[sideTableViewController selectArticleList:entry.articleList];
 /*
@@ -65,7 +65,7 @@
 }
 -(void)setArticle:(Article*)a
 {
-    [ac setSelectedObjects:[NSArray arrayWithObject:a]];
+    [ac setSelectedObjects:@[a]];
 }
 - (void)awakeFromNib
 {
@@ -99,7 +99,7 @@
     //[[articleListController selectedObjects] objectAtIndex:0];
     Article*a=nil;
     if([[ac selectedObjects] count]>0){
-	a=[[ac selectedObjects] objectAtIndex:0];
+	a=[ac selectedObjects][0];
     }
     HistoryEntry*entry=[[HistoryEntry alloc]init];
     entry.searchString=al.searchString;
@@ -108,7 +108,7 @@
     if(idx != [array count]){
 	NSMutableArray*ar=[NSMutableArray array];
 	for(NSUInteger i=0;i<idx;i++){
-	    [ar addObject:[array objectAtIndex:i]];
+	    [ar addObject:array[i]];
 	}
 	array=ar;
     }

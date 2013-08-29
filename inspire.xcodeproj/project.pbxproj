@@ -31,7 +31,6 @@
 		332BD66210CEF3830032EF88 /* SpiresAppDelegate_actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD66110CEF3830032EF88 /* SpiresAppDelegate_actions.m */; };
 		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
-		332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
 		3331BD3311D42402001F9B4B /* tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; };
 		333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */; };
@@ -62,13 +61,10 @@
 		336F461A16188843005D070F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 336F461916188842005D070F /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		336F461C161889D5005D070F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 336F461B161889D5005D070F /* SystemConfiguration.framework */; };
 		336F461F161893D9005D070F /* NetworkOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 336F461E161893D8005D070F /* NetworkOperationQueue.m */; };
-		337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */; };
 		3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */; };
 		337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; };
 		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
-		337D6F220F56F9770098643F /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */; };
 		337FC28712C4914F008995BF /* marc2spires.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 337FC28612C4914F008995BF /* marc2spires.xsl */; };
-		3381564A12C5C25D008CD596 /* v5-v6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */; };
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
@@ -93,9 +89,8 @@
 		33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8521B10CC851400EC0211 /* whiteOut.pdf */; };
 		33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524B10CC863000EC0211 /* blackOut.pdf */; };
 		33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524F10CC874200EC0211 /* whiteIn.pdf */; };
-		33BEC3590F925E5100807A8E /* v2-v3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */; };
-		33BEC4510F92707B00807A8E /* v1-v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */; };
 		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
+		33C85E0117CF99CD0087956A /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
 		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
@@ -124,7 +119,6 @@
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
-		33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */; };
 		33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F2076B10CF828E0012F0B6 /* BibView.xib */; };
 		33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F614D110CC50C500EC3837 /* ReloadButton.m */; };
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
@@ -203,8 +197,6 @@
 		332F19C40EA57B8E00758683 /* ArxivHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivHelper.m; sourceTree = "<group>"; };
 		332F1A7F0EA5905000758683 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		332F1B0D0EA597D300758683 /* spires.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = spires.icns; sourceTree = "<group>"; };
-		332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 4.xcdatamodel"; sourceTree = "<group>"; };
-		332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v3-v4.xcmappingmodel"; sourceTree = "<group>"; };
 		332F485C0FF8748700B9363E /* hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hasPDF.png; sourceTree = "<group>"; };
 		3331BD3111D423F0001F9B4B /* tex.js */ = {isa = PBXFileReference; explicitFileType = sourcecode.javascript; fileEncoding = 4; path = tex.js; sourceTree = "<group>"; };
 		3333B8CE0F3584B500251984 /* magic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = magic.perl; sourceTree = "<group>"; };
@@ -260,8 +252,6 @@
 		336F461B161889D5005D070F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		336F461D161893D8005D070F /* NetworkOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkOperationQueue.h; sourceTree = "<group>"; };
 		336F461E161893D8005D070F /* NetworkOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkOperationQueue.m; sourceTree = "<group>"; };
-		337274351052CB4600DD8AA1 /* AllArticleListFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllArticleListFetchOperation.h; sourceTree = "<group>"; };
-		337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllArticleListFetchOperation.m; sourceTree = "<group>"; };
 		3378C2AB10D8954B006F7B53 /* ArticlePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticlePrivate.h; sourceTree = "<group>"; };
 		3379CDA710461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewArticleListReloadOperation.h; sourceTree = "<group>"; };
 		3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewArticleListReloadOperation.m; sourceTree = "<group>"; };
@@ -269,10 +259,7 @@
 		337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeferredPDFOpenOperation.m; sourceTree = "<group>"; };
 		337B882D0F3575680005BA9C /* BibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibViewController.h; sourceTree = "<group>"; };
 		337B882E0F3575680005BA9C /* BibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibViewController.m; sourceTree = "<group>"; };
-		337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		337FC28612C4914F008995BF /* marc2spires.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = marc2spires.xsl; sourceTree = "<group>"; };
-		3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
-		3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v5-v6.xcmappingmodel"; sourceTree = "<group>"; };
 		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
 		338432100F70CFB80040BDA6 /* SideOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineView.h; sourceTree = "<group>"; };
 		338432110F70CFB80040BDA6 /* SideOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineView.m; sourceTree = "<group>"; };
@@ -315,12 +302,10 @@
 		33B8521B10CC851400EC0211 /* whiteOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteOut.pdf; sourceTree = "<group>"; };
 		33B8524B10CC863000EC0211 /* blackOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blackOut.pdf; sourceTree = "<group>"; };
 		33B8524F10CC874200EC0211 /* whiteIn.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteIn.pdf; sourceTree = "<group>"; };
-		33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 3.xcdatamodel"; sourceTree = "<group>"; };
-		33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v2-v3.xcmappingmodel"; sourceTree = "<group>"; };
-		33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v1-v2.xcmappingmodel"; sourceTree = "<group>"; };
-		33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = spires_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
 		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
+		33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
+		33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
 		33CC06E70F3E48B8005B25F8 /* DumbOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumbOperation.m; sourceTree = "<group>"; };
 		33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalPDFDownloadOperation.h; sourceTree = "<group>"; };
@@ -361,8 +346,6 @@
 		33EBAFB90FF9BE420076F6AC /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		33EBF0090EA5BF650050B64A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		33EBF0370EA5C0830050B64A /* Release Notes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Release Notes.html"; sourceTree = "<group>"; };
-		33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
-		33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "v4-v5.xcmappingmodel"; sourceTree = "<group>"; };
 		33F1981210C04D98001F3F0F /* ArticleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleData.h; sourceTree = "<group>"; };
 		33F1991310C08505001F3F0F /* MigrationProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MigrationProgress.xib; sourceTree = "<group>"; };
 		33F1991810C0853F001F3F0F /* MigrationProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MigrationProgressController.h; sourceTree = "<group>"; };
@@ -714,8 +697,6 @@
 				33CC06E70F3E48B8005B25F8 /* DumbOperation.m */,
 				33649D1A0FFA8AF50002B187 /* WaitOperation.h */,
 				33649D1B0FFA8AF50002B187 /* WaitOperation.m */,
-				337274351052CB4600DD8AA1 /* AllArticleListFetchOperation.h */,
-				337274361052CB4600DD8AA1 /* AllArticleListFetchOperation.m */,
 				3395793F0F3ECA3A0036364A /* LoadAbstractDOIOperation.h */,
 				339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */,
 				339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */,
@@ -847,7 +828,7 @@
 				33B39E6E0EA4325E00734A06 /* Article.h */,
 				3378C2AB10D8954B006F7B53 /* ArticlePrivate.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
-				337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */,
+				33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -971,7 +952,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				77C8280E06725ACE000B614F /* SpiresAppDelegate.m in Sources */,
-				337D6F220F56F9770098643F /* spires_DataModel.xcdatamodeld in Sources */,
 				33B39E700EA4325E00734A06 /* Article.m in Sources */,
 				330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */,
 				332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */,
@@ -1025,10 +1005,7 @@
 				33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */,
 				33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */,
 				33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */,
-				33BEC3590F925E5100807A8E /* v2-v3.xcmappingmodel in Sources */,
-				33BEC4510F92707B00807A8E /* v1-v2.xcmappingmodel in Sources */,
 				3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */,
-				332F46570FF83A5B00B9363E /* v3-v4.xcmappingmodel in Sources */,
 				33EBAF240FF9B37B0076F6AC /* TeXWatcherController.m in Sources */,
 				33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */,
 				332B9B290FF9E34400353564 /* DirWatcher.m in Sources */,
@@ -1038,8 +1015,6 @@
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
-				337274371052CB4600DD8AA1 /* AllArticleListFetchOperation.m in Sources */,
-				33F1970010C03B76001F3F0F /* v4-v5.xcmappingmodel in Sources */,
 				33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */,
 				332BD63610CECF500032EF88 /* AppDelegate.m in Sources */,
 				332BD66210CEF3830032EF88 /* SpiresAppDelegate_actions.m in Sources */,
@@ -1047,12 +1022,12 @@
 				33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */,
 				33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */,
 				33A06DA410DFDE97003EF208 /* DummyBWSplitView.m in Sources */,
-				3381564A12C5C25D008CD596 /* v5-v6.xcmappingmodel in Sources */,
 				3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33DFC3BE156BCEB900C98E8E /* RegexKitLite.m in Sources */,
 				336F461416184837005D070F /* ArticleFetchOperation.m in Sources */,
 				336F461A16188843005D070F /* Reachability.m in Sources */,
 				336F461F161893D9005D070F /* NetworkOperationQueue.m in Sources */,
+				33C85E0117CF99CD0087956A /* spires_DataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,22 +1231,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		337D6F210F56F9770098643F /* spires_DataModel.xcdatamodeld */ = {
+		33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				33BEC4520F92708200807A8E /* spires_DataModel.xcdatamodel */,
-				337D6F230F56F9770098643F /* spires_DataModel 2.xcdatamodel */,
-				33BEC3540F925D9800807A8E /* spires_DataModel 3.xcdatamodel */,
-				332F464B0FF834BF00B9363E /* spires_DataModel 4.xcdatamodel */,
-				33F196FA10C0302C001F3F0F /* spires_DataModel 5.xcdatamodel */,
-				3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */,
-				33BEC4500F92707B00807A8E /* v1-v2.xcmappingmodel */,
-				33BEC3580F925E5100807A8E /* v2-v3.xcmappingmodel */,
-				332F46560FF83A5B00B9363E /* v3-v4.xcmappingmodel */,
-				33F196FF10C03B76001F3F0F /* v4-v5.xcmappingmodel */,
-				3381564912C5C25D008CD596 /* v5-v6.xcmappingmodel */,
+				33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */,
+				33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */,
 			);
-			currentVersion = 3381564412C5C02D008CD596 /* spires_DataModel 6.xcdatamodel */;
+			currentVersion = 33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */;
 			path = spires_DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

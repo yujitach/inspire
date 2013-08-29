@@ -20,7 +20,7 @@
     NSError*error=nil;
     NSArray*a=[moc executeFetchRequest:req error:&error];
     if([a count]>0){
-	return [a objectAtIndex:0];
+	return a[0];
     }else {
 	return nil;
     }

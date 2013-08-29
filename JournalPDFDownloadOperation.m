@@ -140,7 +140,7 @@
     if(!pdf){ // Elsevier
 	NSArray*x=[html componentsSeparatedByString:@"featureCount"];
 	if([x count]>=2){
-	    NSString*chunk=[x objectAtIndex:1];
+	    NSString*chunk=x[1];
 	    NSString*s=[chunk stringByMatching:@"(/science.+?sdarticle.pdf)\"" capture:1];
 	    if(s){
 		pdf=[@"http://www.sciencedirect.com" stringByAppendingString:s];
@@ -156,7 +156,7 @@
     if(!pdf){ // World Scientific
 	NSArray*a=[html componentsSeparatedByString:@"<td class=\"jntitle\">"];
 	if([a count]>1){
-	    NSString*j=[[a objectAtIndex:1]
+	    NSString*j=[a[1]
 			stringByMatching:@"\\((.+?)\\)" capture:1];
 	    j=[j lowercaseString];
 	    NSString*s=[html stringByMatching:@"preserved-docs/(.+?\\.pdf)\"" capture:1];

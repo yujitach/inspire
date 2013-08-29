@@ -13,10 +13,9 @@
 -(NSURL*)proxiedURLForELibrary;
 {
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];
-    NSArray*pair=[[defaults dictionaryForKey:@"regExpsForUniversityLibrary"] 
-		  objectForKey:[defaults objectForKey:@"universityLibraryToGetPDF"]];
-    NSString*from=[pair objectAtIndex:0];
-    NSString*to=[pair objectAtIndex:1];
+    NSArray*pair=[defaults dictionaryForKey:@"regExpsForUniversityLibrary"][[defaults objectForKey:@"universityLibraryToGetPDF"]];
+    NSString*from=pair[0];
+    NSString*to=pair[1];
     NSString*proxiedURL=[[self absoluteString] stringByReplacingOccurrencesOfRegex:from withString:to];
     NSURL*url=[NSURL URLWithString:proxiedURL];
     return url;

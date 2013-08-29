@@ -39,9 +39,9 @@
 	    NSArray*a=[[doc rootElement] nodesForXPath:@"record/controlfield" error:NULL];
 	    NSLog(@"%@",a);
 	    if([a count]>0){
-		NSXMLElement*e=[a objectAtIndex:0];
+		NSXMLElement*e=a[0];
 		NSLog(@"%@",e);
-		NSNumber*n=[NSNumber numberWithInteger:[[e stringValue] integerValue]];
+		NSNumber*n=@([[e stringValue] integerValue]);
 		article.inspireKey=n;
 		rec=[NSString stringWithFormat:@"recid:%@",n];
 	    }

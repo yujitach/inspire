@@ -95,8 +95,8 @@ ArxivHelper* _sharedHelper=nil;
 -(NSString*)list:(NSString*)path
 {
     NSArray* a=[path componentsSeparatedByString:@"/"];
-    NSString* category=[a objectAtIndex:0];
-    NSString* t=[a objectAtIndex:1];
+    NSString* category=a[0];
+    NSString* t=a[1];
     if([t hasPrefix:@"new"]){
 	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"new"]];
 	NSRange r=[content rangeOfString:@"<h3>Cross"];
@@ -156,18 +156,18 @@ ArxivHelper* _sharedHelper=nil;
 {
     if( ![[response MIMEType] hasSuffix:@"html"] && [temporaryData length]>10240){
 	[returnDict setValue:temporaryData forKey:@"pdfData"];
-	[returnDict setValue:[NSNumber numberWithBool:YES] forKey:@"success"];
+	[returnDict setValue:@YES forKey:@"success"];
     }else{
-	[returnDict setValue:[NSNumber numberWithBool:NO] forKey:@"success"];
+	[returnDict setValue:@NO forKey:@"success"];
 	if([[response MIMEType] hasSuffix:@"html"]){
 	    NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
 	    NSArray*a=[s componentsSeparatedByString:@"http-equiv=\"refresh\" content=\""];
 	    if([a count]>1){
-		s=[a objectAtIndex:1];
+		s=a[1];
 		a=[s componentsSeparatedByString:@"\""];
 		if([a count]>0){
-		    s=[a objectAtIndex:0];
-		    NSNumber*num=[NSNumber numberWithInt:[s intValue]];
+		    s=a[0];
+		    NSNumber*num=@([s intValue]);
 		    [returnDict setValue:num forKey:@"shouldReloadAfter"];
 		}
 	    }
@@ -179,7 +179,7 @@ ArxivHelper* _sharedHelper=nil;
 }
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
-    [returnDict setValue:[NSNumber numberWithBool:NO] forKey:@"success"];
+    [returnDict setValue:@NO forKey:@"success"];
     [returnDict setValue:error forKey:@"error"];
 
     [delegate performSelector:sel withObject:returnDict];

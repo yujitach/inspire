@@ -87,7 +87,7 @@ NSString* pathShownWithQuickLook=nil;
     if(!path ||[path isEqualToString:@""]){
 	return;
     }
-    [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:path]]
+    [[NSWorkspace sharedWorkspace] openURLs:@[[NSURL fileURLWithPath:path]]
 		    withAppBundleIdentifier:bundleId
 				    options:NSWorkspaceLaunchDefault
 	     additionalEventParamDescriptor:nil

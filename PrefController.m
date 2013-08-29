@@ -94,7 +94,7 @@
     [op setCanChooseDirectories:YES];
     NSInteger res=[op runModal];
     if(res==NSOKButton){
-        NSURL*folderURL=[[op URLs] objectAtIndex:0];
+        NSURL*folderURL=[op URLs][0];
 	NSString*nextSetting=[folderURL path];
 	[[NSUserDefaults standardUserDefaults] setObject:[nextSetting stringByAbbreviatingWithTildeInPath] 
 						  forKey:@"pdfDir"];

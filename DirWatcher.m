@@ -37,7 +37,7 @@ static void fsEventCallbackFunction(
     pathToWatch=path;
     delegate=d;
     date=[NSDate date];
-    CFArrayRef paths=(__bridge_retained CFTypeRef)([NSArray arrayWithObject:pathToWatch]);
+    CFArrayRef paths=(__bridge_retained CFTypeRef)(@[pathToWatch]);
     FSEventStreamContext context;
     context.version=0;
     context.info=(__bridge void *)(self);
@@ -84,7 +84,7 @@ static void fsEventCallbackFunction(
 				     ids:(const FSEventStreamEventId*) eventIds;
 {
     for(size_t i=0;i<numEvents;i++){
-	NSString*p=[eventPaths objectAtIndex:i];
+	NSString*p=eventPaths[i];
 	if([p isEqualToString:[pathToWatch stringByAppendingString:@"/"]]){
 	    [self report];
 	}

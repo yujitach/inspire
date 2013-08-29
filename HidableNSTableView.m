@@ -37,11 +37,11 @@
     enumerator = [cols objectEnumerator];
     NSDictionary *colinfo;
     while((colinfo = [enumerator nextObject])) {
-	NSMenuItem *item = [tableHeaderContextMenu itemWithTitle:[colinfo objectForKey:@"title"]];
+	NSMenuItem *item = [tableHeaderContextMenu itemWithTitle:colinfo[@"title"]];
 	if(!item) continue; // missing title
 	[item setState:NSOnState];
 	column = [item representedObject];
-	[column setWidth:[[colinfo objectForKey:@"width"] floatValue]];
+	[column setWidth:[colinfo[@"width"] floatValue]];
 	[self addTableColumn:column];
     }
     [self sizeLastColumnToFit];
@@ -56,10 +56,8 @@
     NSEnumerator *enumerator = [[self tableColumns] objectEnumerator];
     NSTableColumn *column;
     while((column = [enumerator nextObject])) {
-	[cols addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			 [[column headerCell] title], @"title",
-			 [NSNumber numberWithFloat:(float)[column width]], @"width",
-			 nil]];
+	[cols addObject:@{@"title": [[column headerCell] title],
+			 @"width": @((float)[column width])}];
     }
     [[NSUserDefaults standardUserDefaults] setObject:cols forKey:saveName];
 }

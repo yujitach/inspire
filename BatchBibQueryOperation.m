@@ -18,7 +18,7 @@
     articles=[a copy];
     targets=[NSMutableArray array];
     for(Article* article in articles){
-	NSString* target=[article uniqueSpiresQueryString];
+	NSString* target=[article uniqueInspireQueryString];
 	if(!target)
 	    target=(NSString*)[NSNull null];
 	[targets addObject:target];
@@ -37,7 +37,7 @@
     if([articles count]==0){
 	return @"invalid query operation";
     }else{
-	Article* a=[articles objectAtIndex:0];
+	Article* a=articles[0];
 	return [NSString stringWithFormat:@"bib query for %@ etc.",a.title];
     }
 }
@@ -48,20 +48,20 @@
 	[[NSApp appDelegate] startProgressIndicator];
     });
     for(NSUInteger i=0;i<[articles count];i++){
-	Article* article=[articles objectAtIndex:i];
-	NSString*target=[targets objectAtIndex:i];
+	Article* article=articles[i];
+	NSString*target=targets[i];
 	NSLog(@"looking up %@",target);
 	if([self isCancelled])break;
 	if(!target) continue;
-	NSString* bib=[[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target] objectAtIndex:0];
+	NSString* bib=[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target][0];
         if(!bib)break;
 	if([self isCancelled])break;
 	NSInteger r=[bib rangeOfString:@"{"].location;
 	NSInteger t=[bib rangeOfString:@","].location;
 	NSString* key=[bib substringWithRange:NSMakeRange(r+1, t-r-1)];
-	NSString* latex=[[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target] objectAtIndex:0];
+	NSString* latex=[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target][0];
 	if([self isCancelled])break;
-	NSString* harvmac=[[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target] objectAtIndex:0];
+	NSString* harvmac=[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target][0];
 	if([self isCancelled])break;
 	NSInteger q=[harvmac rangeOfString:@"\n"].location;
 	NSString* harvmacKey=[harvmac substringWithRange:NSMakeRange(1,q-1)];

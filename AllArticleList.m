@@ -27,12 +27,12 @@ static AllArticleList*_allArticleList=nil;
 	a=[moc executeFetchRequest:req error:&error];
     }
     if([a count]==1){
-	return [a objectAtIndex:0];
+	return a[0];
     }else if([a count]>1){
 	NSLog(@"inconsistency detected ... there are more than one AllArticleLists!");
-        AllArticleList*max=[a objectAtIndex:0];
+        AllArticleList*max=a[0];
 	for(NSUInteger i=1;i<[a count];i++){
-	    AllArticleList*al=[a objectAtIndex:i];
+	    AllArticleList*al=a[i];
             if([al.articles count]>[max.articles count]){
                 max=al;
             }
@@ -54,8 +54,8 @@ static AllArticleList*_allArticleList=nil;
     AllArticleList* mo=(AllArticleList*)[[NSManagedObject alloc] initWithEntity:entity
 				insertIntoManagedObjectContext:nil];
     [mo setValue:@"inspire" forKey:@"name"];
-    [mo setValue:[NSNumber numberWithInt:0] forKey:@"positionInView"];
-    mo.sortDescriptors=[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
+    [mo setValue:@0 forKey:@"positionInView"];
+    mo.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
     [moc insertObject:mo];	
     
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];

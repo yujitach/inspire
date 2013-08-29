@@ -41,7 +41,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSArray* a=[operand componentsSeparatedByString:@"+"];
     if([a count]==0)
 	return nil; // [NSPredicate predicateWithValue:YES];
-    NSNumber *num=[NSNumber numberWithInt:[[a objectAtIndex:0] intValue]];
+    NSNumber *num=@([a[0] intValue]);
     return [NSPredicate predicateWithFormat:@"citecount > %@",num];
 }
 
@@ -124,7 +124,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	}
 	NSMutableArray*y=[NSMutableArray array];
 	for(NSUInteger i=0;i<[x count]-1;i++){
-	    [y addObject:[x objectAtIndex:i]];
+	    [y addObject:x[i]];
 	}
 	NSString* first=[self normalizedFirstAndMiddleNames:y];
 //	NSString* query=[[NSString stringWithFormat:@"*; %@*, %@*", last, first] normalizedString];
@@ -134,8 +134,8 @@ SpiresHelper*_sharedSpiresHelper=nil;
 			   key,[first normalizedString]];	
 	return pred;
     }else{
-	NSString* last=[c objectAtIndex:0];
-	NSArray* firsts=[[c objectAtIndex:1] componentsSeparatedByString:@" "];
+	NSString* last=c[0];
+	NSArray* firsts=[c[1] componentsSeparatedByString:@" "];
 	NSString* first=[self normalizedFirstAndMiddleNames:firsts];
 	NSString* query=[[NSString stringWithFormat:@"; %@, %@", last, first] normalizedString];
 	NSPredicate*pred= [NSPredicate predicateWithFormat:@"%K contains %@",key,query];	
@@ -159,7 +159,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSString*norm=[[b componentsJoinedByString:@" "] normalizedString];
     NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.collaboration contains[c] %@",norm];	    
     NSPredicate*pred1=[NSPredicate predicateWithFormat:@"longishAuthorListForA contains %@",norm];
-    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];    
+    return [NSCompoundPredicate andPredicateWithSubpredicates:@[pred1,pred2]];    
 }
 -(NSPredicate*)eaPredicate:(NSString*)operand
 {
@@ -172,18 +172,18 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	if([a count]==0)
 	    return nil; // [NSPredicate predicateWithValue:YES];
 	if([a count]==1){
-	    operand=[a objectAtIndex:0];
+	    operand=a[0];
 	}else{
 	    operand=[[a lastObject] stringByAppendingString:@","];
 	    for(NSUInteger i=0;i<[a count]-1;i++){
 		operand=[operand stringByAppendingString:@" "];
-		operand=[operand stringByAppendingString:[a objectAtIndex:i]];
+		operand=[operand stringByAppendingString:a[i]];
 	    }
 	}
     }
     NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.longishAuthorListForEA contains %@",[operand normalizedString]];	    
     NSPredicate*pred1=[self authorPredicate:operand];
-    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];    
+    return [NSCompoundPredicate andPredicateWithSubpredicates:@[pred1,pred2]];    
 }
 -(NSPredicate*)datePredicate:(NSString*)operand
 {
@@ -250,20 +250,20 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSUInteger i=[es length]; //2001mmnnnn
     NSPredicate*pred1=nil;
     if(i==10){
-        pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",[NSNumber numberWithInteger:[es integerValue]]];
+        pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",@([es integerValue])];
     }else if(i<10){
         NSString*zeros=[NSString stringWithFormat:@"%0*d",(int)(10-i),0];
         NSString*foo=[es stringByAppendingString:zeros];
         NSString*et=[NSString stringWithFormat:@"%ld",(long)([es integerValue]+1)];
         NSString*bar=[et stringByAppendingString:zeros];
         pred1=[NSCompoundPredicate andPredicateWithSubpredicates:@[
-                [NSPredicate predicateWithFormat:@"eprintForSorting >= %@",[NSNumber numberWithInteger:[foo integerValue]]],
-               [NSPredicate predicateWithFormat:@"eprintForSorting < %@",[NSNumber numberWithInteger:[bar  integerValue]]] ]];
+                [NSPredicate predicateWithFormat:@"eprintForSorting >= %@",@([foo integerValue])],
+               [NSPredicate predicateWithFormat:@"eprintForSorting < %@",@([bar  integerValue])] ]];
     }else{
         pred1=[NSPredicate predicateWithValue:NO];
     }
     NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.eprint contains %@",norm];
-    NSPredicate*pred=[NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];
+    NSPredicate*pred=[NSCompoundPredicate andPredicateWithSubpredicates:@[pred1,pred2]];
     return pred;
 }
 -(NSPredicate*)flagPredicate:(NSString*)operand
@@ -377,7 +377,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     if([arr count]==0){
 	pred=[NSPredicate predicateWithValue:YES];
     }else if([arr count]==1){
-	pred= [arr objectAtIndex:0];
+	pred= arr[0];
     }else{
 	pred=[[NSCompoundPredicate alloc] initWithType:NSAndPredicateType
 					 subpredicates:arr];
@@ -389,7 +389,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 #pragma mark Bib Entries Query
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
 //    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
@@ -399,7 +399,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
     for(NSUInteger i=1;i<[a count];i++){
-	NSString*x=[a objectAtIndex:i];
+	NSString*x=a[i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
         x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
@@ -411,7 +411,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -422,7 +422,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
     for(NSUInteger i=1;i<[a count];i++){
-	NSString*x=[a objectAtIndex:i];
+	NSString*x=a[i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringToIndex:r.location];
         x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
@@ -434,7 +434,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@find+%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -443,7 +443,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     if(!a || [a count]<2)return nil;
     NSMutableArray* result=[NSMutableArray array];
     for(NSUInteger i=1;i<[a count];i++){
-	NSString*x=[a objectAtIndex:i];
+	NSString*x=a[i];
 	NSRange r=[x rangeOfString:@"</pre>"];
 	x=[x substringWithRange:NSMakeRange(1,r.location-1)];
         x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];

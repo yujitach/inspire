@@ -18,7 +18,7 @@
     articles=aa;
     recidToArticle=[NSMutableDictionary dictionary];
     for(Article*a in articles){
-	[recidToArticle setObject:a forKey:[a.inspireKey stringValue]];
+	recidToArticle[[a.inspireKey stringValue]] = a;
 	tot++;
     }
     return self;
@@ -53,16 +53,16 @@
 	    NSString*cited=[chunk stringByMatching:@"Cited +by +(\\d+) +rec" capture:1];
 //	    NSLog(@"cited:%@",cited);
 	    if(cited)
-		[recidToCites setObject:cited forKey:recid];
+		recidToCites[recid] = cited;
 	}
     }
     dispatch_async(dispatch_get_main_queue(),^{
 //	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Refreshing citations %d/%d",sofar,tot]];
 	for(NSString*rec in [recidToCites allKeys]){
-	    NSString*cited=[recidToCites objectForKey:rec];
-	    Article*article=[recidToArticle objectForKey:rec];
+	    NSString*cited=recidToCites[rec];
+	    Article*article=recidToArticle[rec];
 	    if(cited && article){
-		article.citecount=[NSNumber numberWithInt:[cited intValue]];
+		article.citecount=@([cited intValue]);
 	    }
 	}
     });

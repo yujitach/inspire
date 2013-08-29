@@ -21,7 +21,7 @@
     if([a count]==1)
 	return 0;
     NSString*s=[a lastObject];
-    NSString*t=[[s componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString*t=[s componentsSeparatedByString:@"."][0];
     return [t intValue];
 }
 -(NSArray*)modelPaths
@@ -73,7 +73,7 @@
     
     //Find the source model
     NSManagedObjectModel *sourceModel = [NSManagedObjectModel 
-					 mergedModelFromBundles:[NSArray arrayWithObject:mainBundle]
+					 mergedModelFromBundles:@[mainBundle]
 					 forStoreMetadata:sourceMetadata];
     NSAssert(sourceModel != nil, ([NSString stringWithFormat:
 				   @"Failed to find source model\n%@", 
@@ -90,7 +90,7 @@
 	NSLog(@"trying to see if %@ works...",[modelPath lastPathComponent]);
 	targetModel = [[NSManagedObjectModel alloc] 
 		       initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
-	mappingModel = [NSMappingModel mappingModelFromBundles:[NSArray arrayWithObject:mainBundle] 
+	mappingModel = [NSMappingModel mappingModelFromBundles:@[mainBundle] 
 						forSourceModel:sourceModel 
 					      destinationModel:targetModel];
 	//If we found a mapping model then proceed
@@ -214,7 +214,7 @@
 	return NO;
     }
     
-    NSValue *classValue = [[NSPersistentStoreCoordinator registeredStoreTypes] objectForKey:NSSQLiteStoreType];
+    NSValue *classValue = [NSPersistentStoreCoordinator registeredStoreTypes][NSSQLiteStoreType];
     Class sqliteStoreClass = (Class)[classValue pointerValue];
     Class sqliteStoreMigrationManagerClass = [sqliteStoreClass migrationManagerClass];
     
@@ -261,7 +261,7 @@
     NSError*error=nil;
     if (![self progressivelyMigrateURL:[NSURL fileURLWithPath:dataFilePath]
 				ofType:NSSQLiteStoreType
-			       toModel:[NSManagedObjectModel mergedModelFromBundles:[NSArray arrayWithObject:mainBundle]]
+			       toModel:[NSManagedObjectModel mergedModelFromBundles:@[mainBundle]]
 				 error:&error]) {
 	[[NSApplication sharedApplication] presentError:error];
 	return;

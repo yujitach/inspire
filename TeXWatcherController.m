@@ -40,8 +40,7 @@
 	color=[NSColor colorWithCalibratedRed:0.000f green:0.456f blue:0.000f alpha:1.000f];
     }
     NSAttributedString*as=[[NSAttributedString alloc] initWithString:s 
-							  attributes:[NSDictionary dictionaryWithObject:color
-												 forKey:NSForegroundColorAttributeName]
+							  attributes:@{NSForegroundColorAttributeName: color}
 			   ];
     NSRange endRange;
     
@@ -81,7 +80,7 @@
 -(void)updateParentsFor:(NSString*)texFullPath
 {
     NSDictionary*dict=[TeXBibGenerationOperation infoForTeXFile:texFullPath];
-    NSArray*inputs=[dict objectForKey:@"inputs"];
+    NSArray*inputs=dict[@"inputs"];
     if(inputs && [inputs count]>0){
 	[self addToLog:[NSString stringWithFormat:@"%@ includes %@\n",[texFullPath lastPathComponent],[inputs componentsJoinedByString:@", "]]];
 	for(__strong NSString*i in inputs){
@@ -90,7 +89,7 @@
 	    }
 	    i=[[texFullPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:i];
             if([[NSFileManager defaultManager] fileExistsAtPath:i]){
-                [parents setObject:texFullPath forKey:i];                
+                parents[i] = texFullPath;                
             }
 	}
     }
@@ -108,7 +107,7 @@
 }
 -(NSString*)lookUpAncestor:(NSString*)file
 {
-    NSString*a=[parents objectForKey:file];
+    NSString*a=parents[file];
     if(a){
 	return [self lookUpAncestor:a];
     }else{
@@ -194,7 +193,7 @@
     task=[[NSTask alloc] init];
     [task setLaunchPath:@"/usr/bin/env"];
     [task setCurrentDirectoryPath:[self folderOfURL:self.pathToWatch]];
-    [task setArguments:[NSArray arrayWithObjects:@"bibtex",fileTrunk,nil]];
+    [task setArguments:@[@"bibtex",fileTrunk]];
     pipe=[NSPipe pipe];
     [[pipe fileHandleForReading] readInBackgroundAndNotify];
     [task setStandardOutput:pipe];
@@ -206,7 +205,7 @@
     if(![[pipe fileHandleForReading] isEqualTo: fh]){
 	return;
     }
-    NSData*d=[[aNotification userInfo] objectForKey:@"NSFileHandleNotificationDataItem"];
+    NSData*d=[aNotification userInfo][@"NSFileHandleNotificationDataItem"];
     if([d length]){
 	[self addToLog:[[NSString alloc] initWithData:d  encoding:NSUTF8StringEncoding]];
         [fh readInBackgroundAndNotify];
@@ -254,13 +253,13 @@
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
         NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-	NSString* file=[files objectAtIndex:0];
+	NSString* file=files[0];
 	self.pathToWatch=[NSURL fileURLWithPath:file];
     }
     return YES;
 }
 -(NSArray*)draggedTypesToRegister
 {
-    return [NSArray arrayWithObject:NSFilenamesPboardType];
+    return @[NSFilenamesPboardType];
 }
 @end

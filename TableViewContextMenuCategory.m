@@ -17,7 +17,7 @@
     NSInteger column = [self columnAtPoint:mousePoint];
     NSTableColumn*col=nil;
     if(column!=-1){
-	col=[[self tableColumns] objectAtIndex:column];
+	col=[self tableColumns][column];
     }
     if([[self delegate] respondsToSelector:@selector(tableView:contextMenuForColumn:atRow:)]){
 	return [(id<TableViewContextMenuDelegate>)[self delegate] tableView:self contextMenuForColumn:col atRow:row];
