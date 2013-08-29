@@ -247,7 +247,21 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	return nil;
     NSString*norm=[operand normalizedString];
     NSString*es=[Article eprintForSortingFromEprint:norm];
-    NSPredicate*pred1=[NSPredicate predicateWithFormat:@"eprintForSortingAsString contains %@",es];
+    NSUInteger i=[es length]; //2001mmnnnn
+    NSPredicate*pred1=nil;
+    if(i==10){
+        pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",[NSNumber numberWithInteger:[es integerValue]]];
+    }else if(i<10){
+        NSString*zeros=[NSString stringWithFormat:@"%0*d",(int)(10-i),0];
+        NSString*foo=[es stringByAppendingString:zeros];
+        NSString*et=[NSString stringWithFormat:@"%ld",(long)([es integerValue]+1)];
+        NSString*bar=[et stringByAppendingString:zeros];
+        pred1=[NSCompoundPredicate andPredicateWithSubpredicates:@[
+                [NSPredicate predicateWithFormat:@"eprintForSorting >= %@",[NSNumber numberWithInteger:[foo integerValue]]],
+               [NSPredicate predicateWithFormat:@"eprintForSorting < %@",[NSNumber numberWithInteger:[bar  integerValue]]] ]];
+    }else{
+        pred1=[NSPredicate predicateWithValue:NO];
+    }
     NSPredicate*pred2=[NSPredicate predicateWithFormat:@"data.eprint contains %@",norm];
     NSPredicate*pred=[NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pred1,pred2,nil]];
     return pred;

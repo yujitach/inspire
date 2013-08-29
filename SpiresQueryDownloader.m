@@ -64,6 +64,9 @@
             inspireQuery=search;
         }
     }
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"limitAuthorCount"]){
+        inspireQuery=[inspireQuery stringByAppendingString:@"+and+ac+1->25"];
+    }
     NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm",inspireQuery,(int)startIndex+1,MAXPERQUERY];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }

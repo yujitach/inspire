@@ -188,6 +188,16 @@
 
     BOOL needToSave=NO;
 
+    if(![[NSUserDefaults standardUserDefaults]boolForKey:@"allArticleListPrepared"]){
+	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"allArticleListPrepared"];
+        AllArticleList*all=[AllArticleList allArticleListInMOC:[MOC moc]];
+        if(!all){
+            all=[AllArticleList allArticleList];
+            needToSave=YES;
+        }
+    }
+
+    
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
 	ArticleList*hepph=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-ph/new" inMOC:[self managedObjectContext]];

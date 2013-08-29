@@ -12,7 +12,7 @@
 #define LOADED_ENTRIES_MAX 1000
 
 @interface AllArticleList :  ArticleList  
-
++(AllArticleList*)allArticleListInMOC:(NSManagedObjectContext*)moc;// This returns nil if not found
 +(AllArticleList*)allArticleList; //this returns the allArticleList associated to the main MOC!
 @end
 

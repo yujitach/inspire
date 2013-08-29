@@ -178,6 +178,8 @@
 	</array>
 	<key>pdfDir</key>
 	<string>~/Desktop</string>
+	<key>limitAuthorCount</key>
+	<false/>
 	<key>prepositions</key>
 	<array>
 		<string>a</string>

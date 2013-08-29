@@ -40,7 +40,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)spiresQueue;
 {
     if(!_Squeue){
-	_Squeue=[[NetworkOperationQueue alloc] initWithHost:@"inspirehep.net" andWaitBetweenOperations:5];
+	_Squeue=[[NetworkOperationQueue alloc] initWithHost:@"inspirehep.net" andWaitBetweenOperations:4];
 	[_Squeue setMaxConcurrentOperationCount:1];
     }
     return _Squeue;
@@ -48,7 +48,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)arxivQueue;
 {
     if(!_Aqueue){
-	_Aqueue=[[NetworkOperationQueue alloc] initWithHost:@"arxiv.org" andWaitBetweenOperations:5];
+	_Aqueue=[[NetworkOperationQueue alloc] initWithHost:@"arxiv.org" andWaitBetweenOperations:3];
 	[_Aqueue setMaxConcurrentOperationCount:1];
     }
     return _Aqueue;

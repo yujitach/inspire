@@ -13,6 +13,7 @@
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
+#import "AppDelegate.h"
 @implementation SpiresQueryOperation
 @synthesize importer;
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
@@ -76,6 +77,7 @@
     }else if(citedByTarget){
 	a=citedByTarget;
     }
+    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Article #%d ...",(int)start]];
     downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSXMLDocument*doc,NSUInteger total){
         if(!doc){
             [self finish];

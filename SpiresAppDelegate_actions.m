@@ -37,7 +37,6 @@
 #import "BatchBibQueryOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "SpiresQueryOperation.h"
-#import "WaitOperation.h"
 
 #import "NSURL+libraryProxy.h"
 
@@ -283,7 +282,7 @@
 	[self search:nil];
     }else{
 	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
-	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
+//	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
 }
 -(IBAction)reloadAllArticleList:(id)sender
@@ -297,7 +296,7 @@
     NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
     for(ArxivNewArticleList*l in a){
 	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
-	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
+//	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
 }
 -(IBAction)openSelectionInQuickLook:(id)sender

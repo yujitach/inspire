@@ -14,7 +14,6 @@
 #import "SpiresQueryOperation.h"
 #import "BatchBibQueryOperation.h"
 #import "BatchImportOperation.h"
-#import "WaitOperation.h"
 #import "NSString+magic.h"
 #import "AppDelegate.h"
 
@@ -195,14 +194,14 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 		NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[generated allObjects]];
 		[again addDependency:op];
 		[[OperationQueues spiresQueue] addOperation:op];
-		NSOperation*wop=[[WaitOperation alloc] initWithTimeInterval:1];
-		[again addDependency:wop];
-		[[OperationQueues spiresQueue] addOperation:wop];	    
+//		NSOperation*wop=[[WaitOperation alloc] initWithTimeInterval:1];
+//		[again addDependency:wop];
+//		[[OperationQueues spiresQueue] addOperation:wop];
 	    }];
 	    [again addDependency:p.importer];
 	}];
 	[[OperationQueues spiresQueue] addOperation:q];
-	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
+//	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
     [[OperationQueues spiresQueue] addOperation:again];
     [logString appendString:@" not found in local database. Looking up...\n"];

@@ -13,7 +13,7 @@
 int main(int argc, char *argv[])
 {
     @autoreleasepool{
-   //         warmUpIfSuitable();
+//            warmUpIfSuitable();
             [NSValueTransformer setValueTransformer:[[SpiresPredicateTransformer alloc] init]
 				    forName:@"SpiresPredicateTransformer"];    
             return NSApplicationMain(argc,  (const char **) argv);

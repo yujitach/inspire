@@ -42,6 +42,7 @@ var htmlTeXRegExps=[
 //["\\\\acute\\{\\\\text\\{a\\}\\}","á"],
 ["N *= *([01-9]+)","<span style=\"font-style:italic\">N</span>=$1"],
 ["\\\\'([aeiou])","&$1acute;"],
+["\\\\^([aeiou])","&$1circ;"],
 ["\\\\`([aeiou])","&$1grave;"],
 ["\\\\\"([aeiou])","&$1uml;"],
 ["\\\\\"\\{([aeiou])\\}","&$1uml;"],

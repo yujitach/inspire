@@ -17,6 +17,14 @@
     [[self window] setIsVisible:[[NSUserDefaults standardUserDefaults] boolForKey:nibIsVisibleKey]];
     [[self window] setDelegate:self];
 }
+-(void)windowWillEnterFullScreen:(NSNotification *)notification
+{
+    [[self window] setLevel:NSFloatingWindowLevel];
+}
+-(void)windowWillExitFullScreen:(NSNotification *)notification
+{
+    [[self window] setLevel:NSNormalWindowLevel];
+}
 -(id)initWithWindowNibName:(NSString*)nibName
 {
     self=[super initWithWindowNibName:nibName];

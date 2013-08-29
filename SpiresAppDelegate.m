@@ -389,28 +389,6 @@
     unreadTimer=nil;
 }
 
--(void)loadAbstractUsingDOI:(Article*)a
-{
-    if(!a.doi || [a.doi isEqualToString:@""]) return;
-    NSArray* knownJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"KnownJournals"];
-    if(![knownJournals containsObject:a.journal.name]){
-	return;
-    }
-    // prevent lots of access to the same article when the abstract loading fails 
-    {
-	if(!articlesAlreadyAccessedViaDOI){
-	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
-	}
-	if([articlesAlreadyAccessedViaDOI count]>1000){
-	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];	
-	}
-	if([articlesAlreadyAccessedViaDOI containsObject:a]){
-	    return;
-	}
-	[articlesAlreadyAccessedViaDOI addObject:a];
-    }
-    [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
-}
 
 -(void)timerForAbstractFired:(NSTimer*)t
 {
@@ -422,7 +400,7 @@
     if(!arr)return;
     if([arr count]==0)return;
     Article*a=[arr objectAtIndex:0];
-    
+
     
     if(a.abstract && ![a.abstract isEqualToString:@""]){
 	NSArray* aaa=[ac arrangedObjects];
@@ -442,11 +420,31 @@
 	if(!a)
 	    return;
     }
+   
+    // prevent lots of access to the same article when the abstract loading fails
+    {
+	if(!articlesAlreadyAccessedViaDOI){
+	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
+	}
+	if([articlesAlreadyAccessedViaDOI count]>1000){
+	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
+	}
+	if([articlesAlreadyAccessedViaDOI containsObject:a]){
+	    return;
+	}
+	[articlesAlreadyAccessedViaDOI addObject:a];
+    }
+
     
 	if(a.eprint && ![a.eprint isEqualToString:@""]){
 	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
 	}else if(a.doi && ![a.doi isEqualToString:@""]){
-	    [self loadAbstractUsingDOI:a];
+            if(!a.doi || [a.doi isEqualToString:@""]) return;
+            NSArray* knownJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"KnownJournals"];
+            if(![knownJournals containsObject:a.journal.name]){
+                return;
+            }
+            [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 	}
 	
 	if(!a.texKey || [a.texKey isEqualToString:@""]){
