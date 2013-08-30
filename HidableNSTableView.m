@@ -83,6 +83,8 @@
 	[NSApp sendAction:@selector(openSelectionInQuickLook:) to:nil from:self];
     }else if([ev keyCode]==0x24|| [ev keyCode]==76){ // if return or enter
 	[NSApp sendAction:@selector(openPDForJournal:) to:nil from:self];
+    }else if([ev keyCode]==0x7b){
+        [[NSApp appDelegate] makeSideViewFirstResponder];
     }else{
 	[super keyDown:ev];
     }

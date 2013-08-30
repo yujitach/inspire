@@ -12,7 +12,6 @@
 		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		3305A35B10D44907001142FC /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; };
-		3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */; };
 		3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */; };
 		330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 330AF0E90EA5428E0009B674 /* HidableNSTableView.m */; };
 		331299110EA6AA4500A7F496 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
@@ -162,8 +161,6 @@
 		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
 		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
 		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
-		3307ADFC0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListReloadOperation.h; sourceTree = "<group>"; };
-		3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListReloadOperation.m; sourceTree = "<group>"; };
 		3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wwwrefsbibtex2xmlpublic.perl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.perl; };
 		330AF0E80EA5428E0009B674 /* HidableNSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HidableNSTableView.h; sourceTree = "<group>"; };
 		330AF0E90EA5428E0009B674 /* HidableNSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HidableNSTableView.m; sourceTree = "<group>"; };
@@ -721,8 +718,6 @@
 				3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */,
 				3391CB710FFAD5B200A52D6E /* BibTeXKeyCopyOperation.h */,
 				3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */,
-				3307ADFC0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.h */,
-				3307ADFD0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m */,
 				3379CDA710461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.h */,
 				3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */,
 				3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */,
@@ -993,7 +988,6 @@
 				339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */,
 				339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */,
 				337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */,
-				3307ADFE0F3FAF0A00B0EDE9 /* ArticleListReloadOperation.m in Sources */,
 				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
 				330207AC0F5990210067714C /* MOC.m in Sources */,

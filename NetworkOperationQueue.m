@@ -39,6 +39,7 @@
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
         reach=[Reachability reachabilityWithHostName:host];
         [reach startNotifier];
+        NSLog(@"queue for %@ created with wait %d",host,(int)wait);
     }
     return self;
 }

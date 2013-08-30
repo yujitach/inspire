@@ -52,7 +52,7 @@
 
 #define TICK (.5)
 #define GRACEMIN (3.0/TICK)
-#define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivWaitInSeconds"]/TICK)
+#define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivAutoQueryWaitInSeconds"]/TICK)
 
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
@@ -311,6 +311,8 @@
     [sideOutlineViewController attachToMOC];
 //   }
     [sideOutlineViewController loadArticleLists];
+    [sideOutlineViewController performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:1];
+    [self performSelector:@selector(makeTableViewFirstResponder) withObject:nil afterDelay:1.5];
     if([NSEvent modifierFlags]&NSAlternateKeyMask){
 	[AllArticleList allArticleList].searchString=nil;
     }
@@ -517,6 +519,10 @@
 {
     [window makeFirstResponder:articleListView];
 }
+-(void)makeSideViewFirstResponder
+{
+    [window makeFirstResponder:sideOutlineView];
+}
 -(void)startProgressIndicator
 {
     [[ProgressIndicatorController sharedController] startAnimation:self];
@@ -684,6 +690,8 @@
 	}
     }
 }
+
+
 #pragma mark QuickLook handling
 - (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
 {

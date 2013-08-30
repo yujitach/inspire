@@ -32,6 +32,7 @@
     IBOutlet SideOutlineViewController* sideOutlineViewController;
     IBOutlet NSArrayController* ac;
     IBOutlet NSTableView* articleListView;    
+    IBOutlet NSOutlineView* sideOutlineView;
     IBOutlet ArticleView*wv;
 
     

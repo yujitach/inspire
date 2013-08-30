@@ -107,9 +107,13 @@
 		<string>lanl.</string>
 	</array>
 	<key>arXivWaitInSeconds</key>
+	<integer>2</integer>
+	<key>arXivAutoQueryWaitInSeconds</key>
 	<integer>5</integer>
+	<key>inspireWaitInSeconds</key>
+	<integer>4</integer>
 	<key>askBeforeDownloadingPDF</key>
-	<true/>
+	<false/>
 	<key>batchImportCap</key>
 	<string>500</string>
 	<key>bibType</key>

@@ -235,7 +235,6 @@
     // Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
     
-    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:1];
 //    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:3];
 //    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:5];
 }
@@ -266,10 +265,10 @@
 #pragma mark NSOutlineView delegate
 -(void)outlineViewSelectionDidChange:(NSNotification*)notification
 {
-    NSArray*a=[articleListController selectedObjects];
+/*    NSArray*a=[articleListController selectedObjects];
     if([a count]==1){
 	[[NSApp appDelegate] makeTableViewFirstResponder];
-    }
+    }*/
     [articleListView updateTrackingAreas];
 }
 - (void)outlineView:(NSOutlineView *)outlineView

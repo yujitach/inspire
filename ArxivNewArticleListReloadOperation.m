@@ -150,6 +150,7 @@
 {
     dispatch_async(dispatch_get_main_queue(),^{
 	[[NSApp appDelegate] startProgressIndicator];
+	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"reloading %@",listName]];
     });
     NSString*s=[[ArxivHelper sharedHelper] list:listName];
 
@@ -223,6 +224,7 @@
 	
     });
     dispatch_async(dispatch_get_main_queue(),^{
+        [[NSApp appDelegate] postMessage:nil];
 	[[NSApp appDelegate] stopProgressIndicator];
     });
 }

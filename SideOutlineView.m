@@ -8,7 +8,7 @@
 
 #import "SideOutlineView.h"
 #import "ArticleList.h"
-
+#import "AppDelegate.h"
 #import <AppKit/NSTrackingArea.h>
 #import "CellTrackingRect.h" 
 
@@ -208,5 +208,13 @@
     }
 }
 
+-(void)keyDown:(NSEvent*)ev
+{
+    if([ev keyCode]==0x7c){ // right key
+        [[NSApp appDelegate] makeTableViewFirstResponder];
+    }else{
+        [super keyDown:ev];
+    }
+}
 
 @end

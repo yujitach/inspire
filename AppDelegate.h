@@ -22,6 +22,7 @@ extern NSString *ArticleListDropPboardType;
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
 -(void)makeTableViewFirstResponder;
+-(void)makeSideViewFirstResponder;
 -(void)startProgressIndicator;
 -(void)stopProgressIndicator;
 -(void)addToTeXLog:(NSString*)log;

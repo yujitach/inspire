@@ -11,7 +11,6 @@
 #import "SpiresHelper.h"
 #import "DumbOperation.h"
 #import "SpiresQueryOperation.h"
-#import "ArticleListReloadOperation.h"
 #import "MOC.h"
 
 @implementation CannedSearch

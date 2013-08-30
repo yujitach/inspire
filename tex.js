@@ -1,6 +1,7 @@
 var htmlTeXRegExps=[
 // Double superscript (not complete)
-["([^\\\\$])\\^\\{([^\\}\\^]+?)^\\{([^\\}\\^]+?)\\}([^\\}\\^]*?)\\}","$1<sup>$2<sup>$3</sup>$4</sup>"],
+//["([^\\\\$])\\^\\{([^\\}\\^]+?)^\\{([^\\}\\^]+?)\\}([^\\}\\^]*?)\\}","$1<sup>$2<sup>$3</sup>$4</sup>"],
+["([^\\\\$\\\\])\\^\\{([^\\}\\^]+?)^\\{([^\\}\\^]+?)\\}([^\\}\\^]*?)\\}","$1<sup>$2<sup>$3</sup>$4</sup>"],
 // Double subscript (not complete)
 ["([^\\\\$])_\\{([^\\}\\_]+?)_\\{([^\\}\\_]+?)\\}([^\\}\\^]*?)\\}","$1<sub>$2<sub>$3</sub>$4</sub>"],
 // SUP: Interpret parentheses, $^something$, typefaces (HTML tags)
@@ -42,7 +43,7 @@ var htmlTeXRegExps=[
 //["\\\\acute\\{\\\\text\\{a\\}\\}","á"],
 ["N *= *([01-9]+)","<span style=\"font-style:italic\">N</span>=$1"],
 ["\\\\'([aeiou])","&$1acute;"],
-["\\\\^([aeiou])","&$1circ;"],
+["\\\\\\^([aeiouy])","&$1circ;"],
 ["\\\\`([aeiou])","&$1grave;"],
 ["\\\\\"([aeiou])","&$1uml;"],
 ["\\\\\"\\{([aeiou])\\}","&$1uml;"],

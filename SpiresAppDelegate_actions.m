@@ -33,7 +33,6 @@
 #import "ArticleFolder.h"
 #import "CannedSearch.h"
 #import "DumbOperation.h"
-#import "ArticleListReloadOperation.h"
 #import "BatchBibQueryOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "SpiresQueryOperation.h"
@@ -281,7 +280,8 @@
     if([al isKindOfClass:[AllArticleList class]]){
 	[self search:nil];
     }else{
-	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+//	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:al]];
+        [al reload];
 //	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
 }
@@ -295,7 +295,8 @@
     NSError*error=nil;
     NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
     for(ArxivNewArticleList*l in a){
-	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
+//	[[OperationQueues arxivQueue] addOperation:[[ArticleListReloadOperation alloc] initWithArticleList:l]];
+        [l reload];
 //	[[OperationQueues arxivQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
 }
@@ -409,6 +410,7 @@
 	}
     }
 }
+
 
 /**
  Performs the save action for the application, which is to send the save:
