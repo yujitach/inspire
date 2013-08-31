@@ -18,7 +18,12 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"wait %f sec",(double)delay];
+    NSArray*a=[self dependencies];
+    if([a count]==0){
+        return [NSString stringWithFormat:@"wait %f sec",(double)delay];
+    }else{
+        return [NSString stringWithFormat:@"wait %f sec (for %@)",(double)delay, [a[0] description]];
+    }
 }
 -(void)wakeUp:(id)neglected
 {

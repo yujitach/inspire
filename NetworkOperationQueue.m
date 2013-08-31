@@ -8,7 +8,6 @@
 
 #import "NetworkOperationQueue.h"
 #import "Reachability.h"
-#import "WaitOperation.h"
 @implementation NetworkOperationQueue
 {
     Reachability*reach;
@@ -47,8 +46,21 @@
 -(void)addOperation:(NSOperation *)op
 {
     if(online){
+        void (^cb)()=op.completionBlock;
+        NSOperationQueue*me=self;
+        [op setCompletionBlock:^{
+            [me setSuspended:YES];
+//            NSLog(@"^wait %d for %@",(int)sleep,hostname);
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sleep * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [me setSuspended:NO];
+//                NSLog(@"_wait %d for %@",(int)sleep,hostname);
+            });
+            if(cb){
+                cb();
+            }
+        }];
         [super addOperation:op];
-        [super addOperation:[[WaitOperation alloc] initWithTimeInterval:sleep]];
     }
 }
 @end

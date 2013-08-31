@@ -9,7 +9,6 @@
 #import "SpiresQueryOperation.h"
 #import "Article.h"
 #import "BatchImportOperation.h"
-#import "WaitOperation.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
@@ -22,6 +21,15 @@
     self=[super init];
     search=q;
     moc=m;
+    startAt=0;
+    return self;
+}
+-(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m startAt:(NSInteger)sa;
+{
+    self=[super init];
+    search=q;
+    moc=m;
+    startAt=sa;
     return self;
 }
 -(void)run
@@ -68,9 +76,9 @@
 	refersToTarget=nil;
     }
     self.isExecuting=YES;
-    [self startAt:0];
+    [self startAt:startAt];
 }
--(void)startAt:(NSUInteger)start
+-(void)startAt:(NSInteger)start
 {
     Article*a=nil;
     if(refersToTarget){
@@ -78,7 +86,6 @@
     }else if(citedByTarget){
 	a=citedByTarget;
     }
-    [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Article #%d ...",(int)start]];
     downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSXMLDocument*doc,NSUInteger total){
         if(!doc){
             [self finish];
@@ -97,7 +104,10 @@
                                           registerToArticleList:nil];
         [[OperationQueues sharedQueue] addOperation:importer];
         if(start+[elements count]<total){
-            [self startAt:start+[elements count]];
+            NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+[elements count]];
+            [op setQueuePriority:NSOperationQueuePriorityLow];
+            [[OperationQueues spiresQueue] addOperation:op];
+            [self finish];
         }else{
             NSError*error=nil;
             BOOL success=[[MOC moc] save:&error];
@@ -113,6 +123,6 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"spires query:%@",search];
+    return [NSString stringWithFormat:@"spires query:%@ from %d",search,(int)startAt];
 }
 @end

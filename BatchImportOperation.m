@@ -256,6 +256,7 @@
 	    [list addArticles:generated];
 	}
 	    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
+            [op setQueuePriority:NSOperationQueuePriorityVeryLow];
 	    [[OperationQueues spiresQueue] addOperation:op];
     });
 }

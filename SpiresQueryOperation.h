@@ -18,6 +18,7 @@
     Article*refersToTarget;
     NSManagedObjectContext*moc;
     SpiresQueryDownloader*downloader;
+    NSInteger startAt;
     BatchImportOperation*importer;
 }
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;

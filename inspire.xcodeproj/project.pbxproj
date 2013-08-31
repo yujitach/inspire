@@ -51,7 +51,6 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
-		33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33649D1B0FFA8AF50002B187 /* WaitOperation.m */; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
 		3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */; };
 		3365B30D0EA810CF00A847CE /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; };
@@ -225,8 +224,6 @@
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
 		335818F010D613A700E7CA0E /* DummyBWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyBWSplitView.h; sourceTree = "<group>"; };
 		335818F110D613A700E7CA0E /* DummyBWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyBWSplitView.m; sourceTree = "<group>"; };
-		33649D1A0FFA8AF50002B187 /* WaitOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOperation.h; sourceTree = "<group>"; };
-		33649D1B0FFA8AF50002B187 /* WaitOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOperation.m; sourceTree = "<group>"; };
 		3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresHelper.h; sourceTree = "<group>"; };
 		3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresHelper.m; sourceTree = "<group>"; };
 		3365B1F10EA8037C00A847CE /* SpiresPredicateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresPredicateTransformer.h; sourceTree = "<group>"; };
@@ -667,8 +664,6 @@
 			children = (
 				33CC06E60F3E48B8005B25F8 /* DumbOperation.h */,
 				33CC06E70F3E48B8005B25F8 /* DumbOperation.m */,
-				33649D1A0FFA8AF50002B187 /* WaitOperation.h */,
-				33649D1B0FFA8AF50002B187 /* WaitOperation.m */,
 				3395793F0F3ECA3A0036364A /* LoadAbstractDOIOperation.h */,
 				339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */,
 				339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */,
@@ -973,7 +968,6 @@
 				33EBAF240FF9B37B0076F6AC /* TeXWatcherController.m in Sources */,
 				33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */,
 				332B9B290FF9E34400353564 /* DirWatcher.m in Sources */,
-				33649D1C0FFA8AF50002B187 /* WaitOperation.m in Sources */,
 				3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */,
 				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,

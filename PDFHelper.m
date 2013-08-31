@@ -141,7 +141,7 @@ NSString* pathShownWithQuickLook=nil;
 									  usingViewer:viewerType];
 		[op2 addDependency:op1];
 		[[OperationQueues arxivQueue] addOperation:op1];
-		[[OperationQueues arxivQueue] addOperation:op2];
+		[[OperationQueues sharedQueue] addOperation:op2];
 	}
     }else if([o isEprint]){
         NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES];
@@ -181,7 +181,6 @@ NSString* pathShownWithQuickLook=nil;
 	    type=openWithSecondaryViewer;
 	}
         
-	[[OperationQueues spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
         
         NSOperation*downloadOp=[[JournalPDFDownloadOperation alloc] initWithArticle:o];
         NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:o

@@ -95,9 +95,11 @@
     temporaryData=[NSMutableData data];
     connection=[NSURLConnection connectionWithRequest:urlRequest
 					     delegate:self];
+    [[NSApp appDelegate] startProgressIndicator];
     if(start==0){
-        [[NSApp appDelegate] startProgressIndicator];
         [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
+    }else{
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)start]];
     }
     return self;
 }
