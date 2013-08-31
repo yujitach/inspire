@@ -7,6 +7,7 @@
 //
 
 #import "BibTeXKeyCopyOperation.h"
+#import "NSString+magic.h"
 #import "Article.h"
 
 @implementation BibTeXKeyCopyOperation
@@ -36,10 +37,9 @@
 	    [s appendString:c];
 	}
     }
-//    [s replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [s length])];
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
     [pb declareTypes:@[NSStringPboardType] owner:self];
-    [pb setString:s forType:NSStringPboardType];
+    [pb setString:[s inspireToCorrect] forType:NSStringPboardType];
     [[NSSound soundNamed:@"Submarine"] play];
     [self finish];
 }

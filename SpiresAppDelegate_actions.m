@@ -70,7 +70,7 @@
     }
 }
 
--(IBAction)dumpBibtexFile:(id)sender;
+/*-(IBAction)dumpBibtexFile:(id)sender;
 {
     NSLog(@"start dumping");
     NSString*bibFilePath=[@"~/Desktop/all.bib" stringByExpandingTildeInPath];
@@ -95,7 +95,7 @@
     }
     [appendix writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     NSLog(@"finished dumping");
-}
+}*/
 -(IBAction)progressQuit:(id)sender
 {
     [OperationQueues cancelCurrentOperations];
@@ -391,7 +391,7 @@
 	[[OperationQueues spiresQueue] addOperation:bb];
 	[op addDependency:bb];
     }
-    [[OperationQueues spiresQueue] addOperation:op];
+    [[OperationQueues sharedQueue] addOperation:op];
 }
 -(IBAction)reloadFromSPIRES:(id)sender
 {

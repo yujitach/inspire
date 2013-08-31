@@ -159,7 +159,12 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	}else if([idToLookUp rangeOfString:@"/"].location!=NSNotFound){
 	    query=[NSString stringWithFormat:@"eprint %@",idToLookUp];	
 	}else if([idToLookUp rangeOfString:@":"].location!=NSNotFound){
-	    query=[NSString stringWithFormat:@"texkey %@",idToLookUp];
+            idToLookUp=[idToLookUp correctToInspire];
+            if([idToLookUp rangeOfString:@" "].location!=NSNotFound){
+                query=[NSString stringWithFormat:@"texkey \"%@\"",idToLookUp];
+            }else{
+                query=[NSString stringWithFormat:@"texkey %@",idToLookUp];
+            }
 	}else{
 	    query=nil;
 	}
@@ -203,7 +208,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	[[OperationQueues spiresQueue] addOperation:q];
 //	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
-    [[OperationQueues spiresQueue] addOperation:again];
+    [[OperationQueues sharedQueue] addOperation:again];
     [logString appendString:@" not found in local database. Looking up...\n"];
     [[NSApp appDelegate] addToTeXLog:logString];
 }
@@ -281,7 +286,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	    NSString*bib=[a extraForKey:@"bibtex"];
 	    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
 	    bib=[bib magicTeXed];
-	    bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:key];	    
+	    bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[key inspireToCorrect]];
 	    [appendix appendString:bib];
 	    [appendix appendString:@"\n\n"];	    
 	}

@@ -111,7 +111,7 @@
 	<key>arXivAutoQueryWaitInSeconds</key>
 	<integer>5</integer>
 	<key>inspireWaitInSeconds</key>
-	<integer>4</integer>
+	<integer>3</integer>
 	<key>askBeforeDownloadingPDF</key>
 	<false/>
 	<key>batchImportCap</key>

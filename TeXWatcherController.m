@@ -230,7 +230,7 @@
 	}else{
 	    [self addToLog:[NSString stringWithFormat:@"%@ modified, which is a subfile of %@. Generating bib\n",[file lastPathComponent],[mainFile lastPathComponent]]];	    
 	}
-	[[OperationQueues spiresQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:mainFile
+	[[OperationQueues sharedQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:mainFile
 												andMOC:[MOC moc] 
 											byLookingUpWeb:YES]];
     }else if([file hasSuffix:@".log"]){

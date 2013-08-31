@@ -12,6 +12,8 @@
 
 @interface NSString (NSString_magic)
 -(NSString*)magicTeXed;
+-(NSString*)inspireToCorrect;
+-(NSString*)correctToInspire;
 -(NSString*)quieterVersion;
 -(NSString*)normalizedString;
 -(NSString*)quotedForShell;

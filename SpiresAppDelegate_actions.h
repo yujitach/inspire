@@ -11,7 +11,6 @@
 @interface SpiresAppDelegate (actions)
 -(NSNumber*)databaseSize;
 -(IBAction)sendBugReport:(id)sender;
--(IBAction)dumpBibtexFile:(id)sender;
 -(IBAction)installSafariExtension:(id)sender;
 -(IBAction)saveAction:(id)sender;
 -(IBAction)search:(id)sender;

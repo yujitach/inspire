@@ -155,9 +155,6 @@
 		3304B7AB0F92BA4E002156A9 /* CannedSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedSearch.m; sourceTree = "<group>"; };
 		3304B8620F92C7B1002156A9 /* canned-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "canned-search.png"; sourceTree = "<group>"; };
 		3305A35A10D44907001142FC /* arxiv.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arxiv.png; sourceTree = "<group>"; };
-		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
-		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
-		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
 		330AF0E80EA5428E0009B674 /* HidableNSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HidableNSTableView.h; sourceTree = "<group>"; };
 		330AF0E90EA5428E0009B674 /* HidableNSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HidableNSTableView.m; sourceTree = "<group>"; };
 		331299090EA6AA4500A7F496 /* ArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleList.h; sourceTree = "<group>"; };
@@ -665,16 +662,6 @@
 			name = PrefPane;
 			sourceTree = "<group>";
 		};
-		33B485CB0F5B443200EBE022 /* Importer */ = {
-			isa = PBXGroup;
-			children = (
-				33071BC50EC1158A00957864 /* ImporterController.h */,
-				33071BC60EC1158A00957864 /* ImporterController.m */,
-				33071BCE0EC1161900957864 /* Importer.xib */,
-			);
-			name = Importer;
-			sourceTree = "<group>";
-		};
 		33CC06FE0F3E4A20005B25F8 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -763,7 +750,6 @@
 				33B485BE0F5B3DC700EBE022 /* ActivityMonitor */,
 				33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */,
 				338E9EB81037C5200059AE43 /* MessageViewer */,
-				33B485CB0F5B443200EBE022 /* Importer */,
 				33B485CA0F5B440900EBE022 /* PrefPane */,
 				33F2076810CF824C0012F0B6 /* BibView */,
 			);

@@ -69,9 +69,12 @@
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
 {
     if(choice==NSAlertDefaultReturn){
-	[[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO]];
-	[[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:article
-											     usingViewer:type]];
+        NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO];
+        NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:article
+                                                                 usingViewer:type];
+        [openOp addDependency:downloadOp];
+	[[OperationQueues arxivQueue] addOperation:downloadOp];
+        [[OperationQueues sharedQueue] addOperation:openOp];
 
     }
     [self finish];

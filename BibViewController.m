@@ -45,7 +45,7 @@
     }
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
     [pb declareTypes:@[NSStringPboardType] owner:self];
-    [pb setString:c forType:NSStringPboardType];
+    [pb setString:[c inspireToCorrect] forType:NSStringPboardType];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

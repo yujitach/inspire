@@ -44,6 +44,18 @@ static void loadMagic(){
     }
     return quieter;
 }
+-(NSString*)correctToInspire{
+    NSString*result=self;
+    result=[result stringByReplacingOccurrencesOfString:@"deWit:" withString:@"de Wit:"];
+    result=[result stringByReplacingOccurrencesOfString:@"tHooft:" withString:@"'t Hooft:"];
+    return result;
+}
+-(NSString*)inspireToCorrect{
+    NSString*result=self;
+    result=[result stringByReplacingOccurrencesOfString:@"de Wit:" withString:@"deWit:"];
+    result=[result stringByReplacingOccurrencesOfString:@"'t Hooft:" withString:@"tHooft:"];
+    return result;
+}
 -(NSString*)magicTeXed
 {
     NSString*quieter=[self makeQuieterBetween:@"``" and:@"''"];

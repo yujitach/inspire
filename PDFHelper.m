@@ -144,9 +144,12 @@ NSString* pathShownWithQuickLook=nil;
 		[[OperationQueues arxivQueue] addOperation:op2];
 	}
     }else if([o isEprint]){
-	    [[OperationQueues arxivQueue] addOperation:[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES]];
-	    [[OperationQueues arxivQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o 
-											     usingViewer:viewerType]];
+        NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:o shouldAsk:YES];
+        NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:o
+                                                                 usingViewer:viewerType];
+        [openOp addDependency:downloadOp];
+	[[OperationQueues arxivQueue] addOperation:downloadOp];
+        [[OperationQueues sharedQueue] addOperation:openOp];
     }else{
 	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
 				      defaultButton:@"OK" 
@@ -173,12 +176,19 @@ NSString* pathShownWithQuickLook=nil;
     
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];
     if([[defaults arrayForKey:@"KnownJournals"] containsObject:journalName]){
-	[[OperationQueues spiresQueue] addOperation:[[JournalPDFDownloadOperation alloc] initWithArticle:o]];
 	PDFViewerType type=openWithPrimaryViewer;
 	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){
 	    type=openWithSecondaryViewer;
 	}
+        
 	[[OperationQueues spiresQueue] addOperation:[[DeferredPDFOpenOperation alloc] initWithArticle:o usingViewer:type]];
+        
+        NSOperation*downloadOp=[[JournalPDFDownloadOperation alloc] initWithArticle:o];
+        NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:o
+                                                                 usingViewer:type];
+        [openOp addDependency:downloadOp];
+	[[OperationQueues sharedQueue] addOperation:downloadOp];
+        [[OperationQueues sharedQueue] addOperation:openOp];
 	return YES;
     }
     return NO;
