@@ -417,6 +417,7 @@
 {
     if(!path){
 	self.data.pdfAlias=nil;
+        return;
     }
     NSError*error=nil;
     self.data.pdfAlias=[[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark

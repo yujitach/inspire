@@ -181,13 +181,13 @@
 -(void)loadArticleLists;
 {
     // should be called from applicationDidFinishLaunching of the app delegate
-
-
-
+    
+    
+    
     [articleListController prepareContent];
-
+    
     BOOL needToSave=NO;
-
+    
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"allArticleListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"allArticleListPrepared"];
         AllArticleList*all=[AllArticleList allArticleListInMOC:[MOC moc]];
@@ -196,7 +196,7 @@
             needToSave=YES;
         }
     }
-
+    
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
@@ -223,7 +223,7 @@
     }
     
     [articleListController rearrangeObjects];
-
+    
     [self rearrangePositionInViewForArticleLists];
     if(needToSave){
 	NSError*error=nil;
@@ -235,8 +235,8 @@
     // Somehow directly calling selectAllArticleList doesn't work,
     // so it's called on the next event loop using afterDelay:0.
     
-//    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:3];
-//    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:5];
+    //    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:3];
+    //    [self performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:5];
 }
 /*-(void)saveArticleLists
 {

@@ -103,7 +103,7 @@
 }
 #pragma mark Bibtex parser
 
--(NSString*)transformBibtexToXML:(NSString*)s
+/*-(NSString*)transformBibtexToXML:(NSString*)s
 {
     NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
     NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
@@ -115,14 +115,14 @@
     NSString*result=[[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];
     //   NSLog(@"%@",result);
     return result;
-}
+}*/
 
 #pragma mark URL connection delegates
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [temporaryData appendData:data];
 }
--(NSXMLDocument*)docFromSpiresData:(NSError**)error
+/*-(NSXMLDocument*)docFromSpiresData:(NSError**)error
 {
     //	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
     NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
@@ -132,7 +132,7 @@
 	t=[self transformBibtexToXML:t];
     }
     return [[NSXMLDocument alloc] initWithXMLString:t options:0 error:error];
-}
+}*/
 -(NSURL*)xslURL
 {
     static NSURL*xslURL=nil;

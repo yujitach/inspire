@@ -14,6 +14,7 @@
 #import "SpiresQueryDownloader.h"
 #import "BatchBibQueryOperation.h"
 #import "AppDelegate.h"
+#import "MOC.h"
 @implementation SpiresQueryOperation
 @synthesize importer;
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
@@ -98,6 +99,11 @@
         if(start+[elements count]<total){
             [self startAt:start+[elements count]];
         }else{
+            NSError*error=nil;
+            BOOL success=[[MOC moc] save:&error];
+            if(!success){
+                [[MOC sharedMOCManager] presentMOCSaveError:error];
+            }
             [self finish];
         }
     }];

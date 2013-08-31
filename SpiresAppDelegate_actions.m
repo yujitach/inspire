@@ -241,23 +241,25 @@
 	}
     }
 }
--(IBAction) search:(id)sender
+-(IBAction) search:(NSSearchField*)sender
 {
-    ArticleList* al=[sideOutlineViewController currentArticleList];
+/*    ArticleList* al=[sideOutlineViewController currentArticleList];
     if(!al){
 	return;
     }
     if([al isKindOfClass:[CannedSearch class]]){
 	[al reload];
 	return;
-    }
-    NSString*searchString=al.searchString;
+    }*/
+    NSString*searchString=[sender stringValue];
     if(searchString==nil || [searchString isEqualToString:@""])return;
     [historyController mark:self];
     [AllArticleList allArticleList].searchString=searchString;
     [[AllArticleList allArticleList] reload];
     [sideOutlineViewController selectAllArticleList];
-    [self querySPIRES: searchString];  // [self searchStringFromPredicate:filterPredicate]];
+    if(!([NSEvent modifierFlags]&NSShiftKeyMask)){
+        [self querySPIRES: searchString];
+    }// [self searchStringFromPredicate:filterPredicate]];
 }
 -(IBAction) reloadSelection:(id)sender
 {

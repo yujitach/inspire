@@ -269,14 +269,14 @@
 -(void)showWelcome
 {
     NSString*welcome=@"v1.5.0alert";
-    NSString*key=[welcome stringByAppendingString:@"Shown"];
+    NSString*key=[welcome stringByAppendingString:@"ShownShown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
 	// this window controller shows itself automatically!
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
     }    
 }
--(void)safariExtensionRecommendation
+/*-(void)safariExtensionRecommendation
 {
     NSString*key=@"safariExtensionRecommendationShown";
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
@@ -291,32 +291,69 @@
 	    return;
 	[self installSafariExtension:self];
     }
+}*/
+-(void)clearAllArticleList_
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+    NSFetchRequest*req=[[NSFetchRequest alloc]init];
+    [req setEntity:entity];
+    [req setPredicate:[NSPredicate predicateWithValue:YES]];
+    [req setFetchLimit:0];
+    [req setResultType:NSManagedObjectResultType];
+    [req setReturnsObjectsAsFaults:NO];
+    [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
+    NSError*error=nil;
+    [[MOC moc] executeFetchRequest:req error:&error];
+    [AllArticleList allArticleList].articles=nil;
+    [[AllArticleList allArticleList] reload];
+}
+-(void)clearAllArticleList
+{
+    BOOL toShowAlert=NO;
+    if([[self databaseSize] integerValue]>1024L*1024*10){
+        toShowAlert=YES;
+    }
+    if(toShowAlert){
+        NSAlert*alert=[NSAlert alertWithMessageText:@"Optimizing database"
+                                      defaultButton:@"Start Optimization"
+                                    alternateButton:nil
+                                        otherButton:nil informativeTextWithFormat:
+                       @"The app is going to optimize the database. Usually it's quick, but it might take a very long time. So please be patient. The app will not explicitly tell you when the optimization is done. Consider it done when the app becomes usable."];
+        //[alert setAlertStyle:NSCriticalAlertStyle];
+       // [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        [alert runModal];
+    }
+    [self clearAllArticleList_];
+    [self saveAction:nil];
+//    [searchField setEnabled:YES];
 }
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
     [self setupServices];
-
     [self crashCheck:self];
-    
     [self showWelcome];
 //    [self safariExtensionRecommendation];
-    // This lock is to wait until the warm-up in the background is done.
-//    [[MOC moc] lock];
-//    [MOC sharedMOCManager].isUIready=YES;
-//    [[MOC moc] unlock];
 
-    // attachToMOC attaches the MOC to the UI.
-//    if(!([NSEvent modifierFlags]&NSAlternateKeyMask)){
-    [sideOutlineViewController attachToMOC];
-//   }
     [sideOutlineViewController loadArticleLists];
-    [sideOutlineViewController performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:1];
-    [self performSelector:@selector(makeTableViewFirstResponder) withObject:nil afterDelay:1.5];
+
+    
+    [sideOutlineViewController attachToMOC];
     if([NSEvent modifierFlags]&NSAlternateKeyMask){
 	[AllArticleList allArticleList].searchString=nil;
     }
     [window makeKeyAndOrderFront:self];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"AllArticleListArticlesCleared"]){
+//    if(YES){
+        [self performSelector:@selector(clearAllArticleList) withObject:nil afterDelay:0];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AllArticleListArticlesCleared"];
+    }
+
+    
+    [sideOutlineViewController performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
+    [self performSelector:@selector(makeTableViewFirstResponder) withObject:nil afterDelay:0];
     prefController=[[PrefController alloc]init];
     activityMonitorController=[[ActivityMonitorController alloc] init];
     texWatcherController=[[TeXWatcherController alloc]init];
@@ -508,7 +545,8 @@
 	[ac setSelectionIndex:0];
     }
     
-    [ac didChangeArrangementCriteria];    
+    [ac didChangeArrangementCriteria];
+    [self makeTableViewFirstResponder];
 }
 
 -(void)postMessage:(NSString*)message
@@ -774,6 +812,8 @@
     int reply = NSTerminateNow;
     NSManagedObjectContext*managedObjectContext=[MOC moc];
     [sideOutlineViewController detachFromMOC];
+
+
     if (managedObjectContext != nil) {
         if ([managedObjectContext commitEditing]) {
             if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {

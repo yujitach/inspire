@@ -271,12 +271,7 @@
     [self batchAddEntriesOfSPIRES:elements];
     dispatch_async(dispatch_get_main_queue(),^{
 //	[[NSApp appDelegate] postMessage:nil];
-	[[NSApp appDelegate] clearingUpAfterRegistration:nil];	
-	NSError*error=nil;
-	BOOL success=[[MOC moc] save:&error];
-	if(!success){
-	    [[MOC sharedMOCManager] presentMOCSaveError:error];
-	}
+	[[NSApp appDelegate] clearingUpAfterRegistration:nil];
 //	[[NSApp appDelegate] stopProgressIndicator];
     });
     

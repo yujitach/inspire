@@ -12,7 +12,6 @@
 		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		3305A35B10D44907001142FC /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; };
-		3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */; };
 		330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 330AF0E90EA5428E0009B674 /* HidableNSTableView.m */; };
 		331299110EA6AA4500A7F496 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
 		331299120EA6AA4500A7F496 /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
@@ -84,7 +83,6 @@
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
-		33B5621B0F3BB6510006E70D /* Requests.html in Resources */ = {isa = PBXBuildFile; fileRef = 33B5621A0F3BB6510006E70D /* Requests.html */; };
 		33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8521B10CC851400EC0211 /* whiteOut.pdf */; };
 		33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524B10CC863000EC0211 /* blackOut.pdf */; };
 		33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524F10CC874200EC0211 /* whiteIn.pdf */; };
@@ -153,7 +151,6 @@
 		3301FC950F715B270039E0B5 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAndTextCell.m; sourceTree = "<group>"; };
 		330207AA0F5990210067714C /* MOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOC.h; sourceTree = "<group>"; };
 		330207AB0F5990210067714C /* MOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOC.m; sourceTree = "<group>"; };
-		3302844D122B525500D684B2 /* arXivTeXifier.safariextz */ = {isa = PBXFileReference; lastKnownFileType = file; name = arXivTeXifier.safariextz; path = ../SafariExtension/arXivTeXifier.safariextz; sourceTree = SOURCE_ROOT; };
 		3304B7AA0F92BA4E002156A9 /* CannedSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedSearch.h; sourceTree = "<group>"; };
 		3304B7AB0F92BA4E002156A9 /* CannedSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedSearch.m; sourceTree = "<group>"; };
 		3304B8620F92C7B1002156A9 /* canned-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "canned-search.png"; sourceTree = "<group>"; };
@@ -161,7 +158,6 @@
 		33071BC50EC1158A00957864 /* ImporterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImporterController.h; sourceTree = "<group>"; };
 		33071BC60EC1158A00957864 /* ImporterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImporterController.m; sourceTree = "<group>"; };
 		33071BCE0EC1161900957864 /* Importer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Importer.xib; sourceTree = "<group>"; };
-		3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wwwrefsbibtex2xmlpublic.perl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.perl; };
 		330AF0E80EA5428E0009B674 /* HidableNSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HidableNSTableView.h; sourceTree = "<group>"; };
 		330AF0E90EA5428E0009B674 /* HidableNSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HidableNSTableView.m; sourceTree = "<group>"; };
 		331299090EA6AA4500A7F496 /* ArticleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleList.h; sourceTree = "<group>"; };
@@ -196,15 +192,12 @@
 		332F1B0D0EA597D300758683 /* spires.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = spires.icns; sourceTree = "<group>"; };
 		332F485C0FF8748700B9363E /* hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hasPDF.png; sourceTree = "<group>"; };
 		3331BD3111D423F0001F9B4B /* tex.js */ = {isa = PBXFileReference; explicitFileType = sourcecode.javascript; fileEncoding = 4; path = tex.js; sourceTree = "<group>"; };
-		3333B8CE0F3584B500251984 /* magic.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = magic.perl; sourceTree = "<group>"; };
 		333A506F10392BDF00F2B780 /* ArxivNewCreateSheetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewCreateSheetHelper.h; sourceTree = "<group>"; };
 		333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewCreateSheetHelper.m; sourceTree = "<group>"; };
 		333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArxivNewCreateSheet.xib; sourceTree = "<group>"; };
 		333C79050F5230780075267A /* NSURL+libraryProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+libraryProxy.h"; sourceTree = "<group>"; };
 		333C79060F5230780075267A /* NSURL+libraryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+libraryProxy.m"; sourceTree = "<group>"; };
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
-		3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibTeXIDsLookUpOperation.h; sourceTree = "<group>"; };
-		3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXIDsLookUpOperation.m; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
 		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "bwtoolkit/NSView+BWAdditions.m"; sourceTree = "<group>"; };
@@ -294,7 +287,6 @@
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
 		33B485C10F5B3E2A00EBE022 /* PrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefPane.xib; sourceTree = "<group>"; };
-		33B5621A0F3BB6510006E70D /* Requests.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Requests.html; sourceTree = "<group>"; };
 		33B58BD90F395ED600E23146 /* SyncServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SyncServices.framework; path = /System/Library/Frameworks/SyncServices.framework; sourceTree = "<absolute>"; };
 		33B8521B10CC851400EC0211 /* whiteOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteOut.pdf; sourceTree = "<group>"; };
 		33B8524B10CC863000EC0211 /* blackOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blackOut.pdf; sourceTree = "<group>"; };
@@ -468,18 +460,14 @@
 			isa = PBXGroup;
 			children = (
 				33B09C7C10D4AB66001A9B50 /* UI graphics */,
-				3302844D122B525500D684B2 /* arXivTeXifier.safariextz */,
 				337FC28612C4914F008995BF /* marc2spires.xsl */,
 				3331BD3111D423F0001F9B4B /* tex.js */,
-				3333B8CE0F3584B500251984 /* magic.perl */,
 				333D721110007CE800A328FE /* magicRegExps.perl */,
-				3309C76F0EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl */,
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
 				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
 				338420C60EA84CE500990706 /* template.html */,
 				33255AAA0F3131F500538063 /* Acknowledgments.html */,
 				33EBF0370EA5C0830050B64A /* Release Notes.html */,
-				33B5621A0F3BB6510006E70D /* Requests.html */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
 				33D5BE5A17CCCEEC00B98F3A /* v1.5.0alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
@@ -714,8 +702,6 @@
 				33CC093B0F3E8020005B25F8 /* TeXBibGenerationOperation.m */,
 				33CC095C0F3E8761005B25F8 /* BatchBibQueryOperation.h */,
 				33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */,
-				3341A187100121BD005E20C9 /* BibTeXIDsLookUpOperation.h */,
-				3341A188100121BD005E20C9 /* BibTeXIDsLookUpOperation.m */,
 				3391CB710FFAD5B200A52D6E /* BibTeXKeyCopyOperation.h */,
 				3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */,
 				3379CDA710461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.h */,
@@ -891,9 +877,7 @@
 				338420C70EA84CE500990706 /* template.html in Resources */,
 				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
 				331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */,
-				3309C7700EBE8F3800564282 /* wwwrefsbibtex2xmlpublic.perl in Resources */,
 				33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */,
-				33B5621B0F3BB6510006E70D /* Requests.html in Resources */,
 				3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */,
 				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
 				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
@@ -1071,7 +1055,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";
@@ -1110,7 +1094,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";

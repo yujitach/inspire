@@ -29,7 +29,7 @@
 	return @"invalid query operation";
     }else{
 	Article* a=[articles anyObject];
-	return [NSString stringWithFormat:@"bib query for %@ etc.",a.title];
+	return [NSString stringWithFormat:@"citation number query for %@ etc.",a.title];
     }
 }
 -(void)dealWith:(NSArray*)x

@@ -615,9 +615,12 @@
 							<string key="NSToolbarItemPaletteLabel">Custom View</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="408379054">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{19, 14}, {40, 25}}</string>
+								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="326685293">
 									<int key="NSCellFlags">-2080374784</int>
@@ -661,9 +664,12 @@
 							<string key="NSToolbarItemPaletteLabel">Custom View</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSSegmentedControl" key="NSToolbarItemView" id="157176696">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{15, 14}, {48, 25}}</string>
+								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSegmentedCell" key="NSCell" id="421670007">
 									<int key="NSCellFlags">67108864</int>
@@ -714,9 +720,12 @@
 							<string key="NSToolbarItemPaletteLabel">Search Field</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSSearchField" key="NSToolbarItemView" id="925810204">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{0, 14}, {329, 22}}</string>
+								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<int key="NSTag">2</int>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSearchFieldCell" key="NSCell" id="619182554">
@@ -1146,7 +1155,7 @@
 															<string key="NSFrameSize">{476, 208}</string>
 															<reference key="NSSuperview" ref="888495451"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="963041462"/>
+															<reference key="NSNextKeyView" ref="410030910"/>
 															<bool key="NSEnabled">YES</bool>
 															<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1411,7 +1420,7 @@
 											<string key="NSFrameSize">{476, 225}</string>
 											<reference key="NSSuperview" ref="210164845"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="888495451"/>
+											<reference key="NSNextKeyView" ref="963041462"/>
 											<int key="NSsFlags">133136</int>
 											<reference key="NSVScroller" ref="410030910"/>
 											<reference key="NSHScroller" ref="963041462"/>
@@ -2220,7 +2229,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1313</int>
+					<int key="connectionID">1316</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3278,7 +3287,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1314</int>
+			<int key="maxID">1316</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

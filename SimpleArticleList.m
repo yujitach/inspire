@@ -36,6 +36,11 @@
 -(void)reload
 {
 }
+-(BOOL)searchStringEnabled
+{
+    return NO;
+}
+
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-red.png"];

@@ -36,16 +36,16 @@
     CSBackupIsItemExcluded((CFURLRef)url,&excluded);
     [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
 }*/
--(void)setAllArticleName
+/*-(void)setAllArticleName
 {
     AllArticleList*allArticleList=[AllArticleList allArticleList];
     allArticleList.name=@"inspire"; //[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"];
-}
+}*/
 -(PrefController*)init
 {
     self=[super initWithWindowNibName:@"PrefPane"];
     [self timeMachineSettingChanged:self];
-    [self setAllArticleName];
+//    [self setAllArticleName];
     [[NSNotificationCenter defaultCenter] addObserver:self
 					     selector:@selector(applicationWillTerminate:) 
 						 name:NSApplicationWillTerminateNotification

@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SpiresAppDelegate.h"
 @interface SpiresAppDelegate (actions)
-
+-(NSNumber*)databaseSize;
 -(IBAction)sendBugReport:(id)sender;
 -(IBAction)dumpBibtexFile:(id)sender;
 -(IBAction)installSafariExtension:(id)sender;

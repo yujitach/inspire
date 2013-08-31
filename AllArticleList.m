@@ -81,11 +81,11 @@ static AllArticleList*_allArticleList=nil;
     }
     return _allArticleList;
 }
--(void)awakeFromFetch
+/*-(void)awakeFromFetch
 {
     self.articles=nil;
     [self reload];
-}
+}*/
 -(NSString*)searchString
 {
     return [self primitiveValueForKey:@"searchString"];
@@ -94,7 +94,9 @@ static AllArticleList*_allArticleList=nil;
 {
     [self willChangeValueForKey:@"searchString"];
     [self setPrimitiveValue:newSearchString forKey:@"searchString"];
-    [self reload];
+    if(!newSearchString || [newSearchString isEqualToString:@""]){
+        [self reload];
+    }
     [self didChangeValueForKey:@"searchString"];
 }
 /*
@@ -125,6 +127,7 @@ static AllArticleList*_allArticleList=nil;
     if(currentFetchOperation) {
         [currentFetchOperation cancel];
     }
+    self.articles=nil;
     currentFetchOperation=[[ArticleFetchOperation alloc] initWithQuery:self.searchString forArticleList:self];
     [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }
