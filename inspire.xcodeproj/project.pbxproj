@@ -236,7 +236,6 @@
 		336F461B161889D5005D070F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		336F461D161893D8005D070F /* NetworkOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkOperationQueue.h; sourceTree = "<group>"; };
 		336F461E161893D8005D070F /* NetworkOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkOperationQueue.m; sourceTree = "<group>"; };
-		3378C2AB10D8954B006F7B53 /* ArticlePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticlePrivate.h; sourceTree = "<group>"; };
 		3379CDA710461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewArticleListReloadOperation.h; sourceTree = "<group>"; };
 		3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewArticleListReloadOperation.m; sourceTree = "<group>"; };
 		337A3E950F3FA7680008906A /* DeferredPDFOpenOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeferredPDFOpenOperation.h; sourceTree = "<group>"; };
@@ -788,7 +787,6 @@
 				33F1981210C04D98001F3F0F /* ArticleData.h */,
 				33A2DBF110C1DDFD0008C14A /* ArticleData.m */,
 				33B39E6E0EA4325E00734A06 /* Article.h */,
-				3378C2AB10D8954B006F7B53 /* ArticlePrivate.h */,
 				33B39E6F0EA4325E00734A06 /* Article.m */,
 				33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */,
 			);
@@ -1035,7 +1033,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";
@@ -1074,7 +1072,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";

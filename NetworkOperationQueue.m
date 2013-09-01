@@ -47,7 +47,7 @@
 {
     if(online){
         void (^cb)()=op.completionBlock;
-        NSOperationQueue*me=self;
+        __weak NSOperationQueue*me=self;
         [op setCompletionBlock:^{
             [me setSuspended:YES];
 //            NSLog(@"^wait %d for %@",(int)sleep,hostname);

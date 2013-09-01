@@ -26,7 +26,7 @@
     }
     return self;
 }
-#define BATCHSIZE 10
+#define BATCHSIZE 50
 -(void)main
 {
     NSFetchRequest*req=[[NSFetchRequest alloc] init];

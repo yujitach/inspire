@@ -127,7 +127,9 @@ static AllArticleList*_allArticleList=nil;
     if(currentFetchOperation) {
         [currentFetchOperation cancel];
     }
-    self.articles=nil;
+    if([self.articles count]>2000){
+        self.articles=nil;
+    }
     currentFetchOperation=[[ArticleFetchOperation alloc] initWithQuery:self.searchString forArticleList:self];
     [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }

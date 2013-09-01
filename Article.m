@@ -7,7 +7,6 @@
 //
 
 #import "Article.h"
-#import "ArticlePrivate.h"
 #import "Author.h"
 #import "AllArticleList.h"
 #import "NSString+magic.h"
@@ -16,6 +15,13 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+@interface Article (private)
++(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
++(NSString*)longishAuthorListForEAFromAuthorNames:(NSArray*)array;
++(NSString*)shortishAuthorListFromAuthorNames:(NSArray*)array;
++(NSString*)flagInternalFromFlag:(ArticleFlag)flag;
++(ArticleFlag)flagFromFlagInternal:(NSString*)flagInternal;
+@end
 
 @implementation Article 
 
