@@ -18,7 +18,6 @@ static NSColor *sideInsetColor, *borderedTopLineColor;
 static NSColor *resizeHandleColor, *resizeInsetColor;
 static NSGradient *gradient;
 static BOOL wasBorderedBar;
-static CGFloat scaleFactor = 0.0f;
 
 @interface BWAnchoredButtonBar (BWABBPrivate)
 - (void)drawResizeHandleInRect:(NSRect)handleRect withColor:(NSColor *)color;
@@ -59,7 +58,7 @@ static CGFloat scaleFactor = 0.0f;
     self = [super initWithFrame:frame];
     if (self) 
 	{
-        scaleFactor = [[NSScreen mainScreen] userSpaceScaleFactor];
+//        scaleFactor = [[NSScreen mainScreen] userSpaceScaleFactor];
 		[self setIsResizable:YES];
 		[self setIsAtBottom:YES];
     }
@@ -90,7 +89,7 @@ static CGFloat scaleFactor = 0.0f;
 
 - (void)awakeFromNib
 {
-	scaleFactor = [[NSScreen mainScreen] userSpaceScaleFactor];
+//	scaleFactor = [[NSScreen mainScreen] userSpaceScaleFactor];
 	
 	// See if we're in a split view, and set its delegate
 	NSSplitView *splitView = [self splitView];

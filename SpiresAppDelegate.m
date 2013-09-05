@@ -542,7 +542,7 @@
 -(void)clearingUpAfterRegistration:(id)sender
 {
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
-	[ac setSelectionIndex:0];
+//	[ac setSelectionIndex:0];
     }
     
     [ac didChangeArrangementCriteria];
@@ -573,7 +573,7 @@
 {
     [texWatcherController addToLog:s];
 }
--(void)relaunch
+/*-(void)relaunch
 {
     NSString*path=[[NSBundle mainBundle] pathForResource:@"SpiresRelaunchHelper" 
 						  ofType:@""];
@@ -581,7 +581,7 @@
 		       [NSString stringWithFormat:@"%d",[[NSProcessInfo processInfo] processIdentifier]]];
     [NSTask launchedTaskWithLaunchPath:path arguments:arguments];
     [NSApp terminate:self];
-}
+}*/
 -(void)presentFileSaveError
 {
     NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Downloaded, but can't be saved???"

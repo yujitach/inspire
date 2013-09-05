@@ -26,7 +26,6 @@ extern NSString *ArticleListDropPboardType;
 -(void)startProgressIndicator;
 -(void)stopProgressIndicator;
 -(void)addToTeXLog:(NSString*)log;
--(void)relaunch;
 -(void)presentFileSaveError;
 /*-(void)startUpdatingMainView:(id)sender;
 -(void)stopUpdatingMainView:(id)sender;*/

@@ -76,10 +76,10 @@
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
 		339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */; };
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
-		33A06DA410DFDE97003EF208 /* DummyBWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335818F110D613A700E7CA0E /* DummyBWSplitView.m */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
+		33B3060817D3839800279B15 /* DummyBWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335818F110D613A700E7CA0E /* DummyBWSplitView.m */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
 		33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8521B10CC851400EC0211 /* whiteOut.pdf */; };
@@ -280,7 +280,6 @@
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
 		33B485C10F5B3E2A00EBE022 /* PrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefPane.xib; sourceTree = "<group>"; };
-		33B58BD90F395ED600E23146 /* SyncServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SyncServices.framework; path = /System/Library/Frameworks/SyncServices.framework; sourceTree = "<absolute>"; };
 		33B8521B10CC851400EC0211 /* whiteOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteOut.pdf; sourceTree = "<group>"; };
 		33B8524B10CC863000EC0211 /* blackOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blackOut.pdf; sourceTree = "<group>"; };
 		33B8524F10CC874200EC0211 /* whiteIn.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteIn.pdf; sourceTree = "<group>"; };
@@ -477,7 +476,6 @@
 			children = (
 				336F461B161889D5005D070F /* SystemConfiguration.framework */,
 				33EBAFB90FF9BE420076F6AC /* CoreServices.framework */,
-				33B58BD90F395ED600E23146 /* SyncServices.framework */,
 				33D8AA900EAA69C800619A6F /* WebKit.framework */,
 				33EBF0090EA5BF650050B64A /* Sparkle.framework */,
 				332F1A7F0EA5905000758683 /* Quartz.framework */,
@@ -977,13 +975,13 @@
 				33CCB5A210D9F29F00D51CDE /* Migrator.m in Sources */,
 				33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */,
 				33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */,
-				33A06DA410DFDE97003EF208 /* DummyBWSplitView.m in Sources */,
 				3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33DFC3BE156BCEB900C98E8E /* RegexKitLite.m in Sources */,
 				336F461416184837005D070F /* ArticleFetchOperation.m in Sources */,
 				336F461A16188843005D070F /* Reachability.m in Sources */,
 				336F461F161893D9005D070F /* NetworkOperationQueue.m in Sources */,
 				33C85E0117CF99CD0087956A /* spires_DataModel.xcdatamodeld in Sources */,
+				33B3060817D3839800279B15 /* DummyBWSplitView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,7 +1026,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
@@ -1040,7 +1038,6 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
-					"-Wno-sign-compare",
 					"-Wno-unused-parameter",
 					"-Wno-semicolon-before-method-body",
 				);
@@ -1065,7 +1062,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = spires_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
@@ -1079,7 +1076,6 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
-					"-Wno-sign-compare",
 					"-Wno-unused-parameter",
 					"-Wno-semicolon-before-method-body",
 				);
@@ -1090,6 +1086,7 @@
 		26FC0A890875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;

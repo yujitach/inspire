@@ -185,10 +185,10 @@ MOC*_sharedMOCManager=nil;
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
 	[managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
 //	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
-	    NSLog(@"-[MOC save] debug mode...");
-	    [managedObjectContext setMergePolicy:NSErrorMergePolicy];
-	}
+//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
+//	    NSLog(@"-[MOC save] debug mode...");
+//	    [managedObjectContext setMergePolicy:NSErrorMergePolicy];
+//	}
     }
     
     return managedObjectContext;

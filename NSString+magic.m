@@ -114,7 +114,7 @@ static void loadMagic(){
     CFStringNormalize((__bridge CFMutableStringRef)result, kCFStringNormalizationFormD);
     CFStringFold((__bridge CFMutableStringRef)result, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
     
-    return result;
+    return [[result componentsSeparatedByCharactersInSet:[NSCharacterSet controlCharacterSet]] componentsJoinedByString:@""];
     
 }
 -(NSString*)quotedForShell

@@ -39,6 +39,7 @@
     [req setFetchLimit:BATCHSIZE];
     [req setResultType:NSManagedObjectIDResultType];
     [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
     NSMutableArray*total=[NSMutableArray array];
     while(1){
         if([self isCancelled]){
