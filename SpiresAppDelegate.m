@@ -593,8 +593,9 @@
     [self showPreferences:self];
 }
 #pragma mark PDF Association
--(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(NSString*)path
+-(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(CFStringRef)cfpath
 {
+    NSString*path=(__bridge_transfer NSString*)cfpath;
     if(choice==NSAlertDefaultReturn){
 	Article*o=[ac selectedObjects][0];
 	[o associatePDF:path];
@@ -712,7 +713,7 @@
 	    [alert beginSheetModalForWindow:window
 			      modalDelegate:self 
 			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:(__bridge void *)([url path])];	    	    
+				contextInfo:(void*)(__bridge_retained CFStringRef)([url path])];
 	}else if(o.hasPDFLocally){
 	    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF already associated"
 					  defaultButton:@"Change" 
@@ -722,7 +723,7 @@
 	    [alert beginSheetModalForWindow:window
 			      modalDelegate:self 
 			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:(__bridge void *)([url path])];	    
+				contextInfo:(void*)(__bridge_retained CFStringRef)([url path])];
 	}else{
 	    [o associatePDF:[url path]];
 	}
