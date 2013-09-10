@@ -358,10 +358,11 @@ static BOOL wasBorderedBar;
 
 - (void)splitView:(NSSplitView*)sender resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-	if ([splitViewDelegate respondsToSelector:@selector(splitView:resizeSubviewsWithOldSize:)])
-		return [splitViewDelegate splitView:sender resizeSubviewsWithOldSize:oldSize];
-	
-	[sender adjustSubviews];
+    if ([splitViewDelegate respondsToSelector:@selector(splitView:resizeSubviewsWithOldSize:)]){
+        [splitViewDelegate splitView:sender resizeSubviewsWithOldSize:oldSize];
+        return;
+    }
+    [sender adjustSubviews];
 }
 
 - (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview
