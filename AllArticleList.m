@@ -139,6 +139,6 @@ static AllArticleList*_allArticleList=nil;
 }
 -(NSString*)placeholderForSearchField
 {
-    return @"Enter SPIRES query and hit return";
+    return @"Enter SPIRES query and hit return. Use shift-return to search within local database";
 }
 @end

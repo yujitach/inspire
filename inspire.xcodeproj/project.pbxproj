@@ -120,6 +120,7 @@
 		33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FA970B0EA8E6DD003961AD /* ArticleView.m */; };
 		33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33FD743310DEDDFE0081C00D /* DropAcceptingImageView.m */; };
 		33FD744A10DEE15E0081C00D /* drop.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FD744910DEE15E0081C00D /* drop.png */; };
+		33FFF37C17DE01A0007AF5E3 /* unread-hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 33FFF37B17DE01A0007AF5E3 /* unread-hasPDF.png */; };
 		77C8280E06725ACE000B614F /* SpiresAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* SpiresAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -340,6 +341,7 @@
 		33FD743210DEDDFE0081C00D /* DropAcceptingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingImageView.h; sourceTree = "<group>"; };
 		33FD743310DEDDFE0081C00D /* DropAcceptingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingImageView.m; sourceTree = "<group>"; };
 		33FD744910DEE15E0081C00D /* drop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop.png; sourceTree = "<group>"; };
+		33FFF37B17DE01A0007AF5E3 /* unread-hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unread-hasPDF.png"; sourceTree = "<group>"; };
 		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		77C8280B06725ACE000B614F /* SpiresAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresAppDelegate.h; sourceTree = "<group>"; };
 		77C8280C06725ACE000B614F /* SpiresAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresAppDelegate.m; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 		33B09C7C10D4AB66001A9B50 /* UI graphics */ = {
 			isa = PBXGroup;
 			children = (
+				33FFF37B17DE01A0007AF5E3 /* unread-hasPDF.png */,
 				332F1B0D0EA597D300758683 /* spires.icns */,
 				33FD744910DEE15E0081C00D /* drop.png */,
 				33B8521B10CC851400EC0211 /* whiteOut.pdf */,
@@ -880,6 +883,7 @@
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				33D5BE5B17CCCEEC00B98F3A /* v1.5.0alert.rtf in Resources */,
+				33FFF37C17DE01A0007AF5E3 /* unread-hasPDF.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

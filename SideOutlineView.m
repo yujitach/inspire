@@ -8,7 +8,9 @@
 
 #import "SideOutlineView.h"
 #import "ArticleList.h"
+#import "ArticleFolder.h"
 #import "AppDelegate.h"
+#import "SideOutlineViewController.h"
 #import <AppKit/NSTrackingArea.h>
 #import "CellTrackingRect.h" 
 
@@ -211,7 +213,12 @@
 -(void)keyDown:(NSEvent*)ev
 {
     if([ev keyCode]==0x7c){ // right key
-        [[NSApp appDelegate] makeTableViewFirstResponder];
+        SideOutlineViewController*soc=(SideOutlineViewController*)[self delegate];
+        if([soc currentArticleList].children.count>0){
+            [super keyDown:ev];
+        }else{
+            [[NSApp appDelegate] makeTableViewFirstResponder];
+        }
     }else{
         [super keyDown:ev];
     }

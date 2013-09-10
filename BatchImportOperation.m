@@ -17,6 +17,15 @@
 #import "NSString+magic.h"
 
 @implementation BatchImportOperation
+{
+    NSArray*elements;
+    NSManagedObjectContext*secondMOC;
+    Article*citedByTarget;
+    Article*refersToTarget;
+    ArticleList*list;
+    NSMutableSet*generated;
+    dispatch_group_t group;
+}
 @synthesize generated;
 -(BatchImportOperation*)initWithElements:(NSArray*)e // andMOC:(NSManagedObjectContext*)m 
 				 citedBy:(Article*)c 
@@ -35,6 +44,7 @@
     refersToTarget=r;
     list=l;
     generated=[NSMutableSet set];
+    group=dispatch_group_create();
     return self;
 }
 -(BOOL)isEqual:(id)obj
@@ -177,7 +187,7 @@
     NSError*error=nil;
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
 
-    dispatch_async(dispatch_get_main_queue(),^{
+    dispatch_group_async(group,dispatch_get_main_queue(),^{
 	int i=0,j=0;
 	[[MOC moc] disableUndo];
 	for(NSManagedObjectID*objID in datas){
@@ -237,7 +247,7 @@
 
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
-    dispatch_async(dispatch_get_main_queue(),^{
+    dispatch_group_async(group,dispatch_get_main_queue(),^{
 //	NSLog(@"total: %d",(int)[generated count]);
 
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
@@ -264,14 +274,11 @@
 #pragma mark entry point
 -(void)main
 {
-    dispatch_async(dispatch_get_main_queue(),^{
-//	[[NSApp appDelegate] startProgressIndicator];
-//	[[NSApp appDelegate] postMessage:@"Registering entries..."];
-    });
 //    NSLog(@"registers %d entries",(int)[elements count]);
     [self batchAddEntriesOfSPIRES:elements];
-    dispatch_async(dispatch_get_main_queue(),^{
+    dispatch_group_async(group,dispatch_get_main_queue(),^{
 //	[[NSApp appDelegate] postMessage:nil];
+        [[MOC moc] save:NULL];
 	[[NSApp appDelegate] clearingUpAfterRegistration:nil];
 //	[[NSApp appDelegate] stopProgressIndicator];
     });
@@ -280,10 +287,12 @@
     void (^handler)(void)=[self completionBlock];
     if(handler){
 	[self setCompletionBlock:nil];
-	dispatch_async(dispatch_get_main_queue(),^{
+	dispatch_group_async(group,dispatch_get_main_queue(),^{
 	    handler();
 	});
     }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_release(group);
 }
 
 @end

@@ -38,7 +38,7 @@
 }
 -(BOOL)searchStringEnabled
 {
-    return NO;
+    return YES;
 }
 
 -(NSImage*)icon

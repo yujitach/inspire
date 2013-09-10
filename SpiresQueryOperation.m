@@ -108,15 +108,8 @@
             NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+[elements count]];
             [op setQueuePriority:NSOperationQueuePriorityLow];
             [[OperationQueues spiresQueue] addOperation:op];
-            [me finish];
-        }else{
-            NSError*error=nil;
-            BOOL success=[[MOC moc] save:&error];
-            if(!success){
-                [[MOC sharedMOCManager] presentMOCSaveError:error];
-            }
-            [me finish];
         }
+        [me finish];
     }];
     if(!downloader){
 	[self finish];

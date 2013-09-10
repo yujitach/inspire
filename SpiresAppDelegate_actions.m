@@ -253,6 +253,10 @@
     }*/
     NSString*searchString=[sender stringValue];
     if(searchString==nil || [searchString isEqualToString:@""])return;
+    ArticleList*al=[sideOutlineViewController currentArticleList];
+    if(![al isKindOfClass:[AllArticleList class]]){
+        return;
+    }
     [historyController mark:self];
     [AllArticleList allArticleList].searchString=searchString;
     [[AllArticleList allArticleList] reload];

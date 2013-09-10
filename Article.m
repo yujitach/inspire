@@ -504,7 +504,11 @@
     if(af&AFIsFlagged){
 	return [NSImage imageNamed:@"flagged.png"];
     }else if(af&AFIsUnread){
-	return [NSImage imageNamed:@"unread.png"];
+        if(af&AFHasPDF){
+            return [NSImage imageNamed:@"unread-hasPDF.png"];
+        }else{
+            return [NSImage imageNamed:@"unread.png"];
+        }
     }else if(af&AFHasPDF){
 	return [NSImage imageNamed:@"hasPDF.png"];
     }
