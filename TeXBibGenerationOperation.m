@@ -123,7 +123,9 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     {
 	keyToArticle=[NSMutableDictionary dictionary];
 	for(NSString*key in citations){
-	    Article*a=[Article intelligentlyFindArticleWithId:[self idForKey:key] inMOC:moc];
+	    Article*a=[Article articleWith:[self idForKey:key]
+                               inDataForKey:@"texKey"
+                                            inMOC:moc];
 	    if(a){
 		keyToArticle[key] = a;
 	    }
@@ -229,8 +231,8 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 		[notFound addObject:idForKey];		
 	    }
 	}else{
-	    if(  ![entriesAlreadyInBib containsObject:key] 
-	       || [idForKey rangeOfString:@":"].location!=NSNotFound){
+	    if(  (![entriesAlreadyInBib containsObject:key])
+	       && [idForKey rangeOfString:@":"].location!=NSNotFound){
 		    [notFound addObject:idForKey];  
 	    }
 	}

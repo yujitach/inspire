@@ -114,11 +114,11 @@
 		       inDataForKey:@"eprint"
 			      inMOC:moc];	
     }
-    if([idToLookUp rangeOfString:@","].location!=NSNotFound){
-	return [Article articleWith:[idToLookUp uppercaseString]
-		       inDataForKey:@"spicite"
-			      inMOC:moc];
-    }
+//    if([idToLookUp rangeOfString:@","].location!=NSNotFound){
+//	return [Article articleWith:[idToLookUp uppercaseString]
+//		       inDataForKey:@"spicite"
+//			      inMOC:moc];
+//    }
     if([idToLookUp rangeOfString:@":"].location!=NSNotFound){
 	return [Article articleWith:idToLookUp
 		       inDataForKey:@"texKey"

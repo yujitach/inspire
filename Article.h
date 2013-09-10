@@ -60,7 +60,7 @@ typedef enum {
 @property (assign) ArticleFlag flag;
 //@property  NSString *eprintForSortingAsString;
 
-
++(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
 +(NSString*)eprintForSortingFromEprint:(NSString*)eprint;
 
