@@ -42,8 +42,6 @@
 #import "NSString+magic.h"
 
 
-
-
 @implementation SpiresAppDelegate (actions)
 -(NSNumber*)databaseSize
 {
@@ -52,53 +50,27 @@
 }
 
 #pragma mark Actions
-#define SafariExtension @"arXivTeXifier"
-#define SafariExtensionExtension @"safariextz"
 -(IBAction)installSafariExtension:(id)sender;
 {
-    NSString*tildedPath=@"~/Library/Safari/Extensions/" SafariExtension @"." SafariExtensionExtension;
-    NSString*path=[tildedPath stringByExpandingTildeInPath];
-    if([[NSFileManager defaultManager] fileExistsAtPath:path]){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Safari extension already installed."
-				      defaultButton:@"OK" 
+    if(![[OperationQueues arxivQueue] isOnline]){
+        NSAlert*alert=[NSAlert alertWithMessageText:@"You can't install the extension off-line."
+				      defaultButton:@"OK"
 				    alternateButton:nil
 					otherButton:nil
-			  informativeTextWithFormat:@"Thank you, you already have my Safari extension installed."];
+			  informativeTextWithFormat:nil];
 	[alert runModal];
-    }else{
-	NSString*extension=[[NSBundle mainBundle] pathForResource:SafariExtension ofType:SafariExtensionExtension];
-	NSString*tmpLocation=@"/tmp/SafariExtensionExtension" SafariExtension @"." SafariExtensionExtension;
-	[[NSFileManager defaultManager] copyItemAtPath:extension toPath:tmpLocation error:NULL];
-	[[NSWorkspace sharedWorkspace] openFile:tmpLocation];
+        return;
     }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0),^{
+        NSData*extz=[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://member.ipmu.jp/yuji.tachikawa/spires/arXivTeXifier.safariextz"]];
+        [extz writeToFile:@"/tmp/arXivTeXifier.safariextz" atomically:YES];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSWorkspace sharedWorkspace] openFile:@"/tmp/arXivTeXifier.safariextz"];
+        });
+    });
 }
 
-/*-(IBAction)dumpBibtexFile:(id)sender;
-{
-    NSLog(@"start dumping");
-    NSString*bibFilePath=[@"~/Desktop/all.bib" stringByExpandingTildeInPath];
-    NSSet*articles=[[AllArticleList allArticleList] articles];
-    NSMutableString*appendix=[NSMutableString string];
-    for(Article*a in articles){
-        NSString*key=[a texKey];
-        if(!key)
-            continue;
-        if([key isEqualToString:@""])
-            continue;
-        NSString* bib=[a extraForKey:@"bibtex"];
-        if(!bib)
-            continue;
-        if([bib isEqualToString:@""])
-            continue;
-        bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
-	bib=[bib magicTeXed];
-	bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:key];
-	[appendix appendString:bib];
-	[appendix appendString:@"\n\n"];
-    }
-    [appendix writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    NSLog(@"finished dumping");
-}*/
+
 -(IBAction)progressQuit:(id)sender
 {
     [OperationQueues cancelCurrentOperations];
@@ -264,7 +236,7 @@
     [AllArticleList allArticleList].searchString=searchString;
     [[AllArticleList allArticleList] reload];
     [sideOutlineViewController selectAllArticleList];
-    if(!([NSEvent modifierFlags]&NSShiftKeyMask)){
+    if(!([[[NSApplication sharedApplication] currentEvent] modifierFlags]&NSShiftKeyMask)){
         [self querySPIRES: searchString];
     }// [self searchStringFromPredicate:filterPredicate]];
 }

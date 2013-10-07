@@ -10,4 +10,5 @@
 
 @interface NetworkOperationQueue : NSOperationQueue
 -(NetworkOperationQueue*)initWithHost:(NSString*)host andWaitBetweenOperations:(NSTimeInterval)wait;
+-(BOOL)isOnline;
 @end

@@ -276,22 +276,29 @@
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
     }    
 }
-/*-(void)safariExtensionRecommendation
+-(void)safariExtensionRecommendation
 {
-    NSString*key=@"safariExtensionRecommendationShown";
+    NSString*defaultBrowserBundleID=(__bridge_transfer NSString*)LSCopyDefaultHandlerForURLScheme((__bridge CFStringRef)@"http");
+    if(![[defaultBrowserBundleID lowercaseString] isEqualToString:@"com.apple.safari"]){
+        return;
+    }
+    if(![[OperationQueues arxivQueue] isOnline]){
+        return;
+    }
+    NSString*key=@"safariExtensionRecommendationShown3";
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];	
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
 	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to install a Safari Extension?"
 				      defaultButton:@"Yes" 
 				    alternateButton:@"No"
 					otherButton:nil
-			  informativeTextWithFormat:@"This extension makes Safari typeset the pseudo-TeX code in the abstract of the arxiv pages just as this app does. You can install it later from the menu spires→Install Safari extension."];
+			  informativeTextWithFormat:@"This extension makes Safari typeset the pseudo-TeX code in the abstract of the arxiv pages just as this app does. You can install it later from the menu spires→Install Safari extension.\nIf you have already installed it before 2013, please do it again. It should automatically update afterwards."];
 	NSUInteger result=[alert runModal];
 	if(result!=NSAlertDefaultReturn)
 	    return;
 	[self installSafariExtension:self];
     }
-}*/
+}
 -(void)clearAllArticleList_
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
@@ -334,7 +341,7 @@
     [self setupServices];
     [self crashCheck:self];
     [self showWelcome];
-//    [self safariExtensionRecommendation];
+    [self safariExtensionRecommendation];
 
     [sideOutlineViewController loadArticleLists];
 

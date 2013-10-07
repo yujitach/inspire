@@ -99,31 +99,10 @@ static AllArticleList*_allArticleList=nil;
     }
     [self didChangeValueForKey:@"searchString"];
 }
-/*
- 
- if(!mark || [s isEqualToString:mark] || [mark hasSuffix:@" "] || ![s hasPrefix:mark]){
- //	NSLog(@"refiltering: %@:",s);
- //	NSLog(@"desc:%@",[self sortDescriptors]);
- previousArray=[super arrangeObjects:objects];
- return previousArray;
- }else{ // shares the same prefix
- NSRange r=[s rangeOfString:mark];
- NSString*t=[s substringFromIndex:r.location+r.length];
- if(t && [t rangeOfString:@" "].location!=NSNotFound ){
- //	    NSLog(@"refiltering!: %@:",s);
- previousArray=[super arrangeObjects:objects];
- }else{
- //	NSLog(@"shortcutting: %@:",s);
- previousArray=[super arrangeObjects:previousArray];
- }
- return previousArray;
- }
 
- 
- */
--(void)reload
+-(void)reload //InBackground
 {
-//    NSLog(@"reloading internally:%@",self.searchString);
+    NSLog(@"reloading internally:%@",self.searchString);
     if(currentFetchOperation) {
         [currentFetchOperation cancel];
     }
@@ -133,6 +112,28 @@ static AllArticleList*_allArticleList=nil;
     currentFetchOperation=[[ArticleFetchOperation alloc] initWithQuery:self.searchString forArticleList:self];
     [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }
+/*
+-(void)reload // in main thread
+{
+
+    if([self.articles count]>2000){
+        self.articles=nil;
+    }
+
+    NSFetchRequest*req=[[NSFetchRequest alloc] init];
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+    [req setEntity:entity];
+    NSPredicate*predicate=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:self.searchString];
+    [req setPredicate:predicate];
+    [req setIncludesPropertyValues:YES];
+    [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
+    NSError*error;
+    NSArray*articles=[[MOC moc] executeFetchRequest:req error:&error];
+    [[MOC moc] disableUndo];
+    [self addArticles:[NSSet setWithArray:articles]];
+    [[MOC moc] enableUndo];
+}
+ */
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-blue.png"];

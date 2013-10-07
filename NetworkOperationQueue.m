@@ -27,7 +27,10 @@
         online=YES;
     }
 }
-
+-(BOOL)isOnline
+{
+    return online;
+}
 -(NetworkOperationQueue*)initWithHost:(NSString*)host andWaitBetweenOperations:(NSTimeInterval)wait
 {
     if(self=[super init]){

@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "NetworkOperationQueue.h"
 
 @interface OperationQueues : NSObject {
 }
 +(NSOperationQueue*)sharedQueue;
-+(NSOperationQueue*)spiresQueue;
-+(NSOperationQueue*)arxivQueue;
++(NetworkOperationQueue*)spiresQueue;
++(NetworkOperationQueue*)arxivQueue;
 +(void)cancelCurrentOperations;
 @end
 

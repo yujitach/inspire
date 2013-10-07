@@ -12,7 +12,7 @@
 
 @implementation PrefController
 #pragma mark Time Machine
--(void)setShouldBackUp:(BOOL)shouldBackUp
+/*-(void)setShouldBackUp:(BOOL)shouldBackUp
 {
     NSString*path=[[MOC sharedMOCManager] dataFilePath];
     NSURL*url=[NSURL fileURLWithPath:path];
@@ -27,7 +27,7 @@
 -(void)applicationWillTerminate:(NSNotification*)notification
 {
     [self setShouldBackUp:YES];
-}
+}*/
 /*-(void)readTimeMachineState;
 {
     Boolean excluded;
@@ -44,7 +44,7 @@
 -(PrefController*)init
 {
     self=[super initWithWindowNibName:@"PrefPane"];
-    [self timeMachineSettingChanged:self];
+//    [self timeMachineSettingChanged:self];
 //    [self setAllArticleName];
     [[NSNotificationCenter defaultCenter] addObserver:self
 					     selector:@selector(applicationWillTerminate:) 
