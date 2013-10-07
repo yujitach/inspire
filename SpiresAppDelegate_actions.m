@@ -41,6 +41,9 @@
 
 #import "NSString+magic.h"
 
+
+
+
 @implementation SpiresAppDelegate (actions)
 -(NSNumber*)databaseSize
 {
@@ -397,13 +400,43 @@
     }
     [[OperationQueues sharedQueue] addOperation:op];
 }
+-(void)reloadFromSPIRESmainwork:(NSArray*)articles
+{
+    NSMutableArray*queries=[NSMutableArray array];
+    for(Article*article in articles){
+        NSString* query=[article uniqueSpiresQueryString];
+        if(query){
+            [queries addObject:query];
+        }
+    }
+    if([queries count]>0){
+        NSString* realQuery=[queries componentsJoinedByString:@" or "];
+        [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:realQuery andMOC:[MOC moc]]];
+    }
+    
+}
 -(IBAction)reloadFromSPIRES:(id)sender
 {
-    for(Article*article in [ac selectedObjects]){
-	NSString* target=[article uniqueSpiresQueryString];
-	if(target){
-	    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc]initWithQuery:target andMOC:[MOC moc]]];
+    NSMutableArray*articles=[[ac selectedObjects] mutableCopy];
+    {
+        NSUInteger count = [articles count];
+        for (NSUInteger i = 0; i < count; ++i) {
+            // Select a random element between i and end of array to swap with.
+            NSInteger nElements = count - i;
+            NSInteger n = (arc4random() % nElements) + i;
+            [articles exchangeObjectAtIndex:i withObjectAtIndex:n];
+        }
+    }
+    NSMutableArray*a=[NSMutableArray array];
+    for(Article*article in articles){
+	[a addObject:article];
+	if([a count]>16){
+	    [self reloadFromSPIRESmainwork:a];
+	    a=[NSMutableArray array];
 	}
+    }
+    if([a count]>0){
+        [self reloadFromSPIRESmainwork:a];
     }
 }
 -(IBAction)toggleFlagged:(id)sender
@@ -435,189 +468,4 @@
       }*/
 }
 
-#pragma mark check consistency
-/*-(NSArray*)managedObjectsOfEntityNamed:(NSString*)entityName matchingPredicate:(NSPredicate*)predicate
-{
-    NSEntityDescription*entity=[NSEntityDescription entityForName:entityName inManagedObjectContext:[MOC moc]];
-    NSFetchRequest*req=[[NSFetchRequest alloc] init];
-    [req setEntity:entity];
-    [req setPredicate:predicate];
-    NSError*error=nil;
-    NSArray*a=[[MOC moc] executeFetchRequest:req error:&error];
-    NSLog(@"%d %@(s) found",(int)[a count],entityName);
-    return a;
-}
-
-
--(void)dealWithError:(NSError*)e
-{
-    NSLog(@"dealing with error:%@",e);
-    NSDictionary*info=[e userInfo];
-    NSManagedObject*mo=[info objectForKey:NSValidationObjectErrorKey];
-    if(mo){
-	@try {
-	    [[MOC moc] deleteObject:mo];
-	}
-	@catch (NSException * ex) {
-	}
-	@finally {
-	}
-    }
-}
--(void)dealWithPossiblyMultipleErrors:(NSError*)error
-{
-    NSDictionary*info=[error userInfo];
-    NSArray*errors=[info objectForKey:NSDetailedErrorsKey];
-    if(errors){
-	for(NSError*err in errors){
-	    [self dealWithError:err];
-	}
-    }else{
-	[self dealWithError:error];
-    }    
-}
--(BOOL)saveAndDeleteInvalidObjects
-{
-    NSError*error;
-    BOOL b=NO;
-    @try{
-	b=[[MOC moc] save:&error];
-    }
-    @catch(NSException*e){
-    }
-    @finally{
-    }
-    if(!b){
-	[self dealWithPossiblyMultipleErrors:error];
-	return NO;
-    }else{
-	return YES;
-    }
-}
--(NSString*)fixDataInconsistencyMainWork
-{
-    NSString*message=nil;
-    NSMutableArray*badGuys=[NSMutableArray array];
-    
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"Article" 
-				  //						 matchingPredicate:[NSPredicate predicateWithFormat:@"(not (self in %@)) || data == nil",[AllArticleList allArticleList].articles]]];
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"data == nil"]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"ArticleData"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    [badGuys addObjectsFromArray:[self managedObjectsOfEntityNamed:@"JournalEntry"
-						 matchingPredicate:[NSPredicate predicateWithFormat:@"article == nil"]]];
-    
-    if([badGuys count]>0){
-	// "fixed" in the message below is a euphemism for "just deleted".
-	for(NSManagedObject*obj in badGuys){
-	    [[MOC moc] deleteObject:obj];
-	}
-	[self saveAndDeleteInvalidObjects];
-	message=[NSString stringWithFormat:@"%d problematic entries were fixed.",(int)[badGuys count]];
-    }else{
-	message=@"No problem found.";
-    }
-    return message;
-}
-
--(IBAction)fixDataInconsistency:(id)sender;
-{
-    {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Check consistency and fix"
-				      defaultButton:@"OK" 
-				    alternateButton:@"Cancel"
-					otherButton:nil
-			  informativeTextWithFormat:@"The check and fix will take some time (~1min). Do you want to proceed?"];
-	NSInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
-	    return;
-    }
-    NSString*message=[self fixDataInconsistencyMainWork];
-    {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Consistency checked."
-				      defaultButton:@"Vacuum" 
-				    alternateButton:@"Relaunch"
-					otherButton:nil
-			  informativeTextWithFormat:@"%@",[message stringByAppendingString:
-						     @" Do you proceed to vacuum-clean the database before the relaunch?" 
-						     @" It will again take some time and you need to wait patiently."
-						     ]];
-	NSInteger result=[alert runModal];
-	if(result==NSAlertDefaultReturn){
-	    [self saveAction:self];
-	    NSNumber*before=[self databaseSize];
-	    [[MOC sharedMOCManager] vacuum];
-	    [sideOutlineViewController selectAllArticleList];
-	    NSNumber*after=[self databaseSize];
-	    alert=[NSAlert alertWithMessageText:@"Done."
-				  defaultButton:@"Relaunch" 
-				alternateButton:nil
-				    otherButton:nil
-		      informativeTextWithFormat:@"%@",[NSString stringWithFormat:@"%@ bytes --> %@ bytes",before,after]];
-	    [alert runModal];
-	}
-	[self relaunch];
-    }
-}
-*/
-
-
-/*-(void)listAndCull
-{
-    NSArray*x;
-    x=[self managedObjectsOfEntityNamed:@"Article"
-			      matchingPredicate:[NSPredicate predicateWithValue:YES]];
-    for(Article*a in x){
-	@try {
-	    NSError*error;
-	    if(![a validateForUpdate:&error]){
-		NSLog(@"validation error found for: %@",a);
-		[self dealWithPossiblyMultipleErrors:error];
-	    }
-	    if(![a.data validateForUpdate:&error]){
-		NSLog(@"validation error found for: %@",a.data);
-		[self dealWithPossiblyMultipleErrors:error];
-	    }
-	}
-	@catch (NSException * e) {
-	    NSLog(@"name:%@ reason:%@ userInfo:%@",e.name, e.reason, e.userInfo);
-	    [[MOC moc] deleteObject:a.data];
-	    [[MOC moc] deleteObject:a];
-	    if([e.reason hasPrefix:@"CoreData could not fulfill a fault"]){
-		NSArray*affected=[e.userInfo objectForKey:NSAffectedObjectsErrorKey];
-		for(NSManagedObject*mo in affected){
-		    [[MOC moc] deleteObject:mo];
-		}
-	    }    
-	}
-    }
-    for(int i=0;i<10;i++){
-	NSLog(@"tries to save...");
-	if([self saveAndDeleteInvalidObjects])
-	    break;
-    }    
-}
--(IBAction)regenerateMainList:(id)sender;
-{
-    for(int i=0;i<4;i++){
-	NSLog(@"list and cull: trial %d",i);
-	[self listAndCull];
-	NSArray*x=[self managedObjectsOfEntityNamed:@"Article"
-				  matchingPredicate:[NSPredicate predicateWithValue:YES]];
-	@try{
-	    [AllArticleList allArticleList].articles=[NSSet setWithArray:x];
-	}
-	@finally{
-	}
-	[self fixDataInconsistencyMainWork];
-    }
-    {
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Done"
-				      defaultButton:@"OK" 
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@"You might want to repeat this process, by quitting and relaunching, etc."];
-	[alert runModal];
-    }    
-}*/
 @end

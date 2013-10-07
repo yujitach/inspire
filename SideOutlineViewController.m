@@ -192,7 +192,8 @@
 	[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"allArticleListPrepared"];
         AllArticleList*all=[AllArticleList allArticleListInMOC:[MOC moc]];
         if(!all){
-            all=[AllArticleList allArticleList];
+            //all=
+            [AllArticleList allArticleList];
             needToSave=YES;
         }
     }
