@@ -46,9 +46,7 @@
 #import "SPSearchFieldWithProgressIndicator.h"
 
 
-#import <Sparkle/SUUpdater.h>
 #import <Quartz/Quartz.h>
-//#import <ExceptionHandling/NSExceptionHandler.h>
 
 #define TICK (.5)
 #define GRACEMIN (3.0/TICK)
@@ -199,39 +197,12 @@
     }
     
 }
-/*- (void) crashAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSString*)path
-{
-    if(returnCode==NSAlertDefaultReturn){
-	[self prepareCrashReport:path];
-	[self sendBugReport:self];
-    }
-}*/
+
 
 #pragma mark UI glues
-/*-(void)checkOSVersion
-{   // This routine was to urge update to 10.5.7 which fixed NSOperationQueue bug
-    // but is used to urge users whenever a new minor version of OS X comes out!
-    SInt32 major=10,minor=5,bugFix=6;
-    Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-    Gestalt(gestaltSystemVersionBugFix, &bugFix);
-    NSLog(@"OS version:%d.%d.%d",(int)major,(int)minor,(int)bugFix);
-    if(minor == 6 && bugFix<8){
-	NSLog(@"OS update should be available...");
-	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath:@"/System/Library/CoreServices/Software Update.app"]
-						      options:NSWorkspaceLaunchWithoutActivation
-						configuration:nil
-							error:NULL];
-    }
-}*/
+
 -(void)awakeFromNib
 {
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"UpdaterWillFollowUnstableVersions"]){
-	[[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:[[NSBundle mainBundle] infoDictionary][@"SUFeedURL-Unstable"]]];	
-    }
-
-//    [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
-//    [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleTopLevelExceptionMask|NSHandleOtherExceptionMask];
     
     
     for(NSToolbarItem*ti in [tb items]){
@@ -266,7 +237,7 @@
     NSUpdateDynamicServices();
     
 }
--(void)showWelcome
+-(BOOL)showWelcome
 {
     NSString*welcome=@"v1.5.0alert";
     NSString*key=[welcome stringByAppendingString:@"ShownShown"];
@@ -274,7 +245,10 @@
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
 	// this window controller shows itself automatically!
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
-    }    
+        return YES;
+    }else{
+        return NO;
+    }
 }
 -(void)safariExtensionRecommendation
 {
@@ -340,8 +314,9 @@
     
     [self setupServices];
     [self crashCheck:self];
-    [self showWelcome];
-    [self safariExtensionRecommendation];
+    if(![self showWelcome]){
+        [self safariExtensionRecommendation];
+    }
 
     [sideOutlineViewController loadArticleLists];
 
@@ -538,14 +513,7 @@
 {
         [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
-/*-(void)startUpdatingMainView:(id)sender
- {
- ac.refuseFiltering=NO;
- }
- -(void)stopUpdatingMainView:(id)sender
- {
- ac.refuseFiltering=YES;
- }*/
+
 -(void)clearingUpAfterRegistration:(id)sender
 {
     if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
@@ -580,15 +548,7 @@
 {
     [texWatcherController addToLog:s];
 }
-/*-(void)relaunch
-{
-    NSString*path=[[NSBundle mainBundle] pathForResource:@"SpiresRelaunchHelper" 
-						  ofType:@""];
-    NSArray*arguments=@[@"spires",
-		       [NSString stringWithFormat:@"%d",[[NSProcessInfo processInfo] processIdentifier]]];
-    [NSTask launchedTaskWithLaunchPath:path arguments:arguments];
-    [NSApp terminate:self];
-}*/
+
 -(void)presentFileSaveError
 {
     NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Downloaded, but can't be saved???"
@@ -696,13 +656,6 @@
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
     }else if([[url scheme] isEqualTo:@"http"]){
-	/*
-	if([[url host] hasSuffix:@"arxiv.org"]||[[url host] hasSuffix:@"arXiv.org"]){
-	    if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/InputManagers/spiresHook"]){
-		url=[NSURL URLWithString:[[url absoluteString] stringByAppendingString:@"?doNotCallSpiresHook"]];
-	    }
-	}
-	 */
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){
 	    [self showInfoOnAssociation];
@@ -857,34 +810,4 @@
     return reply;
 }
 
-/* #pragma mark exception
-
-- (void)printStackTrace:(NSException *)e
-{
-    NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];
-    if (stack) {
-        NSTask *ls = [[NSTask alloc] init];
-        NSString *pid = [[NSNumber numberWithInt:[[NSProcessInfo processInfo] processIdentifier]] stringValue];
-        NSMutableArray *args = [NSMutableArray arrayWithCapacity:20];
-	
-        [args addObject:@"-p"];
-        [args addObject:pid];
-        [args addObjectsFromArray:[stack componentsSeparatedByString:@"  "]];
-        // Note: function addresses are separated by double spaces, not a single space.
-	
-        [ls setLaunchPath:@"/usr/bin/atos"];
-        [ls setArguments:args];
-        [ls launch];
-        [ls release];
-	
-    } else {
-        NSLog(@"No stack trace available.");
-    }
-}
-- (BOOL)exceptionHandler:(id)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask
-{
-    [self printStackTrace:exception];
-    return YES;
-}
-*/
 @end

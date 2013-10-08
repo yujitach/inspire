@@ -287,7 +287,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <popUpButtonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="1233" id="1231" customClass="BWAnchoredPopUpButtonCell">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="menu"/>
                                                     <menu key="menu" title="OtherViews" id="1232">
                                                         <items>
                                                             <menuItem state="on" image="NSAddTemplate" hidden="YES" id="1233"/>
@@ -340,7 +340,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="Nfa-No-dAS">
                                             <rect key="frame" x="1" y="1" width="111" height="494"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="111" height="494"/>
@@ -396,7 +396,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="H0G-dn-Hcs">
                                             <rect key="frame" x="0.0" y="17" width="476" height="208"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="476" height="208"/>
@@ -436,7 +436,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.shortishAuthorList" id="1303"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn width="201" minWidth="40" maxWidth="1000" id="432">
+                                                        <tableColumn width="216" minWidth="40" maxWidth="1000" id="432">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="title">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -527,7 +527,9 @@
                                     <webView id="830" customClass="ArticleView">
                                         <rect key="frame" x="0.0" y="235" width="476" height="283"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12"/>
+                                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                                            <nil key="identifier"/>
+                                        </webPreferences>
                                         <connections>
                                             <outlet property="UIDelegate" destination="205" id="978"/>
                                             <outlet property="policyDelegate" destination="205" id="836"/>
@@ -569,8 +571,8 @@
                             </searchFieldCell>
                             <connections>
                                 <action selector="search:" target="205" id="900"/>
-                                <binding destination="1200" name="enabled" keyPath="selection.searchStringEnabled" id="1215"/>
                                 <binding destination="1200" name="value" keyPath="selection.searchString" id="1316"/>
+                                <binding destination="1200" name="enabled" keyPath="selection.searchStringEnabled" id="1215"/>
                                 <outlet property="controller" destination="1200" id="1250"/>
                             </connections>
                         </searchField>
@@ -704,6 +706,7 @@
         </treeController>
     </objects>
     <resources>
+        <image name="14E05A52-BA38-454B-97CF-ACE94CABEA81" width="128" height="128"/>
         <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSGoLeftTemplate" width="9" height="9"/>
         <image name="NSGoRightTemplate" width="9" height="9"/>
