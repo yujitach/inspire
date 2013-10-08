@@ -375,8 +375,18 @@
 -(void)reloadFromSPIRESmainwork:(NSArray*)articles
 {
     NSMutableArray*queries=[NSMutableArray array];
+    BOOL oldStyleEncountered=NO;
     for(Article*article in articles){
         NSString* query=[article uniqueSpiresQueryString];
+        // you can't have more than one old-style query due to an inspire bug. Hmm ... (Oct 8 2013)
+        // this code makes "eprint hep-th/0612345" into just "0612345" but inspire seems to understand it.
+        NSArray* separated=[query componentsSeparatedByString:@"/"];
+        if([separated count]>1){
+            if(!oldStyleEncountered)
+                oldStyleEncountered=YES;
+            else
+                query=separated[1];
+        }
         if(query){
             [queries addObject:query];
         }
@@ -389,16 +399,7 @@
 }
 -(IBAction)reloadFromSPIRES:(id)sender
 {
-    NSMutableArray*articles=[[ac selectedObjects] mutableCopy];
-    {
-        NSUInteger count = [articles count];
-        for (NSUInteger i = 0; i < count; ++i) {
-            // Select a random element between i and end of array to swap with.
-            NSInteger nElements = count - i;
-            NSInteger n = (arc4random() % nElements) + i;
-            [articles exchangeObjectAtIndex:i withObjectAtIndex:n];
-        }
-    }
+    NSArray*articles=[ac selectedObjects];
     NSMutableArray*a=[NSMutableArray array];
     for(Article*article in articles){
 	[a addObject:article];
