@@ -109,7 +109,7 @@
 }
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"canned-search.png"];
+    return [NSImage imageNamed:@"canned-search"];
 }
 -(NSString*)placeholderForSearchField
 {

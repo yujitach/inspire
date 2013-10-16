@@ -502,15 +502,15 @@
 {
     ArticleFlag af=self.flag;
     if(af&AFIsFlagged){
-	return [NSImage imageNamed:@"flagged.png"];
+	return [NSImage imageNamed:@"flagged"];
     }else if(af&AFIsUnread){
         if(af&AFHasPDF){
-            return [NSImage imageNamed:@"unread-hasPDF.png"];
+            return [NSImage imageNamed:@"unread-hasPDF"];
         }else{
-            return [NSImage imageNamed:@"unread.png"];
+            return [NSImage imageNamed:@"unread"];
         }
     }else if(af&AFHasPDF){
-	return [NSImage imageNamed:@"hasPDF.png"];
+	return [NSImage imageNamed:@"hasPDF"];
     }
     return nil;
 }

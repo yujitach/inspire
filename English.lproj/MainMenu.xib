@@ -131,7 +131,7 @@
                             <menuItem isSeparatorItem="YES" id="79">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Close" onStateImage="14E05A52-BA38-454B-97CF-ACE94CABEA81" keyEquivalent="w" id="73">
+                            <menuItem title="Close" keyEquivalent="w" id="73">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="193"/>
                                 </connections>
@@ -395,11 +395,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="476" height="225"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="H0G-dn-Hcs">
-                                            <rect key="frame" x="0.0" y="17" width="476" height="208"/>
+                                            <rect key="frame" x="0.0" y="17" width="460" height="208"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="476" height="208"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="460" height="208"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -436,7 +436,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.shortishAuthorList" id="1303"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn width="216" minWidth="40" maxWidth="1000" id="432">
+                                                        <tableColumn width="200" minWidth="40" maxWidth="1000" id="432">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="title">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -520,7 +520,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="430">
-                                            <rect key="frame" x="0.0" y="0.0" width="476" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="460" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
@@ -706,7 +706,6 @@
         </treeController>
     </objects>
     <resources>
-        <image name="14E05A52-BA38-454B-97CF-ACE94CABEA81" width="128" height="128"/>
         <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSGoLeftTemplate" width="9" height="9"/>
         <image name="NSGoRightTemplate" width="9" height="9"/>

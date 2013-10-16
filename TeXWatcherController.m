@@ -141,7 +141,7 @@
     }else{
 	[[NSUserDefaults standardUserDefaults] setObject:@""
 						  forKey:@"watchDir"];	
-	self.image=[NSImage imageNamed:@"drop.png"];
+	self.image=[NSImage imageNamed:@"drop"];
     }
     
     if(beforeDir && ![beforeDir isEqualToString:afterDir]){

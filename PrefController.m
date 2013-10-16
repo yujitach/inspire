@@ -46,10 +46,10 @@
     self=[super initWithWindowNibName:@"PrefPane"];
 //    [self timeMachineSettingChanged:self];
 //    [self setAllArticleName];
-    [[NSNotificationCenter defaultCenter] addObserver:self
+/*    [[NSNotificationCenter defaultCenter] addObserver:self
 					     selector:@selector(applicationWillTerminate:) 
 						 name:NSApplicationWillTerminateNotification
-					       object:nil];
+					       object:nil];*/
     return self;
 }
 #pragma mark Mirrors

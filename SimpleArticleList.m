@@ -45,6 +45,6 @@
 
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"spires-red.png"];
+    return [NSImage imageNamed:@"spires-red"];
 }
 @end

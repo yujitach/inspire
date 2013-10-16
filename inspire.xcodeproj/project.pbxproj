@@ -86,6 +86,13 @@
 		33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524B10CC863000EC0211 /* blackOut.pdf */; };
 		33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33B8524F10CC874200EC0211 /* whiteIn.pdf */; };
 		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
+		33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; };
+		33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82716180F0C3B00D6C713 /* arxiv@2x.png */; };
+		33C82719180F0F1500D6C713 /* spires-red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82718180F0F1500D6C713 /* spires-red@2x.png */; };
+		33C8271B180F0FF500D6C713 /* canned-search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C8271A180F0FF500D6C713 /* canned-search@2x.png */; };
+		33C8271D180F116600D6C713 /* hasPDF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C8271C180F116600D6C713 /* hasPDF@2x.png */; };
+		33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C8271E180F116C00D6C713 /* unread-hasPDF@2x.png */; };
+		33C82721180F117600D6C713 /* unread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82720180F117600D6C713 /* unread@2x.png */; };
 		33C85E0117CF99CD0087956A /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
@@ -287,6 +294,13 @@
 		33B8524F10CC874200EC0211 /* whiteIn.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteIn.pdf; sourceTree = "<group>"; };
 		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
 		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
+		33C82714180F096900D6C713 /* spires-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spires-blue@2x.png"; sourceTree = "<group>"; };
+		33C82716180F0C3B00D6C713 /* arxiv@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arxiv@2x.png"; sourceTree = "<group>"; };
+		33C82718180F0F1500D6C713 /* spires-red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spires-red@2x.png"; sourceTree = "<group>"; };
+		33C8271A180F0FF500D6C713 /* canned-search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "canned-search@2x.png"; sourceTree = "<group>"; };
+		33C8271C180F116600D6C713 /* hasPDF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hasPDF@2x.png"; sourceTree = "<group>"; };
+		33C8271E180F116C00D6C713 /* unread-hasPDF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unread-hasPDF@2x.png"; sourceTree = "<group>"; };
+		33C82720180F117600D6C713 /* unread@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unread@2x.png"; sourceTree = "<group>"; };
 		33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
@@ -623,18 +637,25 @@
 			isa = PBXGroup;
 			children = (
 				33FFF37B17DE01A0007AF5E3 /* unread-hasPDF.png */,
+				33C8271E180F116C00D6C713 /* unread-hasPDF@2x.png */,
 				332F1B0D0EA597D300758683 /* spires.icns */,
 				33FD744910DEE15E0081C00D /* drop.png */,
 				33B8521B10CC851400EC0211 /* whiteOut.pdf */,
 				33B8524B10CC863000EC0211 /* blackOut.pdf */,
 				33B8524F10CC874200EC0211 /* whiteIn.pdf */,
 				3305A35A10D44907001142FC /* arxiv.png */,
+				33C82716180F0C3B00D6C713 /* arxiv@2x.png */,
 				3304B8620F92C7B1002156A9 /* canned-search.png */,
+				33C8271A180F0FF500D6C713 /* canned-search@2x.png */,
 				334A8C3810C8DB51000337CC /* spires-red.png */,
+				33C82718180F0F1500D6C713 /* spires-red@2x.png */,
 				334A8C3910C8DB51000337CC /* spires-blue.png */,
+				33C82714180F096900D6C713 /* spires-blue@2x.png */,
 				334A6D240F96E02E005BC4A2 /* flagged.png */,
 				332F485C0FF8748700B9363E /* hasPDF.png */,
+				33C8271C180F116600D6C713 /* hasPDF@2x.png */,
 				334A6D250F96E02E005BC4A2 /* unread.png */,
+				33C82720180F117600D6C713 /* unread@2x.png */,
 			);
 			name = "UI graphics";
 			sourceTree = "<group>";
@@ -851,11 +872,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33C8271D180F116600D6C713 /* hasPDF@2x.png in Resources */,
 				3331BD3311D42402001F9B4B /* tex.js in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
 				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
 				3365B30D0EA810CF00A847CE /* defaults.plist in Resources */,
+				33C8271B180F0FF500D6C713 /* canned-search@2x.png in Resources */,
 				338420C70EA84CE500990706 /* template.html in Resources */,
 				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
 				331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */,
@@ -877,14 +900,19 @@
 				334A8C3A10C8DB51000337CC /* spires-red.png in Resources */,
 				334A8C3B10C8DB51000337CC /* spires-blue.png in Resources */,
 				33B8521C10CC851400EC0211 /* whiteOut.pdf in Resources */,
+				33C82719180F0F1500D6C713 /* spires-red@2x.png in Resources */,
 				33B8524C10CC863000EC0211 /* blackOut.pdf in Resources */,
 				33B8525010CC874200EC0211 /* whiteIn.pdf in Resources */,
 				33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */,
 				3305A35B10D44907001142FC /* arxiv.png in Resources */,
+				33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
+				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				33D5BE5B17CCCEEC00B98F3A /* v1.5.0alert.rtf in Resources */,
+				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
+				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
 				33FFF37C17DE01A0007AF5E3 /* unread-hasPDF.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

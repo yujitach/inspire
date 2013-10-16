@@ -29,7 +29,7 @@
 }
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"arxiv.png"];
+    return [NSImage imageNamed:@"arxiv"];
 }
 -(NSButtonCell*)button
 {

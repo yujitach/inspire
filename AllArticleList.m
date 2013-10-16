@@ -136,7 +136,7 @@ static AllArticleList*_allArticleList=nil;
  */
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"spires-blue.png"];
+    return [NSImage imageNamed:@"spires-blue"];
 }
 -(NSString*)placeholderForSearchField
 {
