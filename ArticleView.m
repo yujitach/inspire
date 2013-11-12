@@ -303,8 +303,10 @@ static NSArray*observedKeys=nil;
     }
     if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
 	messageBox.style.visibility=@"visible";
+        [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"blinking\";"];
 	messageBox.innerHTML=message;
     }else{
+        [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"steady\";"];
 	messageBox.style.visibility=@"hidden";
     }
     doc.body.scrollTop=0;
