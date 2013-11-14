@@ -135,7 +135,19 @@ static NSArray*observedKeys=nil;
 {
     if(article.abstract==nil)
 	return nil;
-    NSString* result= [[article.abstract stringByConvertingTeXintoHTML] stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
+    // the code here is to trim excessive & escapes introduced in older versions
+    NSString*trim=[article.abstract stringByReplacingOccurrencesOfRegex:@"&(amp;)+" withString:@"&"];
+    for(NSString*tag in @[@"i",@"sub",@"sup"]){
+        NSString*from=[NSString stringWithFormat:@"&lt;(/*)%@&gt;",tag];
+        NSString*to=[NSString stringWithFormat:@"<$1%@>",tag];
+        trim=[trim stringByReplacingOccurrencesOfRegex:from withString:to];
+    }
+    if(![trim isEqualToString:article.abstract]){
+        article.abstract=trim;
+    }
+    trim=[trim stringByReplacingOccurrencesOfRegex:@"&lt;img.+/ *&gt;" withString:@"_"];
+    // up to this point. 
+    NSString* result= [[trim stringByConvertingTeXintoHTML] stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
 //    NSLog(@"%@",result);
     return result;
     

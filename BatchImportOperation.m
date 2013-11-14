@@ -275,24 +275,24 @@
 -(void)main
 {
 //    NSLog(@"registers %d entries",(int)[elements count]);
-    [self batchAddEntriesOfSPIRES:elements];
-    dispatch_group_async(group,dispatch_get_main_queue(),^{
-//	[[NSApp appDelegate] postMessage:nil];
-        [[MOC moc] save:NULL];
-	[[NSApp appDelegate] clearingUpAfterRegistration:nil];
-//	[[NSApp appDelegate] stopProgressIndicator];
-    });
-    
-    // need to delay running of the completion handler after all of the async calls!
-    void (^handler)(void)=[self completionBlock];
-    if(handler){
-	[self setCompletionBlock:nil];
-	dispatch_group_async(group,dispatch_get_main_queue(),^{
-	    handler();
-	});
+    @autoreleasepool {
+        [self batchAddEntriesOfSPIRES:elements];
+        dispatch_group_async(group,dispatch_get_main_queue(),^{
+            [[MOC moc] save:NULL];
+            [[NSApp appDelegate] clearingUpAfterRegistration:nil];
+        });
+        
+        // need to delay running of the completion handler after all of the async calls!
+        void (^handler)(void)=[self completionBlock];
+        if(handler){
+            [self setCompletionBlock:nil];
+            dispatch_group_async(group,dispatch_get_main_queue(),^{
+                handler();
+            });
+        }
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        dispatch_release(group);
     }
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    dispatch_release(group);
 }
 
 @end
