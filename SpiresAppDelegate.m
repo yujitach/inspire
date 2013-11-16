@@ -442,6 +442,10 @@
 	    return;
     }
    
+        if(a.abstract && ![a.abstract isEqualToString:@""]){
+            return;
+        }
+
     // prevent lots of access to the same article when the abstract loading fails
     {
 	if(!articlesAlreadyAccessedViaDOI){

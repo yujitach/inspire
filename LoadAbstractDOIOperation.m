@@ -49,10 +49,19 @@
 	NSLog(@"error while loading %@: %@",url, error);
 	return;
     }
-    if([s rangeOfString:@"Get the article at ScienceDirect"].location!=NSNotFound){
+/*    if([s rangeOfString:@"Get the article at ScienceDirect"].location!=NSNotFound){
 	NSLog(@"stupid Elsevier locator found");
 	s=[s stringByMatching:@"value=\"(http://.+?)\"" capture:1];
 	NSURL*newURL=[NSURL URLWithString:s];
+	s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
+	if(!s){
+	    NSLog(@"error while loading %@: %@",url, error);
+	    return;
+	}
+    }*/
+    if([s rangeOfString:@"sciencedirect"].location!=NSNotFound){
+        NSString*sdID=[s stringByMatching:@"http://www.sciencedirect.com/science/article/pii/([01-9]+)" capture:1];
+        NSURL*newURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://www.sciencedirect.com/science/article/pii/%@?np=y",sdID]];
 	s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
 	if(!s){
 	    NSLog(@"error while loading %@: %@",url, error);
@@ -68,13 +77,19 @@
     if(
        [[[NSUserDefaults standardUserDefaults] arrayForKey:@"ElsevierJournals"] containsObject:journalName]
        ){
-	NSArray*a=[content componentsSeparatedByString:@"Abstract</h3><p>"];
+	NSArray*a=[content componentsSeparatedByString:@"Abstract</h2><p id=\"\">"];
 	if([a count]<2)
 	    goto BAIL;
-	a=[a[1] componentsSeparatedByString:@"</div><!-- articleText -->"];
+	a=[a[1] componentsSeparatedByString:@"</p></div>"];
 	if([a count]<1)
 	    goto BAIL;
 	abstract=a[0];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"data-mathurl=\".+?\"" withString:@""];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"data-mathURL=\".+?\"" withString:@""];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"<img xmlns:xoe=\"http://www.elsevier.com/xml/xoe/dtd\".+?>" withString:@""];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"<noscript.+?>" withString:@""];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"</noscript>" withString:@""];
+        abstract=[abstract stringByReplacingOccurrencesOfRegex:@"<!--ja:math-->" withString:@""];
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"AnnualReviewJournals"] containsObject:journalName]
 	     ){
@@ -108,7 +123,7 @@
     }else if(
 	     [[[NSUserDefaults standardUserDefaults] arrayForKey:@"SpringerJournals"] containsObject:journalName]
 	     ){
-	NSArray*a=[content componentsSeparatedByString:@"Abstract&nbsp;&nbsp;</span>"];
+	NSArray*a=[content componentsSeparatedByString:@"<div class=\"abstract-content formatted\" itemprop=\"description\">"];
 	if([a count]<2)
 	    goto BAIL;
 	a=[a[1] componentsSeparatedByString:@"</div>"];

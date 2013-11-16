@@ -145,7 +145,7 @@ static NSArray*observedKeys=nil;
     if(![trim isEqualToString:article.abstract]){
         article.abstract=trim;
     }
-    trim=[trim stringByReplacingOccurrencesOfRegex:@"&lt;img.+/ *&gt;" withString:@"_"];
+//    trim=[trim stringByReplacingOccurrencesOfRegex:@"&lt;img.+&gt;" withString:@"_"];
     // up to this point. 
     NSString* result= [[trim stringByConvertingTeXintoHTML] stringByReplacingOccurrencesOfString:@"href=\"" withString:@"href=\"spires-lookup-eprint://"];
 //    NSLog(@"%@",result);
