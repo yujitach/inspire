@@ -149,7 +149,7 @@ MOC*_sharedMOCManager=nil;
     if (![persistentStoreCoordinator addPersistentStoreWithType:[self storeType]
 						  configuration:nil 
 							    URL:[NSURL fileURLWithPath:[self dataFilePath]] 
-							options:nil
+							options:@{NSSQLitePragmasOption:@{ @"journal_mode" :@"DELETE" }}
 							  error:&error]){
         [[NSApplication sharedApplication] presentError:error];
     }    
