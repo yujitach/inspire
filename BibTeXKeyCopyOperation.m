@@ -20,13 +20,8 @@
 -(void)run{
     self.isExecuting=YES;
     NSString*key=[[NSUserDefaults standardUserDefaults] stringForKey:@"bibType"];
-    int i=0;
-    NSMutableString* s=[NSMutableString string];
+    NSMutableArray*keys=[NSMutableArray array];
     for(Article*a in articles){
-	if(i!=0){
-	    [s appendString:@","];
-	    i=1;
-	}
 	NSString*c=nil;
 	if([key isEqualToString:@"harvmac"]){
 	    c=[a extraForKey:@"harvmacKey"];
@@ -34,9 +29,10 @@
 	    c=a.texKey;
 	}
 	if(c&&![c isEqualToString:@""]){
-	    [s appendString:c];
+            [keys addObject:c];
 	}
     }
+    NSString*s=[keys componentsJoinedByString:@","];
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
     [pb declareTypes:@[NSStringPboardType] owner:self];
     [pb setString:[s inspireToCorrect] forType:NSStringPboardType];
