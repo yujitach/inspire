@@ -72,7 +72,9 @@
    }
     NSSize o=cellFrame.size, i=[img size];
     NSPoint pt=NSMakePoint(cellFrame.origin.x+(o.width-i.width)/2, cellFrame.origin.y+(o.height-i.height)/2);
-    [img setFlipped:[controlView isFlipped]];
-    [img drawAtPoint:pt fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];	
+    NSRect toRect;
+    toRect.origin=pt;
+    toRect.size=i;
+    [img drawInRect:toRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
 }
 @end

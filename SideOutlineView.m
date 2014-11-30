@@ -126,7 +126,11 @@
     NSRange visibleRows = [self rowsInRect:[self visibleRect]];
     NSIndexSet *visibleColIndexes = [self columnIndexesInRect:[self visibleRect]];
     
-    NSPoint mouseLocation = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+    NSPoint mousePoint=[NSEvent mouseLocation];
+    NSRect mouseRect=NSMakeRect(mousePoint.x, mousePoint.y, 0, 0);
+    NSRect mouseRectInWindow=[[self window] convertRectFromScreen:mouseRect];
+    
+    NSPoint mouseLocation = [self convertPoint:mouseRectInWindow.origin fromView:nil];
     
     for (NSUInteger row = visibleRows.location; row < visibleRows.location + visibleRows.length; row++ ) {
         // If it is a "full width" cell, we don't have to go through the rows

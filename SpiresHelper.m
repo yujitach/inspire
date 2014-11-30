@@ -185,6 +185,20 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSPredicate*pred1=[self authorPredicate:operand];
     return [NSCompoundPredicate andPredicateWithSubpredicates:@[pred1,pred2]];    
 }
+-(NSPredicate*)titlePredicate:(NSString*)operand
+{
+    NSString*key=@"normalizedTitle";
+    //    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
+    //    operand=[[operand componentsSeparatedByString:@" "] lastObject];
+    operand=[operand stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
+    if([operand isEqualToString:@""])
+        return nil; //[NSPredicate predicateWithValue:YES];
+    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
+    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
+    //        NSLog(@"%@",pred);
+    return pred;
+}
+
 -(NSPredicate*)datePredicate:(NSString*)operand
 {
     operand=[operand stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -216,43 +230,40 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	op=@"<";
     }
     NSPredicate*pred=nil;
+/*
+    internally, eprintForSorting is of the form 
+        yyyymmnnnn when yyyy<=2014  (old eprint format and very old non-eprint are normalized to this)
+    but
+        yyyymmnnnnn when yyyy>=2015
+ */
+    int multiplier=(year>=2015)?10:1;
     if(op){
-	pred= [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"eprintForSorting %@ %d",op,(int)(year*100*10000)]];
+	pred= [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"eprintForSorting %@ %d",op,(int)(year*100*10000*multiplier)]];
     }else{
-	int upper=(year+1)*100*10000;
-	int lower=year*100*10000;
+	int upper=(year+1)*100*10000*multiplier;
+	int lower=year*100*10000*multiplier;
 	pred= [NSPredicate predicateWithFormat:@"(eprintForSorting < %d) and (eprintForSorting > %d)", upper, lower];
     }
 //    NSLog(@"%@",pred);
     return pred;    
 }
--(NSPredicate*)titlePredicate:(NSString*)operand
-{
-    NSString*key=@"normalizedTitle";
-//    operand=[[operand componentsSeparatedByString:@","] objectAtIndex:0];
-//    operand=[[operand componentsSeparatedByString:@" "] lastObject];
-    operand=[operand stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
-    if([operand isEqualToString:@""])
-	return nil; //[NSPredicate predicateWithValue:YES];
-    //    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains[cd] %@",key,operand];
-    NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K contains %@",key,[operand normalizedString]];
-    //        NSLog(@"%@",pred);
-    return pred;    
-}
+
 -(NSPredicate*)eprintPredicate:(NSString*)operand
 {
     if([operand isEqualToString:@""])
 	return nil; 
-    if([operand length]<4)
-	return nil;
     NSString*norm=[operand normalizedString];
+    if([norm length]<4)
+	return nil;
     NSString*es=[Article eprintForSortingFromEprint:norm];
-    NSUInteger i=[es length]; //2001mmnnnn
+    int year=[[es substringToIndex:4] intValue];
+    NSUInteger boundary=(year>=2015)?11:10;
+    NSUInteger i=[es length]; //2001mmnnnn or 2015mmnnnnn
     NSPredicate*pred1=nil;
-    if(i==10){
+    if(i==boundary){
         pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",@([es integerValue])];
-    }else if(i<10){
-        NSString*zeros=[NSString stringWithFormat:@"%0*d",(int)(10-i),0];
+    }else if(i<boundary){
+        NSString*zeros=[NSString stringWithFormat:@"%0*d",(int)(boundary-i),0];
         NSString*foo=[es stringByAppendingString:zeros];
         NSString*et=[NSString stringWithFormat:@"%ld",(long)([es integerValue]+1)];
         NSString*bar=[et stringByAppendingString:zeros];

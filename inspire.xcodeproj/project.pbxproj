@@ -120,7 +120,7 @@
 		33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EBAF8A0FF9BBEA0076F6AC /* AuxPanelController.m */; };
 		33EBAFBA0FF9BE420076F6AC /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBAFB90FF9BE420076F6AC /* CoreServices.framework */; };
 		33EBF00A0EA5BF650050B64A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
-		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; };
+		33EBF02F0EA5BFB60050B64A /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 33EBF0090EA5BF650050B64A /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */ = {isa = PBXBuildFile; fileRef = 33EBF0370EA5C0830050B64A /* Release Notes.html */; };
 		33F2076C10CF828E0012F0B6 /* BibView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F2076B10CF828E0012F0B6 /* BibView.xib */; };
 		33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F614D110CC50C500EC3837 /* ReloadButton.m */; };
@@ -846,7 +846,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "inspire" */;
 			compatibilityVersion = "Xcode 3.2";
