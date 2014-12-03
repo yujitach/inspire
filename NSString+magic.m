@@ -67,7 +67,7 @@ static void loadMagic(){
     for(NSArray*pair in magicRegExps){
 	NSString*from=pair[0];
 	NSString*to=pair[1];
-	[result replaceOccurrencesOfRegex:from 
+	[result replaceOccurrencesOfRegex:from
 			       withString:to 
 				  options:RKLCaseless|RKLMultiline 
 				    range:NSMakeRange(0,[result length]) 
@@ -86,7 +86,7 @@ static void loadMagic(){
     NSArray*preps=[[NSUserDefaults standardUserDefaults] arrayForKey:@"prepositions"];
     for(NSUInteger i=0;i<[a count];i++){
 	NSString*s=a[i];
-	if(![abbrevs containsObject:s] && ![s hasPrefix:@"SU("] && ![s hasPrefix:@"SO("]){
+        if(![abbrevs containsObject:s] && ![s hasPrefix:@"SU("] && ![s hasPrefix:@"SO("] && ![s hasPrefix:@"\\"] &&  ![s hasPrefix:@"$"]){
 	    s=[s lowercaseString];
 	    if(i==0 || ![preps containsObject:s]){
 		s=[s capitalizedStringForName];

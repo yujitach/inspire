@@ -340,6 +340,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     // unfortunately I already used "f" as the query for the flag field,
     // so some special treatment is necessary... Ugh.
     NSString*s=[t stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
+    s=[s stringByReplacingOccurrencesOfRegex:@" +$" withString:@""];
     if(![s hasPrefix:@"f"]){
 	return s;
     }

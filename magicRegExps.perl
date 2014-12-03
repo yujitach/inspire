@@ -1,7 +1,5 @@
-#!/usr/bin/perl
 #This file is NOT interpreted by perl. 
 # rudimentary magic
-s/\$//g;
 s/%%/!!/g;
 s/  %/  /g; # if $wanttitleofpapers;
 s/!!/%%/g;

@@ -113,6 +113,7 @@
 		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
 		33DE54230F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 33DE54220F71B21C004E3A5C /* ButtonBarPullDownArrow.pdf */; };
 		33DFC3BE156BCEB900C98E8E /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w -fno-objc-arc"; }; };
+		33E397871A2EDEE900C91553 /* ArticleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2DBF110C1DDFD0008C14A /* ArticleData.m */; };
 		33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E4EF840EAA9FAF00301AFC /* TableViewContextMenuCategory.m */; };
 		33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33E8C8090F5B34CD005E88B6 /* ActivityMonitor.xib */; };
 		33EBAF240FF9B37B0076F6AC /* TeXWatcherController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EBAF230FF9B37B0076F6AC /* TeXWatcherController.m */; };
@@ -950,6 +951,7 @@
 				331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */,
 				331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */,
 				3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */,
+				33E397871A2EDEE900C91553 /* ArticleData.m in Sources */,
 				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
 				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,

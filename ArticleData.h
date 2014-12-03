@@ -27,6 +27,7 @@
 @property (retain) NSString*shortishAuthorList;
 @property (retain) NSString * spicite;
 @property (retain) NSNumber * spiresKey;
+@property (retain) NSNumber * inspireKey;
 @property (retain) NSString* texKey;
 @property (retain) NSString * title;
 @property (retain) NSNumber * version;
