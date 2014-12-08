@@ -48,7 +48,7 @@
 {
     // taken from http://www.harmless.de/cocoa-code.php
     CGFloat flipFactor = (CGFloat)([controlView isFlipped] ? 1.0 : -1.0);
-    CGFloat cellSize = MIN(cellFrame.size.width, cellFrame.size.height);
+    CGFloat cellSize = cellFrame.size.width > cellFrame.size.height ? cellFrame.size.height : cellFrame.size.width;
     NSPoint center = cellFrame.origin;
     center.x += cellSize/(CGFloat)2.0;
     center.y += cellFrame.size.height/(CGFloat)2.0;

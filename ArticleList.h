@@ -7,6 +7,7 @@
 //
 
 #import <CoreData/CoreData.h>
+@import Cocoa;
 
 @class Article;
 

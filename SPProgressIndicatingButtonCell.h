@@ -6,8 +6,7 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
+@import Cocoa;
 
 @interface SPProgressIndicatingButtonCell : NSButtonCell {
 //    BOOL mouseIsIn;

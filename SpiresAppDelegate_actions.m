@@ -177,9 +177,15 @@
 
 -(IBAction)deletePDFForEntry:(id)sender
 {
-    Article*a=[ac selectedObjects][0];
-    if(!a.hasPDFLocally)
-	return;
+    NSMutableArray*articlesWithPDF=[NSMutableArray array];
+    for(Article*a in [ac selectedObjects]){
+        if(!a.hasPDFLocally){
+            continue;
+        }
+        [articlesWithPDF addObject:a];
+    }
+    if([articlesWithPDF count]==0)
+        return;
     NSAlert*alert=[NSAlert alertWithMessageText:@"Do you really want to remove PDF?"
 				  defaultButton:@"Yes" 
 				alternateButton:@"No"
@@ -188,11 +194,12 @@
     NSUInteger result=[alert runModal];
     if(result!=NSAlertDefaultReturn)
 	return;
-    NSString*path=a.pdfPath;
-    [[NSWorkspace sharedWorkspace] recycleURLs:@[[NSURL fileURLWithPath:path]]
-			     completionHandler:nil];
-    [a setFlag:a.flag &(~AFHasPDF)];
-    
+    for(Article* a in articlesWithPDF){
+        NSString*path=a.pdfPath;
+        [[NSWorkspace sharedWorkspace] recycleURLs:@[[NSURL fileURLWithPath:path]]
+                                 completionHandler:nil];
+        [a setFlag:a.flag &(~AFHasPDF)];
+    }
 }
 -(IBAction)deleteEntry:(id)sender
 {
