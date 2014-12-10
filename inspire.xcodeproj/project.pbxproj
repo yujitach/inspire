@@ -18,6 +18,7 @@
 		331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */; };
 		331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 331299100EA6AA4500A7F496 /* SimpleArticleList.m */; };
 		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
+		33197A241A37FF900058D527 /* v1.5.9alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 33197A231A37FF900058D527 /* v1.5.9alert.rtf */; };
 		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
@@ -107,7 +108,6 @@
 		33CCB5A210D9F29F00D51CDE /* Migrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33202EE110D9D8EA00EDB5A8 /* Migrator.m */; };
 		33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1991910C0853F001F3F0F /* MigrationProgressController.m */; };
 		33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F1991310C08505001F3F0F /* MigrationProgress.xib */; };
-		33D5BE5B17CCCEEC00B98F3A /* v1.5.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 33D5BE5A17CCCEEC00B98F3A /* v1.5.0alert.rtf */; };
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DE54190F71B0EE004E3A5C /* BWAnchoredPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */; };
 		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
@@ -174,6 +174,7 @@
 		331299100EA6AA4500A7F496 /* SimpleArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleArticleList.m; sourceTree = "<group>"; };
 		3315E8590EB6DAB200E56D7E /* HistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
 		3315E85A0EB6DAB200E56D7E /* HistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
+		33197A231A37FF900058D527 /* v1.5.9alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.5.9alert.rtf; sourceTree = "<group>"; };
 		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
@@ -323,7 +324,6 @@
 		33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchBibQueryOperation.m; sourceTree = "<group>"; };
 		33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMonitorController.h; sourceTree = "<group>"; };
 		33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMonitorController.m; sourceTree = "<group>"; };
-		33D5BE5A17CCCEEC00B98F3A /* v1.5.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.5.0alert.rtf; sourceTree = "<group>"; };
 		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButton.m; path = bwtoolkit/BWAnchoredPopUpButton.m; sourceTree = "<group>"; };
 		33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButtonCell.m; path = bwtoolkit/BWAnchoredPopUpButtonCell.m; sourceTree = "<group>"; };
@@ -477,7 +477,7 @@
 				33255AAA0F3131F500538063 /* Acknowledgments.html */,
 				33EBF0370EA5C0830050B64A /* Release Notes.html */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				33D5BE5A17CCCEEC00B98F3A /* v1.5.0alert.rtf */,
+				33197A231A37FF900058D527 /* v1.5.9alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -875,6 +875,7 @@
 				3331BD3311D42402001F9B4B /* tex.js in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
+				33197A241A37FF900058D527 /* v1.5.9alert.rtf in Resources */,
 				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
 				3365B30D0EA810CF00A847CE /* defaults.plist in Resources */,
 				33C8271B180F0FF500D6C713 /* canned-search@2x.png in Resources */,
@@ -909,7 +910,6 @@
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
-				33D5BE5B17CCCEEC00B98F3A /* v1.5.0alert.rtf in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
 				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
 				33FFF37C17DE01A0007AF5E3 /* unread-hasPDF.png in Resources */,
