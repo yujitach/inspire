@@ -63,9 +63,11 @@
 	</xsl:template>
 	<xsl:template name="abstract">
 		<xsl:for-each select="m:datafield[@tag='520']">
-			<abstract>
-				<xsl:value-of select="m:subfield[@code='a']"/>
-			</abstract>
+                        <xsl:if test="m:subfield[@code='9']='arXiv'">
+                            <abstract>
+                                    <xsl:value-of select="m:subfield[@code='a']"/>
+                            </abstract>
+                        </xsl:if>
 		</xsl:for-each>
 	</xsl:template>
 	<xsl:template name="eprint">
