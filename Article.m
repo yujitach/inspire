@@ -340,7 +340,7 @@
 -(void)setEprint:(NSString*)e
 {
     [self.data setEprint:e];
-    self.eprintForSorting=@([[self calculateEprintForSorting] intValue]);
+    self.eprintForSorting=@([[self calculateEprintForSorting] longLongValue]);
 }
 -(NSString*)eprintToShow
 {
@@ -358,7 +358,7 @@
 -(void)setDate:(NSDate*)d
 {
     [self.data setDate:d];
-    self.eprintForSorting=@([[self calculateEprintForSorting] intValue]);
+    self.eprintForSorting=@([[self calculateEprintForSorting] longLongValue]);
 }
 -(NSString*)quieterTitle //calculateQuieterTitle
 {

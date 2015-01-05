@@ -303,6 +303,7 @@
 		33C82720180F117600D6C713 /* unread@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unread@2x.png"; sourceTree = "<group>"; };
 		33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
+		33C9CF5B1A5A585900CE82A7 /* spires_DataModel 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 7.xcdatamodel"; sourceTree = "<group>"; };
 		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
 		33CC06E70F3E48B8005B25F8 /* DumbOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumbOperation.m; sourceTree = "<group>"; };
 		33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalPDFDownloadOperation.h; sourceTree = "<group>"; };
@@ -1223,8 +1224,9 @@
 			children = (
 				33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */,
 				33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */,
+				33C9CF5B1A5A585900CE82A7 /* spires_DataModel 7.xcdatamodel */,
 			);
-			currentVersion = 33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */;
+			currentVersion = 33C9CF5B1A5A585900CE82A7 /* spires_DataModel 7.xcdatamodel */;
 			path = spires_DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

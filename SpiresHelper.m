@@ -216,7 +216,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	    yearString=[(NSString*)@"19" stringByAppendingString:yearString];		
 	}
     }
-    int year=[yearString intValue];
+    long long year=[yearString intValue];
     NSString*op=nil;
     if([operand hasPrefix:@">="]){
 	op=@">";
@@ -238,11 +238,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
  */
     int multiplier=(year>=2015)?10:1;
     if(op){
-	pred= [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"eprintForSorting %@ %d",op,(int)(year*100*10000*multiplier)]];
+	pred= [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"eprintForSorting %@ %@",op,@(year*100*10000*multiplier)]];
     }else{
-	int upper=(year+1)*100*10000*multiplier;
-	int lower=year*100*10000*multiplier;
-	pred= [NSPredicate predicateWithFormat:@"(eprintForSorting < %d) and (eprintForSorting > %d)", upper, lower];
+	long long upper=(year+1)*100*10000*multiplier;
+	long long lower=year*100*10000*multiplier;
+	pred= [NSPredicate predicateWithFormat:@"(eprintForSorting < %@) and (eprintForSorting > %@)", @(upper), @(lower)];
     }
 //    NSLog(@"%@",pred);
     return pred;    
@@ -261,15 +261,15 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSUInteger i=[es length]; //2001mmnnnn or 2015mmnnnnn
     NSPredicate*pred1=nil;
     if(i==boundary){
-        pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",@([es integerValue])];
+        pred1= [NSPredicate predicateWithFormat:@"eprintForSorting == %@",@([es longLongValue])];
     }else if(i<boundary){
         NSString*zeros=[NSString stringWithFormat:@"%0*d",(int)(boundary-i),0];
         NSString*foo=[es stringByAppendingString:zeros];
         NSString*et=[NSString stringWithFormat:@"%ld",(long)([es integerValue]+1)];
         NSString*bar=[et stringByAppendingString:zeros];
         pred1=[NSCompoundPredicate andPredicateWithSubpredicates:@[
-                [NSPredicate predicateWithFormat:@"eprintForSorting >= %@",@([foo integerValue])],
-               [NSPredicate predicateWithFormat:@"eprintForSorting < %@",@([bar  integerValue])] ]];
+                [NSPredicate predicateWithFormat:@"eprintForSorting >= %@",@([foo longLongValue])],
+               [NSPredicate predicateWithFormat:@"eprintForSorting < %@",@([bar  longLongValue])] ]];
     }else{
         pred1=[NSPredicate predicateWithValue:NO];
     }
