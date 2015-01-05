@@ -187,7 +187,7 @@
     //END:progressivelyMigrateURLMoveAndRecurse
 }
 
--(BOOL)specialMigration
+-(BOOL)specialMigrationFrom:(NSString*)from To:(NSString*)to
 {
     NSError*error=nil;
     NSDictionary *sourceMetadata = 
@@ -195,15 +195,17 @@
 							       URL:[NSURL fileURLWithPath:dataFilePath]
 							     error:&error];
     if (!sourceMetadata) return NO;
-    NSURL*oldMOMURL=[mainBundle URLForResource:@"spires_DataModel 5" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
+    NSString*fromModel=[@"spires_DataModel " stringByAppendingString:from];
+    NSString*toModel=[@"spires_DataModel " stringByAppendingString:to];
+    NSURL*oldMOMURL=[mainBundle URLForResource:fromModel withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
     NSManagedObjectModel* mom1=[[NSManagedObjectModel alloc] initWithContentsOfURL:oldMOMURL];
     
     if (![mom1 isConfiguration:nil 
    compatibleWithStoreMetadata:sourceMetadata]) {
-	NSLog(@"No need to special case migration.");
+	NSLog(@"No need to special case migration from %@ to %@.", from, to);
 	return NO;
     }
-    NSURL*newMOMURL=[mainBundle URLForResource:@"spires_DataModel 6" withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
+    NSURL*newMOMURL=[mainBundle URLForResource:toModel withExtension:@"mom" subdirectory:@"spires_DataModel.momd"];
     NSManagedObjectModel* mom2=[[NSManagedObjectModel  alloc] initWithContentsOfURL:newMOMURL];
     
     error=nil;
@@ -233,18 +235,18 @@
     }
 //    FSPathMoveObjectToTrashSync([dataFilePath fileSystemRepresentation], NULL, kFSFileOperationDefaultOptions);
     [[NSFileManager defaultManager] moveItemAtPath:dataFilePath
-					    toPath:[dataFilePath stringByAppendingString:@".ver5"]
+					    toPath:[dataFilePath stringByAppendingString:[@".ver" stringByAppendingString:from]]
 					     error:&error];
     [[NSFileManager defaultManager] moveItemAtPath:destPath
 					    toPath:dataFilePath
 					     error:&error];
-    NSLog(@"special case migration succeeded.");
+    NSLog(@"special case migration from %@ to %@ succeeded.",from,to);
     
     return YES;
 }
 -(void)performMigration
 {
-    NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
+/*    NSAlert*alert=[NSAlert alertWithMessageText:@"spires.app will update its database."
 				  defaultButton:@"OK" 
 				alternateButton:nil
 				    otherButton:nil
@@ -253,9 +255,10 @@
 		   @"This might take five minuites or more. "
 		   @"Spinning rainbow cursor will appear, but please wait patiently until it finishes. "
 		   @"Force quitting might corrupt the database."];
-    [alert runModal];      
+    [alert runModal];  */    
     // this is a special code to initiate lightweight migration during developments
-    if([self specialMigration]){
+    [self specialMigrationFrom:@"5" To:@"6"];
+    if([self specialMigrationFrom:@"6" To:@"7"]){
 	return;
     }
     NSError*error=nil;
