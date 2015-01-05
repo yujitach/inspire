@@ -18,7 +18,6 @@
 		331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */; };
 		331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 331299100EA6AA4500A7F496 /* SimpleArticleList.m */; };
 		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
-		33197A241A37FF900058D527 /* v1.5.9alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 33197A231A37FF900058D527 /* v1.5.9alert.rtf */; };
 		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
@@ -72,6 +71,7 @@
 		338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E9EBB1037C55D0059AE43 /* MessageViewerController.m */; };
 		338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EBD1037C58C0059AE43 /* MessageViewer.xib */; };
 		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
+		339512D71A5A9BF400056754 /* v1.6.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 339512D61A5A9BF400056754 /* v1.6.0alert.rtf */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -174,7 +174,6 @@
 		331299100EA6AA4500A7F496 /* SimpleArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleArticleList.m; sourceTree = "<group>"; };
 		3315E8590EB6DAB200E56D7E /* HistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
 		3315E85A0EB6DAB200E56D7E /* HistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
-		33197A231A37FF900058D527 /* v1.5.9alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.5.9alert.rtf; sourceTree = "<group>"; };
 		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
@@ -270,6 +269,7 @@
 		3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXKeyCopyOperation.m; sourceTree = "<group>"; };
 		3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingTextField.h; sourceTree = "<group>"; };
 		3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingTextField.m; sourceTree = "<group>"; };
+		339512D61A5A9BF400056754 /* v1.6.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.6.0alert.rtf; sourceTree = "<group>"; };
 		339544DA0F35277200D01E97 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
 		339544DB0F35277200D01E97 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
 		3395458D0F3539B600D01E97 /* AppChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppChooser.h; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 				33255AAA0F3131F500538063 /* Acknowledgments.html */,
 				33EBF0370EA5C0830050B64A /* Release Notes.html */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				33197A231A37FF900058D527 /* v1.5.9alert.rtf */,
+				339512D61A5A9BF400056754 /* v1.6.0alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -876,7 +876,6 @@
 				3331BD3311D42402001F9B4B /* tex.js in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				332F1B0E0EA597D300758683 /* spires.icns in Resources */,
-				33197A241A37FF900058D527 /* v1.5.9alert.rtf in Resources */,
 				33EBF0380EA5C0830050B64A /* Release Notes.html in Resources */,
 				3365B30D0EA810CF00A847CE /* defaults.plist in Resources */,
 				33C8271B180F0FF500D6C713 /* canned-search@2x.png in Resources */,
@@ -909,6 +908,7 @@
 				33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
+				339512D71A5A9BF400056754 /* v1.6.0alert.rtf in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
