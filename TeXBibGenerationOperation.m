@@ -76,14 +76,19 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 }
 
 
--(NSString*)bibFilePath
+-(NSArray*)bibFilePaths
 {
-    NSString*bibname=[dict valueForKey:@"BibTeXFile"];
-    if(![bibname hasSuffix:@".bib"]){
-	bibname=[bibname stringByAppendingString:@".bib"];
+    NSString*bibnames=[dict valueForKey:@"BibTeXFile"];
+    NSMutableArray*array=[NSMutableArray array];
+    NSString*bibname;
+    for(bibname in [bibnames componentsSeparatedByString:@","]){
+        if(![bibname hasSuffix:@".bib"]){
+            bibname=[bibname stringByAppendingString:@".bib"];
+        }
+        NSString*bibFile=[[texFile stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",bibname];
+        [array addObject:bibFile];
     }
-    NSString*bibFile=[[texFile stringByDeletingLastPathComponent] stringByAppendingFormat:@"/%@",bibname];
-    return bibFile;
+    return array;
 }
 
 
@@ -108,7 +113,12 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     
     
     {
-	NSString*org=[NSString stringWithContentsOfFile:[self bibFilePath] encoding:NSUTF8StringEncoding error:nil];
+        NSMutableString*org=[NSMutableString stringWithString:@""];
+        {
+            for(NSString*bibFilePath in [self bibFilePaths]){
+                [org appendString:[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil]];
+            }
+        }
 	NSArray*lines=[org componentsSeparatedByString:@"\n"];
 	NSMutableArray*e=[NSMutableArray array];
 	for(NSString*line in lines){
@@ -273,10 +283,10 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	
     }
     
-    
+    NSString*bibFilePath=[self bibFilePaths][0];
     
     if([toAddToBib count]>0){
-	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",[[self bibFilePath] lastPathComponent]]];
+	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",[bibFilePath lastPathComponent]]];
 	NSMutableString*appendix=[NSMutableString string];
 	for(NSString* key in toAddToBib){
 	    Article*a=keyToArticle[key];
@@ -292,12 +302,12 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	    [appendix appendString:bib];
 	    [appendix appendString:@"\n\n"];	    
 	}
-	NSString*org=[NSString stringWithContentsOfFile:[self bibFilePath] encoding:NSUTF8StringEncoding error:nil];
+	NSString*org=[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil];
 	if(!org){
 	    org=@"";
 	}    
 	NSString*result=[NSString stringWithFormat:@"%@\n\n%@",org,appendix];
-	[result writeToFile:[self bibFilePath] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	[result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	[[NSApp appDelegate] addToTeXLog:@"Done.\n"];
     }else{
 	[[NSApp appDelegate] addToTeXLog:@"Nothing to add.\n"];	
