@@ -241,8 +241,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 		[notFound addObject:idForKey];		
 	    }
 	}else{
-	    if(  (![entriesAlreadyInBib containsObject:key])
-	       && [idForKey rangeOfString:@":"].location!=NSNotFound){
+	    if( [idForKey rangeOfString:@":"].location!=NSNotFound){
 		    [notFound addObject:idForKey];  
 	    }
 	}
