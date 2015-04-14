@@ -169,7 +169,7 @@
 	NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
 	total=[t intValue];
     }
-    
+    NSUInteger count=0;
     NSError*error;
     NSXMLDocument*doc=nil;
     if([temporaryData length]){
@@ -189,8 +189,11 @@
 			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
 				contextInfo:nil];
 	}
+        NSXMLElement* root=[doc rootElement];
+        NSArray*elements=[root elementsForName:@"document"];
+        count=[elements count];
     }
-    whenDone(doc,total);
+    whenDone([doc XMLData],count,total);
     temporaryData=nil;
     connection=nil;
     
@@ -214,7 +217,7 @@
 
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
-    whenDone(nil,0);
+    whenDone(nil,0,0);
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
 

@@ -162,13 +162,15 @@
     [fm copyItemAtPath:path 
 		toPath:[@"/tmp/SpiresCrashReport/" stringByAppendingString:[path lastPathComponent]] 
 		 error:NULL];
+    system("cp /tmp/spiresTemporary.xml /tmp/SpiresCrashReport/");
     system("grep spires /var/log/system.log | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.log");
     system("bzip2 -dc /var/log/system.log.0.bz2 | grep spires | grep -v malloc  > /tmp/SpiresCrashReport/system.spires.0.log");
     system("rm /tmp/SpiresCrashReport/*.tar.bz2");
-    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%ld.tar.bz2 *.log *.crash",(unsigned long)time(NULL) ];
+    NSString*line=[NSString stringWithFormat:@"cd /tmp/SpiresCrashReport; tar jcf SpiresCrashReport-%ld.tar.bz2 *.log *.crash *.xml",(unsigned long)time(NULL) ];
     system([line UTF8String]);
     system("rm /tmp/SpiresCrashReport/*.log");
     system("rm /tmp/SpiresCrashReport/*.crash");
+    system("rm /tmp/SpiresCrashReport/*.xml");
     [[NSWorkspace sharedWorkspace] openFile:@"/tmp/SpiresCrashReport/" withApplication:@"Finder"];
 }
 

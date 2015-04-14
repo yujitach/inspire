@@ -18,7 +18,7 @@
 
 @implementation BatchImportOperation
 {
-    NSArray*elements;
+    NSData*xmlData;
     NSManagedObjectContext*secondMOC;
     Article*citedByTarget;
     Article*refersToTarget;
@@ -27,13 +27,14 @@
     dispatch_group_t group;
 }
 @synthesize generated;
--(BatchImportOperation*)initWithElements:(NSArray*)e // andMOC:(NSManagedObjectContext*)m 
+-(BatchImportOperation*)initWithXMLData:(NSData*)d
 				 citedBy:(Article*)c 
 				refersTo:(Article*)r 
 		   registerToArticleList:(ArticleList*)l
 {
     self=[super init];
-    elements=[e copy];
+    xmlData=d;
+    [xmlData writeToFile:@"/tmp/spiresTemporary.xml" atomically:YES];
 /*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
     if([elements count]>cap){
@@ -54,7 +55,7 @@
 
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"registering to database %d elements",(int)[elements count]];
+    return @"registering";
 }
 
 #pragma mark setters from XML
@@ -274,8 +275,12 @@
 #pragma mark entry point
 -(void)main
 {
-//    NSLog(@"registers %d entries",(int)[elements count]);
     @autoreleasepool {
+        NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
+        NSXMLElement* root=[doc rootElement];
+        NSArray*elements=[root elementsForName:@"document"];
+        NSLog(@"spires returned %d entries",(int)[elements count]);
+
         [self batchAddEntriesOfSPIRES:elements];
         dispatch_group_async(group,dispatch_get_main_queue(),^{
             [[MOC moc] save:NULL];

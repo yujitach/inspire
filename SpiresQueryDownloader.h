@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class Article;
-typedef void (^WhenDoneClosure)(NSXMLDocument*doc,NSUInteger total);
+typedef void (^WhenDoneClosure)(NSData*xmlData,NSUInteger count,NSUInteger total);
 @interface SpiresQueryDownloader : NSObject {
     WhenDoneClosure whenDone;
     NSString*searchString;

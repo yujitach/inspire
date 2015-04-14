@@ -87,25 +87,22 @@
 	a=citedByTarget;
     }
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSXMLDocument*doc,NSUInteger total){
-        if(!doc){
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSData*xmlData,NSUInteger count,NSUInteger total){
+        if(!xmlData){
             [me finish];
             return;
         }
-        NSXMLElement* root=[doc rootElement];
-        NSArray*elements=[root elementsForName:@"document"];
-        NSLog(@"spires returned %d entries",(int)[elements count]);
         if([me isCancelled]){
             [me finish];
             return;
         }
-        importer=[[BatchImportOperation alloc] initWithElements:elements
+        importer=[[BatchImportOperation alloc] initWithXMLData:xmlData
                                                         citedBy:citedByTarget
                                                        refersTo:refersToTarget
                                           registerToArticleList:nil];
         [[OperationQueues sharedQueue] addOperation:importer];
-        if(start+[elements count]<total){
-            NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+[elements count]];
+        if(start+count<total){
+            NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];
             [op setQueuePriority:NSOperationQueuePriorityLow];
             [[OperationQueues spiresQueue] addOperation:op];
         }

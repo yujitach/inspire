@@ -13,8 +13,9 @@
 @class Article;
 @class ArticleList;
 @interface BatchImportOperation : NSOperation
--(BatchImportOperation*)initWithElements:(NSArray*)e
-				//  andMOC:(NSManagedObjectContext*)m 
-				 citedBy:(Article*)c refersTo:(Article*)r registerToArticleList:(ArticleList*)l;
+-(BatchImportOperation*)initWithXMLData:(NSData*)d
+                                citedBy:(Article*)c
+                               refersTo:(Article*)r
+                  registerToArticleList:(ArticleList*)l;
 @property(readonly) NSMutableSet*generated;
 @end
