@@ -62,6 +62,7 @@ typedef enum {
 
 +(Article*)articleWith:(NSString*)value inDataForKey:(NSString*)key inMOC:(NSManagedObjectContext*)moc;
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc;
++(Article*)articleForQuery:(NSString*)query inMOC:(NSManagedObjectContext*)moc;
 +(NSString*)eprintForSortingFromEprint:(NSString*)eprint;
 
 -(void)associatePDF:(NSString*)path;

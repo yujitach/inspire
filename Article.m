@@ -100,7 +100,6 @@
 }
 +(Article*)intelligentlyFindArticleWithId:(NSString*)idToLookUp inMOC:(NSManagedObjectContext*)moc
 {
-//    NSLog(@"finding article with id %@",idToLookUp);
     NSString*eprint=nil;
     if([[idToLookUp lowercaseString] hasPrefix:@"arxiv:"]){
 	eprint=[[idToLookUp lowercaseString] stringByReplacingOccurrencesOfString:@"arxiv" withString:@"arXiv"];
@@ -114,28 +113,49 @@
 		       inDataForKey:@"eprint"
 			      inMOC:moc];	
     }
-//    if([idToLookUp rangeOfString:@","].location!=NSNotFound){
-//	return [Article articleWith:[idToLookUp uppercaseString]
-//		       inDataForKey:@"spicite"
-//			      inMOC:moc];
-//    }
     if([idToLookUp rangeOfString:@":"].location!=NSNotFound){
 	return [Article articleWith:idToLookUp
 		       inDataForKey:@"texKey"
 			      inMOC:moc];
     }
-    if([[idToLookUp lowercaseString] hasPrefix:@"key"]){
-	NSArray* arr=[idToLookUp componentsSeparatedByString:@" "];
-	if([arr count]>1){
-	    idToLookUp=[arr lastObject];
-	}
+    idToLookUp=[idToLookUp lowercaseString];
+    if([idToLookUp hasPrefix:@"key"]){
+        idToLookUp=[idToLookUp stringByMatching:@"key +(\\d+)" capture:1];
     }
     return [Article articleWith:idToLookUp
 		   inDataForKey:@"spiresKey"
 			  inMOC:[MOC moc]];
 }
 
-
++(Article*)articleForQuery:(NSString*)query inMOC:(NSManagedObjectContext*)moc
+{
+    NSString*s=nil;
+    if([query hasPrefix:@"c "]){
+        NSString*ccc=[query componentsSeparatedByString:@"and"][0];
+        NSArray*a=[ccc componentsSeparatedByString:@" "];
+        if([a count]==2){
+            s=a[1];
+            if([s isEqualToString:@""])return nil;
+        }else if([a count]==3){
+            // c key nnnnnnn
+            s=[@"key " stringByAppendingString:a[2]];
+        }
+    }
+    if([query hasPrefix:@"r"]){
+        NSString*ccc=[query componentsSeparatedByString:@"and"][0];
+        NSArray*a=[ccc componentsSeparatedByString:@" "];
+        if([a count]==2){
+            s=a[1];
+            if([s isEqualToString:@""])return nil;
+        }else if([a count]==3){
+            // r key nnnnnnn
+            s=[@"key " stringByAppendingString:a[2]];
+        }
+    }
+    if(!s)
+        return nil;
+    return [Article intelligentlyFindArticleWithId:s inMOC:moc];
+}
 
 
 +(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;

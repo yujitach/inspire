@@ -34,60 +34,13 @@
 }
 -(void)run
 {
-    
-    if([search hasPrefix:@"c "]){
-	NSString*ccc=[search componentsSeparatedByString:@"and"][0];
-	NSArray*a=[ccc componentsSeparatedByString:@" "];
-	if([a count]==2){
-	    NSString*s=a[1];
-	    if([s isEqualToString:@""])return;
-	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
-	}else if([a count]==3){
-	    // c key nnnnnnn
-	    NSString*s=a[2];
-	    citedByTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
-	}else{
-	    citedByTarget=nil;
-	}
-	if(!citedByTarget){
-	    NSLog(@"citedByTarget couldn't be obtained for %@",search);
-	}
-    }else{
-	citedByTarget=nil;
-    }
-    if([search hasPrefix:@"r"]){
-	NSString*ccc=[search componentsSeparatedByString:@"and"][0];
-	NSArray*a=[ccc componentsSeparatedByString:@" "];
-	if([a count]==2){
-	    NSString*s=a[1];
-	    if([s isEqualToString:@""])return;
-	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
-	}else if([a count]==3){
-	    // r key nnnnnnn
-	    NSString*s=a[2];
-	    refersToTarget=[Article intelligentlyFindArticleWithId:s inMOC:moc];
-	}else{
-	    refersToTarget=nil;
-	}
-	if(!refersToTarget){
-	    NSLog(@"refersToTarget couldn't be obtained for %@",search);
-	}
-    }else{
-	refersToTarget=nil;
-    }
     self.isExecuting=YES;
     [self startAt:startAt];
 }
 -(void)startAt:(NSInteger)start
 {
-    Article*a=nil;
-    if(refersToTarget){
-	a=refersToTarget;
-    }else if(citedByTarget){
-	a=citedByTarget;
-    }
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start forArticle:a whenDone:^(NSData*xmlData,NSUInteger count,NSUInteger total){
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSData*xmlData,NSUInteger count,NSUInteger total){
         if(!xmlData){
             [me finish];
             return;
@@ -97,9 +50,7 @@
             return;
         }
         importer=[[BatchImportOperation alloc] initWithXMLData:xmlData
-                                                        citedBy:citedByTarget
-                                                       refersTo:refersToTarget
-                                          registerToArticleList:nil];
+                                                 originalQuery:search];
         [[OperationQueues sharedQueue] addOperation:importer];
         if(start+count<total){
             NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];

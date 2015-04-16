@@ -19,9 +19,8 @@ typedef void (^WhenDoneClosure)(NSData*xmlData,NSUInteger count,NSUInteger total
     NSUInteger total;
     NSUInteger sofar;
     NSUInteger startIndex;
-    Article*article;
 }
 // note that didEndSelector can be called **multiple times**.
 // It's guaranteed to be always on the main thread.
--(id)initWithQuery:(NSString*)s startAt:(NSUInteger)start forArticle:(Article*)a whenDone:(WhenDoneClosure)wd ;
+-(id)initWithQuery:(NSString*)s startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd ;
 @end

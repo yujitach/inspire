@@ -19,21 +19,18 @@
 @implementation BatchImportOperation
 {
     NSData*xmlData;
+    NSString*query;
     NSManagedObjectContext*secondMOC;
-    Article*citedByTarget;
-    Article*refersToTarget;
-    ArticleList*list;
     NSMutableSet*generated;
     dispatch_group_t group;
 }
 @synthesize generated;
 -(BatchImportOperation*)initWithXMLData:(NSData*)d
-				 citedBy:(Article*)c 
-				refersTo:(Article*)r 
-		   registerToArticleList:(ArticleList*)l
+                          originalQuery:(NSString*)q;
 {
     self=[super init];
     xmlData=d;
+    query=[q copy];
     [xmlData writeToFile:@"/tmp/spiresTemporary.xml" atomically:YES];
 /*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
@@ -41,9 +38,6 @@
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
     }*/
     secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
-    citedByTarget=c;
-    refersToTarget=r;
-    list=l;
     generated=[NSMutableSet set];
     group=dispatch_group_create();
     return self;
@@ -254,21 +248,27 @@
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	[allArticleList addArticles:generated];
 	
-	if(citedByTarget){
-	    NSLog(@"added to %@",citedByTarget.title);
-	    [citedByTarget addCitedBy:generated];
-	}
-	if(refersToTarget){
-	    NSLog(@"added to %@",refersToTarget.title);
-	    [refersToTarget addRefersTo:generated];
-	}
-	//    NSLog(@"add entry:%@",o);
-	if(list){
-	    [list addArticles:generated];
-	}
-	    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
-            [op setQueuePriority:NSOperationQueuePriorityVeryLow];
-	    [[OperationQueues spiresQueue] addOperation:op];
+        if([query hasPrefix:@"c "]){
+            Article*citedByTarget=[Article articleForQuery:query inMOC:[MOC moc]];
+            if(!citedByTarget){
+                NSLog(@"citedBy target article not found. strange.");
+            }else{
+                NSLog(@"added to %@",citedByTarget.title);
+                [citedByTarget addCitedBy:generated];
+            }
+        }
+        if([query hasPrefix:@"r "]){
+            Article*refersToTarget=[Article articleForQuery:query inMOC:[MOC moc]];
+            if(!refersToTarget){
+                NSLog(@"refersTo target article not found. strange.");
+            }else{
+                NSLog(@"added to %@",refersToTarget.title);
+                [refersToTarget addRefersTo:generated];
+            }
+        }
+        NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
+        [op setQueuePriority:NSOperationQueuePriorityVeryLow];
+        [[OperationQueues spiresQueue] addOperation:op];
     });
 }
 

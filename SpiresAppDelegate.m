@@ -726,6 +726,17 @@
     if([[url scheme] isEqualToString:@"about"]){
 	[listener use];
     }else{
+        if([[url absoluteString] hasPrefix:@"spires-search://c%20key%20"]
+           ||
+           [[url absoluteString] hasPrefix:@"spires-search://r%20key%20"]){
+            NSString*query=[[[url absoluteString] stringByRemovingPercentEncoding] substringFromIndex:[@"spires-search://" length]];
+            Article*a=[Article articleForQuery:query inMOC:[MOC moc]];
+            // somehow somtimes a becomes nil at this point for a very old entry obtained from SPIRES long time ago. refreshing seems to do the job at the next query ...
+            if(!a){
+                NSLog(@"this entry %@ is too old for lookup refreshing...",query);
+                [self reloadFromSPIRES:self];
+            }
+        }
 	[self handleURL:url];
 	[listener ignore];
     }

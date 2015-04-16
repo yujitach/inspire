@@ -14,8 +14,6 @@
 @class BatchImportOperation;
 @interface SpiresQueryOperation : ConcurrentOperation {
     NSString*search;
-    Article*citedByTarget;
-    Article*refersToTarget;
     NSManagedObjectContext*moc;
     SpiresQueryDownloader*downloader;
     NSInteger startAt;

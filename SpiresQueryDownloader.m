@@ -11,6 +11,7 @@
 #import "NSString+magic.h"
 #import "AppDelegate.h"
 #import "Article.h"
+#import "MOC.h"
 
 @interface SpiresQueryDownloader ()
 - (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
@@ -25,6 +26,7 @@
     NSString*inspireQuery=nil;
     if([search hasPrefix:@"r"]||[search hasPrefix:@"c "]){
 	NSString*rec=nil;
+        Article*article=[Article articleForQuery:search inMOC:[MOC moc]];
 	NSNumber*inspireKey=article.inspireKey;
 	if(inspireKey && [inspireKey integerValue]!=0){
 	    rec=[NSString stringWithFormat:@"recid:%@",inspireKey];
@@ -70,11 +72,10 @@
     NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm",inspireQuery,(int)startIndex+1,MAXPERQUERY];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }
--(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start forArticle:(Article*)a whenDone:(WhenDoneClosure)wd
+-(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd
 {
     self=[super init];
     whenDone=wd;
-    article=a;
     startIndex=start;
     search=[search normalizedString];
     // 29/6/2009
