@@ -116,7 +116,10 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         NSMutableString*org=[NSMutableString stringWithString:@""];
         {
             for(NSString*bibFilePath in [self bibFilePaths]){
-                [org appendString:[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil]];
+                NSString*content=[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil];
+                if(content){
+                    [org appendString:content];
+                }
             }
         }
 	NSArray*lines=[org componentsSeparatedByString:@"\n"];
