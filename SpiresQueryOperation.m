@@ -14,8 +14,22 @@
 #import "BatchBibQueryOperation.h"
 #import "AppDelegate.h"
 #import "MOC.h"
+@interface SpiresQueryOperation ()
+{
+    NSString*search;
+    NSManagedObjectContext*moc;
+    SpiresQueryDownloader*downloader;
+    NSInteger startAt;
+    BatchImportOperation*importer;
+    ActionOnBatchImportBlock actionBlock;
+}
+@end
 @implementation SpiresQueryOperation
-@synthesize importer;
+-(void)setBlockToActOnBatchImport:(ActionOnBatchImportBlock)_actionBlock;
+{
+    actionBlock=[_actionBlock copy];
+}
+
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
 {
     self=[super init];
@@ -51,9 +65,15 @@
         }
         importer=[[BatchImportOperation alloc] initWithXMLData:xmlData
                                                  originalQuery:search];
+        if(actionBlock){
+            actionBlock(importer);
+        }
         [[OperationQueues sharedQueue] addOperation:importer];
         if(start+count<total){
-            NSOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];
+            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];
+            if(actionBlock){
+                [op setBlockToActOnBatchImport:actionBlock];
+            }
             [op setQueuePriority:NSOperationQueuePriorityLow];
             [[OperationQueues spiresQueue] addOperation:op];
         }

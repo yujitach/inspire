@@ -206,22 +206,18 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 							  byLookingUpWeb:NO];
     for(SpiresQueryOperation*q in ops){
 	[again addDependency:q];
-        SpiresQueryOperation*p=q;
-	[q setCompletionBlock:^{
-	    [p.importer setCompletionBlock:^{
-		NSSet*generated=p.importer.generated;
-		if(!generated)return;
-		NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[generated allObjects]];
-		[again addDependency:op];
-		[[OperationQueues spiresQueue] addOperation:op];
-//		NSOperation*wop=[[WaitOperation alloc] initWithTimeInterval:1];
-//		[again addDependency:wop];
-//		[[OperationQueues spiresQueue] addOperation:wop];
-	    }];
-	    [again addDependency:p.importer];
-	}];
+        [q setBlockToActOnBatchImport:^(BatchImportOperation*importer){
+            [again addDependency:importer];
+            BatchImportOperation*weakImporter=importer;
+            [importer setCompletionBlock:^{
+                NSSet*generated=weakImporter.generated;
+                if(!generated)return;
+                NSOperation*op=[[BatchBibQueryOperation alloc] initWithArray:[generated allObjects]];
+                [again addDependency:op];
+                [[OperationQueues spiresQueue] addOperation:op];
+            }];
+        }];
 	[[OperationQueues spiresQueue] addOperation:q];
-//	[[OperationQueues spiresQueue] addOperation:[[WaitOperation alloc] initWithTimeInterval:1]];
     }
     [[OperationQueues sharedQueue] addOperation:again];
     [logString appendString:@" not found in local database. Looking up...\n"];

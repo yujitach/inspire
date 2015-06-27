@@ -12,13 +12,8 @@
 @class Article;
 @class SpiresQueryDownloader;
 @class BatchImportOperation;
-@interface SpiresQueryOperation : ConcurrentOperation {
-    NSString*search;
-    NSManagedObjectContext*moc;
-    SpiresQueryDownloader*downloader;
-    NSInteger startAt;
-    BatchImportOperation*importer;
-}
+typedef void (^ActionOnBatchImportBlock)(BatchImportOperation*);
+@interface SpiresQueryOperation : ConcurrentOperation
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
-@property(readonly) BatchImportOperation*importer;
+-(void)setBlockToActOnBatchImport:(ActionOnBatchImportBlock)actionBlock;
 @end
