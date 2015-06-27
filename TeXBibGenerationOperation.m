@@ -208,7 +208,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	[again addDependency:q];
         [q setBlockToActOnBatchImport:^(BatchImportOperation*importer){
             [again addDependency:importer];
-            BatchImportOperation*weakImporter=importer;
+            __weak BatchImportOperation*weakImporter=importer;
             [importer setCompletionBlock:^{
                 NSSet*generated=weakImporter.generated;
                 if(!generated)return;
