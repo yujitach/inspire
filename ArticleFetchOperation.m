@@ -15,14 +15,14 @@
 @implementation ArticleFetchOperation
 {
     NSString*search;
-    ArticleList*articleList;
+    NSManagedObjectID*articleListID;
     NSUInteger offset;
 }
 -(ArticleFetchOperation*)initWithQuery:(NSString*)search_ forArticleList:(ArticleList*)al
 {
     if(self=[super init]){
         search=search_;
-        articleList=al;
+        articleListID=al.objectID;
     }
     return self;
 }
@@ -37,10 +37,8 @@
     NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
     [req setPredicate:predicate];
     [req setFetchLimit:BATCHSIZE];
-    [req setResultType:NSManagedObjectIDResultType];
     [req setIncludesPropertyValues:YES];
     [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
-    NSMutableArray*total=[NSMutableArray array];
     while(1){
         if([self isCancelled]){
             return;
@@ -48,39 +46,24 @@
         if(offset>LOADED_ENTRIES_MAX){
             return;
         }
-        NSError*error=nil;
-        [req setFetchOffset:offset];
-        NSArray*a=[moc executeFetchRequest:req error:&error];
-        if(!a || a.count==0){
+        __block BOOL shouldReturn=NO;
+        [moc performBlockAndWait:^{
+            NSError*error=nil;
+            [req setFetchOffset:offset];
+            NSArray*a=[moc executeFetchRequest:req error:&error];
+            ArticleList*articleList=(ArticleList*)[moc objectWithID:articleListID];
+            
+            if(!a || a.count==0){
+                shouldReturn=YES;
+            }
+            offset+=a.count;
+            [articleList addArticles:[NSSet setWithArray:a]];
+            [moc save:NULL];
+        }];
+        if(shouldReturn){
             return;
         }
-        offset+=a.count;
-        [total addObjectsFromArray:a];
-        dispatch_async(dispatch_get_main_queue(),^{
-            NSMutableSet*tempSet=[NSMutableSet set];
-            for(NSManagedObjectID*moid in a){
-                if([self isCancelled])
-                    return;
-                Article*article=(Article*)[[MOC moc] objectWithID:moid];
-                [tempSet addObject:article];
-            }
-            [[MOC moc] disableUndo];
-            [articleList addArticles:tempSet];
-            [[MOC moc] enableUndo];
-        });
     }
-    dispatch_async(dispatch_get_main_queue(),^{
-        NSMutableSet*tempSet=[NSMutableSet set];
-        for(NSManagedObjectID*moid in total){
-            Article*article=(Article*)[[MOC moc] objectWithID:moid];
-            [tempSet addObject:article];
-        }
-        [[MOC moc] disableUndo];
-        [articleList setArticles:tempSet];
-        [[MOC moc] enableUndo];
-    });
-    
-
 }
 -(NSString*)description
 {

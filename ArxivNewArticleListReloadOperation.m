@@ -19,11 +19,18 @@
 
 
 @implementation ArxivNewArticleListReloadOperation
+{
+    NSManagedObjectID* alID;
+    NSManagedObjectContext*secondMOC;
+    NSString* listName;
+}
+
+
 -(NSOperation*)initWithArxivNewArticleList:(ArxivNewArticleList*)a;
 {
     self=[super init];
-    al=a;
-    listName=al.name;
+    alID=a.objectID;
+    listName=a.name;
     secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     return self;
 }
@@ -183,20 +190,10 @@
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"eprint IN %@",[dict allKeys]];
     [req setPredicate:pred];
     [req setIncludesPropertyValues:NO];
-    [req setResultType:NSManagedObjectIDResultType];
-    NSArray*datas=[secondMOC executeFetchRequest:req error:nil];
-    dispatch_async(dispatch_get_main_queue(),^{
-	[[MOC moc] disableUndo];
-
-	
-	NSMutableSet*generated=[NSMutableSet set];
-	for(NSManagedObjectID*objID in datas){
-	    ArticleData* data=(ArticleData*)[[MOC moc] objectWithID:objID];
-	    if(!data.article){
-		NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
-		[[MOC moc] deleteObject:data];
-		continue;
-	    }
+    [secondMOC performBlockAndWait:^{
+        NSMutableSet*generated=[NSMutableSet set];
+        NSArray*datas=[secondMOC executeFetchRequest:req error:nil];
+	for(ArticleData*data in datas){
 	    NSString*v=[data valueForKey:@"eprint"];
 	    NSString*chunk=dict[v];
 	    [self dealWithChunk:chunk writeToArticle:data.article];
@@ -205,25 +202,24 @@
     	}
 	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
 	for(NSString*chunk in [dict allValues]){
-	    Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
+	    Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
 	    [self dealWithChunk:chunk writeToArticle:article];
 	    [generated addObject:article];
 	}
 	
-	[[AllArticleList allArticleList] addArticles:generated];
-	
+        [[AllArticleList allArticleListInMOC:secondMOC] addArticles:generated];
+        ArticleList*al=(ArticleList*)[secondMOC objectWithID:alID];
 	al.articles=generated;
+        [secondMOC save:NULL];
 	
-	NSError*error=nil;
-	BOOL success=[[MOC moc] save:&error];
-	if(!success){
-	    [[MOC sharedMOCManager] presentMOCSaveError:error];
-	}
-	[[MOC moc] enableUndo];
-	[[NSApp appDelegate] clearingUpAfterRegistration:self];        
-	
-    });
+    }];
     dispatch_async(dispatch_get_main_queue(),^{
+        NSError*error=nil;
+        BOOL success=[[MOC moc] save:&error];
+        if(!success){
+            [[MOC sharedMOCManager] presentMOCSaveError:error];
+        }
+        [[NSApp appDelegate] clearingUpAfterRegistration:self];
         [[NSApp appDelegate] postMessage:nil];
 	[[NSApp appDelegate] stopProgressIndicator];
     });

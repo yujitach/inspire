@@ -181,7 +181,7 @@ MOC*_sharedMOCManager=nil;
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
+        managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
 	[managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
 //	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
@@ -197,16 +197,11 @@ MOC*_sharedMOCManager=nil;
 - (NSManagedObjectContext *) createSecondaryMOC {
     
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    NSManagedObjectContext*secondaryManagedObjectContext=nil;
-    if (coordinator != nil) {
-        secondaryManagedObjectContext = [[NSManagedObjectContext alloc] init];
-        [secondaryManagedObjectContext setPersistentStoreCoordinator: coordinator];
-	[secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-//	[secondaryManagedObjectContext setMergePolicy:NSErrorMergePolicy];
-	[secondaryManagedObjectContext setUndoManager:nil];
-    }
-    
+    NSManagedObjectContext*secondaryManagedObjectContext=[[NSManagedObjectContext alloc]initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [secondaryManagedObjectContext setParentContext:[self managedObjectContext]];
+    [secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+    [secondaryManagedObjectContext setUndoManager:nil];
+
     return secondaryManagedObjectContext;
 }
 

@@ -89,8 +89,11 @@
     [req setReturnsObjectsAsFaults:NO];
     
     [req setFetchLimit:1];
-    NSError*error=nil;
-    NSArray*a=[moc executeFetchRequest:req error:&error];
+    __block NSArray*a=nil;
+    [moc performBlockAndWait:^{
+        NSError*error=nil;
+        a=[moc executeFetchRequest:req error:&error];
+    }];
     if(a==nil || [a count]==0){
 	return nil;
     }else{

@@ -9,10 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @class ArxivNewArticleList;
-@interface ArxivNewArticleListReloadOperation : NSOperation {
-    ArxivNewArticleList* al;
-    NSManagedObjectContext*secondMOC;
-    NSString* listName;
-}
+@interface ArxivNewArticleListReloadOperation : NSOperation
 -(NSOperation*)initWithArxivNewArticleList:(ArxivNewArticleList*)a;
 @end

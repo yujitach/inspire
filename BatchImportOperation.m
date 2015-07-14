@@ -160,12 +160,13 @@
 -(void)treatElements:(NSMutableArray*)a withXMLKey:(NSString*)xmlKey andKey:(NSString*)key
 {
     if([a count]==0)
-	return ;
+        return ;
     NSMutableDictionary*dict=[NSMutableDictionary dictionary];
     for(NSXMLElement*e in a){
-	NSString*v=[self valueForKey:xmlKey inXMLElement:e];
-	dict[v] = e;
+        NSString*v=[self valueForKey:xmlKey inXMLElement:e];
+        dict[v] = e;
     }
+    
     NSArray*values=[dict allKeys];
     values=[values sortedArrayUsingSelector:@selector(compare:)];
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:secondMOC];
@@ -174,45 +175,34 @@
     NSPredicate*pred=[NSPredicate predicateWithFormat:@"%K IN %@",key,values];
     [req setPredicate:pred];
     [req setIncludesPropertyValues:NO];
-    [req setResultType:NSManagedObjectIDResultType];
-    //    [req setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"article"]];
-    //    [req setReturnsObjectsAsFaults:YES];
-    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:key
-										   ascending:YES]]];
+    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:key ascending:YES]]];
     NSError*error=nil;
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
-
-    dispatch_group_async(group,dispatch_get_main_queue(),^{
-	int i=0,j=0;
-	[[MOC moc] disableUndo];
-	for(NSManagedObjectID*objID in datas){
-	    ArticleData* data=(ArticleData*)[[MOC moc] objectWithID:objID];
-	    if(!data.article){
-		NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
-		[[MOC moc] deleteObject:data];
-		continue;
-	    }
-	    NSString*v=[data valueForKey:key];
-	    if([v isKindOfClass:[NSNumber class]]){
-		v=[(NSNumber*)v stringValue];
-	    }
-	    NSXMLElement*e=dict[v];
-	    [self populatePropertiesOfArticle:data.article fromXML:e];
-	    [generated addObject:data.article];
-	    [a removeObject:e];
-	    i++;
-    	}
-	NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
-	for(NSXMLElement*e in a){
-	    //	NSLog(@"%@=%@ not found, %@",key,[self valueForKey:xmlKey inXMLElement:e],e);
-	    Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:[MOC moc]];
-	    [self populatePropertiesOfArticle:article fromXML:e];
-	    [generated addObject:article];
-	    j++;
-	}
-	[[MOC moc] enableUndo];
-//	NSLog(@"%d new, %d updated, based on %@",j,i,key);
-    });
+    
+    int i=0,j=0;
+    for(ArticleData*data in datas){
+        if(!data.article){
+            NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
+            [secondMOC deleteObject:data];
+            continue;
+        }
+        NSString*v=[data valueForKey:key];
+        if([v isKindOfClass:[NSNumber class]]){
+            v=[(NSNumber*)v stringValue];
+        }
+        NSXMLElement*e=dict[v];
+        [self populatePropertiesOfArticle:data.article fromXML:e];
+        [generated addObject:data.article];
+        [a removeObject:e];
+        i++;
+    }
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+    for(NSXMLElement*e in a){
+        Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
+        [self populatePropertiesOfArticle:article fromXML:e];
+        [generated addObject:article];
+        j++;
+    }
 }
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
 {
@@ -242,14 +232,13 @@
 
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
-    dispatch_group_async(group,dispatch_get_main_queue(),^{
 //	NSLog(@"total: %d",(int)[generated count]);
 
-	AllArticleList*allArticleList=[AllArticleList allArticleList];
+	AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:secondMOC];
 	[allArticleList addArticles:generated];
 	
         if([query hasPrefix:@"c "]){
-            Article*citedByTarget=[Article articleForQuery:query inMOC:[MOC moc]];
+            Article*citedByTarget=[Article articleForQuery:query inMOC:secondMOC];
             if(!citedByTarget){
                 NSLog(@"citedBy target article not found. strange.");
             }else{
@@ -258,7 +247,7 @@
             }
         }
         if([query hasPrefix:@"r "]){
-            Article*refersToTarget=[Article articleForQuery:query inMOC:[MOC moc]];
+            Article*refersToTarget=[Article articleForQuery:query inMOC:secondMOC];
             if(!refersToTarget){
                 NSLog(@"refersTo target article not found. strange.");
             }else{
@@ -269,35 +258,37 @@
         NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
         [op setQueuePriority:NSOperationQueuePriorityVeryLow];
         [[OperationQueues spiresQueue] addOperation:op];
-    });
 }
 
 #pragma mark entry point
 -(void)main
 {
-    @autoreleasepool {
-        NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
-        NSXMLElement* root=[doc rootElement];
-        NSArray*elements=[root elementsForName:@"document"];
-        NSLog(@"spires returned %d entries",(int)[elements count]);
-
-        [self batchAddEntriesOfSPIRES:elements];
-        dispatch_group_async(group,dispatch_get_main_queue(),^{
-            [[MOC moc] save:NULL];
-            [[NSApp appDelegate] clearingUpAfterRegistration:nil];
-        });
-        
-        // need to delay running of the completion handler after all of the async calls!
-        void (^handler)(void)=[self completionBlock];
-        if(handler){
-            [self setCompletionBlock:nil];
-            dispatch_group_async(group,dispatch_get_main_queue(),^{
-                handler();
-            });
+    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
+    NSXMLElement* root=[doc rootElement];
+    NSArray*elements=[root elementsForName:@"document"];
+    NSLog(@"spires returned %d entries",(int)[elements count]);
+    
+    [secondMOC performBlockAndWait:^{
+        @autoreleasepool {
+            [self batchAddEntriesOfSPIRES:elements];
+            [secondMOC save:NULL];
         }
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-        dispatch_release(group);
+    }];
+    dispatch_group_async(group,dispatch_get_main_queue(),^{
+        [[MOC moc] save:NULL];
+        [[NSApp appDelegate] clearingUpAfterRegistration:nil];
+    });
+    
+    // need to delay running of the completion handler after all of the async calls!
+    void (^handler)(void)=[self completionBlock];
+    if(handler){
+        [self setCompletionBlock:nil];
+        dispatch_group_async(group,dispatch_get_main_queue(),^{
+            handler();
+        });
     }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_release(group);
 }
 
 @end
