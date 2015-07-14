@@ -32,6 +32,7 @@
     NSFetchRequest*req=[[NSFetchRequest alloc] init];
     NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
     SpiresHelper*helper=[SpiresHelper helperWithMOC:moc];
+    AllArticleList*all=[AllArticleList allArticleListInMOC:moc];
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
     [req setEntity:entity];
     NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
@@ -58,6 +59,7 @@
             }
             offset+=a.count;
             [articleList addArticles:[NSSet setWithArray:a]];
+            [all addArticles:[NSSet setWithArray:a]];
             [moc save:NULL];
         }];
         if(shouldReturn){
