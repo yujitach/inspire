@@ -81,11 +81,6 @@ static AllArticleList*_allArticleList=nil;
     }
     return _allArticleList;
 }
-/*-(void)awakeFromFetch
-{
-    self.articles=nil;
-    [self reload];
-}*/
 -(NSString*)searchString
 {
     return [self primitiveValueForKey:@"searchString"];
@@ -94,13 +89,11 @@ static AllArticleList*_allArticleList=nil;
 {
     [self willChangeValueForKey:@"searchString"];
     [self setPrimitiveValue:newSearchString forKey:@"searchString"];
-    if(!newSearchString || [newSearchString isEqualToString:@""]){
-        [self reload];
-    }
+    [self reload];
     [self didChangeValueForKey:@"searchString"];
 }
 
--(void)reload //InBackground
+-(void)reload 
 {
     NSLog(@"reloading internally:%@",self.searchString);
     if(currentFetchOperation) {
@@ -112,28 +105,7 @@ static AllArticleList*_allArticleList=nil;
     currentFetchOperation=[[ArticleFetchOperation alloc] initWithQuery:self.searchString forArticleList:self];
     [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }
-/*
--(void)reload // in main thread
-{
 
-    if([self.articles count]>2000){
-        self.articles=nil;
-    }
-
-    NSFetchRequest*req=[[NSFetchRequest alloc] init];
-    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
-    [req setEntity:entity];
-    NSPredicate*predicate=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:self.searchString];
-    [req setPredicate:predicate];
-    [req setIncludesPropertyValues:YES];
-    [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
-    NSError*error;
-    NSArray*articles=[[MOC moc] executeFetchRequest:req error:&error];
-    [[MOC moc] disableUndo];
-    [self addArticles:[NSSet setWithArray:articles]];
-    [[MOC moc] enableUndo];
-}
- */
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-blue"];

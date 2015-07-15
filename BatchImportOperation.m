@@ -211,53 +211,54 @@
     NSMutableArray*lookForDOI=[NSMutableArray array];
     NSMutableArray*lookForTitle=[NSMutableArray array];
     for(NSXMLElement*element in a){
-	NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
-	NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
-	NSString*doi=[self valueForKey:@"doi" inXMLElement:element];
-	NSString*title=[self valueForKey:@"title" inXMLElement:element];
-	if(eprint){
-	    [lookForEprint addObject:element];
-	}else if(spiresKey){
-	    [lookForSpiresKey addObject:element];
-	}else if(doi){
-	    [lookForDOI addObject:element];
-	}else if(title){
-	    [lookForTitle addObject:element];
-	}
+        NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
+        NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
+        NSString*doi=[self valueForKey:@"doi" inXMLElement:element];
+        NSString*title=[self valueForKey:@"title" inXMLElement:element];
+        if(eprint){
+            [lookForEprint addObject:element];
+        }else if(spiresKey){
+            [lookForSpiresKey addObject:element];
+        }else if(doi){
+            [lookForDOI addObject:element];
+        }else if(title){
+            [lookForTitle addObject:element];
+        }
     }
     
     [self treatElements:lookForEprint withXMLKey:@"eprint" andKey:@"eprint"];
     [self treatElements:lookForSpiresKey withXMLKey:@"spires_key" andKey:@"spiresKey"];
     [self treatElements:lookForTitle withXMLKey:@"title" andKey:@"title"];
-
+    
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
-//	NSLog(@"total: %d",(int)[generated count]);
-
-	AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:secondMOC];
-	[allArticleList addArticles:generated];
-	
-        if([query hasPrefix:@"c "]){
-            Article*citedByTarget=[Article articleForQuery:query inMOC:secondMOC];
-            if(!citedByTarget){
-                NSLog(@"citedBy target article not found. strange.");
-            }else{
-                NSLog(@"added to %@",citedByTarget.title);
-                [citedByTarget addCitedBy:generated];
-            }
+    // but the code that motivated this comment was gone.
+    
+    AllArticleList*allArticleList=[AllArticleList allArticleListInMOC:secondMOC];
+    [allArticleList addArticles:generated];
+    
+    if([query hasPrefix:@"c "]){
+        Article*citedByTarget=[Article articleForQuery:query inMOC:secondMOC];
+        if(!citedByTarget){
+            NSLog(@"citedBy target article not found. strange.");
+        }else{
+            NSLog(@"added to %@",citedByTarget.title);
+            [citedByTarget addCitedBy:generated];
         }
-        if([query hasPrefix:@"r "]){
-            Article*refersToTarget=[Article articleForQuery:query inMOC:secondMOC];
-            if(!refersToTarget){
-                NSLog(@"refersTo target article not found. strange.");
-            }else{
-                NSLog(@"added to %@",refersToTarget.title);
-                [refersToTarget addRefersTo:generated];
-            }
+    }
+    if([query hasPrefix:@"r "]){
+        Article*refersToTarget=[Article articleForQuery:query inMOC:secondMOC];
+        if(!refersToTarget){
+            NSLog(@"refersTo target article not found. strange.");
+        }else{
+            NSLog(@"added to %@",refersToTarget.title);
+            [refersToTarget addRefersTo:generated];
         }
-        NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
-        [op setQueuePriority:NSOperationQueuePriorityVeryLow];
-        [[OperationQueues spiresQueue] addOperation:op];
+    }
+    
+    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
+    [op setQueuePriority:NSOperationQueuePriorityVeryLow];
+    [[OperationQueues spiresQueue] addOperation:op];
 }
 
 #pragma mark entry point

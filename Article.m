@@ -8,7 +8,6 @@
 
 #import "Article.h"
 #import "Author.h"
-#import "AllArticleList.h"
 #import "NSString+magic.h"
 #import "MOC.h"
 #import "ArticleData.h"

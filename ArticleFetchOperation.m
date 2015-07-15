@@ -23,23 +23,18 @@
     if(self=[super init]){
         search=search_;
         articleListID=al.objectID;
+        offset=0;
     }
     return self;
 }
-#define BATCHSIZE 50
+#define BATCHSIZE 30
 -(void)main
 {
-    NSFetchRequest*req=[[NSFetchRequest alloc] init];
     NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
     SpiresHelper*helper=[SpiresHelper helperWithMOC:moc];
-    AllArticleList*all=[AllArticleList allArticleListInMOC:moc];
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-    [req setEntity:entity];
     NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
-    [req setPredicate:predicate];
-    [req setFetchLimit:BATCHSIZE];
-    [req setIncludesPropertyValues:YES];
-    [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
+    ArticleList*articleList=(ArticleList*)[moc objectWithID:articleListID];
     while(1){
         if([self isCancelled]){
             return;
@@ -47,24 +42,26 @@
         if(offset>LOADED_ENTRIES_MAX){
             return;
         }
-        __block BOOL shouldReturn=NO;
+        __block NSArray*a=nil;
         [moc performBlockAndWait:^{
-            NSError*error=nil;
-            [req setFetchOffset:offset];
-            NSArray*a=[moc executeFetchRequest:req error:&error];
-            ArticleList*articleList=(ArticleList*)[moc objectWithID:articleListID];
-            
-            if(!a || a.count==0){
-                shouldReturn=YES;
-            }
-            offset+=a.count;
-            [articleList addArticles:[NSSet setWithArray:a]];
-            [all addArticles:[NSSet setWithArray:a]];
+            // apparently the fetch offset is not respected unless the moc is saved!
             [moc save:NULL];
+            NSFetchRequest*req=[[NSFetchRequest alloc] init];
+            [req setPredicate:predicate];
+            [req setEntity:entity];
+            [req setFetchLimit:BATCHSIZE];
+            [req setIncludesPropertyValues:YES];
+            [req setRelationshipKeyPathsForPrefetching:@[@"inLists"]];
+            [req setFetchOffset:offset];
+            NSError*error=nil;
+            a=[moc executeFetchRequest:req error:&error];
+            NSSet*set=[NSSet setWithArray:a];
+            [articleList addArticles:set];
         }];
-        if(shouldReturn){
+        if(!a || a.count==0){
             return;
         }
+        offset+=a.count;
     }
 }
 -(NSString*)description

@@ -165,13 +165,12 @@
 -(IBAction)sendBugReport:(id)sender
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-    NSInteger entries=[[[AllArticleList allArticleList] articles] count];
     NSNumber* size=[self databaseSize];
     [[NSWorkspace sharedWorkspace]
      openURL:[NSURL URLWithString:
 	      [[NSString stringWithFormat:
-		@"mailto:yuji.tachikawa@ipmu.jp?subject=spires.app Bugs/Suggestions for v.%@ (%d entries, %@ bytes)",
-		version,(int)entries,size]
+		@"mailto:yuji.tachikawa@ipmu.jp?subject=spires.app Bugs/Suggestions for v.%@ (%@ bytes)",
+		version,size]
 	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 }    
 
@@ -241,7 +240,6 @@
     }
     [historyController mark:self];
     [AllArticleList allArticleList].searchString=searchString;
-    [[AllArticleList allArticleList] reload];
     [sideOutlineViewController selectAllArticleList];
     if(!([[[NSApplication sharedApplication] currentEvent] modifierFlags]&NSShiftKeyMask)){
         [self querySPIRES: searchString];

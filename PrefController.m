@@ -8,48 +8,12 @@
 
 #import "PrefController.h"
 #import "MOC.h"
-#import "AllArticleList.h"
 
 @implementation PrefController
 #pragma mark Time Machine
-/*-(void)setShouldBackUp:(BOOL)shouldBackUp
-{
-    NSString*path=[[MOC sharedMOCManager] dataFilePath];
-    NSURL*url=[NSURL fileURLWithPath:path];
-    NSLog(@"time machine backup: %@",(shouldBackUp?@"enabled":@"disabled"));
-    CSBackupSetItemExcluded((__bridge CFURLRef)url,(shouldBackUp?false:true),false);    
-}
--(IBAction)timeMachineSettingChanged:(id)sender;
-{
-    BOOL shouldBackUp=[[NSUserDefaults standardUserDefaults] boolForKey:@"shouldBackUpDatabaseInTimeMachine"];
-    [self setShouldBackUp:shouldBackUp];
-}
--(void)applicationWillTerminate:(NSNotification*)notification
-{
-    [self setShouldBackUp:YES];
-}*/
-/*-(void)readTimeMachineState;
-{
-    Boolean excluded;
-    NSString*path=[[MOC sharedMOCManager] dataFilePath];
-    NSURL*url=[NSURL fileURLWithPath:path];
-    CSBackupIsItemExcluded((CFURLRef)url,&excluded);
-    [[NSUserDefaults standardUserDefaults] setBool:(excluded?FALSE:TRUE) forKey:@"shouldBackUpDatabaseInTimeMachine"];
-}*/
-/*-(void)setAllArticleName
-{
-    AllArticleList*allArticleList=[AllArticleList allArticleList];
-    allArticleList.name=@"inspire"; //[[NSUserDefaults standardUserDefaults] objectForKey:@"databaseToUse"];
-}*/
 -(PrefController*)init
 {
     self=[super initWithWindowNibName:@"PrefPane"];
-//    [self timeMachineSettingChanged:self];
-//    [self setAllArticleName];
-/*    [[NSNotificationCenter defaultCenter] addObserver:self
-					     selector:@selector(applicationWillTerminate:) 
-						 name:NSApplicationWillTerminateNotification
-					       object:nil];*/
     return self;
 }
 #pragma mark Mirrors
