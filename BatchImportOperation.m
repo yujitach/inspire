@@ -255,10 +255,11 @@
             [refersToTarget addRefersTo:generated];
         }
     }
-    
-    NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
-    [op setQueuePriority:NSOperationQueuePriorityVeryLow];
-    [[OperationQueues spiresQueue] addOperation:op];
+    if(generated.count>0){
+        NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
+        [op setQueuePriority:NSOperationQueuePriorityVeryLow];
+        [[OperationQueues spiresQueue] addOperation:op];
+    }
 }
 
 #pragma mark entry point
@@ -270,10 +271,8 @@
     NSLog(@"spires returned %d entries",(int)[elements count]);
     
     [secondMOC performBlockAndWait:^{
-        @autoreleasepool {
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];
-        }
     }];
     dispatch_group_async(group,dispatch_get_main_queue(),^{
         [[MOC moc] save:NULL];

@@ -45,36 +45,39 @@
 -(void)main
 {
     dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] startProgressIndicator];
+        [[NSApp appDelegate] startProgressIndicator];
     });
-    for(NSUInteger i=0;i<[articles count];i++){
-	Article* article=articles[i];
-	NSString*target=targets[i];
-	NSLog(@"looking up %@",target);
-	if([self isCancelled])break;
-	if(!target) continue;
-	NSString* bib=[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target][0];
-        if(!bib)break;
-	if([self isCancelled])break;
-	NSInteger r=[bib rangeOfString:@"{"].location;
-	NSInteger t=[bib rangeOfString:@","].location;
-	NSString* key=[bib substringWithRange:NSMakeRange(r+1, t-r-1)];
-	NSString* latex=[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target][0];
-	if([self isCancelled])break;
-	NSString* harvmac=[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target][0];
-	if([self isCancelled])break;
-	NSInteger q=[harvmac rangeOfString:@"\n"].location;
-	NSString* harvmacKey=[harvmac substringWithRange:NSMakeRange(1,q-1)];
-	dispatch_async(dispatch_get_main_queue(),^{
-	    [article setExtra:bib forKey:@"bibtex"];
-	    [article setExtra:latex forKey:@"latex"];
-	    [article setExtra:harvmac forKey:@"harvmac"];
-	    [article setExtra:harvmacKey forKey:@"harvmacKey"];
-	    article.texKey=key;
-	});
-    }
-    dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] stopProgressIndicator];
-    });
+    Article*a=articles[0];
+    NSManagedObjectContext*moc=a.managedObjectContext;
+    [moc performBlockAndWait:^{
+        for(NSUInteger i=0;i<[articles count];i++){
+            Article* article=articles[i];
+            NSString*target=targets[i];
+            NSLog(@"looking up %@",target);
+            if([self isCancelled])break;
+            if(!target) continue;
+            NSString* bib=[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target][0];
+            if(!bib)break;
+            if([self isCancelled])break;
+            NSInteger r=[bib rangeOfString:@"{"].location;
+            NSInteger t=[bib rangeOfString:@","].location;
+            NSString* key=[bib substringWithRange:NSMakeRange(r+1, t-r-1)];
+            NSString* latex=[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target][0];
+            if([self isCancelled])break;
+            NSString* harvmac=[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target][0];
+            if([self isCancelled])break;
+            NSInteger q=[harvmac rangeOfString:@"\n"].location;
+            NSString* harvmacKey=[harvmac substringWithRange:NSMakeRange(1,q-1)];
+            [article setExtra:bib forKey:@"bibtex"];
+            [article setExtra:latex forKey:@"latex"];
+            [article setExtra:harvmac forKey:@"harvmac"];
+            [article setExtra:harvmacKey forKey:@"harvmacKey"];
+            article.texKey=key;
+        }
+        [moc save:NULL];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSApp appDelegate] stopProgressIndicator];
+        });
+    }];
 }
 @end

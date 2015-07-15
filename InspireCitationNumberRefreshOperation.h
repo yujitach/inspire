@@ -9,11 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "DumbOperation.h"
 
-@interface InspireCitationNumberRefreshOperation : NSOperation {
-    NSSet*articles;
-    NSMutableDictionary*recidToArticle;
-    int tot;
-    int sofar;
-}
+@interface InspireCitationNumberRefreshOperation : NSOperation
 -(InspireCitationNumberRefreshOperation*)initWithArticles:(NSSet*)a;
 @end

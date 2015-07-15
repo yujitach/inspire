@@ -12,15 +12,24 @@
 #import "SpiresHelper.h"
 
 @implementation InspireCitationNumberRefreshOperation
+{
+    NSSet*articles;
+    NSMutableDictionary*recidToArticle;
+    NSManagedObjectContext*moc;
+    int tot;
+    int sofar;
+    NSString*description_;
+}
+
 -(InspireCitationNumberRefreshOperation*)initWithArticles:(NSSet*)aa;
 {
     self=[super init];
     articles=aa;
-    recidToArticle=[NSMutableDictionary dictionary];
-    for(Article*a in articles){
-	recidToArticle[[a.inspireKey stringValue]] = a;
-	tot++;
-    }
+    Article*a=[articles anyObject];
+    moc=a.managedObjectContext;
+    [moc performBlockAndWait:^{
+        description_=[NSString stringWithFormat:@"citation number query for %@ etc.",a.title];
+    }];
     return self;
 }
 -(NSString*)description
@@ -28,64 +37,59 @@
     if([articles count]==0){
 	return @"invalid query operation";
     }else{
-	Article* a=[articles anyObject];
-	return [NSString stringWithFormat:@"citation number query for %@ etc.",a.title];
+	return description_;
     }
 }
 -(void)dealWith:(NSArray*)x
 {
     sofar+=(int)[x count];
-
+    
     NSString*query=[NSString stringWithFormat: @"recid:%@&of=hb",[x componentsJoinedByString:@" or recid:"]];
     NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:query];
     NSString*result=[NSString stringWithContentsOfURL:url
-					     encoding:NSUTF8StringEncoding
-						error:NULL];
+                                             encoding:NSUTF8StringEncoding
+                                                error:NULL];
     NSArray*chunks=[result componentsSeparatedByString:@"<tr"];
     NSMutableDictionary*recidToCites=[NSMutableDictionary dictionary];
     for(NSString*chunk in chunks){
-	if([chunk rangeOfString:@"unapi-id"].location==NSNotFound)
-	    continue;
-//	NSLog(@"chunk:%@",chunk);
-	NSString*recid=[chunk stringByMatching:@"<abbr.+?title=\"(.+?)\"" capture:1];
-//	NSLog(@"recid:%@",recid);
-	if(recid && ![recid isEqualToString:@""]){
-	    NSString*cited=[chunk stringByMatching:@"Cited +by +(\\d+) +rec" capture:1];
-//	    NSLog(@"cited:%@",cited);
-	    if(cited)
-		recidToCites[recid] = cited;
-	}
+        if([chunk rangeOfString:@"unapi-id"].location==NSNotFound)
+            continue;
+        NSString*recid=[chunk stringByMatching:@"<abbr.+?title=\"(.+?)\"" capture:1];
+        if(recid && ![recid isEqualToString:@""]){
+            NSString*cited=[chunk stringByMatching:@"Cited +by +(\\d+) +rec" capture:1];
+            if(cited)
+                recidToCites[recid] = cited;
+        }
     }
-    dispatch_async(dispatch_get_main_queue(),^{
-//	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Refreshing citations %d/%d",sofar,tot]];
-	for(NSString*rec in [recidToCites allKeys]){
-	    NSString*cited=recidToCites[rec];
-	    Article*article=recidToArticle[rec];
-	    if(cited && article){
-		article.citecount=@([cited intValue]);
-	    }
-	}
-    });
+    for(NSString*rec in [recidToCites allKeys]){
+        NSString*cited=recidToCites[rec];
+        Article*article=recidToArticle[rec];
+        if(cited && article){
+            article.citecount=@([cited intValue]);
+        }
+    }
 }
 -(void)main
 {
-/*    dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] startProgressIndicator];
-    });    */
-    NSMutableArray*a=[NSMutableArray array];
-    for(NSString*recid in [recidToArticle allKeys]){
-	[a addObject:recid];
-	if([a count]>16){
-	    [self dealWith:a];
-	    a=[NSMutableArray array];
-	}
-    }
-    if([a count]>0){
-	[self dealWith:a];
-    }
-/*    dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] postMessage:nil];
-	[[NSApp appDelegate] stopProgressIndicator];
-    });        */
+    [moc performBlockAndWait:^{
+        recidToArticle=[NSMutableDictionary dictionary];
+        for(Article*a in articles){
+            recidToArticle[[a.inspireKey stringValue]] = a;
+            tot++;
+        }
+        NSMutableArray*a=[NSMutableArray array];
+        for(NSString*recid in [recidToArticle allKeys]){
+            [a addObject:recid];
+            if([a count]>16){
+                [self dealWith:a];
+                a=[NSMutableArray array];
+                [moc save:NULL];
+            }
+        }
+        if([a count]>0){
+            [self dealWith:a];
+            [moc save:NULL];
+        }
+    }];
 }
 @end
