@@ -316,9 +316,11 @@ static NSArray*observedKeys=nil;
     if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
 	messageBox.style.visibility=@"visible";
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"blinking\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"infinite\";"];
 	messageBox.innerHTML=message;
     }else{
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"steady\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"0\";"];
 	messageBox.style.visibility=@"hidden";
     }
     doc.body.scrollTop=0;
