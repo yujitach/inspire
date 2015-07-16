@@ -43,6 +43,7 @@
             return;
         }
         __block NSArray*a=nil;
+        
         [moc performBlockAndWait:^{
             // apparently the fetch offset is not respected unless the moc is saved!
             [moc save:NULL];
@@ -58,7 +59,7 @@
             NSSet*set=[NSSet setWithArray:a];
             [articleList addArticles:set];
         }];
-        if(!a || a.count==0){
+        if(!a || a.count<BATCHSIZE){
             return;
         }
         offset+=a.count;
