@@ -33,7 +33,7 @@ static NSOperationQueue*_Aqueue=nil;
 {
     if(!_queue){
 	_queue=[[UniqueOperationQueue alloc] init];
-	[_queue setMaxConcurrentOperationCount:1];
+//	[_queue setMaxConcurrentOperationCount:1];
     }
     return _queue;
 }

@@ -30,7 +30,7 @@
 #define BATCHSIZE 30
 -(void)main
 {
-    NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
+    NSManagedObjectContext*moc=[MOC moc];
     SpiresHelper*helper=[SpiresHelper helperWithMOC:moc];
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
     NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
@@ -46,7 +46,6 @@
         
         [moc performBlockAndWait:^{
             // apparently the fetch offset is not respected unless the moc is saved!
-            [moc save:NULL];
             NSFetchRequest*req=[[NSFetchRequest alloc] init];
             [req setPredicate:predicate];
             [req setEntity:entity];
@@ -58,6 +57,7 @@
             a=[moc executeFetchRequest:req error:&error];
             NSSet*set=[NSSet setWithArray:a];
             [articleList addArticles:set];
+            [moc save:NULL];
         }];
         if(!a || a.count<BATCHSIZE){
             return;

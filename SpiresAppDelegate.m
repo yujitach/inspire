@@ -471,7 +471,7 @@
             if(![knownJournals containsObject:a.journal.name]){
                 return;
             }
-            [[OperationQueues sharedQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
+            [[OperationQueues spiresQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
 	}
 	
 	if(!a.texKey || [a.texKey isEqualToString:@""]){

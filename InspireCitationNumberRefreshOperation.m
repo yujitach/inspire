@@ -10,6 +10,7 @@
 #import "Article.h"
 #import "NSString+magic.h"
 #import "SpiresHelper.h"
+#import "MOC.h"
 
 @implementation InspireCitationNumberRefreshOperation
 {
@@ -90,6 +91,10 @@
             [self dealWith:a];
             [moc save:NULL];
         }
+    }];
+    NSManagedObjectContext*mainMOC=[MOC moc];
+    [mainMOC performBlockAndWait:^{
+        [mainMOC save:NULL];
     }];
 }
 @end
