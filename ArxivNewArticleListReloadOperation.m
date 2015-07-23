@@ -219,7 +219,7 @@
         if(!success){
             [[MOC sharedMOCManager] presentMOCSaveError:error];
         }
-        [[NSApp appDelegate] clearingUpAfterRegistration:self];
+//        [[NSApp appDelegate] clearingUpAfterRegistration:self];
         [[NSApp appDelegate] postMessage:nil];
 	[[NSApp appDelegate] stopProgressIndicator];
     });

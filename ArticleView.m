@@ -323,8 +323,8 @@ static NSArray*observedKeys=nil;
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"0\";"];
 	messageBox.style.visibility=@"hidden";
     }
-    doc.body.scrollTop=0;
-    [doc.body focus];
+//    doc.body.scrollTop=0;
+//    [doc.body scrollIntoViewIfNeeded:YES];
  //      NSLog(@"%@",[self mainFrame]);
     
 }

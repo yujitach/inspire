@@ -526,8 +526,8 @@
 //	[ac setSelectionIndex:0];
     }
     
-    [ac didChangeArrangementCriteria];
-    [self makeTableViewFirstResponder];
+//    [ac didChangeArrangementCriteria];
+//    [self makeTableViewFirstResponder];
 }
 
 -(void)postMessage:(NSString*)message

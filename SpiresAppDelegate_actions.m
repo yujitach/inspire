@@ -239,7 +239,9 @@
         return;
     }
     [historyController mark:self];
-    [AllArticleList allArticleList].searchString=searchString;
+    if(![[AllArticleList allArticleList].searchString isEqualTo:searchString]){
+        [AllArticleList allArticleList].searchString=searchString;
+    }
     [sideOutlineViewController selectAllArticleList];
     if(!([[[NSApplication sharedApplication] currentEvent] modifierFlags]&NSShiftKeyMask)){
         [self querySPIRES: searchString];
