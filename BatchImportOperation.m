@@ -196,7 +196,7 @@
         [a removeObject:e];
         i++;
     }
-    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
+    NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
     for(NSXMLElement*e in a){
         Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
         [self populatePropertiesOfArticle:article fromXML:e];
@@ -265,12 +265,12 @@
 #pragma mark entry point
 -(void)main
 {
-    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
-    NSXMLElement* root=[doc rootElement];
-    NSArray*elements=[root elementsForName:@"document"];
-    NSLog(@"spires returned %d entries",(int)[elements count]);
     
     [secondMOC performBlockAndWait:^{
+        NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
+        NSXMLElement* root=[doc rootElement];
+        NSArray*elements=[root elementsForName:@"document"];
+        NSLog(@"spires returned %d entries",(int)[elements count]);
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];
     }];

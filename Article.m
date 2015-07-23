@@ -126,7 +126,7 @@
     }
     return [Article articleWith:idToLookUp
 		   inDataForKey:@"spiresKey"
-			  inMOC:[MOC moc]];
+			  inMOC:moc];
 }
 
 +(Article*)articleForQuery:(NSString*)query inMOC:(NSManagedObjectContext*)moc

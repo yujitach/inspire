@@ -32,9 +32,6 @@
 {
     NSManagedObjectContext*moc=[MOC moc];
     SpiresHelper*helper=[SpiresHelper helperWithMOC:moc];
-    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
-    NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
-    ArticleList*articleList=(ArticleList*)[moc objectWithID:articleListID];
     while(1){
         if([self isCancelled]){
             return;
@@ -46,6 +43,9 @@
         
         [moc performBlockAndWait:^{
             // apparently the fetch offset is not respected unless the moc is saved!
+            NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:moc];
+            NSPredicate*predicate=[helper predicateFromSPIRESsearchString:search];
+            ArticleList*articleList=(ArticleList*)[moc objectWithID:articleListID];
             NSFetchRequest*req=[[NSFetchRequest alloc] init];
             [req setPredicate:predicate];
             [req setEntity:entity];
