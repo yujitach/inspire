@@ -14,6 +14,7 @@
 #import "ArticleFetchOperation.h"
 
 #import "Article.h"
+#import "ArticleData.h"
 #import "JournalEntry.h"
 
 #import "SpiresHelper.h"
@@ -311,6 +312,36 @@
     [self saveAction:nil];
 //    [searchField setEnabled:YES];
 }
+-(void)removeSpaceFromTexKey
+{
+    NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
+    [moc performBlock:^{
+        NSEntityDescription*articleDataEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
+        NSFetchRequest*req=[[NSFetchRequest alloc]init];
+        [req setEntity:articleDataEntity];
+        NSPredicate*pred=[NSPredicate predicateWithFormat:@"texKey contains ' '"];
+        [req setPredicate:pred];
+        
+        [req setIncludesPropertyValues:YES];
+        [req setRelationshipKeyPathsForPrefetching:@[@"article"]];
+        [req setReturnsObjectsAsFaults:NO];
+        NSError*error=nil;
+        NSArray*a=[moc executeFetchRequest:req error:&error];
+        NSLog(@"texKey containing space #:%@",@(a.count));
+        for(ArticleData*ad in a){
+            NSString*old=ad.texKey;
+            NSLog(@"original key:%@",old);
+            NSString*new=[old stringByReplacingOccurrencesOfString:@" " withString:@""];
+            NSLog(@"new key:%@",new);
+            ad.texKey=new;
+        }
+        [moc save:&error];
+        [[MOC moc] performBlock:^{
+            NSError*e;
+            [[MOC moc] save:&e];
+        }];
+    }];
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
@@ -335,6 +366,11 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AllArticleListArticlesCleared"];
     }
 
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"texKeySpaceRemoved"]){
+//    if(YES){
+        [self removeSpaceFromTexKey];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"texKeySpaceRemoved"];
+    }
     
     [sideOutlineViewController performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
     [self performSelector:@selector(makeTableViewFirstResponder) withObject:nil afterDelay:0];
