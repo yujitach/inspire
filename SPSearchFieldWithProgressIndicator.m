@@ -48,6 +48,10 @@
 	[self stopAnimation:self];
     }
 }
+-(BOOL)abortEditing
+{
+    return NO;
+}
 -(void)startAnimation:(id)sender;
 {
     [bc startAnimation:sender];
