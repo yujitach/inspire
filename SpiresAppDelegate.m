@@ -49,9 +49,6 @@
 
 #import <Quartz/Quartz.h>
 
-#define TICK (.5)
-#define GRACEMIN (3.0/TICK)
-#define GRACE ([[NSUserDefaults standardUserDefaults] floatForKey:@"arXivAutoQueryWaitInSeconds"]/TICK)
 
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
@@ -227,9 +224,11 @@
 	    options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 	    context:nil];
     
+    NSTimeInterval grace=[[NSUserDefaults standardUserDefaults] floatForKey:@"arXivAutoQueryWaitInSeconds"];
+    if(grace<3.0)
+        grace=3.0;
     
-    [NSTimer scheduledTimerWithTimeInterval:TICK target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
-    countDown=0;
+    [NSTimer scheduledTimerWithTimeInterval:grace target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
     [searchField setProgressQuitAction:@selector(progressQuit:)];
 
 }
@@ -451,10 +450,6 @@
 
 -(void)timerForAbstractFired:(NSTimer*)t
 {
-    if(countDown>0){
-	countDown--;
-	return;
-    }
     NSArray*arr=[ac selectedObjects];
     if(!arr)return;
     if([arr count]==0)return;
@@ -514,10 +509,6 @@
 	    //	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:[NSArray arrayWithObject:a]]];
 	    //	[self getBibEntriesWithoutDisplay:self];
 	}
-    countDown=(int)GRACE;
-    if(countDown<GRACEMIN){
-	countDown=(int)GRACEMIN;
-    }
 }
 
 
