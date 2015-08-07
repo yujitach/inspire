@@ -19,6 +19,19 @@
 {
     return @"publication_info,creation_date,doi,comment,number_of_citations,physical_description,abstract,corporate_name,authors,title,recid,system_control_number,system_number";
 }
++(NSDateFormatter*)standardDateFormatter
+{
+    static NSDateFormatter *df = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        df=[[NSDateFormatter alloc] init];
+        NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        [df setLocale:enUSPOSIXLocale];
+        [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    });
+    return df;
+}
 -(instancetype)initWithDictionary:(NSDictionary*)_dic
 {
     self=[super init];
@@ -97,9 +110,9 @@
     return @([tmp integerValue]);
 }
 
--(NSString*)dateString
+-(NSDate*)date
 {
-    return dic[@"creation_date"];
+    return [[JSONArticle standardDateFormatter] dateFromString:dic[@"creation_date"]];
 }
 -(NSString*)doi
 {

@@ -25,7 +25,6 @@
     NSManagedObjectContext*secondMOC;
     NSMutableSet*generated;
     dispatch_group_t group;
-    NSDateFormatter*df;
 }
 @synthesize generated;
 -(instancetype)initWithJSONArray:(NSArray*)a originalQuery:(NSString*)search
@@ -35,8 +34,6 @@
     query=[search copy];
     secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     generated=[NSMutableSet set];
-    df=[[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     group=dispatch_group_create();
     return self;
 }
@@ -78,7 +75,7 @@
     o.comments=element.comment;
     o.spiresKey=@([element.spiresKey integerValue]);
     [self setJournalToArticle:o fromJSON:element];
-    o.date=[df dateFromString:element.dateString];
+    o.date=element.date;
     
     if(o.abstract){
         NSString*abstract=o.abstract;
@@ -114,7 +111,6 @@
     NSError*error=nil;
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
     
-    int i=0,j=0;
     for(ArticleData*data in datas){
         if(!data.article){
             NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
@@ -129,14 +125,12 @@
         [self populatePropertiesOfArticle:data.article fromJSON:e];
         [generated addObject:data.article];
         [a removeObject:e];
-        i++;
     }
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
     for(JSONArticle*e in a){
         Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
         [self populatePropertiesOfArticle:article fromJSON:e];
         [generated addObject:article];
-        j++;
     }
 }
 
