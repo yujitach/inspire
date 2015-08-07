@@ -10,7 +10,9 @@
 #import "DumbOperation.h"
 
 @implementation ActivityMonitorController
-
+{
+    NSTimer*timer;
+}
 -(void)activityMonitorRefresher:(NSTimer*)timer
 {
     array=[NSMutableArray array];
@@ -24,9 +26,18 @@
 -(ActivityMonitorController*)init
 {
     self=[super initWithWindowNibName:@"ActivityMonitor"];
-    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(activityMonitorRefresher:) userInfo:nil repeats:YES];
     //    [activityTable setRowHeight:[activityTable rowHeight]*3];
     [self activityMonitorRefresher:nil];
     return self;
+}
+-(void)windowDidBecomeKey:(id)sender
+{
+    timer=[NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(activityMonitorRefresher:) userInfo:nil repeats:YES];
+    [super windowDidBecomeKey:sender];
+}
+-(void)windowWillClose:(id)sender
+{
+    [timer invalidate];
+    [super windowWillClose:sender];
 }
 @end

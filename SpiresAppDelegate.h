@@ -46,7 +46,6 @@
     ArxivNewCreateSheetHelper*arxivNewCreateSheetHelper;
 
     NSTimer*unreadTimer;
-    int countDown;
     NSMutableArray*articlesAlreadyAccessedViaDOI;
 }
 
