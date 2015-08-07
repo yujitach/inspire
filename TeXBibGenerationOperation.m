@@ -13,7 +13,7 @@
 #import "SpiresHelper.h"
 #import "SpiresQueryOperation.h"
 #import "BatchBibQueryOperation.h"
-#import "BatchImportOperation.h"
+#import "JSONImportOperation.h"
 #import "NSString+magic.h"
 #import "AppDelegate.h"
 
@@ -206,9 +206,9 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 							  byLookingUpWeb:NO];
     for(SpiresQueryOperation*q in ops){
 	[again addDependency:q];
-        [q setBlockToActOnBatchImport:^(BatchImportOperation*importer){
+        [q setBlockToActOnBatchImport:^(JSONImportOperation*importer){
             [again addDependency:importer];
-            __weak BatchImportOperation*weakImporter=importer;
+            __weak JSONImportOperation*weakImporter=importer;
             [importer setCompletionBlock:^{
                 NSSet*generated=weakImporter.generated;
                 if(!generated)return;

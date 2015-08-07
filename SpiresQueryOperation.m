@@ -8,19 +8,15 @@
 
 #import "SpiresQueryOperation.h"
 #import "Article.h"
-#import "BatchImportOperation.h"
-#import "SpiresHelper.h"
-#import "SpiresQueryDownloader.h"
-#import "BatchBibQueryOperation.h"
-#import "AppDelegate.h"
-#import "MOC.h"
+#import "JSONImportOperation.h"
+#import "InspireQueryDownloader.h"
 @interface SpiresQueryOperation ()
 {
     NSString*search;
     NSManagedObjectContext*moc;
-    SpiresQueryDownloader*downloader;
+    InspireQueryDownloader*downloader;
     NSInteger startAt;
-    BatchImportOperation*importer;
+    JSONImportOperation*importer;
     ActionOnBatchImportBlock actionBlock;
 }
 @end
@@ -54,8 +50,8 @@
 -(void)startAt:(NSInteger)start
 {
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSData*xmlData,NSUInteger count,NSUInteger total){
-        if(!xmlData){
+    downloader=[[InspireQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSArray*jsonArray){
+        if(!jsonArray){
             [me finish];
             return;
         }
@@ -63,14 +59,14 @@
             [me finish];
             return;
         }
-        importer=[[BatchImportOperation alloc] initWithXMLData:xmlData
+        importer=[[JSONImportOperation alloc] initWithJSONArray:jsonArray
                                                  originalQuery:search];
         if(actionBlock){
             actionBlock(importer);
         }
         [[OperationQueues sharedQueue] addOperation:importer];
-        if(start+count<total){
-            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];
+        if([jsonArray count]==MAXPERQUERY){
+            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:startAt+[jsonArray count]];
             if(actionBlock){
                 [op setBlockToActOnBatchImport:actionBlock];
             }
@@ -85,6 +81,6 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"spires query:%@ from %d",search,(int)startAt];
+    return [NSString stringWithFormat:@"inspire query:%@ from %d",search,(int)startAt];
 }
 @end

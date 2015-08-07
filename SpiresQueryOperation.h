@@ -10,9 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "DumbOperation.h"
 @class Article;
-@class SpiresQueryDownloader;
-@class BatchImportOperation;
-typedef void (^ActionOnBatchImportBlock)(BatchImportOperation*);
+@class JSONImportOperation;
+typedef void (^ActionOnBatchImportBlock)(JSONImportOperation*);
 @interface SpiresQueryOperation : ConcurrentOperation
 -(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m;
 -(void)setBlockToActOnBatchImport:(ActionOnBatchImportBlock)actionBlock;
