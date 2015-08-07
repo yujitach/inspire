@@ -66,7 +66,7 @@
 }
 -(NSString*)journalTitle
 {
-    NSString*tmp=pubInfo[@"title"];
+    NSString*tmp=[self publicationInfo][@"title"];
     if([tmp isKindOfClass:[NSNull class]]){
         return nil;
     }
@@ -74,7 +74,7 @@
 }
 -(NSString*)journalVolume
 {
-    NSString*tmp=pubInfo[@"volume"];
+    NSString*tmp=[self publicationInfo][@"volume"];
     if([tmp isKindOfClass:[NSNull class]]){
         return nil;
     }
@@ -82,7 +82,7 @@
 }
 -(NSString*)journalPages
 {
-    NSString*tmp=pubInfo[@"pagenation"];
+    NSString*tmp=[self publicationInfo][@"pagination"];
     if([tmp isKindOfClass:[NSNull class]]){
         return nil;
     }
@@ -90,7 +90,7 @@
 }
 -(NSNumber*)journalYear
 {
-    NSString*tmp=pubInfo[@"year"];
+    NSString*tmp=[self publicationInfo][@"year"];
     if([tmp isKindOfClass:[NSNull class]]){
         return nil;
     }
@@ -149,7 +149,13 @@
         for(NSDictionary*s in a){
             if([s[@"institute"] isEqualToString:@"arXiv"]){
                 NSString*p=s[@"value"];
+                if(!p){
+                    p=s[@"canceled"];
+                }
                 eprint=[p stringByReplacingOccurrencesOfString:@"oai:arXiv.org" withString:@"arXiv"];
+                if([eprint rangeOfString:@"/"].location!=NSNotFound){
+                    eprint=[eprint substringFromIndex:[@"arXiv:" length]];
+                }
                 break;
             }
         }

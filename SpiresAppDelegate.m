@@ -553,7 +553,7 @@
 //	[ac setSelectionIndex:0];
     }
     
-//    [ac didChangeArrangementCriteria];
+    [ac didChangeArrangementCriteria];
 //    [self makeTableViewFirstResponder];
 }
 
