@@ -177,8 +177,6 @@
 		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
-		331E6EF90FFE83CB00F07C9A /* SpiresQueryDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresQueryDownloader.h; sourceTree = "<group>"; };
-		331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresQueryDownloader.m; sourceTree = "<group>"; };
 		331FD32F0F36B11800C16F73 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		331FD3300F36B11800C16F73 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		33202EE010D9D8EA00EDB5A8 /* Migrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Migrator.h; sourceTree = "<group>"; };
@@ -401,8 +399,6 @@
 				3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */,
 				33DDF2921B746D5600990679 /* InspireQueryDownloader.h */,
 				33DDF2931B746D5600990679 /* InspireQueryDownloader.m */,
-				331E6EF90FFE83CB00F07C9A /* SpiresQueryDownloader.h */,
-				331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */,
 				332F19C30EA57B8E00758683 /* ArxivHelper.h */,
 				332F19C40EA57B8E00758683 /* ArxivHelper.m */,
 				334FD3A90F3516EF000B4BD6 /* PDFHelper.h */,

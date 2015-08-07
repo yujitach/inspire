@@ -23,7 +23,7 @@
 }
 -(NSURL*)inspireURLForQuery:(NSString*)search
 {
-    return [NSURL URLWithString:[[NSString stringWithFormat:@"http://inspirehep.net/search?of=recjson&%@",search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    return [NSURL URLWithString:[[NSString stringWithFormat:@"http://inspirehep.net/search?of=recjson&p=%@",search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 }
 
 -(NSURL*)urlForInspireForString:(NSString*)search

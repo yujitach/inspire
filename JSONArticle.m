@@ -16,7 +16,7 @@
 @synthesize authors;
 +(NSString*)requiredFields
 {
-    return @"publication_info,creation_date,doi,comment,number_of_citations,physical_description,abstract,corporate_name,authors,title,recid,primary_report_number";
+    return @"publication_info,creation_date,doi,comment,number_of_citations,physical_description,abstract,corporate_name,authors,title,recid,system_control_number";
 }
 -(instancetype)initWithDictionary:(NSDictionary*)_dic
 {
@@ -97,10 +97,11 @@
 -(NSString*)eprint
 {
     if(!eprint){
-        NSArray*a=[self arrayFromKeyPath:@"primary_report_number"];
-        for(NSString*s in a){
-            if([s hasPrefix:@"arXiv"]){
-                eprint=s;
+        NSArray*a=[self arrayFromKeyPath:@"system_control_number"];
+        for(NSDictionary*s in a){
+            if([s[@"institute"] isEqualToString:@"arXiv"]){
+                NSString*p=s[@"value"];
+                eprint=[p stringByReplacingOccurrencesOfString:@"oai:arXiv.org" withString:@"arXiv"];
                 break;
             }
         }
