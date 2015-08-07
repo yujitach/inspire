@@ -33,7 +33,6 @@
     self=[super init];
     jsonArray=a;
     query=[search copy];
-    [jsonArray writeToFile:@"/tmp/spiresTemporary.xml" atomically:YES];
     secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     generated=[NSMutableSet set];
     df=[[NSDateFormatter alloc] init];
@@ -55,13 +54,10 @@
 -(void)setJournalToArticle:(Article*)o fromJSON:(JSONArticle*)a
 {
     if(o.journal)return;
-    NSDictionary*pub=a.publicationInfo;
-    JournalEntry*j=[JournalEntry journalEntryWithName:pub[@"title"]
-                                               Volume:pub[@"volume"]
-                                                 Year:@([pub[@"year"] integerValue])
-                                                 Page:pub[@"pagenation"]
-                                                inMOC:[o managedObjectContext]];
-    o.journal=j;
+    if(a.journalTitle){
+        JournalEntry*j=[JournalEntry journalEntryWithName:a.journalTitle Volume:a.journalVolume Year:a.journalYear Page:a.journalPages inMOC:o.managedObjectContext];
+        o.journal=j;
+    }
 }
 -(void)populatePropertiesOfArticle:(Article*)o fromJSON:(JSONArticle*)element
 {
@@ -80,7 +76,7 @@
     o.citecount=element.citecount;
     o.doi=element.doi;
     o.comments=element.comment;
-    
+    o.spiresKey=@([element.spiresKey integerValue]);
     [self setJournalToArticle:o fromJSON:element];
     o.date=[df dateFromString:element.dateString];
     
@@ -148,14 +144,22 @@
 {
     NSMutableArray*lookForEprint=[NSMutableArray array];
     NSMutableArray*lookForInspireKey=[NSMutableArray array];
+    NSMutableArray*lookForDOI=[NSMutableArray array];
+    NSMutableArray*lookForSpiresKey=[NSMutableArray array];
     NSMutableArray*lookForTitle=[NSMutableArray array];
     for(NSDictionary*dic in a){
         JSONArticle*element=[[JSONArticle alloc] initWithDictionary:dic];
         NSString*eprint=element.eprint;
         NSString*inspireKey=element.recid;
         NSString*title=element.title;
+        NSString*doi=element.doi;
+        NSString*spiresKey=element.spiresKey;
         if(eprint){
             [lookForEprint addObject:element];
+        }else if(doi){
+            [lookForDOI addObject:element];
+        }else if(spiresKey){
+            [lookForSpiresKey addObject:element];
         }else if(inspireKey){
             [lookForInspireKey addObject:element];
         }else if(title){
@@ -164,7 +168,9 @@
     }
     
     [self treatElements:lookForEprint withJSONKey:@"eprint" andKey:@"eprint"];
+    [self treatElements:lookForDOI withJSONKey:@"doi" andKey:@"doi"];
     [self treatElements:lookForInspireKey withJSONKey:@"recid" andKey:@"inspireKey"];
+    [self treatElements:lookForSpiresKey withJSONKey:@"spiresKey" andKey:@"spiresKey"];
     [self treatElements:lookForTitle withJSONKey:@"title" andKey:@"title"];
     
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,

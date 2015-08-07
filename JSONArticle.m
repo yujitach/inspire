@@ -11,12 +11,13 @@
 @implementation JSONArticle
 {
     NSDictionary*dic;
+    NSDictionary*pubInfo;
 }
 @synthesize eprint;
 @synthesize authors;
 +(NSString*)requiredFields
 {
-    return @"publication_info,creation_date,doi,comment,number_of_citations,physical_description,abstract,corporate_name,authors,title,recid,system_control_number";
+    return @"publication_info,creation_date,doi,comment,number_of_citations,physical_description,abstract,corporate_name,authors,title,recid,system_control_number,system_number";
 }
 -(instancetype)initWithDictionary:(NSDictionary*)_dic
 {
@@ -45,10 +46,57 @@
     }
     return nil;
 }
+-(NSString*)spiresKey
+{
+    NSString*foo=[self stringFromKeyPath:@"system_number.value"];
+    if([foo hasPrefix:@"SPIRES-"]){
+        return [foo substringFromIndex:[@"SPIRES-" length]];
+    }
+    return nil;
+}
 -(NSDictionary*)publicationInfo
 {
-    return [self arrayFromKeyPath:@"publication_info"][0];
+    if(!pubInfo){
+        pubInfo=[self arrayFromKeyPath:@"publication_info"][0];
+        if(![pubInfo isKindOfClass:[NSDictionary class]]){
+            pubInfo=nil;
+        }
+    }
+    return pubInfo;
 }
+-(NSString*)journalTitle
+{
+    NSString*tmp=pubInfo[@"title"];
+    if([tmp isKindOfClass:[NSNull class]]){
+        return nil;
+    }
+    return tmp;
+}
+-(NSString*)journalVolume
+{
+    NSString*tmp=pubInfo[@"volume"];
+    if([tmp isKindOfClass:[NSNull class]]){
+        return nil;
+    }
+    return tmp;
+}
+-(NSString*)journalPages
+{
+    NSString*tmp=pubInfo[@"pagenation"];
+    if([tmp isKindOfClass:[NSNull class]]){
+        return nil;
+    }
+    return tmp;
+}
+-(NSNumber*)journalYear
+{
+    NSString*tmp=pubInfo[@"year"];
+    if([tmp isKindOfClass:[NSNull class]]){
+        return nil;
+    }
+    return @([tmp integerValue]);
+}
+
 -(NSString*)dateString
 {
     return dic[@"creation_date"];
