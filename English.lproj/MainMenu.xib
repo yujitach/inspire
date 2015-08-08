@@ -450,7 +450,7 @@
                                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="normalizedTitle"/>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <connections>
-                                                                <binding destination="421" name="value" keyPath="arrangedObjects.quieterTitle" id="1112"/>
+                                                                <binding destination="421" name="value" keyPath="arrangedObjects.titleWithoutTeX" id="Qcn-PU-jLD"/>
                                                             </connections>
                                                         </tableColumn>
                                                         <tableColumn width="69" minWidth="10" maxWidth="3.4028230607370965e+38" id="592">

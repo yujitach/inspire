@@ -20,6 +20,7 @@
 -(NSString*)capitalizedStringForName;
 -(NSString*)stringByExpandingAmpersandEscapes;
 -(NSString*)stringByConvertingTeXintoHTML;
+-(NSString*)texRemoved;
 //-(NSString*)stringByReplacingOccurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
 @end
 

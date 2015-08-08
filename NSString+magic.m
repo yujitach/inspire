@@ -95,7 +95,6 @@ static void loadMagic(){
 		s=[s stringByReplacingOccurrencesOfString:@"Pp" withString:@"PP"];
 		s=[s stringByReplacingOccurrencesOfString:@"Qcd" withString:@"QCD"];
 		s=[s stringByReplacingOccurrencesOfString:@"Cft" withString:@"CFT"];
-		s=[s stringByReplacingOccurrencesOfString:@"Scft" withString:@"SCFT"];
 		s=[s stringByReplacingOccurrencesOfString:@"Ns" withString:@"NS"];
 		s=[s stringByReplacingOccurrencesOfString:@"-Rg" withString:@"-RG"];
 		s=[s stringByReplacingOccurrencesOfString:@"'S" withString:@"'s"];
@@ -104,6 +103,15 @@ static void loadMagic(){
 	[b addObject:s];
     }
     return [b componentsJoinedByString:@" "];
+}
+-(NSString*)texRemoved
+{
+    NSString*s=self;
+    s=[s stringByReplacingOccurrencesOfRegex:@"\\\\[A-Za-z]+" withString:@""];
+    s=[s stringByReplacingOccurrencesOfString:@"{" withString:@""];
+    s=[s stringByReplacingOccurrencesOfString:@"}" withString:@""];
+    s=[s stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    return s;
 }
 -(NSString*)normalizedString
 {
