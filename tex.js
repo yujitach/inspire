@@ -330,11 +330,10 @@ function texify(s){
 	s=s.replace(from,to);
     }
 
-/*  Shoul not remove { } to keep \frac{}{} explicit.
-    s=s.replace(RegExp("\\{","g"),"<span>");
-    s=s.replace(RegExp("\\}","g"),"</span>");
-*/
-
+    if(!(s.match(/\\frac/))){
+        s=s.replace(RegExp("\\{","g"),"<span>");
+        s=s.replace(RegExp("\\}","g"),"</span>");
+    }
     s.replace(/UnderscoreMarker/g,"_");
     s.replace(/SpaceMarker/g," ");
     return s;
