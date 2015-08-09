@@ -54,7 +54,7 @@
 -(void)startAt:(NSInteger)start
 {
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSData*xmlData,NSUInteger count,NSUInteger total){
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSData*xmlData,BOOL last){
         if(!xmlData){
             [me finish];
             return;
@@ -69,8 +69,8 @@
             actionBlock(importer);
         }
         [[OperationQueues sharedQueue] addOperation:importer];
-        if(start+count<total){
-            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+count];
+        if(!last){
+            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+MAXPERQUERY];
             if(actionBlock){
                 [op setBlockToActOnBatchImport:actionBlock];
             }

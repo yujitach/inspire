@@ -20,7 +20,7 @@
 
 @implementation SpiresQueryDownloader
 
-#define MAXPERQUERY 50
+
 -(NSURL*)urlForInspireForString:(NSString*)search
 {
     NSString*inspireQuery=nil;
@@ -136,65 +136,21 @@
     }
     return [[NSXMLDocument alloc] initWithXMLString:t options:0 error:error];
 }*/
--(NSURL*)xslURL
-{
-    static NSURL*xslURL=nil;
-    if(!xslURL){
-	xslURL=[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"marc2spires" ofType:@"xsl"]];
-    }
-    return xslURL;
-}
 
 
--(NSXMLDocument*)docFromInspireData:(NSError**)error
-{
 
-    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:temporaryData 
-						  options:0
-						    error:error];
-    if(!doc)
-	return nil;
-    NSXMLDocument*transformed=[doc objectByApplyingXSLTAtURL:[self xslURL]
-						   arguments:nil
-						       error:error];    
-    
-    return transformed;
-}
+
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
 {
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
 
-    if(total==0){
-	NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-	NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
-	total=[t intValue];
-    }
-    NSUInteger count=0;
-    NSError*error;
-    NSXMLDocument*doc=nil;
-    if([temporaryData length]){
-	doc=[self docFromInspireData:&error];
-	if(!doc){
-	    NSLog(@"xml problem:%@",error);
-	    NSString*text=[NSString stringWithFormat:@"Please report it and help develop this app.\n"
-			   @"Clicking Yes will open up an email.\n"
-			   ];
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"Inspire returned malformed XML"
-					  defaultButton:@"Yes"
-					alternateButton:@"No thanks"
-					    otherButton:nil informativeTextWithFormat:@"%@",text];
-	    //[alert setAlertStyle:NSCriticalAlertStyle];
-	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			      modalDelegate:self 
-			     didEndSelector:@selector(xmlAlertDidEnd:returnCode:contextInfo:)
-				contextInfo:nil];
-	}
-        NSXMLElement* root=[doc rootElement];
-        NSArray*elements=[root elementsForName:@"document"];
-        count=[elements count];
-    }
-    whenDone([doc XMLData],count,total);
+    NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+    NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
+    total=[t intValue];
+    NSUInteger count=[[s componentsMatchedByRegex:@"<record>"] count];
+    NSLog(@"count:%@",@(count));
+    whenDone(temporaryData,count<MAXPERQUERY);
     temporaryData=nil;
     connection=nil;
     
@@ -218,7 +174,7 @@
 
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
-    whenDone(nil,0,0);
+    whenDone(nil,YES);
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
 

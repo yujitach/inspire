@@ -8,8 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+
+#define MAXPERQUERY 50
 @class Article;
-typedef void (^WhenDoneClosure)(NSData*xmlData,NSUInteger count,NSUInteger total);
+typedef void (^WhenDoneClosure)(NSData*xmlData,BOOL last);
 @interface SpiresQueryDownloader : NSObject {
     WhenDoneClosure whenDone;
     NSString*searchString;

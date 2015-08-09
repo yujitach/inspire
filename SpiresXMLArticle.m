@@ -13,9 +13,21 @@
     NSXMLElement*element;
     NSXMLElement*journal;
 }
++(NSURL*)xslURL
+{
+    static NSURL*xslURL=nil;
+    if(!xslURL){
+        xslURL=[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"marc2spires" ofType:@"xsl"]];
+    }
+    return xslURL;
+}
 +(NSArray*)articlesFromXMLData:(NSData*)data
 {
-    NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:data options:NSXMLNodeOptionsNone error:NULL];
+    NSXMLDocument*original=[[NSXMLDocument alloc] initWithData:data options:NSXMLNodeOptionsNone error:NULL];
+    NSXMLDocument*doc=[original objectByApplyingXSLTAtURL:[self xslURL]
+                                                   arguments:nil
+                                                       error:NULL];
+
     NSXMLElement* root=[doc rootElement];
     NSArray*elements=[root elementsForName:@"document"];
     NSMutableArray*result=[NSMutableArray array];
@@ -107,11 +119,16 @@
 }
 -(NSNumber*)citecount
 {
-    return @(0);
+    return nil;
 }
 -(NSNumber*)pages
 {
-    return @([[self stringForKey:@"pages"] integerValue]);
+    NSString*p=[self stringForKey:@"pages"];
+    if(p){
+        return @([p integerValue]);
+    }else{
+        return nil;
+    }
 }
 -(NSDate*)date
 {

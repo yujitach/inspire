@@ -59,18 +59,15 @@
 {
     o.spiresKey=@([element.spiresKey integerValue]);
     o.inspireKey=@([element.inspireKey integerValue]);
-    o.eprint=element.eprint;
-    o.title=element.title;
     // Here I'm cheating: -setAuthorNames: puts the collaboration name in the author list,
     // so "collaboration" needs to be set up before that
-    o.collaboration=element.collaboration;
+    for(NSString*key in [@"eprint,title,collaboration,doi,abstract,comments,citecount,pages,date" componentsSeparatedByString:@","]){
+        NSObject*x=[element valueForKey:key];
+        if(x){
+            [o setValue:x forKey:key];
+        }
+    }
     [o setAuthorNames:element.authors];
-    o.doi=element.doi;
-    o.abstract=element.abstract;
-    o.comments=element.comments;
-    o.citecount=element.citecount;
-    o.pages=element.pages;
-    o.date=element.date;
     if(!(o.journal) && element.journalTitle){
         o.journal=[JournalEntry journalEntryWithName:element.journalTitle
                                                    Volume:element.journalVolume
