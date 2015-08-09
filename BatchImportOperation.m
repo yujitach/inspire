@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "MOC.h"
 #import "NSString+magic.h"
+#import "SpiresXMLArticle.h"
 
 @implementation BatchImportOperation
 {
@@ -53,93 +54,30 @@
 }
 
 #pragma mark setters from XML
--(NSString*)valueForKey:(NSString*)key inXMLElement:(NSXMLElement*)element
-{
-    NSArray*a=[element elementsForName:key];
-    if(a==nil||[a count]==0)return nil;
-    NSString*s=[a[0] stringValue];
-    if(!s || [s isEqualToString:@""])
-	return nil;
-    return s;
-}
--(void)setIntToArticle:(Article*)a forKey:(NSString*)key inXMLElement:(NSXMLElement*)e
-{
-    NSString* s=[self valueForKey:key inXMLElement:e];
-    if(s)
-	[a setValue:@([s intValue]) forKey:key];
-}
--(void)setStringToArticle:(Article*)a forKey:(NSString*)key inXMLElement:(NSXMLElement*)e
-{
-    NSString* s=[self valueForKey:key inXMLElement:e];
-    if(s){
-	//	s=[s stringByExpandingAmpersandEscapes];
-	[a setValue:s forKey:key];
-    }
-}
--(void)setStringToArticle:(Article*)a forKey:(NSString*)key inXMLElement:(NSXMLElement*)e ofKey:(NSString*)xmlKey
-{
-    NSString* s=[self valueForKey:xmlKey inXMLElement:e];
-    if(s)
-	[a setValue:s forKey:key];
-}
--(void)setJournalToArticle:(Article*)a inXMLElement:(NSXMLElement*)e
-{
-    if(a.journal)return;
-    NSArray* x=[e elementsForName:@"journal"];
-    if(!x || [x count]==0) return;
-    NSXMLElement* element=x[0];
-    NSString *name=[self valueForKey:@"name" inXMLElement:element];
-    if(!name || [name isEqualToString:@""])return;
-    JournalEntry*j=[JournalEntry journalEntryWithName:name
-					       Volume:[self valueForKey:@"volume"  inXMLElement:element] 
-						 Year:[[self valueForKey:@"year"  inXMLElement:element] intValue] 
-						 Page:[self valueForKey:@"page" inXMLElement:element] 
-						inMOC:[a managedObjectContext]];
-    a.journal=j;
-}
--(void)setDateToArticle:(Article*)a inXMLElement:(NSXMLElement*)e
-{
-    NSString*dateString=[self valueForKey:@"date" inXMLElement:e];
-    if(!dateString || [dateString length]!=8)return;
-    NSString*year=[dateString substringToIndex:4];
-    NSString*month=[dateString substringWithRange:NSMakeRange(4,2)];
-    NSDate*date=[NSDate dateWithString:[NSString stringWithFormat:@"%@-%@-01 00:00:00 +0000",year,month]];
-    a.date=date;
-}
--(void)populatePropertiesOfArticle:(Article*)o fromXML:(NSXMLElement*)element
-{
-    NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
-    NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
-    NSString*title=[self valueForKey:@"title" inXMLElement:element];
 
-    o.spiresKey=@([spiresKey integerValue]);
-    o.eprint=eprint;
-    o.title=title;
-    
-    NSError*error=nil;
-    NSArray*a=[element nodesForXPath:@"authaffgrp/author" error:&error];
-    NSMutableArray* array=[NSMutableArray array];
-
-    for(NSXMLElement*e in a){
-	[array addObject:[e stringValue]];
-    }
-    
+-(void)populatePropertiesOfArticle:(Article*)o fromProtoArticle:(ProtoArticle*)element
+{
+    o.spiresKey=@([element.spiresKey integerValue]);
+    o.inspireKey=@([element.inspireKey integerValue]);
+    o.eprint=element.eprint;
+    o.title=element.title;
     // Here I'm cheating: -setAuthorNames: puts the collaboration name in the author list,
     // so "collaboration" needs to be set up before that
-    [self setStringToArticle:o forKey:@"collaboration" inXMLElement:element];
-    [o setAuthorNames:array];
-    
-    
-    [self setStringToArticle:o forKey:@"doi" inXMLElement:element];
-    [self setStringToArticle:o forKey:@"abstract" inXMLElement:element];
-    [self setStringToArticle:o forKey:@"comments" inXMLElement:element];
-    [self setStringToArticle:o forKey:@"memo" inXMLElement:element];
-    [self setStringToArticle:o forKey:@"spicite" inXMLElement:element];
-    [self setIntToArticle:o forKey:@"citecount" inXMLElement:element];
-    [self setIntToArticle:o forKey:@"version" inXMLElement:element];
-    [self setIntToArticle:o forKey:@"pages" inXMLElement:element];
-    [self setJournalToArticle:o inXMLElement:element];
-    [self setDateToArticle:o inXMLElement:element];
+    o.collaboration=element.collaboration;
+    [o setAuthorNames:element.authors];
+    o.doi=element.doi;
+    o.abstract=element.abstract;
+    o.comments=element.comments;
+    o.citecount=element.citecount;
+    o.pages=element.pages;
+    o.date=element.date;
+    if(!(o.journal) && element.journalTitle){
+        o.journal=[JournalEntry journalEntryWithName:element.journalTitle
+                                                   Volume:element.journalVolume
+                                                     Year:[element.journalYear intValue]
+                                                     Page:element.journalPage
+                                                    inMOC:[o managedObjectContext]];
+    }
     
     if(o.abstract){
         NSString*abstract=o.abstract;
@@ -149,21 +87,17 @@
         o.abstract=abstract;
     }
     
-    NSString*inspireKey=[self valueForKey:@"inspire_key" inXMLElement:element];
-    if(inspireKey){
-	o.inspireKey=@([inspireKey integerValue]);
-    }
     
 }
 
 #pragma mark Main Logic
--(void)treatElements:(NSMutableArray*)a withXMLKey:(NSString*)xmlKey andKey:(NSString*)key
+-(void)treatElements:(NSMutableArray*)a withKey:(NSString*)key
 {
     if([a count]==0)
         return ;
     NSMutableDictionary*dict=[NSMutableDictionary dictionary];
-    for(NSXMLElement*e in a){
-        NSString*v=[self valueForKey:xmlKey inXMLElement:e];
+    for(ProtoArticle*e in a){
+        NSString*v=[e valueForKey:key];
         dict[v] = e;
     }
     
@@ -179,7 +113,6 @@
     NSError*error=nil;
     NSArray*datas=[secondMOC executeFetchRequest:req error:&error];
     
-    int i=0,j=0;
     for(ArticleData*data in datas){
         if(!data.article){
             NSLog(@"inconsistency! stray ArticleData found and removed: %@",data);
@@ -190,18 +123,16 @@
         if([v isKindOfClass:[NSNumber class]]){
             v=[(NSNumber*)v stringValue];
         }
-        NSXMLElement*e=dict[v];
-        [self populatePropertiesOfArticle:data.article fromXML:e];
+        ProtoArticle*e=dict[v];
+        [self populatePropertiesOfArticle:data.article fromProtoArticle:e];
         [generated addObject:data.article];
         [a removeObject:e];
-        i++;
     }
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
-    for(NSXMLElement*e in a){
+    for(ProtoArticle*e in a){
         Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
-        [self populatePropertiesOfArticle:article fromXML:e];
+        [self populatePropertiesOfArticle:article fromProtoArticle:e];
         [generated addObject:article];
-        j++;
     }
 }
 -(void)batchAddEntriesOfSPIRES:(NSArray*)a
@@ -210,25 +141,22 @@
     NSMutableArray*lookForSpiresKey=[NSMutableArray array];
     NSMutableArray*lookForDOI=[NSMutableArray array];
     NSMutableArray*lookForTitle=[NSMutableArray array];
-    for(NSXMLElement*element in a){
-        NSString*eprint=[self valueForKey:@"eprint" inXMLElement:element];
-        NSString*spiresKey=[self valueForKey:@"spires_key" inXMLElement:element];
-        NSString*doi=[self valueForKey:@"doi" inXMLElement:element];
-        NSString*title=[self valueForKey:@"title" inXMLElement:element];
-        if(eprint){
+    for(ProtoArticle*element in a){
+        if(element.eprint){
             [lookForEprint addObject:element];
-        }else if(spiresKey){
+        }else if(element.spiresKey){
             [lookForSpiresKey addObject:element];
-        }else if(doi){
+        }else if(element.doi){
             [lookForDOI addObject:element];
-        }else if(title){
+        }else if(element.title){
             [lookForTitle addObject:element];
         }
     }
     
-    [self treatElements:lookForEprint withXMLKey:@"eprint" andKey:@"eprint"];
-    [self treatElements:lookForSpiresKey withXMLKey:@"spires_key" andKey:@"spiresKey"];
-    [self treatElements:lookForTitle withXMLKey:@"title" andKey:@"title"];
+    [self treatElements:lookForEprint withKey:@"eprint"];
+    [self treatElements:lookForSpiresKey withKey:@"spiresKey"];
+    [self treatElements:lookForDOI withKey:@"doi"];
+    [self treatElements:lookForTitle withKey:@"title"];
     
     // you shouldn't mix dispatch to the main thread and performSelectorOnMainThread,
     // they're not guaranteed to be serialized!
@@ -267,9 +195,7 @@
 {
     
     [secondMOC performBlockAndWait:^{
-        NSXMLDocument*doc=[[NSXMLDocument alloc] initWithData:xmlData options:NSXMLNodeOptionsNone error:NULL];
-        NSXMLElement* root=[doc rootElement];
-        NSArray*elements=[root elementsForName:@"document"];
+        NSArray*elements=[SpiresXMLArticle articlesFromXMLData:xmlData];
         NSLog(@"spires returned %d entries",(int)[elements count]);
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];

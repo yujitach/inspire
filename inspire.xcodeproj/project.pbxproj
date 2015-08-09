@@ -23,6 +23,8 @@
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
+		332733C31B76EF8F0072BCFE /* ProtoArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 332733C21B76EF8F0072BCFE /* ProtoArticle.m */; };
+		332733C61B76EFF90072BCFE /* SpiresXMLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
@@ -184,6 +186,10 @@
 		33202EE010D9D8EA00EDB5A8 /* Migrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Migrator.h; sourceTree = "<group>"; };
 		33202EE110D9D8EA00EDB5A8 /* Migrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Migrator.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
+		332733C11B76EF8F0072BCFE /* ProtoArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
+		332733C21B76EF8F0072BCFE /* ProtoArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtoArticle.m; sourceTree = "<group>"; };
+		332733C41B76EFF90072BCFE /* SpiresXMLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresXMLArticle.h; sourceTree = "<group>"; };
+		332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresXMLArticle.m; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
@@ -803,6 +809,10 @@
 		7756732906782D8800D1FEB8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				332733C11B76EF8F0072BCFE /* ProtoArticle.h */,
+				332733C21B76EF8F0072BCFE /* ProtoArticle.m */,
+				332733C41B76EFF90072BCFE /* SpiresXMLArticle.h */,
+				332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -971,6 +981,7 @@
 				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
+				332733C31B76EF8F0072BCFE /* ProtoArticle.m in Sources */,
 				33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */,
 				33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */,
 				33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */,
@@ -984,6 +995,7 @@
 				339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */,
 				339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */,
 				337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */,
+				332733C61B76EFF90072BCFE /* SpiresXMLArticle.m in Sources */,
 				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
 				330207AC0F5990210067714C /* MOC.m in Sources */,
