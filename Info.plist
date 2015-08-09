@@ -28,7 +28,7 @@
 	<key>CFBundleIconFile</key>
 	<string>spires.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yujitach.spires</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

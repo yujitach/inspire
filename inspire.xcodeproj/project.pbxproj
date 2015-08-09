@@ -24,7 +24,6 @@
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332733C31B76EF8F0072BCFE /* ProtoArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 332733C21B76EF8F0072BCFE /* ProtoArticle.m */; };
-		332733C61B76EFF90072BCFE /* SpiresXMLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
@@ -63,7 +62,6 @@
 		3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */; };
 		337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; };
 		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
-		337FC28712C4914F008995BF /* marc2spires.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 337FC28612C4914F008995BF /* marc2spires.xsl */; };
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
@@ -81,6 +79,7 @@
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
+		33AB063C1B7719AB007491F1 /* InspireXMLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B3060817D3839800279B15 /* DummyBWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335818F110D613A700E7CA0E /* DummyBWSplitView.m */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
@@ -188,8 +187,6 @@
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332733C11B76EF8F0072BCFE /* ProtoArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
 		332733C21B76EF8F0072BCFE /* ProtoArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtoArticle.m; sourceTree = "<group>"; };
-		332733C41B76EFF90072BCFE /* SpiresXMLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresXMLArticle.h; sourceTree = "<group>"; };
-		332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresXMLArticle.m; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
@@ -257,7 +254,6 @@
 		337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeferredPDFOpenOperation.m; sourceTree = "<group>"; };
 		337B882D0F3575680005BA9C /* BibViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibViewController.h; sourceTree = "<group>"; };
 		337B882E0F3575680005BA9C /* BibViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibViewController.m; sourceTree = "<group>"; };
-		337FC28612C4914F008995BF /* marc2spires.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = marc2spires.xsl; sourceTree = "<group>"; };
 		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
 		338432100F70CFB80040BDA6 /* SideOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineView.h; sourceTree = "<group>"; };
 		338432110F70CFB80040BDA6 /* SideOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineView.m; sourceTree = "<group>"; };
@@ -292,6 +288,8 @@
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
 		33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPProgressIndicatingButtonCell.m; sourceTree = "<group>"; };
+		33AB063A1B7719AB007491F1 /* InspireXMLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireXMLArticle.h; sourceTree = "<group>"; };
+		33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireXMLArticle.m; sourceTree = "<group>"; };
 		33B2CC751048D06D00BA5561 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
@@ -475,7 +473,6 @@
 			isa = PBXGroup;
 			children = (
 				33B09C7C10D4AB66001A9B50 /* UI graphics */,
-				337FC28612C4914F008995BF /* marc2spires.xsl */,
 				3331BD3111D423F0001F9B4B /* tex.js */,
 				333D721110007CE800A328FE /* magicRegExps.perl */,
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
@@ -811,8 +808,8 @@
 			children = (
 				332733C11B76EF8F0072BCFE /* ProtoArticle.h */,
 				332733C21B76EF8F0072BCFE /* ProtoArticle.m */,
-				332733C41B76EFF90072BCFE /* SpiresXMLArticle.h */,
-				332733C51B76EFF90072BCFE /* SpiresXMLArticle.m */,
+				33AB063A1B7719AB007491F1 /* InspireXMLArticle.h */,
+				33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -856,7 +853,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "inspire" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -920,7 +917,6 @@
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
 				339512D71A5A9BF400056754 /* v1.6.0alert.rtf in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
-				337FC28712C4914F008995BF /* marc2spires.xsl in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
 				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
 				33FFF37C17DE01A0007AF5E3 /* unread-hasPDF.png in Resources */,
@@ -963,6 +959,7 @@
 				33E397871A2EDEE900C91553 /* ArticleData.m in Sources */,
 				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
 				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
+				33AB063C1B7719AB007491F1 /* InspireXMLArticle.m in Sources */,
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
 				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
@@ -995,7 +992,6 @@
 				339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */,
 				339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */,
 				337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */,
-				332733C61B76EFF90072BCFE /* SpiresXMLArticle.m in Sources */,
 				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,
 				330207AC0F5990210067714C /* MOC.m in Sources */,
@@ -1080,6 +1076,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-licucore";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";
 				WARNING_CFLAGS = (
@@ -1118,6 +1115,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-licucore";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
 				PROVISIONING_PROFILE = "";
 				WARNING_CFLAGS = (
@@ -1139,6 +1137,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = "";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;

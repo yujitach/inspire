@@ -19,7 +19,6 @@
 @property (readonly) NSNumber*pages;
 @property (readonly) NSNumber*citecount;
 @property (readonly) NSDate*date;
-@property (readonly) NSDictionary*publicationInfo;
 @property (readonly) NSString*doi;
 @property (readonly) NSString*comments;
 @property (readonly) NSString*journalTitle;

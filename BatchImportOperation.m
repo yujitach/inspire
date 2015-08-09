@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "MOC.h"
 #import "NSString+magic.h"
-#import "SpiresXMLArticle.h"
+#import "InspireXMLArticle.h"
 
 @implementation BatchImportOperation
 {
@@ -192,7 +192,7 @@
 {
     
     [secondMOC performBlockAndWait:^{
-        NSArray*elements=[SpiresXMLArticle articlesFromXMLData:xmlData];
+        NSArray*elements=[InspireXMLArticle articlesFromXMLData:xmlData];
         NSLog(@"spires returned %d entries",(int)[elements count]);
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];

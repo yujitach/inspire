@@ -12,11 +12,8 @@
 #import "AppDelegate.h"
 #import "Article.h"
 #import "MOC.h"
+#import "InspireXMLArticle.h"
 
-@interface SpiresQueryDownloader ()
-- (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
-//- (void) tooManyAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored;
-@end
 
 @implementation SpiresQueryDownloader
 
@@ -32,7 +29,7 @@
 	    rec=[NSString stringWithFormat:@"recid:%@",inspireKey];
 	}else if(article.eprint && ![article.eprint isEqualToString:@""]){
 	    rec=[NSString stringWithFormat:@"%@",article.eprint];
-	}else if(article.spiresKey && [article.spiresKey integerValue]!=0){
+	}else /*if(article.spiresKey && [article.spiresKey integerValue]!=0){
             NSString*query=[NSString stringWithFormat:@"find key %@&rg=1&of=xm",article.spiresKey];
             NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:query];
             NSXMLDocument*doc=[[NSXMLDocument alloc] initWithContentsOfURL:url
@@ -47,7 +44,7 @@
 		article.inspireKey=n;
 		rec=[NSString stringWithFormat:@"recid:%@",n];
 	    }
-	}else{
+	}else*/{
 	    return nil;
 	}
 	NSString*head=nil;
@@ -69,7 +66,7 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"limitAuthorCount"]){
         inspireQuery=[inspireQuery stringByAppendingString:@"+and+ac+1->25"];
     }
-    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm",inspireQuery,(int)startIndex+1,MAXPERQUERY];
+    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm&ot=%@",inspireQuery,(int)startIndex+1,MAXPERQUERY,[InspireXMLArticle usedTags]];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }
 -(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd
@@ -155,22 +152,6 @@
     connection=nil;
     
 }
-
-- (void) xmlAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void*)ignored
-{
-    if(returnCode==NSAlertDefaultReturn){
-	NSString*urlString=[[urlRequest URL]  absoluteString];
-	NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-	[[NSWorkspace sharedWorkspace]
-	 openURL:[NSURL URLWithString:
-		  [[NSString stringWithFormat:
-		    @"mailto:yujitach@ias.edu?subject=spires.app Bugs/Suggestions for v.%@&body=Following Inspire query returned an XML error:\r\n%@",
-		    version,urlString]
-		   stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
-	
-    }
-}
-
 
 -(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
 {
