@@ -341,6 +341,18 @@
         }];
     }];
 }
+-(void)tweakTableViewFonts
+{
+    if([NSFont respondsToSelector:@selector(monospacedDigitSystemFontOfSize:weight:)]){
+        for(NSTableColumn*col in [articleListView tableColumns]){
+            NSString*title=col.title;
+            if([title isEqualToString:@"eprint"]||[title isEqualToString:@"cites"]){
+                NSTextFieldCell*cell=(NSTextFieldCell*)col.dataCell;
+                cell.font=[NSFont monospacedDigitSystemFontOfSize:[NSFont systemFontSize] weight:NSFontWeightRegular];                
+            }
+        }
+    }
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     
@@ -351,9 +363,10 @@
     }
 
     [sideOutlineViewController loadArticleLists];
-
-    
     [sideOutlineViewController attachToMOC];
+    
+    [self tweakTableViewFonts];
+    
     if([NSEvent modifierFlags]&NSAlternateKeyMask){
 	[AllArticleList allArticleList].searchString=nil;
     }

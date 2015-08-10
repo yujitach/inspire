@@ -392,9 +392,9 @@
     }
     return [self.title quieterVersion];
 }
--(NSString*)titleWithoutTeX
+-(NSAttributedString*)attributedTitle
 {
-    return [self.quieterTitle texRemoved];
+    return [self.quieterTitle mockTeXed];
 }
 -(NSString*)calculateNormalizedTitle
 {

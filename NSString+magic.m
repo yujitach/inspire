@@ -104,15 +104,166 @@ static void loadMagic(){
     }
     return [b componentsJoinedByString:@" "];
 }
--(NSString*)texRemoved
+#define UP (0.25)
+#define DOWN (0.2)
+
+-(NSAttributedString*)mockTeXed
 {
-    NSString*s=self;
-    s=[s stringByReplacingOccurrencesOfRegex:@"\\\\[A-Za-z]+" withString:@""];
-    s=[s stringByReplacingOccurrencesOfString:@"{" withString:@""];
-    s=[s stringByReplacingOccurrencesOfString:@"}" withString:@""];
-    s=[s stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    NSDictionary*dic= @{
+                        @"\\\\zeta" : @"ζ",
+                        @"\\\\xi" : @"ξ",
+                        @"\\\\wedge" : @"∧",
+                        @"\\\\vee" : @"∨",
+                        @"\\\\upsilon" : @"υ",
+                        @"\\\\to" : @"→",
+                        @"\\\\times" : @"×",
+                        @"\\\\theta" : @"θ",
+                        @"\\\\tau" : @"τ",
+                        @"\\\\sum" : @"∑",
+                        @"\\\\ss" : @"ß",
+                        @"\\\\sqrt" : @"√",
+                        @"\\\\sim" : @"〜",
+                        @"\\\\sigma" : @"σ",
+                        @"\\\\rightarrow" : @"→",
+                        @"\\\\uparrow" : @"↑",
+                        @"\\\\downarrow" : @"↓",
+                        @"\\\\rho" : @"ρ",
+                        @"\\\\psi" : @"ψ",
+                        @"\\\\prod" : @"Π",
+                        @"\\\\prime" : @"'",
+                        @"\\\\pm" : @"±",
+                        @"\\\\pi" : @"π",
+                        @"\\\\phi" : @"φ",
+                        @"\\\\perp" : @"⟂",
+                        @"\\\\partial" : @"∂",
+                        @"\\\\over" : @"/",
+                        @"\\\\otimes" : @"⊗",
+                        @"\\\\oplus" : @"⊕",
+                        @"\\\\omega" : @"ω",
+                        @"\\\\odot" : @"⊙",
+                        @"\\\\nu" : @"ν",
+                        @"\\\\neq" : @"≠",
+                        @"\\\\ne" : @"≠",
+                        @"\\\\nabla" : @"∇",
+                        @"\\\\mu" : @"μ",
+                        @"\\\\mp" : @"∓",
+                        @"\\\\lesssim" : @"≲",
+                        @"\\\\lsim" : @"≲",
+                        @"\\\\ll" : @"≪",
+                        @"\\\\leq" : @"≤",
+                        @"\\\\leftrightarrow" : @"↔",
+                        @"\\\\leftarrow" : @"←",
+                        @"\\\\le" : @"≤",
+                        @"\\\\lambda" : @"λ",
+                        @"\\\\kappa" : @"κ",
+                        @"\\\\iota" : @"ι",
+                        @"\\\\int" : @"∫",
+                        @"\\\\infty" : @"∞",
+                        @"\\\\in" : @"∈",
+                        @"\\\\hbar" : @"ħ",
+                        @"\\\\gtrsim" : @"≳",
+                        @"\\\\gsim" : @"≳",
+                        @"\\\\gg" : @"≫",
+                        @"\\\\geq" : @"≥",
+                        @"\\\\ge" : @"≥",
+                        @"\\\\gamma" : @"γ",
+                        @"\\\\eta" : @"η",
+                        @"\\\\equiv" : @"≡",
+                        @"\\\\epsilon" : @"ε",
+                        @"\\\\varepsilon" : @"ε",
+                        @"\\\\ell" : @"ℓ",
+                        @"\\\\delta" : @"δ",
+                        @"\\\\circ" : @"o",
+                        @"\\\\cup" : @"∪",
+                        @"\\\\chi" : @"χ",
+                        @"\\\\cap" : @"∩",
+                        @"\\\\beta" : @"β",
+                        @"\\\\approx" : @"≈",
+                        @"\\\\alpha" : @"α",
+                        @"\\\\Zeta" : @"Ζ",
+                        @"\\\\Xi" : @"Ξ",
+                        @"\\\\Upsilon" : @"Υ",
+                        @"\\\\Theta" : @"Θ",
+                        @"\\\\Tau" : @"Τ",
+                        @"\\\\Sigma" : @"Σ",
+                        @"\\\\Rho" : @"Ρ",
+                        @"\\\\Psi" : @"Ψ",
+                        @"\\\\Pi" : @"Π",
+                        @"\\\\Phi" : @"Φ",
+                        @"\\\\Omega" : @"Ω",
+                        @"\\\\Nu" : @"Ν",
+                        @"\\\\Mu" : @"Μ",
+                        @"\\\\Lambda" : @"Λ",
+                        @"\\\\Kappa" : @"Κ",
+                        @"\\\\Iota" : @"Ι",
+                        @"\\\\Gamma" : @"Γ",
+                        @"\\\\Eta" : @"Η",
+                        @"\\\\Epsilon" : @"Ε",
+                        @"\\\\Delta" : @"Δ",
+                        @"\\\\Chi" : @"Χ",
+                        @"\\\\Bmu" : @"Βμ",
+                        @"\\\\Beta" : @"Β",
+                        @"\\\\Alpha" : @"Α",
+                        @"\\\\AA" : @"Å",
+                        @"\\\\cdot" : @"•"};
+    
+    NSMutableString*x=[self mutableCopy];
+    
+    
+    for(NSString*key in [dic allKeys]){
+        [x replaceOccurrencesOfRegex:key withString:dic[key]];
+    }
+    [x replaceOccurrencesOfRegex:@"\\\\[A-Za-z]+" withString:@""];
+    [x replaceOccurrencesOfRegex:@"$" withString:@""];
+    
+    NSMutableAttributedString*s=[[NSMutableAttributedString alloc]initWithString:x];
+    NSFont* regular=[NSFont systemFontOfSize:[NSFont systemFontSize]];
+    NSFont* small=[NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
+    while(1){
+        NSRange r=[[s string] rangeOfString:@"^{"];
+        if(r.location==NSNotFound)
+            break;
+        [[s mutableString] replaceCharactersInRange:r withString:@""];
+        NSRange rr=[[s string] rangeOfString:@"}" options:NSLiteralSearch range:NSMakeRange(r.location, [[s string] length]-r.location)];
+        [[s mutableString] replaceCharactersInRange:rr withString:@""];
+        [s setAttributes:@{NSFontAttributeName:small, NSBaselineOffsetAttributeName:@(UP*regular.ascender)} range:NSMakeRange(r.location, rr.location-r.location)];
+    }
+    while(1){
+        NSRange r=[[s string] rangeOfString:@"^"];
+        if(r.location==NSNotFound)
+            break;
+        [[s mutableString] replaceCharactersInRange:r withString:@""];
+        [s setAttributes:@{NSFontAttributeName:small, NSBaselineOffsetAttributeName:@(UP*regular.ascender)} range:r];
+    }
+    while(1){
+        NSRange r=[[s string] rangeOfString:@"**"];
+        if(r.location==NSNotFound)
+            break;
+        [[s mutableString] replaceCharactersInRange:r withString:@""];
+        [s setAttributes:@{NSFontAttributeName:small, NSBaselineOffsetAttributeName:@(UP*regular.ascender)} range:NSMakeRange(r.location,1)];
+    }
+    while(1){
+        NSRange r=[[s string] rangeOfString:@"_{"];
+        if(r.location==NSNotFound)
+            break;
+        [[s mutableString] replaceCharactersInRange:r withString:@""];
+        NSRange rr=[[s string] rangeOfString:@"}" options:NSLiteralSearch range:NSMakeRange(r.location, [[s string] length]-r.location)];
+        [[s mutableString] replaceCharactersInRange:rr withString:@""];
+        [s setAttributes:@{NSFontAttributeName:small, NSBaselineOffsetAttributeName:@(-DOWN*regular.ascender)} range:NSMakeRange(r.location, rr.location-r.location)];
+    }
+    while(1){
+        NSRange r=[[s string] rangeOfString:@"_"];
+        if(r.location==NSNotFound)
+            break;
+        [[s mutableString] replaceCharactersInRange:r withString:@""];
+        [s setAttributes:@{NSFontAttributeName:small, NSBaselineOffsetAttributeName:@(-DOWN*regular.ascender)} range:r];
+    }
+    [[s mutableString] replaceOccurrencesOfString:@"{" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [[s mutableString] length])];
+    [[s mutableString] replaceOccurrencesOfString:@"}" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [[s mutableString] length])];
+    [[s mutableString] replaceOccurrencesOfString:@"$" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [[s mutableString] length])];
     return s;
 }
+
 -(NSString*)normalizedString
 {
     if (!self) return nil;
@@ -127,7 +278,7 @@ static void loadMagic(){
 }
 -(NSString*)quotedForShell
 {
-    NSString*s=[self stringByReplacingOccurrencesOfRegex:@"([\\\\\"`\\$])" withString:@"\\\\$1"]; 
+    NSString*s=[self stringByReplacingOccurrencesOfRegex:@"([\\\\\"`\\$])" withString:@"\\\\$1"];
     s=[NSString stringWithFormat:@"\"%@\"",s];
 //    NSLog(@"%@-->%@",self,s);
     return s;

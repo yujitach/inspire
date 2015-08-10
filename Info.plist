@@ -58,6 +58,20 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>worldscientific.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>springer.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>aip.org</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

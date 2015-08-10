@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="8173.3"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -285,6 +285,7 @@
                                             <popUpButton verticalHuggingPriority="750" id="1230" customClass="BWAnchoredPopUpButton">
                                                 <rect key="frame" x="-2" y="-1" width="32" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <animations/>
                                                 <popUpButtonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="1233" id="1231" customClass="BWAnchoredPopUpButtonCell">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="menu"/>
@@ -320,6 +321,7 @@
                                             <button verticalHuggingPriority="750" id="1026" customClass="BWAnchoredButton">
                                                 <rect key="frame" x="27" y="-1" width="31" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <animations/>
                                                 <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1027" customClass="BWAnchoredButtonCell">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="smallSystem"/>
@@ -329,6 +331,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <animations/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
                                                 <integer key="value" value="0"/>
@@ -345,6 +348,7 @@
                                                 <tableView focusRingType="none" appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="111" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                    <animations/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -374,18 +378,23 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
+                                            <animations/>
                                             <nil key="backgroundColor"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
+                                        <animations/>
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
                                             <rect key="frame" x="1" y="480" width="111" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
+                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
                                             <rect key="frame" x="97" y="1" width="15" height="479"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                         </scroller>
                                     </scrollView>
                                 </subviews>
+                                <animations/>
                             </customView>
                             <splitView dividerStyle="paneSplitter" id="832">
                                 <rect key="frame" x="113" y="0.0" width="476" height="518"/>
@@ -395,12 +404,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="476" height="225"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="H0G-dn-Hcs">
-                                            <rect key="frame" x="0.0" y="17" width="476" height="208"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="476" height="225"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="476" height="208"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -450,7 +460,7 @@
                                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="normalizedTitle"/>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <connections>
-                                                                <binding destination="421" name="value" keyPath="arrangedObjects.titleWithoutTeX" id="Qcn-PU-jLD"/>
+                                                                <binding destination="421" name="value" keyPath="arrangedObjects.attributedTitle" id="mvD-UN-Iq7"/>
                                                             </connections>
                                                         </tableColumn>
                                                         <tableColumn width="69" minWidth="10" maxWidth="3.4028230607370965e+38" id="592">
@@ -509,24 +519,30 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
+                                            <animations/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
+                                        <animations/>
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
                                             <rect key="frame" x="-100" y="-100" width="565" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                         </scroller>
-                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
                                             <rect key="frame" x="460" y="17" width="16" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="430">
-                                            <rect key="frame" x="0.0" y="0.0" width="460" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="476" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                         </tableHeaderView>
                                     </scrollView>
                                     <webView id="830" customClass="ArticleView">
                                         <rect key="frame" x="0.0" y="235" width="476" height="283"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <animations/>
                                         <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
                                             <nil key="identifier"/>
                                         </webPreferences>
@@ -536,12 +552,14 @@
                                         </connections>
                                     </webView>
                                 </subviews>
+                                <animations/>
                                 <holdingPriorities>
                                     <real value="250"/>
                                     <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
                         </subviews>
+                        <animations/>
                         <holdingPriorities>
                             <real value="250"/>
                             <real value="250"/>
@@ -551,6 +569,7 @@
                         </connections>
                     </splitView>
                 </subviews>
+                <animations/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="C442DCA3-F9F1-41FC-A4D7-3E89FF12F88E" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="889">
                 <allowedToolbarItems>
@@ -561,6 +580,7 @@
                         <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" tag="2" id="897" customClass="SPSearchFieldWithProgressIndicator">
                             <rect key="frame" x="0.0" y="14" width="329" height="22"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <animations/>
                             <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" bezelStyle="round" sendsWholeSearchString="YES" maximumRecents="10" id="898">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -584,6 +604,7 @@
                         <segmentedControl key="view" verticalHuggingPriority="750" id="908">
                             <rect key="frame" x="15" y="14" width="48" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="momentary" id="909">
                                 <font key="font" metaFont="system"/>
                                 <segments>
@@ -604,6 +625,7 @@
                         <button key="view" verticalHuggingPriority="750" id="936">
                             <rect key="frame" x="19" y="14" width="40" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="roundTextured" title="Round Textured" bezelStyle="texturedRounded" image="NSQuickLookTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="937">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>

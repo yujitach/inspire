@@ -282,7 +282,6 @@
 		339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivMetadataFetchOperation.m; sourceTree = "<group>"; };
 		3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = parseTeXandEmitPlist.perl; sourceTree = "<group>"; };
 		33A06D0210DFD19F003EF208 /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = bwtoolkit/BWSplitView.h; sourceTree = "<group>"; };
-		33A06D0310DFD19F003EF208 /* BWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWSplitView.m; path = bwtoolkit/BWSplitView.m; sourceTree = "<group>"; };
 		33A2DBF110C1DDFD0008C14A /* ArticleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleData.m; sourceTree = "<group>"; };
 		33A51E330F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPSearchFieldWithProgressIndicator.h; sourceTree = "<group>"; };
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
@@ -572,7 +571,6 @@
 				335818F010D613A700E7CA0E /* DummyBWSplitView.h */,
 				335818F110D613A700E7CA0E /* DummyBWSplitView.m */,
 				33A06D0210DFD19F003EF208 /* BWSplitView.h */,
-				33A06D0310DFD19F003EF208 /* BWSplitView.m */,
 				334A3A610F360E060078D121 /* NSCustomView.h */,
 				334A3A620F360E060078D121 /* NSColor+BWAdditions.m */,
 				334A3A630F360E060078D121 /* NSColor+BWAdditions.h */,

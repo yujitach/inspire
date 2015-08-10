@@ -96,7 +96,6 @@
         }else if([currentTag isEqualToString:@"961"]){
             NSString*dateString=subfieldDic[@"x"];
             if(dateString){
-                dateString=[dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
                 if([dateString length]==7){
                     dateString=[dateString stringByAppendingString:@"-00"];
                 }
