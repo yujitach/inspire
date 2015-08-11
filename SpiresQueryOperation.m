@@ -11,7 +11,7 @@
 #import "BatchImportOperation.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
-#import "BatchBibQueryOperation.h"
+#import "InspireXMLParser.h"
 #import "AppDelegate.h"
 #import "MOC.h"
 @interface SpiresQueryOperation ()
@@ -63,7 +63,8 @@
             [me finish];
             return;
         }
-        importer=[[BatchImportOperation alloc] initWithXMLData:xmlData
+        NSArray*a=[InspireXMLParser articlesFromXMLData:xmlData];
+        importer=[[BatchImportOperation alloc] initWithProtoArticles:a
                                                  originalQuery:search];
         if(actionBlock){
             actionBlock(importer);

@@ -6,18 +6,12 @@
 //
 //
 
-#import "InspireXMLArticle.h"
+#import "InspireXMLParser.h"
+#import "LightweightArticle.h"
 
-@interface InspireXMLArticle ()
--(void)addAuthor:(NSString*)name;
+@interface InspireXMLParser ()
+@property NSMutableArray*articles;
 @end
-
-
-@interface InspireXMLParser: NSObject<NSXMLParserDelegate>
--(instancetype)initWithXMLData:(NSData*)data;
-@property (readonly) NSMutableArray*articles;
-@end
-
 
 @implementation InspireXMLParser
 {
@@ -25,9 +19,18 @@
     NSString*currentTag;
     NSString*currentCode;
     NSMutableDictionary*subfieldDic;
-    InspireXMLArticle*currentArticle;
+    LightweightArticle*currentArticle;
 }
 @synthesize articles;
++(NSString*)usedTags
+{
+    return @"001,970,100,700,710,520,037,245,300,773,961,024";
+}
++(NSArray*)articlesFromXMLData:(NSData*)data
+{
+    InspireXMLParser*parser=[[InspireXMLParser alloc] initWithXMLData:data];
+    return parser.articles;
+}
 -(instancetype)initWithXMLData:(NSData*)data
 {
     self=[super init];
@@ -46,7 +49,7 @@
 {
     currentString=[NSMutableString string];
     if([elementName isEqualToString:@"record"]){
-        currentArticle=[[InspireXMLArticle alloc] init];
+        currentArticle=[[LightweightArticle alloc] init];
     }else if([elementName isEqualToString:@"controlfield"]){
         
     }else if([elementName isEqualToString:@"datafield"]){
@@ -62,36 +65,37 @@
         [articles addObject:currentArticle];
         currentArticle=nil;
     }else if([elementName isEqualToString:@"controlfield"]){
-        [currentArticle setValue:currentString forKey:@"inspireKey"];
+        currentArticle.inspireKey=@([currentString integerValue]);
     }else if([elementName isEqualToString:@"datafield"]){
         if([currentTag isEqualToString:@"970"]){
             NSString*s=subfieldDic[@"a"];
-            [currentArticle setValue:[s substringFromIndex:[@"SPIRES-" length]] forKey:@"spiresKey"];
+            NSString*spiresKey=[s substringFromIndex:[@"SPIRES-" length]];
+            currentArticle.spiresKey=@([spiresKey integerValue]);
         }else if([currentTag isEqualToString:@"100"]){
             [currentArticle addAuthor:subfieldDic[@"a"]];
         }else if([currentTag isEqualToString:@"700"]){
             [currentArticle addAuthor:subfieldDic[@"a"]];
         }else if([currentTag isEqualToString:@"710"]){
-            [currentArticle setValue:subfieldDic[@"g"] forKey:@"collaboration"];
+            currentArticle.collaboration=subfieldDic[@"g"];
         }else if([currentTag isEqualToString:@"520"]){
             if([subfieldDic[@"9"] isEqualToString:@"arXiv"]){
-                [currentArticle setValue:subfieldDic[@"a"] forKey:@"abstract"];
+                currentArticle.abstract=subfieldDic[@"a"];
             }
         }else if([currentTag isEqualToString:@"037"]){
             if([subfieldDic[@"9"] isEqualToString:@"arXiv"]){
-                [currentArticle setValue:subfieldDic[@"a"] forKey:@"eprint"];
+                currentArticle.eprint=subfieldDic[@"a"];
             }
         }else if([currentTag isEqualToString:@"245"]){
-            [currentArticle setValue:subfieldDic[@"a"] forKey:@"title"];
+            currentArticle.title=subfieldDic[@"a"];
         }else if([currentTag isEqualToString:@"300"]){
-            [currentArticle setValue:@([subfieldDic[@"a"] integerValue]) forKey:@"pages"];
+            currentArticle.pages=@([subfieldDic[@"a"] integerValue]);
         }else if([currentTag isEqualToString:@"773"]){
             NSString*title=subfieldDic[@"p"];
             if(title && ![title isEqualToString:@""]){
-                [currentArticle setValue:title forKey:@"journalTitle"];
-                [currentArticle setValue:subfieldDic[@"v"] forKey:@"journalVolume"];
-                [currentArticle setValue:subfieldDic[@"c"] forKey:@"journalPage"];
-                [currentArticle setValue:@([subfieldDic[@"y"] integerValue]) forKey:@"journalYear"];
+                currentArticle.journalTitle=title;
+                currentArticle.journalVolume=subfieldDic[@"v"];
+                currentArticle.journalPage=subfieldDic[@"c"];
+                currentArticle.journalYear=@([subfieldDic[@"y"] integerValue]);
             }
         }else if([currentTag isEqualToString:@"961"]){
             NSString*dateString=subfieldDic[@"x"];
@@ -100,11 +104,11 @@
                     dateString=[dateString stringByAppendingString:@"-00"];
                 }
                 NSDate*date=[NSDate dateWithString:[NSString stringWithFormat:@"%@ 00:00:00 +0000",dateString]];
-                [currentArticle setValue:date forKey:@"date"];
+                currentArticle.date=date;
             }
         }else if([currentTag isEqualToString:@"024"]){
             if([subfieldDic[@"2"] isEqualToString:@"DOI"]){
-                [currentArticle setValue:subfieldDic[@"a" ] forKey:@"doi"];
+                currentArticle.doi=subfieldDic[@"a"];
             }
         }
         subfieldDic=nil;
@@ -119,31 +123,3 @@
 }
 @end
 
-@implementation InspireXMLArticle
-{
-    NSMutableArray*authorArray;
-}
-+(NSString*)usedTags
-{
-    return @"001,970,100,700,710,520,037,245,300,773,961,024";
-}
-+(NSArray*)articlesFromXMLData:(NSData*)data
-{
-    InspireXMLParser*parser=[[InspireXMLParser alloc] initWithXMLData:data];
-    return parser.articles;
-}
--(instancetype)init
-{
-    self=[super init];
-    authorArray=[NSMutableArray array];
-    return self;
-}
--(NSArray*)authors
-{
-    return authorArray;
-}
--(void)addAuthor:(NSString*)name
-{
-    [authorArray addObject:name];
-}
-@end

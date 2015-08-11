@@ -8,7 +8,7 @@
 
 #import "ProtoArticle.h"
 
-@interface InspireXMLArticle : ProtoArticle
+@interface InspireXMLParser : NSObject<NSXMLParserDelegate>
 +(NSString*)usedTags;
 +(NSArray*)articlesFromXMLData:(NSData*)data;
 @end

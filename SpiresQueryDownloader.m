@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 #import "Article.h"
 #import "MOC.h"
-#import "InspireXMLArticle.h"
+#import "InspireXMLParser.h"
 
 
 @implementation SpiresQueryDownloader
@@ -66,7 +66,7 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"limitAuthorCount"]){
         inspireQuery=[inspireQuery stringByAppendingString:@"+and+ac+1->25"];
     }
-    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm&ot=%@",inspireQuery,(int)startIndex+1,MAXPERQUERY,[InspireXMLArticle usedTags]];
+    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm&ot=%@",inspireQuery,(int)startIndex+1,MAXPERQUERY,[InspireXMLParser usedTags]];
     return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
 }
 -(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd
@@ -146,7 +146,7 @@
     NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
     total=[t intValue];
     NSUInteger count=[[s componentsMatchedByRegex:@"<record>"] count];
-    NSLog(@"count:%@",@(count));
+    NSLog(@"spires returned %@ entries",@(count));
     whenDone(temporaryData,count<MAXPERQUERY);
     temporaryData=nil;
     connection=nil;

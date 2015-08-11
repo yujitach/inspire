@@ -13,7 +13,7 @@
 @class Article;
 @class ArticleList;
 @interface BatchImportOperation : NSOperation
--(BatchImportOperation*)initWithXMLData:(NSData*)d
+-(BatchImportOperation*)initWithProtoArticles:(NSArray*)d
                           originalQuery:(NSString*)q;
 @property(readonly) NSMutableSet*generated;
 @end

@@ -23,7 +23,6 @@
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
-		332733C31B76EF8F0072BCFE /* ProtoArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 332733C21B76EF8F0072BCFE /* ProtoArticle.m */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
 		332BD63610CECF500032EF88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 332BD63510CECF500032EF88 /* AppDelegate.m */; };
@@ -36,6 +35,7 @@
 		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
+		33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FBE1B79B5F700A26198 /* LightweightArticle.m */; };
 		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
 		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
@@ -79,7 +79,7 @@
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
-		33AB063C1B7719AB007491F1 /* InspireXMLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */; };
+		33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLParser.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B3060817D3839800279B15 /* DummyBWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335818F110D613A700E7CA0E /* DummyBWSplitView.m */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
@@ -186,7 +186,6 @@
 		33202EE110D9D8EA00EDB5A8 /* Migrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Migrator.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332733C11B76EF8F0072BCFE /* ProtoArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
-		332733C21B76EF8F0072BCFE /* ProtoArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtoArticle.m; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
@@ -205,6 +204,8 @@
 		333C79050F5230780075267A /* NSURL+libraryProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+libraryProxy.h"; sourceTree = "<group>"; };
 		333C79060F5230780075267A /* NSURL+libraryProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+libraryProxy.m"; sourceTree = "<group>"; };
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
+		33441FBD1B79B5F700A26198 /* LightweightArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightweightArticle.h; sourceTree = "<group>"; };
+		33441FBE1B79B5F700A26198 /* LightweightArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightweightArticle.m; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
 		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "bwtoolkit/NSView+BWAdditions.m"; sourceTree = "<group>"; };
@@ -287,8 +288,8 @@
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
 		33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPProgressIndicatingButtonCell.m; sourceTree = "<group>"; };
-		33AB063A1B7719AB007491F1 /* InspireXMLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireXMLArticle.h; sourceTree = "<group>"; };
-		33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireXMLArticle.m; sourceTree = "<group>"; };
+		33AB063A1B7719AB007491F1 /* InspireXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireXMLParser.h; sourceTree = "<group>"; };
+		33AB063B1B7719AB007491F1 /* InspireXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireXMLParser.m; sourceTree = "<group>"; };
 		33B2CC751048D06D00BA5561 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
@@ -805,9 +806,10 @@
 			isa = PBXGroup;
 			children = (
 				332733C11B76EF8F0072BCFE /* ProtoArticle.h */,
-				332733C21B76EF8F0072BCFE /* ProtoArticle.m */,
-				33AB063A1B7719AB007491F1 /* InspireXMLArticle.h */,
-				33AB063B1B7719AB007491F1 /* InspireXMLArticle.m */,
+				33441FBD1B79B5F700A26198 /* LightweightArticle.h */,
+				33441FBE1B79B5F700A26198 /* LightweightArticle.m */,
+				33AB063A1B7719AB007491F1 /* InspireXMLParser.h */,
+				33AB063B1B7719AB007491F1 /* InspireXMLParser.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -957,7 +959,7 @@
 				33E397871A2EDEE900C91553 /* ArticleData.m in Sources */,
 				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
 				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
-				33AB063C1B7719AB007491F1 /* InspireXMLArticle.m in Sources */,
+				33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */,
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
 				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
@@ -969,6 +971,7 @@
 				334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */,
 				334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */,
 				334A3A730F360E060078D121 /* NSImage+BWAdditions.m in Sources */,
+				33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */,
 				334A3A740F360E060078D121 /* NSColor+BWAdditions.m in Sources */,
 				334A3A780F360E060078D121 /* BWAnchoredButtonCell.m in Sources */,
 				334A3A790F360E060078D121 /* BWAnchoredButtonBar.m in Sources */,
@@ -976,7 +979,6 @@
 				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
-				332733C31B76EF8F0072BCFE /* ProtoArticle.m in Sources */,
 				33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */,
 				33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */,
 				33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */,

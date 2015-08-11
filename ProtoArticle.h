@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ProtoArticle : NSObject
+@protocol ProtoArticle<NSObject>
 @property (readonly) NSString*title;
-@property (readonly) NSString*inspireKey;
-@property (readonly) NSString*spiresKey;
+@property (readonly) NSNumber*inspireKey;
+@property (readonly) NSNumber*spiresKey;
 @property (readonly) NSString*eprint;
 @property (readonly) NSArray*authors;
 @property (readonly) NSString*abstract;

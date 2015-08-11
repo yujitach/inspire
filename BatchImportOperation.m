@@ -15,24 +15,23 @@
 #import "AppDelegate.h"
 #import "MOC.h"
 #import "NSString+magic.h"
-#import "InspireXMLArticle.h"
+#import "ProtoArticle.h"
 
 @implementation BatchImportOperation
 {
-    NSData*xmlData;
+    NSArray*elements;
     NSString*query;
     NSManagedObjectContext*secondMOC;
     NSMutableSet*generated;
     dispatch_group_t group;
 }
 @synthesize generated;
--(BatchImportOperation*)initWithXMLData:(NSData*)d
+-(BatchImportOperation*)initWithProtoArticles:(NSArray *)d
                           originalQuery:(NSString*)q;
 {
     self=[super init];
-    xmlData=d;
+    elements=d;
     query=[q copy];
-    [xmlData writeToFile:@"/tmp/spiresTemporary.xml" atomically:YES];
 /*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
     if([elements count]>cap){
@@ -55,13 +54,11 @@
 
 #pragma mark setters from XML
 
--(void)populatePropertiesOfArticle:(Article*)o fromProtoArticle:(ProtoArticle*)element
+-(void)populatePropertiesOfArticle:(Article*)o fromProtoArticle:(NSObject<ProtoArticle>*)element
 {
-    o.spiresKey=@([element.spiresKey integerValue]);
-    o.inspireKey=@([element.inspireKey integerValue]);
     // Here I'm cheating: -setAuthorNames: puts the collaboration name in the author list,
     // so "collaboration" needs to be set up before that
-    for(NSString*key in [@"eprint,title,collaboration,doi,abstract,comments,citecount,pages,date" componentsSeparatedByString:@","]){
+    for(NSString*key in [@"spiresKey,inspireKey,eprint,title,collaboration,doi,abstract,comments,citecount,pages,date" componentsSeparatedByString:@","]){
         NSObject*x=[element valueForKey:key];
         if(x){
             [o setValue:x forKey:key];
@@ -93,8 +90,8 @@
     if([a count]==0)
         return ;
     NSMutableDictionary*dict=[NSMutableDictionary dictionary];
-    for(ProtoArticle*e in a){
-        NSString*v=[e valueForKey:key];
+    for(NSObject<ProtoArticle>*e in a){
+        NSObject<NSCopying>*v=[e valueForKey:key];
         dict[v] = e;
     }
     
@@ -116,17 +113,14 @@
             [secondMOC deleteObject:data];
             continue;
         }
-        NSString*v=[data valueForKey:key];
-        if([v isKindOfClass:[NSNumber class]]){
-            v=[(NSNumber*)v stringValue];
-        }
-        ProtoArticle*e=dict[v];
+        NSObject<NSCopying>*v=[data valueForKey:key];
+        NSObject<ProtoArticle>*e=dict[v];
         [self populatePropertiesOfArticle:data.article fromProtoArticle:e];
         [generated addObject:data.article];
         [a removeObject:e];
     }
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
-    for(ProtoArticle*e in a){
+    for(NSObject<ProtoArticle>*e in a){
         Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
         [self populatePropertiesOfArticle:article fromProtoArticle:e];
         [generated addObject:article];
@@ -138,7 +132,7 @@
     NSMutableArray*lookForSpiresKey=[NSMutableArray array];
     NSMutableArray*lookForDOI=[NSMutableArray array];
     NSMutableArray*lookForTitle=[NSMutableArray array];
-    for(ProtoArticle*element in a){
+    for(NSObject<ProtoArticle>*element in a){
         if(element.eprint){
             [lookForEprint addObject:element];
         }else if(element.spiresKey){
@@ -192,8 +186,6 @@
 {
     
     [secondMOC performBlockAndWait:^{
-        NSArray*elements=[InspireXMLArticle articlesFromXMLData:xmlData];
-        NSLog(@"spires returned %d entries",(int)[elements count]);
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];
     }];
