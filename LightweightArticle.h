@@ -27,6 +27,7 @@
 @property (strong) NSString*journalPage;
 @property (strong) NSNumber*journalYear;
 @property (readonly) NSDictionary*dic;
+@property (readonly) NSString*sortKey;
 -(void)addAuthor:(NSString*)author;
 -(instancetype)initWithArticle:(Article*)a;
 @end

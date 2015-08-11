@@ -13,6 +13,7 @@
 @implementation LightweightArticle
 {
     NSMutableDictionary*dic;
+    NSString*sortKey;
 }
 
 #define STANDARDKEYS @"spiresKey,inspireKey,eprint,title,collaboration,doi,abstract,comments,citecount,pages,date"
@@ -53,8 +54,8 @@
         }
     }
     NSArray*names=[a.longishAuthorListForEA componentsSeparatedByString:@"; "];
-    if(a.collaboration){
-        names=[names subarrayWithRange:NSMakeRange(1, names.count)];
+    if(a.collaboration && ![a.collaboration isEqualToString:@""]){
+        names=[names subarrayWithRange:NSMakeRange(1, names.count-1)];
     }
     self.authors=names;
     if(!a.journal){
@@ -76,6 +77,14 @@
 -(NSDictionary*)dic
 {
     return dic;
+}
+-(NSString*)sortKey
+{
+    if(!sortKey){
+        NSString*s=[NSString stringWithFormat:@"%@%@%@%@%@",self.inspireKey,self.eprint,self.spiresKey,self.doi,self.title];
+        sortKey=s;
+    }
+    return sortKey;
 }
 -(instancetype)init{
     self=[super init];

@@ -20,6 +20,7 @@
 		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
 		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
+		331D7E301B7A32F500F598B5 /* ArticleListDictionaryRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 331D7E2F1B7A32F400F598B5 /* ArticleListDictionaryRepresentation.m */; };
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
@@ -179,6 +180,8 @@
 		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
+		331D7E2E1B7A32F400F598B5 /* ArticleListDictionaryRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListDictionaryRepresentation.h; sourceTree = "<group>"; };
+		331D7E2F1B7A32F400F598B5 /* ArticleListDictionaryRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListDictionaryRepresentation.m; sourceTree = "<group>"; };
 		331E6EF90FFE83CB00F07C9A /* SpiresQueryDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresQueryDownloader.h; sourceTree = "<group>"; };
 		331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresQueryDownloader.m; sourceTree = "<group>"; };
 		331FD32F0F36B11800C16F73 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
@@ -815,6 +818,8 @@
 				33441FBE1B79B5F700A26198 /* LightweightArticle.m */,
 				33AB063A1B7719AB007491F1 /* InspireXMLParser.h */,
 				33AB063B1B7719AB007491F1 /* InspireXMLParser.m */,
+				331D7E2E1B7A32F400F598B5 /* ArticleListDictionaryRepresentation.h */,
+				331D7E2F1B7A32F400F598B5 /* ArticleListDictionaryRepresentation.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -1017,6 +1022,7 @@
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
 				33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */,
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
+				331D7E301B7A32F500F598B5 /* ArticleListDictionaryRepresentation.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
 				33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */,
 				332BD63610CECF500032EF88 /* AppDelegate.m in Sources */,
