@@ -36,6 +36,7 @@
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
 		33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FBE1B79B5F700A26198 /* LightweightArticle.m */; };
+		33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FC11B79DC0F00A26198 /* SyncManager.m */; };
 		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		334A3A710F360E060078D121 /* NSView+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */; };
 		334A3A720F360E060078D121 /* NSString+BWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A3A5D0F360E050078D121 /* NSString+BWAdditions.m */; };
@@ -185,7 +186,6 @@
 		33202EE010D9D8EA00EDB5A8 /* Migrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Migrator.h; sourceTree = "<group>"; };
 		33202EE110D9D8EA00EDB5A8 /* Migrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Migrator.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
-		332733C11B76EF8F0072BCFE /* ProtoArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332B9B270FF9E34400353564 /* DirWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirWatcher.h; sourceTree = "<group>"; };
 		332B9B280FF9E34400353564 /* DirWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirWatcher.m; sourceTree = "<group>"; };
@@ -206,6 +206,9 @@
 		333D721110007CE800A328FE /* magicRegExps.perl */ = {isa = PBXFileReference; explicitFileType = text.script.perl; fileEncoding = 4; path = magicRegExps.perl; sourceTree = "<group>"; };
 		33441FBD1B79B5F700A26198 /* LightweightArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LightweightArticle.h; sourceTree = "<group>"; };
 		33441FBE1B79B5F700A26198 /* LightweightArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LightweightArticle.m; sourceTree = "<group>"; };
+		33441FC01B79DC0F00A26198 /* SyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncManager.h; sourceTree = "<group>"; };
+		33441FC11B79DC0F00A26198 /* SyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManager.m; sourceTree = "<group>"; };
+		33441FC31B79E6AE00A26198 /* ProtoArticle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
 		334A3A5B0F360E050078D121 /* NSView+BWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSView+BWAdditions.m"; path = "bwtoolkit/NSView+BWAdditions.m"; sourceTree = "<group>"; };
@@ -389,6 +392,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				332B9B270FF9E34400353564 /* DirWatcher.h */,
+				332B9B280FF9E34400353564 /* DirWatcher.m */,
+				33441FC01B79DC0F00A26198 /* SyncManager.h */,
+				33441FC11B79DC0F00A26198 /* SyncManager.m */,
 				336F461816188841005D070F /* Reachability.h */,
 				336F461916188842005D070F /* Reachability.m */,
 				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
@@ -726,8 +733,6 @@
 		33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */ = {
 			isa = PBXGroup;
 			children = (
-				332B9B270FF9E34400353564 /* DirWatcher.h */,
-				332B9B280FF9E34400353564 /* DirWatcher.m */,
 				33EBAF220FF9B37B0076F6AC /* TeXWatcherController.h */,
 				33EBAF230FF9B37B0076F6AC /* TeXWatcherController.m */,
 				33EBAF270FF9B3B10076F6AC /* TeXWatcher.xib */,
@@ -805,7 +810,7 @@
 		7756732906782D8800D1FEB8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				332733C11B76EF8F0072BCFE /* ProtoArticle.h */,
+				33441FC31B79E6AE00A26198 /* ProtoArticle.h */,
 				33441FBD1B79B5F700A26198 /* LightweightArticle.h */,
 				33441FBE1B79B5F700A26198 /* LightweightArticle.m */,
 				33AB063A1B7719AB007491F1 /* InspireXMLParser.h */,
@@ -1010,6 +1015,7 @@
 				3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */,
 				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
+				33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */,
 				333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */,
 				3379CDA910461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m in Sources */,
 				33F614D210CC50C500EC3837 /* ReloadButton.m in Sources */,

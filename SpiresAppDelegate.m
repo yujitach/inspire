@@ -48,7 +48,7 @@
 
 
 #import <Quartz/Quartz.h>
-
+#import "SyncManager.h"
 
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
@@ -56,7 +56,13 @@
 @end
 
 @implementation SpiresAppDelegate
-
+{
+    SyncManager*syncManager;
+    
+    NSTimer*unreadTimer;
+    NSTimer*abstractTimer;
+    NSMutableArray*articlesAlreadyAccessedViaDOI;
+}
 +(void)initialize
 {
     if(self!=[SpiresAppDelegate class]){
@@ -228,7 +234,11 @@
     if(grace<3.0)
         grace=3.0;
     
-    [NSTimer scheduledTimerWithTimeInterval:grace target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
+    abstractTimer=[NSTimer scheduledTimerWithTimeInterval:grace target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
+    if([abstractTimer respondsToSelector:@selector(setTolerance:)]){
+        [abstractTimer setTolerance:0.1*grace];
+    }
+    
     [searchField setProgressQuitAction:@selector(progressQuit:)];
 
 }
@@ -390,6 +400,7 @@
     activityMonitorController=[[ActivityMonitorController alloc] init];
     texWatcherController=[[TeXWatcherController alloc]init];
     bibViewController=[[BibViewController alloc] init];
+    syncManager=[[SyncManager alloc] init];
 
 }
 -(BOOL)busyUpdating
@@ -434,6 +445,10 @@
 							   selector:@selector(clearUnreadFlagOfArticle:) 
 							   userInfo:ar 
 							    repeats:NO];
+            if([unreadTimer respondsToSelector:@selector(setTolerance:)]){
+                [unreadTimer setTolerance:0.1*delay];
+            }
+            
 		    
 	    }
 	}

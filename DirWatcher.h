@@ -9,14 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 // delegate should respond to modifiedFileAtPath:
-@interface NSObject (DirWatcherDelegate)
+@protocol DirWatcherDelegate
 -(void)modifiedFileAtPath:(NSString*)file;
 @end
 
 @interface DirWatcher : NSObject {
     NSString*pathToWatch;
     FSEventStreamRef stream;
-    id delegate;
+    NSObject<DirWatcherDelegate>* delegate;
     NSDate*date;
 }
 -(id)initWithPath:(NSString*)path delegate:(id)d;

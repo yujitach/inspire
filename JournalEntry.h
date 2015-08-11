@@ -20,7 +20,7 @@
 @property  NSString * page;
 @property  NSNumber * endPage;
 @property  Article * article;
-+(JournalEntry*)journalEntryWithName:(NSString*)name Volume:(NSString*)volume Year:(int)year Page:(NSString*)page inMOC:(NSManagedObjectContext*)moc;
++(JournalEntry*)journalEntryWithName:(NSString*)name Volume:(NSString*)volume Year:(NSNumber*)year Page:(NSString*)page inMOC:(NSManagedObjectContext*)moc;
 @end
 
 

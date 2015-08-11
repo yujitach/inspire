@@ -316,26 +316,26 @@
 {
     NSMutableArray*a=[NSMutableArray array];
     if(self.collaboration){
-	[a addObject:[self tweakCollaborationName:self.collaboration]];
+        [a addObject:[self tweakCollaborationName:self.collaboration]];
     }
     for(NSString*s in authorNames){
-	NSString*t=[s normalizedString];
-	if(![t isEqualToString:@""]){
-	    if([t rangeOfString:@"collaboration"].location!=NSNotFound){
-		if(self.collaboration){
-		    continue;
-		}else{
-		    if([t rangeOfString:@", "].location!=NSNotFound){
-			NSArray*x=[t componentsSeparatedByString:@", "];
-			t=[NSString stringWithFormat:@"%@ %@",x[1],x[0]];
-		    }
-		    self.collaboration=t;
-		    [a addObject:[self tweakCollaborationName:self.collaboration]];		    
-		}
-	    }else{
-		[a addObject:t];
-	    }
-	}
+        NSString*t=[s normalizedString];
+        if(![t isEqualToString:@""]){
+            if([t rangeOfString:@"collaboration"].location!=NSNotFound){
+                if(self.collaboration){
+                    continue;
+                }else{
+                    if([t rangeOfString:@", "].location!=NSNotFound){
+                        NSArray*x=[t componentsSeparatedByString:@", "];
+                        t=[NSString stringWithFormat:@"%@ %@",x[1],x[0]];
+                    }
+                    self.collaboration=t;
+                    [a addObject:[self tweakCollaborationName:self.collaboration]];
+                }
+            }else{
+                [a addObject:t];
+            }
+        }
     }
     self.shortishAuthorList=[Article shortishAuthorListFromAuthorNames:a];
     self.longishAuthorListForA=[Article longishAuthorListForAFromAuthorNames:a];

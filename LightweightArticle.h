@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ProtoArticle.h"
-
+@class Article;
 @interface LightweightArticle : NSObject<ProtoArticle>
 @property (strong) NSString*title;
 @property (strong) NSNumber*inspireKey;
@@ -26,5 +26,7 @@
 @property (strong) NSString*journalVolume;
 @property (strong) NSString*journalPage;
 @property (strong) NSNumber*journalYear;
+@property (readonly) NSDictionary*dic;
 -(void)addAuthor:(NSString*)author;
+-(instancetype)initWithArticle:(Article*)a;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class Article;
 @protocol ProtoArticle<NSObject>
 @property (readonly) NSString*title;
 @property (readonly) NSNumber*inspireKey;
@@ -25,4 +25,5 @@
 @property (readonly) NSString*journalVolume;
 @property (readonly) NSString*journalPage;
 @property (readonly) NSNumber*journalYear;
+-(void)populatePropertiesOfArticle:(Article*)o;
 @end

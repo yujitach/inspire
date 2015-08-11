@@ -54,36 +54,6 @@
 
 #pragma mark setters from XML
 
--(void)populatePropertiesOfArticle:(Article*)o fromProtoArticle:(NSObject<ProtoArticle>*)element
-{
-    // Here I'm cheating: -setAuthorNames: puts the collaboration name in the author list,
-    // so "collaboration" needs to be set up before that
-    for(NSString*key in [@"spiresKey,inspireKey,eprint,title,collaboration,doi,abstract,comments,citecount,pages,date" componentsSeparatedByString:@","]){
-        NSObject*x=[element valueForKey:key];
-        if(x){
-            [o setValue:x forKey:key];
-        }
-    }
-    [o setAuthorNames:element.authors];
-    if(!(o.journal) && element.journalTitle){
-        o.journal=[JournalEntry journalEntryWithName:element.journalTitle
-                                                   Volume:element.journalVolume
-                                                     Year:[element.journalYear intValue]
-                                                     Page:element.journalPage
-                                                    inMOC:[o managedObjectContext]];
-    }
-    
-    if(o.abstract){
-        NSString*abstract=o.abstract;
-        abstract=[abstract stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-	abstract=[abstract stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
-	abstract=[abstract stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-        o.abstract=abstract;
-    }
-    
-    
-}
-
 #pragma mark Main Logic
 -(void)treatElements:(NSMutableArray*)a withKey:(NSString*)key
 {
@@ -115,14 +85,14 @@
         }
         NSObject<NSCopying>*v=[data valueForKey:key];
         NSObject<ProtoArticle>*e=dict[v];
-        [self populatePropertiesOfArticle:data.article fromProtoArticle:e];
+        [e populatePropertiesOfArticle:data.article];
         [generated addObject:data.article];
         [a removeObject:e];
     }
     NSEntityDescription*articleEntity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
     for(NSObject<ProtoArticle>*e in a){
         Article*article=(Article*)[[NSManagedObject alloc] initWithEntity:articleEntity insertIntoManagedObjectContext:secondMOC];
-        [self populatePropertiesOfArticle:article fromProtoArticle:e];
+        [e populatePropertiesOfArticle:article];
         [generated addObject:article];
     }
 }

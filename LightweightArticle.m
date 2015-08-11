@@ -7,10 +7,75 @@
 //
 
 #import "LightweightArticle.h"
+#import "Article.h"
+#import "JournalEntry.h"
 
 @implementation LightweightArticle
 {
     NSMutableDictionary*dic;
+}
+
+#define STANDARDKEYS @"spiresKey,inspireKey,eprint,title,collaboration,doi,abstract,comments,citecount,pages,date"
+
+-(void)populatePropertiesOfArticle:(Article*)o
+{
+    for(NSString*key in [STANDARDKEYS componentsSeparatedByString:@","]){
+        NSObject*x=[self valueForKey:key];
+        if(x){
+            [o setValue:x forKey:key];
+        }
+    }
+    [o setAuthorNames:self.authors];
+    if(!(o.journal) && self.journalTitle){
+        o.journal=[JournalEntry journalEntryWithName:self.journalTitle
+                                              Volume:self.journalVolume
+                                                Year:self.journalYear
+                                                Page:self.journalPage
+                                               inMOC:[o managedObjectContext]];
+    }
+    
+    if(o.abstract){
+        NSString*abstract=o.abstract;
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+        abstract=[abstract stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+        o.abstract=abstract;
+    }
+
+}
+-(instancetype)initWithArticle:(Article *)a
+{
+    self=[self init];
+    for(NSString*key in [STANDARDKEYS componentsSeparatedByString:@","]){
+        NSObject*x=[a valueForKey:key];
+        if(x){
+            [self setValue:x forKey:key];
+        }
+    }
+    NSArray*names=[a.longishAuthorListForEA componentsSeparatedByString:@"; "];
+    if(a.collaboration){
+        names=[names subarrayWithRange:NSMakeRange(1, names.count)];
+    }
+    self.authors=names;
+    if(!a.journal){
+        JournalEntry*j=a.journal;
+        self.journalTitle=j.name;
+        self.journalPage=j.page;
+        self.journalVolume=j.volume;
+        self.journalYear=j.year;
+    }
+    if(self.abstract){
+        NSString*abstract=self.abstract;
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
+        abstract=[abstract stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
+        self.abstract=abstract;
+    }
+    return self;
+}
+-(NSDictionary*)dic
+{
+    return dic;
 }
 -(instancetype)init{
     self=[super init];

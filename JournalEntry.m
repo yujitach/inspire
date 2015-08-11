@@ -18,13 +18,13 @@
 @dynamic page;
 @dynamic endPage;
 @dynamic article;
-+(JournalEntry*)journalEntryWithName:(NSString*)name Volume:(NSString*)vol Year:(int)year Page:(NSString*)page inMOC:(NSManagedObjectContext*)moc;
++(JournalEntry*)journalEntryWithName:(NSString*)name Volume:(NSString*)vol Year:(NSNumber*)year Page:(NSString*)page inMOC:(NSManagedObjectContext*)moc;
 {
     NSEntityDescription*journalEntity=[NSEntityDescription entityForName:@"JournalEntry" inManagedObjectContext:moc];
     JournalEntry* mo=(JournalEntry*)[[NSManagedObject alloc] initWithEntity:journalEntity
 				 insertIntoManagedObjectContext:moc];
     mo.volume=vol;
-    mo.year=@(year);
+    mo.year=year;
     mo.name=name;
     mo.page=page;
     return mo;

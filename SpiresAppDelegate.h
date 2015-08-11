@@ -7,47 +7,37 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class ArticleList;
 @class ArticleView;
 @class SideOutlineViewController;
-@class Article;
 @class HistoryController;
-@class PDFHelper;
+@class SPSearchFieldWithProgressIndicator;
+
 @class BibViewController;
 @class ActivityMonitorController;
 @class PrefController;
 @class TeXWatcherController;
 @class MessageViewerController;
-@class SPSearchFieldWithProgressIndicator;
 @class ArxivNewCreateSheetHelper;
 
 #import "AppDelegate.h"
 
-@interface SpiresAppDelegate : NSObject <AppDelegate>// <NSPersistentStoreCoordinatorSyncing>
+@interface SpiresAppDelegate : NSObject <AppDelegate>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSToolbar*tb;
     IBOutlet SPSearchFieldWithProgressIndicator*searchField;
-
     IBOutlet SideOutlineViewController* sideOutlineViewController;
     IBOutlet NSArrayController* ac;
     IBOutlet NSTableView* articleListView;    
     IBOutlet NSOutlineView* sideOutlineView;
     IBOutlet ArticleView*wv;
-
-    
     IBOutlet HistoryController*historyController;
-    //    ImporterController*importerController;
+    
     BibViewController *bibViewController;
     ActivityMonitorController* activityMonitorController;
     PrefController*prefController;
     TeXWatcherController*texWatcherController;
     MessageViewerController*messageViewerController;
-    ArxivNewCreateSheetHelper*arxivNewCreateSheetHelper;
-
-    NSTimer*unreadTimer;
-    NSMutableArray*articlesAlreadyAccessedViaDOI;
+    ArxivNewCreateSheetHelper* arxivNewCreateSheetHelper;
 }
-
-
 @end
