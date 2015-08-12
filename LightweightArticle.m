@@ -106,6 +106,7 @@
 }
 -(void)addAuthor:(NSString *)author
 {
+    if(!author)return;
     NSMutableArray*a=dic[@"authors"];
     [a addObject:author];
 }

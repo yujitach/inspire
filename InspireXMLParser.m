@@ -35,6 +35,7 @@
 {
     self=[super init];
     @autoreleasepool {
+        [data writeToFile:@"/tmp/inspireOutput.xml" atomically:NO];
         NSXMLParser*parser=[[NSXMLParser alloc]initWithData:data];
         parser.delegate=self;
         [parser parse];
