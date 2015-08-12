@@ -37,14 +37,14 @@
 }
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
+    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView};
 }
 @end
 
-@implementation CannedSearch (ArticleListDictionaryRepresentation)
+@implementation SimpleArticleList (ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView};
+    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
 }
 @end
 
@@ -167,7 +167,7 @@
     }
     NSMutableArray*notFound=[NSMutableArray array];
     for(ArticleList*al in articleLists){
-        if([al isKindOfClass:[AllArticleList class]])break;
+        if([al isKindOfClass:[AllArticleList class]])continue;
         NSDictionary*newDic=[self articleListForName:al.name andType:al.className inArray:mutableChildren];
         if(newDic){
             NSLog(@"existing %@ found in synced content",al.name);

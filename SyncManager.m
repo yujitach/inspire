@@ -62,6 +62,7 @@
             NSMutableDictionary*dic=[lastSavedSnapshot mutableCopy];
             dic[@"machineName"]=[self machineName];
             NSData*data=[NSPropertyListSerialization dataWithPropertyList:dic format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+            NSLog(@"writing out the sidebar content...");
             [data writeToFile:fileName atomically:NO];
         }
     }];
@@ -76,6 +77,7 @@
             if(!snapShotFromFile)return;
             NSString*machineName=snapShotFromFile[@"machineName"];
             [snapShotFromFile removeObjectForKey:@"machineName"];
+            if([machineName isEqualToString:[self machineName]])return;
             if([snapShotFromFile isEqual:currentSnapShot])return;
             [archiveTimer invalidate];
             [ArticleList mergeSnapShot:snapShotFromFile andDealWithArticleListsToBeRemoved:^(NSArray *articleListsToBeRemoved) {
@@ -91,7 +93,7 @@
                         NSAlert*alert=[[NSAlert alloc] init];
                         alert.alertStyle=NSInformationalAlertStyle;
                         alert.messageText=[NSString stringWithFormat:@"Some article lists are removed on \"%@\"",machineName ];
-                        alert.informativeText=[NSString stringWithFormat:@"Do you want to remove article lists %@ on this machine too?",removedNamesString];
+                        alert.informativeText=[NSString stringWithFormat:@"Do you want to remove also on this machine the following article lists: \"%@\" ?",removedNamesString];
                         [alert addButtonWithTitle:@"Keep"];
                         [alert addButtonWithTitle:@"Remove"];
                         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
