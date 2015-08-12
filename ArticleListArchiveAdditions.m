@@ -23,10 +23,25 @@
 @implementation ArticleList (ArticleListDictionaryRepresentation)
 -(NSArray*)arraysOfDictionaryRepresentationOfArticles
 {
+    //the code here is unnecessarily complited due to the following.
+    //very old database (like mine) sometimes multiple database entries for the same inspire record.
+    //They are usually harmless but it confuses the app during the sync.
+    //So these offending entries are removed here
     NSMutableArray*ar=[NSMutableArray array];
+    NSMutableArray*titles=[NSMutableArray array];
+    NSMutableArray*toBeDeleted=[NSMutableArray array];
     for(Article*a in self.articles){
-        LightweightArticle*b=[[LightweightArticle alloc]initWithArticle:a];
-        [ar addObject:b];
+        if(![titles containsObject:a.title]){
+            LightweightArticle*b=[[LightweightArticle alloc]initWithArticle:a];
+            [ar addObject:b];
+            [titles addObject:a.title];
+        }else{
+            [toBeDeleted addObject:a];
+        }
+    }
+    for(Article*a in toBeDeleted){
+        [self.managedObjectContext deleteObject:a];
+        [self.managedObjectContext save:NULL];
     }
     [ar sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"sortKey" ascending:YES ]]];
     NSMutableArray*as=[NSMutableArray array];
