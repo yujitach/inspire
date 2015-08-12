@@ -21,6 +21,30 @@
 @end
 
 @implementation ArticleList (ArticleListDictionaryRepresentation)
++(NSArray*)arraysOfDictionaryRepresentationOfFlaggedArticlesInMOC:(NSManagedObjectContext*)secondMOC
+{
+    NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:secondMOC];
+    NSPredicate*predicate=[NSPredicate predicateWithFormat:@"%K contains %@",@"flagInternal",@"F"];
+    NSFetchRequest*req=[[NSFetchRequest alloc] init];
+    [req setPredicate:predicate];
+    [req setEntity:entity];
+    [req setIncludesPropertyValues:YES];
+    NSError*error=nil;
+    NSArray*articles=[secondMOC executeFetchRequest:req error:&error];
+
+    
+    NSMutableArray*ar=[NSMutableArray array];
+    for(Article*a in articles){
+        LightweightArticle*b=[[LightweightArticle alloc]initWithArticle:a];
+        [ar addObject:b];
+    }
+    [ar sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"sortKey" ascending:YES ]]];
+    NSMutableArray*as=[NSMutableArray array];
+    for(LightweightArticle*a in ar){
+        [as addObject:a.dic];
+    }
+    return as;
+}
 -(NSArray*)arraysOfDictionaryRepresentationOfArticles
 {
     NSMutableArray*ar=[NSMutableArray array];
@@ -89,6 +113,7 @@
     [secondMOC performBlock:^{
         NSMutableArray*ar=[NSMutableArray array];
         NSArray*topLevelALs=[self topLevelArticleListsFromMOC:secondMOC];
+        NSArray*flagged=[self arraysOfDictionaryRepresentationOfFlaggedArticlesInMOC:secondMOC];
         for(ArticleList*al in topLevelALs){
             NSDictionary*dic=[al dictionaryRepresentation];
             if(dic){
@@ -97,7 +122,7 @@
         }
         [ar sortUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES ]]];
         dispatch_async(dispatch_get_main_queue(),^{
-            block(@{@"children":ar});
+            block(@{@"children":ar,@"flagged":flagged});
         });
     }];
 }
@@ -148,6 +173,30 @@
     }
     return notFoundArray;
 }
++(void)populateFlaggedArticlesFrom:(NSArray*)a usingMOC:(NSManagedObjectContext*)secondMOC
+{
+    NSMutableArray*lightweightArticles=[NSMutableArray array];
+    for(NSDictionary*subDic in a){
+        [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+    }
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
+    
+    __weak BatchImportOperation*weakOp=op;
+    op.completionBlock=^{
+        NSSet*generated=weakOp.generated;
+        if(!generated)return;
+        if(generated.count==0)return;
+        [secondMOC performBlock:^{
+            for(Article*x in generated){
+                if(!(x.flag & AFIsFlagged)){
+                    x.flag=(x.flag)|AFIsFlagged;
+                }
+            }
+            [secondMOC save:NULL];
+        }];
+    };
+    [[OperationQueues sharedQueue] addOperation:op];
+}
 +(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC
 {
     NSLog(@"merging to folder:%@",af?af.name:@"toplevel");
@@ -183,6 +232,7 @@
     NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager]createSecondaryMOC];
     [secondMOC performBlock:^{
         NSArray*notFound=[self notFoundArticleListsAfterMergingChildren:snapShot[@"children"] toArticleFolder:nil usingMOC:secondMOC];
+        [self populateFlaggedArticlesFrom:snapShot[@"flagged"] usingMOC:secondMOC];
         [secondMOC save:NULL];
         block(notFound);
     }];
