@@ -66,7 +66,8 @@
         NSArray*a=[InspireXMLParser articlesFromXMLData:xmlData];
         importer=[[BatchImportOperation alloc] initWithProtoArticles:a
                                                        originalQuery:search
-                                                    updatesCitations:YES];
+                                                    updatesCitations:YES
+                                                            usingMOC:[[MOC sharedMOCManager] createSecondaryMOC]];
         if(actionBlock){
             actionBlock(importer);
         }

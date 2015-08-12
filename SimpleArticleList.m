@@ -31,9 +31,12 @@
     SimpleArticleList* mo=(SimpleArticleList*)[[NSManagedObject alloc] initWithEntity:entity
 				   insertIntoManagedObjectContext:moc];
     mo.name=s;
-    mo.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
 
     return mo;
+}
+-(void)awakeFromInsert
+{
+    self.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"eprintForSorting" ascending:NO]];
 }
 -(void)reload
 {

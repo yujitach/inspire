@@ -28,8 +28,9 @@
 }
 @synthesize generated;
 -(BatchImportOperation*)initWithProtoArticles:(NSArray *)d
-                          originalQuery:(NSString*)q
-                             updatesCitations:(BOOL)b;
+                                originalQuery:(NSString*)q
+                             updatesCitations:(BOOL)b
+                                     usingMOC:(NSManagedObjectContext *)moc_
 {
     self=[super init];
     elements=d;
@@ -40,7 +41,7 @@
     if([elements count]>cap){
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
     }*/
-    secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
+    secondMOC=moc_;
     generated=[NSMutableSet set];
     group=dispatch_group_create();
     return self;

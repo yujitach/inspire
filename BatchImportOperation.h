@@ -15,6 +15,7 @@
 @interface BatchImportOperation : NSOperation
 -(BatchImportOperation*)initWithProtoArticles:(NSArray*)d
                           originalQuery:(NSString*)q
-                             updatesCitations:(BOOL)b;
+                             updatesCitations:(BOOL)b
+                                     usingMOC:(NSManagedObjectContext*)moc_;
 @property(readonly) NSMutableSet*generated;
 @end

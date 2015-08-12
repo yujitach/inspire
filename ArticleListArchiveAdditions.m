@@ -132,25 +132,16 @@
         for(NSDictionary*subDic in dic[@"articles"]){
             [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
         }
-        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO];
+        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
+        
         __weak BatchImportOperation*weakOp=op;
         op.completionBlock=^{
-            NSArray*generated=[weakOp.generated allObjects];
+            NSSet*generated=weakOp.generated;
             if(!generated)return;
             if(generated.count==0)return;
-            NSManagedObjectContext*thirdMOC=((NSManagedObject*)(generated[0])).managedObjectContext;
-            [thirdMOC performBlock:^{
-                NSMutableArray*moIDs=[NSMutableArray array];
-                for(Article*a in generated){
-                    [moIDs addObject:a.objectID];
-                }
-                [secondMOC performBlock:^{
-                    NSMutableSet*s=[NSMutableSet set];
-                    for(NSManagedObjectID*moID in moIDs){
-                        [s addObject:[secondMOC objectWithID:moID]];
-                    }
-                    [articleList setArticles:s];
-                }];
+            [secondMOC performBlock:^{
+                [articleList setArticles:generated];
+                [secondMOC save:NULL];
             }];
         };
         [[OperationQueues sharedQueue] addOperation:op];
