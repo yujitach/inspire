@@ -65,7 +65,8 @@
         }
         NSArray*a=[InspireXMLParser articlesFromXMLData:xmlData];
         importer=[[BatchImportOperation alloc] initWithProtoArticles:a
-                                                 originalQuery:search];
+                                                       originalQuery:search
+                                                    updatesCitations:YES];
         if(actionBlock){
             actionBlock(importer);
         }

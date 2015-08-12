@@ -132,7 +132,7 @@
         for(NSDictionary*subDic in dic[@"articles"]){
             [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
         }
-        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil];
+        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO];
         __weak BatchImportOperation*weakOp=op;
         op.completionBlock=^{
             NSArray*generated=[weakOp.generated allObjects];

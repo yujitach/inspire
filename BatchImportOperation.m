@@ -24,14 +24,17 @@
     NSManagedObjectContext*secondMOC;
     NSMutableSet*generated;
     dispatch_group_t group;
+    BOOL updatesCitations;
 }
 @synthesize generated;
 -(BatchImportOperation*)initWithProtoArticles:(NSArray *)d
-                          originalQuery:(NSString*)q;
+                          originalQuery:(NSString*)q
+                             updatesCitations:(BOOL)b;
 {
     self=[super init];
     elements=d;
     query=[q copy];
+    updatesCitations=b;
 /*    NSInteger cap=[[NSUserDefaults standardUserDefaults] integerForKey:@"batchImportCap"];
     if(cap<100)cap=100;
     if([elements count]>cap){
@@ -144,7 +147,7 @@
             [refersToTarget addRefersTo:generated];
         }
     }
-    if(generated.count>0){
+    if(updatesCitations && generated.count>0){
         NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
         [op setQueuePriority:NSOperationQueuePriorityVeryLow];
         [[OperationQueues spiresQueue] addOperation:op];

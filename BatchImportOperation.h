@@ -14,6 +14,7 @@
 @class ArticleList;
 @interface BatchImportOperation : NSOperation
 -(BatchImportOperation*)initWithProtoArticles:(NSArray*)d
-                          originalQuery:(NSString*)q;
+                          originalQuery:(NSString*)q
+                             updatesCitations:(BOOL)b;
 @property(readonly) NSMutableSet*generated;
 @end
