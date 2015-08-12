@@ -30,4 +30,5 @@
 @property (readonly) NSString*sortKey;
 -(void)addAuthor:(NSString*)author;
 -(instancetype)initWithArticle:(Article*)a;
+-(instancetype)initWithDictionary:(NSDictionary*)dic;
 @end

@@ -17,8 +17,6 @@
     NSSet*articles;
     NSMutableDictionary*recidToArticle;
     NSManagedObjectContext*moc;
-    int tot;
-    int sofar;
     NSString*description_;
 }
 
@@ -43,7 +41,6 @@
 }
 -(void)dealWith:(NSArray*)x
 {
-    sofar+=(int)[x count];
     
     NSString*query=[NSString stringWithFormat: @"recid:%@&of=hb",[x componentsJoinedByString:@" or recid:"]];
     NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:query];
@@ -75,8 +72,9 @@
     [moc performBlockAndWait:^{
         recidToArticle=[NSMutableDictionary dictionary];
         for(Article*a in articles){
-            recidToArticle[[a.inspireKey stringValue]] = a;
-            tot++;
+            if(a.inspireKey){
+                recidToArticle[[a.inspireKey stringValue]] = a;                
+            }
         }
         NSMutableArray*a=[NSMutableArray array];
         for(NSString*recid in [recidToArticle allKeys]){

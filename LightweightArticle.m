@@ -74,6 +74,18 @@
     }
     return self;
 }
+-(instancetype)initWithDictionary:(NSDictionary*)dic_
+{
+    self=[self init];
+    dic=[dic_ mutableCopy];
+    if([dic[@"inspireKey"] integerValue]==0){
+        [dic removeObjectForKey:@"inspireKey"];
+    }
+    if([dic[@"spiresKey"] integerValue]==0){
+        [dic removeObjectForKey:@"spiresKey"];
+    }
+    return self;
+}
 -(NSDictionary*)dic
 {
     return dic;

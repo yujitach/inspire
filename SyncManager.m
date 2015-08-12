@@ -92,11 +92,11 @@
                         alert.alertStyle=NSInformationalAlertStyle;
                         alert.messageText=[NSString stringWithFormat:@"Some article lists are removed on \"%@\"",machineName ];
                         alert.informativeText=[NSString stringWithFormat:@"Do you want to remove article lists %@ on this machine too?",removedNamesString];
+                        [alert addButtonWithTitle:@"Keep"];
                         [alert addButtonWithTitle:@"Remove"];
-                        [alert addButtonWithTitle:@"Cancel"];
                         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
                                       completionHandler:^(NSModalResponse returnCode) {
-                                          if(returnCode==NSAlertFirstButtonReturn){
+                                          if(returnCode==NSAlertSecondButtonReturn){
                                               [secondMOC performBlock:^{
                                                   for(ArticleList* al in articleListsToBeRemoved){
                                                       [secondMOC deleteObject:al];

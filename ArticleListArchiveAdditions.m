@@ -104,9 +104,8 @@
 +(NSDictionary*)articleListForName:(NSString*)name andType:(NSString*)type inArray:(NSArray*)a
 {
     for(NSDictionary*dic in a){
-        if(![dic[@"name"] isEqualToString:name])break;
-        if(![dic[@"type"] isEqualToString:type])break;
-        return dic;
+        if([dic[@"name"] isEqualToString:name] && [dic[@"type"] isEqualToString:type])
+            return dic;
     }
     return nil;
 }
@@ -129,10 +128,30 @@
     }else if([articleList isKindOfClass:[ArticleFolder class]]){
         notFoundArray=[self notFoundArticleListsAfterMergingChildren:dic[@"children"] toArticleFolder:(ArticleFolder*)articleList usingMOC:secondMOC];
     }else if([articleList isKindOfClass:[SimpleArticleList class]]){
-        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:dic[@"articles"] originalQuery:nil];
+        NSMutableArray*lightweightArticles=[NSMutableArray array];
+        for(NSDictionary*subDic in dic[@"articles"]){
+            [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+        }
+        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil];
         __weak BatchImportOperation*weakOp=op;
         op.completionBlock=^{
-            [articleList setArticles:weakOp.generated];
+            NSArray*generated=[weakOp.generated allObjects];
+            if(!generated)return;
+            if(generated.count==0)return;
+            NSManagedObjectContext*thirdMOC=((NSManagedObject*)(generated[0])).managedObjectContext;
+            [thirdMOC performBlock:^{
+                NSMutableArray*moIDs=[NSMutableArray array];
+                for(Article*a in generated){
+                    [moIDs addObject:a.objectID];
+                }
+                [secondMOC performBlock:^{
+                    NSMutableSet*s=[NSMutableSet set];
+                    for(NSManagedObjectID*moID in moIDs){
+                        [s addObject:[secondMOC objectWithID:moID]];
+                    }
+                    [articleList setArticles:s];
+                }];
+            }];
         };
         [[OperationQueues sharedQueue] addOperation:op];
     }
@@ -140,6 +159,7 @@
 }
 +(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC
 {
+    NSLog(@"merging to folder:%@",af?af.name:@"toplevel");
     NSArray*articleLists=[af.children allObjects];
     NSMutableArray*mutableChildren=[children mutableCopy];
     if(!articleLists){
@@ -149,17 +169,20 @@
     for(ArticleList*al in articleLists){
         if([al isKindOfClass:[AllArticleList class]])break;
         NSDictionary*newDic=[self articleListForName:al.name andType:al.className inArray:mutableChildren];
-        if(!newDic){
+        if(newDic){
+            NSLog(@"existing %@ found in synced content",al.name);
             NSArray*notFoundArray=[self dealWithSyncedAL:newDic withAL:al atFolder:af usingMOC:secondMOC];
             if(notFoundArray){
                 [notFound addObjectsFromArray:notFoundArray];
             }
             [mutableChildren removeObject:newDic];
         }else{
+            NSLog(@"existing %@ NOT found in synced content",al.name);
             [notFound addObject:al];
         }
     }
     for(NSDictionary*dic in mutableChildren){
+        NSLog(@"new content %@ in synced content",dic[@"name"]);
         [self dealWithSyncedAL:dic withAL:nil atFolder:af usingMOC:secondMOC];
     }
     return notFound;
@@ -169,6 +192,7 @@
     NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager]createSecondaryMOC];
     [secondMOC performBlock:^{
         NSArray*notFound=[self notFoundArticleListsAfterMergingChildren:snapShot[@"children"] toArticleFolder:nil usingMOC:secondMOC];
+        [secondMOC save:NULL];
         block(notFound);
     }];
 }
