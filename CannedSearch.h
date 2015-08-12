@@ -13,5 +13,5 @@
     BOOL modifying;
 }
 +(CannedSearch*)createCannedSearchWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc;
-
+-(void)reloadLocal;
 @end
