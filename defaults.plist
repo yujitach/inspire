@@ -278,7 +278,7 @@
 	<key>syncWithMobileMe</key>
 	<true/>
 	<key>texBinaryPath</key>
-	<string>/opt/local/bin:/sw/bin:/usr/texbin:/usr/local/bin:/usr/local/teTeX/bin/powerpc-apple-darwin-current:/usr/local/teTeX/bin/i386-apple-darwin-current:/usr/bin:/bin</string>
+	<string>/Library/TeX/texbin:/opt/local/bin:/sw/bin:/usr/texbin:/usr/local/bin:/usr/local/teTeX/bin/powerpc-apple-darwin-current:/usr/local/teTeX/bin/i386-apple-darwin-current:/usr/bin:/bin</string>
 	<key>tryToDownloadJournalPDF</key>
 	<true/>
 	<key>turnOnOfflineMenuItem</key>
