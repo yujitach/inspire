@@ -44,6 +44,7 @@
 
 -(void)main
 {
+    if(articles.count ==0)return;
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSApp appDelegate] startProgressIndicator];
     });

@@ -165,7 +165,7 @@
     }];
     dispatch_group_async(group,dispatch_get_main_queue(),^{
         [[MOC moc] save:NULL];
-//        [[NSApp appDelegate] clearingUpAfterRegistration:nil];
+        [[NSApp appDelegate] clearingUpAfterRegistration:nil];
     });
     
     // need to delay running of the completion handler after all of the async calls!
