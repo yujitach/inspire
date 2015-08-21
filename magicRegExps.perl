@@ -80,6 +80,7 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/O6-/O\$6^-\$/g;
     s/A-D-E/A-D-E/ig;
     s/AGT/AGT/ig;
+    s/CHL/CHL/ig;
     s/\(p,q\) +7/\$[p,q]\$ 7/ig;
     s/\(p,q\) +5/\$(p,q)\$ 5/ig;
     s/\(p,q\) +(w)/\$(p,q)\$ $1/ig;
