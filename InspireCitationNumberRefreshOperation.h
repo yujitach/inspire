@@ -6,7 +6,7 @@
 //  Copyright 2011 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Foundation;
 #import "DumbOperation.h"
 
 @interface InspireCitationNumberRefreshOperation : NSOperation

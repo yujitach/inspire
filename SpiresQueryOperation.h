@@ -6,8 +6,7 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <CoreData/CoreData.h>
+@import CoreData;
 #import "DumbOperation.h"
 @class Article;
 @class SpiresQueryDownloader;

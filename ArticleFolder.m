@@ -21,10 +21,17 @@
 -(void)reload
 {
 }
+#if TARGET_OS_IPHONE
+-(UIImage*)icon
+{
+    return nil;
+}
+#else
 -(NSImage*)icon
 {
     return [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] resourcePath]];
 }
+#endif
 -(BOOL)searchStringEnabled
 {
     return NO;

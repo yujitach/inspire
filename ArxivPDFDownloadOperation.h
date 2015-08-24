@@ -6,7 +6,7 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Foundation;
 #import "DumbOperation.h"
 #import "PDFHelper.h"
 @interface ArxivPDFDownloadOperation : ConcurrentOperation {

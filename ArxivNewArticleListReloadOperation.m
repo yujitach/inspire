@@ -49,7 +49,7 @@
 	    s=[s stringByReplacingOccurrencesOfString:@"." withString:@". "];
 	    NSArray*x=[s componentsSeparatedByString:@" "];
 	    NSString*lastName=[x lastObject];
-	    if([lastName isEqualTo:@""] && [x count]>=3){
+	    if([lastName isEqualToString:@""] && [x count]>=3){
 		// Names like "A. Bates, Jr." comes here
 		NSString*n1=x[[x count]-3];
 		NSString*n2=x[[x count]-2];
@@ -172,6 +172,7 @@
     if([[dict allKeys] count]==0){
 	dispatch_async(dispatch_get_main_queue(),^{
 	    [[NSApp appDelegate] stopProgressIndicator];
+#if !TARGET_OS_IPHONE
 	    NSAlert*alert=[NSAlert alertWithMessageText:@"Cannot reach arXiv." 
 					  defaultButton:@"OK"
 					alternateButton:nil
@@ -181,6 +182,7 @@
 			      modalDelegate:nil 
 			     didEndSelector:nil
 				contextInfo:nil];
+#endif
 	});
 	return;
     }

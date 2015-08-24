@@ -20,11 +20,12 @@
     NSString*currentCode;
     NSMutableDictionary*subfieldDic;
     LightweightArticle*currentArticle;
+    NSDateFormatter*df;
 }
 @synthesize articles;
 +(NSString*)usedTags
 {
-    return @"001,970,100,700,710,520,037,245,300,773,961,024";
+    return @"001,970,100,700,710,520,037,245,300,773,961,269,024";
 }
 +(NSArray*)articlesFromXMLData:(NSData*)data
 {
@@ -35,6 +36,11 @@
 {
     self=[super init];
     @autoreleasepool {
+        df=[[NSDateFormatter alloc] init];
+        df.dateFormat=@"yyyy-MM-dd";
+        df.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
+        df.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        
         [data writeToFile:@"/tmp/inspireOutput.xml" atomically:NO];
         NSXMLParser*parser=[[NSXMLParser alloc]initWithData:data];
         parser.delegate=self;
@@ -98,14 +104,25 @@
                 currentArticle.journalPage=subfieldDic[@"c"];
                 currentArticle.journalYear=@([subfieldDic[@"y"] integerValue]);
             }
-        }else if([currentTag isEqualToString:@"961"]){
-            NSString*dateString=subfieldDic[@"x"];
+        }else if([currentTag isEqualToString:@"269"]){
+            NSString*dateString=subfieldDic[@"c"];
             if(dateString){
                 if([dateString length]==7){
-                    dateString=[dateString stringByAppendingString:@"-00"];
+                    dateString=[dateString stringByAppendingString:@"-01"];
                 }
-                NSDate*date=[NSDate dateWithString:[NSString stringWithFormat:@"%@ 00:00:00 +0000",dateString]];
+                NSDate*date=[df dateFromString:dateString];
                 currentArticle.date=date;
+            }
+        }else if([currentTag isEqualToString:@"961"]){
+            if(!(currentArticle.date)){
+                NSString*dateString=subfieldDic[@"x"];
+                if(dateString){
+                    if([dateString length]==7){
+                        dateString=[dateString stringByAppendingString:@"-01"];
+                    }
+                    NSDate*date=[df dateFromString:dateString];
+                    currentArticle.date=date;
+                }
             }
         }else if([currentTag isEqualToString:@"024"]){
             if([subfieldDic[@"2"] isEqualToString:@"DOI"]){

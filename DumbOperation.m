@@ -20,7 +20,7 @@ static NSOperationQueue*_Aqueue=nil;
 -(void)addOperation:(NSOperation*)op
 {
     for(NSOperation*o in self.operations){
-	if([op isEqualTo:o]){
+	if([op isEqual:o]){
 	    return;
 	}
     }

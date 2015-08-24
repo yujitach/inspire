@@ -23,6 +23,12 @@
 -(void)reload
 {
 }
+#if TARGET_OS_IPHONE
+-(UIImage*)icon
+{
+    return nil;
+}
+#else
 -(NSImage*)icon
 {
     return nil;
@@ -31,6 +37,7 @@
 {
     return nil;
 }
+#endif
 -(BOOL)searchStringEnabled
 {
     return YES;

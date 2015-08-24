@@ -8,6 +8,10 @@
 
 #import "NSString+magic.h"
 #import <WebKit/WebKit.h>
+#if TARGET_OS_IPHONE
+@import UIKit;
+#define NSFont UIFont
+#endif
 
 static NSArray*magicRegExps=nil;
 static void loadMagic(){
@@ -382,6 +386,7 @@ static void loadMagic(){
 	return escaped;    // Note this is autoreleased
     }
 }
+#if !TARGET_OS_IPHONE
 #pragma mark MockTeX
 -(NSComparisonResult)compareFirstWithLength:(NSString*)string
 {
@@ -406,4 +411,5 @@ static void loadMagic(){
     }
     return [wso callWebScriptMethod:@"texify" withArguments:@[self]];
 }
+#endif
 @end

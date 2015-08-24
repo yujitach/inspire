@@ -14,6 +14,13 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+#if TARGET_OS_IPHONE
+@import UIKit;
+#define NSImage UIImage
+#else
+@import Cocoa;
+#endif
+
 @interface Article (private)
 +(NSString*)longishAuthorListForAFromAuthorNames:(NSArray*)array;
 +(NSString*)longishAuthorListForEAFromAuthorNames:(NSArray*)array;
@@ -35,6 +42,7 @@
 @dynamic eprintForSorting;
 @dynamic data;
 //@dynamic eprintForSortingAsString;
+
 
 
 #pragma mark Misc
@@ -222,7 +230,7 @@
 	    lastName=[lastName uppercaseString];
 	    collaboration=lastName;
 	    continue;
-	}else if([lastName isEqualTo:@"group"] || [lastName isEqualTo:@"groups"] || [lastName isEqualTo:@"physics"] ){
+	}else if([lastName isEqualToString:@"group"] || [lastName isEqualToString:@"groups"] || [lastName isEqualToString:@"physics"] ){
 	    if([q count]>1){
 		lastName=q[1];
 		lastName=[lastName stringByReplacingOccurrencesOfRegex:@" *the *" withString:@""];
@@ -278,25 +286,26 @@
 #pragma mark Extras Management
 -(void)setExtra:(id)content forKey:(NSString*)key
 {
-    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.data.extraURLs 
-							mutabilityOption:NSPropertyListMutableContainers
+    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListWithData:self.data.extraURLs
+							options:NSPropertyListMutableContainers
 								  format: NULL
-							       errorDescription:NULL];
+							       error:NULL];
     if(!dict){
 	dict=[NSMutableDictionary dictionary];
     }
     [dict setValue:content forKey:key];
-    self.data.extraURLs=[NSPropertyListSerialization dataFromPropertyList:dict 
-							      format:NSPropertyListBinaryFormat_v1_0
-						    errorDescription:nil];
+    self.data.extraURLs=[NSPropertyListSerialization dataWithPropertyList:dict
+                                                                   format:NSPropertyListBinaryFormat_v1_0
+                                                                  options:0
+                                                                    error:NULL];
 }
 
 -(id)extraForKey:(NSString*)key
 {
-    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListFromData:self.data.extraURLs 
-							       mutabilityOption:NSPropertyListMutableContainers
-									 format: NULL
-							       errorDescription:nil];
+    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListWithData:self.data.extraURLs
+                                                                        options:NSPropertyListMutableContainers
+                                                                         format: NULL
+                                                                          error:NULL];
     return [dict valueForKey:key];
 }
 
@@ -341,16 +350,25 @@
     self.longishAuthorListForA=[Article longishAuthorListForAFromAuthorNames:a];
     self.longishAuthorListForEA=[Article longishAuthorListForEAFromAuthorNames:a];	
 }
-
++(NSDateFormatter*)dateFormatter
+{
+    static dispatch_once_t once;
+    static NSDateFormatter*df;
+    dispatch_once(&once, ^{
+        df=[[NSDateFormatter alloc]init];
+        df.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
+        df.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        df.dateFormat=@"yyyyMM0000";
+    });
+    return df;
+}
 -(NSString*)calculateEprintForSorting
 {
     NSString*eprint=self.eprint;
     if(!eprint){
 	if(self.date){
 	    NSDate*date=self.date;
-	    NSString*s=[date descriptionWithCalendarFormat:@"%Y%m0000"
-						  timeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]
-						    locale:nil];
+            NSString*s=[[Article dateFormatter] stringFromDate:date];
 	    return s;
 	}
 	return nil;
@@ -573,16 +591,18 @@
  
  */
 
+typedef id (*GETTERTYPE)(id,SEL);
+typedef id (*SETTERTYPE)(id,SEL,id);
 - (id)_getter_
 {
 //    return [self.data performSelector:_cmd];
-    return objc_msgSend(self.data, _cmd);
+    return ((GETTERTYPE)objc_msgSend)(self.data, _cmd);
 }
 
 - (void)_setter_:(id)value 
 {
 //    [self.data performSelector:_cmd withObject:value];
-    objc_msgSend(self.data, _cmd,value);
+    ((SETTERTYPE)objc_msgSend)(self.data, _cmd,value);
 }
 +(void)synthesizeForwarder:(NSString*)getterName
 {

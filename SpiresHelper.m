@@ -152,7 +152,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSArray*a=[operand componentsSeparatedByString:@" "];
     NSMutableArray*b=[NSMutableArray array];
     for(NSString*s in a){
-	if(![s isEqualTo:@""]){
+	if(![s isEqualToString:@""]){
 	    [b addObject:s];
 	}
     }
@@ -399,6 +399,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 
 #pragma mark Bib Entries Query
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
     NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
@@ -473,5 +476,5 @@ SpiresHelper*_sharedSpiresHelper=nil;
     return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 }
 
-
+#pragma clang diagnostic pop
 @end

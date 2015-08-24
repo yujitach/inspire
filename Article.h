@@ -6,7 +6,7 @@
 //  Copyright 2008 Y. Tachikawa. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 typedef enum {
     AFNone=0,
     AFIsUnread=1,

@@ -106,10 +106,17 @@ static AllArticleList*_allArticleList=nil;
     [[OperationQueues sharedQueue] addOperation:currentFetchOperation];
 }
 
+#if TARGET_OS_IPHONE
+-(UIImage*)icon
+{
+    return [UIImage imageNamed:@"spires-blue"];
+}
+#else
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-blue"];
 }
+#endif
 -(NSString*)placeholderForSearchField
 {
     return @"Enter SPIRES query and hit return. Use shift-return to search within local database";

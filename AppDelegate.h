@@ -6,7 +6,26 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#if TARGET_OS_IPHONE
+
+@import UIKit;
+
+#define NSApp ([UIApplication sharedApplication])
+
+@protocol AppDelegate
+-(void)startProgressIndicator;
+-(void)stopProgressIndicator;
+-(void)querySPIRES:(NSString*)search;
+-(void)postMessage:(NSString*)message;
+-(void)clearingUpAfterRegistration:(id)sender;
+@end
+@interface UIApplication (AppDelegateAddition)
+-(id<AppDelegate>)appDelegate;
+@end
+
+#else
+
+@import AppKit;
 
 extern NSString *ArticleDropPboardType;
 extern NSString *ArticleListDropPboardType;
@@ -34,3 +53,4 @@ extern NSString *ArticleListDropPboardType;
 @interface NSApplication (AppDelegate)
 -(id<AppDelegate>)appDelegate;
 @end
+#endif

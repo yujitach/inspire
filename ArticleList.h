@@ -6,8 +6,12 @@
 //  Copyright 2008 Y. Tachikawa. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
+@import CoreData;
+#if TARGET_OS_IPHONE
+@import UIKit;
+#else
 @import Cocoa;
+#endif
 
 @class Article;
 
@@ -21,8 +25,12 @@
 @property  NSSet* articles;
 @property  NSString* searchString;
 @property  NSArray* sortDescriptors; // Transformable attribute.
+#if TARGET_OS_IPHONE
+@property (readonly) UIImage* icon;
+#else
 @property (readonly) NSImage* icon;
 @property (readonly) NSButtonCell* button;
+#endif
 @property (readonly) NSString* placeholderForSearchField;
 @property  NSNumber* positionInView;
 @property (readonly) BOOL searchStringEnabled;

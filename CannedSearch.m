@@ -107,10 +107,17 @@
     }
     [self setPrimitiveValue:s forKey:@"searchString"];
 }
+#if TARGET_OS_IPHONE
+-(UIImage*)icon
+{
+    return [UIImage imageNamed:@"canned-search"];
+}
+#else
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"canned-search"];
 }
+#endif
 -(NSString*)placeholderForSearchField
 {
     return @"Enter SPIRES query and hit return";

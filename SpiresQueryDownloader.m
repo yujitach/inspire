@@ -91,6 +91,8 @@
 			    timeoutInterval:240];
     
     temporaryData=[NSMutableData data];
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
     connection=[NSURLConnection connectionWithRequest:urlRequest
 					     delegate:self];
     [[NSApp appDelegate] startProgressIndicator];
@@ -158,7 +160,7 @@
     whenDone(nil,YES);
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
-
+#if !TARGET_OS_IPHONE
     NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to Inspire"
 				  defaultButton:@"OK"
 				alternateButton:nil
@@ -168,6 +170,7 @@
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];
+#endif
 }
 
 @end

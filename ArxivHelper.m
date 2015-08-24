@@ -59,6 +59,8 @@ ArxivHelper* _sharedHelper=nil;
     returnDict=[NSMutableDictionary dictionary];
     delegate=dele;
     sel=s;
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
     connection=[NSURLConnection connectionWithRequest:urlRequest
 					     delegate:self];
 }
@@ -183,6 +185,7 @@ ArxivHelper* _sharedHelper=nil;
     [returnDict setValue:error forKey:@"error"];
 
     [delegate performSelector:sel withObject:returnDict];
+#if !TARGET_OS_IPHONE
     NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to arXiv"
 				  defaultButton:@"OK"
 				alternateButton:nil
@@ -192,6 +195,7 @@ ArxivHelper* _sharedHelper=nil;
 		      modalDelegate:nil 
 		     didEndSelector:nil
 			contextInfo:nil];
+#endif
 }
 
 @end

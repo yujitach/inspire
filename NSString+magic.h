@@ -6,7 +6,7 @@
 //  Copyright 2009 Y. Tachikawa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Foundation;
 #import "RegexKitLite.h"
 
 
@@ -19,7 +19,9 @@
 -(NSString*)quotedForShell;
 -(NSString*)capitalizedStringForName;
 -(NSString*)stringByExpandingAmpersandEscapes;
+#if !TARGET_OS_IPHONE
 -(NSString*)stringByConvertingTeXintoHTML;
+#endif
 -(NSAttributedString*)mockTeXed;
 //-(NSString*)stringByReplacingOccurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
 @end

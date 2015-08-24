@@ -45,9 +45,15 @@
 {
     return YES;
 }
-
+#if TARGET_OS_IPHONE
+-(UIImage*)icon
+{
+    return [UIImage imageNamed:@"spires-red"];
+}
+#else
 -(NSImage*)icon
 {
     return [NSImage imageNamed:@"spires-red"];
 }
+#endif
 @end

@@ -177,7 +177,9 @@
         });
     }
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+#if !TARGET_OS_IPHONE
     dispatch_release(group);
+#endif
 }
 
 @end

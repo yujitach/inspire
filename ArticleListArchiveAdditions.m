@@ -61,14 +61,14 @@
 }
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView};
+    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView};
 }
 @end
 
 @implementation SimpleArticleList (ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":[self className],@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
+    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
 }
 @end
 
@@ -208,7 +208,7 @@
     NSMutableArray*notFound=[NSMutableArray array];
     for(ArticleList*al in articleLists){
         if([al isKindOfClass:[AllArticleList class]])continue;
-        NSDictionary*newDic=[self articleListForName:al.name andType:al.className inArray:mutableChildren];
+        NSDictionary*newDic=[self articleListForName:al.name andType:NSStringFromClass([al class]) inArray:mutableChildren];
         if(newDic){
             NSLog(@"existing %@ found in synced content",al.name);
             NSArray*notFoundArray=[self dealWithSyncedAL:newDic withAL:al atFolder:af usingMOC:secondMOC];

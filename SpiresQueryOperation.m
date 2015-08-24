@@ -12,7 +12,6 @@
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
 #import "InspireXMLParser.h"
-#import "AppDelegate.h"
 #import "MOC.h"
 @interface SpiresQueryOperation ()
 {

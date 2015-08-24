@@ -7,7 +7,9 @@
 //
 
 #import "MOC.h"
+#if !TARGET_OS_IPHONE
 #import "Migrator.h"
+#endif
 #import "DumbOperation.h"
 
 @implementation NSManagedObjectContext (TrivialAddition)
@@ -95,17 +97,13 @@ MOC*_sharedMOCManager=nil;
 
 -(NSString*)storeType
 {
-    NSString*filePath=[self dataFilePath];
-    NSString*storeType=NSBinaryStoreType;
-    if([filePath hasSuffix:@"xml"]){
-	storeType=NSXMLStoreType;
-    }else if([filePath hasSuffix:@"sqlite"]){
-	storeType=NSSQLiteStoreType;
-    }
-    return storeType;
+    return NSSQLiteStoreType;
 }
 - (BOOL)migrationNeeded
 {
+#if TARGET_OS_IPHONE
+    return NO;
+#else
     if(![[NSFileManager defaultManager] fileExistsAtPath:[self dataFilePath]]){
 	return NO;
     }
@@ -122,6 +120,7 @@ MOC*_sharedMOCManager=nil;
     }
     return ![[self managedObjectModel] isConfiguration:nil
 			   compatibleWithStoreMetadata:sourceMetadata];
+#endif
 }
 
 
@@ -139,11 +138,12 @@ MOC*_sharedMOCManager=nil;
     
     
    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    
+#if !TARGET_OS_IPHONE
     if([self migrationNeeded]){
 	Migrator*migrator=[[Migrator alloc] initWithDataPath:[self dataFilePath]];
 	[migrator performMigration];
     }
+#endif
     
     NSError*error=nil;
     if (![persistentStoreCoordinator addPersistentStoreWithType:[self storeType]
@@ -151,8 +151,8 @@ MOC*_sharedMOCManager=nil;
 							    URL:[NSURL fileURLWithPath:[self dataFilePath]] 
 							options:@{NSSQLitePragmasOption:@{ @"journal_mode" :@"DELETE" }}
 							  error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
-    }    
+//        [[NSApplication sharedApplication] presentError:error];
+    }
     
     return persistentStoreCoordinator;
 }
