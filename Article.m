@@ -592,7 +592,7 @@
  */
 
 typedef id (*GETTERTYPE)(id,SEL);
-typedef id (*SETTERTYPE)(id,SEL,id);
+typedef void (*SETTERTYPE)(id,SEL,id);
 - (id)_getter_
 {
 //    return [self.data performSelector:_cmd];
