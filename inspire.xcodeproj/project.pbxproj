@@ -66,6 +66,7 @@
 		337B882F0F3575680005BA9C /* BibViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B882E0F3575680005BA9C /* BibViewController.m */; };
 		338420C70EA84CE500990706 /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 338420C60EA84CE500990706 /* template.html */; };
 		338432120F70CFB80040BDA6 /* SideOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 338432110F70CFB80040BDA6 /* SideOutlineView.m */; };
+		3386C9F61B8ED389008F9D0F /* NSUserDefaults+defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 3386C9F51B8ED389008F9D0F /* NSUserDefaults+defaults.m */; settings = {ASSET_TAGS = (); }; };
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
 		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
 		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
@@ -264,6 +265,8 @@
 		338420C60EA84CE500990706 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = template.html; sourceTree = "<group>"; };
 		338432100F70CFB80040BDA6 /* SideOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideOutlineView.h; sourceTree = "<group>"; };
 		338432110F70CFB80040BDA6 /* SideOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideOutlineView.m; sourceTree = "<group>"; };
+		3386C9F41B8ED389008F9D0F /* NSUserDefaults+defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+defaults.h"; sourceTree = "<group>"; };
+		3386C9F51B8ED389008F9D0F /* NSUserDefaults+defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+defaults.m"; sourceTree = "<group>"; };
 		338764990EAC5D8800042601 /* JournalEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalEntry.h; sourceTree = "<group>"; };
 		3387649A0EAC5D8800042601 /* JournalEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JournalEntry.m; sourceTree = "<group>"; };
 		33887E240EA97971003A7E83 /* URLHandlerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHandlerCommand.h; sourceTree = "<group>"; };
@@ -421,6 +424,8 @@
 				33C7A4380F3D0EA600F3874C /* SecureDownloader.m */,
 				33887E240EA97971003A7E83 /* URLHandlerCommand.h */,
 				33887E250EA97971003A7E83 /* URLHandlerCommand.m */,
+				3386C9F41B8ED389008F9D0F /* NSUserDefaults+defaults.h */,
+				3386C9F51B8ED389008F9D0F /* NSUserDefaults+defaults.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1001,6 +1006,7 @@
 				33CC0AF30F3EB29E005B25F8 /* ActivityMonitorController.m in Sources */,
 				339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */,
 				339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */,
+				3386C9F61B8ED389008F9D0F /* NSUserDefaults+defaults.m in Sources */,
 				337A3E970F3FA7680008906A /* DeferredPDFOpenOperation.m in Sources */,
 				331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */,
 				333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */,

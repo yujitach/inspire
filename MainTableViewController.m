@@ -98,18 +98,22 @@
 		       action:@selector(reloadFromSPIRES:)
 		keyEquivalent:@""
 		      atIndex:1];	
-    [menu insertItemWithTitle:@"Delete PDF" 
+    [menu insertItemWithTitle:@"Reload data from arXiv"
+                       action:@selector(reloadFromArXiv:)
+                keyEquivalent:@""
+                      atIndex:2];
+    [menu insertItemWithTitle:@"Delete PDF"
 		       action:@selector(deletePDFForEntry:)
 		keyEquivalent:@""
-		      atIndex:2];	
+		      atIndex:3];
     [menu insertItemWithTitle:@"Delete" 
 		       action:@selector(deleteEntry:)
 		keyEquivalent:@""
-		      atIndex:3];	
+		      atIndex:4];
     [menu insertItemWithTitle:@"Dump debug info" 
 		       action:@selector(dumpDebugInfo:)
 		keyEquivalent:@""
-		      atIndex:4];	
+		      atIndex:5];
     return menu;
 }
 @end

@@ -34,8 +34,11 @@
 @property (readonly) NSString* placeholderForSearchField;
 @property  NSNumber* positionInView;
 @property (readonly) BOOL searchStringEnabled;
+@property (readonly) NSIndexPath*indexPath;
 -(void)reload;
-
++(void)createStandardArticleLists;
++(void)rearrangePositionInView;
++(NSArray*)articleListsInArticleList:(ArticleList*)al;
 @end
 
 @interface ArticleList (CoreDataGeneratedAccessors)

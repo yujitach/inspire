@@ -12,6 +12,12 @@
 #import "MOC.h"
 
 @implementation ArxivMetadataFetchOperation
+{
+    Article*article;
+    NSString*arXivID;
+    NSString*xmlString;
+}
+
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;
 {
     self=[super init];
@@ -23,13 +29,12 @@
 {
     return [NSString stringWithFormat:@"fetching metadata for %@",article.eprint];
 }
--(NSString*)valueForKey:(NSString*)key inXMLElement:(NSXMLElement*)element
+-(NSString*)valueForXMLTag:(NSString*)tag
 {
-    NSArray*a=[element elementsForName:key];
-    if(a==nil||[a count]==0)return nil;
-    NSString*s=[a[0] stringValue];
+    NSString*regex=[NSString stringWithFormat:@"<%@[^>]*>(.+?)</%@",tag,tag];
+    NSString*s=[xmlString stringByMatching:regex options:RKLDotAll inRange:NSMakeRange(0,xmlString.length) capture:1 error:NULL];
     if(!s || [s isEqualToString:@""])
-	return nil;
+        return nil;
     return s;
 }
 
@@ -37,72 +42,63 @@
 {    
     // see http://export.arxiv.org/api_help/docs/user-manual.html
     if([arXivID hasPrefix:@"arXiv:"]){
-	arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
+        arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
     NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"http://export.arxiv.org/api/query?id_list=%@",arXivID]];
     NSLog(@"query:%@",url);
-    NSError*error=nil;
-    NSXMLDocument* doc=[[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
-    if(!doc){
-	NSLog(@"XML error: %@",error);
-	return;
-    }
-    NSXMLElement* elem=nil;
-    {
-	NSArray*ar=[[doc rootElement] elementsForName:@"entry"];
-	if(!ar || [ar count]==0){
-	    return;
-	}
-	elem=ar[0];
-    }
+    xmlString=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+    xmlString=[self valueForXMLTag:@"entry"];
     NSMutableDictionary* dict=[NSMutableDictionary dictionary];
     
-    NSString* s=[self valueForKey:@"id" inXMLElement:elem];
-    s=[s substringFromIndex:[(NSString*)@"http://arxiv.org/abs/" length]];
-    NSArray*a=[s componentsSeparatedByString:@"v"];
-    NSString* comment=[self valueForKey:@"arxiv:comment" inXMLElement:elem];
-    if(comment){
-	comment=[comment stringByReplacingOccurrencesOfString:@"\n " withString:@" "];
-	comment=[comment stringByReplacingOccurrencesOfString:@" \n" withString:@" "];
-	comment=[comment stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-	[dict setValue:comment forKey:@"comments"];
+    {
+        NSString* comment=[self valueForXMLTag:@"arxiv:comment"];
+        if(comment){
+            comment=[comment stringByReplacingOccurrencesOfString:@"\n " withString:@" "];
+            comment=[comment stringByReplacingOccurrencesOfString:@" \n" withString:@" "];
+            comment=[comment stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+            dict[@"comments"]=comment;
+        }
     }
     
     {
-	NSArray*ar=[elem elementsForName:@"arxiv:primary_category"];
-	if(ar && [ar count]>0){
-	    NSXMLElement*x=ar[0];
-	    NSString*pc=[[x attributeForName:@"term"] stringValue];
-	    [dict setValue:pc forKey:@"primaryCategory"];
-	}
+        NSString*pc=[xmlString stringByMatching:@"term=\"([^\"]+)\"" capture:1];
+        if(pc && ![pc isEqualToString:@""]){
+            dict[@"primaryCategory"]=pc;
+        }
     }
-    
-    int v=[[a lastObject] intValue];
-    if(v==0){
-	dict=nil;
-    }else{
-	[dict setValue:@(v) forKey:@"version"];
-	NSString*abstract=[self valueForKey:@"summary" inXMLElement:elem];
-	// abstract is kept as an HTML, but XML decoder automatically converts &-escapes into real alphabets.
-	// so I need to reverse them. Ugh.
-	abstract=[abstract stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-	abstract=[abstract stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
-	abstract=[abstract stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-	[dict setValue:abstract forKey:@"abstract"];
+
+    {
+        NSString* s=[self valueForXMLTag:@"id"];
+        s=[s substringFromIndex:[(NSString*)@"http://arxiv.org/abs/" length]];
+        NSArray*a=[s componentsSeparatedByString:@"v"];
+        
+        int v=[[a lastObject] intValue];
+        if(v==0){
+            dict=nil;
+        }else{
+            dict[@"version"]=@(v);
+            NSString*abstract=[self valueForXMLTag:@"summary"];
+            [dict setValue:abstract forKey:@"abstract"];
+        }
     }
-    if(dict){dispatch_async(dispatch_get_main_queue(),^{
-	[[article managedObjectContext] disableUndo];
-	article.abstract=dict[@"abstract"];
-	article.version=dict[@"version"];    
-	article.comments=dict[@"comments"];
-	NSString*title=[self valueForKey:@"title" inXMLElement:elem];
-	title=[title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-	title=[title stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
-	if(![[article.title lowercaseString] isEqualToString:[title lowercaseString]]){
-	    article.title=title;
-	}
-	article.arxivCategory=dict[@"primaryCategory"];
-	[[article managedObjectContext] enableUndo];
-    });}
+    {
+        NSString*title=[self valueForXMLTag:@"title"];
+        title=[title stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        title=[title stringByReplacingOccurrencesOfRegex:@" +" withString:@" "];
+        dict[@"title"]=title;
+    }
+    if(dict){
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[article managedObjectContext] disableUndo];
+            article.abstract=dict[@"abstract"];
+            article.version=dict[@"version"];
+            article.comments=dict[@"comments"];
+            if(![[article.title lowercaseString] isEqualToString:[dict[@"title"] lowercaseString]]){
+                article.title=dict[@"title"];
+            }
+            article.arxivCategory=dict[@"primaryCategory"];
+            [[article managedObjectContext] enableUndo];
+        });
+    }
 }
 @end

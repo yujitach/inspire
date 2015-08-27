@@ -10,9 +10,6 @@
 #import "DumbOperation.h"
 
 @class Article;
-@interface ArxivMetadataFetchOperation : NSOperation {
-    Article*article;
-    NSString*arXivID;
-}
+@interface ArxivMetadataFetchOperation : NSOperation
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;
 @end

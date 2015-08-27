@@ -151,6 +151,7 @@ NSString* pathShownWithQuickLook=nil;
 	[[OperationQueues arxivQueue] addOperation:downloadOp];
         [[OperationQueues sharedQueue] addOperation:openOp];
     }else{
+#if !TARGET_OS_IPHONE
 	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
 				      defaultButton:@"OK" 
 				    alternateButton:nil
@@ -160,6 +161,7 @@ NSString* pathShownWithQuickLook=nil;
 			  modalDelegate:nil
 			 didEndSelector:nil
 			    contextInfo:nil];
+#endif
     }
 }
 
@@ -194,10 +196,15 @@ NSString* pathShownWithQuickLook=nil;
 }
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {
-    
-    PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
-    PDFPage* p=[d pageAtIndex:0];
-    NSString* s=[p string];
+    NSURL*url=[NSURL fileURLWithPath:pdfPath];
+    CGPDFDocumentRef doc=CGPDFDocumentCreateWithURL((__bridge CFURLRef)url);
+    CGPDFDictionaryRef dic=CGPDFDocumentGetInfo(doc);
+    CGPDFStringRef pdfStringRef;
+    NSString* s=nil;
+    if(CGPDFDictionaryGetString(dic, "Title", &pdfStringRef)){
+        s=(NSString*)CFBridgingRelease(CGPDFStringCopyTextString(pdfStringRef));
+    }
+    CFRelease(doc);
     
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -207,7 +214,6 @@ NSString* pathShownWithQuickLook=nil;
     if(![s hasPrefix:@"arXiv:"] && ([s rangeOfString:@"arXiv:"].location==NSNotFound)){
 	return 0;
     }
-    //    NSLog(@"%@",s);
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     NSString* versionString=[s stringByMatching:@"arXiv:.{9}v(.)" capture:1];
@@ -217,7 +223,6 @@ NSString* pathShownWithQuickLook=nil;
 	    return 0;
     }
     int version=[versionString intValue];
-    //    NSLog(@"version %d detected",version);
     return version;
 }
 @end

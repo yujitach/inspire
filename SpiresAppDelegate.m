@@ -49,6 +49,7 @@
 
 #import <Quartz/Quartz.h>
 #import "SyncManager.h"
+#import "NSUserDefaults+defaults.h"
 
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
@@ -68,34 +69,7 @@
     if(self!=[SpiresAppDelegate class]){
 	return;
     }
-    NSData* data=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
-    NSError* error=nil;
-    NSPropertyListFormat format;
-    NSMutableDictionary* defaultDict=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:&format error:&error];
-
-    //sythesize the list of all known journals
-    
-    NSArray* annualReviewJournals=defaultDict[@"AnnualReviewJournals"];
-    NSArray* elsevierJournals=defaultDict[@"ElsevierJournals"];
-    NSArray* apsJournals=defaultDict[@"APSJournals"];
-    NSArray* aipJournals=defaultDict[@"AIPJournals"];
-    NSArray* iopJournals=defaultDict[@"IOPJournals"];
-    NSArray* springerJournals=defaultDict[@"SpringerJournals"];
-    NSArray* wsJournals=defaultDict[@"WSJournals"];
-    NSArray* ptpJournals=defaultDict[@"PTPJournals"];
-    NSMutableArray* knownJournals=[NSMutableArray array ];
-    [knownJournals addObjectsFromArray:annualReviewJournals];
-    [knownJournals addObjectsFromArray:elsevierJournals];
-    [knownJournals addObjectsFromArray:apsJournals];
-    [knownJournals addObjectsFromArray:aipJournals];
-    [knownJournals addObjectsFromArray:iopJournals];
-    [knownJournals addObjectsFromArray:springerJournals];
-    [knownJournals addObjectsFromArray:wsJournals];
-    [knownJournals addObjectsFromArray:ptpJournals];
-    defaultDict[@"KnownJournals"] = knownJournals;
-    
-    
-    [[NSUserDefaults standardUserDefaults] registerDefaults: defaultDict];
+    [NSUserDefaults loadInitialDefaults];
 }
 #pragma mark NSApplication delegates
 - (void)applicationWillBecomeActive:(NSNotification *)notification

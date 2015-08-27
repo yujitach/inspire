@@ -36,6 +36,7 @@
 #import "BatchBibQueryOperation.h"
 #import "BibTeXKeyCopyOperation.h"
 #import "SpiresQueryOperation.h"
+#import "ArxivMetadataFetchOperation.h"
 
 #import "NSURL+libraryProxy.h"
 
@@ -417,6 +418,14 @@
     }
     if([a count]>0){
         [self reloadFromSPIRESmainwork:a];
+    }
+}
+-(IBAction)reloadFromArXiv:(id)sender
+{
+    NSArray*articles=[ac selectedObjects];
+    for(Article*article in articles){
+        NSOperation*op=[[ArxivMetadataFetchOperation alloc] initWithArticle:article];
+        [[OperationQueues arxivQueue] addOperation:op];
     }
 }
 -(IBAction)toggleFlagged:(id)sender

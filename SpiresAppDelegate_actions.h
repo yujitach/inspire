@@ -48,5 +48,5 @@
 -(IBAction)deletePDFForEntry:(id)sender;
 -(IBAction)toggleFlagged:(id)sender;
 -(IBAction)reloadFromSPIRES:(id)sender;
-
+-(IBAction)reloadFromArXiv:(id)sender;
 @end

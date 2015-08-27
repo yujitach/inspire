@@ -17,7 +17,6 @@
 //    IBOutlet spires_AppDelegate* appDelegate;
     
 }
--(void)rearrangePositionInViewForArticleLists;
 -(ArticleList*)currentArticleList;
 -(void)addArticleList:(ArticleList*)al;
 //-(void)removeArticleList:(ArticleList*)al;

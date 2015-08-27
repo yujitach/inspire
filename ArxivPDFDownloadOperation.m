@@ -12,6 +12,11 @@
 #import "ArxivHelper.h"
 #import "AppDelegate.h"
 
+#if TARGET_OS_IPHONE
+#define NSAlert NSString
+#define NSAlertDefaultReturn 0
+#endif
+
 @interface ArxivPDFDownloadOperation ()
 -(void)pdfDownloadDidEnd:(NSDictionary*)dict;
 -(void)retryAlertDidEnd:(NSAlert*)alert code:(int)choice context:(void*)ignore;
@@ -57,6 +62,9 @@
 	[self finish];
     }else if(dict[@"shouldReloadAfter"]){
 	reloadDelay=dict[@"shouldReloadAfter"];
+#if TARGET_OS_IPHONE
+    [self retryAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+#else
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
 				      defaultButton:@"OK" 
 				    alternateButton:@"Cancel downloading"
@@ -66,6 +74,7 @@
 			  modalDelegate:self 
 			 didEndSelector:@selector(retryAlertDidEnd:code:context:)
 			    contextInfo:nil];
+#endif
     }else{//failure
 	[self finish];
     }
@@ -93,6 +102,9 @@
 -(void)run
 {
     self.isExecuting=YES;
+#if TARGET_OS_IPHONE
+    [self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+#else
     if(shouldAsk && [[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
 	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
 				      defaultButton:@"Download" 
@@ -106,6 +118,7 @@
     }else{
 	[self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
     }
+#endif
 }
 -(void)cleanupToCancel
 {

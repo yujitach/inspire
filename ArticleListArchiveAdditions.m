@@ -233,6 +233,7 @@
     [secondMOC performBlock:^{
         NSArray*notFound=[self notFoundArticleListsAfterMergingChildren:snapShot[@"children"] toArticleFolder:nil usingMOC:secondMOC];
         [self populateFlaggedArticlesFrom:snapShot[@"flagged"] usingMOC:secondMOC];
+        [ArticleList rearrangePositionInView];
         [secondMOC save:NULL];
         block(notFound);
     }];
