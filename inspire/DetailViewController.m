@@ -2,7 +2,7 @@
 //  DetailViewController.m
 //  inspire
 //
-//  Created by Yuji on 2015/08/24.
+//  Created by Yuji on 2015/08/27.
 //
 //
 
@@ -28,7 +28,7 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"name"] description];
     }
 }
 

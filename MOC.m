@@ -145,10 +145,17 @@ MOC*_sharedMOCManager=nil;
     }
 #endif
     
+#if TARGET_OS_IPHONE
+    NSURL*docDir=[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL*dataURL=[docDir URLByAppendingPathComponent:@"spiresDatabase.sqlite"];
+#else
+    NSURL*dataURL=[NSURL fileURLWithPath:[self dataFilePath]];
+#endif
+    
     NSError*error=nil;
     if (![persistentStoreCoordinator addPersistentStoreWithType:[self storeType]
 						  configuration:nil 
-							    URL:[NSURL fileURLWithPath:[self dataFilePath]] 
+							    URL:dataURL
 							options:@{NSSQLitePragmasOption:@{ @"journal_mode" :@"DELETE" }}
 							  error:&error]){
 //        [[NSApplication sharedApplication] presentError:error];

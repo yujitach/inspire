@@ -55,7 +55,9 @@
     if(success){
 	NSData* data=[dict valueForKey:@"pdfData"];
 	if(![data writeToFile:article.pdfPath atomically:NO]){
+#if !TARGET_OS_IPHONE
 	    [[NSApp appDelegate] presentFileSaveError];
+#endif
 	}else{
 	    [article associatePDF:article.pdfPath];
 	}

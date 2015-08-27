@@ -2,7 +2,7 @@
 //  MasterViewController.h
 //  inspire
 //
-//  Created by Yuji on 2015/08/24.
+//  Created by Yuji on 2015/08/27.
 //
 //
 
@@ -16,7 +16,6 @@
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 
 @end

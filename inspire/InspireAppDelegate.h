@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  inspire
 //
-//  Created by Yuji on 2015/08/24.
+//  Created by Yuji on 2015/08/27.
 //
 //
 
@@ -12,13 +12,6 @@
 @interface InspireAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-- (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
 
 
 @end
