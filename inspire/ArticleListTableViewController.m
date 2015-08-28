@@ -8,6 +8,7 @@
 
 #import "ArticleListTableViewController.h"
 #import "ArticleTableViewController.h"
+#import "ArticleList.h"
 #import "MOC.h"
 
 @interface ArticleListTableViewController ()
@@ -106,8 +107,9 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"name"] description];
+    ArticleList*al = (ArticleList*)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = al.name;
+    cell.imageView.image =al.icon;
 }
 
 #pragma mark - Fetched results controller

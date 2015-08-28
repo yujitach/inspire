@@ -153,6 +153,15 @@
 		33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE31B8F137C003D993D /* Main.storyboard */; };
 		33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE61B8F137C003D993D /* Assets.xcassets */; };
 		33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE81B8F137C003D993D /* LaunchScreen.storyboard */; };
+		33D02B0A1B908D1500C6648C /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B0B1B908D1500C6648C /* arxiv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82716180F0C3B00D6C713 /* arxiv@2x.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B0C1B908D1500C6648C /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B0D1B908D1500C6648C /* canned-search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C8271A180F0FF500D6C713 /* canned-search@2x.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B0E1B908D1500C6648C /* spires-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3810C8DB51000337CC /* spires-red.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B0F1B908D1500C6648C /* spires-red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82718180F0F1500D6C713 /* spires-red@2x.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B101B908D1500C6648C /* spires-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3910C8DB51000337CC /* spires-blue.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; settings = {ASSET_TAGS = (); }; };
+		33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D02B131B9094D700C6648C /* ArticleTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DE54190F71B0EE004E3A5C /* BWAnchoredPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */; };
 		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
@@ -392,6 +401,8 @@
 		33CDDBE61B8F137C003D993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33CDDBE91B8F137C003D993D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		33CDDBEB1B8F137C003D993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33D02B121B9094D700C6648C /* ArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleTableViewCell.h; sourceTree = "<group>"; };
+		33D02B131B9094D700C6648C /* ArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewCell.m; sourceTree = "<group>"; };
 		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButton.m; path = bwtoolkit/BWAnchoredPopUpButton.m; sourceTree = "<group>"; };
 		33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButtonCell.m; path = bwtoolkit/BWAnchoredPopUpButtonCell.m; sourceTree = "<group>"; };
@@ -818,6 +829,8 @@
 				33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */,
 				33CDDBDD1B8F137B003D993D /* ArticleListTableViewController.h */,
 				33CDDBDE1B8F137B003D993D /* ArticleListTableViewController.m */,
+				33D02B121B9094D700C6648C /* ArticleTableViewCell.h */,
+				33D02B131B9094D700C6648C /* ArticleTableViewCell.m */,
 				33CDDBE01B8F137C003D993D /* ArticleTableViewController.h */,
 				33CDDBE11B8F137C003D993D /* ArticleTableViewController.m */,
 				33CDDBE31B8F137C003D993D /* Main.storyboard */,
@@ -1018,8 +1031,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D02B0A1B908D1500C6648C /* arxiv.png in Resources */,
+				33D02B0E1B908D1500C6648C /* spires-red.png in Resources */,
+				33D02B0F1B908D1500C6648C /* spires-red@2x.png in Resources */,
+				33D02B0B1B908D1500C6648C /* arxiv@2x.png in Resources */,
 				33BBA3CB1B8F41130001366C /* defaults.plist in Resources */,
+				33D02B101B908D1500C6648C /* spires-blue.png in Resources */,
+				33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */,
+				33D02B0C1B908D1500C6648C /* canned-search.png in Resources */,
 				33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */,
+				33D02B0D1B908D1500C6648C /* canned-search@2x.png in Resources */,
 				33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */,
 				33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */,
 			);
@@ -1115,6 +1136,7 @@
 				33BBA3A31B8F3A910001366C /* ArticleList.m in Sources */,
 				33BBA3B61B8F3AE20001366C /* SpiresQueryOperation.m in Sources */,
 				33BBA3AA1B8F3A910001366C /* JournalEntry.m in Sources */,
+				33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */,
 				33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */,
 				33BBA3C01B8F3B150001366C /* NSString+magic.m in Sources */,
 				33BBA3AF1B8F3AE20001366C /* DumbOperation.m in Sources */,

@@ -11,6 +11,8 @@
 #import "ArticleListTableViewController.h"
 #import "NSUserDefaults+defaults.h"
 #import "MOC.h"
+#import "DumbOperation.h"
+#import "SpiresQueryOperation.h"
 #import "ArticleList.h"
 
 @interface InspireAppDelegate () <UISplitViewControllerDelegate>
@@ -36,7 +38,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
 }
 -(void)querySPIRES:(NSString*)search
 {
-    
+    [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 -(void)postMessage:(NSString*)message
 {
@@ -60,15 +62,12 @@ static InspireAppDelegate*globalAppDelegate=nil;
     globalAppDelegate=self;
     
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+    self.masterNavigationController=splitViewController.viewControllers[0];
+    self.detailNavigationController=splitViewController.viewControllers[1];
+    self.detailNavigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
 
     
-/*
-    UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
-    MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
-*/
     [ArticleList createStandardArticleLists];
     
     return YES;
@@ -100,9 +99,16 @@ static InspireAppDelegate*globalAppDelegate=nil;
 
 #pragma mark - Split view
 
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    return NO;
-    // should return YES if the detail view needs to be discarded
+- (UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController {
+    return self.masterNavigationController;
 }
-
+- (UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController {
+    return self.masterNavigationController;
+}
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    return YES;
+}
+- (UIViewController *)splitViewController:(UISplitViewController *)splitViewController separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController {
+    return self.detailNavigationController;
+}
 @end

@@ -10,11 +10,11 @@
 #import <CoreData/CoreData.h>
 @class ArticleList;
 
-@interface ArticleTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface ArticleTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,UISearchBarDelegate>
 
 @property (strong, nonatomic) ArticleList* articleList;
-
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
+@property (strong, nonatomic) IBOutlet UISearchBar*searchBar;
 @end
 

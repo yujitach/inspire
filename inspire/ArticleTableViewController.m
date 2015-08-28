@@ -7,8 +7,11 @@
 //
 
 #import "ArticleTableViewController.h"
+#import "ArticleTableViewCell.h"
 #import "ArticleList.h"
+#import "Article.h"
 #import "SpiresHelper.h"
+#import "AppDelegate.h"
 #import "MOC.h"
 
 @interface ArticleTableViewController ()
@@ -55,7 +58,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
+    [self configureCell:(ArticleTableViewCell*)cell atIndexPath:indexPath];
     return cell;
 }
 
@@ -79,11 +82,26 @@
     }
 }
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"title"] description];
+- (void)configureCell:(ArticleTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    Article *article = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.title.attributedText=article.attributedTitle;
+    cell.authors.text=article.shortishAuthorList;
+    cell.eprint.text=article.eprint;
 }
 
+#pragma mark - Searchbar delegates
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    self.articleList.searchString=searchBar.text;
+    [self recreateFetchedResultsController];
+    [[NSApp appDelegate] querySPIRES:self.articleList.searchString];
+}
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    self.articleList.searchString=searchBar.text;
+    [self recreateFetchedResultsController];
+    [[NSApp appDelegate] querySPIRES:self.articleList.searchString];
+}
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -117,8 +135,8 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    [NSFetchedResultsController deleteCacheWithName:@"Detail"];
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[MOC moc] sectionNameKeyPath:nil cacheName:@"Detail"];
+//    [NSFetchedResultsController deleteCacheWithName:@"Detail"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[MOC moc] sectionNameKeyPath:nil cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
