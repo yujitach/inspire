@@ -31,6 +31,10 @@
 {
     return nil;
 }
+-(UIBarButtonItem*)barButtonItem
+{
+    return nil;
+}
 #else
 -(NSImage*)icon
 {

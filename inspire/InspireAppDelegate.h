@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-
-@interface InspireAppDelegate : UIResponder <UIApplicationDelegate>
+#import "AppDelegate.h"
+@interface InspireAppDelegate : UIResponder <UIApplicationDelegate,AppDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
++(id<AppDelegate>)appDelegate;
 
 @end
 

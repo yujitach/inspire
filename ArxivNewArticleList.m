@@ -34,6 +34,11 @@
 {
     return [UIImage imageNamed:@"arxiv"];
 }
+-(UIBarButtonItem*)barButtonItem
+{
+    UIBarButtonItem* bbi=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload)];
+    return bbi;
+}
 #else
 -(NSImage*)icon
 {

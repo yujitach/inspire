@@ -7,8 +7,8 @@
 //
 
 #import "InspireAppDelegate.h"
-#import "DetailViewController.h"
-#import "MasterViewController.h"
+#import "ArticleTableViewController.h"
+#import "ArticleListTableViewController.h"
 #import "NSUserDefaults+defaults.h"
 #import "MOC.h"
 #import "ArticleList.h"
@@ -17,7 +17,38 @@
 
 @end
 
+static InspireAppDelegate*globalAppDelegate=nil;
+
+
 @implementation InspireAppDelegate
+#pragma mark Global AppDelegate methods
++(id<AppDelegate>)appDelegate
+{
+    return globalAppDelegate;
+}
+-(void)startProgressIndicator
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+-(void)stopProgressIndicator
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+-(void)querySPIRES:(NSString*)search
+{
+    
+}
+-(void)postMessage:(NSString*)message
+{
+    
+}
+-(void)clearingUpAfterRegistration:(id)sender
+{
+    
+}
+
+#pragma mark Other pieces
+
 +(void)initialize
 {
     [NSUserDefaults loadInitialDefaults];
@@ -25,6 +56,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    globalAppDelegate=self;
+    
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
@@ -67,12 +101,8 @@
 #pragma mark - Split view
 
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    if ([secondaryViewController isKindOfClass:[UINavigationController class]] && [[(UINavigationController *)secondaryViewController topViewController] isKindOfClass:[DetailViewController class]] && ([(DetailViewController *)[(UINavigationController *)secondaryViewController topViewController] detailItem] == nil)) {
-        // Return YES to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-        return YES;
-    } else {
-        return NO;
-    }
+    return NO;
+    // should return YES if the detail view needs to be discarded
 }
 
 @end

@@ -6,15 +6,15 @@
 //
 //
 
-#import "MasterViewController.h"
-#import "DetailViewController.h"
+#import "ArticleListTableViewController.h"
+#import "ArticleTableViewController.h"
 #import "MOC.h"
 
-@interface MasterViewController ()
+@interface ArticleListTableViewController ()
 
 @end
 
-@implementation MasterViewController
+@implementation ArticleListTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,7 +23,7 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    self.detailViewController = (ArticleTableViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,9 +60,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
+        ArticleList *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        ArticleTableViewController *controller = (ArticleTableViewController *)[[segue destinationViewController] topViewController];
+        [controller setArticleList:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
@@ -127,7 +127,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
 
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     

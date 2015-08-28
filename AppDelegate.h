@@ -10,7 +10,8 @@
 
 @import UIKit;
 
-#define NSApp ([UIApplication sharedApplication])
+
+#define NSApp InspireAppDelegate
 
 @protocol AppDelegate
 -(void)startProgressIndicator;
@@ -19,10 +20,7 @@
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
 @end
-@interface UIApplication (AppDelegateAddition)
--(id<AppDelegate>)appDelegate;
-@end
-
+#import "InspireAppDelegate.h"
 #else
 
 @import AppKit;

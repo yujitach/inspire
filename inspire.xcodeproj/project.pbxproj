@@ -148,8 +148,8 @@
 		33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F1991310C08505001F3F0F /* MigrationProgress.xib */; };
 		33CDDBD61B8F137B003D993D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBD51B8F137B003D993D /* main.m */; };
 		33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */; };
-		33CDDBDF1B8F137C003D993D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBDE1B8F137B003D993D /* MasterViewController.m */; };
-		33CDDBE21B8F137C003D993D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBE11B8F137C003D993D /* DetailViewController.m */; };
+		33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBDE1B8F137B003D993D /* ArticleListTableViewController.m */; };
+		33CDDBE21B8F137C003D993D /* ArticleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBE11B8F137C003D993D /* ArticleTableViewController.m */; };
 		33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE31B8F137C003D993D /* Main.storyboard */; };
 		33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE61B8F137C003D993D /* Assets.xcassets */; };
 		33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CDDBE81B8F137C003D993D /* LaunchScreen.storyboard */; };
@@ -384,10 +384,10 @@
 		33CDDBD51B8F137B003D993D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspireAppDelegate.h; sourceTree = "<group>"; };
 		33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspireAppDelegate.m; sourceTree = "<group>"; };
-		33CDDBDD1B8F137B003D993D /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		33CDDBDE1B8F137B003D993D /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		33CDDBE01B8F137C003D993D /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		33CDDBE11B8F137C003D993D /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		33CDDBDD1B8F137B003D993D /* ArticleListTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleListTableViewController.h; sourceTree = "<group>"; };
+		33CDDBDE1B8F137B003D993D /* ArticleListTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleListTableViewController.m; sourceTree = "<group>"; };
+		33CDDBE01B8F137C003D993D /* ArticleTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArticleTableViewController.h; sourceTree = "<group>"; };
+		33CDDBE11B8F137C003D993D /* ArticleTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewController.m; sourceTree = "<group>"; };
 		33CDDBE41B8F137C003D993D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		33CDDBE61B8F137C003D993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33CDDBE91B8F137C003D993D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -816,10 +816,10 @@
 			children = (
 				33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */,
 				33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */,
-				33CDDBDD1B8F137B003D993D /* MasterViewController.h */,
-				33CDDBDE1B8F137B003D993D /* MasterViewController.m */,
-				33CDDBE01B8F137C003D993D /* DetailViewController.h */,
-				33CDDBE11B8F137C003D993D /* DetailViewController.m */,
+				33CDDBDD1B8F137B003D993D /* ArticleListTableViewController.h */,
+				33CDDBDE1B8F137B003D993D /* ArticleListTableViewController.m */,
+				33CDDBE01B8F137C003D993D /* ArticleTableViewController.h */,
+				33CDDBE11B8F137C003D993D /* ArticleTableViewController.m */,
 				33CDDBE31B8F137C003D993D /* Main.storyboard */,
 				33CDDBE61B8F137C003D993D /* Assets.xcassets */,
 				33CDDBE81B8F137C003D993D /* LaunchScreen.storyboard */,
@@ -1103,7 +1103,7 @@
 				33BBA3C61B8F3B150001366C /* ArxivHelper.m in Sources */,
 				33BBA3AC1B8F3A910001366C /* Article.m in Sources */,
 				33BBA3B31B8F3AE20001366C /* ArxivPDFDownloadOperation.m in Sources */,
-				33CDDBE21B8F137C003D993D /* DetailViewController.m in Sources */,
+				33CDDBE21B8F137C003D993D /* ArticleTableViewController.m in Sources */,
 				33BBA3B01B8F3AE20001366C /* LoadAbstractDOIOperation.m in Sources */,
 				33BBA3A21B8F3A910001366C /* ArticleListArchiveAdditions.m in Sources */,
 				33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */,
@@ -1115,7 +1115,7 @@
 				33BBA3A31B8F3A910001366C /* ArticleList.m in Sources */,
 				33BBA3B61B8F3AE20001366C /* SpiresQueryOperation.m in Sources */,
 				33BBA3AA1B8F3A910001366C /* JournalEntry.m in Sources */,
-				33CDDBDF1B8F137C003D993D /* MasterViewController.m in Sources */,
+				33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */,
 				33BBA3C01B8F3B150001366C /* NSString+magic.m in Sources */,
 				33BBA3AF1B8F3AE20001366C /* DumbOperation.m in Sources */,
 				33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */,

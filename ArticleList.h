@@ -27,6 +27,7 @@
 @property  NSArray* sortDescriptors; // Transformable attribute.
 #if TARGET_OS_IPHONE
 @property (readonly) UIImage* icon;
+@property (readonly) UIBarButtonItem*barButtonItem;
 #else
 @property (readonly) NSImage* icon;
 @property (readonly) NSButtonCell* button;
