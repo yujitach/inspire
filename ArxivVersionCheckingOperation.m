@@ -15,6 +15,12 @@
 #import "PDFHelper.h"
 // #import <Quartz/Quartz.h>
 
+#if TARGET_OS_IPHONE
+#define NSAlert NSString
+#define NSAlertDefaultReturn 0
+#endif
+
+
 @interface ArxivVersionCheckingOperation ()
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore;
 @end
@@ -47,6 +53,9 @@
 	[self finish];
 	return;
     }
+#if TARGET_OS_IPHONE
+    [self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+#else
     NSString*commentsLine=@"";
     if(article.comments && ![article.comments isEqualToString:@""]){
 	commentsLine=[NSString stringWithFormat:@"Comments: %@",article.comments];
@@ -64,7 +73,7 @@
 		      modalDelegate:self 
 		     didEndSelector:@selector(downloadAlertDidEnd:code:context:)
 			contextInfo:nil];
-    
+#endif
 }
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
 {

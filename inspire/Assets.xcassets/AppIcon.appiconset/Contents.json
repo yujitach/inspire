@@ -23,12 +23,13 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "inspire-1.png",
+      "filename" : "inspire-2.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "inspire-3.png",
       "scale" : "3x"
     },
     {
@@ -54,13 +55,13 @@
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "bigicon-inspire.png",
+      "filename" : "inspire.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "inspire.png",
+      "filename" : "inspire-1.png",
       "scale" : "2x"
     }
   ],

@@ -17,16 +17,21 @@
 #import "ArxivMetadataFetchOperation.h"
 #import "DeferredPDFOpenOperation.h"
 #import "AppDelegate.h"
-#import "NSFileManager+TemporaryFileName.h"
-
-#import <Quartz/Quartz.h>
-
-@interface PDFHelper (QuickLookDelegate) <QLPreviewPanelDataSource>
-@end
 
 
 static PDFHelper*_helper=nil;
 NSString* pathShownWithQuickLook=nil;
+
+#if TARGET_OS_IPHONE
+@interface PDFHelper (Delegate) <UIDocumentInteractionControllerDelegate>
+@end
+
+#else
+#import <Quartz/Quartz.h>
+@interface PDFHelper (QuickLookDelegate) <QLPreviewPanelDataSource>
+@end
+
+
 
 
 @interface QuickLookPDFItem : NSObject<QLPreviewItem>
@@ -40,9 +45,14 @@ NSString* pathShownWithQuickLook=nil;
     return [NSURL fileURLWithPath:pathShownWithQuickLook];
 }
 @end
+#endif
 
 @implementation PDFHelper
-
+#if TARGET_OS_IPHONE
+{
+    UIDocumentInteractionController*documentINteractionContoller;
+}
+#endif
 +(PDFHelper*)sharedHelper
 {
     if(!_helper){
@@ -56,6 +66,31 @@ NSString* pathShownWithQuickLook=nil;
     self=[super init];
     return self;
 }
+#if TARGET_OS_IPHONE
+#pragma mark interaction with PDF viewer
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
+{
+    return [UIApplication sharedApplication].keyWindow.rootViewController;
+}
+- (UIView *) documentInteractionControllerViewForPreview: (UIDocumentInteractionController *) controller
+{
+    return  [UIApplication sharedApplication].keyWindow.rootViewController.view;
+
+}
+
+-(void)openPDFFile:(NSString*)path usingViewer:(PDFViewerType)type
+{
+    documentINteractionContoller=nil;
+    documentINteractionContoller=[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+    documentINteractionContoller.delegate=self;
+    documentINteractionContoller.UTI=@"com.adobe.pdf";
+    [documentINteractionContoller presentPreviewAnimated:YES];
+}
+-(NSString*)displayNameForViewer:(PDFViewerType)type;
+{
+    return @"iOS-builtin viewer";
+}
+#else
 -(NSString*)displayNameForApp:(NSString*)bundleId
 {
     NSWorkspace* ws=[NSWorkspace sharedWorkspace];
@@ -124,7 +159,7 @@ NSString* pathShownWithQuickLook=nil;
 {
     return [[QuickLookPDFItem alloc] init];
 }
-
+#endif
 
 #pragma mark arXiv article Version Checking
 
@@ -164,10 +199,11 @@ NSString* pathShownWithQuickLook=nil;
 #endif
     }
 }
-
 -(BOOL)downloadAndOpenPDFfromJournalForArticle:(Article*)o ;
 {
-
+#if TARGET_OS_IPHONE
+    return NO;
+#else
     NSString* doi=o.doi;
     if(!doi || [doi isEqualToString:@""])
 	return NO;
@@ -193,6 +229,7 @@ NSString* pathShownWithQuickLook=nil;
 	return YES;
     }
     return NO;
+#endif
 }
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {

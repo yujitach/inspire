@@ -33,6 +33,9 @@
     if(self.articleList.searchStringEnabled){
         self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
         self.searchBar.placeholder=self.articleList.placeholderForSearchField;
+        if(self.articleList.searchString&&![self.articleList.searchString isEqualToString:@""]){
+            self.searchBar.text=self.articleList.searchString;
+        }
         self.searchBar.delegate=self;
         self.tableView.tableHeaderView=self.searchBar;
     }else{
@@ -231,8 +234,6 @@
         ArticleViewController *controller = (ArticleViewController *)[segue destinationViewController];
         controller.fetchedResultsController=self.fetchedResultsController;
         controller.indexPath=indexPath;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     }
 }
 

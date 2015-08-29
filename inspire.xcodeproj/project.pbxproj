@@ -18,6 +18,9 @@
 		331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */; };
 		331299140EA6AA4500A7F496 /* SimpleArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 331299100EA6AA4500A7F496 /* SimpleArticleList.m */; };
 		3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3315E85A0EB6DAB200E56D7E /* HistoryController.m */; };
+		331A80531B91E80E004F9200 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; settings = {ASSET_TAGS = (); }; };
+		331A80541B91EA4B004F9200 /* DeferredPDFOpenOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 337A3E960F3FA7680008906A /* DeferredPDFOpenOperation.m */; settings = {ASSET_TAGS = (); }; };
+		331A80551B91EB87004F9200 /* ArxivVersionCheckingOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08440F3E6763005B25F8 /* ArxivVersionCheckingOperation.m */; settings = {ASSET_TAGS = (); }; };
 		331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */; };
 		331C8F100F4CC84300779F05 /* NSString+magic.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C8F0F0F4CC84300779F05 /* NSString+magic.m */; };
 		331D7E301B7A32F500F598B5 /* ArticleListArchiveAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */; };
@@ -1168,11 +1171,14 @@
 				33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */,
 				33BBA3C01B8F3B150001366C /* NSString+magic.m in Sources */,
 				33BBA3AF1B8F3AE20001366C /* DumbOperation.m in Sources */,
+				331A80531B91E80E004F9200 /* PDFHelper.m in Sources */,
 				33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */,
+				331A80541B91EA4B004F9200 /* DeferredPDFOpenOperation.m in Sources */,
 				33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */,
 				33BBA3BC1B8F3AE20001366C /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33BBA3A01B8F3A910001366C /* LightweightArticle.m in Sources */,
 				33BBA3A91B8F3A910001366C /* MOC.m in Sources */,
+				331A80551B91EB87004F9200 /* ArxivVersionCheckingOperation.m in Sources */,
 				33BBA3B11B8F3AE20001366C /* ArxivMetadataFetchOperation.m in Sources */,
 				33BBA3CA1B8F3B150001366C /* NSUserDefaults+defaults.m in Sources */,
 				33BBA39F1B8F3A5B0001366C /* RegexKitLite.m in Sources */,

@@ -16,6 +16,7 @@
 #import "SpiresHelper.h"
 #import "ArticleList.h"
 #import "AllArticleList.h"
+#import "PDFHelper.h"
 
 @interface InspireAppDelegate () <UISplitViewControllerDelegate>
 
@@ -43,6 +44,8 @@ static InspireAppDelegate*globalAppDelegate=nil;
     if(!search)return;
     NSPredicate*pred=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:search];
     if(!pred)return;
+    [self selectAllArticleList];
+    [AllArticleList allArticleList].searchString=search;
     [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 -(void)postMessage:(NSString*)message
@@ -52,6 +55,20 @@ static InspireAppDelegate*globalAppDelegate=nil;
 -(void)clearingUpAfterRegistration:(id)sender
 {
     
+}
+-(BOOL)currentListIsArxivReplaced
+{
+    return NO;
+}
+
+#pragma mark PDF
+-(void)setupPDFdir
+{
+    NSURL*docDirURL=[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString*docDir=[docDirURL path];
+    NSString*dir=[docDir stringByAppendingPathComponent:@"pdf"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
+    [[NSUserDefaults standardUserDefaults] setObject:dir forKey:@"pdfDir"];
 }
 #pragma clang diagnostic ignored "-Wdeprecated"
 -(NSString*)extractArXivID:(NSString*)x
@@ -105,7 +122,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
         y=[y stringByReplacingOccurrencesOfString:@"x-coredata//" withString:@"x-coredata://"];
         NSURL*z=[NSURL URLWithString:y];
         Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
-        [self openPDFofArticle:a];
+        [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithPrimaryViewer];
     }else if([[url scheme] isEqualToString:@"spires-lookup-eprint"]){
         NSString*eprint=[self extractArXivID:[url absoluteString]];
         if(eprint){
@@ -120,10 +137,6 @@ static InspireAppDelegate*globalAppDelegate=nil;
         [[UIApplication sharedApplication] openURL:url];
     }
 }
--(void)openPDFofArticle:(Article*)article
-{
-    // to be implemented
-}
 #pragma mark Other pieces
 
 +(void)initialize
@@ -133,11 +146,9 @@ static InspireAppDelegate*globalAppDelegate=nil;
 
 -(void)selectAllArticleList
 {
-    ArticleTableViewController*vc=(ArticleTableViewController*)self.detailNavigationController.topViewController;
-    vc.articleList=[AllArticleList allArticleList];
-    vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    vc.navigationItem.leftItemsSupplementBackButton = YES;
-
+    ArticleListTableViewController*vc=(ArticleListTableViewController*)self.masterNavigationController.topViewController;
+    [vc.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [vc performSegueWithIdentifier:@"ShowDetail" sender:self];
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -145,6 +156,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     globalAppDelegate=self;
 
     [ArticleList createStandardArticleLists];
+    [self setupPDFdir];
 
     self.splitViewController = (UISplitViewController *)self.window.rootViewController;
     self.splitViewController.delegate = self;

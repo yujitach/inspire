@@ -59,7 +59,7 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([[segue identifier] isEqualToString:@"ShowDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         ArticleList *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         ArticleTableViewController *controller = (ArticleTableViewController *)[[segue destinationViewController] topViewController];

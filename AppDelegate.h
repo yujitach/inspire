@@ -20,6 +20,7 @@
 -(void)handleURL:(NSURL*) url;
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
+-(BOOL)currentListIsArxivReplaced;
 @end
 #import "InspireAppDelegate.h"
 #else
