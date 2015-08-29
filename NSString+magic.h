@@ -19,9 +19,7 @@
 -(NSString*)quotedForShell;
 -(NSString*)capitalizedStringForName;
 -(NSString*)stringByExpandingAmpersandEscapes;
-#if !TARGET_OS_IPHONE
 -(NSString*)stringByConvertingTeXintoHTML;
-#endif
 -(NSAttributedString*)mockTeXed;
 //-(NSString*)stringByReplacingOccurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
 @end

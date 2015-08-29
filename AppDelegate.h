@@ -17,6 +17,7 @@
 -(void)startProgressIndicator;
 -(void)stopProgressIndicator;
 -(void)querySPIRES:(NSString*)search;
+-(void)handleURL:(NSURL*) url;
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
 @end

@@ -7,10 +7,12 @@
 //
 
 #import "NSString+magic.h"
-#import <WebKit/WebKit.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 #if TARGET_OS_IPHONE
 @import UIKit;
 #define NSFont UIFont
+#else
+@import AppKit;
 #endif
 
 static NSArray*magicRegExps=nil;
@@ -386,7 +388,6 @@ static void loadMagic(){
 	return escaped;    // Note this is autoreleased
     }
 }
-#if !TARGET_OS_IPHONE
 #pragma mark MockTeX
 -(NSComparisonResult)compareFirstWithLength:(NSString*)string
 {
@@ -399,17 +400,16 @@ static void loadMagic(){
 }
 -(NSString*)stringByConvertingTeXintoHTML
 {
-    static WebScriptObject*wso=nil;
-    if(!wso){
-	static WebView*wv=nil;
-	wv=[[WebView alloc] init];
-	NSString*script=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tex" ofType:@"js"]
-						  encoding:NSUTF8StringEncoding
-						     error:NULL];
-	[wv stringByEvaluatingJavaScriptFromString:script];
-	wso=[wv windowScriptObject];
+    static JSContext*context=nil;
+    if(!context){
+        context=[[JSContext alloc] init];
+        NSString*script=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"tex" ofType:@"js"]
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:NULL];
+        [context evaluateScript:script];
     }
-    return [wso callWebScriptMethod:@"texify" withArguments:@[self]];
+    JSValue*texify=context[@"texify"];
+    JSValue*result=[texify callWithArguments:@[self]];
+    return [result toString];
 }
-#endif
 @end

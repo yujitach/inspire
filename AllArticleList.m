@@ -119,6 +119,10 @@ static AllArticleList*_allArticleList=nil;
 #endif
 -(NSString*)placeholderForSearchField
 {
+#if TARGET_OS_IPHONE
+    return @"Enter something like 'a Maldacena'";
+#else
     return @"Enter SPIRES query and hit return. Use shift-return to search within local database";
+#endif
 }
 @end

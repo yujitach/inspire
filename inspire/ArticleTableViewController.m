@@ -8,6 +8,7 @@
 
 #import "ArticleTableViewController.h"
 #import "ArticleTableViewCell.h"
+#import "ArticleViewController.h"
 #import "ArticleList.h"
 #import "Article.h"
 #import "SpiresHelper.h"
@@ -28,6 +29,15 @@
 {
     _articleList=articleList;
     self.navigationItem.rightBarButtonItem=articleList.barButtonItem;
+    self.navigationItem.title=self.articleList.name;
+    if(self.articleList.searchStringEnabled){
+        self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
+        self.searchBar.placeholder=self.articleList.placeholderForSearchField;
+        self.searchBar.delegate=self;
+        self.tableView.tableHeaderView=self.searchBar;
+    }else{
+        self.tableView.tableHeaderView=nil;
+    }
     [self recreateFetchedResultsController];
 }
 -(ArticleList*)articleList
@@ -86,16 +96,20 @@
     Article *article = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.title.attributedText=article.attributedTitle;
     cell.authors.text=article.shortishAuthorList;
-    cell.eprint.text=article.eprint;
+    cell.eprint.text=article.eprintToShow;
 }
 
 #pragma mark - Searchbar delegates
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    return self.articleList.searchStringEnabled;
+}
+/*-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     self.articleList.searchString=searchBar.text;
     [self recreateFetchedResultsController];
     [[NSApp appDelegate] querySPIRES:self.articleList.searchString];
-}
+}*/
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     self.articleList.searchString=searchBar.text;
@@ -150,6 +164,12 @@
     
 }
 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    // In the simplest, most efficient, case, reload the table view.
+    [self.tableView reloadData];
+}
+/*
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView beginUpdates];
@@ -202,5 +222,19 @@
 {
     [self.tableView endUpdates];
 }
+*/
+#pragma mark - Segues
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowArticle"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        ArticleViewController *controller = (ArticleViewController *)[segue destinationViewController];
+        controller.fetchedResultsController=self.fetchedResultsController;
+        controller.indexPath=indexPath;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    }
+}
+
 
 @end

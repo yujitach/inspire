@@ -53,6 +53,7 @@ typedef enum {
 @property (assign,readonly) BOOL hasPDFLocally; 
 @property (assign,readonly) BOOL isEprint;
 @property (readonly) NSString * quieterTitle; 
+@property (readonly) NSString * eprintToShow;
 @property (readonly) NSAttributedString * attributedTitle;
 @property (readonly) NSString * pdfPath;
 @property (readonly) NSString* uniqueSpiresQueryString;

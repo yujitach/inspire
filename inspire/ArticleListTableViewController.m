@@ -64,8 +64,8 @@
         ArticleList *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         ArticleTableViewController *controller = (ArticleTableViewController *)[[segue destinationViewController] topViewController];
         [controller setArticleList:object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     }
 }
 
@@ -133,13 +133,13 @@
 
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    NSPredicate* predicate=[NSPredicate predicateWithFormat:@"parent==nil"];
+    NSPredicate* predicate=[NSPredicate predicateWithFormat:@"parent==%@",self.parent];
     
     [fetchRequest setPredicate:predicate];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[MOC moc] sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[MOC moc] sectionNameKeyPath:nil cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     

@@ -15,6 +15,6 @@
 @property (strong, nonatomic) ArticleList* articleList;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
-@property (strong, nonatomic) IBOutlet UISearchBar*searchBar;
+@property (strong, nonatomic) UISearchBar*searchBar;
 @end
 

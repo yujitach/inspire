@@ -79,9 +79,13 @@
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
 		339579770F3ECE670036364A /* ArxivMetadataFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */; };
+		339586951B91B6D1004778C6 /* template-ios.html in Resources */ = {isa = PBXBuildFile; fileRef = 339586941B91B6D1004778C6 /* template-ios.html */; settings = {ASSET_TAGS = (); }; };
+		339586961B91BB24004778C6 /* tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; settings = {ASSET_TAGS = (); }; };
+		339586971B91BB2A004778C6 /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; settings = {ASSET_TAGS = (); }; };
 		3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */ = {isa = PBXBuildFile; fileRef = 3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */; };
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
+		33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A923001B916A5500CA94C8 /* ArticleViewController.m */; settings = {ASSET_TAGS = (); }; };
 		33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLParser.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B3060817D3839800279B15 /* DummyBWSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335818F110D613A700E7CA0E /* DummyBWSplitView.m */; };
@@ -124,6 +128,8 @@
 		33BBA3C61B8F3B150001366C /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; settings = {ASSET_TAGS = (); }; };
 		33BBA3CA1B8F3B150001366C /* NSUserDefaults+defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 3386C9F51B8ED389008F9D0F /* NSUserDefaults+defaults.m */; settings = {ASSET_TAGS = (); }; };
 		33BBA3CB1B8F41130001366C /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; settings = {ASSET_TAGS = (); }; };
+		33BFA5C61B918EB200A98B8E /* HTMLArticleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BFA5C51B918EB200A98B8E /* HTMLArticleHelper.m */; settings = {ASSET_TAGS = (); }; };
+		33BFA5C71B918EB200A98B8E /* HTMLArticleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BFA5C51B918EB200A98B8E /* HTMLArticleHelper.m */; settings = {ASSET_TAGS = (); }; };
 		33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C7A4380F3D0EA600F3874C /* SecureDownloader.m */; };
 		33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; };
 		33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82716180F0C3B00D6C713 /* arxiv@2x.png */; };
@@ -340,6 +346,7 @@
 		339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadAbstractDOIOperation.m; sourceTree = "<group>"; };
 		339579750F3ECE670036364A /* ArxivMetadataFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivMetadataFetchOperation.h; sourceTree = "<group>"; };
 		339579760F3ECE670036364A /* ArxivMetadataFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivMetadataFetchOperation.m; sourceTree = "<group>"; };
+		339586941B91B6D1004778C6 /* template-ios.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "template-ios.html"; sourceTree = "<group>"; };
 		3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = parseTeXandEmitPlist.perl; sourceTree = "<group>"; };
 		33A06D0210DFD19F003EF208 /* BWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWSplitView.h; path = bwtoolkit/BWSplitView.h; sourceTree = "<group>"; };
 		33A2DBF110C1DDFD0008C14A /* ArticleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleData.m; sourceTree = "<group>"; };
@@ -347,6 +354,8 @@
 		33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPSearchFieldWithProgressIndicator.m; sourceTree = "<group>"; };
 		33A51E710F82BDAE0030A60C /* SPProgressIndicatingButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPProgressIndicatingButtonCell.h; sourceTree = "<group>"; };
 		33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPProgressIndicatingButtonCell.m; sourceTree = "<group>"; };
+		33A922FF1B916A5500CA94C8 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
+		33A923001B916A5500CA94C8 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
 		33AB063A1B7719AB007491F1 /* InspireXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireXMLParser.h; sourceTree = "<group>"; };
 		33AB063B1B7719AB007491F1 /* InspireXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireXMLParser.m; sourceTree = "<group>"; };
 		33B2CC751048D06D00BA5561 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -357,6 +366,8 @@
 		33B8524B10CC863000EC0211 /* blackOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blackOut.pdf; sourceTree = "<group>"; };
 		33B8524F10CC874200EC0211 /* whiteIn.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteIn.pdf; sourceTree = "<group>"; };
 		33BBA39D1B8F3A410001366C /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
+		33BFA5C41B918EB200A98B8E /* HTMLArticleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLArticleHelper.h; sourceTree = "<group>"; };
+		33BFA5C51B918EB200A98B8E /* HTMLArticleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLArticleHelper.m; sourceTree = "<group>"; };
 		33C7A4370F3D0EA600F3874C /* SecureDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureDownloader.h; sourceTree = "<group>"; };
 		33C7A4380F3D0EA600F3874C /* SecureDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureDownloader.m; sourceTree = "<group>"; };
 		33C82714180F096900D6C713 /* spires-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spires-blue@2x.png"; sourceTree = "<group>"; };
@@ -471,6 +482,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				33BFA5C41B918EB200A98B8E /* HTMLArticleHelper.h */,
+				33BFA5C51B918EB200A98B8E /* HTMLArticleHelper.m */,
 				332B9B270FF9E34400353564 /* DirWatcher.h */,
 				332B9B280FF9E34400353564 /* DirWatcher.m */,
 				33441FC01B79DC0F00A26198 /* SyncManager.h */,
@@ -561,18 +574,10 @@
 				33B09C7C10D4AB66001A9B50 /* UI graphics */,
 				3331BD3111D423F0001F9B4B /* tex.js */,
 				333D721110007CE800A328FE /* magicRegExps.perl */,
-				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
-				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
 				338420C60EA84CE500990706 /* template.html */,
 				33255AAA0F3131F500538063 /* Acknowledgments.html */,
 				33EBF0370EA5C0830050B64A /* Release Notes.html */,
-				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				339512D61A5A9BF400056754 /* v1.6.0alert.rtf */,
-				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 				3365B30C0EA810CF00A847CE /* defaults.plist */,
-				8D1107310486CEB800E47090 /* Info.plist */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -722,6 +727,21 @@
 			name = "TableView Additions";
 			sourceTree = "<group>";
 		};
+		33A922FE1B91538100CA94C8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */,
+				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
+				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
+				332824930F560DE800AA6E00 /* dsa_pub.pem */,
+				339512D61A5A9BF400056754 /* v1.6.0alert.rtf */,
+				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		33B09C7C10D4AB66001A9B50 /* UI graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -774,6 +794,7 @@
 		33BBA3AE1B8F3AAE0001366C /* Mac UI */ = {
 			isa = PBXGroup;
 			children = (
+				33A922FE1B91538100CA94C8 /* Resources */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				33F883E80EAADAE000F5E9C6 /* Views and Cells */,
 				3395454D0F352F5A00D01E97 /* Controllers */,
@@ -833,9 +854,12 @@
 				33D02B131B9094D700C6648C /* ArticleTableViewCell.m */,
 				33CDDBE01B8F137C003D993D /* ArticleTableViewController.h */,
 				33CDDBE11B8F137C003D993D /* ArticleTableViewController.m */,
+				33A922FF1B916A5500CA94C8 /* ArticleViewController.h */,
+				33A923001B916A5500CA94C8 /* ArticleViewController.m */,
 				33CDDBE31B8F137C003D993D /* Main.storyboard */,
 				33CDDBE61B8F137C003D993D /* Assets.xcassets */,
 				33CDDBE81B8F137C003D993D /* LaunchScreen.storyboard */,
+				339586941B91B6D1004778C6 /* template-ios.html */,
 				33CDDBEB1B8F137C003D993D /* Info.plist */,
 				33CDDBD41B8F137B003D993D /* Supporting Files */,
 			);
@@ -1031,10 +1055,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				339586961B91BB24004778C6 /* tex.js in Resources */,
 				33D02B0A1B908D1500C6648C /* arxiv.png in Resources */,
 				33D02B0E1B908D1500C6648C /* spires-red.png in Resources */,
 				33D02B0F1B908D1500C6648C /* spires-red@2x.png in Resources */,
+				339586971B91BB2A004778C6 /* magicRegExps.perl in Resources */,
 				33D02B0B1B908D1500C6648C /* arxiv@2x.png in Resources */,
+				339586951B91B6D1004778C6 /* template-ios.html in Resources */,
 				33BBA3CB1B8F41130001366C /* defaults.plist in Resources */,
 				33D02B101B908D1500C6648C /* spires-blue.png in Resources */,
 				33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */,
@@ -1118,6 +1145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33BBA3A51B8F3A910001366C /* ArxivNewArticleList.m in Sources */,
+				33BFA5C71B918EB200A98B8E /* HTMLArticleHelper.m in Sources */,
 				33BBA3A41B8F3A910001366C /* AllArticleList.m in Sources */,
 				33BBA3C51B8F3B150001366C /* SpiresQueryDownloader.m in Sources */,
 				33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */,
@@ -1140,6 +1168,7 @@
 				33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */,
 				33BBA3C01B8F3B150001366C /* NSString+magic.m in Sources */,
 				33BBA3AF1B8F3AE20001366C /* DumbOperation.m in Sources */,
+				33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */,
 				33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */,
 				33BBA3BC1B8F3AE20001366C /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33BBA3A01B8F3A910001366C /* LightweightArticle.m in Sources */,
@@ -1224,6 +1253,7 @@
 				33EBAF8B0FF9BBEA0076F6AC /* AuxPanelController.m in Sources */,
 				332B9B290FF9E34400353564 /* DirWatcher.m in Sources */,
 				3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */,
+				33BFA5C61B918EB200A98B8E /* HTMLArticleHelper.m in Sources */,
 				331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */,
 				338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */,
 				33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */,
@@ -1308,7 +1338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
@@ -1347,7 +1377,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;

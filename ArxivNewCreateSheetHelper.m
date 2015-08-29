@@ -10,10 +10,15 @@
 #import "AppDelegate.h"
 
 @implementation ArxivNewCreateSheetHelper
+{
+    NSArray*topLevelObjects;
+}
 -(id)init
 {
     self=[super init];
-    [NSBundle loadNibNamed:@"ArxivNewCreateSheet" owner:self];
+    NSArray*foo;
+    [[NSBundle mainBundle] loadNibNamed:@"ArxivNewCreateSheet" owner:self topLevelObjects:&foo];
+    topLevelObjects=foo;
     return self;
 }
 -(void)run

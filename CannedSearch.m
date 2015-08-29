@@ -112,6 +112,11 @@
 {
     return [UIImage imageNamed:@"canned-search"];
 }
+-(UIBarButtonItem*)barButtonItem
+{
+    UIBarButtonItem* bbi=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload)];
+    return bbi;
+}
 #else
 -(NSImage*)icon
 {

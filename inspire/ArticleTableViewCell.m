@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    UIFont*font=self.eprint.font;
+    self.eprint.font=[UIFont monospacedDigitSystemFontOfSize:font.pointSize weight:UIFontWeightRegular];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

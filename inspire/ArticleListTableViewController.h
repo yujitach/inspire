@@ -10,12 +10,12 @@
 #import <CoreData/CoreData.h>
 
 @class ArticleTableViewController;
-
+@class ArticleList;
 @interface ArticleListTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) ArticleTableViewController *detailViewController;
-
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) ArticleList*parent;
 
 
 @end

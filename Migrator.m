@@ -157,7 +157,9 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if([fileManager fileExistsAtPath:backupPath]){
 	// Don't use async operation here! Think !
-	FSPathMoveObjectToTrashSync([backupPath fileSystemRepresentation], NULL,kFSFileOperationDefaultOptions);
+        NSURL*origin=[NSURL fileURLWithPath:backupPath];
+        NSURL*destination;
+        [[NSFileManager defaultManager] trashItemAtURL:origin resultingItemURL:&destination error:NULL];
     }
     if (![fileManager moveItemAtPath:[sourceStoreURL path]
 			      toPath:backupPath

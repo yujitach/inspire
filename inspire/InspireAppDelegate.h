@@ -15,6 +15,7 @@
 
 +(id<AppDelegate>)appDelegate;
 
+@property (strong,nonatomic) UISplitViewController*splitViewController;
 @property (strong,nonatomic) UINavigationController*masterNavigationController;
 @property (strong,nonatomic) UINavigationController*detailNavigationController;
 

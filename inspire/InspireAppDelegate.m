@@ -13,7 +13,9 @@
 #import "MOC.h"
 #import "DumbOperation.h"
 #import "SpiresQueryOperation.h"
+#import "SpiresHelper.h"
 #import "ArticleList.h"
+#import "AllArticleList.h"
 
 @interface InspireAppDelegate () <UISplitViewControllerDelegate>
 
@@ -38,6 +40,9 @@ static InspireAppDelegate*globalAppDelegate=nil;
 }
 -(void)querySPIRES:(NSString*)search
 {
+    if(!search)return;
+    NSPredicate*pred=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:search];
+    if(!pred)return;
     [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 -(void)postMessage:(NSString*)message
@@ -48,7 +53,77 @@ static InspireAppDelegate*globalAppDelegate=nil;
 {
     
 }
-
+#pragma clang diagnostic ignored "-Wdeprecated"
+-(NSString*)extractArXivID:(NSString*)x
+{
+    NSString*s=[x stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if(s==nil)return @"";
+    if([s isEqualToString:@""])return @"";
+    //    NSLog(@"%@",s);
+    NSRange r=[s rangeOfString:@"/" options:NSBackwardsSearch];
+    if(r.location!=NSNotFound){
+        s=[s substringFromIndex:r.location+1];
+    }
+    if(s==nil)return @"";
+    if([s isEqualToString:@""])return @"";
+    
+    NSScanner*scanner=[NSScanner scannerWithString:s];
+    NSCharacterSet*set=[NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+    [scanner scanUpToCharactersFromSet:set intoString:NULL];
+    NSString* d=nil;
+    [scanner scanCharactersFromSet:set intoString:&d];
+    if(d){
+        if([d hasSuffix:@"."]){
+            d=[d substringToIndex:[d length]-1];
+        }
+        for(NSString*cat in @[@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math"]){
+            if([x rangeOfString:cat].location!=NSNotFound){
+                d=[NSString stringWithFormat:@"%@/%@",cat,d];
+                break;
+            }
+        }
+        return d;
+    }
+    else return nil;
+}
+-(void)handleURL:(NSURL*) url
+{
+    //    NSLog(@"handles %@",url);
+    if([[url scheme] isEqualToString:@"spires-search"]){
+        NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        AllArticleList*allArticleList=[AllArticleList allArticleList];
+        [self selectAllArticleList];
+//        if(![allArticleList.searchString isEqualToString:searchString]){
+//            [historyController mark:self];
+//        }
+        allArticleList.searchString=searchString;
+//        [historyController mark:self];
+        [self querySPIRES:searchString];
+    }else if([[url scheme] isEqualToString:@"spires-open-pdf-internal"]){
+        NSString*x=[url absoluteString];
+        NSString*y=[x substringFromIndex:[@"spires-open-pdf-internal://" length]];
+        y=[y stringByReplacingOccurrencesOfString:@"x-coredata//" withString:@"x-coredata://"];
+        NSURL*z=[NSURL URLWithString:y];
+        Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
+        [self openPDFofArticle:a];
+    }else if([[url scheme] isEqualToString:@"spires-lookup-eprint"]){
+        NSString*eprint=[self extractArXivID:[url absoluteString]];
+        if(eprint){
+            NSString*searchString=[@"spires-search://eprint%20" stringByAppendingString:eprint];
+            [self performSelector:@selector(handleURL:)
+                       withObject:[NSURL URLWithString:searchString]
+                       afterDelay:.5];
+        }
+    }else if([[url scheme] isEqualToString:@"spires-open-journal"]){
+//        [self openJournal:self];
+    }else if([[url scheme] isEqualToString:@"http"]){
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
+-(void)openPDFofArticle:(Article*)article
+{
+    // to be implemented
+}
 #pragma mark Other pieces
 
 +(void)initialize
@@ -56,19 +131,32 @@ static InspireAppDelegate*globalAppDelegate=nil;
     [NSUserDefaults loadInitialDefaults];
 }
 
+-(void)selectAllArticleList
+{
+    ArticleTableViewController*vc=(ArticleTableViewController*)self.detailNavigationController.topViewController;
+    vc.articleList=[AllArticleList allArticleList];
+    vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    vc.navigationItem.leftItemsSupplementBackButton = YES;
+
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
     globalAppDelegate=self;
-    
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    self.masterNavigationController=splitViewController.viewControllers[0];
-    self.detailNavigationController=splitViewController.viewControllers[1];
-    self.detailNavigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
 
-    
     [ArticleList createStandardArticleLists];
+
+    self.splitViewController = (UISplitViewController *)self.window.rootViewController;
+    self.splitViewController.delegate = self;
+
+    self.masterNavigationController=self.splitViewController.viewControllers[0];
+    ArticleListTableViewController*vc=(ArticleListTableViewController*)self.masterNavigationController.topViewController;
+    vc.parent=nil;
+    
+    self.detailNavigationController=self.splitViewController.viewControllers[1];
+    
+    [self selectAllArticleList];
+    
     
     return YES;
 }
@@ -109,6 +197,10 @@ static InspireAppDelegate*globalAppDelegate=nil;
     return YES;
 }
 - (UIViewController *)splitViewController:(UISplitViewController *)splitViewController separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController {
+    ArticleTableViewController*vc=(ArticleTableViewController*)self.detailNavigationController.topViewController;
+    vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    vc.navigationItem.leftItemsSupplementBackButton = YES;
+
     return self.detailNavigationController;
 }
 @end
