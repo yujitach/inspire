@@ -24,7 +24,7 @@
 #if TARGET_OS_IPHONE
 -(UIImage*)icon
 {
-    return nil;
+    return [UIImage imageNamed:@"unread"];
 }
 #else
 -(NSImage*)icon

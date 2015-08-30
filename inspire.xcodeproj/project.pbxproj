@@ -13,6 +13,8 @@
 		3304B8630F92C7B1002156A9 /* canned-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3304B8620F92C7B1002156A9 /* canned-search.png */; };
 		3305A35B10D44907001142FC /* arxiv.png in Resources */ = {isa = PBXBuildFile; fileRef = 3305A35A10D44907001142FC /* arxiv.png */; };
 		330AF0EA0EA5428E0009B674 /* HidableNSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 330AF0E90EA5428E0009B674 /* HidableNSTableView.m */; };
+		3310D8E71B92F42D00CA22C8 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; settings = {ASSET_TAGS = (); }; };
+		3310D8E81B92F42D00CA22C8 /* unread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82720180F117600D6C713 /* unread@2x.png */; settings = {ASSET_TAGS = (); }; };
 		331299110EA6AA4500A7F496 /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
 		331299120EA6AA4500A7F496 /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
 		331299130EA6AA4500A7F496 /* ArxivNewArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990E0EA6AA4500A7F496 /* ArxivNewArticleList.m */; };
@@ -57,6 +59,8 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
+		335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E51B929F8800998E48 /* AddFolderViewController.m */; settings = {ASSET_TAGS = (); }; };
+		335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */; settings = {ASSET_TAGS = (); }; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
 		3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B1F20EA8037C00A847CE /* SpiresPredicateTransformer.m */; };
 		3365B30D0EA810CF00A847CE /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3365B30C0EA810CF00A847CE /* defaults.plist */; };
@@ -142,6 +146,9 @@
 		33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C8271E180F116C00D6C713 /* unread-hasPDF@2x.png */; };
 		33C82721180F117600D6C713 /* unread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82720180F117600D6C713 /* unread@2x.png */; };
 		33C85E0117CF99CD0087956A /* spires_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33C85DFE17CF99CD0087956A /* spires_DataModel.xcdatamodeld */; };
+		33C9E43C1B92CBB70059F0F8 /* AddCannedSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9E43B1B92CBB70059F0F8 /* AddCannedSearchViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33C9E43F1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9E43E1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33C9E4411B92CBE00059F0F8 /* AddArticleFolderViewController.m */; settings = {ASSET_TAGS = (); }; };
 		33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC06E70F3E48B8005B25F8 /* DumbOperation.m */; };
 		33CC07050F3E4E73005B25F8 /* JournalPDFDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07040F3E4E73005B25F8 /* JournalPDFDownloadOperation.m */; };
 		33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC07D70F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m */; };
@@ -302,6 +309,10 @@
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
 		335818F010D613A700E7CA0E /* DummyBWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyBWSplitView.h; sourceTree = "<group>"; };
 		335818F110D613A700E7CA0E /* DummyBWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyBWSplitView.m; sourceTree = "<group>"; };
+		335EB4E41B929F8800998E48 /* AddFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFolderViewController.h; sourceTree = "<group>"; };
+		335EB4E51B929F8800998E48 /* AddFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFolderViewController.m; sourceTree = "<group>"; };
+		335EB4E71B92A0C900998E48 /* AddArxivNewContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddArxivNewContoller.h; sourceTree = "<group>"; };
+		335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddArxivNewContoller.m; sourceTree = "<group>"; };
 		335F467C17DEDE750078E2B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3365B17E0EA7FF2F00A847CE /* SpiresHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpiresHelper.h; sourceTree = "<group>"; };
 		3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpiresHelper.m; sourceTree = "<group>"; };
@@ -383,6 +394,12 @@
 		33C85DFF17CF99CD0087956A /* spires_DataModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		33C85E0017CF99CD0087956A /* spires_DataModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		33C9CF5B1A5A585900CE82A7 /* spires_DataModel 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "spires_DataModel 7.xcdatamodel"; sourceTree = "<group>"; };
+		33C9E43A1B92CBB70059F0F8 /* AddCannedSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCannedSearchViewController.h; sourceTree = "<group>"; };
+		33C9E43B1B92CBB70059F0F8 /* AddCannedSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCannedSearchViewController.m; sourceTree = "<group>"; };
+		33C9E43D1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSimpleArticleListViewController.h; sourceTree = "<group>"; };
+		33C9E43E1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSimpleArticleListViewController.m; sourceTree = "<group>"; };
+		33C9E4401B92CBE00059F0F8 /* AddArticleFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddArticleFolderViewController.h; sourceTree = "<group>"; };
+		33C9E4411B92CBE00059F0F8 /* AddArticleFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddArticleFolderViewController.m; sourceTree = "<group>"; };
 		33CC06E60F3E48B8005B25F8 /* DumbOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumbOperation.h; sourceTree = "<group>"; };
 		33CC06E70F3E48B8005B25F8 /* DumbOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumbOperation.m; sourceTree = "<group>"; };
 		33CC07030F3E4E73005B25F8 /* JournalPDFDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JournalPDFDownloadOperation.h; sourceTree = "<group>"; };
@@ -685,6 +702,23 @@
 			name = BWToolKitFramework;
 			sourceTree = "<group>";
 		};
+		335EB4E31B929F5400998E48 /* Folder Management */ = {
+			isa = PBXGroup;
+			children = (
+				335EB4E41B929F8800998E48 /* AddFolderViewController.h */,
+				335EB4E51B929F8800998E48 /* AddFolderViewController.m */,
+				335EB4E71B92A0C900998E48 /* AddArxivNewContoller.h */,
+				335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */,
+				33C9E43A1B92CBB70059F0F8 /* AddCannedSearchViewController.h */,
+				33C9E43B1B92CBB70059F0F8 /* AddCannedSearchViewController.m */,
+				33C9E43D1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.h */,
+				33C9E43E1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.m */,
+				33C9E4401B92CBE00059F0F8 /* AddArticleFolderViewController.h */,
+				33C9E4411B92CBE00059F0F8 /* AddArticleFolderViewController.m */,
+			);
+			name = "Folder Management";
+			sourceTree = "<group>";
+		};
 		338E9EB81037C5200059AE43 /* MessageViewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -849,6 +883,7 @@
 		33CDDBD31B8F137B003D993D /* iOS UI */ = {
 			isa = PBXGroup;
 			children = (
+				335EB4E31B929F5400998E48 /* Folder Management */,
 				33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */,
 				33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */,
 				33CDDBDD1B8F137B003D993D /* ArticleListTableViewController.h */,
@@ -1069,7 +1104,9 @@
 				33D02B101B908D1500C6648C /* spires-blue.png in Resources */,
 				33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */,
 				33D02B0C1B908D1500C6648C /* canned-search.png in Resources */,
+				3310D8E81B92F42D00CA22C8 /* unread@2x.png in Resources */,
 				33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */,
+				3310D8E71B92F42D00CA22C8 /* unread.png in Resources */,
 				33D02B0D1B908D1500C6648C /* canned-search@2x.png in Resources */,
 				33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */,
 				33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */,
@@ -1152,6 +1189,7 @@
 				33BBA3A41B8F3A910001366C /* AllArticleList.m in Sources */,
 				33BBA3C51B8F3B150001366C /* SpiresQueryDownloader.m in Sources */,
 				33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */,
+				33C9E43C1B92CBB70059F0F8 /* AddCannedSearchViewController.m in Sources */,
 				33BBA3C61B8F3B150001366C /* ArxivHelper.m in Sources */,
 				33BBA3AC1B8F3A910001366C /* Article.m in Sources */,
 				33BBA3B31B8F3AE20001366C /* ArxivPDFDownloadOperation.m in Sources */,
@@ -1160,6 +1198,7 @@
 				33BBA3A21B8F3A910001366C /* ArticleListArchiveAdditions.m in Sources */,
 				33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */,
 				33BBA3AB1B8F3A910001366C /* ArticleData.m in Sources */,
+				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
 				33BBA3A61B8F3A910001366C /* CannedSearch.m in Sources */,
 				33BBA3BB1B8F3AE20001366C /* ArxivNewArticleListReloadOperation.m in Sources */,
 				33BBA3AD1B8F3A970001366C /* spires_DataModel.xcdatamodeld in Sources */,
@@ -1169,8 +1208,10 @@
 				33BBA3AA1B8F3A910001366C /* JournalEntry.m in Sources */,
 				33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */,
 				33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */,
+				33C9E43F1B92CBCF0059F0F8 /* AddSimpleArticleListViewController.m in Sources */,
 				33BBA3C01B8F3B150001366C /* NSString+magic.m in Sources */,
 				33BBA3AF1B8F3AE20001366C /* DumbOperation.m in Sources */,
+				335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */,
 				331A80531B91E80E004F9200 /* PDFHelper.m in Sources */,
 				33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */,
 				331A80541B91EA4B004F9200 /* DeferredPDFOpenOperation.m in Sources */,
@@ -1184,6 +1225,7 @@
 				33BBA39F1B8F3A5B0001366C /* RegexKitLite.m in Sources */,
 				33CDDBD61B8F137B003D993D /* main.m in Sources */,
 				33BBA3A71B8F3A910001366C /* SimpleArticleList.m in Sources */,
+				335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */,
 				33BBA3C21B8F3B150001366C /* NSURL+libraryProxy.m in Sources */,
 				33BBA3A81B8F3A910001366C /* ArticleFolder.m in Sources */,
 				33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */,

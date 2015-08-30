@@ -14,6 +14,7 @@
 #import "SpiresHelper.h"
 #import "AppDelegate.h"
 #import "MOC.h"
+#import "CannedSearch.h"
 
 @interface ArticleTableViewController ()
 
@@ -30,6 +31,9 @@
     _articleList=articleList;
     self.navigationItem.rightBarButtonItem=articleList.barButtonItem;
     self.navigationItem.title=self.articleList.name;
+    if([self.articleList isKindOfClass:[CannedSearch class]]){
+        self.navigationItem.title=[NSString stringWithFormat:@"%@ (%@)",self.articleList.name,self.articleList.searchString];
+    }
     if(self.articleList.searchStringEnabled){
         self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
         self.searchBar.placeholder=self.articleList.placeholderForSearchField;

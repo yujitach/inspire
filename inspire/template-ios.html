@@ -8,7 +8,7 @@
     }
     a:link{
 	text-decoration:none;
-	color:rgb(59, 53, 244);
+	color:rgb(0, 122, 255);
     }
     a:hover{
 	text-decoration:underline;
@@ -33,8 +33,10 @@
 	margin-bottom:.4em;
     }
     #rightBox{
-	float:right;
-	text-align:right;
+        display:flex;
+        justify-content:space-between;
+        
+
 	-webkit-border-radius:8pt;
 	padding-left:.7em;
 	padding-right:.7em;
@@ -94,7 +96,8 @@
 	text-decoration:overline;
     }
     #mainbox{
-        font-family: -apple-system;
+        font: -apple-system-body;
+        font-size:150%;
     }
 </style>
 </head>
@@ -102,10 +105,10 @@
 <body>
     <div id="mainBox">
 	<div id="rightBox">
-	    <span id="pdfPath"></span><br>
-	    <span id="spires"></span><br>
-	    <span id="citedBy"></span><br>
-	    <span id="refersTo"></span><br> 
+	    <span id="pdfPath"></span>
+	    <span id="citedBy"></span>
+	    <span id="refersTo"></span>
+            <span id="spires"></span>
    	</div>
 	<div id="eprintBox">
 	    <span id="eprint"></span>

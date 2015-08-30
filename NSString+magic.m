@@ -110,8 +110,6 @@ static void loadMagic(){
     }
     return [b componentsJoinedByString:@" "];
 }
-#define UP (0.25)
-#define DOWN (0.2)
 
 -(NSAttributedString*)mockTeXed
 {
@@ -223,8 +221,17 @@ static void loadMagic(){
     [x replaceOccurrencesOfRegex:@"$" withString:@""];
     
     NSMutableAttributedString*s=[[NSMutableAttributedString alloc]initWithString:x];
+#if TARGET_OS_IPHONE
+#define UP (0.3)
+#define DOWN (0.2)
+    NSFont* regular=[NSFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    NSFont* small=[NSFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+#else
+#define UP (0.25)
+#define DOWN (0.2)
     NSFont* regular=[NSFont systemFontOfSize:[NSFont systemFontSize]];
     NSFont* small=[NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
+#endif
     while(1){
         NSRange r=[[s string] rangeOfString:@"^{"];
         if(r.location==NSNotFound)
