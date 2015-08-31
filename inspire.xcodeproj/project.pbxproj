@@ -37,6 +37,8 @@
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
 		3331BD3311D42402001F9B4B /* tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; };
+		333508BF1B93E83100BEF150 /* AbstractRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */; settings = {ASSET_TAGS = (); }; };
+		333508C01B93E83100BEF150 /* AbstractRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */; settings = {ASSET_TAGS = (); }; };
 		333A507110392BDF00F2B780 /* ArxivNewCreateSheetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */; };
 		333A507510392EAD00F2B780 /* ArxivNewCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */; };
 		333C79070F5230780075267A /* NSURL+libraryProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 333C79060F5230780075267A /* NSURL+libraryProxy.m */; };
@@ -268,6 +270,8 @@
 		332F1B0D0EA597D300758683 /* spires.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = spires.icns; sourceTree = "<group>"; };
 		332F485C0FF8748700B9363E /* hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hasPDF.png; sourceTree = "<group>"; };
 		3331BD3111D423F0001F9B4B /* tex.js */ = {isa = PBXFileReference; explicitFileType = sourcecode.javascript; fileEncoding = 4; path = tex.js; sourceTree = "<group>"; };
+		333508BD1B93E83100BEF150 /* AbstractRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractRefreshManager.h; sourceTree = "<group>"; };
+		333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractRefreshManager.m; sourceTree = "<group>"; };
 		333A506F10392BDF00F2B780 /* ArxivNewCreateSheetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArxivNewCreateSheetHelper.h; sourceTree = "<group>"; };
 		333A507010392BDF00F2B780 /* ArxivNewCreateSheetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArxivNewCreateSheetHelper.m; sourceTree = "<group>"; };
 		333A507410392EAD00F2B780 /* ArxivNewCreateSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArxivNewCreateSheet.xib; sourceTree = "<group>"; };
@@ -532,6 +536,8 @@
 				33887E250EA97971003A7E83 /* URLHandlerCommand.m */,
 				3386C9F41B8ED389008F9D0F /* NSUserDefaults+defaults.h */,
 				3386C9F51B8ED389008F9D0F /* NSUserDefaults+defaults.m */,
+				333508BD1B93E83100BEF150 /* AbstractRefreshManager.h */,
+				333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1064,6 +1070,7 @@
 				TargetAttributes = {
 					33CDDBD11B8F137B003D993D = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 95AQ7YKR5A;
 					};
 				};
 			};
@@ -1201,6 +1208,7 @@
 				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
 				33BBA3A61B8F3A910001366C /* CannedSearch.m in Sources */,
 				33BBA3BB1B8F3AE20001366C /* ArxivNewArticleListReloadOperation.m in Sources */,
+				333508C01B93E83100BEF150 /* AbstractRefreshManager.m in Sources */,
 				33BBA3AD1B8F3A970001366C /* spires_DataModel.xcdatamodeld in Sources */,
 				33BBA3B71B8F3AE20001366C /* BatchImportOperation.m in Sources */,
 				33BBA3A31B8F3A910001366C /* ArticleList.m in Sources */,
@@ -1255,6 +1263,7 @@
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
 				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
+				333508BF1B93E83100BEF150 /* AbstractRefreshManager.m in Sources */,
 				3315E85B0EB6DAB200E56D7E /* HistoryController.m in Sources */,
 				334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */,
 				339544DC0F35277200D01E97 /* PrefController.m in Sources */,
@@ -1528,6 +1537,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1548,6 +1558,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.inspire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1565,6 +1576,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1580,6 +1592,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.inspire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

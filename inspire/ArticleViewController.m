@@ -11,6 +11,7 @@
 #import "RegexKitLite.h"
 #import "HTMLArticleHelper.h"
 #import "AppDelegate.h"
+#import "AbstractRefreshManager.h"
 @interface ArticleViewController ()
 
 @end
@@ -34,6 +35,10 @@
 {
     return _indexPath;
 }
+-(NSIndexPath*)indexPathWithDelta:(NSInteger)x
+{
+    return [self.indexPath.indexPathByRemovingLastIndex indexPathByAddingIndex:[self.indexPath indexAtPosition:1]+x];
+}
 -(void)refresh
 {
     NSUInteger i=[self.indexPath indexAtPosition:1];
@@ -51,6 +56,9 @@
     self.navigationItem.title=[NSString stringWithFormat:@"%@ of %@",@(i+1),@(total)];
     Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
     if(a){
+        [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:a whenRefreshed:^(Article *refreshedArticle) {
+            [self refresh];
+        }];
         NSString*template=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template-ios"
                                                                                                        ofType:@"html"]
                                                               encoding:NSUTF8StringEncoding
@@ -65,6 +73,34 @@
             }
             [html replaceOccurrencesOfRegex:[NSString stringWithFormat:@"id=\"%@\">",key] withString:[NSString stringWithFormat:@"id=\"%@\">%@",key,value]];
             [self.webView loadHTMLString:html baseURL:nil];
+        }
+    }
+    if(i<total-1){
+        Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:+1]];
+        if(b){
+            [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
+                                                                              whenRefreshed:nil];
+        }
+    }
+    if(i<total-2){
+        Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:+2]];
+        if(b){
+            [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
+                                                                              whenRefreshed:nil];
+        }
+    }
+    if(i>0){
+        Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:-1]];
+        if(b){
+            [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
+                                                                              whenRefreshed:nil];
+        }
+    }
+    if(i>1){
+        Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:-2]];
+        if(b){
+            [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
+                                                                              whenRefreshed:nil];
         }
     }
 }
@@ -86,8 +122,7 @@
 {
     NSUInteger i=[self.indexPath indexAtPosition:1];
     if(i<self.fetchedResultsController.fetchedObjects.count-1){
-        i++;
-        self.indexPath=[self.indexPath.indexPathByRemovingLastIndex indexPathByAddingIndex:i];
+        self.indexPath=[self indexPathWithDelta:+1];
         [self refresh];
     }
 }
@@ -95,8 +130,7 @@
 {
     NSUInteger i=[self.indexPath indexAtPosition:1];
     if(i>0){
-        i--;
-        self.indexPath=[self.indexPath.indexPathByRemovingLastIndex indexPathByAddingIndex:i];
+        self.indexPath=[self indexPathWithDelta:-1];
         [self refresh];
     }
 }

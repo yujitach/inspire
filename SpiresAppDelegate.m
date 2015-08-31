@@ -50,6 +50,7 @@
 #import <Quartz/Quartz.h>
 #import "SyncManager.h"
 #import "NSUserDefaults+defaults.h"
+#import "AbstractRefreshManager.h"
 
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
@@ -62,7 +63,6 @@
     
     NSTimer*unreadTimer;
     NSTimer*abstractTimer;
-    NSMutableArray*articlesAlreadyAccessedViaDOI;
 }
 +(void)initialize
 {
@@ -476,41 +476,7 @@
 	if(!a)
 	    return;
     }
-   
-        if(a.abstract && ![a.abstract isEqualToString:@""]){
-            return;
-        }
-
-    // prevent lots of access to the same article when the abstract loading fails
-    {
-	if(!articlesAlreadyAccessedViaDOI){
-	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
-	}
-	if([articlesAlreadyAccessedViaDOI count]>1000){
-	    articlesAlreadyAccessedViaDOI=[NSMutableArray array];
-	}
-	if([articlesAlreadyAccessedViaDOI containsObject:a]){
-	    return;
-	}
-	[articlesAlreadyAccessedViaDOI addObject:a];
-    }
-
-    
-	if(a.eprint && ![a.eprint isEqualToString:@""]){
-	    [[OperationQueues arxivQueue] addOperation:[[ArxivMetadataFetchOperation alloc] initWithArticle:a]];
-	}else if(a.doi && ![a.doi isEqualToString:@""]){
-            if(!a.doi || [a.doi isEqualToString:@""]) return;
-            NSArray* knownJournals=[[NSUserDefaults standardUserDefaults] arrayForKey:@"KnownJournals"];
-            if(![knownJournals containsObject:a.journal.name]){
-                return;
-            }
-            [[OperationQueues spiresQueue] addOperation:[[LoadAbstractDOIOperation alloc] initWithArticle:a]];
-	}
-	
-	if(!a.texKey || [a.texKey isEqualToString:@""]){
-	    //	[[DumbOperationQueue spiresQueue] addOperation:[[BatchBibQueryOperation alloc]initWithArray:[NSArray arrayWithObject:a]]];
-	    //	[self getBibEntriesWithoutDisplay:self];
-	}
+    [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:a whenRefreshed:nil];
 }
 
 
