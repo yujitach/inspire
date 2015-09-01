@@ -146,9 +146,11 @@ static InspireAppDelegate*globalAppDelegate=nil;
 
 -(void)selectAllArticleList
 {
-    ArticleListTableViewController*vc=(ArticleListTableViewController*)self.masterNavigationController.topViewController;
-    [vc.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-    [vc performSegueWithIdentifier:@"ShowDetail" sender:self];
+//    [self.articleListTableViewController.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    self.articleTableViewController.articleList=[AllArticleList allArticleList];
+    if(self.articleTableViewController != self.articleTableViewController.navigationController.visibleViewController){
+        [self.articleListTableViewController performSegueWithIdentifier:@"ShowDetail" sender:self];
+    }
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -162,10 +164,12 @@ static InspireAppDelegate*globalAppDelegate=nil;
     self.splitViewController.delegate = self;
 
     self.masterNavigationController=self.splitViewController.viewControllers[0];
-    ArticleListTableViewController*vc=(ArticleListTableViewController*)self.masterNavigationController.topViewController;
-    vc.parent=nil;
+    self.articleListTableViewController=(ArticleListTableViewController*)self.masterNavigationController.topViewController;
+    self.articleListTableViewController.parent=nil;
     
     self.detailNavigationController=self.splitViewController.viewControllers[1];
+    self.articleTableViewController=(ArticleTableViewController*)self.detailNavigationController.topViewController;
+    
     
     [self selectAllArticleList];
     
@@ -209,9 +213,8 @@ static InspireAppDelegate*globalAppDelegate=nil;
     return YES;
 }
 - (UIViewController *)splitViewController:(UISplitViewController *)splitViewController separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController {
-    ArticleTableViewController*vc=(ArticleTableViewController*)self.detailNavigationController.topViewController;
-    vc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    vc.navigationItem.leftItemsSupplementBackButton = YES;
+    self.articleTableViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.articleTableViewController.navigationItem.leftItemsSupplementBackButton = YES;
 
     return self.detailNavigationController;
 }
