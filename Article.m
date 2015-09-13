@@ -286,10 +286,14 @@
 #pragma mark Extras Management
 -(void)setExtra:(id)content forKey:(NSString*)key
 {
-    NSMutableDictionary* dict=[NSPropertyListSerialization propertyListWithData:self.data.extraURLs
-							options:NSPropertyListMutableContainers
-								  format: NULL
-							       error:NULL];
+    NSData*base=self.data.extraURLs;
+    NSMutableDictionary* dict=nil;
+    if(base){
+        dict=[NSPropertyListSerialization propertyListWithData:self.data.extraURLs
+                                                       options:NSPropertyListMutableContainers
+                                                        format: NULL
+                                                         error:NULL];
+    }
     if(!dict){
 	dict=[NSMutableDictionary dictionary];
     }
