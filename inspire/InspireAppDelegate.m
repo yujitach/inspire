@@ -170,6 +170,9 @@ static InspireAppDelegate*globalAppDelegate=nil;
     self.detailNavigationController=self.splitViewController.viewControllers[1];
     self.articleTableViewController=(ArticleTableViewController*)self.detailNavigationController.topViewController;
     
+    self.articleTableViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.articleTableViewController.navigationItem.leftItemsSupplementBackButton = YES;
+
     
     [self selectAllArticleList];
     

@@ -23,8 +23,31 @@
     self.webView=[[WKWebView alloc] init];
     self.webView.navigationDelegate=self;
     self.view=self.webView;
-    [self refresh];
+    // [self refresh];
     // Do any additional setup after loading the view.
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refresh];
+}
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    // Code here will execute before the rotation begins.
+    // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+        // Place code here to perform animations during the rotation.
+        // You can pass nil or leave this block empty if not necessary.
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+ 
+        [self refresh];
+        
+    }];
 }
 -(void)setIndexPath:(NSIndexPath *)indexPath
 {
@@ -64,6 +87,15 @@
                                                               encoding:NSUTF8StringEncoding
                                                                  error:NULL];
         NSMutableString*html=[template mutableCopy];
+        
+        UIFontDescriptor* fontDesc = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+        NSString* fontSize=[@(fontDesc.pointSize) stringValue];
+        [html replaceOccurrencesOfRegex:@"#fontSize#" withString:fontSize];
+        
+        NSString* width=[@(self.webView.bounds.size.width) stringValue];
+        [html replaceOccurrencesOfRegex:@"#width#" withString:width];
+        
+        
         HTMLArticleHelper* helper=[[HTMLArticleHelper alloc] initWithArticle:a];
         for(NSString*key in @[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
                               @"journal",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
