@@ -60,7 +60,10 @@ static InspireAppDelegate*globalAppDelegate=nil;
 {
     return NO;
 }
-
+-(UIViewController*)presentingViewController
+{
+    return self.detailNavigationController;
+}
 #pragma mark PDF
 -(void)setupPDFdir
 {

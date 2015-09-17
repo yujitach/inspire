@@ -26,7 +26,7 @@
     if(!self.parent){
         return self.name;
     }else{
-        return [NSString stringWithFormat:@"%@:%@",self.parent.combinedName,self.name];
+        return [NSString stringWithFormat:@"%@ → %@",self.parent.combinedName,self.name];
     }
 }
 @end

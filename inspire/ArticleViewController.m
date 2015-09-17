@@ -18,11 +18,50 @@
 
 @implementation ArticleViewController
 @synthesize indexPath=_indexPath;
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"fractionCompleted"]){
+        NSNumber*n=change[NSKeyValueChangeNewKey];
+        [self.progressView setProgress:[n floatValue] animated:YES];
+    }
+}
+-(void)pdfDownloadStarted:(NSNotification*)n
+{
+    NSProgress*progress=(NSProgress*)n.object;
+    self.progressView.hidden=NO;
+    [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+}
+-(void)pdfDownloadFinished:(NSNotification*)n
+{
+    NSProgress*progress=(NSProgress*)n.object;
+    self.progressView.hidden=YES;
+    [progress removeObserver:self forKeyPath:@"fractionCompleted"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.webView=[[WKWebView alloc] init];
     self.webView.navigationDelegate=self;
     self.view=self.webView;
+    
+    self.progressView=[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    self.progressView.translatesAutoresizingMaskIntoConstraints=NO;
+    [self.navigationController.view addSubview:self.progressView];
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    
+    NSLayoutConstraint *constraint;
+    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeBottom multiplier:1 constant:-0.5];
+    [self.navigationController.view addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
+    [self.navigationController.view addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeRight multiplier:1 constant:0];
+    [self.navigationController.view addConstraint:constraint];
+    self.progressView.hidden=YES;
+//    [self.webView addSubview:self.progressView];
+//    [self.progressView sizeToFit];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadStarted:) name:@"pdfDownloadStarted" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
     // [self refresh];
     // Do any additional setup after loading the view.
 }

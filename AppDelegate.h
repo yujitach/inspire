@@ -21,6 +21,7 @@
 -(void)postMessage:(NSString*)message;
 -(void)clearingUpAfterRegistration:(id)sender;
 -(BOOL)currentListIsArxivReplaced;
+-(UIViewController*)presentingViewController;
 @end
 #import "InspireAppDelegate.h"
 #else

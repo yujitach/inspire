@@ -11,6 +11,18 @@
 
 ArxivHelper* _sharedHelper=nil;
 @implementation ArxivHelper
+{
+    NSMutableArray*connections;
+    NSURLConnection*connection;
+    NSURLResponse*response;
+    NSMutableData*temporaryData;
+    NSMutableDictionary*returnDict;
+    id delegate;
+    SEL sel;
+    NSProgress*progress;
+    
+}
+
 +(ArxivHelper*)sharedHelper
 {
     if(!_sharedHelper){
@@ -149,10 +161,13 @@ ArxivHelper* _sharedHelper=nil;
 - (void)connection:(NSURLConnection *)c didReceiveData:(NSData *)data
 {
     [temporaryData appendData:data];
+    progress.completedUnitCount=temporaryData.length;
 }
 -(void)connection:(NSURLConnection*)c didReceiveResponse:(NSURLResponse*)resp
 {
     response=resp;
+    progress=[NSProgress progressWithTotalUnitCount:response.expectedContentLength];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadStarted" object:progress];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
 {
@@ -176,6 +191,7 @@ ArxivHelper* _sharedHelper=nil;
 	}
     }
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadFinished" object:progress];
     [delegate performSelector:sel withObject:returnDict];
     connection=nil;
 }

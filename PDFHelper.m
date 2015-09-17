@@ -50,7 +50,7 @@ NSString* pathShownWithQuickLook=nil;
 @implementation PDFHelper
 #if TARGET_OS_IPHONE
 {
-    UIDocumentInteractionController*documentINteractionContoller;
+    UIDocumentInteractionController*documentInteractionContoller;
 }
 #endif
 +(PDFHelper*)sharedHelper
@@ -70,7 +70,7 @@ NSString* pathShownWithQuickLook=nil;
 #pragma mark interaction with PDF viewer
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
 {
-    return [UIApplication sharedApplication].keyWindow.rootViewController;
+    return [NSApp appDelegate].presentingViewController;
 }
 - (UIView *) documentInteractionControllerViewForPreview: (UIDocumentInteractionController *) controller
 {
@@ -80,11 +80,11 @@ NSString* pathShownWithQuickLook=nil;
 
 -(void)openPDFFile:(NSString*)path usingViewer:(PDFViewerType)type
 {
-    documentINteractionContoller=nil;
-    documentINteractionContoller=[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-    documentINteractionContoller.delegate=self;
-    documentINteractionContoller.UTI=@"com.adobe.pdf";
-    [documentINteractionContoller presentPreviewAnimated:YES];
+    documentInteractionContoller=nil;
+    documentInteractionContoller=[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+    documentInteractionContoller.delegate=self;
+    documentInteractionContoller.UTI=@"com.adobe.pdf";
+    [documentInteractionContoller presentPreviewAnimated:YES];
 }
 -(NSString*)displayNameForViewer:(PDFViewerType)type;
 {

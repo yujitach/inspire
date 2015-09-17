@@ -8,17 +8,7 @@
 
 @import Foundation;
 
-@interface ArxivHelper : NSObject {
-    NSMutableArray*connections;
-    NSURLConnection*connection;
-    NSURLResponse*response;
-    NSMutableData*temporaryData;
-    NSMutableDictionary*returnDict;
-    id delegate;
-    SEL sel;
-    
-  
-}
+@interface ArxivHelper : NSObject
 +(ArxivHelper*)sharedHelper;
 -(NSString*)arXivAbstractPathForID:(NSString*)arXivID;
 -(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)delegate didEndSelector:(SEL)sel;
