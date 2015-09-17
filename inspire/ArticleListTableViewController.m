@@ -12,6 +12,7 @@
 #import "ArticleList.h"
 #import "ArticleFolder.h"
 #import "MOC.h"
+#import "SpecificArticleListTableViewController.h"
 
 @interface ArticleListTableViewController ()
 
@@ -44,6 +45,11 @@
 {
     [[MOC moc] save:NULL];
 }
+-(IBAction)unwindFromChoosingSimpleArticleList:(UIStoryboardSegue*)segue
+{
+    [[MOC moc] save:NULL];
+    [self.tableView reloadData];
+}
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if ([identifier isEqualToString:@"ShowDetail"]) {
@@ -51,8 +57,8 @@
         ArticleList *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         if([object isKindOfClass:[ArticleFolder class]]){
             ArticleListTableViewController*vc=(ArticleListTableViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"ArticleListTableView"];
-            NSLog(@"self:%@",self);
-            NSLog(@"new:%@",vc);
+//            NSLog(@"self:%@",self);
+//            NSLog(@"new:%@",vc);
             vc.parent=object;
             [self.navigationController pushViewController:vc animated:YES];
             return NO;
@@ -74,10 +80,37 @@
     }else if([[segue identifier] isEqualToString:@"AddFolder"]){
         AddFolderViewController *controller = (AddFolderViewController *)[[segue destinationViewController] topViewController];
         controller.parent=self.parent;
+    }else if([[segue identifier] isEqualToString:@"ChooseArticleFolder"]){
+        ArticleList*a=(ArticleList*)sender;
+        UINavigationController*nc=(UINavigationController*)[segue destinationViewController];
+        SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
+        vc.entityName=@"ArticleFolder";
+        vc.actionBlock=^(ArticleList*al){
+            a.parent=al;
+        };
     }
 }
 
 #pragma mark - Table View
+
+-(void)moveToArticleFolderArticleListAtIndexPath:(NSIndexPath*)indexPath
+{
+    // to be implemented
+    ArticleList*articleList=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"ChooseArticleFolder" sender:articleList];
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView
+                  editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewRowAction*deleteAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:ip];
+    }];
+    UITableViewRowAction*addToAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Move to..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self moveToArticleFolderArticleListAtIndexPath:ip];
+    }];
+    return @[addToAction,deleteAction];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];

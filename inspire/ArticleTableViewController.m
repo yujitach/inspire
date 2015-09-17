@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "MOC.h"
 #import "CannedSearch.h"
+#import "SpecificArticleListTableViewController.h"
+#import "SimpleArticleList.h"
 
 @interface ArticleTableViewController ()
 
@@ -63,6 +65,25 @@
 }
 
 #pragma mark - Table View
+
+-(void)addToSomeListArticleAtIndexPath:(NSIndexPath*)indexPath
+{
+    // to be implemented
+    Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"ChooseSimpleList" sender:article];
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView
+                  editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewRowAction*deleteAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:ip];
+    }];
+    UITableViewRowAction*addToAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Add to..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self addToSomeListArticleAtIndexPath:ip];
+    }];
+    return @[addToAction,deleteAction];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];
@@ -238,7 +259,19 @@
         ArticleViewController *controller = (ArticleViewController *)[segue destinationViewController];
         controller.fetchedResultsController=self.fetchedResultsController;
         controller.indexPath=indexPath;
+    }else if([[segue identifier] isEqualToString:@"ChooseSimpleList"]){
+        Article*a=(Article*)sender;
+        UINavigationController*nc=(UINavigationController*)[segue destinationViewController];
+        SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
+        vc.entityName=@"SimpleArticleList";
+        vc.actionBlock=^(ArticleList*al){
+            [al addArticlesObject:a];
+        };
     }
+}
+-(IBAction)unwindFromChoosingSimpleArticleList:(UIStoryboardSegue*)segue
+{
+    [[MOC moc] save:NULL];
 }
 
 
