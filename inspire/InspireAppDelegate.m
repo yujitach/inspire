@@ -17,7 +17,7 @@
 #import "ArticleList.h"
 #import "AllArticleList.h"
 #import "PDFHelper.h"
-#import "SyncManageriOS.h"
+#import "SyncManager.h"
 
 @interface InspireAppDelegate () <UISplitViewControllerDelegate>
 
@@ -28,7 +28,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
 
 @implementation InspireAppDelegate
 {
-    SyncManageriOS*syncManager;
+    SyncManager*syncManager;
 }
 #pragma mark Global AppDelegate methods
 +(id<AppDelegate>)appDelegate
@@ -183,7 +183,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     
     [self selectAllArticleList];
     
-    syncManager=[[SyncManageriOS alloc] init];
+    syncManager=[[SyncManager alloc] init];
     
     return YES;
 }

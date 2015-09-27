@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#import "iCloud.h"
+#else
 #import "DirWatcher.h"
-@interface SyncManager : NSObject<DirWatcherDelegate>
+#endif
+@interface SyncManager :NSObject<
+#if TARGET_OS_IPHONE
+iCloudDelegate
+#else
+DirWatcherDelegate
+#endif
+>
 
 @end

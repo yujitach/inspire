@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3300C2FD1BB8255D003F3A84 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FC11B79DC0F00A26198 /* SyncManager.m */; };
 		3301FC960F715B270039E0B5 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3301FC950F715B270039E0B5 /* ImageAndTextCell.m */; };
 		330207AC0F5990210067714C /* MOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 330207AB0F5990210067714C /* MOC.m */; };
 		3304B7AC0F92BA4E002156A9 /* CannedSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3304B7AB0F92BA4E002156A9 /* CannedSearch.m */; };
@@ -181,7 +182,6 @@
 		33D02B101B908D1500C6648C /* spires-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3910C8DB51000337CC /* spires-blue.png */; };
 		33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; };
 		33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D02B131B9094D700C6648C /* ArticleTableViewCell.m */; };
-		33D5CEBF1BB665A500B87F05 /* SyncManageriOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */; };
 		33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC21BB6E89400B87F05 /* iCloud.m */; };
 		33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */; };
 		33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
@@ -446,8 +446,6 @@
 		33CDDBEB1B8F137C003D993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33D02B121B9094D700C6648C /* ArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleTableViewCell.h; sourceTree = "<group>"; };
 		33D02B131B9094D700C6648C /* ArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewCell.m; sourceTree = "<group>"; };
-		33D5CEBD1BB665A500B87F05 /* SyncManageriOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncManageriOS.h; sourceTree = "<group>"; };
-		33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManageriOS.m; sourceTree = "<group>"; };
 		33D5CEC11BB6E89400B87F05 /* iCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloud.h; sourceTree = "<group>"; };
 		33D5CEC21BB6E89400B87F05 /* iCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloud.m; sourceTree = "<group>"; };
 		33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudDocument.h; sourceTree = "<group>"; };
@@ -526,8 +524,6 @@
 				332B9B280FF9E34400353564 /* DirWatcher.m */,
 				33441FC01B79DC0F00A26198 /* SyncManager.h */,
 				33441FC11B79DC0F00A26198 /* SyncManager.m */,
-				33D5CEBD1BB665A500B87F05 /* SyncManageriOS.h */,
-				33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */,
 				336F461816188841005D070F /* Reachability.h */,
 				336F461916188842005D070F /* Reachability.m */,
 				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
@@ -1235,7 +1231,6 @@
 				33BBA3C51B8F3B150001366C /* SpiresQueryDownloader.m in Sources */,
 				33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */,
 				33C9E43C1B92CBB70059F0F8 /* AddCannedSearchViewController.m in Sources */,
-				33D5CEBF1BB665A500B87F05 /* SyncManageriOS.m in Sources */,
 				33BBA3C61B8F3B150001366C /* ArxivHelper.m in Sources */,
 				33BBA3AC1B8F3A910001366C /* Article.m in Sources */,
 				33BBA3B31B8F3AE20001366C /* ArxivPDFDownloadOperation.m in Sources */,
@@ -1271,6 +1266,7 @@
 				33BBA3B11B8F3AE20001366C /* ArxivMetadataFetchOperation.m in Sources */,
 				33BBA3CA1B8F3B150001366C /* NSUserDefaults+defaults.m in Sources */,
 				33BBA39F1B8F3A5B0001366C /* RegexKitLite.m in Sources */,
+				3300C2FD1BB8255D003F3A84 /* SyncManager.m in Sources */,
 				33CDDBD61B8F137B003D993D /* main.m in Sources */,
 				33BBA3A71B8F3A910001366C /* SimpleArticleList.m in Sources */,
 				335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */,
