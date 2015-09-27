@@ -210,19 +210,19 @@
         if([al isKindOfClass:[AllArticleList class]])continue;
         NSDictionary*newDic=[self articleListForName:al.name andType:NSStringFromClass([al class]) inArray:mutableChildren];
         if(newDic){
-            NSLog(@"existing %@ found in synced content",al.name);
+//            NSLog(@"existing %@ found in synced content",al.name);
             NSArray*notFoundArray=[self dealWithSyncedAL:newDic withAL:al atFolder:af usingMOC:secondMOC];
             if(notFoundArray){
                 [notFound addObjectsFromArray:notFoundArray];
             }
             [mutableChildren removeObject:newDic];
         }else{
-            NSLog(@"existing %@ NOT found in synced content",al.name);
+//            NSLog(@"existing %@ NOT found in synced content",al.name);
             [notFound addObject:al];
         }
     }
     for(NSDictionary*dic in mutableChildren){
-        NSLog(@"new content %@ in synced content",dic[@"name"]);
+//        NSLog(@"new content %@ in synced content",dic[@"name"]);
         [self dealWithSyncedAL:dic withAL:nil atFolder:af usingMOC:secondMOC];
     }
     return notFound;

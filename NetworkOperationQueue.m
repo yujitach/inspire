@@ -20,10 +20,10 @@
     if(x!=reach)return;
     NetworkStatus status=[reach currentReachabilityStatus];
     if(status==NotReachable){
-        NSLog(@"%@ is off line",hostname);
+//        NSLog(@"%@ is off line",hostname);
         online=NO;
     }else{
-        NSLog(@"%@ is on line",hostname);
+//        NSLog(@"%@ is on line",hostname);
         online=YES;
     }
 }

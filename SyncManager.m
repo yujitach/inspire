@@ -37,8 +37,9 @@
 -(instancetype)init
 {
     self=[super init];
-    listsSyncFolder=[[NSUserDefaults standardUserDefaults] stringForKey:@"listsSyncFolder"];
-    if(listsSyncFolder){
+    listsSyncFolder=[[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath] stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
+    if([[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
+        NSLog(@"enabling iCloud sync");
         dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
         [self setupTimer];
         [self modifiedFileAtPath:[listsSyncFolder stringByAppendingPathComponent:SAVEFILENAME]];
@@ -81,9 +82,8 @@
             if([snapShotFromFile isEqual:currentSnapShot])return;
             [archiveTimer invalidate];
             [ArticleList mergeSnapShot:snapShotFromFile andDealWithArticleListsToBeRemoved:^(NSArray *articleListsToBeRemoved) {
-                [self setupTimer];
-                if(!articleListsToBeRemoved)return;
-                if(articleListsToBeRemoved.count==0)return;
+                if(!articleListsToBeRemoved){[self setupTimer];return;}
+                if(articleListsToBeRemoved.count==0){[self setupTimer];return;}
                 ArticleList*a=articleListsToBeRemoved[0];
                 NSManagedObjectContext*secondMOC=a.managedObjectContext;
                 [secondMOC performBlock:^{

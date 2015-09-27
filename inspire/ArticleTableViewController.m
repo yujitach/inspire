@@ -68,21 +68,35 @@
 
 -(void)addToSomeListArticleAtIndexPath:(NSIndexPath*)indexPath
 {
-    // to be implemented
     Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"ChooseSimpleList" sender:article];
 }
-
+-(void)toggleFlag:(NSIndexPath*)indexPath
+{
+    Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    if(article.flag & AFIsFlagged){
+        [article setFlag:article.flag&~AFIsFlagged];
+    }else{
+        [article setFlag:article.flag|AFIsFlagged];
+    }    
+}
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView
                   editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewRowAction*deleteAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
         [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:ip];
     }];
-    UITableViewRowAction*addToAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Add to..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+    UITableViewRowAction*addToAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Add..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
         [self addToSomeListArticleAtIndexPath:ip];
     }];
-    return @[addToAction,deleteAction];
+    
+    Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSString*flag=(article.flag & AFIsFlagged) ? @"Unflag": @"Flag";
+    UITableViewRowAction*flagAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:flag handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self toggleFlag:ip];
+    }];
+    flagAction.backgroundColor=[UIColor orangeColor];
+    return @[flagAction,addToAction,deleteAction];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -177,16 +177,18 @@
 }
 +(void)rearrangePositionInView
 {
-    [self rearrangePositionInViewForArticleListsInArticleList:nil];
-    NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:[MOC moc]];
-    NSFetchRequest* request=[[NSFetchRequest alloc] init];
-    [request setEntity:entity];
-    NSPredicate*pred=[NSPredicate predicateWithValue:YES];
-    [request setPredicate:pred];
-    NSError*error=nil;
-    NSArray*array=[[MOC moc] executeFetchRequest:request error:&error];
-    for(ArticleList*al in array){
-        [self rearrangePositionInViewForArticleListsInArticleList:al];
-    }
+    [[MOC moc] performBlock:^{
+        [self rearrangePositionInViewForArticleListsInArticleList:nil];
+        NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:[MOC moc]];
+        NSFetchRequest* request=[[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        NSPredicate*pred=[NSPredicate predicateWithValue:YES];
+        [request setPredicate:pred];
+        NSError*error=nil;
+        NSArray*array=[[MOC moc] executeFetchRequest:request error:&error];
+        for(ArticleList*al in array){
+            [self rearrangePositionInViewForArticleListsInArticleList:al];
+        }
+    }];
 }
 @end

@@ -59,7 +59,9 @@
             [[[NSApp appDelegate] presentingViewController] presentViewController:alert animated:YES completion:nil];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"iCloudAlertShown"];
         }
+        return self;
     }
+    [[iCloud sharedCloud] updateFiles];
     return self;
 }
 -(void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer
@@ -68,7 +70,12 @@
         if([[iCloud sharedCloud] doesFileExistInCloud:SAVEFILENAME]){
             [self stateChanged:nil];
         }
-        [[iCloud sharedCloud] monitorDocumentStateForFile:SAVEFILENAME onTarget:self withSelector:@selector(stateChanged:)];
+//        [[iCloud sharedCloud] monitorDocumentStateForFile:SAVEFILENAME onTarget:self withSelector:@selector(stateChanged:)];
+        metadataQuery=[[NSMetadataQuery alloc] init];
+        metadataQuery.predicate=[NSPredicate predicateWithFormat:@"%K LIKE %@", NSMetadataItemFSNameKey,SAVEFILENAME];
+        metadataQuery.searchScopes=@[NSMetadataQueryUbiquitousDocumentsScope];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateChanged:) name:NSMetadataQueryDidUpdateNotification object:nil];
+        [metadataQuery startQuery];
         [self setupTimer];
     });    
 }
@@ -91,8 +98,20 @@
 }
 -(void)stateChanged:(NSNotification*)n
 {
+    NSLog(@"notification:%@",n);
         [ArticleList prepareSnapShotAndPerform:^(NSDictionary *currentSnapShot) {
             [archiveTimer invalidate];
+            NSArray*versions=[[iCloud sharedCloud] findUnresolvedConflictingVersionsOfFile:SAVEFILENAME];
+            NSFileVersion*latestVersion=versions[0];
+            NSDate*latestDate=latestVersion.modificationDate;
+            for(NSFileVersion*version in versions){
+                NSLog(@"%@ versions found.",@(versions.count));
+                if([version.modificationDate laterDate:latestDate]){
+                    latestVersion=version;
+                    latestDate=latestVersion.modificationDate;
+                }
+            }
+            [[iCloud sharedCloud] resolveConflictForFile:SAVEFILENAME withSelectedFileVersion:latestVersion];
             [[iCloud sharedCloud] retrieveCloudDocumentWithName:SAVEFILENAME completion:^(UIDocument *cloudDocument, NSData *data, NSError *error) {
                 if(!data) {[self setupTimer]; return;}
                 NSMutableDictionary*snapShotFromFile=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
