@@ -181,6 +181,10 @@
 		33D02B101B908D1500C6648C /* spires-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3910C8DB51000337CC /* spires-blue.png */; };
 		33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; };
 		33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D02B131B9094D700C6648C /* ArticleTableViewCell.m */; };
+		33D5CEBF1BB665A500B87F05 /* SyncManageriOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */; };
+		33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC21BB6E89400B87F05 /* iCloud.m */; };
+		33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */; };
+		33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DE54190F71B0EE004E3A5C /* BWAnchoredPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */; };
 		33DE541A0F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */; };
@@ -383,6 +387,7 @@
 		33B39E6E0EA4325E00734A06 /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
 		33B39E6F0EA4325E00734A06 /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
 		33B485C10F5B3E2A00EBE022 /* PrefPane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefPane.xib; sourceTree = "<group>"; };
+		33B4BAFE1BB4D01B006DC9BF /* inspire.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = inspire.entitlements; path = inspire/inspire.entitlements; sourceTree = "<group>"; };
 		33B8521B10CC851400EC0211 /* whiteOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteOut.pdf; sourceTree = "<group>"; };
 		33B8524B10CC863000EC0211 /* blackOut.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blackOut.pdf; sourceTree = "<group>"; };
 		33B8524F10CC874200EC0211 /* whiteIn.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = whiteIn.pdf; sourceTree = "<group>"; };
@@ -441,6 +446,12 @@
 		33CDDBEB1B8F137C003D993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33D02B121B9094D700C6648C /* ArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleTableViewCell.h; sourceTree = "<group>"; };
 		33D02B131B9094D700C6648C /* ArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewCell.m; sourceTree = "<group>"; };
+		33D5CEBD1BB665A500B87F05 /* SyncManageriOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncManageriOS.h; sourceTree = "<group>"; };
+		33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManageriOS.m; sourceTree = "<group>"; };
+		33D5CEC11BB6E89400B87F05 /* iCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloud.h; sourceTree = "<group>"; };
+		33D5CEC21BB6E89400B87F05 /* iCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloud.m; sourceTree = "<group>"; };
+		33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudDocument.h; sourceTree = "<group>"; };
+		33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudDocument.m; sourceTree = "<group>"; };
 		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		33DE54150F71B0EE004E3A5C /* BWAnchoredPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButton.m; path = bwtoolkit/BWAnchoredPopUpButton.m; sourceTree = "<group>"; };
 		33DE54160F71B0EE004E3A5C /* BWAnchoredPopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWAnchoredPopUpButtonCell.m; path = bwtoolkit/BWAnchoredPopUpButtonCell.m; sourceTree = "<group>"; };
@@ -515,6 +526,8 @@
 				332B9B280FF9E34400353564 /* DirWatcher.m */,
 				33441FC01B79DC0F00A26198 /* SyncManager.h */,
 				33441FC11B79DC0F00A26198 /* SyncManager.m */,
+				33D5CEBD1BB665A500B87F05 /* SyncManageriOS.h */,
+				33D5CEBE1BB665A500B87F05 /* SyncManageriOS.m */,
 				336F461816188841005D070F /* Reachability.h */,
 				336F461916188842005D070F /* Reachability.m */,
 				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
@@ -575,6 +588,7 @@
 		29B97314FDCFA39411CA2CEA /* spires */ = {
 			isa = PBXGroup;
 			children = (
+				33B4BAFE1BB4D01B006DC9BF /* inspire.entitlements */,
 				339579BF0F3ED25C0036364A /* OpenSourceComponents */,
 				33202ECA10D9D7D000EDB5A8 /* Migrator */,
 				7756732906782D8800D1FEB8 /* Models */,
@@ -756,6 +770,7 @@
 		339579BF0F3ED25C0036364A /* OpenSourceComponents */ = {
 			isa = PBXGroup;
 			children = (
+				33D5CEC01BB6E87C00B87F05 /* iCloudSync */,
 				33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */,
 				33DFC3BD156BCEB900C98E8E /* RegexKitLite.h */,
 				334A3A1C0F360B750078D121 /* BWToolKitFramework */,
@@ -924,6 +939,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		33D5CEC01BB6E87C00B87F05 /* iCloudSync */ = {
+			isa = PBXGroup;
+			children = (
+				33D5CEC11BB6E89400B87F05 /* iCloud.h */,
+				33D5CEC21BB6E89400B87F05 /* iCloud.m */,
+				33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */,
+				33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */,
+			);
+			name = iCloudSync;
+			sourceTree = "<group>";
+		};
 		33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -1076,6 +1102,11 @@
 					33CDDBD11B8F137B003D993D = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 95AQ7YKR5A;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1120,6 +1151,7 @@
 				33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */,
 				3310D8E71B92F42D00CA22C8 /* unread.png in Resources */,
 				33D02B0D1B908D1500C6648C /* canned-search@2x.png in Resources */,
+				33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */,
 				33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */,
 				33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */,
 			);
@@ -1198,10 +1230,12 @@
 			files = (
 				33BBA3A51B8F3A910001366C /* ArxivNewArticleList.m in Sources */,
 				33BFA5C71B918EB200A98B8E /* HTMLArticleHelper.m in Sources */,
+				33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */,
 				33BBA3A41B8F3A910001366C /* AllArticleList.m in Sources */,
 				33BBA3C51B8F3B150001366C /* SpiresQueryDownloader.m in Sources */,
 				33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */,
 				33C9E43C1B92CBB70059F0F8 /* AddCannedSearchViewController.m in Sources */,
+				33D5CEBF1BB665A500B87F05 /* SyncManageriOS.m in Sources */,
 				33BBA3C61B8F3B150001366C /* ArxivHelper.m in Sources */,
 				33BBA3AC1B8F3A910001366C /* Article.m in Sources */,
 				33BBA3B31B8F3AE20001366C /* ArxivPDFDownloadOperation.m in Sources */,
@@ -1243,6 +1277,7 @@
 				33BBA3C21B8F3B150001366C /* NSURL+libraryProxy.m in Sources */,
 				33BBA3A81B8F3A910001366C /* ArticleFolder.m in Sources */,
 				33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */,
+				33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */,
 				33BBA3C41B8F3B150001366C /* SpiresHelper.m in Sources */,
 				33BBA3A11B8F3A910001366C /* InspireXMLParser.m in Sources */,
 			);
@@ -1543,6 +1578,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = inspire/inspire.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1582,6 +1618,7 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = inspire/inspire.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;

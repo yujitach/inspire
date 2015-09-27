@@ -29,6 +29,14 @@
 
 MOC*_sharedMOCManager=nil;
 @implementation MOC
+{
+    NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *persistingManagedObjectContext;
+    NSManagedObjectContext *uiManagedObjectContext;
+    BOOL isUIready;
+}
+
 @synthesize isUIready;
 +(MOC*)sharedMOCManager
 {
@@ -180,17 +188,35 @@ MOC*_sharedMOCManager=nil;
 /*
  Changed main moc merge policy to ObjectTrump. Mar/30/2009
  */
+-(void)saveNotified:(NSNotification*)n
+{
+    if(n.object!=uiManagedObjectContext){
+        return;
+    }
+    [persistingManagedObjectContext performBlock:^{
+        [persistingManagedObjectContext save:NULL];
+    }];
+}
 - (NSManagedObjectContext *) managedObjectContext {
     
-    if (managedObjectContext != nil) {
-        return managedObjectContext;
+    if (uiManagedObjectContext != nil) {
+        return uiManagedObjectContext;
     }
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
-	[managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        persistingManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [persistingManagedObjectContext setPersistentStoreCoordinator: coordinator];
+	[persistingManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        uiManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
+        [uiManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(saveNotified:)
+                                                     name:NSManagedObjectContextDidSaveNotification
+                                                   object:nil];
+        
 //	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
 //	if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
 //	    NSLog(@"-[MOC save] debug mode...");
@@ -198,7 +224,7 @@ MOC*_sharedMOCManager=nil;
 //	}
     }
     
-    return managedObjectContext;
+    return uiManagedObjectContext;
 }
 
 - (NSManagedObjectContext *) createSecondaryMOC {

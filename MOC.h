@@ -13,12 +13,7 @@
 -(void)enableUndo;
 @end
 
-@interface MOC : NSObject {
-    NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;    
-    BOOL isUIready;
-}
+@interface MOC : NSObject
 +(NSManagedObjectContext*)moc;
 +(MOC*)sharedMOCManager;
 -(BOOL)migrationNeeded;
