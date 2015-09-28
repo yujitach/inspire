@@ -90,9 +90,5 @@
             [moc save:NULL];
         }
     }];
-    NSManagedObjectContext*mainMOC=[MOC moc];
-    [mainMOC performBlockAndWait:^{
-        [mainMOC save:NULL];
-    }];
 }
 @end

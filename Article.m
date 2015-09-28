@@ -306,6 +306,9 @@
 
 -(id)extraForKey:(NSString*)key
 {
+    if(!self.data.extraURLs){
+        return nil;
+    }
     NSMutableDictionary* dict=[NSPropertyListSerialization propertyListWithData:self.data.extraURLs
                                                                         options:NSPropertyListMutableContainers
                                                                          format: NULL

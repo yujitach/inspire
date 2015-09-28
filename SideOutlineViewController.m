@@ -44,6 +44,7 @@
 {
     [articleListController insertObject:al 
 	      atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
+    al.positionInView=@(2000);
     [ArticleList rearrangePositionInView];
     [articleListController rearrangeObjects];
 }
@@ -249,6 +250,7 @@
 //    [articleListController rearrangeObjects];
 //    [self rearrangePositionInViewForArticleListsInArticleList:[item representedObject]];
     [ArticleList rearrangePositionInView];
+    [articleListController rearrangeObjects];
     // Return YES so that the user gets visual feedback that the drag was successful...
     return YES;
 }

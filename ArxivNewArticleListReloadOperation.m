@@ -211,19 +211,13 @@
 	
         [[AllArticleList allArticleListInMOC:secondMOC] addArticles:generated];
         ArticleList*al=(ArticleList*)[secondMOC objectWithID:alID];
-	al.articles=generated;
+        al.articles=generated;
         [secondMOC save:NULL];
 	
     }];
     dispatch_async(dispatch_get_main_queue(),^{
-        NSError*error=nil;
-        BOOL success=[[MOC moc] save:&error];
-        if(!success){
-            [[MOC sharedMOCManager] presentMOCSaveError:error];
-        }
-//        [[NSApp appDelegate] clearingUpAfterRegistration:self];
         [[NSApp appDelegate] postMessage:nil];
-	[[NSApp appDelegate] stopProgressIndicator];
+        [[NSApp appDelegate] stopProgressIndicator];
     });
 }
 @end

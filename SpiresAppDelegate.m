@@ -319,10 +319,6 @@
             ad.texKey=new;
         }
         [moc save:&error];
-        [[MOC moc] performBlock:^{
-            NSError*e;
-            [[MOC moc] save:&e];
-        }];
     }];
 }
 -(void)tweakTableViewFonts
@@ -375,7 +371,14 @@
     texWatcherController=[[TeXWatcherController alloc]init];
     bibViewController=[[BibViewController alloc] init];
     syncManager=[[SyncManager alloc] init];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
+}
+-(void)mocSaved:(NSNotification*)n
+{
+    if(n.object==[MOC moc]){
+        [ac didChangeArrangementCriteria];
+    }
 }
 -(BOOL)busyUpdating
 {
@@ -515,15 +518,6 @@
         [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 
--(void)clearingUpAfterRegistration:(id)sender
-{
-    if([[ac arrangedObjects] count]>0 && [[ac selectedObjects] count]==0){
-//	[ac setSelectionIndex:0];
-    }
-    
-    [ac didChangeArrangementCriteria];
-//    [self makeTableViewFirstResponder];
-}
 
 -(void)postMessage:(NSString*)message
 {

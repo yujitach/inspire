@@ -27,7 +27,6 @@
 @end
 
 
-MOC*_sharedMOCManager=nil;
 @implementation MOC
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -40,9 +39,11 @@ MOC*_sharedMOCManager=nil;
 @synthesize isUIready;
 +(MOC*)sharedMOCManager
 {
-    if(!_sharedMOCManager){
-	_sharedMOCManager=[[MOC alloc] init];
-    }
+    static MOC*_sharedMOCManager=nil;
+    static dispatch_once_t once;
+    dispatch_once(&once,^{
+        _sharedMOCManager=[[MOC alloc] init];
+    });
     return _sharedMOCManager;
 }
 +(NSManagedObjectContext*)moc
@@ -190,12 +191,16 @@ MOC*_sharedMOCManager=nil;
  */
 -(void)saveNotified:(NSNotification*)n
 {
-    if(n.object!=uiManagedObjectContext){
-        return;
+    NSManagedObjectContext*moc=n.object;
+    if(moc==uiManagedObjectContext){
+        [persistingManagedObjectContext performBlock:^{
+            [persistingManagedObjectContext save:NULL];
+        }];
+    }else if(moc.parentContext==uiManagedObjectContext){
+        [uiManagedObjectContext performBlock:^{
+            [uiManagedObjectContext save:NULL];
+        }];
     }
-    [persistingManagedObjectContext performBlock:^{
-        [persistingManagedObjectContext save:NULL];
-    }];
 }
 - (NSManagedObjectContext *) managedObjectContext {
     

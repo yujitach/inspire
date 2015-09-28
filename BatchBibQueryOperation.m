@@ -10,18 +10,18 @@
 #import "Article.h"
 #import "AppDelegate.h"
 #import "SpiresHelper.h"
+#import "MOC.h"
 
 @implementation BatchBibQueryOperation
+{
+    NSMutableArray*articleIDs;
+}
 -(BatchBibQueryOperation*)initWithArray:(NSArray*)a;
 {
     self=[super init];
-    articles=[a copy];
-    targets=[NSMutableArray array];
-    for(Article* article in articles){
-	NSString* target=[article uniqueInspireQueryString];
-	if(!target)
-	    target=(NSString*)[NSNull null];
-	[targets addObject:target];
+    articleIDs=[NSMutableArray array];
+    for(Article*article in a){
+        [articleIDs addObject:article.objectID];
     }
     return self;
 }
@@ -34,26 +34,30 @@
 }
 -(NSString*)description
 {
-    if([articles count]==0){
+    if([articleIDs count]==0){
 	return @"invalid query operation";
     }else{
-	Article* a=articles[0];
-	return [NSString stringWithFormat:@"bib query for %@ etc.",a.title];
+//	Article* a=articles[0];
+//	return [NSString stringWithFormat:@"bib query for %@ etc.",a.title];
+        return @"a bib query.";
     }
 }
 
 -(void)main
 {
-    if(articles.count ==0)return;
+    if(articleIDs.count ==0)return;
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSApp appDelegate] startProgressIndicator];
     });
-    Article*a=articles[0];
-    NSManagedObjectContext*moc=a.managedObjectContext;
+    NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
     [moc performBlockAndWait:^{
-        for(NSUInteger i=0;i<[articles count];i++){
-            Article* article=articles[i];
-            NSString*target=targets[i];
+        for(NSManagedObjectID*objectID in articleIDs){
+            Article* article=[moc objectWithID:objectID];
+            
+            NSString* target=[article uniqueInspireQueryString];
+            if(!target)
+                continue;
+
             NSLog(@"looking up %@",target);
             if([self isCancelled])break;
             if(!target) continue;

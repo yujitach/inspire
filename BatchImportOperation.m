@@ -23,7 +23,6 @@
     NSString*query;
     NSManagedObjectContext*secondMOC;
     NSMutableSet*generated;
-    dispatch_group_t group;
     BOOL updatesCitations;
 }
 @synthesize generated;
@@ -43,7 +42,6 @@
     }*/
     secondMOC=moc_;
     generated=[NSMutableSet set];
-    group=dispatch_group_create();
     return self;
 }
 -(BOOL)isEqual:(id)obj
@@ -158,25 +156,10 @@
 #pragma mark entry point
 -(void)main
 {
-    
     [secondMOC performBlockAndWait:^{
             [self batchAddEntriesOfSPIRES:elements];
             [secondMOC save:NULL];
     }];
-    dispatch_group_async(group,dispatch_get_main_queue(),^{
-        [[MOC moc] save:NULL];
-        [[NSApp appDelegate] clearingUpAfterRegistration:nil];
-    });
-    
-    // need to delay running of the completion handler after all of the async calls!
-    void (^handler)(void)=[self completionBlock];
-    if(handler){
-        [self setCompletionBlock:nil];
-        dispatch_group_async(group,dispatch_get_main_queue(),^{
-            handler();
-        });
-    }
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 }
 
 @end

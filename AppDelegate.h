@@ -19,7 +19,6 @@
 -(void)querySPIRES:(NSString*)search;
 -(void)handleURL:(NSURL*) url;
 -(void)postMessage:(NSString*)message;
--(void)clearingUpAfterRegistration:(id)sender;
 -(BOOL)currentListIsArxivReplaced;
 -(UIViewController*)presentingViewController;
 @end
@@ -40,7 +39,6 @@ extern NSString *ArticleListDropPboardType;
 -(void)handleURL:(NSURL*) url;
 -(void)querySPIRES:(NSString*)search;
 -(void)postMessage:(NSString*)message;
--(void)clearingUpAfterRegistration:(id)sender;
 -(void)makeTableViewFirstResponder;
 -(void)makeSideViewFirstResponder;
 -(void)startProgressIndicator;

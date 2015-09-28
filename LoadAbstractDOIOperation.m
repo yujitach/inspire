@@ -12,14 +12,14 @@
 #import "NSString+magic.h"
 #import "MOC.h"
 
-@interface LoadAbstractDOIOperation ()
--(void)loadAbstractUsingDOIRealWork:(NSString*)content;
-@end
 @implementation LoadAbstractDOIOperation
+{
+    NSManagedObjectID*objID;
+}
 -(LoadAbstractDOIOperation*)initWithArticle:(Article*)a;
 {
     self=[super init];
-    article=a;
+    objID=a.objectID;
 //    NSLog(@"%@",article.title);
     return self;
 }
@@ -33,44 +33,41 @@
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"load abstract for %@",article.title];
+//    return [NSString stringWithFormat:@"load abstract for %@",article.title];
+    return @"load abstract via DOI";
 }
 
 -(void)main
 {
-    if(!article || !article.title || [article.title isEqualToString:@""]){
-//	[self finish];
-	return;
-    }
-    NSURL*url=[NSURL URLWithString:[@"http://dx.doi.org/" stringByAppendingString:article.doi]];
-    NSError*error=nil;
-    NSString*s=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-    if(!s){
-	NSLog(@"error while loading %@: %@",url, error);
-	return;
-    }
-/*    if([s rangeOfString:@"Get the article at ScienceDirect"].location!=NSNotFound){
-	NSLog(@"stupid Elsevier locator found");
-	s=[s stringByMatching:@"value=\"(http://.+?)\"" capture:1];
-	NSURL*newURL=[NSURL URLWithString:s];
-	s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
-	if(!s){
-	    NSLog(@"error while loading %@: %@",url, error);
-	    return;
-	}
-    }*/
-    if([s rangeOfString:@"sciencedirect"].location!=NSNotFound){
-        NSString*sdID=[s stringByMatching:@"http://www.sciencedirect.com/science/article/pii/([01-9]+)" capture:1];
-        NSURL*newURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://www.sciencedirect.com/science/article/pii/%@?np=y",sdID]];
-	s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
-	if(!s){
-	    NSLog(@"error while loading %@: %@",url, error);
-	    return;
-	}
-    }
-    [self performSelectorOnMainThread:@selector(loadAbstractUsingDOIRealWork:) withObject:s waitUntilDone:YES];
+    NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
+    [secondMOC performBlock:^{
+        Article*article=[secondMOC objectWithID:objID];
+        if(!article || !article.title || [article.title isEqualToString:@""]){
+            return;
+        }
+        
+        NSURL*url=[NSURL URLWithString:[@"http://dx.doi.org/" stringByAppendingString:article.doi]];
+        NSError*error=nil;
+        NSString*s=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+        if(!s){
+            NSLog(@"error while loading %@: %@",url, error);
+            return;
+        }
+        if([s rangeOfString:@"sciencedirect"].location!=NSNotFound){
+            NSString*sdID=[s stringByMatching:@"http://www.sciencedirect.com/science/article/pii/([01-9]+)" capture:1];
+            NSURL*newURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://www.sciencedirect.com/science/article/pii/%@?np=y",sdID]];
+            s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
+            if(!s){
+                NSLog(@"error while loading %@: %@",url, error);
+                return;
+            }
+        }
+        [self loadAbstractUsingDOIRealWork:s forArticle:article];
+        [secondMOC save:NULL];
+    }];
+    
 }
--(void)loadAbstractUsingDOIRealWork:(NSString*)content
+-(void)loadAbstractUsingDOIRealWork:(NSString*)content forArticle:(Article*)article
 {
     NSString*journalName=article.journal.name;
     NSString*abstract=nil;
@@ -164,9 +161,7 @@
     if(abstract){
 	abstract=[abstract stringByReplacingOccurrencesOfString:@"<p>" withString:@""];
 	abstract=[abstract stringByReplacingOccurrencesOfString:@"</p>" withString:@""];
-	[[article managedObjectContext] disableUndo];
 	article.abstract=abstract;
-	[[article managedObjectContext] enableUndo];
     }
 BAIL:
     ;

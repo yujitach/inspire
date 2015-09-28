@@ -88,7 +88,7 @@
         dict[@"title"]=title;
     }
     if(dict){
-        dispatch_async(dispatch_get_main_queue(),^{
+        [article.managedObjectContext performBlock:^{
             [[article managedObjectContext] disableUndo];
             article.abstract=dict[@"abstract"];
             article.version=dict[@"version"];
@@ -98,7 +98,7 @@
             }
             article.arxivCategory=dict[@"primaryCategory"];
             [[article managedObjectContext] enableUndo];
-        });
+        }];
     }
 }
 @end

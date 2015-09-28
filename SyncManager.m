@@ -222,9 +222,6 @@
                                                          [secondMOC deleteObject:al];
                                                      }
                                                      [secondMOC save:NULL];
-                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                         [[MOC moc] save:NULL];
-                                                     });
                                                      [self setupTimer];
                                                  }];
                                              }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9052" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="8173.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9052"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="9052"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -382,12 +382,12 @@
                                             <nil key="backgroundColor"/>
                                         </clipView>
                                         <animations/>
-                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
                                             <rect key="frame" x="1" y="480" width="111" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
+                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
                                             <rect key="frame" x="97" y="1" width="15" height="479"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
@@ -523,12 +523,12 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
                                         <animations/>
-                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
                                             <rect key="frame" x="-100" y="-100" width="565" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
                                             <rect key="frame" x="460" y="17" width="16" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
@@ -602,7 +602,7 @@
                         <size key="minSize" width="48" height="25"/>
                         <size key="maxSize" width="52" height="25"/>
                         <segmentedControl key="view" verticalHuggingPriority="750" id="908">
-                            <rect key="frame" x="15" y="14" width="48" height="25"/>
+                            <rect key="frame" x="14" y="14" width="48" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <animations/>
                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="momentary" id="909">
@@ -623,7 +623,7 @@
                         <size key="minSize" width="40" height="25"/>
                         <size key="maxSize" width="40" height="25"/>
                         <button key="view" verticalHuggingPriority="750" id="936">
-                            <rect key="frame" x="19" y="14" width="40" height="25"/>
+                            <rect key="frame" x="18" y="14" width="40" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <animations/>
                             <buttonCell key="cell" type="roundTextured" title="Round Textured" bezelStyle="texturedRounded" image="NSQuickLookTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="937">
@@ -635,9 +635,27 @@
                             <action selector="openSelectionInQuickLook:" target="205" id="939"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="847DA041-7C9A-422C-91CE-D61C0934EE1C" label="Custom View" paletteLabel="Custom View" image="flagged" id="Enz-Fw-Jg5">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="25"/>
+                        <size key="maxSize" width="44" height="25"/>
+                        <button key="view" verticalHuggingPriority="750" id="APf-0E-baz">
+                            <rect key="frame" x="18" y="14" width="40" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" image="flagged" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CiO-CW-GTr">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="toggleFlagged:" target="205" id="Wpt-mj-xyc"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="910"/>
+                    <toolbarItem reference="Enz-Fw-Jg5"/>
                     <toolbarItem reference="938"/>
                     <toolbarItem reference="899"/>
                 </defaultToolbarItems>
@@ -732,5 +750,6 @@
         <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="flagged" width="85" height="85"/>
     </resources>
 </document>
