@@ -173,10 +173,6 @@
     return persistentStoreCoordinator;
 }
 
-/**
- Returns the managed object context for the application (which is already
- bound to the persistent store coordinator for the application.) 
- */
 /*
  Merge policies:
  Main moc: error on conflict. I should arrange no conflict occurs in the save: operation from the main thread on the main moc.
@@ -189,16 +185,22 @@
 /*
  Changed main moc merge policy to ObjectTrump. Mar/30/2009
  */
+/*
+ After a few months of intermittent works, the coredata stack is now moved to the modern one.
+ At the latest stage I learned of 
+    https://github.com/bignerdranch/CoreDataStack/
+ which was very helpful. 
+ Somehow setting a merge policy in this child-parent setup makes everything crash-prone, 
+ although I don't know why.
+ 
+ Sep/29/2015
+ */
 -(void)saveNotified:(NSNotification*)n
 {
     NSManagedObjectContext*moc=n.object;
-    if(moc==uiManagedObjectContext){
-        [persistingManagedObjectContext performBlock:^{
-            [persistingManagedObjectContext save:NULL];
-        }];
-    }else if(moc.parentContext==uiManagedObjectContext){
-        [uiManagedObjectContext performBlock:^{
-            [uiManagedObjectContext save:NULL];
+    if(moc.parentContext){
+        [moc.parentContext performBlock:^{
+            [moc.parentContext save:NULL];
         }];
     }
 }
@@ -207,26 +209,23 @@
     if (uiManagedObjectContext != nil) {
         return uiManagedObjectContext;
     }
-    
+    if(![[NSThread currentThread] isMainThread]){
+        NSLog(@"the first call should be from the main thread");
+        abort();
+    }
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
         persistingManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [persistingManagedObjectContext setPersistentStoreCoordinator: coordinator];
-	[persistingManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
         uiManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
-        [uiManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(saveNotified:)
                                                      name:NSManagedObjectContextDidSaveNotification
                                                    object:nil];
         
-//	[managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMOCsave"]){
-//	    NSLog(@"-[MOC save] debug mode...");
-//	    [managedObjectContext setMergePolicy:NSErrorMergePolicy];
-//	}
+
     }
     
     return uiManagedObjectContext;
