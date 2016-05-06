@@ -195,6 +195,10 @@
  
  Sep/29/2015
  */
+/*
+ After a long hiatus I'm thinking of restarting to work on this app. Somehow the CoreDataStack above with Cocoa Binding seems to lead to mysterious crashes (or maybe I'm not doing it right.) Anyway, to make it less crash-prone, I'm temporarily removing the root private MOC below the UI MOC. 
+ May/6/2016
+ */
 -(void)saveNotified:(NSNotification*)n
 {
     NSManagedObjectContext*moc=n.object;
@@ -215,11 +219,11 @@
     }
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        persistingManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [persistingManagedObjectContext setPersistentStoreCoordinator: coordinator];
+//        persistingManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//        [persistingManagedObjectContext setPersistentStoreCoordinator: coordinator];
         uiManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
-        
+//       [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
+        uiManagedObjectContext.persistentStoreCoordinator=coordinator;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(saveNotified:)
                                                      name:NSManagedObjectContextDidSaveNotification
