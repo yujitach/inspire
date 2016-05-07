@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "SpiresHelper.h"
 #import "MOC.h"
+#import "RegexKitLite.h"
 
 @implementation BatchBibQueryOperation
 {
@@ -64,9 +65,18 @@
             NSString* bib=[[SpiresHelper sharedHelper] bibtexEntriesForQuery:target][0];
             if(!bib)break;
             if([self isCancelled])break;
-            NSInteger r=[bib rangeOfString:@"{"].location;
-            NSInteger t=[bib rangeOfString:@","].location;
-            NSString* key=[bib substringWithRange:NSMakeRange(r+1, t-r-1)];
+            /* needs to kill the two lines
+             
+             %%% contains utf-8, see: http://inspirehep.net/info/faq/general#utf8
+             %%% add \usepackage[utf8]{inputenc} to your latex preamble
+             
+             if they're there, otherwise identifying { and , fails.
+             */
+            NSString*trueBib=[bib stringByReplacingOccurrencesOfRegex:@"%%%.+?\n" withString:@""];
+            NSLog(@"%@",trueBib);
+            NSInteger r=[trueBib rangeOfString:@"{"].location;
+            NSInteger t=[trueBib rangeOfString:@","].location;
+            NSString* key=[trueBib substringWithRange:NSMakeRange(r+1, t-r-1)];
             NSString* latex=[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target][0];
             if([self isCancelled])break;
             NSString* harvmac=[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target][0];
