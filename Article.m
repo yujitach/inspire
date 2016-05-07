@@ -244,11 +244,11 @@
     [a sortUsingSelector:@selector(caseInsensitiveCompare:)];
     
     if(collaboration){
-	if([a count]>0){
-	    return [NSString stringWithFormat:@"%@ (%@)",collaboration,[a componentsJoinedByString:@", "]];
-	}else{
-	    return collaboration;
-	}
+//	if([a count]>0){
+//	    return [NSString stringWithFormat:@"%@ (%@)",collaboration,[a componentsJoinedByString:@", "]];
+//	}else{
+        return [collaboration stringByAppendingString:@" collaboration"];
+//	}
     }else{
 	return [a componentsJoinedByString:@", "];
     }
@@ -333,23 +333,24 @@
     NSMutableArray*a=[NSMutableArray array];
     if(self.collaboration){
         [a addObject:[self tweakCollaborationName:self.collaboration]];
-    }
-    for(NSString*s in authorNames){
-        NSString*t=[s normalizedString];
-        if(![t isEqualToString:@""]){
-            if([t rangeOfString:@"collaboration"].location!=NSNotFound){
-                if(self.collaboration){
-                    continue;
-                }else{
-                    if([t rangeOfString:@", "].location!=NSNotFound){
-                        NSArray*x=[t componentsSeparatedByString:@", "];
-                        t=[NSString stringWithFormat:@"%@ %@",x[1],x[0]];
+    }else{
+        for(NSString*s in authorNames){
+            NSString*t=[s normalizedString];
+            if(![t isEqualToString:@""]){
+                if([t rangeOfString:@"collaboration"].location!=NSNotFound){
+                    if(self.collaboration){
+                        continue;
+                    }else{
+                        if([t rangeOfString:@", "].location!=NSNotFound){
+                            NSArray*x=[t componentsSeparatedByString:@", "];
+                            t=[NSString stringWithFormat:@"%@ %@",x[1],x[0]];
+                        }
+                        self.collaboration=t;
+                        [a addObject:[self tweakCollaborationName:self.collaboration]];
                     }
-                    self.collaboration=t;
-                    [a addObject:[self tweakCollaborationName:self.collaboration]];
+                }else{
+                    [a addObject:t];
                 }
-            }else{
-                [a addObject:t];
             }
         }
     }

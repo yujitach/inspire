@@ -321,6 +321,28 @@
         [moc save:&error];
     }];
 }
+-(void)collaborationShowsOnlyCollaboration
+{
+    NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
+    [moc performBlock:^{
+        NSEntityDescription*articleDataEntity=[NSEntityDescription entityForName:@"ArticleData" inManagedObjectContext:moc];
+        NSFetchRequest*req=[[NSFetchRequest alloc]init];
+        [req setEntity:articleDataEntity];
+        NSPredicate*pred=[NSPredicate predicateWithFormat:@"collaboration!=nil AND collaboration!=''"];
+        [req setPredicate:pred];
+        
+        [req setIncludesPropertyValues:YES];
+        [req setRelationshipKeyPathsForPrefetching:@[@"article"]];
+        [req setReturnsObjectsAsFaults:NO];
+        NSError*error=nil;
+        NSArray*a=[moc executeFetchRequest:req error:&error];
+        NSLog(@"entries for collaborations: %@",@(a.count));
+        for(ArticleData*ad in a){
+            [ad.article setAuthorNames:@[]];
+        }
+        [moc save:&error];
+    }];
+}
 -(void)tweakTableViewFonts
 {
     if([NSFont respondsToSelector:@selector(monospacedDigitSystemFontOfSize:weight:)]){
@@ -363,6 +385,13 @@
         [self removeSpaceFromTexKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"texKeySpaceRemoved"];
     }
+
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"collaborationShowsOnlyCollaboration"]){
+        //    if(YES){
+        [self collaborationShowsOnlyCollaboration];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"collaborationShowsOnlyCollaboration"];
+    }
+
     
     [sideOutlineViewController performSelector:@selector(selectAllArticleList) withObject:nil afterDelay:0];
     [self performSelector:@selector(makeTableViewFirstResponder) withObject:nil afterDelay:0];
