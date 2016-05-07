@@ -202,9 +202,16 @@
 -(void)saveNotified:(NSNotification*)n
 {
     NSManagedObjectContext*moc=n.object;
-    if(moc.parentContext){
+/*    if(moc.parentContext){
         [moc.parentContext performBlock:^{
             [moc.parentContext save:NULL];
+        }];
+    }
+ */
+    if(moc!=uiManagedObjectContext){
+        // this is from secondary context, need to merge
+        [uiManagedObjectContext performBlock:^{
+            [uiManagedObjectContext mergeChangesFromContextDidSaveNotification:n];            
         }];
     }
 }
@@ -224,6 +231,7 @@
         uiManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 //       [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
         uiManagedObjectContext.persistentStoreCoordinator=coordinator;
+        uiManagedObjectContext.mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(saveNotified:)
                                                      name:NSManagedObjectContextDidSaveNotification
@@ -239,8 +247,9 @@
     
     
     NSManagedObjectContext*secondaryManagedObjectContext=[[NSManagedObjectContext alloc]initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [secondaryManagedObjectContext setParentContext:[self managedObjectContext]];
-    [secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+    secondaryManagedObjectContext.persistentStoreCoordinator=[self persistentStoreCoordinator];
+//    [secondaryManagedObjectContext setParentContext:[self managedObjectContext]];
+//    [secondaryManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
     [secondaryManagedObjectContext setUndoManager:nil];
 
     return secondaryManagedObjectContext;
