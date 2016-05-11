@@ -590,6 +590,7 @@
     if(choice==NSAlertDefaultReturn){
 	Article*o=[ac selectedObjects][0];
 	[o associatePDF:path];
+        [wv setArticle:o];
     }
 }
 

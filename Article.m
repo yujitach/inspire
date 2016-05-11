@@ -433,10 +433,11 @@
     self.normalizedTitle=[self calculateNormalizedTitle];
 }
 #pragma mark Misc.
-+(NSSet*)keyPathsForValuesAffectingPdfPath
+/*+(NSSet*)keyPathsForValuesAffectingPdfPath
 {
     return [NSSet setWithObjects:@"data.pdfAlias",nil];
 }
+ */
 -(BOOL)trashContainsFileWithName:(NSString*)path
 {
     return [[path stringByAbbreviatingWithTildeInPath] hasPrefix:@"~/.Trash"];
