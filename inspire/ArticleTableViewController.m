@@ -78,7 +78,9 @@
         [article setFlag:article.flag&~AFIsFlagged];
     }else{
         [article setFlag:article.flag|AFIsFlagged];
-    }    
+    }
+    NSError*error;
+    [article.managedObjectContext save:&error];
 }
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView
                   editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -139,6 +141,9 @@
     cell.title.attributedText=article.attributedTitle;
     cell.authors.text=article.shortishAuthorList;
     cell.eprint.text=article.eprintToShow;
+    if(article.flag& AFIsFlagged){
+        cell.eprint.text=[@"⭐️" stringByAppendingString:cell.eprint.text];
+    }
 }
 
 #pragma mark - Searchbar delegates
@@ -167,6 +172,12 @@
 
 -(void)recreateFetchedResultsController
 {
+    // I know this is not the place to write this, but to make the app usable ...
+    if([self.articleList isKindOfClass:[CannedSearch class]]){
+        CannedSearch*s=(CannedSearch*)self.articleList;
+        [s reloadLocal];
+    }
+    
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
