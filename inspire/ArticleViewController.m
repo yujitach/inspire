@@ -146,14 +146,14 @@
             [self.webView loadHTMLString:html baseURL:nil];
         }
     }
-    if(i<total-1){
+    if(i+1<total){
         Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:+1]];
         if(b){
             [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
                                                                               whenRefreshed:nil];
         }
     }
-    if(i<total-2){
+    if(i+2<total){
         Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:+2]];
         if(b){
             [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b
