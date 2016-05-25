@@ -28,10 +28,22 @@
 
 @synthesize articleList=_articleList;
 @synthesize fetchedResultsController=_fetchedResultsController;
+-(void)refresh:(UIRefreshControl*)sender forEvent:(UIEvent*)event
+{
+    UIBarButtonItem*bbi=self.navigationItem.rightBarButtonItem;
+    [[UIApplication sharedApplication] sendAction:bbi.action to:bbi.target from:sender forEvent:event];
+    [sender endRefreshing];
+}
 -(void)setArticleList:(ArticleList *)articleList
 {
     _articleList=articleList;
-    self.navigationItem.rightBarButtonItem=articleList.barButtonItem;
+    
+    if(articleList.barButtonItem){
+        self.navigationItem.rightBarButtonItem=articleList.barButtonItem;
+        self.refreshControl=[[UIRefreshControl alloc]init];
+        [self.refreshControl addTarget:self action:@selector(refresh:forEvent:) forControlEvents:UIControlEventValueChanged];
+    }
+
     self.navigationItem.title=self.articleList.name;
     if([self.articleList isKindOfClass:[CannedSearch class]]){
         self.navigationItem.title=[NSString stringWithFormat:@"%@ (%@)",self.articleList.name,self.articleList.searchString];
