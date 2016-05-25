@@ -65,6 +65,13 @@
 }
 @end
 
+@implementation CannedSearch (ArticleListDictionaryRepresentation)
+-(NSDictionary*)dictionaryRepresentation
+{
+    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView,@"searchString":self.searchString};
+}
+@end
+
 @implementation SimpleArticleList (ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation
 {
@@ -150,6 +157,7 @@
     if([articleList isKindOfClass:[CannedSearch class]]){
 //        CannedSearch*can=(CannedSearch*)articleList;
 //        [can reloadLocal];
+        articleList.searchString=dic[@"searchString"];
     }else if([articleList isKindOfClass:[ArticleFolder class]]){
         notFoundArray=[self notFoundArticleListsAfterMergingChildren:dic[@"children"] toArticleFolder:(ArticleFolder*)articleList usingMOC:secondMOC];
     }else if([articleList isKindOfClass:[SimpleArticleList class]]){

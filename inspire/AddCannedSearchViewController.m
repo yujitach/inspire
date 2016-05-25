@@ -18,7 +18,7 @@
     al.parent=self.parent;
     al.positionInView=@1000;
     AllArticleList*allArticleList=[AllArticleList allArticleList];
-    al.searchString=allArticleList.searchString;
+    al.searchString=self.searchTextField.text;
     al.sortDescriptors=allArticleList.sortDescriptors;
     [ArticleList rearrangePositionInView];
     [self performSegueWithIdentifier:@"unwind" sender:self];
