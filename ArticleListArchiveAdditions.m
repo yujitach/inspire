@@ -13,10 +13,12 @@
 #import "AllArticleList.h"
 #import "CannedSearch.h"
 #import "SimpleArticleList.h"
+#import "ArxivNewArticleList.h"
 #import "BatchImportOperation.h"
 #import "MOC.h"
 @interface ArticleList(ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation;
+-(void)loadFromDictionary:(NSDictionary*)dic;
 -(NSArray*)arraysOfDictionaryRepresentationOfArticles;
 @end
 
@@ -61,21 +63,46 @@
 }
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView};
+    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
+}
+-(void)loadFromDictionary:(NSDictionary *)dic
+{
+    NSMutableArray*lightweightArticles=[NSMutableArray array];
+    for(NSDictionary*subDic in dic[@"articles"]){
+        [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+    }
+    NSManagedObjectContext*secondMOC=self.managedObjectContext;
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
+    
+    __weak BatchImportOperation*weakOp=op;
+    __weak ArticleList*weakSelf=self;
+    op.completionBlock=^{
+        NSSet*generated=weakOp.generated;
+        if(!generated)return;
+        if(generated.count==0)return;
+        [secondMOC performBlock:^{
+            [weakSelf setArticles:generated];
+            [secondMOC save:NULL];
+        }];
+    };
+    [[OperationQueues sharedQueue] addOperation:op];
 }
 @end
 
 @implementation CannedSearch (ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation
 {
-    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView,@"searchString":self.searchString};
+    NSMutableDictionary*dic=[[super dictionaryRepresentation] mutableCopy];
+    if(!self.searchString){
+        self.searchString=self.name;
+    }
+    [dic setValue:self.searchString forKey:@"searchString"];
+    return dic;
 }
-@end
-
-@implementation SimpleArticleList (ArticleListDictionaryRepresentation)
--(NSDictionary*)dictionaryRepresentation
+-(void)loadFromDictionary:(NSDictionary *)dic
 {
-    return @{@"type":NSStringFromClass([self class]),@"name":self.name,@"positionInView":self.positionInView,@"articles":[self arraysOfDictionaryRepresentationOfArticles]};
+    self.searchString=dic[@"searchString"];
+    [super loadFromDictionary:dic];
 }
 @end
 
@@ -84,6 +111,9 @@
 -(NSDictionary*)dictionaryRepresentation
 {
     return nil;
+}
+-(void)loadFromDictionary:(NSDictionary *)dic
+{
 }
 @end
 
@@ -154,30 +184,10 @@
         }
     }
     articleList.positionInView=dic[@"positionInView"];
-    if([articleList isKindOfClass:[CannedSearch class]]){
-//        CannedSearch*can=(CannedSearch*)articleList;
-//        [can reloadLocal];
-        articleList.searchString=dic[@"searchString"];
-    }else if([articleList isKindOfClass:[ArticleFolder class]]){
+    if([articleList isKindOfClass:[ArticleFolder class]]){
         notFoundArray=[self notFoundArticleListsAfterMergingChildren:dic[@"children"] toArticleFolder:(ArticleFolder*)articleList usingMOC:secondMOC];
-    }else if([articleList isKindOfClass:[SimpleArticleList class]]){
-        NSMutableArray*lightweightArticles=[NSMutableArray array];
-        for(NSDictionary*subDic in dic[@"articles"]){
-            [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
-        }
-        BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
-        
-        __weak BatchImportOperation*weakOp=op;
-        op.completionBlock=^{
-            NSSet*generated=weakOp.generated;
-            if(!generated)return;
-            if(generated.count==0)return;
-            [secondMOC performBlock:^{
-                [articleList setArticles:generated];
-                [secondMOC save:NULL];
-            }];
-        };
-        [[OperationQueues sharedQueue] addOperation:op];
+    }else{
+        [articleList loadFromDictionary:dic];
     }
     return notFoundArray;
 }
