@@ -233,6 +233,7 @@ NSString* pathShownWithQuickLook=nil;
 }
 -(int)tryToDetermineVersionFromPDF:(NSString*)pdfPath
 {
+#if TARGET_OS_IPHONE
     NSURL*url=[NSURL fileURLWithPath:pdfPath];
     CGPDFDocumentRef doc=CGPDFDocumentCreateWithURL((__bridge CFURLRef)url);
     CGPDFDictionaryRef dic=CGPDFDocumentGetInfo(doc);
@@ -242,7 +243,11 @@ NSString* pathShownWithQuickLook=nil;
         s=(NSString*)CFBridgingRelease(CGPDFStringCopyTextString(pdfStringRef));
     }
     CFRelease(doc);
-    
+#else
+    PDFDocument* d=[[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]];
+    PDFPage* p=[d pageAtIndex:0];
+    NSString* s=[p string];
+#endif
     s=[s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
