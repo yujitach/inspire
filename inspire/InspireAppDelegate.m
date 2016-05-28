@@ -16,6 +16,7 @@
 #import "SpiresHelper.h"
 #import "ArticleList.h"
 #import "AllArticleList.h"
+#import "Article.h"
 #import "PDFHelper.h"
 #import "SyncManager.h"
 
@@ -130,6 +131,20 @@ static InspireAppDelegate*globalAppDelegate=nil;
         NSURL*z=[NSURL URLWithString:y];
         Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
         [[PDFHelper sharedHelper] openPDFforArticle:a usingViewer:openWithPrimaryViewer];
+    }else if([[url scheme] isEqualToString:@"spires-flag"]){
+        NSString*x=[url absoluteString];
+        NSString*y=[x substringFromIndex:[@"spires-flag://" length]];
+        y=[y stringByReplacingOccurrencesOfString:@"x-coredata//" withString:@"x-coredata://"];
+        NSURL*z=[NSURL URLWithString:y];
+        Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
+       [a setFlag: a.flag | AFIsFlagged];
+    }else if([[url scheme] isEqualToString:@"spires-unflag"]){
+        NSString*x=[url absoluteString];
+        NSString*y=[x substringFromIndex:[@"spires-unflag://" length]];
+        y=[y stringByReplacingOccurrencesOfString:@"x-coredata//" withString:@"x-coredata://"];
+        NSURL*z=[NSURL URLWithString:y];
+        Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
+        [a setFlag: a.flag & ~AFIsFlagged];
     }else if([[url scheme] isEqualToString:@"spires-lookup-eprint"]){
         NSString*eprint=[self extractArXivID:[url absoluteString]];
         if(eprint){

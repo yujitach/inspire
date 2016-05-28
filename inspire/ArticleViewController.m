@@ -137,7 +137,7 @@
         
         HTMLArticleHelper* helper=[[HTMLArticleHelper alloc] initWithArticle:a];
         for(NSString*key in @[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
-                              @"journal",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
+                              @"journal",@"flagUnflag",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
             NSString*value=[helper valueForKey:key];
             if(!value){
                 value=@"";

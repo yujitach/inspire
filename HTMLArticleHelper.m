@@ -204,6 +204,13 @@
     }
     return str;
 }
+-(NSString*)flagUnflag{
+    if(article.flag&AFIsFlagged){
+        return [NSString stringWithFormat:@"<a href=\"spires-unflag://%@\">⭐️</a>",article.objectID.URIRepresentation];
+    }else{
+        return [NSString stringWithFormat:@"<a href=\"spires-flag://%@\">☆</a>",article.objectID.URIRepresentation];
+    }
+}
 -(NSString*)texKey{
     NSString* x=article.texKey;
     if(x &&[[[NSUserDefaults standardUserDefaults] stringForKey:@"bibType"] isEqualToString:@"harvmac"]){
