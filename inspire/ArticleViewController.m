@@ -37,6 +37,10 @@
     self.progressView.hidden=YES;
     [progress removeObserver:self forKeyPath:@"fractionCompleted"];
 }
+-(void)mocSaved:(NSNotification*)n
+{
+    [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.webView=[[WKWebView alloc] init];
@@ -62,7 +66,7 @@
 //    [self.progressView sizeToFit];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadStarted:) name:@"pdfDownloadStarted" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     // [self refresh];
     // Do any additional setup after loading the view.
 }
