@@ -69,6 +69,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        if(!indexPath){
+            indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+        }
         ArticleList *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         ArticleTableViewController *controller = (ArticleTableViewController *)[[segue destinationViewController] topViewController];
         [controller setArticleList:object];
