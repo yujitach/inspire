@@ -62,6 +62,7 @@
 //    [self.progressView sizeToFit];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadStarted:) name:@"pdfDownloadStarted" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:NSManagedObjectContextDidSaveNotification object:nil];
     // [self refresh];
     // Do any additional setup after loading the view.
 }
@@ -137,7 +138,7 @@
         
         HTMLArticleHelper* helper=[[HTMLArticleHelper alloc] initWithArticle:a];
         for(NSString*key in @[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
-                              @"journal",@"flagUnflag",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
+                             @"journal",@"flagged",@"flagUnflag",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
             NSString*value=[helper valueForKey:key];
             if(!value){
                 value=@"";

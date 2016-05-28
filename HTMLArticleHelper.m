@@ -206,9 +206,16 @@
 }
 -(NSString*)flagUnflag{
     if(article.flag&AFIsFlagged){
-        return [NSString stringWithFormat:@"<a href=\"spires-unflag://%@\">⭐️</a>",article.objectID.URIRepresentation];
+        return [NSString stringWithFormat:@"<a href=\"spires-unflag://%@\">(un)flag</a>",article.objectID.URIRepresentation];
     }else{
-        return [NSString stringWithFormat:@"<a href=\"spires-flag://%@\">☆</a>",article.objectID.URIRepresentation];
+        return [NSString stringWithFormat:@"<a href=\"spires-flag://%@\">(un)flag</a>",article.objectID.URIRepresentation];
+    }
+}
+-(NSString*)flagged{
+    if(article.flag&AFIsFlagged){
+        return @"⭐️";
+    }else{
+        return @"";
     }
 }
 -(NSString*)texKey{

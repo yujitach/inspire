@@ -138,6 +138,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
         NSURL*z=[NSURL URLWithString:y];
         Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
        [a setFlag: a.flag | AFIsFlagged];
+        [[MOC moc] save:NULL];
     }else if([[url scheme] isEqualToString:@"spires-unflag"]){
         NSString*x=[url absoluteString];
         NSString*y=[x substringFromIndex:[@"spires-unflag://" length]];
@@ -145,6 +146,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
         NSURL*z=[NSURL URLWithString:y];
         Article*a=(Article*)[[MOC moc] objectRegisteredForID:[[MOC moc].persistentStoreCoordinator managedObjectIDForURIRepresentation:z]];
         [a setFlag: a.flag & ~AFIsFlagged];
+        [[MOC moc] save:NULL];
     }else if([[url scheme] isEqualToString:@"spires-lookup-eprint"]){
         NSString*eprint=[self extractArXivID:[url absoluteString]];
         if(eprint){
