@@ -88,7 +88,19 @@
     [[OperationQueues sharedQueue] addOperation:op];
 }
 @end
-
+@implementation ArxivNewArticleList (ArticleListDictionaryRepresentation)
+-(void)loadFromDictionary:(NSDictionary *)dic
+{
+    // the difference from the vanila ArticleList is that we do register imported articles to the MOC, but not to the list itself. This is done in order to avoid the following situation: when you first launch the app, the app finds an update from other machine, slowly reading it, while you manually refresh the arxiv/new. Then the arxiv/new obtained from the web is often overwritten from other machine.
+    NSMutableArray*lightweightArticles=[NSMutableArray array];
+    for(NSDictionary*subDic in dic[@"articles"]){
+        [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+    }
+    NSManagedObjectContext*secondMOC=self.managedObjectContext;
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
+    [[OperationQueues sharedQueue] addOperation:op];
+}
+@end
 @implementation CannedSearch (ArticleListDictionaryRepresentation)
 -(NSDictionary*)dictionaryRepresentation
 {
