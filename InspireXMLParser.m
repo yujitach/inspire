@@ -109,6 +109,8 @@
             if(dateString){
                 if([dateString length]==7){
                     dateString=[dateString stringByAppendingString:@"-01"];
+                }else if([dateString length]==4){
+                    dateString=[dateString stringByAppendingString:@"-01-01"];
                 }
                 NSDate*date=[df dateFromString:dateString];
                 currentArticle.date=date;
