@@ -127,6 +127,7 @@
     }
     //    NSLog(@"%@",authorsList);
     NSString*abstract=[a lastObject];
+    abstract=[abstract stringByReplacingOccurrencesOfString:@"<p class=\"mathjax\">" withString:@"<p>"];
     if([abstract rangeOfString:@"<p>"].location!=NSNotFound){
 	abstract=[abstract componentsSeparatedByString:@"<p>"][1];
 	abstract=[abstract componentsSeparatedByString:@"</p>"][0];
