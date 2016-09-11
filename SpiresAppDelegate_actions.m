@@ -173,8 +173,7 @@
 		@"mailto:yuji.tachikawa@ipmu.jp?subject=spires.app Bugs/Suggestions for v.%@ (%@ bytes)",
 		version,size]
 	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
-}    
-
+}
 -(IBAction)deletePDFForEntry:(id)sender
 {
     NSMutableArray*articlesWithPDF=[NSMutableArray array];
@@ -380,6 +379,19 @@
     }
     [[OperationQueues sharedQueue] addOperation:op];
 }
+-(IBAction)copyBibEntries:(id)sender
+{
+    NSMutableString*x=[NSMutableString string];
+    for(Article*a in [ac selectedObjects]){
+        [x appendString:[a extraForKey:@"bibtex"]];
+        [x appendString:@"\n"];
+    }
+    NSPasteboard*pb=[NSPasteboard generalPasteboard];
+    [pb declareTypes:@[NSStringPboardType] owner:self];
+    [pb setString:x forType:NSStringPboardType];
+    [[NSSound soundNamed:@"Submarine"] play];
+}
+
 -(void)reloadFromSPIRESmainwork:(NSArray*)articles
 {
     NSMutableArray*queries=[NSMutableArray array];

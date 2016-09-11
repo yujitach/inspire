@@ -24,6 +24,7 @@
 //-(IBAction)importSpiresXML:(id)sender;
 -(IBAction)getBibEntries:(id)sender;
 -(IBAction)getBibEntriesWithoutDisplay:(id)sender;
+-(IBAction)copyBibEntries:(id)sender;
 -(IBAction)copyBibKeyToPasteboard:(id)sender;
 -(IBAction)openSelectionInQuickLook:(id)sender;
 -(IBAction)openSelectionInPDFViewer:(id)sender;

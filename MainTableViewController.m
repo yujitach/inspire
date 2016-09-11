@@ -114,6 +114,10 @@
 		       action:@selector(dumpDebugInfo:)
 		keyEquivalent:@""
 		      atIndex:5];
+    [menu insertItemWithTitle:@"Copy bibtex entries"
+                       action:@selector(copyBibEntries:)
+                keyEquivalent:@""
+                      atIndex:6];
     return menu;
 }
 @end
