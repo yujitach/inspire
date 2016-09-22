@@ -63,6 +63,7 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
+		33551D221D937A1D004E2926 /* v1.7.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 33551D211D937A1D004E2926 /* v1.7.0alert.rtf */; };
 		335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E51B929F8800998E48 /* AddFolderViewController.m */; };
 		335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
@@ -85,7 +86,6 @@
 		338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E9EBB1037C55D0059AE43 /* MessageViewerController.m */; };
 		338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EBD1037C58C0059AE43 /* MessageViewer.xib */; };
 		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
-		339512D71A5A9BF400056754 /* v1.6.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 339512D61A5A9BF400056754 /* v1.6.0alert.rtf */; };
 		339544DC0F35277200D01E97 /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 339544DB0F35277200D01E97 /* PrefController.m */; };
 		3395458F0F3539B600D01E97 /* AppChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3395458E0F3539B600D01E97 /* AppChooser.m */; };
 		339579410F3ECA3A0036364A /* LoadAbstractDOIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 339579400F3ECA3A0036364A /* LoadAbstractDOIOperation.m */; };
@@ -318,6 +318,7 @@
 		334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleFolder.m; sourceTree = "<group>"; };
 		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
+		33551D211D937A1D004E2926 /* v1.7.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.7.0alert.rtf; sourceTree = "<group>"; };
 		335818F010D613A700E7CA0E /* DummyBWSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyBWSplitView.h; sourceTree = "<group>"; };
 		335818F110D613A700E7CA0E /* DummyBWSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyBWSplitView.m; sourceTree = "<group>"; };
 		335EB4E41B929F8800998E48 /* AddFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFolderViewController.h; sourceTree = "<group>"; };
@@ -362,7 +363,6 @@
 		3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibTeXKeyCopyOperation.m; sourceTree = "<group>"; };
 		3391CBAB0FFADB8B00A52D6E /* DropAcceptingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropAcceptingTextField.h; sourceTree = "<group>"; };
 		3391CBAC0FFADB8B00A52D6E /* DropAcceptingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropAcceptingTextField.m; sourceTree = "<group>"; };
-		339512D61A5A9BF400056754 /* v1.6.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.6.0alert.rtf; sourceTree = "<group>"; };
 		339544DA0F35277200D01E97 /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
 		339544DB0F35277200D01E97 /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
 		3395458D0F3539B600D01E97 /* AppChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppChooser.h; sourceTree = "<group>"; };
@@ -793,7 +793,7 @@
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
 				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				339512D61A5A9BF400056754 /* v1.6.0alert.rtf */,
+				33551D211D937A1D004E2926 /* v1.7.0alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 			);
 			name = Resources;
@@ -1168,6 +1168,7 @@
 				33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */,
 				331AAB630EB7D9C5000AB5D0 /* MainMenu.xib in Resources */,
 				33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */,
+				33551D221D937A1D004E2926 /* v1.7.0alert.rtf in Resources */,
 				3396D1770F3DE63500689852 /* parseTeXandEmitPlist.perl in Resources */,
 				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
 				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
@@ -1193,7 +1194,6 @@
 				33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
-				339512D71A5A9BF400056754 /* v1.6.0alert.rtf in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
 				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
