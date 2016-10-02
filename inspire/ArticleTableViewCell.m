@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     UIFont*font=self.eprint.font;
     self.eprint.font=[UIFont monospacedDigitSystemFontOfSize:font.pointSize weight:UIFontWeightRegular];
 }
