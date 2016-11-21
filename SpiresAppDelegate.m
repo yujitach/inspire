@@ -52,6 +52,8 @@
 #import "NSUserDefaults+defaults.h"
 #import "AbstractRefreshManager.h"
 
+#import <sys/mount.h>
+
 @interface SpiresAppDelegate (Timers)
 -(void)timerForAbstractFired:(NSTimer*)t;
 -(void)clearUnreadFlagOfArticle:(NSTimer*)timer;
@@ -355,13 +357,35 @@
         }
     }
 }
+
+- (BOOL)isRunningOnReadOnlyVolume {
+    // taken from https://github.com/Squirrel/Squirrel.Mac/pull/186/files
+    struct statfs statfsInfo;
+    NSURL *bundleURL = NSRunningApplication.currentApplication.bundleURL;
+    int result = statfs(bundleURL.fileSystemRepresentation, &statfsInfo);
+    if (result == 0) {
+        return (statfsInfo.f_flags & MNT_RDONLY) != 0;
+    } else {
+        // If we can't even check if the volume is read-only, assume it is.
+        return YES;
+    }
+}
+
+-(void)alertConcerningAppTranslocation{
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Please move the app after downloading it" defaultButton:@"OK, I quit the app and move it" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please move the app to, say, /Applications. Apple decided that they don't allow the app to auto-update otherwise. I am sorry for the inconvenience."];
+    [alert runModal];
+    [NSApp terminate:nil];
+}
+
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
-    
+    if([self isRunningOnReadOnlyVolume]){
+        [self alertConcerningAppTranslocation];
+    }
     [self setupServices];
     [self crashCheck:self];
     if(![self showWelcome]){
-        [self safariExtensionRecommendation];
+//        [self safariExtensionRecommendation];
     }
 
     [sideOutlineViewController loadArticleLists];
