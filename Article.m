@@ -420,7 +420,11 @@
 }
 -(NSAttributedString*)attributedTitle
 {
-    return [self.quieterTitle mockTeXed];
+    if([self.title containsString:@"$"] || [self.title containsString:@"\\"]){
+        return [self.title mockTeXed];
+    }else{
+        return [[NSAttributedString alloc] initWithString:self.quieterTitle];
+    }
 }
 -(NSString*)calculateNormalizedTitle
 {
