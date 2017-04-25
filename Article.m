@@ -414,7 +414,7 @@
 	return [self title];
     }
     if(![self title]){
-	return nil;
+	return @"";
     }
     return [self.title quieterVersion];
 }
