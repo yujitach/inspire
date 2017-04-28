@@ -1215,7 +1215,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -exec rm {} \\;";
+			shellScript = "find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -exec rm {} \\;\nif [ -e \"$SRCROOT/product/$WRAPPER_NAME\" ] ; then\n    rm -r \"$SRCROOT/product/$WRAPPER_NAME\"\nfi\nif [ -e \"$SRCROOT/product/\" ] ; then\n     cp -PR \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$SRCROOT/product/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
