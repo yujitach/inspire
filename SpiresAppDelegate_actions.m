@@ -71,6 +71,40 @@
     });
 }
 
+-(IBAction)cleanUpDatabase:(id)sender;
+{
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to clean up the database?"
+                                  defaultButton:@"Yes"
+                                alternateButton:@"No"
+                                    otherButton:nil
+                      informativeTextWithFormat:@"Only the entries with PDF, or with an unread mark, or with a flag, or in a list will be kept. Everything else will be deleted to thin the database.\n\n Do this with caution; you cannot reverse the operation unless you already have a backup of the database somewhere, say in the Time Machine.\n\n It might take a long time. It will finish eventually, so please wait until it finishes. Do not quit the app prematurely, since it might corrupt the database."];
+    NSUInteger result=[alert runModal];
+    if(result!=NSAlertDefaultReturn)
+        return;
+    NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
+    [secondMOC performBlock:^{
+        NSFetchRequest*request=[NSFetchRequest fetchRequestWithEntityName:@"Article"];
+        request.predicate=[NSPredicate predicateWithFormat:@"(flagInternal == nil || flagInternal == '') && ( inLists.@count = 0)"];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSApp appDelegate] postMessage:@"Enumerating entries to remove..."];
+        });
+        NSArray<Article*>* results=[secondMOC executeFetchRequest:request error:NULL];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSApp appDelegate] postMessage:@"Removing objects..."];
+        });
+        for(Article*x in results){
+            [secondMOC deleteObject:x];
+        }
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSApp appDelegate] postMessage:@"Finalizing..."];
+        });
+        [secondMOC save:NULL];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self saveAction:nil];
+            [[NSApp appDelegate] postMessage:nil];
+        });
+    }];
+}
 
 -(IBAction)progressQuit:(id)sender
 {

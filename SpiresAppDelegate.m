@@ -372,7 +372,7 @@
 }
 
 -(void)alertConcerningAppTranslocation{
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Please move the app after downloading it" defaultButton:@"OK, I quit the app and move it" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please move the app to, say, /Applications. Apple decided that they don't allow the app to auto-update otherwise. I am sorry for the inconvenience."];
+    NSAlert*alert=[NSAlert alertWithMessageText:@"Please move the app after downloading it" defaultButton:@"OK, I quit the app and move it" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please move the app to, say, /Applications, using your mouse/trackpad, not from the command line. \n\n Apple decided that they don't allow the app to auto-update otherwise. \n\n I am sorry for the inconvenience."];
     [alert runModal];
     [NSApp terminate:nil];
 }

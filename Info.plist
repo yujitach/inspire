@@ -53,7 +53,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.7.3</string>
+	<string>1.7.4</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -182,7 +182,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>http://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
+	<string>https://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
 	<key>SUFeedURL-Unstable</key>
 	<string>http://member.ipmu.jp/yuji.tachikawa/spires/spires-Update-unstable.xml</string>
 	<key>SUPublicDSAKeyFile</key>
