@@ -258,7 +258,7 @@ NSString* pathShownWithQuickLook=nil;
     }
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    NSString* versionString=[s stringByMatching:@"arXiv:.{9,10}v(.)" capture:1];
+    NSString* versionString=[s stringByMatching:@"arXiv:\\d{4}\\.\\d+v(.)" capture:1];
     if(!versionString){
         versionString=[s stringByMatching:@"arXiv:.+?/.{7}v(.)" capture:1];
         if(!versionString)
