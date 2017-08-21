@@ -258,13 +258,13 @@ NSString* pathShownWithQuickLook=nil;
     }
     s=[s stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    NSString* versionString=[s stringByMatching:@"arXiv:.{9}v(.)" capture:1];
+    NSString* versionString=[s stringByMatching:@"arXiv:.{9,10}v(.)" capture:1];
     if(!versionString){
-	versionString=[s stringByMatching:@"arXiv:.+?/.{7}v(.)" capture:1];
-	if(!versionString)
-	    return 0;
-    }
-    int version=[versionString intValue];
-    return version;
+        versionString=[s stringByMatching:@"arXiv:.+?/.{7}v(.)" capture:1];
+        if(!versionString)
+            return 0;
+        }
+        int version=[versionString intValue];
+        return version;
 }
 @end
