@@ -47,6 +47,7 @@
     al.positionInView=@(2000);
     [ArticleList rearrangePositionInView];
     [articleListController rearrangeObjects];
+    [al.managedObjectContext save:NULL];
 }
 
 -(void)selectAllArticleList;
