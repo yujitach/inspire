@@ -9,6 +9,7 @@
 #import "BibViewController.h"
 #import "Article.h"
 #import "NSString+magic.h"
+#import "MOC.h"
 
 @implementation BibViewController
 -(id)init
@@ -73,6 +74,11 @@
 	      forKeyPath:@"defaults.bibType"
 		 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 		 context:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocMerged:) name:UIMOCDidMergeNotification object:nil];
+}
+-(void)mocMerged:(NSNotification*)notification
+{
+    [self refresh];
 }
 
 

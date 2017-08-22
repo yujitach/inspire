@@ -15,6 +15,7 @@
 #import "NSString+magic.h"
 #import "SpiresAppDelegate_actions.h"
 #import "HTMLArticleHelper.h"
+#import "MOC.h"
 
 static NSArray*observedKeys=nil;
 @implementation ArticleView
@@ -35,6 +36,9 @@ static NSArray*observedKeys=nil;
 							      forKeyPath:@"defaults.showDistractingMessage"
 								 options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 								 context:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocMerged:) name:UIMOCDidMergeNotification object:nil];
+
     NSError*error;
     NSString*templateForWebView=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" 
 												   ofType:@"html"] 
@@ -76,6 +80,11 @@ static NSArray*observedKeys=nil;
 }
 
 #pragma mark KVO
+-(void)mocMerged:(NSNotification*)notification
+{
+    [self refresh];
+}
+
 -(void)refresh
 {
     HTMLArticleHelper*helper=[[HTMLArticleHelper alloc] initWithArticle:article];

@@ -52,6 +52,8 @@
 #import "NSUserDefaults+defaults.h"
 #import "AbstractRefreshManager.h"
 
+#import "MOC.h"
+
 #import <sys/mount.h>
 
 @interface SpiresAppDelegate (Timers)
@@ -425,13 +427,11 @@
     bibViewController=[[BibViewController alloc] init];
     syncManager=[[SyncManager alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocMerged:) name:UIMOCDidMergeNotification object:nil];
 }
--(void)mocSaved:(NSNotification*)n
+-(void)mocMerged:(NSNotification*)n
 {
-    if(n.object==[MOC moc]){
-        [ac didChangeArrangementCriteria];
-    }
+    [ac didChangeArrangementCriteria];
 }
 -(BOOL)busyUpdating
 {

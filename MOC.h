@@ -7,6 +7,7 @@
 //
 
 @import CoreData;
+extern NSString* UIMOCDidMergeNotification;
 
 @interface NSManagedObjectContext (TrivialAddition)
 -(void)disableUndo;

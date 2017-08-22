@@ -12,6 +12,9 @@
 #endif
 #import "DumbOperation.h"
 
+NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
+
+
 @implementation NSManagedObjectContext (TrivialAddition)
 -(void)enableUndo
 {
@@ -211,7 +214,8 @@
     if(moc!=uiManagedObjectContext){
         // this is from secondary context, need to merge
         [uiManagedObjectContext performBlock:^{
-            [uiManagedObjectContext mergeChangesFromContextDidSaveNotification:n];            
+            [uiManagedObjectContext mergeChangesFromContextDidSaveNotification:n];
+            [[NSNotificationCenter defaultCenter] postNotificationName:UIMOCDidMergeNotification object:nil];
         }];
     }
 }
