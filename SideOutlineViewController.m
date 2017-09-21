@@ -43,7 +43,7 @@
 -(void)addArticleList:(ArticleList*)al
 {
     [articleListController insertObject:al 
-	      atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[[articleListController arrangedObjects] count]]];
+	      atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[(NSArray*)[articleListController arrangedObjects] count]]];
     al.positionInView=@(2000);
     [ArticleList rearrangePositionInView];
     [articleListController rearrangeObjects];

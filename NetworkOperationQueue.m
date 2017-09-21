@@ -49,7 +49,7 @@
 -(void)addOperation:(NSOperation *)op
 {
     if(online){
-        void (^cb)()=op.completionBlock;
+        void (^cb)(void)=op.completionBlock;
         __weak NSOperationQueue*me=self;
         [op setCompletionBlock:^{
             [me setSuspended:YES];
