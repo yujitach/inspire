@@ -51,12 +51,12 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     NSString*texFile;
     NSManagedObjectContext*moc;
     BOOL twice;
+    BOOL all;
     NSDictionary*dict;
     NSArray*citations;
     NSDictionary*mappings;
     NSMutableDictionary* keyToArticle;
     NSArray*entriesAlreadyInBib;
-    NSArray*entriesWithoutJournal;
 }
 +(NSDictionary*)infoForTeXFile:(NSString*)texFile
 {
@@ -73,12 +73,13 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 							errorDescription:NULL];
     return dict;
 }
--(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b;
+-(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b andRefreshingAll:(BOOL)a;
 {
     self=[super init];
     texFile=t;
     moc=m;
     twice=b;
+    all=a;
     return self;
 }
 -(NSString*)description
@@ -135,18 +136,13 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         }
         NSArray*entries=[org componentsMatchedByRegex:@"(@[^@]+)"];
         NSMutableArray*e=[NSMutableArray array];
-        NSMutableArray*j=[NSMutableArray array];
         for(NSString*entry in entries){
             NSString*key=[entry stringByMatching:@"^ *@[A-Za-z ]+\\{([^,]+)," capture:1];
             if(key &&![key isEqualToString:@""]){
                 [e addObject:key];
-                if(![entry containsString:@"journal"]){
-                    [j addObject:key];
-                }
             }
         }
         entriesAlreadyInBib=e;
-        entriesWithoutJournal=j;
     }
     
     {
@@ -219,7 +215,8 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     
     NSOperation*again=[[TeXBibGenerationOperation alloc] initWithTeXFile:texFile 
 								  andMOC:moc
-							  byLookingUpWeb:NO];
+							  byLookingUpWeb:NO
+                                                        andRefreshingAll:all];
     for(SpiresQueryOperation*q in ops){
 	[again addDependency:q];
         [q setBlockToActOnBatchImport:^(BatchImportOperation*importer){
@@ -242,34 +239,34 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 -(void)lookUpThingsNotFoundInDatabase
 {
     NSMutableArray* notFound=[NSMutableArray array];
-    NSMutableArray*j=[NSMutableArray array];
     for(NSString*key in citations){
 	NSString*idForKey=[self idForKey:key];
-	Article*a=keyToArticle[key];
-	if(a){
-        if(!a.journal){
-            [j addObject:idForKey];
+        if(!all){
+            Article*a=keyToArticle[key];
+            if(a){
+                NSString*latex=[a extraForKey:@"latex"];
+                if(!latex){
+                    [notFound addObject:idForKey];
+                }
+            }else{
+                if( [idForKey rangeOfString:@":"].location!=NSNotFound){
+                    [notFound addObject:idForKey];
+                }
+            }
         }else{
-            NSString*latex=[a extraForKey:@"latex"];
-            if(!latex){
+            if( [idForKey rangeOfString:@":"].location!=NSNotFound){
                 [notFound addObject:idForKey];
             }
         }
-	}else{
-	    if( [idForKey rangeOfString:@":"].location!=NSNotFound){
-		    [notFound addObject:idForKey];  
-	    }
-	}
     }
     if([notFound count]>0){
         NSString*logString=[self generateLookUps:notFound];
-        [[NSApp appDelegate] addToTeXLog:logString];
-        [[NSApp appDelegate] addToTeXLog:@" not found in local database. Looking up...\n"];
-    }
-    if([j count]>0){
-        NSString*logString=[self generateLookUps:j];
-        [[NSApp appDelegate] addToTeXLog:logString];
-        [[NSApp appDelegate] addToTeXLog:@" didn't have journal in database. refreshing...\n"];
+        if(!all){
+            [[NSApp appDelegate] addToTeXLog:logString];
+            [[NSApp appDelegate] addToTeXLog:@" not found in local database. Looking up...\n"];
+        }else{
+            [[NSApp appDelegate] addToTeXLog:@"refreshing all...\n"];
+        }
     }
 }
 -(void)registerEntriesToList
@@ -309,6 +306,10 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     NSArray*bibEntries=[org componentsMatchedByRegex:@"(@[^@]+)"];
     NSMutableString*result=[NSMutableString string];
     for(NSString*entry in bibEntries){
+        if(!all){
+            [result appendString:entry];
+            continue;
+        }
         if([entry containsString:@"dontUpdate"]){
             [result appendString:entry];
             continue;
@@ -322,9 +323,6 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             continue;
         }
         [result appendString:[self bibEntryForArticle:a]];
-    }
-    if(![org isEqualToString:result]){
-        [[NSApp appDelegate] addToTeXLog:@"Some entries updated.\n"];
     }
     NSMutableArray*toAddToBib=[NSMutableArray array];
     for(NSString*key in citations){
@@ -357,7 +355,11 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     }else{
         if(![result isEqualToString:org]){
             [result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-            [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
+            if(!all){
+                [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
+            }else{
+                [[NSApp appDelegate] addToTeXLog:@"It takes a while to refresh all entries. You might want to bring up the activity monitor from the menu bar.\n"];
+            }
         }else{
             [[NSApp appDelegate] addToTeXLog:@"Nothing to do.\n"];
         }

@@ -139,4 +139,5 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     s/in the Noether/is the Noether/;
     s/%%CITATIO/%%CITATION/;
         #final magic
+        s/([A-Za-z-]) +([A-Za-z-])/$1 $2/;
         s/\$+/\$/;

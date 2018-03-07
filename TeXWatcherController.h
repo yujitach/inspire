@@ -17,6 +17,7 @@
     NSMutableDictionary*parents;
     NSTask*task;
     NSPipe*pipe;
+    NSString*mainTeXFile;
 }
 -(IBAction)clearFolderToWatch:(id)sender;
 -(void)addToLog:(NSString*)s;

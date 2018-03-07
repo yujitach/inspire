@@ -10,6 +10,6 @@
 #import "DumbOperation.h"
 
 @interface TeXBibGenerationOperation : ConcurrentOperation
--(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b;
+-(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b andRefreshingAll:(BOOL)a;
 +(NSDictionary*)infoForTeXFile:(NSString*)file;
 @end

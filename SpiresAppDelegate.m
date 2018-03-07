@@ -105,8 +105,11 @@
 	if([path hasSuffix:@".pdf"]){
 	    [self handlePDF:path];
 	}else if([path hasSuffix:@".tex"]){
-	    [[OperationQueues sharedQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:path
-												    andMOC:[MOC moc] byLookingUpWeb:YES]];
+            TeXBibGenerationOperation*op=[[TeXBibGenerationOperation alloc] initWithTeXFile:path
+                                                                                     andMOC:[MOC moc]
+                                                                             byLookingUpWeb:YES
+                                                                           andRefreshingAll:NO];
+            [[OperationQueues sharedQueue] addOperation:op];
 	}
     }
 }

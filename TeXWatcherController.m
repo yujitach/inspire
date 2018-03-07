@@ -77,7 +77,14 @@
 {
     self.pathToWatch=nil;
 }
-
+-(IBAction)refreshAll:(id)sender;
+{
+    if(!mainTeXFile){
+        [self addToLog:@"Main TeX file not detected; try saving the TeX file in the editor once.\n"];
+        return;
+    }
+    [self generateBibForFile:mainTeXFile refreshingAll:YES];
+}
 #pragma mark analysis of TeX files' mutual inclusion
 -(void)updateParentsFor:(NSString*)texFullPath
 {
@@ -140,6 +147,11 @@
 	[[NSUserDefaults standardUserDefaults] setObject:file
 						  forKey:@"watchDir"];
 	self.image=[[NSWorkspace sharedWorkspace] iconForFile:file];
+        if([file hasSuffix:@".tex"]){
+            mainTeXFile=file;
+        }else{
+            mainTeXFile=nil;
+        }
     }else{
 	[[NSUserDefaults standardUserDefaults] setObject:@""
 						  forKey:@"watchDir"];	
@@ -217,24 +229,34 @@
 }
 
 #pragma mark FSEvents delegate
+-(void)generateBibForFile:(NSString*)file refreshingAll:(BOOL)all
+{
+    NSString*foo=[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:NULL];
+    if([foo hasPrefix:@"%This file is auto"]){
+        return;
+    }
+    [self updateParentsFor:file];
+    self.pathToWatch=[NSURL fileURLWithPath:file];
+    NSString*mainFile=[self lookUpAncestor:file];
+    if(mainFile){
+        mainTeXFile=mainFile;
+    }
+    if([mainFile isEqualToString:file]){
+        [self addToLog:[NSString stringWithFormat:@"%@ modified, generating bib\n",[file lastPathComponent]]];
+    }else{
+        [self addToLog:[NSString stringWithFormat:@"%@ modified, which is a subfile of %@. Generating bib\n",[file lastPathComponent],[mainFile lastPathComponent]]];
+    }
+    TeXBibGenerationOperation*op=[[TeXBibGenerationOperation alloc] initWithTeXFile:mainFile
+                                                                             andMOC:[MOC moc]
+                                                                     byLookingUpWeb:YES
+                                                                   andRefreshingAll:all];
+    [[OperationQueues sharedQueue] addOperation: op];
+
+}
 -(void)modifiedFileAtPath:(NSString*)file
 {
     if([file hasSuffix:@".tex"]){
-	NSString*foo=[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:NULL];
-	if([foo hasPrefix:@"%This file is auto"]){
-	    return;
-	}
-	[self updateParentsFor:file];
-	self.pathToWatch=[NSURL fileURLWithPath:file];
-	NSString*mainFile=[self lookUpAncestor:file];
-	if([mainFile isEqualToString:file]){
-	    [self addToLog:[NSString stringWithFormat:@"%@ modified, generating bib\n",[file lastPathComponent]]];
-	}else{
-	    [self addToLog:[NSString stringWithFormat:@"%@ modified, which is a subfile of %@. Generating bib\n",[file lastPathComponent],[mainFile lastPathComponent]]];	    
-	}
-	[[OperationQueues sharedQueue] addOperation:[[TeXBibGenerationOperation alloc] initWithTeXFile:mainFile
-												andMOC:[MOC moc] 
-											byLookingUpWeb:YES]];
+        [self generateBibForFile:file refreshingAll:NO];
     }else if([file hasSuffix:@".log"]){
 	[self performSelector:@selector(runBibTeXForLog:) withObject:file afterDelay:1];
     }
