@@ -47,6 +47,17 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 
 
 @implementation TeXBibGenerationOperation
+{
+    NSString*texFile;
+    NSManagedObjectContext*moc;
+    BOOL twice;
+    NSDictionary*dict;
+    NSArray*citations;
+    NSDictionary*mappings;
+    NSMutableDictionary* keyToArticle;
+    NSArray*entriesAlreadyInBib;
+    NSArray*entriesWithoutJournal;
+}
 +(NSDictionary*)infoForTeXFile:(NSString*)texFile
 {
     NSString*script=[[NSBundle mainBundle] pathForResource:@"parseTeXandEmitPlist" ofType:@"perl"];
@@ -122,15 +133,20 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
                 }
             }
         }
-	NSArray*lines=[org componentsSeparatedByString:@"\n"];
-	NSMutableArray*e=[NSMutableArray array];
-	for(NSString*line in lines){
-	    NSString*entry=[line stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
-	    if(entry &&![entry isEqualToString:@""]){
-		[e addObject:entry];
-	    }
-	}
-	entriesAlreadyInBib=e;
+        NSArray*entries=[org componentsMatchedByRegex:@"(@[^@]+)"];
+        NSMutableArray*e=[NSMutableArray array];
+        NSMutableArray*j=[NSMutableArray array];
+        for(NSString*entry in entries){
+            NSString*key=[entry stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
+            if(key &&![key isEqualToString:@""]){
+                [e addObject:key];
+                if(![entry containsString:@"journal"]){
+                    [j addObject:key];
+                }
+            }
+        }
+        entriesAlreadyInBib=e;
+        entriesWithoutJournal=j;
     }
     
     {
@@ -154,11 +170,11 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 							andMOC:moc];
     [ops addObject:op];    
 }
--(void)generateLookUps:(NSArray*)keys
+-(NSString*)generateLookUps:(NSArray*)keys
 {
     
     if(!twice){
-	return;
+	return nil;
     }
     NSMutableString*logString=[NSMutableString string];
     NSMutableArray*queries=[NSMutableArray array];
@@ -220,25 +236,25 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	[[OperationQueues spiresQueue] addOperation:q];
     }
     [[OperationQueues sharedQueue] addOperation:again];
-    [logString appendString:@" not found in local database. Looking up...\n"];
-    [[NSApp appDelegate] addToTeXLog:logString];
+    return logString;
 }
 
 -(void)lookUpThingsNotFoundInDatabase
 {
-    BOOL forceRefresh=twice&&[dict[@"forceRefresh"] boolValue];
-    if(forceRefresh){
-	NSLog(@"forcing refresh of bibliography data");
-    }
     NSMutableArray* notFound=[NSMutableArray array];
+    NSMutableArray*j=[NSMutableArray array];
     for(NSString*key in citations){
 	NSString*idForKey=[self idForKey:key];
 	Article*a=keyToArticle[key];
 	if(a){
-	    NSString*latex=[a extraForKey:@"latex"];
-	    if(!latex || forceRefresh){
-		[notFound addObject:idForKey];		
-	    }
+        if(!a.journal){
+            [j addObject:idForKey];
+        }else{
+            NSString*latex=[a extraForKey:@"latex"];
+            if(!latex){
+                [notFound addObject:idForKey];
+            }
+        }
 	}else{
 	    if( [idForKey rangeOfString:@":"].location!=NSNotFound){
 		    [notFound addObject:idForKey];  
@@ -246,8 +262,15 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 	}
     }
     if([notFound count]>0){
-	[self generateLookUps:notFound];
-    }    
+        NSString*logString=[self generateLookUps:notFound];
+        [[NSApp appDelegate] addToTeXLog:logString];
+        [[NSApp appDelegate] addToTeXLog:@" not found in local database. Looking up...\n"];
+    }
+    if([j count]>0){
+        NSString*logString=[self generateLookUps:j];
+        [[NSApp appDelegate] addToTeXLog:logString];
+        [[NSApp appDelegate] addToTeXLog:@" didn't have journal in database. refreshing...\n"];
+    }
 }
 -(void)registerEntriesToList
 {
@@ -264,53 +287,82 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     }
 }
 
+-(NSString*)bibEntryForArticle:(Article*)a{
+    NSString*bib=[a extraForKey:@"bibtex"];
+    if(!bib){
+        return @"";
+    }
+    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
+    bib=[bib magicTeXed];
+    bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[[a texKey] inspireToCorrect]];
+    return [bib stringByAppendingString:@"\n\n"];
+}
 -(void)reallyGenerateBibFile
 {
-    NSMutableArray*toAddToBib=[NSMutableArray array];
-    for(NSString*key in citations){
-	if([entriesAlreadyInBib containsObject:key]){
-	    continue;
-	}
-	Article*a=keyToArticle[key];
-	if(a){
-	    NSString* bib=[a extraForKey:@"bibtex"];
-	    if(bib){
-		[toAddToBib addObject:key];
-	    }
-	}
-	
-    }
     
     NSString*bibFilePath=[self bibFilePaths][0];
     
-    if([toAddToBib count]>0){
-	[[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"adding entries to %@\n",[bibFilePath lastPathComponent]]];
-	NSMutableString*appendix=[NSMutableString string];
-	for(NSString* key in toAddToBib){
-	    Article*a=keyToArticle[key];
-	    NSString*kk=key;
-	    if(![key isEqualToString:[a texKey]]){
-		kk=[key stringByAppendingFormat:@"(=%@)",[a texKey]];
-	    }
-	    [[NSApp appDelegate] addToTeXLog:[kk stringByAppendingString:@", "]];
-	    NSString*bib=[a extraForKey:@"bibtex"];
-	    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
-	    bib=[bib magicTeXed];
-	    bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[key inspireToCorrect]];
-	    [appendix appendString:bib];
-	    [appendix appendString:@"\n\n"];	    
-	}
-	NSString*org=[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil];
-	if(!org){
-	    org=@"";
-	}    
-	NSString*result=[NSString stringWithFormat:@"%@\n\n%@",org,appendix];
-	[result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	[[NSApp appDelegate] addToTeXLog:@"Done.\n"];
-    }else{
-	[[NSApp appDelegate] addToTeXLog:@"Nothing to add.\n"];	
+    NSString*org=[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil];
+    if(!org){
+        org=@"";
     }
-    
+    NSArray*bibEntries=[org componentsMatchedByRegex:@"(@[^@]+)"];
+    NSMutableString*result=[NSMutableString string];
+    for(NSString*entry in bibEntries){
+        if([entry containsString:@"dontUpdate"]){
+            [result appendString:entry];
+            continue;
+        }
+        NSString*key=[entry stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
+        Article*a=[Article articleWith:[self idForKey:key]
+                          inDataForKey:@"texKey"
+                                 inMOC:moc];
+        if(!a){
+            [result appendString:entry];
+            continue;
+        }
+        [result appendString:[self bibEntryForArticle:a]];
+    }
+    if(![org isEqualToString:result]){
+        [[NSApp appDelegate] addToTeXLog:@"Some entries updated.\n"];
+    }
+    NSMutableArray*toAddToBib=[NSMutableArray array];
+    for(NSString*key in citations){
+        if([entriesAlreadyInBib containsObject:key]){
+            continue;
+        }
+        Article*a=keyToArticle[key];
+        if(a){
+            NSString* bib=[a extraForKey:@"bibtex"];
+            if(bib){
+                [toAddToBib addObject:key];
+            }
+        }
+        
+    }
+
+    if([toAddToBib count]>0){
+        [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"Adding entries to %@\n",[bibFilePath lastPathComponent]]];
+        NSMutableString*appendix=[NSMutableString string];
+        for(NSString* key in toAddToBib){
+            Article*a=keyToArticle[key];
+            NSString*kk=key;
+            if(![key isEqualToString:[a texKey]]){
+                kk=[key stringByAppendingFormat:@"(=%@)",[a texKey]];
+            }
+            [[NSApp appDelegate] addToTeXLog:[kk stringByAppendingString:@", "]];
+            [appendix appendString:[self bibEntryForArticle:a]];
+        }
+        [result appendString:appendix];
+    }else{
+        if(![result isEqualToString:org]){
+            [result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+            [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
+        }else{
+            [[NSApp appDelegate] addToTeXLog:@"Nothing to do.\n"];
+        }
+    }
+
 }
 -(void)run
 {

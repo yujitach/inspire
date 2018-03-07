@@ -33,6 +33,8 @@
 #pragma mark UI glues
 -(void)addToLog:(NSString*)s
 {
+    if(!s)
+        return;
     NSColor*color=[NSColor blackColor];
     if([s rangeOfString:@"modified"].location!=NSNotFound){
 	color=[NSColor colorWithCalibratedRed:0.665f green:0.052f blue:0.569f alpha:1.000f];
