@@ -137,7 +137,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         NSMutableArray*e=[NSMutableArray array];
         NSMutableArray*j=[NSMutableArray array];
         for(NSString*entry in entries){
-            NSString*key=[entry stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
+            NSString*key=[entry stringByMatching:@"^ *@[A-Za-z ]+\\{([^,]+)," capture:1];
             if(key &&![key isEqualToString:@""]){
                 [e addObject:key];
                 if(![entry containsString:@"journal"]){
@@ -313,7 +313,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             [result appendString:entry];
             continue;
         }
-        NSString*key=[entry stringByMatching:@"^ *@[A-Za-z]+\\{([^,]+)," capture:1];
+        NSString*key=[entry stringByMatching:@"^ *@[A-Za-z ]+\\{([^,]+)," capture:1];
         Article*a=[Article articleWith:[self idForKey:key]
                           inDataForKey:@"texKey"
                                  inMOC:moc];

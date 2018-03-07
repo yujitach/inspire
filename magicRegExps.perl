@@ -138,7 +138,5 @@ s/([^\['{]+){\\bf/{\\slshape $1}{\\bf/msg; # }'
     #correction to spires
     s/in the Noether/is the Noether/;
     s/%%CITATIO/%%CITATION/;
-    s/^ *//;
-    s/ +/ /;
         #final magic
         s/\$+/\$/;
