@@ -168,10 +168,6 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 }
 -(NSString*)generateLookUps:(NSArray*)keys
 {
-    
-    if(!twice){
-	return nil;
-    }
     NSMutableString*logString=[NSMutableString string];
     NSMutableArray*queries=[NSMutableArray array];
     for(NSString*key in keys){
@@ -254,18 +250,26 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
                 }
             }
         }else{
-            if( [idForKey rangeOfString:@":"].location!=NSNotFound){
-                [notFound addObject:idForKey];
+            Article*a=keyToArticle[key];
+            if(a){
+                if(!a.journal){
+                    [notFound addObject:idForKey];
+                }
+            }else{
+                if( [idForKey rangeOfString:@":"].location!=NSNotFound){
+                    [notFound addObject:idForKey];
+                }
             }
         }
     }
-    if([notFound count]>0){
+    if([notFound count]>0 && twice){
         NSString*logString=[self generateLookUps:notFound];
         if(!all){
             [[NSApp appDelegate] addToTeXLog:logString];
             [[NSApp appDelegate] addToTeXLog:@" not found in local database. Looking up...\n"];
         }else{
-            [[NSApp appDelegate] addToTeXLog:@"refreshing all...\n"];
+            [[NSApp appDelegate] addToTeXLog:logString];
+            [[NSApp appDelegate] addToTeXLog:@" don't have journal entries. Looking up...\n"];
         }
     }
 }
@@ -298,15 +302,21 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 {
     
     NSString*bibFilePath=[self bibFilePaths][0];
-    
+    [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"Updating %@:\n",[bibFilePath lastPathComponent]]];
+
     NSString*org=[NSString stringWithContentsOfFile:bibFilePath encoding:NSUTF8StringEncoding error:nil];
     if(!org){
         org=@"";
     }
     NSArray*bibEntries=[org componentsMatchedByRegex:@"(@[^@]+)"];
     NSMutableString*result=[NSMutableString string];
+    NSMutableArray*updatedKeys=[NSMutableArray array];
     for(NSString*entry in bibEntries){
         if(!all){
+            [result appendString:entry];
+            continue;
+        }
+        if([[entry lowercaseString] containsString:@"journal"]||[[entry lowercaseString] containsString:@"booktitle"]){
             [result appendString:entry];
             continue;
         }
@@ -322,6 +332,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             [result appendString:entry];
             continue;
         }
+        [updatedKeys addObject:key];
         [result appendString:[self bibEntryForArticle:a]];
     }
     NSMutableArray*toAddToBib=[NSMutableArray array];
@@ -339,26 +350,24 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         
     }
 
+    if([updatedKeys count]>0){
+        [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"Updated:%@\n",[updatedKeys componentsJoinedByString:@", "]]];
+    }
     if([toAddToBib count]>0){
-        [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"Adding entries to %@\n",[bibFilePath lastPathComponent]]];
+        [[NSApp appDelegate] addToTeXLog:[NSString stringWithFormat:@"Added:%@\n",[toAddToBib componentsJoinedByString:@", "]]];
         NSMutableString*appendix=[NSMutableString string];
         for(NSString* key in toAddToBib){
             Article*a=keyToArticle[key];
-            NSString*kk=key;
-            if(![key isEqualToString:[a texKey]]){
-                kk=[key stringByAppendingFormat:@"(=%@)",[a texKey]];
-            }
-            [[NSApp appDelegate] addToTeXLog:[kk stringByAppendingString:@", "]];
             [appendix appendString:[self bibEntryForArticle:a]];
         }
         [result appendString:appendix];
     }else{
         if(![result isEqualToString:org]){
             [result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-            if(!all){
-                [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
+            if(all&&twice){
+                [[NSApp appDelegate] addToTeXLog:@"Refreshing entries from inspire...\n"];
             }else{
-                [[NSApp appDelegate] addToTeXLog:@"It takes a while to refresh all entries. You might want to bring up the activity monitor from the menu bar.\n"];
+                [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
             }
         }else{
             [[NSApp appDelegate] addToTeXLog:@"Nothing to do.\n"];

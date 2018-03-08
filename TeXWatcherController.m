@@ -68,7 +68,7 @@
 -(NSString*)message
 {
     if(self.pathToWatch){
-	return @"Watching the folder...";
+	return @"Watching...";
     }else{
 	return nil;
     }
