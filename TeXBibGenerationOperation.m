@@ -361,17 +361,17 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             [appendix appendString:[self bibEntryForArticle:a]];
         }
         [result appendString:appendix];
-    }else{
-        if(![result isEqualToString:org]){
-            [result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-            if(all&&twice){
-                [[NSApp appDelegate] addToTeXLog:@"Refreshing entries from inspire...\n"];
-            }else{
-                [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
-            }
+    }
+    
+    if(![result isEqualToString:org]){
+        [result writeToFile:bibFilePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+        if(all&&twice){
+            [[NSApp appDelegate] addToTeXLog:@"Refreshing entries from inspire...\n"];
         }else{
-            [[NSApp appDelegate] addToTeXLog:@"Nothing to do.\n"];
+            [[NSApp appDelegate] addToTeXLog:@"Done.\n"];
         }
+    }else{
+        [[NSApp appDelegate] addToTeXLog:@"Nothing to do.\n"];
     }
 
 }
