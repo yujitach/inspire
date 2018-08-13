@@ -7,9 +7,12 @@
 //
 
 #import "ArticleList.h"
-typedef void (^SnapShotBlock)(NSDictionary*snapShot);
-typedef void (^ToBeRemovedBlock)(NSArray*articleListsToBeRemoved);
-@interface ArticleList(ArticleListArchiveAdditions)
-+(void)prepareSnapShotAndPerform:(SnapShotBlock)block;
-+(void)mergeSnapShot:(NSDictionary *)snapShot andDealWithArticleListsToBeRemoved:(ToBeRemovedBlock)block;
+@class ArticleFolder;
+@interface ArticleList (ArticleListArchiveAdditions)
++(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC;
++(void)populateFlaggedArticlesFrom:(NSArray*)a usingMOC:(NSManagedObjectContext*)secondMOC;
 @end
+@interface PrepareSnapshotOperation:NSOperation
+@property NSDictionary*snapShot;
+@end
+

@@ -156,25 +156,6 @@
     NSError*error=nil;
     return [secondMOC executeFetchRequest:req error:&error];
 }
-+(void)prepareSnapShotAndPerform:(SnapShotBlock)block
-{
-    NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
-    [secondMOC performBlock:^{
-        NSMutableArray*ar=[NSMutableArray array];
-        NSArray*topLevelALs=[self topLevelArticleListsFromMOC:secondMOC];
-        NSArray*flagged=[self arraysOfDictionaryRepresentationOfFlaggedArticlesInMOC:secondMOC];
-        for(ArticleList*al in topLevelALs){
-            NSDictionary*dic=[al dictionaryRepresentation];
-            if(dic){
-                [ar addObject:dic];
-            }
-        }
-        [ar sortUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES ]]];
-        dispatch_async(dispatch_get_main_queue(),^{
-            block(@{@"children":ar,@"flagged":flagged});
-        });
-    }];
-}
 +(NSDictionary*)articleListForName:(NSString*)name andType:(NSString*)type inArray:(NSArray*)a
 {
     for(NSDictionary*dic in a){
@@ -257,15 +238,25 @@
     }
     return notFound;
 }
-+(void)mergeSnapShot:(NSDictionary *)snapShot andDealWithArticleListsToBeRemoved:(ToBeRemovedBlock)block
+@end
+@implementation PrepareSnapshotOperation
+-(void)main
 {
-    NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager]createSecondaryMOC];
-    [secondMOC performBlock:^{
-        NSArray*notFound=[self notFoundArticleListsAfterMergingChildren:snapShot[@"children"] toArticleFolder:nil usingMOC:secondMOC];
-        [self populateFlaggedArticlesFrom:snapShot[@"flagged"] usingMOC:secondMOC];
-        [ArticleList rearrangePositionInView];
-        [secondMOC save:NULL];
-        block(notFound);
+    NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
+    [secondMOC performBlockAndWait:^{
+        NSMutableArray*ar=[NSMutableArray array];
+        NSArray*topLevelALs=[ArticleList topLevelArticleListsFromMOC:secondMOC];
+        NSArray*flagged=[ArticleList arraysOfDictionaryRepresentationOfFlaggedArticlesInMOC:secondMOC];
+        for(ArticleList*al in topLevelALs){
+            NSDictionary*dic=[al dictionaryRepresentation];
+            if(dic){
+                [ar addObject:dic];
+            }
+        }
+        [ar sortUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES ]]];
+        self.snapShot=@{@"children":ar,@"flagged":flagged};
     }];
+    
 }
 @end
+
