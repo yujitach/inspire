@@ -17,7 +17,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #endif
 
-#define SYNCDATAEXTENSION @"sidebarContents"
+#define SYNCDATAEXTENSION @"inspireSidebarContents"
 
 @implementation SyncManager
 {
@@ -159,13 +159,13 @@
 {
     NSString*removedNamesString=[names componentsJoinedByString:@", "];
 #if TARGET_OS_IPHONE
-    UIAlertController*alert=[UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Some article lists are removed on \"%@\"",machineName ]
-                                                                message:[NSString stringWithFormat:@"Do you want to remove also on this machine the following article lists: \"%@\" ?",removedNamesString] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController*alert=[UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Some article lists are (re)moved on \"%@\"",machineName ]
+                                                                message:[NSString stringWithFormat:@"Do you want to (re)move also on this machine the following article lists: \"%@\" ?",removedNamesString] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* keepAction = [UIAlertAction actionWithTitle:@"Keep" style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction *  action) {
                                                            blockForKeeping();
                                                        }];
-    UIAlertAction* removeAction = [UIAlertAction actionWithTitle:@"Remove" style: UIAlertActionStyleDestructive
+    UIAlertAction* removeAction = [UIAlertAction actionWithTitle:@"(Re)move" style: UIAlertActionStyleDestructive
                                                          handler:^(UIAlertAction *  action) {
                                                              blockForRemoval();
                                                          }];
@@ -175,10 +175,10 @@
 #else
     NSAlert*alert=[[NSAlert alloc] init];
     alert.alertStyle=NSInformationalAlertStyle;
-    alert.messageText=[NSString stringWithFormat:@"Some article lists are removed on \"%@\"",machineName ];
-    alert.informativeText=[NSString stringWithFormat:@"Do you want to remove also on this machine the following article lists: \"%@\" ?",removedNamesString];
+    alert.messageText=[NSString stringWithFormat:@"Some article lists are (re)moved on \"%@\"",machineName ];
+    alert.informativeText=[NSString stringWithFormat:@"Do you want to (re)move also on this machine the following article lists: \"%@\" ?",removedNamesString];
     [alert addButtonWithTitle:@"Keep"];
-    [alert addButtonWithTitle:@"Remove"];
+    [alert addButtonWithTitle:@"(Re)move"];
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
                   completionHandler:^(NSModalResponse returnCode) {
                       if(returnCode==NSAlertSecondButtonReturn){
