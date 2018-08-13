@@ -22,7 +22,6 @@
 @implementation SyncManager
 {
 #if TARGET_OS_IPHONE
-    NSMetadataQuery*metadataQuery;
 #else
     DirWatcher*dw;
 #endif
@@ -76,23 +75,7 @@
 #endif
     return self;
 }
-#if TARGET_OS_IPHONE
--(void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer
-{
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
-        if([[iCloud sharedCloud] doesFileExistInCloud:SAVEFILENAME]){
-            [self stateChanged:nil];
-        }
-        //        [[iCloud sharedCloud] monitorDocumentStateForFile:SAVEFILENAME onTarget:self withSelector:@selector(stateChanged:)];
-        metadataQuery=[[NSMetadataQuery alloc] init];
-        metadataQuery.predicate=[NSPredicate predicateWithFormat:@"%K LIKE %@", NSMetadataItemFSNameKey,SAVEFILENAME];
-        metadataQuery.searchScopes=@[NSMetadataQueryUbiquitousDocumentsScope];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateChanged:) name:NSMetadataQueryDidUpdateNotification object:nil];
-        [metadataQuery startQuery];
-        [self setupTimer];
-    });
-}
-#endif
+
 -(NSString*)machineName
 {
 #if TARGET_OS_IPHONE
@@ -116,7 +99,7 @@
 -(void)writeData:(NSData*)data andThen:(void(^)(void))block
 {
 #if TARGET_OS_IPHONE
-    [[iCloud sharedCloud] saveAndCloseDocumentWithName:saveFileName withContent:data completion:^(UIDocument *cloudDocument, NSData *documentData, NSError *error) {
+    [[iCloud sharedCloud] saveAndCloseDocumentWithName:self.saveFileName withContent:data completion:^(UIDocument *cloudDocument, NSData *documentData, NSError *error) {
         // nothing particular to do
         NSLog(@"sidebar content written on the iCloud");
         block();
@@ -145,13 +128,14 @@
 {
     if([file hasSuffix:SYNCDATAEXTENSION]){
         NSString*fileName=[file lastPathComponent];
-        [self stateChanged:fileName];
+        NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:NULL] fileModificationDate];
+        [self stateChanged:fileName atDate:date];
     }
 }
 -(void)retrieveDataFromFile:(NSString*)file AndThen:(void(^)(NSData*data))block
 {
 #if TARGET_OS_IPHONE
-    NSArray*versions=[[iCloud sharedCloud] findUnresolvedConflictingVersionsOfFile:SAVEFILENAME];
+    NSArray*versions=[[iCloud sharedCloud] findUnresolvedConflictingVersionsOfFile:file];
     NSFileVersion*latestVersion=versions[0];
     NSDate*latestDate=latestVersion.modificationDate;
     for(NSFileVersion*version in versions){
@@ -161,8 +145,8 @@
             latestDate=latestVersion.modificationDate;
         }
     }
-    [[iCloud sharedCloud] resolveConflictForFile:SAVEFILENAME withSelectedFileVersion:latestVersion];
-    [[iCloud sharedCloud] retrieveCloudDocumentWithName:SAVEFILENAME completion:^(UIDocument *cloudDocument, NSData *data, NSError *error) {
+    [[iCloud sharedCloud] resolveConflictForFile:file withSelectedFileVersion:latestVersion];
+    [[iCloud sharedCloud] retrieveCloudDocumentWithName:file completion:^(UIDocument *cloudDocument, NSData *data, NSError *error) {
         block(data);
     }];
 #else
@@ -205,11 +189,16 @@
                   }];
 #endif
 }
--(void)stateChanged:(NSString*)newFile{
+-(void)stateChanged:(NSString*)newFile atDate:(NSDate*)date{
     NSString*targetMachineName=[self machineNameFromSaveFileName:newFile];
     if([targetMachineName isEqualToString:[self machineName]]){[self setupTimer]; return;}
-    NSLog(@"newer snapshot on %@ found, merging.",targetMachineName);
-
+    NSString*key=[NSString stringWithFormat:@"lastseen-%@",targetMachineName];
+    NSDate* lastSeen=[[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if(lastSeen && [lastSeen timeIntervalSinceDate:date]>=0){
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
+    
     [ArticleList prepareSnapShotAndPerform:^(NSDictionary *currentSnapShot) {
         [archiveTimer invalidate];
         [self retrieveDataFromFile:newFile AndThen:^(NSData*data){
@@ -217,6 +206,7 @@
             NSMutableDictionary*snapShotFromFile=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
             if(!snapShotFromFile)return;
             if([snapShotFromFile isEqual:currentSnapShot]){[self setupTimer]; return;}
+            NSLog(@"newer snapshot on %@ found, merging.",targetMachineName);
             [ArticleList mergeSnapShot:snapShotFromFile andDealWithArticleListsToBeRemoved:^(NSArray *articleListsToBeRemoved) {
                 if(!articleListsToBeRemoved){[self setupTimer];return;}
                 if(articleListsToBeRemoved.count==0){[self setupTimer];return;}
@@ -245,6 +235,43 @@
         }];
     }];
 }
+
+#pragma mark iCloud.h delegates
+#if TARGET_OS_IPHONE
+-(void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer
+{
+    [self setupTimer];
+}
+-(NSString*)iCloudQueryLimitedToFileExtension
+{
+    return SYNCDATAEXTENSION;
+}
+-(void)iCloudFilesDidChange:(NSMutableArray *)files withNewFileNames:(NSMutableArray *)fileNames
+{
+    NSDate*latest=[NSDate dateWithTimeIntervalSince1970:0];
+    NSMetadataItem*latestItem=nil;
+    for(NSMetadataItem*item in files){
+        NSLog(@"item found: %@",item);
+        NSString*fileName=[item valueForAttribute:NSMetadataItemFSNameKey];
+        if(![fileName hasSuffix:SYNCDATAEXTENSION])
+            continue;
+        NSString*targetMachineName=[self machineNameFromSaveFileName:fileName];
+        if([targetMachineName isEqualToString:self.machineName])
+            continue;
+        NSDate*fileDate=[item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
+        if([fileDate timeIntervalSinceDate:latest]>0){
+            latestItem=item;
+            latest=fileDate;
+        }
+    }
+    if(latestItem){
+        NSString*fileName=[latestItem valueForAttribute:NSMetadataItemFSNameKey];
+        NSDate*date=[latestItem valueForAttribute:NSMetadataItemFSContentChangeDateKey];
+        [self stateChanged:[fileName lastPathComponent] atDate:date];
+    }
+
+}
+#endif
 
 @end
 
