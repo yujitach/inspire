@@ -10,13 +10,15 @@
 #import "MOC.h"
 #import "ArticleListArchiveAdditions.h"
 #import "AppDelegate.h"
+#import "RegexKitLite.h"
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #else
 #import <SystemConfiguration/SystemConfiguration.h>
 #endif
 
-#define SAVEFILENAME @"inspireSidebarContents.plist"
+#define SYNCDATAEXTENSION @"sidebarContents"
+
 @implementation SyncManager
 {
 #if TARGET_OS_IPHONE
@@ -69,7 +71,7 @@
         NSLog(@"enabling iCloud sync");
         dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
         [self setupTimer];
-        [self modifiedFileAtPath:[listsSyncFolder stringByAppendingPathComponent:SAVEFILENAME]];
+        [self modifiedFileAtPath:[listsSyncFolder stringByAppendingPathComponent:self.saveFileName]];
     }
 #endif
     return self;
@@ -102,17 +104,25 @@
     return name;
 #endif
 }
-
+-(NSString*)saveFileName{
+    return [NSString stringWithFormat:@"%@.%@",self.machineName,SYNCDATAEXTENSION];
+}
+-(NSString*)machineNameFromSaveFileName:(NSString*)newFile{
+    NSMutableArray*a=[[newFile componentsSeparatedByString:@"."] mutableCopy];
+    [a removeLastObject];
+    NSString*targetMachineName=[a componentsJoinedByString:@"."];
+    return targetMachineName;
+}
 -(void)writeData:(NSData*)data andThen:(void(^)(void))block
 {
 #if TARGET_OS_IPHONE
-    [[iCloud sharedCloud] saveAndCloseDocumentWithName:SAVEFILENAME withContent:data completion:^(UIDocument *cloudDocument, NSData *documentData, NSError *error) {
+    [[iCloud sharedCloud] saveAndCloseDocumentWithName:saveFileName withContent:data completion:^(UIDocument *cloudDocument, NSData *documentData, NSError *error) {
         // nothing particular to do
         NSLog(@"sidebar content written on the iCloud");
         block();
     }];
 #else
-    NSString*fileName=[listsSyncFolder stringByAppendingPathComponent:SAVEFILENAME];
+    NSString*fileName=[listsSyncFolder stringByAppendingPathComponent:self.saveFileName];
     [data writeToFile:fileName atomically:NO];
     block();
 #endif
@@ -123,9 +133,7 @@
     [ArticleList prepareSnapShotAndPerform:^(NSDictionary*snapShot){
         if(snapShot && ![snapShot isEqual:lastSavedSnapshot]){
             lastSavedSnapshot=snapShot;
-            NSMutableDictionary*dic=[lastSavedSnapshot mutableCopy];
-            dic[@"machineName"]=[self machineName];
-            NSData*data=[NSPropertyListSerialization dataWithPropertyList:dic format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
+            NSData*data=[NSPropertyListSerialization dataWithPropertyList:lastSavedSnapshot format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
             NSLog(@"writing out the sidebar content...");
             [self writeData:data andThen:^{
                 [self setupTimer];
@@ -135,9 +143,12 @@
 }
 -(void)modifiedFileAtPath:(NSString *)file
 {
-    [self stateChanged:nil];
+    if([file hasSuffix:SYNCDATAEXTENSION]){
+        NSString*fileName=[file lastPathComponent];
+        [self stateChanged:fileName];
+    }
 }
--(void)retrieveDataAndThen:(void(^)(NSData*data))block
+-(void)retrieveDataFromFile:(NSString*)file AndThen:(void(^)(NSData*data))block
 {
 #if TARGET_OS_IPHONE
     NSArray*versions=[[iCloud sharedCloud] findUnresolvedConflictingVersionsOfFile:SAVEFILENAME];
@@ -155,15 +166,14 @@
         block(data);
     }];
 #else
-    NSString*fileName=[listsSyncFolder stringByAppendingPathComponent:SAVEFILENAME];
+    NSString*fileName=[listsSyncFolder stringByAppendingPathComponent:file];
     NSData*data=[NSData dataWithContentsOfFile:fileName];
     block(data);
 #endif
 }
--(void)confirmRemovalOfListsWithNames:(NSArray*)names blockForRemoval:(void(^)(void))blockForRemoval blockForKeeping:(void(^)(void))blockForKeeping
+-(void)confirmRemovalOfListsWithNames:(NSArray*)names onMachine:(NSString*)machineName blockForRemoval:(void(^)(void))blockForRemoval blockForKeeping:(void(^)(void))blockForKeeping
 {
     NSString*removedNamesString=[names componentsJoinedByString:@", "];
-    NSString*machineName=[self machineName];
 #if TARGET_OS_IPHONE
     UIAlertController*alert=[UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Some article lists are removed on \"%@\"",machineName ]
                                                                 message:[NSString stringWithFormat:@"Do you want to remove also on this machine the following article lists: \"%@\" ?",removedNamesString] preferredStyle:UIAlertControllerStyleAlert];
@@ -195,18 +205,18 @@
                   }];
 #endif
 }
--(void)stateChanged:(NSNotification*)n{
+-(void)stateChanged:(NSString*)newFile{
+    NSString*targetMachineName=[self machineNameFromSaveFileName:newFile];
+    if([targetMachineName isEqualToString:[self machineName]]){[self setupTimer]; return;}
+    NSLog(@"newer snapshot on %@ found, merging.",targetMachineName);
+
     [ArticleList prepareSnapShotAndPerform:^(NSDictionary *currentSnapShot) {
         [archiveTimer invalidate];
-        [self retrieveDataAndThen:^(NSData*data){
+        [self retrieveDataFromFile:newFile AndThen:^(NSData*data){
             if(!data) {[self setupTimer]; return;}
             NSMutableDictionary*snapShotFromFile=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
             if(!snapShotFromFile)return;
-            NSString*machineName=snapShotFromFile[@"machineName"];
-            [snapShotFromFile removeObjectForKey:@"machineName"];
-            if([machineName isEqualToString:[self machineName]]){[self setupTimer]; return;}
             if([snapShotFromFile isEqual:currentSnapShot]){[self setupTimer]; return;}
-            NSLog(@"newer snapshot on %@ found, merging.",machineName);
             [ArticleList mergeSnapShot:snapShotFromFile andDealWithArticleListsToBeRemoved:^(NSArray *articleListsToBeRemoved) {
                 if(!articleListsToBeRemoved){[self setupTimer];return;}
                 if(articleListsToBeRemoved.count==0){[self setupTimer];return;}
@@ -216,6 +226,7 @@
                     NSArray*names=[articleListsToBeRemoved valueForKey:@"name"];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self confirmRemovalOfListsWithNames:names
+                                                   onMachine:targetMachineName
                                              blockForRemoval:^{
                                                  [secondMOC performBlock:^{
                                                      for(ArticleList* al in articleListsToBeRemoved){

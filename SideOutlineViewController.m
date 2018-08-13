@@ -252,6 +252,7 @@
 //    [self rearrangePositionInViewForArticleListsInArticleList:[item representedObject]];
     [ArticleList rearrangePositionInView];
     [articleListController rearrangeObjects];
+    [[MOC moc] save:NULL];
     // Return YES so that the user gets visual feedback that the drag was successful...
     return YES;
 }
