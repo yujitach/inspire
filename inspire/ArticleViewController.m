@@ -17,6 +17,9 @@
 @end
 
 @implementation ArticleViewController
+{
+    NSMutableDictionary*handlerDic;
+}
 @synthesize indexPath=_indexPath;
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
@@ -43,9 +46,35 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    handlerDic=[NSMutableDictionary dictionary];
     self.webView=[[WKWebView alloc] init];
     self.webView.navigationDelegate=self;
     self.view=self.webView;
+    self.toolbarItems=@[
+            [[UIBarButtonItem alloc]  initWithTitle:@"pdf"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self
+                                             action:@selector(pdf:)
+                                                 ],
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+            [[UIBarButtonItem alloc]  initWithTitle:@"cited by"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self
+                                             action:@selector(citedBy:)
+             ],
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+            [[UIBarButtonItem alloc]  initWithTitle:@"refers to"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self
+                                             action:@selector(refersTo:)
+             ],
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+            [[UIBarButtonItem alloc]  initWithTitle:@"(un)flag"
+                                              style:UIBarButtonItemStylePlain
+                                             target:self
+                                             action:@selector(flag:)
+             ]
+            ];
     
     self.progressView=[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     self.progressView.translatesAutoresizingMaskIntoConstraints=NO;
@@ -70,10 +99,20 @@
     // [self refresh];
     // Do any additional setup after loading the view.
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:NO animated:animated];
+}
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self refresh];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:YES animated:animated];
+    [super viewWillDisappear:animated];
 }
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
@@ -142,13 +181,25 @@
         
         HTMLArticleHelper* helper=[[HTMLArticleHelper alloc] initWithArticle:a];
         for(NSString*key in @[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
-                             @"journal",@"flagged",@"flagUnflag",@"pdfPath",@"title",@"spires",@"citedBy",@"refersTo"]){
+                             @"journal",@"flagged",@"title",@"spires"]){
             NSString*value=[helper valueForKey:key];
             if(!value){
                 value=@"";
             }
             [html replaceOccurrencesOfRegex:[NSString stringWithFormat:@"id=\"%@\">",key] withString:[NSString stringWithFormat:@"id=\"%@\">%@",key,value]];
             [self.webView loadHTMLString:html baseURL:nil];
+        }
+        for(NSString*key in @[@"flagUnflag",@"pdfPath",@"citedBy",@"refersTo"]){
+            NSURL*u=nil;
+            NSString*value=[helper valueForKey:key];
+            if(!value || [value hasPrefix:@"<del>"]){
+                u=[NSURL URLWithString:@"foo://"];
+            }else{
+                NSString*s=[value stringByMatching:@"href=\"(.+?)\"" capture:1];
+                NSString*ss=[s stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+                u=[NSURL URLWithString:ss];
+            }
+            handlerDic[key]=u;
         }
     }
     if(i+1<total){
@@ -180,6 +231,27 @@
         }
     }
 }
+-(IBAction)pdf:(id)sender;
+{
+    NSURL*u=handlerDic[@"pdfPath"];
+    [[NSApp appDelegate] handleURL:u];
+}
+-(IBAction)citedBy:(id)sender;
+{
+    NSURL*u=handlerDic[@"citedBy"];
+    [[NSApp appDelegate] handleURL:u];
+}
+-(IBAction)refersTo:(id)sender;
+{
+    NSURL*u=handlerDic[@"refersTo"];
+    [[NSApp appDelegate] handleURL:u];
+}
+-(IBAction)flag:(id)sender;
+{
+    NSURL*u=handlerDic[@"flagUnflag"];
+    [[NSApp appDelegate] handleURL:u];
+}
+
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     if(navigationAction.navigationType==WKNavigationTypeLinkActivated){

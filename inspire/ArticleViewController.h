@@ -19,4 +19,8 @@
 @property (nonatomic,strong) IBOutlet WKWebView*webView;
 -(IBAction)next:(id)sender;
 -(IBAction)prev:(id)sender;
+-(IBAction)pdf:(id)sender;
+-(IBAction)citedBy:(id)sender;
+-(IBAction)refersTo:(id)sender;
+-(IBAction)flag:(id)sender;
 @end
