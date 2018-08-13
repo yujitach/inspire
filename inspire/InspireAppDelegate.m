@@ -181,7 +181,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     
     globalAppDelegate=self;
 
-    [ArticleList createStandardArticleLists];
+    [ArticleList createStandardArticleListsInMOC:[MOC moc]];
     [self setupPDFdir];
 
     self.splitViewController = (UISplitViewController *)self.window.rootViewController;

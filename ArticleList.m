@@ -8,7 +8,6 @@
 
 #import "ArticleList.h"
 #import "Article.h"
-#import "MOC.h"
 #import "AllArticleList.h"
 #import "ArxivNewArticleList.h"
 #import "CannedSearch.h"
@@ -60,13 +59,13 @@
     }
     return [self.parent.indexPath indexPathByAddingIndex:[self.positionInView integerValue]/2];
 }
-+(void)createStandardArticleLists
++(void)createStandardArticleListsInMOC:(NSManagedObjectContext*)moc
 {
     BOOL needToSave=NO;
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"allArticleListPrepared"]){
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"allArticleListPrepared"];
-        AllArticleList*all=[AllArticleList allArticleListInMOC:[MOC moc]];
+        AllArticleList*all=[AllArticleList allArticleListInMOC:moc];
         if(!all){
             //all=
             [AllArticleList allArticleList];
@@ -77,32 +76,32 @@
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"specialListPrepared"]){
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"specialListPrepared"];
-        ArticleList*hepph=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-ph/new" inMOC:[MOC moc]];
+        ArticleList*hepph=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-ph/new" inMOC:moc];
         hepph.positionInView=@2;
-        ArticleList*hepth=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-th/new" inMOC:[MOC moc]];
+        ArticleList*hepth=[ArxivNewArticleList createArXivNewArticleListWithName:@"hep-th/new" inMOC:moc];
         hepth.positionInView=@4;
         needToSave=YES;
     }
     
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"flaggedListPrepared"]){
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"flaggedListPrepared"];
-        CannedSearch*f=[CannedSearch createCannedSearchWithName:@"flagged" inMOC:[MOC moc]];
+        CannedSearch*f=[CannedSearch createCannedSearchWithName:@"flagged" inMOC:moc];
         f.searchString=@"f flagged";
         f.positionInView=@100;
         needToSave=YES;
     }
     if(![[NSUserDefaults standardUserDefaults]boolForKey:@"pdfListPrepared"]){
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"pdfListPrepared"];
-        CannedSearch*f=[CannedSearch createCannedSearchWithName:@"has pdf" inMOC:[MOC moc]];
+        CannedSearch*f=[CannedSearch createCannedSearchWithName:@"has pdf" inMOC:moc];
         f.searchString=@"f pdf";
         f.positionInView=@200;
         needToSave=YES;
     }
     if(needToSave){
         NSError*error=nil;
-        BOOL success=[[MOC moc] save:&error]; // ensure the lists can be accessed from the second MOC
+        BOOL success=[moc save:&error]; // ensure the lists can be accessed from the second MOC
         if(!success){
-            [[MOC sharedMOCManager] presentMOCSaveError:error];
+//            [[MOC sharedMOCManager] presentMOCSaveError:error];
         }
     }
 }
@@ -114,12 +113,12 @@
     }
 }
 
-+(NSArray*)articleListsInArticleList:(ArticleList*)parent
++(NSArray*)articleListsInArticleList:(ArticleList*)parent inMOC:(NSManagedObjectContext*)moc
 {
     NSArray*array=nil;
     NSSortDescriptor*desc=[[NSSortDescriptor alloc] initWithKey:@"positionInView" ascending:YES];
     if(!parent){
-        NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleList" inManagedObjectContext:[MOC moc]];
+        NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleList" inManagedObjectContext:moc];
         NSFetchRequest* request=[[NSFetchRequest alloc] init];
         [request setEntity:entity];
         NSPredicate*pred=[NSPredicate predicateWithFormat:@"parent == nil"];
@@ -127,16 +126,16 @@
         [request setSortDescriptors:@[desc]];
         
         NSError*error=nil;
-        array=[[MOC moc] executeFetchRequest:request error:&error];
+        array=[moc executeFetchRequest:request error:&error];
     }else{
         array=[parent.children allObjects];
         array=[array sortedArrayUsingDescriptors:@[desc]];
     }
     return array;
 }
-+(void)rearrangePositionInViewForArticleListsInArticleList:(ArticleList*)parent
++(void)rearrangePositionInViewForArticleListsInArticleList:(ArticleList*)parent inMOC:(NSManagedObjectContext*)moc
 {
-    NSArray*array=[self articleListsInArticleList:parent];
+    NSArray*array=[self articleListsInArticleList:parent inMOC:moc];
     /*    for(ArticleList*aa in array){
      NSLog(@"%@",aa.name);
      }*/
@@ -175,19 +174,19 @@
      NSLog(@"%@ position:%@",i.name,i.positionInView);
      }*/
 }
-+(void)rearrangePositionInView
++(void)rearrangePositionInViewInMOC:(NSManagedObjectContext*)moc
 {
-    [[MOC moc] performBlock:^{
-        [self rearrangePositionInViewForArticleListsInArticleList:nil];
-        NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:[MOC moc]];
+    [moc performBlockAndWait:^{
+        [self rearrangePositionInViewForArticleListsInArticleList:nil inMOC:moc];
+        NSEntityDescription* entity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:moc];
         NSFetchRequest* request=[[NSFetchRequest alloc] init];
         [request setEntity:entity];
         NSPredicate*pred=[NSPredicate predicateWithValue:YES];
         [request setPredicate:pred];
         NSError*error=nil;
-        NSArray*array=[[MOC moc] executeFetchRequest:request error:&error];
+        NSArray*array=[moc executeFetchRequest:request error:&error];
         for(ArticleList*al in array){
-            [self rearrangePositionInViewForArticleListsInArticleList:al];
+            [self rearrangePositionInViewForArticleListsInArticleList:al inMOC:moc];
         }
     }];
 }

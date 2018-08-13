@@ -37,9 +37,9 @@
 @property (readonly) BOOL searchStringEnabled;
 @property (readonly) NSIndexPath*indexPath;
 -(void)reload;
-+(void)createStandardArticleLists;
-+(void)rearrangePositionInView;
-+(NSArray*)articleListsInArticleList:(ArticleList*)al;
++(void)createStandardArticleListsInMOC:(NSManagedObjectContext*)moc;
++(void)rearrangePositionInViewInMOC:(NSManagedObjectContext*)moc;
++(NSArray*)articleListsInArticleList:(ArticleList*)al inMOC:(NSManagedObjectContext*)moc;
 @end
 
 @interface ArticleList (CoreDataGeneratedAccessors)

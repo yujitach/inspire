@@ -19,7 +19,7 @@
     ArticleList*al=[SimpleArticleList createSimpleArticleListWithName:self.textField.text inMOC:[MOC moc]];
     al.parent=self.parent;
     al.positionInView=@1000;
-    [ArticleList rearrangePositionInView];
+    [ArticleList rearrangePositionInViewInMOC:[MOC moc]];
     [self performSegueWithIdentifier:@"unwind" sender:self];
 
 }

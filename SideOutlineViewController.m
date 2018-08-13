@@ -45,7 +45,7 @@
     [articleListController insertObject:al 
 	      atArrangedObjectIndexPath:[NSIndexPath indexPathWithIndex:[(NSArray*)[articleListController arrangedObjects] count]]];
     al.positionInView=@(2000);
-    [ArticleList rearrangePositionInView];
+    [ArticleList rearrangePositionInViewInMOC:[MOC moc]];
     [articleListController rearrangeObjects];
     [al.managedObjectContext save:NULL];
 }
@@ -96,8 +96,8 @@
 
     [articleListController prepareContent];
     
-    [ArticleList createStandardArticleLists];
-    [ArticleList rearrangePositionInView];
+    [ArticleList createStandardArticleListsInMOC:[MOC moc]];
+    [ArticleList rearrangePositionInViewInMOC:[MOC moc]];
     
     [articleListController rearrangeObjects];
     
@@ -229,7 +229,7 @@
     }
     if(ind==-1)
 	ind=0;
-    NSArray*ch=[ArticleList articleListsInArticleList:al];
+    NSArray*ch=[ArticleList articleListsInArticleList:al inMOC:[MOC moc]];
     
 //    for(ArticleList*aa in ch){
 //	NSLog(@"al:%@ was at %@",aa.name,aa.positionInView);
@@ -250,7 +250,7 @@
     [articleListController moveNodes:droppedNodes toIndexPath:[[item indexPath] indexPathByAddingIndex:ind]];
 //    [articleListController rearrangeObjects];
 //    [self rearrangePositionInViewForArticleListsInArticleList:[item representedObject]];
-    [ArticleList rearrangePositionInView];
+    [ArticleList rearrangePositionInViewInMOC:[MOC moc]];
     [articleListController rearrangeObjects];
     [[MOC moc] save:NULL];
     // Return YES so that the user gets visual feedback that the drag was successful...

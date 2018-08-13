@@ -20,7 +20,7 @@
     AllArticleList*allArticleList=[AllArticleList allArticleList];
     al.searchString=self.searchTextField.text;
     al.sortDescriptors=allArticleList.sortDescriptors;
-    [ArticleList rearrangePositionInView];
+    [ArticleList rearrangePositionInViewInMOC:[MOC moc]];
     [self performSegueWithIdentifier:@"unwind" sender:self];
 }
 - (void)viewDidLoad {
