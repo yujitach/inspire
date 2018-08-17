@@ -232,7 +232,7 @@
 }
 -(BOOL)showWelcome
 {
-    NSString*welcome=@"v1.7.0alert";
+    NSString*welcome=@"v1.8.0alert";
     NSString*key=[welcome stringByAppendingString:@"ShownShown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
@@ -243,29 +243,7 @@
         return NO;
     }
 }
--(void)safariExtensionRecommendation
-{
-    NSString*defaultBrowserBundleID=(__bridge_transfer NSString*)LSCopyDefaultHandlerForURLScheme((__bridge CFStringRef)@"http");
-    if(![[defaultBrowserBundleID lowercaseString] isEqualToString:@"com.apple.safari"]){
-        return;
-    }
-    if(![[OperationQueues arxivQueue] isOnline]){
-        return;
-    }
-    NSString*key=@"safariExtensionRecommendationShown3";
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to install a Safari Extension?"
-				      defaultButton:@"Yes" 
-				    alternateButton:@"No"
-					otherButton:nil
-			  informativeTextWithFormat:@"This extension makes Safari typeset the pseudo-TeX code in the abstract of the arxiv pages just as this app does. You can install it later from the menu spires→Install Safari extension.\nIf you have already installed it before 2013, please do it again. It should automatically update afterwards."];
-	NSUInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
-	    return;
-	[self installSafariExtension:self];
-    }
-}
+
 -(void)clearAllArticleList_
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"Article" inManagedObjectContext:[MOC moc]];
@@ -389,9 +367,7 @@
     }
     [self setupServices];
     [self crashCheck:self];
-    if(![self showWelcome]){
-//        [self safariExtensionRecommendation];
-    }
+    [self showWelcome];
 
     [sideOutlineViewController loadArticleLists];
     [sideOutlineViewController attachToMOC];
