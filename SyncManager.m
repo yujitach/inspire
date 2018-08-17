@@ -114,10 +114,17 @@
         return self;
     }
     [[iCloud sharedCloud] updateFiles];
+    [self setupTimer];
     [self goOverFilesOnce];
 #else
-    listsSyncFolder=[[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath] stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
-    if([[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
+    NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
+    listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
+    if([[NSFileManager defaultManager] fileExistsAtPath:iCloudDocumentsPath]){
+        if(![[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
+            [[NSFileManager defaultManager] createDirectoryAtPath:listsSyncFolder withIntermediateDirectories:NO attributes:nil error:NULL];
+        }
+    }
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
         NSLog(@"enabling iCloud sync");
         dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
         [self setupTimer];

@@ -124,6 +124,8 @@
 	<string>.sqlite</string>
 	<key>databaseToUse</key>
 	<string>inspire</string>
+	<key>doSync</key>
+	<true/>
 	<key>eagerMetadataQueryThreshold</key>
 	<integer>5</integer>
 	<key>ElsevierJournals</key>
