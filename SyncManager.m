@@ -121,7 +121,7 @@
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
     if([[NSFileManager defaultManager] fileExistsAtPath:iCloudDocumentsPath]){
         if(![[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:listsSyncFolder withIntermediateDirectories:NO attributes:nil error:NULL];
+            [[NSFileManager defaultManager] createDirectoryAtPath:listsSyncFolder withIntermediateDirectories:YES attributes:nil error:NULL];
         }
     }
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
