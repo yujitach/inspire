@@ -293,10 +293,14 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     if(!bib){
         return @"";
     }
-    bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
-    bib=[bib magicTeXed];
-    bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[[a texKey] inspireToCorrect]];
-    return [bib stringByAppendingString:@"\n\n"];
+    if([bib isMatchedByRegex:@"\\\\"] || [bib isMatchedByRegex:@"\\$"]){
+        return [bib stringByAppendingString:@"\n\n"];
+    }else{
+        bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
+        bib=[bib magicTeXed];
+        bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[[a texKey] inspireToCorrect]];
+        return [bib stringByAppendingString:@"\n\n"];
+    }
 }
 -(void)reallyGenerateBibFile
 {
