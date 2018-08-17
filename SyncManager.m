@@ -119,10 +119,8 @@
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
-    if([[NSFileManager defaultManager] fileExistsAtPath:iCloudDocumentsPath]){
-        if(![[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:listsSyncFolder withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
+    if(![[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
+        return self;
     }
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
         NSLog(@"enabling iCloud sync");
