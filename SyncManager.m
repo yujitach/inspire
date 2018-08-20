@@ -72,30 +72,28 @@
 #else
     DirWatcher*dw;
 #endif
-    NSTimer*archiveTimer;
     NSDictionary*lastSavedSnapshot;
     NSString*listsSyncFolder;
     NSOperationQueue*queue;
 }
--(void)setupTimer_
+-(void)saveNotified:(NSNotification*)n
 {
-    NSTimeInterval interval=60;
-    archiveTimer=[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(archiveTimerFired:) userInfo:nil repeats:YES];
-    if([archiveTimer respondsToSelector:@selector(setTolerance:)]){
-        [archiveTimer setTolerance:.1*interval];
-    }
-}
--(void)setupTimer
-{
-    dispatch_async(dispatch_get_main_queue(),^{
-        [self setupTimer_];
-    });
+    NSManagedObjectContext*moc=n.object;
+    if(moc!=[MOC moc])
+        return;
+    [moc performBlock:^{
+        [self archive];
+    }];
 }
 -(instancetype)init
 {
     self=[super init];
     queue=[[NSOperationQueue alloc] init];
     queue.maxConcurrentOperationCount=1;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(saveNotified:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:nil];
 #if TARGET_OS_IPHONE
     [[iCloud sharedCloud] setDelegate:self];
     [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
@@ -114,7 +112,6 @@
         return self;
     }
     [[iCloud sharedCloud] updateFiles];
-    [self setupTimer];
     [self goOverFilesOnce];
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
@@ -128,7 +125,6 @@
                 dispatch_async(dispatch_get_main_queue(),^{
                     NSLog(@"enabling iCloud sync");
                     dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
-                    [self setupTimer];
                     [self goOverFilesOnce];
                 });
             }
@@ -193,9 +189,8 @@
     block();
 #endif
 }
--(void)archiveTimerFired:(NSTimer*)timer
+-(void)archive
 {
-    [archiveTimer invalidate];
     PrepareSnapshotOperation*op=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:op];
     NSBlockOperation*bop=[NSBlockOperation blockOperationWithBlock:^{
@@ -204,9 +199,7 @@
             lastSavedSnapshot=snapShot;
             NSData*data=[NSPropertyListSerialization dataWithPropertyList:lastSavedSnapshot format:NSPropertyListBinaryFormat_v1_0 options:0 error:NULL];
             NSLog(@"writing out the sidebar content...");
-            [self writeData:data andThen:^{
-                [self setupTimer];
-            }];
+            [self writeData:data andThen:^{}];
         }
     }];
     [bop addDependency:op];
@@ -250,7 +243,6 @@
 #if TARGET_OS_IPHONE
 -(void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer
 {
-    [self setupTimer];
 }
 -(NSString*)iCloudQueryLimitedToFileExtension
 {
