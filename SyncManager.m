@@ -119,16 +119,18 @@
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
-    
+
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0),^{
         NSURL*x=[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:@"iCloud.com.yujitach.inspire"];
         NSLog(@"ubiquity container at:%@",x);
         if(x){
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
-                NSLog(@"enabling iCloud sync");
-                dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
-                [self setupTimer];
-                [self goOverFilesOnce];
+                dispatch_async(dispatch_get_main_queue(),^{
+                    NSLog(@"enabling iCloud sync");
+                    dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
+                    [self setupTimer];
+                    [self goOverFilesOnce];
+                });
             }
         }
     });
@@ -212,6 +214,7 @@
 }
 -(void)modifiedFileAtPath:(NSString *)file
 {
+    NSLog(@"noted:%@",file);
     if([file hasSuffix:SYNCDATAEXTENSION]){
         NSString*fileName=[file lastPathComponent];
         NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:NULL] fileModificationDate];
