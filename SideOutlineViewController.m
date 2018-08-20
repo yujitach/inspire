@@ -204,6 +204,7 @@
 		Article*x=(Article*)[moc objectWithID:moID];
 		if(x){
 		    [al addArticlesObject:x];
+                    [moc save:NULL];
 		}
 	    }
 	    return YES;
