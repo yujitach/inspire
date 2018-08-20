@@ -157,6 +157,8 @@ static void loadMagic(){
                         @"\\\\leq" : @"≤",
                         @"\\\\leftrightarrow" : @"↔",
                         @"\\\\leftarrow" : @"←",
+                        @"\\\\left" : @"",
+                        @"\\\\right" : @"",
                         @"\\\\le" : @"≤",
                         @"\\\\lambda" : @"λ",
                         @"\\\\kappa" : @"κ",
