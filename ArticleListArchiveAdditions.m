@@ -75,13 +75,12 @@
     BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
     
     __weak BatchImportOperation*weakOp=op;
-    __weak ArticleList*weakSelf=self;
     op.completionBlock=^{
         NSSet*generated=weakOp.generated;
         if(!generated)return;
         if(generated.count==0)return;
         [secondMOC performBlock:^{
-            [weakSelf setArticles:generated];
+            [self setArticles:generated];
             [secondMOC save:NULL];
         }];
     };
