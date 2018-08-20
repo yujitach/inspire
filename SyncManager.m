@@ -119,15 +119,19 @@
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
-    if(![[NSFileManager defaultManager] fileExistsAtPath:listsSyncFolder]){
-        return self;
-    }
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
-        NSLog(@"enabling iCloud sync");
-        dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
-        [self setupTimer];
-        [self goOverFilesOnce];
-    }
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0),^{
+        NSURL*x=[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:@"iCloud.com.yujitach.inspire"];
+        NSLog(@"ubiquity container at:%@",x);
+        if(x){
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
+                NSLog(@"enabling iCloud sync");
+                dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
+                [self setupTimer];
+                [self goOverFilesOnce];
+            }
+        }
+    });
 #endif
     return self;
 }
