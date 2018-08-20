@@ -1108,7 +1108,7 @@
 					};
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = 95AQ7YKR5A;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1235,7 +1235,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -exec rm {} \\;\nif [ -e \"$SRCROOT/product/$WRAPPER_NAME\" ] ; then\n    rm -r \"$SRCROOT/product/$WRAPPER_NAME\"\nfi\nif [ -e \"$SRCROOT/product/\" ] ; then\n     cp -PR \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$SRCROOT/product/\"\nfi";
+			shellScript = "#find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -exec rm {} \\;\nif [ -e \"$SRCROOT/product/$WRAPPER_NAME\" ] ; then\n    rm -r \"$SRCROOT/product/$WRAPPER_NAME\"\nfi\nif [ -e \"$SRCROOT/product/\" ] ; then\n     cp -PR \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$SRCROOT/product/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1434,8 +1434,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = spires.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 95AQ7YKR5A;
@@ -1460,8 +1460,8 @@
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "1663110b-5eed-4e1e-8abd-87f8fa6e12ae";
+				PROVISIONING_PROFILE_SPECIFIER = "spires distribution profile";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
@@ -1478,8 +1478,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = spires.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 95AQ7YKR5A;
@@ -1504,8 +1504,8 @@
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "1663110b-5eed-4e1e-8abd-87f8fa6e12ae";
+				PROVISIONING_PROFILE_SPECIFIER = "spires distribution profile";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
