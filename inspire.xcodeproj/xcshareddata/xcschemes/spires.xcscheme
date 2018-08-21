@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "0900"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "#find &quot;$BUILT_PRODUCTS_DIR/$WRAPPER_NAME&quot; -name &apos;*.h&apos; -exec rm {} \;&#10;if [ -e &quot;$SRCROOT/product/$WRAPPER_NAME&quot; ] ; then&#10;rm -r &quot;$SRCROOT/product/$WRAPPER_NAME&quot;&#10;fi&#10;if [ -e &quot;$SRCROOT/product/&quot; ] ; then&#10;cp -PR &quot;$BUILT_PRODUCTS_DIR/$WRAPPER_NAME&quot; &quot;$SRCROOT/product/&quot;&#10;fi">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "8D1107260486CEB800E47090"
+                     BuildableName = "spires.app"
+                     BlueprintName = "spires"
+                     ReferencedContainer = "container:inspire.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

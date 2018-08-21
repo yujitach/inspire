@@ -1077,7 +1077,6 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				33EBF0360EA5BFD40050B64A /* CopyFiles */,
-				33256CF80F734D6B004CCC03 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1222,22 +1221,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		33256CF80F734D6B004CCC03 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#find \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -exec rm {} \\;\nif [ -e \"$SRCROOT/product/$WRAPPER_NAME\" ] ; then\n    rm -r \"$SRCROOT/product/$WRAPPER_NAME\"\nfi\nif [ -e \"$SRCROOT/product/\" ] ; then\n     cp -PR \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" \"$SRCROOT/product/\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		33CDDBCE1B8F137B003D993D /* Sources */ = {
