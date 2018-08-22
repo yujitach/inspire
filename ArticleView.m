@@ -103,7 +103,7 @@ static NSArray*observedKeys=nil;
     NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
     if([appearance isEqualToString:@"Dark"] && [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion>=14){
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"white\";"];
-        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"black\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"#292a30\";"];
     }else{
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"black\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"white\";"];
