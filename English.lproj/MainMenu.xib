@@ -284,50 +284,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="166" height="600"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <popUpButton verticalHuggingPriority="750" misplaced="YES" id="1230">
-                                        <rect key="frame" x="0.0" y="-1" width="32" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="1233" id="1231">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
-                                            <menu key="menu" title="OtherViews" id="1232">
-                                                <items>
-                                                    <menuItem state="on" image="NSAddTemplate" hidden="YES" id="1233"/>
-                                                    <menuItem title="Add Playlist..." id="1234">
-                                                        <connections>
-                                                            <action selector="addArticleList:" target="205" id="1238"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Add Folder..." id="1235">
-                                                        <connections>
-                                                            <action selector="addArticleFolder:" target="205" id="1240"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Save Current Search..." id="1237">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="addCannedSearch:" target="205" id="1260"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Add arxiv/new..." id="1251">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="addArxivArticleList:" target="205" id="1259"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </popUpButtonCell>
-                                    </popUpButton>
                                     <scrollView focusRingType="none" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="713">
-                                        <rect key="frame" x="0.0" y="23" width="167" height="577"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="167" height="600"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="Nfa-No-dAS">
-                                            <rect key="frame" x="1" y="1" width="165" height="575"/>
+                                            <rect key="frame" x="1" y="1" width="165" height="598"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="165" height="575"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="165" height="598"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -369,12 +334,47 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
-                                    <button verticalHuggingPriority="750" misplaced="YES" id="1026">
-                                        <rect key="frame" x="31" y="-1" width="31" height="24"/>
+                                    <popUpButton misplaced="YES" id="1230">
+                                        <rect key="frame" x="0.0" y="-5" width="32" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1027">
+                                        <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="1233" id="1231">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="smallSystem"/>
+                                            <font key="font" metaFont="system"/>
+                                            <menu key="menu" title="OtherViews" id="1232">
+                                                <items>
+                                                    <menuItem state="on" image="NSAddTemplate" hidden="YES" id="1233"/>
+                                                    <menuItem title="Add Playlist..." id="1234">
+                                                        <connections>
+                                                            <action selector="addArticleList:" target="205" id="1238"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Add Folder..." id="1235">
+                                                        <connections>
+                                                            <action selector="addArticleFolder:" target="205" id="1240"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Save Current Search..." id="1237">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="addCannedSearch:" target="205" id="1260"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Add arxiv/new..." id="1251">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="addArxivArticleList:" target="205" id="1259"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpButtonCell>
+                                    </popUpButton>
+                                    <button verticalHuggingPriority="750" misplaced="YES" id="1026">
+                                        <rect key="frame" x="30" y="-1" width="31" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="1027">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="reloadAllArticleList:" target="205" id="1029"/>
