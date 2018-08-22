@@ -101,7 +101,7 @@ static NSArray*observedKeys=nil;
     DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
 
     NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-    if([appearance isEqualToString:@"Dark"]){
+    if([appearance isEqualToString:@"Dark"] && [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion>=14){
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"white\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"black\";"];
     }else{
