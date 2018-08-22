@@ -433,9 +433,9 @@
 	NSArray*a=[ac selectedObjects];
 	if(!a || [a count]==0){
 //	    NSLog(@"no selection");
-	    [wv setArticle:NSNoSelectionMarker];
+	    [wv setArticle:(Article*)NSNoSelectionMarker];
 	}else if([a count]>1){
-	    [wv setArticle:NSMultipleValuesMarker];
+	    [wv setArticle:(Article*)NSMultipleValuesMarker];
 	}else{
 //	    NSLog(@"selection:%a",a);
             if([self busyUpdating]){

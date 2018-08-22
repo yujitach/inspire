@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="14113"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="14313.13.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -266,13 +266,13 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="spires" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="mainWindow" animationBehavior="default" id="21" userLabel="Window">
+        <window title="spires" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="mainWindow" animationBehavior="default" id="21" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="64" y="309" width="800" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <value key="minSize" type="size" width="518" height="406"/>
-            <view key="contentView" misplaced="YES" id="2">
+            <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -344,11 +344,11 @@
                                     <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="713">
                                         <rect key="frame" x="0.0" y="22" width="167" height="578"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <clipView key="contentView" drawsBackground="NO" id="Nfa-No-dAS">
+                                        <clipView key="contentView" id="Nfa-No-dAS">
                                             <rect key="frame" x="1" y="1" width="165" height="576"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView focusRingType="none" appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
+                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="165" height="576"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -380,13 +380,12 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
-                                            <nil key="backgroundColor"/>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="715">
                                             <rect key="frame" x="1" y="561" width="165" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
+                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="714">
                                             <rect key="frame" x="97" y="1" width="15" height="479"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -425,7 +424,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.flagImage" id="1258"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn identifier="" width="115" minWidth="40" maxWidth="1000" id="431">
+                                                        <tableColumn width="115" minWidth="40" maxWidth="1000" id="431">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="authors">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -442,7 +441,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.shortishAuthorList" id="1303"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn identifier="" width="319" minWidth="40" maxWidth="1000" id="432">
+                                                        <tableColumn width="319" minWidth="40" maxWidth="1000" id="432">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="title">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -459,7 +458,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.attributedTitle" id="mvD-UN-Iq7"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn identifier="" width="81" minWidth="10" maxWidth="3.4028230607370965e+38" id="592">
+                                                        <tableColumn width="81" minWidth="10" maxWidth="3.4028230607370965e+38" id="592">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="eprint">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -476,7 +475,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.eprintToShow" id="1274"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn identifier="" width="37.5" minWidth="10" maxWidth="3.4028230607370965e+38" id="436">
+                                                        <tableColumn width="37.5" minWidth="10" maxWidth="3.4028230607370965e+38" id="436">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="cites">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -492,7 +491,7 @@
                                                                 <binding destination="421" name="value" keyPath="arrangedObjects.citecount" id="1302"/>
                                                             </connections>
                                                         </tableColumn>
-                                                        <tableColumn identifier="" width="46.5" minWidth="10" maxWidth="3.4028230607370965e+38" id="590">
+                                                        <tableColumn width="46.5" minWidth="10" maxWidth="3.4028230607370965e+38" id="590">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="version">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -516,11 +515,11 @@
                                                 </tableView>
                                             </subviews>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
+                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="428">
                                             <rect key="frame" x="-100" y="-100" width="565" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
                                             <rect key="frame" x="617" y="17" width="16" height="244"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -645,7 +644,7 @@
             <connections>
                 <outlet property="delegate" destination="205" id="1305"/>
             </connections>
-            <point key="canvasLocation" x="241.5" y="175.5"/>
+            <point key="canvasLocation" x="41" y="-49"/>
         </window>
         <customObject id="205" userLabel="spires_AppDelegate" customClass="SpiresAppDelegate">
             <connections>

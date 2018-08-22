@@ -39,17 +39,24 @@ static NSArray*observedKeys=nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocMerged:) name:UIMOCDidMergeNotification object:nil];
 
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(onAppearanceChanged:) name:@"AppleInterfaceThemeChangedNotification" object:nil];
+
+    
     NSError*error;
     NSString*templateForWebView=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"template" 
 												   ofType:@"html"] 
 							  encoding:NSUTF8StringEncoding
 							     error:&error];
-    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];    
+    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
     
     observedKeys=@[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
 		  @"journal",@"pdfPath",@"title",@"texKey"];
 
     
+}
+-(void)onAppearanceChanged:(NSNotification*)n
+{
+    [self refresh];
 }
 -(BOOL)acceptsFirstResponder
 {
@@ -92,11 +99,21 @@ static NSArray*observedKeys=nil;
     DOMHTMLElement*mainBox=(DOMHTMLElement*)[doc getElementById:@"mainBox"];
     DOMHTMLElement*centerBox=(DOMHTMLElement*)[doc getElementById:@"centerBox"];
     DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
-    if(!article || article==NSNoSelectionMarker){
+
+    NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+    if([appearance isEqualToString:@"Dark"]){
+        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"white\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"black\";"];
+    }else{
+        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"black\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"white\";"];
+    }
+
+    if(!article || article==(Article*)NSNoSelectionMarker){
 	mainBox.style.visibility=@"hidden";
 	centerBox.style.visibility=@"visible";
 	centerBox.innerHTML=@"No Selection";
-    }else if(article==NSMultipleValuesMarker){
+    }else if(article==(Article*)NSMultipleValuesMarker){
 	mainBox.style.visibility=@"hidden";
 	centerBox.style.visibility=@"visible";
 	centerBox.innerHTML=@"Multiple Selections";
@@ -108,7 +125,7 @@ static NSArray*observedKeys=nil;
 	for(NSString* key in keys){
 	    NSString* x=[helper valueForKey:key];
 	    if(!x)x=@"";
-	    if(x==NSNoSelectionMarker)x=@"";
+	    if(x==(NSString*)NSNoSelectionMarker)x=@"";
 	    ((DOMHTMLElement*)[doc getElementById:key]).innerHTML=x;
 	}
 	mainBox.style.fontSize=[self articleViewFontSize];
@@ -131,13 +148,13 @@ static NSArray*observedKeys=nil;
 }
 -(void)setArticle:(Article*)a
 {
-    if(article && article!=NSNoSelectionMarker && article!=NSMultipleValuesMarker){
+    if(article && article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 	    [article removeObserver:self forKeyPath:i];
 	}
     }
     article=a;
-    if(article&& article!=NSNoSelectionMarker && article!=NSMultipleValuesMarker){
+    if(article&& article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 		[article addObserver:self
 			  forKeyPath:i
