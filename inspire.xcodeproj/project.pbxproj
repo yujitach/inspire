@@ -38,6 +38,8 @@
 		332F19C50EA57B8E00758683 /* ArxivHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 332F19C40EA57B8E00758683 /* ArxivHelper.m */; };
 		332F1B0E0EA597D300758683 /* spires.icns in Resources */ = {isa = PBXBuildFile; fileRef = 332F1B0D0EA597D300758683 /* spires.icns */; };
 		332F485D0FF8748700B9363E /* hasPDF.png in Resources */ = {isa = PBXBuildFile; fileRef = 332F485C0FF8748700B9363E /* hasPDF.png */; };
+		332FD069212D26D300D2EA01 /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 332FD067212D26D300D2EA01 /* PDFViewController.m */; };
+		332FD06A212D26D300D2EA01 /* PDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 332FD068212D26D300D2EA01 /* PDFViewController.xib */; };
 		3331BD3311D42402001F9B4B /* tex.js in Resources */ = {isa = PBXBuildFile; fileRef = 3331BD3111D423F0001F9B4B /* tex.js */; };
 		333508BF1B93E83100BEF150 /* AbstractRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */; };
 		333508C01B93E83100BEF150 /* AbstractRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */; };
@@ -276,6 +278,9 @@
 		332F1A7F0EA5905000758683 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		332F1B0D0EA597D300758683 /* spires.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = spires.icns; sourceTree = "<group>"; };
 		332F485C0FF8748700B9363E /* hasPDF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hasPDF.png; sourceTree = "<group>"; };
+		332FD066212D26D300D2EA01 /* PDFViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
+		332FD067212D26D300D2EA01 /* PDFViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
+		332FD068212D26D300D2EA01 /* PDFViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDFViewController.xib; sourceTree = "<group>"; };
 		3331BD3111D423F0001F9B4B /* tex.js */ = {isa = PBXFileReference; explicitFileType = sourcecode.javascript; fileEncoding = 4; path = tex.js; sourceTree = "<group>"; };
 		333508BD1B93E83100BEF150 /* AbstractRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractRefreshManager.h; sourceTree = "<group>"; };
 		333508BE1B93E83100BEF150 /* AbstractRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractRefreshManager.m; sourceTree = "<group>"; };
@@ -683,6 +688,16 @@
 			name = Migrator;
 			sourceTree = "<group>";
 		};
+		332FD06B212D3B0200D2EA01 /* PDFViewer */ = {
+			isa = PBXGroup;
+			children = (
+				332FD066212D26D300D2EA01 /* PDFViewController.h */,
+				332FD067212D26D300D2EA01 /* PDFViewController.m */,
+				332FD068212D26D300D2EA01 /* PDFViewController.xib */,
+			);
+			name = PDFViewer;
+			sourceTree = "<group>";
+		};
 		333A506E10392BBA00F2B780 /* ArxivNewCreateSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -905,6 +920,7 @@
 		33CDDBD31B8F137B003D993D /* iOS UI */ = {
 			isa = PBXGroup;
 			children = (
+				332FD06B212D3B0200D2EA01 /* PDFViewer */,
 				335EB4E31B929F5400998E48 /* Folder Management */,
 				33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */,
 				33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */,
@@ -1164,6 +1180,7 @@
 				33D02B0C1B908D1500C6648C /* canned-search.png in Resources */,
 				3310D8E81B92F42D00CA22C8 /* unread@2x.png in Resources */,
 				33CDDBEA1B8F137C003D993D /* LaunchScreen.storyboard in Resources */,
+				332FD06A212D26D300D2EA01 /* PDFViewController.xib in Resources */,
 				3310D8E71B92F42D00CA22C8 /* unread.png in Resources */,
 				33D02B0D1B908D1500C6648C /* canned-search@2x.png in Resources */,
 				33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */,
@@ -1244,6 +1261,7 @@
 				33BBA3AB1B8F3A910001366C /* ArticleData.m in Sources */,
 				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
 				33BBA3A61B8F3A910001366C /* CannedSearch.m in Sources */,
+				332FD069212D26D300D2EA01 /* PDFViewController.m in Sources */,
 				33BBA3BB1B8F3AE20001366C /* ArxivNewArticleListReloadOperation.m in Sources */,
 				333508C01B93E83100BEF150 /* AbstractRefreshManager.m in Sources */,
 				33BBA3AD1B8F3A970001366C /* spires_DataModel.xcdatamodeld in Sources */,
