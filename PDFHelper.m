@@ -23,9 +23,7 @@ static PDFHelper*_helper=nil;
 NSString* pathShownWithQuickLook=nil;
 
 #if TARGET_OS_IPHONE
-#import "PDFViewController.h"
-
-@interface PDFHelper (Delegate) <MyPDFViewControllerDelegate>
+@interface PDFHelper (Delegate) <UIDocumentInteractionControllerDelegate>
 @end
 
 #else
@@ -52,7 +50,7 @@ NSString* pathShownWithQuickLook=nil;
 @implementation PDFHelper
 #if TARGET_OS_IPHONE
 {
-    MyPDFViewController*pvc;
+    UIDocumentInteractionController*documentInteractionContoller;
 }
 #endif
 +(PDFHelper*)sharedHelper
@@ -70,53 +68,27 @@ NSString* pathShownWithQuickLook=nil;
 }
 #if TARGET_OS_IPHONE
 #pragma mark interaction with PDF viewer
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
+{
+    return [NSApp appDelegate].presentingViewController;
+}
+- (UIView *) documentInteractionControllerViewForPreview: (UIDocumentInteractionController *) controller
+{
+    return  [UIApplication sharedApplication].keyWindow.rootViewController.view;
+
+}
 
 -(void)openPDFFile:(NSString*)path usingViewer:(PDFViewerType)type
 {
-    if(!pvc){
-        pvc=[[MyPDFViewController alloc] init];
-        pvc.delegate=self;
-    }
-    pvc.pdfURL=[NSURL fileURLWithPath:path];
-    if([[NSUserDefaults standardUserDefaults]boolForKey:[self key]]){
-        [[UIApplication sharedApplication] openURL:[self gropen] options:@{} completionHandler:nil];
-    }else{
-        [[NSApp appDelegate].presentingViewController presentViewController:pvc animated:YES completion:nil];
-    }
+    documentInteractionContoller=nil;
+    documentInteractionContoller=[UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+    documentInteractionContoller.delegate=self;
+    documentInteractionContoller.UTI=@"com.adobe.pdf";
+    [documentInteractionContoller presentPreviewAnimated:YES];
 }
 -(NSString*)displayNameForViewer:(PDFViewerType)type;
 {
     return @"iOS-builtin viewer";
-}
--(NSURL*)gropen
-{
-    NSString*urlString=[NSString stringWithFormat:@"gropen://0/%@?cc=1",[self fileName] ];
-    NSURL*url=[NSURL URLWithString:urlString];
-    return url;
-}
--(NSString*)fileName
-{
-    return pvc.pdfURL.absoluteString.lastPathComponent;
-}
--(NSString*)key
-{
-    return [NSString stringWithFormat:@"GoodReader-%@-sent",[self fileName]];
-}
--(void)simplyClosed
-{
-    [[NSApp appDelegate].presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
--(void)sendingFileTo:(NSString *)application
-{
-    NSLog(@"%@",application);
-    if([application isEqualToString:@"com.goodiware.goodreader4"]){
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:self.key];
-    }
-}
--(void)fileSentTo:(NSString *)application
-{
-    NSLog(@"%@",application);
-    [[NSApp appDelegate].presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 #else
 -(NSString*)displayNameForApp:(NSString*)bundleId
