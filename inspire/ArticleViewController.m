@@ -12,6 +12,8 @@
 #import "HTMLArticleHelper.h"
 #import "AppDelegate.h"
 #import "AbstractRefreshManager.h"
+#import "DumbOperation.h"
+
 @interface ArticleViewController ()
 
 @end
@@ -19,26 +21,37 @@
 @implementation ArticleViewController
 {
     NSMutableDictionary*handlerDic;
+    UIBarButtonItem*pdfButton;
+    UIBarButtonItem*otherButton;
+    NSProgress*progress;
 }
 @synthesize indexPath=_indexPath;
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+-(BOOL)isMyURL:(NSURL*)url
 {
-    if([keyPath isEqualToString:@"fractionCompleted"]){
-        NSNumber*n=change[NSKeyValueChangeNewKey];
-        [self.progressView setProgress:[n floatValue] animated:YES];
-    }
+    Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+    return [a.pdfPath.lastPathComponent hasPrefix:url.lastPathComponent];
 }
 -(void)pdfDownloadStarted:(NSNotification*)n
 {
-    NSProgress*progress=(NSProgress*)n.object;
-    self.progressView.hidden=NO;
-    [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+    pdfButton.enabled=NO;
 }
 -(void)pdfDownloadFinished:(NSNotification*)n
 {
-    NSProgress*progress=(NSProgress*)n.object;
-    self.progressView.hidden=YES;
-    [progress removeObserver:self forKeyPath:@"fractionCompleted"];
+    NSDictionary*dic=(NSDictionary*)n.object;
+    if([self isMyURL:dic[@"url"]]){
+        pdfButton.title=@"show pdf";
+        pdfButton.enabled=YES;
+    }
+}
+-(void)pdfDownloadProgress:(NSNotification*)n
+{
+    NSDictionary*dic=(NSDictionary*)n.object;
+    if([self isMyURL:dic[@"url"]]){
+        NSNumber*num=dic[@"fractionCompleted"];
+        int percent=100*(num.doubleValue);
+        pdfButton.title=[NSString stringWithFormat:@"download pdf (%@%%)",@(percent)];
+        pdfButton.enabled=NO;
+    }
 }
 -(void)mocSaved:(NSNotification*)n
 {
@@ -50,51 +63,28 @@
     self.webView=[[WKWebView alloc] init];
     self.webView.navigationDelegate=self;
     self.view=self.webView;
+    pdfButton=            [[UIBarButtonItem alloc]  initWithTitle:@"pdf"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(pdf:)
+                           ];
+    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"tasks..."
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(other:)
+                           ];
     self.toolbarItems=@[
-            [[UIBarButtonItem alloc]  initWithTitle:@"pdf"
-                                              style:UIBarButtonItemStylePlain
-                                             target:self
-                                             action:@selector(pdf:)
-                                                 ],
+                        pdfButton,
             [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-            [[UIBarButtonItem alloc]  initWithTitle:@"cited by"
-                                              style:UIBarButtonItemStylePlain
-                                             target:self
-                                             action:@selector(citedBy:)
-             ],
-            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-            [[UIBarButtonItem alloc]  initWithTitle:@"refers to"
-                                              style:UIBarButtonItemStylePlain
-                                             target:self
-                                             action:@selector(refersTo:)
-             ],
-            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-            [[UIBarButtonItem alloc]  initWithTitle:@"(un)flag"
-                                              style:UIBarButtonItemStylePlain
-                                             target:self
-                                             action:@selector(flag:)
-             ]
+                        otherButton,
             ];
     
-    self.progressView=[[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    self.progressView.translatesAutoresizingMaskIntoConstraints=NO;
-    [self.navigationController.view addSubview:self.progressView];
-    UINavigationBar *navBar = self.navigationController.navigationBar;
     
-    NSLayoutConstraint *constraint;
-    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeBottom multiplier:1 constant:-0.5];
-    [self.navigationController.view addConstraint:constraint];
-    
-    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
-    [self.navigationController.view addConstraint:constraint];
-    
-    constraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:navBar attribute:NSLayoutAttributeRight multiplier:1 constant:0];
-    [self.navigationController.view addConstraint:constraint];
-    self.progressView.hidden=YES;
 //    [self.webView addSubview:self.progressView];
 //    [self.progressView sizeToFit];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadStarted:) name:@"pdfDownloadStarted" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadProgress:) name:@"pdfDownloadProgress" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     // [self refresh];
     // Do any additional setup after loading the view.
@@ -201,6 +191,19 @@
             }
             handlerDic[key]=u;
         }
+        {
+            Article*x=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+            if(x.hasPDFLocally){
+                pdfButton.enabled=YES;
+                pdfButton.title=@"show pdf";
+            }else if(!([OperationQueues arxivQueue].isOnline)){
+                pdfButton.enabled=NO;
+                pdfButton.title=@"pdf";
+            }else{
+                pdfButton.enabled=YES;
+                pdfButton.title=@"download pdf";
+            }
+        }
     }
     if(i+1<total){
         Article*b=[self.fetchedResultsController objectAtIndexPath:[self indexPathWithDelta:+1]];
@@ -281,6 +284,28 @@
         self.indexPath=[self indexPathWithDelta:-1];
         [self refresh];
     }
+}
+-(IBAction)other:(id)sender
+{
+    UIAlertController*ac=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction*c=[UIAlertAction actionWithTitle:@"cited by" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self citedBy:nil];}];
+    UIAlertAction*r=[UIAlertAction actionWithTitle:@"refers to" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self refersTo:nil];}];
+    
+    Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+    NSString*x=(a.flag&AFIsFlagged)?@"unflag":@"flag";
+    UIAlertAction*f=[UIAlertAction actionWithTitle:x style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self flag:nil];}];
+
+    UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil];
+
+    
+    [ac addAction:c];
+    [ac addAction:r];
+    [ac addAction:f];
+    [ac addAction:cancel];
+    
+    ac.popoverPresentationController.barButtonItem=otherButton;
+    
+    [self presentViewController:ac animated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation

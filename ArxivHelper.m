@@ -162,12 +162,21 @@ ArxivHelper* _sharedHelper=nil;
 {
     [temporaryData appendData:data];
     progress.completedUnitCount=temporaryData.length;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadProgress"
+                                                        object:@{
+                                                                 @"url":c.originalRequest.URL,
+                                                                 @"fractionCompleted":@(progress.fractionCompleted)
+                                                                                               }];
 }
 -(void)connection:(NSURLConnection*)c didReceiveResponse:(NSURLResponse*)resp
 {
     response=resp;
     progress=[NSProgress progressWithTotalUnitCount:response.expectedContentLength];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadStarted" object:progress];
+    [progress setUserInfoObject:resp.URL forKey:@"URL"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadStarted" object:@{
+                                                                                              @"url":c.originalRequest.URL,
+                                                                                              @"fractionCompleted":@(progress.fractionCompleted)
+                                                                                              }];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)c
 {
@@ -191,7 +200,10 @@ ArxivHelper* _sharedHelper=nil;
 	}
     }
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadFinished" object:progress];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadFinished" object:@{
+                                                                                               @"url":c.originalRequest.URL,
+                                                                                               @"fractionCompleted":@(progress.fractionCompleted)
+                                                                                               }];
     [delegate performSelector:sel withObject:returnDict];
     connection=nil;
 }

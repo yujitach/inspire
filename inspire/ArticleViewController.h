@@ -15,7 +15,6 @@
 @property (nonatomic,strong) NSIndexPath*indexPath;
 @property (nonatomic,strong) IBOutlet UIBarButtonItem*nextButton;
 @property (nonatomic,strong) IBOutlet UIBarButtonItem*prevButton;
-@property (nonatomic,strong) IBOutlet UIProgressView*progressView;
 @property (nonatomic,strong) IBOutlet WKWebView*webView;
 -(IBAction)next:(id)sender;
 -(IBAction)prev:(id)sender;
