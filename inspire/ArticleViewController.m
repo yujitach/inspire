@@ -13,6 +13,8 @@
 #import "AppDelegate.h"
 #import "AbstractRefreshManager.h"
 #import "DumbOperation.h"
+#import "SpecificArticleListTableViewController.h"
+#import "ArticleList.h"
 
 @interface ArticleViewController ()
 
@@ -57,6 +59,10 @@
 {
     [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
 }
+-(void)newSearchInitiated:(NSNotification*)n
+{
+    [self performSegueWithIdentifier:@"unwind" sender:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     handlerDic=[NSMutableDictionary dictionary];
@@ -86,6 +92,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadProgress:) name:@"pdfDownloadProgress" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mocSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newSearchInitiated:) name:@"newSearchInitiated" object:nil];
     // [self refresh];
     // Do any additional setup after loading the view.
 }
@@ -285,15 +292,21 @@
         [self refresh];
     }
 }
+-(IBAction)addTo:(id)sender
+{
+    [self performSegueWithIdentifier:@"AddTo" sender:nil];
+}
 -(IBAction)other:(id)sender
 {
     UIAlertController*ac=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction*c=[UIAlertAction actionWithTitle:@"cited by" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self citedBy:nil];}];
     UIAlertAction*r=[UIAlertAction actionWithTitle:@"refers to" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self refersTo:nil];}];
-    
+
     Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
     NSString*x=(a.flag&AFIsFlagged)?@"unflag":@"flag";
     UIAlertAction*f=[UIAlertAction actionWithTitle:x style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self flag:nil];}];
+
+    UIAlertAction*t=[UIAlertAction actionWithTitle:@"add to a list..." style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self addTo:nil];}];
 
     UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil];
 
@@ -301,20 +314,31 @@
     [ac addAction:c];
     [ac addAction:r];
     [ac addAction:f];
+    [ac addAction:t];
     [ac addAction:cancel];
     
     ac.popoverPresentationController.barButtonItem=otherButton;
     
     [self presentViewController:ac animated:YES completion:nil];
 }
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([[segue identifier] isEqualToString:@"AddTo"]){
+        UINavigationController*nc=(UINavigationController*)[segue destinationViewController];
+        nc.popoverPresentationController.barButtonItem=otherButton;
+        SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
+        vc.entityName=@"SimpleArticleList";
+        Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+        vc.actionBlock=^(ArticleList*al){
+            [al addArticlesObject:a];
+        };
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

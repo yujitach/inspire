@@ -117,7 +117,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     if([[url scheme] isEqualToString:@"spires-search"]){
         NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         AllArticleList*allArticleList=[AllArticleList allArticleList];
-        [self selectAllArticleList];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"newSearchInitiated" object:nil];
 //        if(![allArticleList.searchString isEqualToString:searchString]){
 //            [historyController mark:self];
 //        }

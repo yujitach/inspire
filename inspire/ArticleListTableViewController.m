@@ -9,6 +9,7 @@
 #import "ArticleListTableViewController.h"
 #import "ArticleTableViewController.h"
 #import "AddFolderViewController.h"
+#import "AllArticleList.h"
 #import "ArticleList.h"
 #import "ArticleFolder.h"
 #import "MOC.h"
@@ -19,6 +20,12 @@
 @end
 
 @implementation ArticleListTableViewController
+
+-(IBAction)unwindByNewSearch:(UIStoryboardSegue*)segue
+{
+    self.parent=[AllArticleList allArticleList];
+    [self performSegueWithIdentifier:@"ShowDetail" sender:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -153,7 +160,11 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     ArticleList*al = (ArticleList*)[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = al.name;
+    cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
     cell.imageView.image =al.icon;
+    if([al isKindOfClass:[ArticleFolder class]]){
+        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    }
 }
 
 #pragma mark - Fetched results controller

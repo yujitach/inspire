@@ -80,8 +80,7 @@
 
 -(void)addToSomeListArticleAtIndexPath:(NSIndexPath*)indexPath
 {
-    Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"ChooseSimpleList" sender:article];
+    [self performSegueWithIdentifier:@"ChooseSimpleList" sender:indexPath];
 }
 -(void)toggleFlag:(NSIndexPath*)indexPath
 {
@@ -297,12 +296,20 @@
         controller.fetchedResultsController=self.fetchedResultsController;
         controller.indexPath=indexPath;
     }else if([[segue identifier] isEqualToString:@"ChooseSimpleList"]){
-        Article*a=(Article*)sender;
+        NSIndexPath*indexPath=(NSIndexPath*)sender;
+        Article*article=[self.fetchedResultsController objectAtIndexPath:indexPath];
         UINavigationController*nc=(UINavigationController*)[segue destinationViewController];
+        UITableViewCell*cell=[self.tableView cellForRowAtIndexPath:indexPath];
+        CGRect frame=cell.bounds;
+        frame.origin.x=frame.size.width*.8;
+        frame.origin.y=frame.size.height*.5;
+        frame.size=CGSizeMake(0, 0);
+        nc.popoverPresentationController.sourceView=cell;
+        nc.popoverPresentationController.sourceRect=frame;
         SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
         vc.entityName=@"SimpleArticleList";
         vc.actionBlock=^(ArticleList*al){
-            [al addArticlesObject:a];
+            [al addArticlesObject:article];
         };
     }
 }

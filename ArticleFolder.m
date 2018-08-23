@@ -24,7 +24,7 @@
 #if TARGET_OS_IPHONE
 -(UIImage*)icon
 {
-    return [UIImage imageNamed:@"unread"];
+    return [UIImage imageNamed:@"folder"];
 }
 #else
 -(NSImage*)icon

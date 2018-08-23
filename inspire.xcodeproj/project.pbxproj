@@ -176,6 +176,8 @@
 		33D02B101B908D1500C6648C /* spires-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A8C3910C8DB51000337CC /* spires-blue.png */; };
 		33D02B111B908D1500C6648C /* spires-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33C82714180F096900D6C713 /* spires-blue@2x.png */; };
 		33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D02B131B9094D700C6648C /* ArticleTableViewCell.m */; };
+		33D1FEF5212E88A30090A401 /* folder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33D1FEF3212E88A20090A401 /* folder@2x.png */; };
+		33D1FEF6212E88A30090A401 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 33D1FEF4212E88A30090A401 /* folder.png */; };
 		33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC21BB6E89400B87F05 /* iCloud.m */; };
 		33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */; };
 		33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
@@ -423,6 +425,8 @@
 		33CDDBEB1B8F137C003D993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33D02B121B9094D700C6648C /* ArticleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleTableViewCell.h; sourceTree = "<group>"; };
 		33D02B131B9094D700C6648C /* ArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewCell.m; sourceTree = "<group>"; };
+		33D1FEF3212E88A20090A401 /* folder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder@2x.png"; sourceTree = "<group>"; };
+		33D1FEF4212E88A30090A401 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		33D5CEC11BB6E89400B87F05 /* iCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloud.h; sourceTree = "<group>"; };
 		33D5CEC21BB6E89400B87F05 /* iCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloud.m; sourceTree = "<group>"; };
 		33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudDocument.h; sourceTree = "<group>"; };
@@ -754,6 +758,8 @@
 		33B09C7C10D4AB66001A9B50 /* UI graphics */ = {
 			isa = PBXGroup;
 			children = (
+				33D1FEF4212E88A30090A401 /* folder.png */,
+				33D1FEF3212E88A20090A401 /* folder@2x.png */,
 				33FFF37B17DE01A0007AF5E3 /* unread-hasPDF.png */,
 				33C8271E180F116C00D6C713 /* unread-hasPDF@2x.png */,
 				332F1B0D0EA597D300758683 /* spires.icns */,
@@ -1104,6 +1110,7 @@
 			files = (
 				339586961B91BB24004778C6 /* tex.js in Resources */,
 				33D02B0A1B908D1500C6648C /* arxiv.png in Resources */,
+				33D1FEF5212E88A30090A401 /* folder@2x.png in Resources */,
 				33D02B0E1B908D1500C6648C /* spires-red.png in Resources */,
 				33D02B0F1B908D1500C6648C /* spires-red@2x.png in Resources */,
 				339586971B91BB2A004778C6 /* magicRegExps.perl in Resources */,
@@ -1121,6 +1128,7 @@
 				33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */,
 				33CDDBE71B8F137C003D993D /* Assets.xcassets in Resources */,
 				33CDDBE51B8F137C003D993D /* Main.storyboard in Resources */,
+				33D1FEF6212E88A30090A401 /* folder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
