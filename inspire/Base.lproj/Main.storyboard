@@ -88,7 +88,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="wqW-Op-Hn7" kind="presentation" identifier="ChooseArticleFolder" id="0pZ-xV-uKe"/>
+                        <segue destination="wqW-Op-Hn7" kind="popoverPresentation" identifier="ChooseArticleFolder" popoverAnchorView="r7i-6Z-zg0" id="0pZ-xV-uKe">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
@@ -471,10 +473,10 @@
             </objects>
             <point key="canvasLocation" x="-45" y="981"/>
         </scene>
-        <!--Choose the list to add to ...-->
+        <!--Add to ...-->
         <scene sceneID="e1R-aW-qq6">
             <objects>
-                <tableViewController id="tBg-Yy-gTY" customClass="SpecificArticleListTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SpecificArticleListTableView" id="tBg-Yy-gTY" customClass="SpecificArticleListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oyk-hT-FUi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -506,7 +508,7 @@
                             <outlet property="delegate" destination="tBg-Yy-gTY" id="Vml-rb-SYi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose the list to add to ..." id="OJU-VN-KRf">
+                    <navigationItem key="navigationItem" title="Add to ..." id="OJU-VN-KRf">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="VRl-6M-qdI">
                             <connections>
                                 <segue destination="kwI-IJ-zRN" kind="unwind" identifier="unwindDoingNothing" unwindAction="unwindFromChoosingSimpleArticleList:" id="yVV-Xd-GIf"/>

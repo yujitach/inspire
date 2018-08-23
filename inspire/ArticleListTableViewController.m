@@ -91,12 +91,22 @@
         AddFolderViewController *controller = (AddFolderViewController *)[[segue destinationViewController] topViewController];
         controller.parent=self.parent;
     }else if([[segue identifier] isEqualToString:@"ChooseArticleFolder"]){
-        ArticleList*a=(ArticleList*)sender;
+        NSIndexPath*indexPath=(NSIndexPath*)sender;
+        ArticleList*articleList=[self.fetchedResultsController objectAtIndexPath:indexPath];
+        
         UINavigationController*nc=(UINavigationController*)[segue destinationViewController];
+        UITableViewCell*cell=[self.tableView cellForRowAtIndexPath:indexPath];
+        CGRect frame=cell.bounds;
+        frame.origin.x=frame.size.width*.8;
+        frame.origin.y=frame.size.height*.5;
+        frame.size=CGSizeMake(0, 0);
+        nc.popoverPresentationController.sourceView=cell;
+        nc.popoverPresentationController.sourceRect=frame;
         SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
         vc.entityName=@"ArticleFolder";
+        vc.parent=nil;
         vc.actionBlock=^(ArticleList*al){
-            a.parent=al;
+            articleList.parent=al;
         };
     }
 }
@@ -106,8 +116,7 @@
 -(void)moveToArticleFolderArticleListAtIndexPath:(NSIndexPath*)indexPath
 {
     // to be implemented
-    ArticleList*articleList=[self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"ChooseArticleFolder" sender:articleList];
+    [self performSegueWithIdentifier:@"ChooseArticleFolder" sender:indexPath];
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView

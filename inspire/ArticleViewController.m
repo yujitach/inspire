@@ -331,6 +331,7 @@
         nc.popoverPresentationController.barButtonItem=otherButton;
         SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
         vc.entityName=@"SimpleArticleList";
+        vc.parent=nil;
         Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
         vc.actionBlock=^(ArticleList*al){
             [al addArticlesObject:a];

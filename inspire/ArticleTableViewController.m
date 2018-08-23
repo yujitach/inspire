@@ -308,6 +308,7 @@
         nc.popoverPresentationController.sourceRect=frame;
         SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)nc.topViewController;
         vc.entityName=@"SimpleArticleList";
+        vc.parent=nil;
         vc.actionBlock=^(ArticleList*al){
             [al addArticlesObject:article];
         };

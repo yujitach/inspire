@@ -9,18 +9,11 @@
 #import "SpecificArticleListTableViewController.h"
 #import "MOC.h"
 #import "ArticleList.h"
+#import "ArticleFolder.h"
 #import "SimpleArticleList.h"
 
-@interface ArticleList (CombinedCategory)
--(NSNumber*)combinedPosition;
--(NSString*)combinedName;
-@end
 
 @implementation ArticleList (CombinedCategory)
--(NSNumber*)combinedPosition
-{
-    return nil;
-}
 -(NSString*)combinedName
 {
     if(!self.parent){
@@ -49,20 +42,45 @@
     }
 }
 -(void)reload{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:[MOC moc]];
-    [fetchRequest setEntity:entity];
-    
-    NSArray*a=[[MOC moc] executeFetchRequest:fetchRequest error:NULL];
+    NSArray*a=nil;
+    if([self.entityName isEqualToString:@"ArticleFolder"]){
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        
+        NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:[MOC moc]];
+        [fetchRequest setEntity:entity];
+        
+        a=[[MOC moc] executeFetchRequest:fetchRequest error:NULL];
+    }else if([self.entityName isEqualToString:@"SimpleArticleList"]){
+        NSPredicate*predicate=[NSPredicate predicateWithFormat:@"parent == %@",self.parent];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:[MOC moc]];
+        [fetchRequest setPredicate:predicate];
+        [fetchRequest setEntity:entity];
+        a=[[MOC moc] executeFetchRequest:fetchRequest error:NULL];
+        
+        NSEntityDescription*folderEntity=[NSEntityDescription entityForName:@"ArticleFolder" inManagedObjectContext:[MOC moc]];
+        NSFetchRequest*req=[[NSFetchRequest alloc] init];
+        [req setPredicate:predicate];
+        [req setEntity:folderEntity];
+        NSArray*b=[[MOC moc] executeFetchRequest:req error:NULL];
+        a=[a arrayByAddingObjectsFromArray:b];
+    }
     articleLists=[a sortedArrayUsingDescriptors:@[
-                                                  [NSSortDescriptor sortDescriptorWithKey:@"combinedPosition" ascending:YES]
+                                                  [NSSortDescriptor sortDescriptorWithKey:@"positionInView" ascending:YES]
                                                   ]];
     [self.tableView reloadData];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.leftItemsSupplementBackButton=YES;
+    NSString*title=@"";
+    if([self.entityName isEqualToString:@"ArticleFolder"]){
+        self.navigationItem.title=@"Move to...";
+    }else if([self.entityName isEqualToString:@"SimpleArticleList"]){
+        self.navigationItem.title=@"Add to...";
+    }
+    self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:nil action:nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -90,8 +108,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"default" forIndexPath:indexPath];
     SimpleArticleList*l=(SimpleArticleList*)articleLists[[indexPath indexAtPosition:1]];
-    cell.textLabel.text=l.combinedName;
     cell.imageView.image =l.icon;
+    if([self.entityName isEqualToString:@"ArticleFolder"]){
+        cell.textLabel.text=l.combinedName;
+    }else if([self.entityName isEqualToString:@"SimpleArticleList"]){
+        cell.textLabel.text=l.name;
+        if([l isKindOfClass:[ArticleFolder class]]){
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
     return cell;
 }
 
@@ -156,5 +181,22 @@
     }
 }
 
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"unwind"] && [self.entityName isEqualToString:@"SimpleArticleList"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        ArticleList *object = articleLists[[indexPath indexAtPosition:1]];
+        if([object isKindOfClass:[ArticleFolder class]]){
+            SpecificArticleListTableViewController*vc=(SpecificArticleListTableViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"SpecificArticleListTableView"];
+            //            NSLog(@"self:%@",self);
+            //            NSLog(@"new:%@",vc);
+            vc.parent=(ArticleFolder*)object;
+            vc.entityName=@"SimpleArticleList";
+            [self.navigationController pushViewController:vc animated:YES];
+            return NO;
+        }
+    }
+    return YES;
+}
 
 @end
