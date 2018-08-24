@@ -17,6 +17,7 @@
 #import "CannedSearch.h"
 #import "SpecificArticleListTableViewController.h"
 #import "SimpleArticleList.h"
+#import "AllArticleList.h"
 
 @interface ArticleTableViewController ()
 
@@ -28,6 +29,11 @@
 
 @synthesize articleList=_articleList;
 @synthesize fetchedResultsController=_fetchedResultsController;
+
+-(IBAction)unwindByNewSearch:(UIStoryboardSegue*)segue
+{
+    self.articleList=[AllArticleList allArticleList];
+}
 -(void)refresh:(UIRefreshControl*)sender forEvent:(UIEvent*)event
 {
     UIBarButtonItem*bbi=self.navigationItem.rightBarButtonItem;
@@ -45,8 +51,11 @@
     }
 
     self.navigationItem.title=self.articleList.name;
-    if([self.articleList isKindOfClass:[CannedSearch class]]){
+    if([self.articleList isKindOfClass:[CannedSearch class]] && ![self.articleList.name isEqualToString:self.articleList.searchString]){
         self.navigationItem.title=[NSString stringWithFormat:@"%@ (%@)",self.articleList.name,self.articleList.searchString];
+    }
+    if([self.articleList isKindOfClass:[AllArticleList class]]){
+        self.navigationItem.title=self.articleList.searchString;
     }
     if(self.articleList.searchStringEnabled){
         self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
@@ -225,7 +234,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-    
+    [self.tableView reloadData];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller

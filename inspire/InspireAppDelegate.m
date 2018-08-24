@@ -49,8 +49,8 @@ static InspireAppDelegate*globalAppDelegate=nil;
     if(!search)return;
     NSPredicate*pred=[[SpiresHelper sharedHelper] predicateFromSPIRESsearchString:search];
     if(!pred)return;
-    [self selectAllArticleList];
     [AllArticleList allArticleList].searchString=search;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"newSearchInitiated" object:nil];
     [[OperationQueues spiresQueue] addOperation:[[SpiresQueryOperation alloc] initWithQuery:search andMOC:[MOC moc]]];
 }
 -(void)postMessage:(NSString*)message
@@ -116,13 +116,6 @@ static InspireAppDelegate*globalAppDelegate=nil;
     //    NSLog(@"handles %@",url);
     if([[url scheme] isEqualToString:@"spires-search"]){
         NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        AllArticleList*allArticleList=[AllArticleList allArticleList];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"newSearchInitiated" object:nil];
-//        if(![allArticleList.searchString isEqualToString:searchString]){
-//            [historyController mark:self];
-//        }
-        allArticleList.searchString=searchString;
-//        [historyController mark:self];
         [self querySPIRES:searchString];
     }else if([[url scheme] isEqualToString:@"spires-open-pdf-internal"]){
         NSString*x=[url absoluteString];
@@ -170,11 +163,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
 
 -(void)selectAllArticleList
 {
-//    [self.articleListTableViewController.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     self.articleTableViewController.articleList=[AllArticleList allArticleList];
-    if(self.articleTableViewController != self.articleTableViewController.navigationController.visibleViewController){
-        [self.articleListTableViewController performSegueWithIdentifier:@"ShowDetail" sender:self];
-    }
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

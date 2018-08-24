@@ -21,11 +21,6 @@
 
 @implementation ArticleListTableViewController
 
--(IBAction)unwindByNewSearch:(UIStoryboardSegue*)segue
-{
-    self.parent=[AllArticleList allArticleList];
-    [self performSegueWithIdentifier:@"ShowDetail" sender:self];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
