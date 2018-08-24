@@ -118,6 +118,31 @@
     // to be implemented
     [self performSegueWithIdentifier:@"ChooseArticleFolder" sender:indexPath];
 }
+-(void)renameArticleListAtIndexPath:(NSIndexPath*)indexPath
+{
+    // to be implemented
+    ArticleList*articleList=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    if([articleList isKindOfClass:[AllArticleList class]]){
+        return;
+    }
+    UIAlertController*ac=[UIAlertController alertControllerWithTitle:@"Rename this list to..." message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [ac addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text=articleList.name;
+    }];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        articleList.name=ac.textFields[0].text;
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }];
+    [ac addAction:confirmAction];
+    UITableViewCell*cell=[self.tableView cellForRowAtIndexPath:indexPath];
+    CGRect frame=cell.bounds;
+    frame.origin.x=frame.size.width*.8;
+    frame.origin.y=frame.size.height*.5;
+    frame.size=CGSizeMake(0, 0);
+    ac.popoverPresentationController.sourceView=cell;
+    ac.popoverPresentationController.sourceRect=frame;
+    [self presentViewController:ac animated:NO completion:nil];
+}
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView
                   editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,7 +153,10 @@
     UITableViewRowAction*addToAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Move to..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
         [self moveToArticleFolderArticleListAtIndexPath:ip];
     }];
-    return @[addToAction,deleteAction];
+    UITableViewRowAction*renameAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Rename..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
+        [self renameArticleListAtIndexPath:ip];
+    }];
+    return @[renameAction,addToAction,deleteAction];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

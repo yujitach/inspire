@@ -11,15 +11,16 @@
 #import "ArticleList.h"
 #import "ArticleFolder.h"
 #import "SimpleArticleList.h"
+#import "AllArticleList.h"
 
 
 @implementation ArticleList (CombinedCategory)
 -(NSString*)combinedName
 {
     if(!self.parent){
-        return self.name;
+        return [NSString stringWithFormat:@": %@",self.name];
     }else{
-        return [NSString stringWithFormat:@"%@ → %@",self.parent.combinedName,self.name];
+        return [NSString stringWithFormat:@"%@ : %@",self.parent.combinedName,self.name];
     }
 }
 @end
@@ -41,16 +42,40 @@
         [self performSegueWithIdentifier:@"AddArticleFolder" sender:sender];
     }
 }
+-(NSArray*)articleFoldersWithin:(ArticleFolder*)af
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:[MOC moc]];
+    [fetchRequest setEntity:entity];
+    NSPredicate*predicate=[NSPredicate predicateWithFormat:@"parent == %@",af];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setSortDescriptors:@[
+                                       [NSSortDescriptor sortDescriptorWithKey:@"positionInView" ascending:YES]
+                                       ]];
+    NSArray*a=[[MOC moc] executeFetchRequest:fetchRequest error:NULL];
+    if(!a){
+        return nil;
+    }
+    NSMutableArray*r=[NSMutableArray array];
+    for(ArticleFolder*f in a){
+        [r addObject:f];
+        NSArray*x=[self articleFoldersWithin:f];
+        if(x){
+            [r addObjectsFromArray:x];
+        }
+    }
+    return r;
+}
 -(void)reload{
     NSArray*a=nil;
     if([self.entityName isEqualToString:@"ArticleFolder"]){
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        
-        NSEntityDescription *entity = [NSEntityDescription entityForName:self.entityName inManagedObjectContext:[MOC moc]];
-        [fetchRequest setEntity:entity];
-        
-        a=[[MOC moc] executeFetchRequest:fetchRequest error:NULL];
+        NSMutableArray*r=[NSMutableArray array];
+        [r addObject:[AllArticleList allArticleList]];
+        NSArray*x=[self articleFoldersWithin:nil];
+        if(x){
+            [r addObjectsFromArray:x];
+        }
+        articleLists=r;
     }else if([self.entityName isEqualToString:@"SimpleArticleList"]){
         NSPredicate*predicate=[NSPredicate predicateWithFormat:@"parent == %@",self.parent];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -65,10 +90,10 @@
         [req setEntity:folderEntity];
         NSArray*b=[[MOC moc] executeFetchRequest:req error:NULL];
         a=[a arrayByAddingObjectsFromArray:b];
+        articleLists=[a sortedArrayUsingDescriptors:@[
+                                                      [NSSortDescriptor sortDescriptorWithKey:@"positionInView" ascending:YES]
+                                                      ]];
     }
-    articleLists=[a sortedArrayUsingDescriptors:@[
-                                                  [NSSortDescriptor sortDescriptorWithKey:@"positionInView" ascending:YES]
-                                                  ]];
     [self.tableView reloadData];
 }
 - (void)viewDidLoad {
@@ -110,7 +135,11 @@
     SimpleArticleList*l=(SimpleArticleList*)articleLists[[indexPath indexAtPosition:1]];
     cell.imageView.image =l.icon;
     if([self.entityName isEqualToString:@"ArticleFolder"]){
-        cell.textLabel.text=l.combinedName;
+        if([l isKindOfClass:[AllArticleList class]]){
+            cell.textLabel.text=@"toplevel";
+        }else{
+            cell.textLabel.text=l.combinedName;
+        }
     }else if([self.entityName isEqualToString:@"SimpleArticleList"]){
         cell.textLabel.text=l.name;
         if([l isKindOfClass:[ArticleFolder class]]){
@@ -170,7 +199,11 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         SimpleArticleList*al=articleLists[[indexPath indexAtPosition:1]];
         if(self.actionBlock){
-            self.actionBlock(al);
+            if([al isKindOfClass:[AllArticleList self]]){
+                self.actionBlock(nil);
+            }else{
+                self.actionBlock(al);
+            }
         }
     }else if ([[segue identifier] isEqualToString:@"unwindDoingNothing"]) {
         // do nothing

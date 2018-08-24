@@ -212,9 +212,16 @@
                             <outlet property="delegate" destination="VgP-pF-4Ai" id="8ii-9M-0P8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose" id="6RL-6S-27d"/>
+                    <navigationItem key="navigationItem" title="Choose" id="6RL-6S-27d">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="OHq-9T-875">
+                            <connections>
+                                <segue destination="7B0-WS-acA" kind="unwind" unwindAction="unwindFromAddFolder:" id="GgV-zg-EbN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PjH-I7-1jh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="7B0-WS-acA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2194" y="-630"/>
         </scene>
@@ -696,8 +703,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ewx-1X-7bw"/>
-        <segue reference="zT3-Pb-vrq"/>
+        <segue reference="RWt-4H-7iH"/>
+        <segue reference="vSj-1l-2qy"/>
         <segue reference="0pZ-xV-uKe"/>
         <segue reference="6S0-TO-JiA"/>
     </inferredMetricsTieBreakers>
