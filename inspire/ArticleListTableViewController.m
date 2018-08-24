@@ -163,7 +163,25 @@
     id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
     return [sectionInfo numberOfObjects];
 }
-
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ArticleList*articleList=[self.fetchedResultsController objectAtIndexPath:indexPath];
+    if([articleList isKindOfClass:[AllArticleList class]]){
+        return NO;
+    }else{
+        return YES;
+    }
+}
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath
+{
+    ArticleList*from=[self.fetchedResultsController objectAtIndexPath:sourceIndexPath];
+    ArticleList*to=[self.fetchedResultsController objectAtIndexPath:destinationIndexPath];
+    NSNumber*n=from.positionInView;
+    from.positionInView=to.positionInView;
+    to.positionInView=n;
+    [[MOC moc] save:NULL];
+    [self.tableView reloadData];
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
@@ -197,6 +215,8 @@
     cell.imageView.image =al.icon;
     if([al isKindOfClass:[ArticleFolder class]]){
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    }else{
+        cell.accessoryType=UITableViewCellAccessoryNone;
     }
 }
 

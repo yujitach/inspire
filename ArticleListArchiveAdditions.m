@@ -211,28 +211,30 @@
 {
     NSLog(@"merging to folder:%@",af?af.name:@"toplevel");
     NSArray*articleLists=[af.children allObjects];
-    NSMutableArray*mutableChildren=[children mutableCopy];
+    NSMutableArray*seen=[NSMutableArray array];
     if(!articleLists){
         articleLists=[self topLevelArticleListsFromMOC:secondMOC];
     }
     NSMutableArray*notFound=[NSMutableArray array];
     for(ArticleList*al in articleLists){
         if([al isKindOfClass:[AllArticleList class]])continue;
-        NSDictionary*newDic=[self articleListForName:al.name andType:NSStringFromClass([al class]) inArray:mutableChildren];
+        NSDictionary*newDic=[self articleListForName:al.name andType:NSStringFromClass([al class]) inArray:children];
         if(newDic){
-//            NSLog(@"existing %@ found in synced content",al.name);
+            NSLog(@"existing %@ found in synced content",al.name);
             NSArray*notFoundArray=[self dealWithSyncedAL:newDic withAL:al atFolder:af usingMOC:secondMOC];
             if(notFoundArray){
                 [notFound addObjectsFromArray:notFoundArray];
             }
-            [mutableChildren removeObject:newDic];
+            [seen addObject:al.name];
         }else{
-//            NSLog(@"existing %@ NOT found in synced content",al.name);
+            NSLog(@"existing %@ NOT found in synced content",al.name);
             [notFound addObject:al];
         }
     }
-    for(NSDictionary*dic in mutableChildren){
-//        NSLog(@"new content %@ in synced content",dic[@"name"]);
+    for(NSDictionary*dic in children){
+        if([seen containsObject:dic[@"name"]])
+            continue;
+        NSLog(@"new content %@ in synced content",dic[@"name"]);
         [self dealWithSyncedAL:dic withAL:nil atFolder:af usingMOC:secondMOC];
     }
     return notFound;
