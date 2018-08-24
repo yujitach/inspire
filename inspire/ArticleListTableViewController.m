@@ -151,6 +151,7 @@
     UITableViewRowAction*renameAction=[UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Rename..." handler:^(UITableViewRowAction * action, NSIndexPath * ip) {
         [self renameArticleListAtIndexPath:ip];
     }];
+    renameAction.backgroundColor=[UIColor orangeColor];
     return @[renameAction,addToAction,deleteAction];
 }
 

@@ -60,6 +60,9 @@
     if(self.articleList.searchStringEnabled){
         self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
         self.searchBar.placeholder=self.articleList.placeholderForSearchField;
+        self.searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;
+        self.searchBar.autocorrectionType=UITextAutocorrectionTypeNo;
+        self.searchBar.spellCheckingType=UITextSpellCheckingTypeNo;
         if(self.articleList.searchString&&![self.articleList.searchString isEqualToString:@""]){
             self.searchBar.text=self.articleList.searchString;
         }
@@ -180,6 +183,8 @@
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     self.articleList.searchString=searchBar.text;
+    self.navigationItem.title=searchBar.text;
+    [searchBar resignFirstResponder];
     [self recreateFetchedResultsController];
     [[NSApp appDelegate] querySPIRES:self.articleList.searchString];
 }

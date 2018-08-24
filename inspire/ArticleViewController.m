@@ -31,7 +31,7 @@
 -(BOOL)isMyURL:(NSURL*)url
 {
     Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
-    return [a.pdfPath.lastPathComponent hasPrefix:url.lastPathComponent];
+    return [a.pdfPath.lastPathComponent containsString:url.lastPathComponent];
 }
 -(void)pdfDownloadStarted:(NSNotification*)n
 {
