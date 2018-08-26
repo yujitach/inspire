@@ -9,7 +9,8 @@
 @import Foundation;
 #import "DumbOperation.h"
 #import "PDFHelper.h"
-@interface ArxivPDFDownloadOperation : ConcurrentOperation {
+#import "ArxivHelper.h"
+@interface ArxivPDFDownloadOperation : ConcurrentOperation<ArxivHelperDelegate> {
     Article*article;
     NSNumber* reloadDelay;
     BOOL shouldAsk;

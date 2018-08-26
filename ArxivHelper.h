@@ -8,9 +8,12 @@
 
 @import Foundation;
 
-@interface ArxivHelper : NSObject
+@protocol ArxivHelperDelegate
+-(void)pdfDownloadDidEnd:(NSDictionary*)dic;
+@end
+@interface ArxivHelper : NSObject<NSURLSessionDelegate>
 +(ArxivHelper*)sharedHelper;
 -(NSString*)arXivAbstractPathForID:(NSString*)arXivID;
--(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)delegate didEndSelector:(SEL)sel;
+-(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)delegate;
 -(NSString*)list:(NSString*)path;
 @end

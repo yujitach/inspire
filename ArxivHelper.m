@@ -12,15 +12,10 @@
 ArxivHelper* _sharedHelper=nil;
 @implementation ArxivHelper
 {
-    NSMutableArray*connections;
-    NSURLConnection*connection;
-    NSURLResponse*response;
-    NSMutableData*temporaryData;
-    NSMutableDictionary*returnDict;
-    id delegate;
-    SEL sel;
+    NSURLSession*session;
+    id<ArxivHelperDelegate> delegate;
     NSProgress*progress;
-    
+    NSMutableData*temporaryData;
 }
 
 +(ArxivHelper*)sharedHelper
@@ -33,7 +28,8 @@ ArxivHelper* _sharedHelper=nil;
 -(ArxivHelper*)init
 {
     self=[super init];
-    connections=[NSMutableArray array];
+    NSURLSessionConfiguration*config=[NSURLSessionConfiguration defaultSessionConfiguration];
+    session=[NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     return self;
 }
 -(NSString*)arXivHead
@@ -59,7 +55,7 @@ ArxivHelper* _sharedHelper=nil;
 
 
 
--(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)dele didEndSelector:(SEL)s;
+-(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)dele
 {
     NSURL* url=[NSURL URLWithString:[self arXivPDFPathForID:arXivID]];
     NSLog(@"fetching:%@",url);
@@ -67,14 +63,10 @@ ArxivHelper* _sharedHelper=nil;
 					      cachePolicy:NSURLRequestUseProtocolCachePolicy
 					  timeoutInterval:30];
     
-    temporaryData=[NSMutableData data];
-    returnDict=[NSMutableDictionary dictionary];
     delegate=dele;
-    sel=s;
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
-    connection=[NSURLConnection connectionWithRequest:urlRequest
-					     delegate:self];
+    temporaryData=[NSMutableData data];
+    NSURLSessionDataTask*dataTask=[session dataTaskWithRequest:urlRequest];
+    [dataTask resume];
 }
 
 /*-(NSXMLDocument*)xmlForPath:(NSString*)path
@@ -86,6 +78,36 @@ ArxivHelper* _sharedHelper=nil;
     return doc;
 }*/
 
+// taken from https://stackoverflow.com/a/34200617/239243
+- (NSData *)sendSynchronousRequest:(NSURLRequest *)request
+                 returningResponse:(__autoreleasing NSURLResponse **)responsePtr
+                             error:(__autoreleasing NSError **)errorPtr {
+    dispatch_semaphore_t    sem;
+    __block NSData *        result;
+    
+    result = nil;
+    
+    sem = dispatch_semaphore_create(0);
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                         if (errorPtr != NULL) {
+                                             *errorPtr = error;
+                                         }
+                                         if (responsePtr != NULL) {
+                                             *responsePtr = response;
+                                         }
+                                         if (error == nil) {
+                                             result = data;
+                                         }
+                                         dispatch_semaphore_signal(sem);
+                                     }] resume];
+    
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    
+    return result;
+}
+
 -(NSString*)list_internal:(NSString*)path
 {
     NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@list/%@",[self arXivHead],path]];
@@ -93,7 +115,7 @@ ArxivHelper* _sharedHelper=nil;
     NSLog(@"fetching:%@",url);
     NSError*error=nil;
     NSURLResponse*responsee=nil;
-    NSData*data=[NSURLConnection sendSynchronousRequest:request returningResponse:&responsee error:&error];
+    NSData*data=[self sendSynchronousRequest:request returningResponse:&responsee error:&error];
     NSString* s=nil;
     if(data){
 	s=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -158,72 +180,76 @@ ArxivHelper* _sharedHelper=nil;
 }
 
 #pragma mark URL connection delegates
-- (void)connection:(NSURLConnection *)c didReceiveData:(NSData *)data
+
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
     [temporaryData appendData:data];
     progress.completedUnitCount=temporaryData.length;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadProgress"
                                                         object:@{
-                                                                 @"url":c.originalRequest.URL,
+                                                                 @"url":dataTask.originalRequest.URL,
                                                                  @"fractionCompleted":@(progress.fractionCompleted)
                                                                                                }];
 }
--(void)connection:(NSURLConnection*)c didReceiveResponse:(NSURLResponse*)resp
-{
-    response=resp;
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    completionHandler(NSURLSessionResponseAllow);
+    
     progress=[NSProgress progressWithTotalUnitCount:response.expectedContentLength];
-    [progress setUserInfoObject:resp.URL forKey:@"URL"];
+    [progress setUserInfoObject:response.URL forKey:@"URL"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadStarted" object:@{
-                                                                                              @"url":c.originalRequest.URL,
+                                                                                              @"url":dataTask.originalRequest.URL,
                                                                                               @"fractionCompleted":@(progress.fractionCompleted)
                                                                                               }];
 }
--(void)connectionDidFinishLoading:(NSURLConnection*)c
-{
-    if( ![[response MIMEType] hasSuffix:@"html"] && [temporaryData length]>10240){
-	[returnDict setValue:temporaryData forKey:@"pdfData"];
-	[returnDict setValue:@YES forKey:@"success"];
-    }else{
-	[returnDict setValue:@NO forKey:@"success"];
-	if([[response MIMEType] hasSuffix:@"html"]){
-	    NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-	    NSArray*a=[s componentsSeparatedByString:@"http-equiv=\"refresh\" content=\""];
-	    if([a count]>1){
-		s=a[1];
-		a=[s componentsSeparatedByString:@"\""];
-		if([a count]>0){
-		    s=a[0];
-		    NSNumber*num=@([s intValue]);
-		    [returnDict setValue:num forKey:@"shouldReloadAfter"];
-		}
-	    }
-	}
-    }
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadFinished" object:@{
-                                                                                               @"url":c.originalRequest.URL,
-                                                                                               @"fractionCompleted":@(progress.fractionCompleted)
-                                                                                               }];
-    [delegate performSelector:sel withObject:returnDict];
-    connection=nil;
-}
--(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
-{
-    [returnDict setValue:@NO forKey:@"success"];
-    [returnDict setValue:error forKey:@"error"];
 
-    [delegate performSelector:sel withObject:returnDict];
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionDataTask *)task didCompleteWithError:(NSError *)error
+{
+    NSMutableDictionary*returnDict=[NSMutableDictionary dictionary];
+    if(!error){
+        NSURLResponse*response=task.response;
+        if( ![[response MIMEType] hasSuffix:@"html"] && [temporaryData length]>10240){
+            [returnDict setValue:temporaryData forKey:@"pdfData"];
+            [returnDict setValue:@YES forKey:@"success"];
+        }else{
+            [returnDict setValue:@NO forKey:@"success"];
+            if([[response MIMEType] hasSuffix:@"html"]){
+                NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+                NSArray*a=[s componentsSeparatedByString:@"http-equiv=\"refresh\" content=\""];
+                if([a count]>1){
+                    s=a[1];
+                    a=[s componentsSeparatedByString:@"\""];
+                    if([a count]>0){
+                        s=a[0];
+                        NSNumber*num=@([s intValue]);
+                        [returnDict setValue:num forKey:@"shouldReloadAfter"];
+                    }
+                }
+            }
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfDownloadFinished" object:@{
+                                                                                                   @"url":task.originalRequest.URL,
+                                                                                                   @"fractionCompleted":@(progress.fractionCompleted)
+                                                                                                   }];
+        [delegate pdfDownloadDidEnd:returnDict];
+    }else{
+        [returnDict setValue:@NO forKey:@"success"];
+        [returnDict setValue:error forKey:@"error"];
+        
+        [delegate pdfDownloadDidEnd:returnDict];
 #if !TARGET_OS_IPHONE
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to arXiv"
-				  defaultButton:@"OK"
-				alternateButton:nil
-				    otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
-    //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-		      modalDelegate:nil 
-		     didEndSelector:nil
-			contextInfo:nil];
+        NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to arXiv"
+                                      defaultButton:@"OK"
+                                    alternateButton:nil
+                                        otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
+        //[alert setAlertStyle:NSCriticalAlertStyle];
+        [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
+                          modalDelegate:nil
+                         didEndSelector:nil
+                            contextInfo:nil];
 #endif
+    }
 }
 
 @end

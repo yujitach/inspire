@@ -39,8 +39,7 @@
 	[[NSApp appDelegate] startProgressIndicator];
 	[[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."]; 
 	[[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
-						 delegate:self 
-					   didEndSelector:@selector(pdfDownloadDidEnd:)];
+						 delegate:self ];
     }else{
 	[self finish];
     }
@@ -98,8 +97,7 @@
     [[NSApp appDelegate] startProgressIndicator];
     [[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."]; 
     [[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
-					     delegate:self 
-				       didEndSelector:@selector(pdfDownloadDidEnd:)];
+					     delegate:self ];
 }
 -(void)run
 {

@@ -15,7 +15,15 @@
 #import "InspireXMLParser.h"
 
 
-@implementation SpiresQueryDownloader
+@implementation SpiresQueryDownloader{
+    WhenDoneClosure whenDone;
+    NSString*searchString;
+    NSMutableData*temporaryData;
+    NSURLSession*session;
+    NSUInteger total;
+    NSUInteger sofar;
+    NSUInteger startIndex;
+}
 
 
 -(NSURL*)urlForInspireForString:(NSString*)search
@@ -86,91 +94,61 @@
     searchString=search;
     NSURL*url=[self urlForInspireForString:search];
     NSLog(@"fetching:%@",url);
-    urlRequest=[NSURLRequest requestWithURL:url
+    NSURLRequest*urlRequest=[NSURLRequest requestWithURL:url
 				cachePolicy:NSURLRequestUseProtocolCachePolicy
 			    timeoutInterval:240];
     
     temporaryData=[NSMutableData data];
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
-    connection=[NSURLConnection connectionWithRequest:urlRequest
-					     delegate:self];
+    NSURLSessionConfiguration*config=[NSURLSessionConfiguration defaultSessionConfiguration];
+    session=[NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask*dataTask=[session dataTaskWithRequest:urlRequest];
+    [dataTask resume];
+    
     [[NSApp appDelegate] startProgressIndicator];
-    if(start==0){
+    if(startIndex==0){
         [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
     }else{
-        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)start]];
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)startIndex]];
     }
+
     return self;
 }
 #pragma mark Bibtex parser
 
-/*-(NSString*)transformBibtexToXML:(NSString*)s
-{
-    NSString*inPath=[NSString stringWithFormat:@"/tmp/inSPIRES-%d",getuid()];
-    NSString*outPath=[NSString stringWithFormat:@"/tmp/outSPIRES-%d",getuid()];
-    NSString*script=[[NSBundle mainBundle] pathForResource:@"wwwrefsbibtex2xmlpublic" ofType:@"perl"];
-    NSString* command=[NSString stringWithFormat:@"/usr/bin/perl %@ <%@ >%@" , [script quotedForShell], inPath,outPath];
-    NSError*error=nil;
-    [s writeToFile:inPath atomically:NO encoding:NSUTF8StringEncoding error:&error];
-    system([command UTF8String]);
-    NSString*result=[[NSString alloc] initWithContentsOfFile:outPath encoding:NSUTF8StringEncoding error:&error];
-    //   NSLog(@"%@",result);
-    return result;
-}*/
 
 #pragma mark URL connection delegates
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    completionHandler(NSURLSessionResponseAllow);
+}
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
     [temporaryData appendData:data];
 }
-/*-(NSXMLDocument*)docFromSpiresData:(NSError**)error
-{
-    //	NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-    NSString*t=[[NSString alloc] initWithData:temporaryData encoding:NSISOLatin1StringEncoding];
-    
-    
-    if([searchString hasPrefix:@"r"]){
-	t=[self transformBibtexToXML:t];
-    }
-    return [[NSXMLDocument alloc] initWithXMLString:t options:0 error:error];
-}*/
-
-
-
-
--(void)connectionDidFinishLoading:(NSURLConnection*)c
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionDataTask *)task didCompleteWithError:(NSError *)error
 {
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
-
-    NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-    NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
-    total=[t intValue];
-    NSUInteger count=[[s componentsMatchedByRegex:@"<record>"] count];
-    NSLog(@"spires returned %@ entries",@(count));
-    whenDone(temporaryData,count<MAXPERQUERY);
-    temporaryData=nil;
-    connection=nil;
-    
-}
-
--(void)connection:(NSURLConnection*)c didFailWithError:(NSError*)error
-{
-    whenDone(nil,YES);
-    [[NSApp appDelegate] postMessage:nil];
-    [[NSApp appDelegate] stopProgressIndicator];
+    if(!error){
+        NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
+        NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
+        total=[t intValue];
+        NSUInteger count=[[s componentsMatchedByRegex:@"<record>"] count];
+        NSLog(@"spires returned %@ entries",@(count));
+        whenDone(temporaryData,count<MAXPERQUERY);
+        temporaryData=nil;
+    }else{
+        whenDone(nil,YES);
 #if !TARGET_OS_IPHONE
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to Inspire"
-				  defaultButton:@"OK"
-				alternateButton:nil
-				    otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
-    //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-		      modalDelegate:nil 
-		     didEndSelector:nil
-			contextInfo:nil];
+        NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to Inspire"
+                                      defaultButton:@"OK"
+                                    alternateButton:nil
+                                        otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
+        //[alert setAlertStyle:NSCriticalAlertStyle];
+        [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
+                          modalDelegate:nil
+                         didEndSelector:nil
+                            contextInfo:nil];
 #endif
+    }
 }
-
 @end
