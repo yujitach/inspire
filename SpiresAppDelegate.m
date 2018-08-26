@@ -584,38 +584,24 @@
     [self showPreferences:self];
 }
 #pragma mark PDF Association
--(void)reassociationAlertWithPathGivenDidEnd:(NSAlert*)alert code:(int)choice context:(CFStringRef)cfpath
-{
-    NSString*path=(__bridge_transfer NSString*)cfpath;
-    if(choice==NSAlertDefaultReturn){
-	Article*o=[ac selectedObjects][0];
-	[o associatePDF:path];
-        [wv setArticle:o];
-    }
-}
-
-- (void) infoAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    if ([[alert suppressionButton] state] == NSOnState) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
-    }
-}
 
 -(void)showInfoOnAssociation
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"alreadyShownInfoOnAssociation"])
 	return;
     
-    NSAlert*alert=[NSAlert alertWithMessageText:@"After you download a paper manually, "
-				  defaultButton:@"OK" 
-				alternateButton:nil
-				    otherButton:nil
-		      informativeTextWithFormat:@"register it to Spires.app by dropping the PDF into the lower pane. \nYou can move the PDF to anywhere afterwards, because Spires.app keeps track of it."];
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"After you download a paper manually, ";
+    [alert addButtonWithTitle:@"OK" ];
+    alert.informativeText=@"register it to Spires.app by dropping the PDF into the lower pane. \nYou can move the PDF to anywhere afterwards, because Spires.app keeps track of it.";
     [alert setShowsSuppressionButton:YES];
     [alert beginSheetModalForWindow:window
-		      modalDelegate:self
-		     didEndSelector:@selector(infoAlertDidEnd:returnCode:contextInfo:)
-			contextInfo:nil];    
+                  completionHandler:^(NSModalResponse returnCode) {
+                      if ([[alert suppressionButton] state] == NSOnState) {
+                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
+                      }
+                  }
+     ];
 }
 
 
@@ -690,25 +676,33 @@
 	if(!o)
 	    return;
 	if([o isEprint]){
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF association to an eprint"
-					  defaultButton:@"Yes" 
-					alternateButton:@"Cancel"
-					    otherButton:nil
-			      informativeTextWithFormat:@"Do you prefer %@ instead of the eprint?", [[url path] stringByAbbreviatingWithTildeInPath]];
+            NSAlert*alert=[[NSAlert alloc] init];
+            alert.messageText=@"PDF association to an eprint";
+            [alert addButtonWithTitle:@"Yes" ];
+            [alert addButtonWithTitle:@"Cancel"];
+            alert.informativeText=[NSString stringWithFormat:@"Do you prefer %@ instead of the eprint?", [[url path] stringByAbbreviatingWithTildeInPath]];
 	    [alert beginSheetModalForWindow:window
-			      modalDelegate:self 
-			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:(void*)(__bridge_retained CFStringRef)([url path])];
+                          completionHandler:^(NSModalResponse choice) {
+                              if(choice==NSAlertFirstButtonReturn){
+                                  [o associatePDF:url.path];
+                                  [wv setArticle:o];
+                              }
+                          }
+             ];
 	}else if(o.hasPDFLocally){
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF already associated"
-					  defaultButton:@"Change" 
-					alternateButton:@"Cancel"
-					    otherButton:nil
-			      informativeTextWithFormat:@"PDF is already associated to this article. Do you want to change it with %@?", [[url path] stringByAbbreviatingWithTildeInPath]];
+            NSAlert*alert=[[NSAlert alloc] init];
+            alert.messageText=@"PDF already associated";
+            [alert addButtonWithTitle:@"Change" ];
+            [alert addButtonWithTitle:@"Cancel"];
+            alert.informativeText=[NSString stringWithFormat:@"PDF is already associated to this article. Do you want to change it with %@?", [[url path] stringByAbbreviatingWithTildeInPath]];
 	    [alert beginSheetModalForWindow:window
-			      modalDelegate:self 
-			     didEndSelector:@selector(reassociationAlertWithPathGivenDidEnd:code:context:)
-				contextInfo:(void*)(__bridge_retained CFStringRef)([url path])];
+                          completionHandler:^(NSModalResponse choice) {
+                              if(choice==NSAlertFirstButtonReturn){
+                                  [o associatePDF:url.path];
+                                  [wv setArticle:o];
+                              }
+                          }
+             ];
 	}else{
 	    [o associatePDF:[url path]];
 	}

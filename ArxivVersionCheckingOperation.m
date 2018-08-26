@@ -21,10 +21,6 @@
 #endif
 
 
-@interface ArxivVersionCheckingOperation ()
--(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore;
-@end
-
 @implementation ArxivVersionCheckingOperation
 -(ArxivVersionCheckingOperation*)initWithArticle:(Article*)a usingViewer:(PDFViewerType)t;
 {
@@ -60,33 +56,30 @@
     if(article.comments && ![article.comments isEqualToString:@""]){
 	commentsLine=[NSString stringWithFormat:@"Comments: %@",article.comments];
     }
-    NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"A new version of %@ has been found.",article.eprint]
-				     defaultButton:@"Download" 
-				   alternateButton:@"Cancel"
-				       otherButton:nil
-			 informativeTextWithFormat: @"Your PDF is version %d, which is older than the latest version %d on the web.\n%@",
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText=[NSString stringWithFormat:@"A new version of %@ has been found.",article.eprint];
+    [alert addButtonWithTitle:@"Download"];
+    [alert addButtonWithTitle:@"Cancel"];
+    alert.informativeText=[NSString stringWithFormat:@"Your PDF is version %d, which is older than the latest version %d on the web.\n%@",
 		      v,[article.version intValue],commentsLine];
     [alert setAlertStyle:NSWarningAlertStyle];
     //   [NSApp unhide:self];
     
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-		      modalDelegate:self 
-		     didEndSelector:@selector(downloadAlertDidEnd:code:context:)
-			contextInfo:nil];
+                  completionHandler:^(NSModalResponse choice) {
+                      if(choice==NSAlertFirstButtonReturn){
+                          NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO];
+                          NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:article
+                                                                                   usingViewer:type];
+                          [openOp addDependency:downloadOp];
+                          [[OperationQueues arxivQueue] addOperation:downloadOp];
+                          [[OperationQueues sharedQueue] addOperation:openOp];
+                          
+                      }
+                      [self finish];
+                  }
+     ];
 #endif
-}
--(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
-{
-    if(choice==NSAlertDefaultReturn){
-        NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO];
-        NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:article
-                                                                 usingViewer:type];
-        [openOp addDependency:downloadOp];
-	[[OperationQueues arxivQueue] addOperation:downloadOp];
-        [[OperationQueues sharedQueue] addOperation:openOp];
-
-    }
-    [self finish];
 }
     
 
