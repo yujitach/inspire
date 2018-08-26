@@ -11,6 +11,7 @@
 #import "Article.h"
 #import "MOC.h"
 
+#define INSPIREWWWHEAD @"http://inspirehep.net/search"
 
 
 SpiresHelper*_sharedSpiresHelper=nil;
@@ -399,12 +400,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 
 #pragma mark Bib Entries Query
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
 //    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
@@ -426,7 +425,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -449,7 +448,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -473,8 +472,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSURL*)inspireURLForQuery:(NSString*)search
 {
-    return [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@", INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    return [NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@", INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
 }
 
-#pragma clang diagnostic pop
 @end

@@ -78,10 +78,9 @@ static InspireAppDelegate*globalAppDelegate=nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
     [[NSUserDefaults standardUserDefaults] setObject:dir forKey:@"pdfDir"];
 }
-#pragma clang diagnostic ignored "-Wdeprecated"
 -(NSString*)extractArXivID:(NSString*)x
 {
-    NSString*s=[x stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString*s=[x stringByRemovingPercentEncoding];
     if(s==nil)return @"";
     if([s isEqualToString:@""])return @"";
     //    NSLog(@"%@",s);

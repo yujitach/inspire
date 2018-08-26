@@ -13,7 +13,6 @@
 #import "NSString+magic.h"
 #import "ArxivHelper.h"
 #import "SpiresHelper.h"
-#pragma clang diagnostic ignored "-Wdeprecated"
 @implementation HTMLArticleHelper
 {
     Article*article;

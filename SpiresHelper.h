@@ -9,7 +9,6 @@
 @import CoreData;
 
 
-#define INSPIREWWWHEAD @"http://inspirehep.net/search?p="
 
 
 @interface SpiresHelper : NSObject

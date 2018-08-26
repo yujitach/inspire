@@ -115,8 +115,6 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    // Code here will execute before the rotation begins.
-    // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         
