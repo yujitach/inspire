@@ -44,15 +44,13 @@
 {
     
     handler(nil);
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error"
-				  defaultButton:@"OK"
-				alternateButton:nil
-				    otherButton:nil informativeTextWithFormat:@"Error: %@",[error localizedDescription]];
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"Connection Error";
+    [alert addButtonWithTitle:@"OK"];
+    alert.informativeText=[NSString stringWithFormat:@"Error: %@",[error localizedDescription]];
     //[alert setAlertStyle:NSCriticalAlertStyle];
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-		      modalDelegate:nil 
-		     didEndSelector:nil
-			contextInfo:nil];
+                  completionHandler:nil];
 }
 - (NSURLRequest *)download:(NSURLDownload *)download willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
 {

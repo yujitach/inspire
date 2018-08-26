@@ -165,20 +165,16 @@
     path=[self recentlyCrashed];
     if(!path)
 	return;
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Sorry, spires.app recently crashed.\nPlease help develop this app by sending me the crash report."
-				  defaultButton:@"Yes" 
-				alternateButton:@"No thanks"
-				    otherButton:nil
-		      informativeTextWithFormat:@"Clicking Yes will bring up your email program and a Finder window containing the crash log.\n"
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"Sorry, spires.app recently crashed.\nPlease help develop this app by sending me the crash report.";
+    [alert addButtonWithTitle:@"YES"];
+    [alert addButtonWithTitle:@"No thanks"];
+    alert.informativeText=@"Clicking Yes will bring up your email program and a Finder window containing the crash log.\n"
     @"Please attach the log file to the email and send it.\n"
-    @"The log will contain the name of the articles which caused the crash, etc, which you can check by unzipping the file."];
+    @"The log will contain the name of the articles which caused the crash, etc, which you can check by unzipping the file.";
 //    [alert setShowsSuppressionButton:YES];
-/*    [alert beginSheetModalForWindow:window
-		      modalDelegate:self
-		     didEndSelector:@selector(crashAlertDidEnd:returnCode:contextInfo:)
-			contextInfo:path];    */
     NSInteger returnCode=[alert runModal];
-    if(returnCode==NSAlertDefaultReturn){
+    if(returnCode==NSAlertFirstButtonReturn){
 	[self prepareCrashReport:path];
 	[self sendBugReport:self];
     }
@@ -267,11 +263,10 @@
         toShowAlert=YES;
     }
     if(toShowAlert){
-        NSAlert*alert=[NSAlert alertWithMessageText:@"Optimizing database"
-                                      defaultButton:@"Start Optimization"
-                                    alternateButton:nil
-                                        otherButton:nil informativeTextWithFormat:
-                       @"The app is going to optimize the database. Usually it's quick, but it might take a very long time. So please be patient. The app will not explicitly tell you when the optimization is done. Consider it done when the app becomes usable."];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"Optimizing database";
+        [alert addButtonWithTitle:@"Start Optimization"];
+        alert.informativeText=@"The app is going to optimize the database. Usually it's quick, but it might take a very long time. So please be patient. The app will not explicitly tell you when the optimization is done. Consider it done when the app becomes usable.";
         //[alert setAlertStyle:NSCriticalAlertStyle];
        // [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
         [alert runModal];
@@ -355,7 +350,10 @@
 }
 
 -(void)alertConcerningAppTranslocation{
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Please move the app after downloading it" defaultButton:@"OK, I quit the app and move it" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please move the app to, say, /Applications, using your mouse/trackpad, not from the command line. \n\nApple decided that they don't allow the app to auto-update otherwise. \n\nI am sorry for the inconvenience."];
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"Please move the app after downloading it";
+    [alert addButtonWithTitle:@"OK, I quit the app and move it"];
+    alert.informativeText=@"Please move the app to, say, /Applications, using your mouse/trackpad, not from the command line. \n\nApple decided that they don't allow the app to auto-update otherwise. \n\nI am sorry for the inconvenience.";
     [alert runModal];
     [NSApp terminate:nil];
 }
@@ -578,11 +576,10 @@
 
 -(void)presentFileSaveError
 {
-    NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Downloaded, but can't be saved???"
-				  defaultButton:@"OK" 
-				alternateButton:nil
-				    otherButton:nil
-		      informativeTextWithFormat:@"can't save the file. Please check if the folder to save PDFs is correctly set up."];
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"PDF Downloaded, but can't be saved???";
+    [alert addButtonWithTitle:@"OK"];
+    alert.informativeText=@"can't save the file. Please check if the folder to save PDFs is correctly set up.";
     [alert runModal];
     [self showPreferences:self];
 }
@@ -833,11 +830,12 @@
                 } 
 
                 else {
-					
+/*
                     NSInteger alertReturn = NSRunAlertPanel(nil, @"Could not save changes while quitting. Quit anyway?" , @"Quit anyway", @"Cancel", nil);
                     if (alertReturn == NSAlertAlternateReturn) {
                         reply = NSTerminateCancel;	
                     }
+ */
                 }
             }
         } 

@@ -17,5 +17,4 @@
 -(void)run;
 -(IBAction)OK:(id)sender;
 -(IBAction)cancel:(id)sender;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end

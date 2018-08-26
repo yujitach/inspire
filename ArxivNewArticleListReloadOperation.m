@@ -174,15 +174,12 @@
 	dispatch_async(dispatch_get_main_queue(),^{
 	    [[NSApp appDelegate] stopProgressIndicator];
 #if !TARGET_OS_IPHONE
-	    NSAlert*alert=[NSAlert alertWithMessageText:@"Cannot reach arXiv." 
-					  defaultButton:@"OK"
-					alternateButton:nil
-					    otherButton:nil
-			      informativeTextWithFormat:@"Not connected to the internet, or arXiv is down."];
+            NSAlert*alert=[[NSAlert alloc] init];
+            alert.messageText=@"Cannot reach arXiv.";
+            [alert addButtonWithTitle:@"OK"];
+            alert.informativeText=@"Not connected to the internet, or arXiv is down.";
 	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			      modalDelegate:nil 
-			     didEndSelector:nil
-				contextInfo:nil];
+             completionHandler:nil];
 #endif
 	});
 	return;

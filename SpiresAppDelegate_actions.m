@@ -51,35 +51,16 @@
 }
 
 #pragma mark Actions
--(IBAction)installSafariExtension:(id)sender;
-{
-    if(![[OperationQueues arxivQueue] isOnline]){
-        NSAlert*alert=[NSAlert alertWithMessageText:@"You can't install the extension off-line."
-				      defaultButton:@"OK"
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@""];
-	[alert runModal];
-        return;
-    }
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0),^{
-        NSData*extz=[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://member.ipmu.jp/yuji.tachikawa/spires/arXivTeXifier.safariextz"]];
-        [extz writeToFile:@"/tmp/arXivTeXifier.safariextz" atomically:YES];
-        dispatch_async(dispatch_get_main_queue(),^{
-            [[NSWorkspace sharedWorkspace] openFile:@"/tmp/arXivTeXifier.safariextz"];
-        });
-    });
-}
+
 
 -(IBAction)cleanUpDatabase:(id)sender;
 {
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Do you want to clean up the database?"
-                                  defaultButton:@"Yes"
-                                alternateButton:@"No"
-                                    otherButton:nil
-                      informativeTextWithFormat:@"Only the entries with PDF, or with an unread mark, or with a flag, or in a list will be kept. Everything else will be deleted to thin the database.\n\n Do this with caution; you cannot reverse the operation unless you already have a backup of the database somewhere, say in the Time Machine.\n\n It might take a long time. It will finish eventually, so please wait until it finishes. Do not quit the app prematurely, since it might corrupt the database."];
+    NSAlert*alert=[[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"Yes"];
+    [alert addButtonWithTitle:@"No"];
+    alert.informativeText=@"Only the entries with PDF, or with an unread mark, or with a flag, or in a list will be kept. Everything else will be deleted to thin the database.\n\n Do this with caution; you cannot reverse the operation unless you already have a backup of the database somewhere, say in the Time Machine.\n\n It might take a long time. It will finish eventually, so please wait until it finishes. Do not quit the app prematurely, since it might corrupt the database.";
     NSUInteger result=[alert runModal];
-    if(result!=NSAlertDefaultReturn)
+    if(result!=NSAlertFirstButtonReturn)
         return;
     NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager] createSecondaryMOC];
     [secondMOC performBlock:^{
@@ -178,11 +159,10 @@
 {
     NSString*name=[[AllArticleList allArticleList] searchString];
     if(!name || [name isEqualToString:@""]){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Sorry..."
-				      defaultButton:@"OK"
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@"To save search, please first specify the query at the search box!"];	
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"Sorry...";
+        [alert addButtonWithTitle:@"OK"];
+        alert.informativeText=@"To save search, please first specify the query at the search box!";
 	[alert runModal];
 	return;
     }
@@ -219,13 +199,13 @@
     }
     if([articlesWithPDF count]==0)
         return;
-    NSAlert*alert=[NSAlert alertWithMessageText:@"Do you really want to remove PDF?"
-				  defaultButton:@"Yes" 
-				alternateButton:@"No"
-				    otherButton:nil
-		      informativeTextWithFormat:@"PDF will be moved to the trash."];
+    NSAlert*alert=[[NSAlert alloc] init];
+    alert.messageText=@"Do you really want to remove PDF?";
+    [alert addButtonWithTitle:@"Yes"];
+    [alert addButtonWithTitle:@"No"];
+    alert.informativeText=@"PDF will be moved to the trash.";
     NSUInteger result=[alert runModal];
-    if(result!=NSAlertDefaultReturn)
+    if(result!=NSAlertFirstButtonReturn)
 	return;
     for(Article* a in articlesWithPDF){
         NSString*path=a.pdfPath;

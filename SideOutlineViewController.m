@@ -73,13 +73,13 @@
 {
     ArticleList*al=[articleListController selectedObjects][0];
     if([al isKindOfClass:[ArticleFolder class]]){
-	NSAlert*alert=[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Do you want to remove folder %@",al.name]
-				      defaultButton:@"Yes" 
-				    alternateButton:@"No"
-					otherButton:nil
-			  informativeTextWithFormat:@"Removing a folder recursively removes its contents.\n You can undo it by Cmd-Z."];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=[NSString stringWithFormat:@"Do you want to remove folder %@",al.name];
+        [alert addButtonWithTitle:@"Yes"];
+        [alert addButtonWithTitle:@"No"];
+        alert.informativeText=@"Removing a folder recursively removes its contents.\n You can undo it by Cmd-Z.";
 	NSUInteger result=[alert runModal];
-	if(result!=NSAlertDefaultReturn)
+	if(result!=NSAlertFirstButtonReturn)
 	    return;
 	[self removeArticleFolder:al];
     }else{

@@ -187,15 +187,12 @@ NSString* pathShownWithQuickLook=nil;
         [[OperationQueues sharedQueue] addOperation:openOp];
     }else{
 #if !TARGET_OS_IPHONE
-	NSAlert*alert=[NSAlert alertWithMessageText:@"No PDF associated"
-				      defaultButton:@"OK" 
-				    alternateButton:nil
-					otherButton:nil
-			  informativeTextWithFormat:@"PDF can be associated by dropping into the lower pane."];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"No PDF associated";
+        [alert addButtonWithTitle:@"OK"];
+        alert.informativeText=@"PDF can be associated by dropping into the lower pane.";
 	[alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			  modalDelegate:nil
-			 didEndSelector:nil
-			    contextInfo:nil];
+                      completionHandler:nil];
 #endif
     }
 }

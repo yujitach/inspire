@@ -60,12 +60,6 @@
                                     <action selector="sendBugReport:" target="205" id="881"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Install Safari Extension..." id="YFy-8I-rFX">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="installSafariExtension:" target="205" id="olI-gR-bqb"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="925">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -289,7 +283,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="Nfa-No-dAS">
                                             <rect key="frame" x="1" y="1" width="165" height="598"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="165" height="598"/>
@@ -339,7 +333,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="1233" id="1231">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="menu"/>
                                             <menu key="menu" title="OtherViews" id="1232">
                                                 <items>
                                                     <menuItem state="on" image="NSAddTemplate" hidden="YES" id="1233"/>
@@ -391,7 +385,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="H0G-dn-Hcs">
                                             <rect key="frame" x="0.0" y="0.0" width="633" height="261"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="633" height="244"/>

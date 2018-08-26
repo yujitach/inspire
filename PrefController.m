@@ -57,7 +57,7 @@
     [op setCanChooseFiles:NO];
     [op setCanChooseDirectories:YES];
     NSInteger res=[op runModal];
-    if(res==NSOKButton){
+    if(res==NSModalResponseOK){
         NSURL*folderURL=[op URLs][0];
 	NSString*nextSetting=[folderURL path];
 	[[NSUserDefaults standardUserDefaults] setObject:[nextSetting stringByAbbreviatingWithTildeInPath] 

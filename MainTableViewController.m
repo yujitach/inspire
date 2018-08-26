@@ -46,15 +46,13 @@
 	return NO;
     }
     if([rowIndexes count]>100){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"Too many entries selected"
-				      defaultButton:@"OK"
-				    alternateButton:nil
-					otherButton:nil informativeTextWithFormat:@"You selected %d entries. You cannot drag more than 100 entries.",(int)[rowIndexes count]];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"Too many entries selected";
+        [alert addButtonWithTitle:@"OK"];
+        alert.informativeText=[NSString stringWithFormat:@"You selected %@ entries. You cannot drag more than 100 entries.",@([rowIndexes count])];
 	//[alert setAlertStyle:NSCriticalAlertStyle];
 	[alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			  modalDelegate:nil 
-			 didEndSelector:nil
-			    contextInfo:nil];
+                      completionHandler:nil];
 	return NO;
     }
     NSArray* a=[[ac arrangedObjects] objectsAtIndexes:rowIndexes];

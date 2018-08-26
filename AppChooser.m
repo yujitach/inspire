@@ -92,9 +92,7 @@
     }
     
     defaultsKey=[[appToUsePopUp itemAtIndex:0] title];
-    CFURLRef url;
-    LSGetApplicationForInfo(0,0,(CFStringRef)@"pdf",kLSRolesAll,NULL,&url);
-    NSString*defaultBundleId=[[NSBundle bundleWithPath:[(__bridge NSURL*)url path]] bundleIdentifier];
+    NSString*defaultBundleId=CFBridgingRelease(LSCopyDefaultRoleHandlerForContentType(kUTTypePDF, kLSRolesAll));
     NSString*chosenId=[[NSUserDefaults standardUserDefaults] stringForKey:defaultsKey];
 //    NSLog(@"defaultBundleId:%@",defaultBundleId);
 //    NSLog(@"chosenId:%@",chosenId);

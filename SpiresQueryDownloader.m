@@ -139,15 +139,13 @@
     }else{
         whenDone(nil,YES);
 #if !TARGET_OS_IPHONE
-        NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to Inspire"
-                                      defaultButton:@"OK"
-                                    alternateButton:nil
-                                        otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"Connection Error to Inspire";
+        [alert addButtonWithTitle:@"OK"];
+        alert.informativeText=[error localizedDescription];
         //[alert setAlertStyle:NSCriticalAlertStyle];
         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-                          modalDelegate:nil
-                         didEndSelector:nil
-                            contextInfo:nil];
+                      completionHandler:nil];
 #endif
     }
 }

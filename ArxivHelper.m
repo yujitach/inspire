@@ -239,15 +239,14 @@ ArxivHelper* _sharedHelper=nil;
         
         [delegate pdfDownloadDidEnd:returnDict];
 #if !TARGET_OS_IPHONE
-        NSAlert*alert=[NSAlert alertWithMessageText:@"Connection Error to arXiv"
-                                      defaultButton:@"OK"
-                                    alternateButton:nil
-                                        otherButton:nil informativeTextWithFormat:@"%@",[error localizedDescription]];
-        //[alert setAlertStyle:NSCriticalAlertStyle];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"Connection Error to arXiv";
+        [alert addButtonWithTitle:@"OK"
+         ];
+        alert.informativeText=[NSString stringWithFormat:@"%@",[error localizedDescription]];
         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-                          modalDelegate:nil
-                         didEndSelector:nil
-                            contextInfo:nil];
+                      completionHandler:nil
+         ];
 #endif
     }
 }

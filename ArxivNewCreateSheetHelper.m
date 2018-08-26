@@ -25,23 +25,17 @@
 {
     [self setValue:@"untitled" forKey:@"head"];
     [self setValue:@"new" forKey:@"tail"];
-    [NSApp beginSheet:sheet
-       modalForWindow:[[NSApp appDelegate] mainWindow]
-	modalDelegate:self
-       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-	  contextInfo:nil];
+    [[[NSApp appDelegate] mainWindow] beginSheet:sheet completionHandler:^(NSModalResponse returnCode) {
+        [sheet orderOut:self];
+    }];
 }
 -(IBAction)OK:(id)sender;
 {
-    [NSApp endSheet:sheet];
+    [[[NSApp appDelegate] mainWindow] endSheet:sheet];
     [[NSApp appDelegate] addArxivArticleListWithName:[NSString stringWithFormat:@"%@/%@",head,tail]];
 }
 -(IBAction)cancel:(id)sender;
 {
-    [NSApp endSheet:sheet];
-}
-- (void)sheetDidEnd:(NSWindow *)_sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-{
-    [sheet orderOut:self];
+    [[[NSApp appDelegate] mainWindow] endSheet:sheet];
 }
 @end
