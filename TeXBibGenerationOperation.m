@@ -67,10 +67,11 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
 		   [texFile quotedForShell],
 		   outPath];
     system([line UTF8String]);
-    NSDictionary* dict=[NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:outPath]
-							mutabilityOption:NSPropertyListImmutable
-								  format:NULL
-							errorDescription:NULL];
+    NSDictionary* dict=
+    [NSPropertyListSerialization    propertyListWithData:[NSData dataWithContentsOfFile:outPath]
+                                                 options:NSPropertyListImmutable
+                                                  format:nil
+                                                   error:nil];
     return dict;
 }
 -(TeXBibGenerationOperation*)initWithTeXFile:(NSString*)t andMOC:(NSManagedObjectContext*)m byLookingUpWeb:(BOOL)b andRefreshingAll:(BOOL)a;

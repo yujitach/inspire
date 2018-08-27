@@ -19,7 +19,7 @@
 
 @interface ArxivPDFDownloadOperation ()
 -(void)pdfDownloadDidEnd:(NSDictionary*)dict;
--(void)retryAlertDidEnd:(NSAlert*)alert code:(int)choice context:(void*)ignore;
+-(void)retryAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice;
 -(void)retry;
 @end
 
@@ -33,9 +33,9 @@
     return self;
 }
 
--(void)downloadAlertDidEnd:(NSAlert*)alert code:(int)choice context:(id)ignore
+-(void)downloadAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice
 {
-    if(choice==NSAlertDefaultReturn){
+    if(choice==NSAlertFirstButtonReturn){
 	[[NSApp appDelegate] startProgressIndicator];
 	[[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."]; 
 	[[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
@@ -64,25 +64,26 @@
     }else if(dict[@"shouldReloadAfter"]){
 	reloadDelay=dict[@"shouldReloadAfter"];
 #if TARGET_OS_IPHONE
-    [self retryAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+    [self retryAlertDidEnd:nil code:NSAlertFirstButtonReturn];
 #else
-	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
-				      defaultButton:@"OK" 
-				    alternateButton:@"Cancel downloading"
-					otherButton:nil
-			  informativeTextWithFormat:@"arXiv is now generating %@. Retrying in %@ seconds.", article.eprint,reloadDelay];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"PDF Download";
+        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:@"Cancel downloading"];
+        alert.informativeText=[NSString stringWithFormat:@"arXiv is now generating %@. Retrying in %@ seconds.", article.eprint,reloadDelay];
 	[alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			  modalDelegate:self 
-			 didEndSelector:@selector(retryAlertDidEnd:code:context:)
-			    contextInfo:nil];
+                      completionHandler:^(NSModalResponse returnCode) {
+                          [self retryAlertDidEnd:alert code:returnCode];
+                      }
+        ];
 #endif
     }else{//failure
 	[self finish];
     }
 }
--(void)retryAlertDidEnd:(NSAlert*)alert code:(int)choice context:(void*)ignore
+-(void)retryAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice
 {
-    if(choice==NSAlertDefaultReturn){
+    if(choice==NSAlertFirstButtonReturn){
 //	NSLog(@"OK, retry in %@ seconds",reloadDelay);
 	[[NSApp appDelegate] postMessage:@"Waiting for arXiv to generate PDF..."]; 
 	[self performSelector:@selector(retry) withObject:nil afterDelay:[reloadDelay intValue]];
@@ -106,17 +107,18 @@
     [self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
 #else
     if(shouldAsk && [[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
-	NSAlert*alert=[NSAlert alertWithMessageText:@"PDF Download"
-				      defaultButton:@"Download" 
-				    alternateButton:@"Cancel"
-					otherButton:nil
-			  informativeTextWithFormat:@"%@v%@ is not yet downloaded ...", article.eprint,article.version];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"PDF Download";
+        [alert addButtonWithTitle:@"Download" ];
+        [alert addButtonWithTitle:@"Cancel"];
+        alert.informativeText=[NSString stringWithFormat:@"%@v%@ is not yet downloaded ...", article.eprint,article.version];
 	[alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-			  modalDelegate:self 
-			 didEndSelector:@selector(downloadAlertDidEnd:code:context:)
-			    contextInfo:nil];
+                      completionHandler:^(NSModalResponse returnCode) {
+                          [self downloadAlertDidEnd:alert code:returnCode];
+                      }
+         ];
     }else{
-	[self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+	[self downloadAlertDidEnd:nil code:NSAlertFirstButtonReturn];
     }
 #endif
 }
