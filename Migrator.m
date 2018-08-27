@@ -62,6 +62,7 @@
     NSDictionary *sourceMetadata = 
     [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
 							       URL:sourceStoreURL
+                                                           options:nil
 							     error:error];
     if (!sourceMetadata) return NO;
     
@@ -192,9 +193,10 @@
 -(BOOL)specialMigrationFrom:(NSString*)from To:(NSString*)to
 {
     NSError*error=nil;
-    NSDictionary *sourceMetadata = 
+    NSDictionary *sourceMetadata =
     [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
 							       URL:[NSURL fileURLWithPath:dataFilePath]
+                                                           options:nil
 							     error:&error];
     if (!sourceMetadata) return NO;
     NSString*fromModel=[@"spires_DataModel " stringByAppendingString:from];

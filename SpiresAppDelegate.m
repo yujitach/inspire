@@ -608,7 +608,7 @@
 #pragma mark URL handling
 -(NSString*)extractArXivID:(NSString*)x
 {
-    NSString*s=[x stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString*s=[x stringByRemovingPercentEncoding];
     if(s==nil)return @"";
     if([s isEqualToString:@""])return @"";
 //    NSLog(@"%@",s);
@@ -643,7 +643,7 @@
 {
 //    NSLog(@"handles %@",url);
     if([[url scheme] isEqualTo:@"spires-search"]){
-	NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByRemovingPercentEncoding];
 	[sideOutlineViewController selectAllArticleList];
 	AllArticleList*allArticleList=[AllArticleList allArticleList];
 	if(![allArticleList.searchString isEqualToString:searchString]){

@@ -123,6 +123,7 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
     NSDictionary *sourceMetadata =
     [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:[self storeType]
 							       URL:[NSURL fileURLWithPath:[self dataFilePath]]
+                                                           options:nil
 							     error:&error];
     
     if (sourceMetadata == nil) {

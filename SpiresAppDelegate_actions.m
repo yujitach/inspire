@@ -181,12 +181,11 @@
 {
     NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
     NSNumber* size=[self databaseSize];
-    [[NSWorkspace sharedWorkspace]
-     openURL:[NSURL URLWithString:
-	      [[NSString stringWithFormat:
-		@"mailto:yuji.tachikawa@ipmu.jp?subject=spires.app Bugs/Suggestions for v.%@ (%@ bytes)",
-		version,size]
-	       stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
+    NSURLComponents*u=[[NSURLComponents alloc] initWithString:@"mailto:yuji.tachikawa@ipmu.jp"];
+    u.query=[NSString stringWithFormat:
+             @"subject=spires.app Bugs/Suggestions for v.%@ (%@ bytes)",
+             version,size];
+    [[NSWorkspace sharedWorkspace] openURL:u.URL];
 }
 -(IBAction)deletePDFForEntry:(id)sender
 {
