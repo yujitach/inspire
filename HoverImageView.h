@@ -8,5 +8,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface HoverImageView : NSImageView
-@property NSImage*alternateImage;
+@property (nonatomic) NSImage*alternateImage;
+@property (nonatomic) NSImage*mainImage;
+@property (nonatomic) NSBackgroundStyle backgroundStyle;
 @end

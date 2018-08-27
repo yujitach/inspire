@@ -15,7 +15,7 @@
 -(void)setArticleList:(ArticleList *)articleList
 {
     _articleList=articleList;
-    self.imageView.image=self.articleList.icon;
+    self.imageView.mainImage=self.articleList.icon;
     if(self.articleList.hasButton){
         self.imageView.alternateImage=[NSImage imageNamed:NSImageNameRefreshTemplate];
     }else{
