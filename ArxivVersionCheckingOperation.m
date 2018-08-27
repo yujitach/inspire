@@ -17,7 +17,8 @@
 
 #if TARGET_OS_IPHONE
 #define NSAlert NSString
-#define NSAlertDefaultReturn 0
+#define NSAlertFirstButtonReturn 0
+typedef NSInteger NSModalResponse;
 #endif
 
 
@@ -50,7 +51,7 @@
 	return;
     }
 #if TARGET_OS_IPHONE
-    [self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+    [self downloadAlertDidEnd:nil code:NSAlertFirstButtonReturn];
 #else
     NSString*commentsLine=@"";
     if(article.comments && ![article.comments isEqualToString:@""]){
@@ -67,20 +68,23 @@
     
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
                   completionHandler:^(NSModalResponse choice) {
-                      if(choice==NSAlertFirstButtonReturn){
-                          NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO];
-                          NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:article
-                                                                                   usingViewer:type];
-                          [openOp addDependency:downloadOp];
-                          [[OperationQueues arxivQueue] addOperation:downloadOp];
-                          [[OperationQueues sharedQueue] addOperation:openOp];
-                          
-                      }
-                      [self finish];
+                      [self downloadAlertDidEnd:alert code:choice];
                   }
      ];
 #endif
 }
-    
+-(void)downloadAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice
+{
+    if(choice==NSAlertFirstButtonReturn){
+        NSOperation*downloadOp=[[ArxivPDFDownloadOperation alloc] initWithArticle:article shouldAsk:NO];
+        NSOperation*openOp=[[DeferredPDFOpenOperation alloc] initWithArticle:article
+                                                                 usingViewer:type];
+        [openOp addDependency:downloadOp];
+        [[OperationQueues arxivQueue] addOperation:downloadOp];
+        [[OperationQueues sharedQueue] addOperation:openOp];
+        
+    }
+    [self finish];
+}
 
 @end

@@ -14,7 +14,8 @@
 
 #if TARGET_OS_IPHONE
 #define NSAlert NSString
-#define NSAlertDefaultReturn 0
+#define NSAlertFirstButtonReturn 0
+typedef NSUInteger NSModalResponse;
 #endif
 
 @interface ArxivPDFDownloadOperation ()
@@ -104,7 +105,7 @@
 {
     self.isExecuting=YES;
 #if TARGET_OS_IPHONE
-    [self downloadAlertDidEnd:nil code:NSAlertDefaultReturn context:nil];
+    [self downloadAlertDidEnd:nil code:NSAlertFirstButtonReturn];
 #else
     if(shouldAsk && [[NSUserDefaults standardUserDefaults] boolForKey:@"askBeforeDownloadingPDF"]){
         NSAlert*alert=[[NSAlert alloc] init];

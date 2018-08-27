@@ -150,7 +150,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     }else if([[url scheme] isEqualToString:@"spires-open-journal"]){
 //        [self openJournal:self];
     }else if([[url scheme] isEqualToString:@"http"]){
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
 }
 #pragma mark Other pieces
