@@ -7,11 +7,15 @@
 //
 
 #import "SecureDownloader.h"
-#import "NSFileManager+TemporaryFileName.h"
 #import "AppDelegate.h"
-#import <WebKit/WebKit.h>
 
 @implementation SecureDownloader
+{
+    NSURLSession*session;
+    NSURLSessionDownloadTask*downloadTask;
+    void (^handler)(NSString*);
+    NSURL*url;
+}
 @synthesize url;
 
 -(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
@@ -19,8 +23,6 @@
     self=[super init];
     url=u;
     handler=[h copy];
-    path=[[NSFileManager defaultManager] temporaryFileName];
-//    NSLog(@"%@",path);
     return self;
 }
 -(void)download;
@@ -28,38 +30,43 @@
     NSURLRequest* urlRequest=[NSURLRequest requestWithURL:url
 					      cachePolicy:NSURLRequestUseProtocolCachePolicy
 					  timeoutInterval:30];
-    downloader=[[WebDownload alloc] initWithRequest:urlRequest delegate:self];
+    NSURLSessionConfiguration*config=[NSURLSessionConfiguration defaultSessionConfiguration];
+    session=[NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    downloadTask=[session downloadTaskWithRequest:urlRequest];
+    [downloadTask resume];
 }
 	      
 #pragma mark Delegates
+/*
 - (NSWindow *)downloadWindowForAuthenticationSheet:(WebDownload *)sender
 {
     return [[NSApp appDelegate] mainWindow];
 }
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+ */
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    [download setDestination:path allowOverwrite:YES];
+    if(error){
+        handler(nil);
+        // silently fails for now...
+/*
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"I'm sorry...";
+        [alert addButtonWithTitle:@"OK"];
+        alert.informativeText=@"Couldn't autodownload journal pdf.";
+        //[NSString stringWithFormat:@"Error: %@",[error localizedDescription]];
+        //[alert setAlertStyle:NSCriticalAlertStyle];
+        [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
+                      completionHandler:nil];
+ */
+    }
 }
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler
 {
-    
-    handler(nil);
-    NSAlert*alert=[[NSAlert alloc] init];
-    alert.messageText=@"Connection Error";
-    [alert addButtonWithTitle:@"OK"];
-    alert.informativeText=[NSString stringWithFormat:@"Error: %@",[error localizedDescription]];
-    //[alert setAlertStyle:NSCriticalAlertStyle];
-    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
-                  completionHandler:nil];
+    completionHandler(request);
 }
-- (NSURLRequest *)download:(NSURLDownload *)download willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    url = [request URL];
-    return request;
-}
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-    handler(path);
+    handler([NSString stringWithUTF8String:location.fileSystemRepresentation]);
 }
 
 @end

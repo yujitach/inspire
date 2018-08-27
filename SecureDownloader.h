@@ -8,13 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class WebDownload;
-@interface SecureDownloader : NSObject<NSURLDownloadDelegate> {
-    WebDownload*downloader;
-    void (^handler)(NSString*);
-    NSURL*url;
-    NSString*path;
-}
+@interface SecureDownloader : NSObject<NSURLSessionDelegate,NSURLSessionTaskDelegate,NSURLSessionDownloadDelegate>
 -(SecureDownloader*)initWithURL:(NSURL*)u completionHandler:(void(^)(NSString*))h ;
 -(void)download;
 @property (readonly) NSURL*url;
