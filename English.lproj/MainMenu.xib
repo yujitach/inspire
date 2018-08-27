@@ -283,9 +283,9 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" drawsBackground="NO" id="Nfa-No-dAS">
                                             <rect key="frame" x="1" y="1" width="165" height="598"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" id="716" customClass="SideOutlineView">
+                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" emptySelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="716" customClass="SideOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="165" height="598"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -305,8 +305,49 @@
                                                             </textFieldCell>
                                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="positionInView"/>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            <prototypeCellViews>
+                                                                <tableCellView identifier="listCell" id="8wC-V9-Mij" customClass="MyOutlineCellView">
+                                                                    <rect key="frame" x="1" y="1" width="162" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <subviews>
+                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LOI-Uq-8Pt" customClass="HoverImageView">
+                                                                            <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="Tho-Qg-PyY"/>
+                                                                        </imageView>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" id="RMc-8a-Y9m">
+                                                                            <rect key="frame" x="25" y="0.0" width="137" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="LEu-FB-DSZ">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <action selector="articleListNameEdited:" target="8wC-V9-Mij" id="dCY-Bt-hQI"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                        <button verticalHuggingPriority="750" misplaced="YES" id="4Lw-mZ-pOF">
+                                                                            <rect key="frame" x="-3" y="-9" width="36" height="32"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="orM-cf-49O">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="articleListImageClicked:" target="8wC-V9-Mij" id="P1q-eq-g5n"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <connections>
+                                                                        <outlet property="imageView" destination="LOI-Uq-8Pt" id="XPB-eQ-8ai"/>
+                                                                        <outlet property="sideOutlineViewController" destination="883" id="m04-Gz-QSB"/>
+                                                                        <outlet property="textField" destination="RMc-8a-Y9m" id="Rcg-Gy-hCn"/>
+                                                                    </connections>
+                                                                </tableCellView>
+                                                            </prototypeCellViews>
                                                             <connections>
-                                                                <binding destination="1200" name="value" keyPath="arrangedObjects.name" id="1208"/>
+                                                                <binding destination="1200" name="value" keyPath="arrangedObjects.name" id="TxU-nf-WVE"/>
                                                             </connections>
                                                         </tableColumn>
                                                     </tableColumns>
@@ -385,7 +426,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="H0G-dn-Hcs">
                                             <rect key="frame" x="0.0" y="0.0" width="633" height="261"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
                                                     <rect key="frame" x="0.0" y="0.0" width="633" height="244"/>
@@ -711,6 +752,7 @@
         </treeController>
     </objects>
     <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSGoLeftTemplate" width="9" height="12"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>

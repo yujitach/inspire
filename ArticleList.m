@@ -39,9 +39,9 @@
 {
     return nil;
 }
--(NSButtonCell*)button
+-(BOOL) hasButton
 {
-    return nil;
+    return NO;
 }
 #endif
 -(BOOL)searchStringEnabled

@@ -131,4 +131,8 @@
 {
     return NO;
 }
+-(BOOL)hasButton
+{
+    return YES;
+}
 @end

@@ -14,11 +14,11 @@
 #import "ArxivNewArticleList.h"
 #import "ArticleFolder.h"
 #import "CannedSearch.h"
-#import "ImageAndTextCell.h"
 #import "MOC.h"
 #import "AppDelegate.h"
 #import "SpiresAppDelegate_actions.h"
-
+#import "HoverImageView.h"
+#import "MyOutlineCellView.h"
 
 
 @implementation SideOutlineViewController
@@ -104,9 +104,6 @@
 }
 -(void)awakeFromNib
 {
-    NSActionCell* browserCell = [[ImageAndTextCell alloc] init];//[[NSSourceListCell alloc] init];
-    [browserCell setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
-    [[articleListView tableColumnWithIdentifier:@"name"] setDataCell:browserCell];   
     [articleListView registerForDraggedTypes:@[NSFilenamesPboardType,ArticleDropPboardType,ArticleListDropPboardType]];
     [articleListView setIndentationPerLevel:20];
 
@@ -125,21 +122,7 @@
 #pragma mark NSOutlineView delegate
 -(void)outlineViewSelectionDidChange:(NSNotification*)notification
 {
-/*    NSArray*a=[articleListController selectedObjects];
-    if([a count]==1){
-	[[NSApp appDelegate] makeTableViewFirstResponder];
-    }*/
     [articleListView updateTrackingAreas];
-}
-- (void)outlineView:(NSOutlineView *)outlineView
-    willDisplayCell:(ImageAndTextCell*)cell 
-     forTableColumn:(NSTableColumn *)tableColumn 
-	       item:(NSTreeNode*)item
-{
-    ArticleList*al=[item representedObject];
-    [cell setButton: al.button];
-    [cell setImage: al.icon];
-    [cell setShowButton:[cell isHighlighted]];
 }
 
 - (NSDragOperation)outlineView:(NSOutlineView*)tvv validateDrop:(id <NSDraggingInfo>)info proposedItem:(NSTreeNode*)item proposedChildIndex:(NSInteger)ind
@@ -315,5 +298,10 @@
     return menu;
 }
 
-
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(NSTreeNode*)item
+{
+    MyOutlineCellView* cv=(MyOutlineCellView*)[outlineView makeViewWithIdentifier:@"listCell" owner:self];
+    cv.articleList=item.representedObject;
+    return cv;
+}
 @end

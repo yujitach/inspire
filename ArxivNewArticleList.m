@@ -10,9 +10,6 @@
 #import "Article.h"
 #import "DumbOperation.h"
 #import "ArxivNewArticleListReloadOperation.h"
-#if !TARGET_OS_IPHONE
-#import "ReloadButton.h"
-#endif
 
 @implementation ArxivNewArticleList 
 +(ArxivNewArticleList*)createArXivNewArticleListWithName:(NSString*)s inMOC:(NSManagedObjectContext*)moc
@@ -44,12 +41,9 @@
 {
     return [NSImage imageNamed:@"arxiv"];
 }
--(NSButtonCell*)button
+-(BOOL)hasButton
 {
-    NSButtonCell* button=[[ReloadButton alloc] init];
-    [button setTarget:self];
-    [button setAction:@selector(reload)];
-    return button;
+    return YES;
 }
 #endif
 -(BOOL)searchStringEnabled

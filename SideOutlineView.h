@@ -9,10 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface SideOutlineView : NSOutlineView {
-@private
-    NSInteger iMouseRow, iMouseCol;
-    NSCell *iMouseCell;    
-}
+@interface SideOutlineView : NSOutlineView 
 
 @end

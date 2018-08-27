@@ -30,7 +30,7 @@
 @property (readonly) UIBarButtonItem*barButtonItem;
 #else
 @property (readonly) NSImage* icon;
-@property (readonly) NSButtonCell* button;
+@property (readonly) BOOL hasButton;
 #endif
 @property (readonly) NSString* placeholderForSearchField;
 @property  NSNumber* positionInView;
