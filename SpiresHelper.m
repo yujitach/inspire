@@ -11,7 +11,6 @@
 #import "Article.h"
 #import "MOC.h"
 
-#define INSPIREWWWHEAD @"http://inspirehep.net/search"
 
 
 SpiresHelper*_sharedSpiresHelper=nil;
@@ -400,10 +399,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 
 #pragma mark Bib Entries Query
-
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hx",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[self inspireURLForQuery:search withOutputFormat:@"hx"];
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
 //    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
@@ -425,7 +423,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hlxe",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[self inspireURLForQuery:search withOutputFormat:@"hlxe"];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -448,7 +446,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@&of=hlxh",INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    NSURL* url=[self inspireURLForQuery:search withOutputFormat:@"hlxh"];
 
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
@@ -467,12 +465,22 @@ SpiresHelper*_sharedSpiresHelper=nil;
     return result;
 }
 
-
-
-
--(NSURL*)inspireURLForQuery:(NSString*)search
+-(NSURL*)inspireURLForQuery:(NSString *)search
 {
-    return [NSURL URLWithString:[[NSString stringWithFormat:@"%@?p=%@", INSPIREWWWHEAD,search ] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding ] ];
+    return [self inspireURLForQuery:search withOutputFormat:nil];
+}
+
+-(NSURL*)inspireURLForQuery:(NSString *)search withOutputFormat:(NSString*)of
+{
+    NSString*s;
+    if(of){
+        s=[NSString stringWithFormat:@"http://inspirehep.net/search?p=%@&of=%@",search, of ];
+    }else{
+        s=[NSString stringWithFormat:@"http://inspirehep.net/search?p=%@", search ];
+    }
+    NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL* url=[NSURL URLWithString:t];
+    return url;
 }
 
 @end

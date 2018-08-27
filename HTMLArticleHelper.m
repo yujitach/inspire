@@ -42,7 +42,7 @@
     NSArray*particles=[[NSUserDefaults standardUserDefaults] objectForKey:@"particles"];
     for(NSString*s in a){
         NSString* searchString=[NSString stringWithFormat:@"spires-search://a %@",s];
-        searchString=[searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        searchString=[searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         NSMutableString*result=[NSMutableString stringWithFormat:@"<a href=\"%@\">",searchString];
         NSArray* c=[s componentsSeparatedByString:@", "];
         NSString* last=c[0];
@@ -80,7 +80,7 @@
         collaboration=[collaboration stringByReplacingOccurrencesOfRegex:@"COLLABORATION(S?)" withString:@"Collaboration$1"];
         NSString* searchString=[collaboration stringByReplacingOccurrencesOfRegex:@"Collaborations?" withString:@""];
         searchString=[NSString stringWithFormat:@"spires-search://cn %@",searchString];
-        searchString=[searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        searchString=[searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         NSMutableString*result=[NSMutableString stringWithFormat:@"<a href=\"%@\">",searchString];
         [result appendFormat:@"%@</a>",collaboration];
         if([b count]>0 && [b count]<10){

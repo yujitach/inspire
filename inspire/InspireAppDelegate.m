@@ -114,7 +114,8 @@ static InspireAppDelegate*globalAppDelegate=nil;
 {
     //    NSLog(@"handles %@",url);
     if([[url scheme] isEqualToString:@"spires-search"]){
-        NSString*searchString=[[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString*searchString=[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]];
+        searchString=[searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         [self querySPIRES:searchString];
     }else if([[url scheme] isEqualToString:@"spires-open-pdf-internal"]){
         NSString*x=[url absoluteString];
