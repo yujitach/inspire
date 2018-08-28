@@ -184,7 +184,7 @@
             [html replaceOccurrencesOfRegex:[NSString stringWithFormat:@"id=\"%@\">",key] withString:[NSString stringWithFormat:@"id=\"%@\">%@",key,value]];
             [self.webView loadHTMLString:html baseURL:nil];
         }
-        for(NSString*key in @[@"flagUnflag",@"pdfPath",@"citedBy",@"refersTo"]){
+        for(NSString*key in @[@"flagUnflag",@"pdfPath",@"citedBy",@"refersTo",@"spires"]){
             NSURL*u=nil;
             NSString*value=[helper valueForKey:key];
             if(!value || [value hasPrefix:@"<del>"]){
@@ -201,6 +201,9 @@
             if(x.hasPDFLocally){
                 pdfButton.enabled=YES;
                 pdfButton.title=@"show pdf";
+            }else if(!x.isEprint){
+                pdfButton.enabled=YES;
+                pdfButton.title=@"inspire page";
             }else if(!([OperationQueues arxivQueue].isOnline)){
                 pdfButton.enabled=NO;
                 pdfButton.title=@"pdf";
@@ -241,8 +244,14 @@
 }
 -(IBAction)pdf:(id)sender;
 {
-    NSURL*u=handlerDic[@"pdfPath"];
-    [[NSApp appDelegate] handleURL:u];
+    Article*x=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+    if(x.isEprint){
+        NSURL*u=handlerDic[@"pdfPath"];
+        [[NSApp appDelegate] handleURL:u];
+    }else{
+        NSURL*u=handlerDic[@"spires"];
+        [[NSApp appDelegate] handleURL:u];
+    }
 }
 -(IBAction)citedBy:(id)sender;
 {
