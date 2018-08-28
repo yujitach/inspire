@@ -6,11 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "HoverImageView.h"
 @class ArticleList;
 @class SideOutlineViewController;
 @interface MyOutlineCellView : NSTableCellView
-@property (nullable,assign) HoverImageView*imageView;
+@property (nullable,assign) IBOutlet NSButton*button;
 @property (nonatomic,retain)ArticleList*articleList;
 @property (nonatomic,retain) IBOutlet SideOutlineViewController*sideOutlineViewController;
 @end

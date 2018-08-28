@@ -50,7 +50,6 @@
 		33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FC11B79DC0F00A26198 /* SyncManager.m */; };
 		3348A16321269C0800036EAF /* v1.8.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3348A16221269C0700036EAF /* v1.8.0alert.rtf */; };
 		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
-		334A5DCB2133BE61005C024B /* HoverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A5DCA2133BE61005C024B /* HoverImageView.m */; };
 		334A5DCE2133CFBD005C024B /* MyOutlineCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A5DCD2133CFBD005C024B /* MyOutlineCellView.m */; };
 		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
 		334A6D270F96E02E005BC4A2 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; };
@@ -285,8 +284,6 @@
 		3348A16221269C0700036EAF /* v1.8.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.8.0alert.rtf; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
-		334A5DC92133BE61005C024B /* HoverImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HoverImageView.h; sourceTree = "<group>"; };
-		334A5DCA2133BE61005C024B /* HoverImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoverImageView.m; sourceTree = "<group>"; };
 		334A5DCC2133CFBD005C024B /* MyOutlineCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyOutlineCellView.h; sourceTree = "<group>"; };
 		334A5DCD2133CFBD005C024B /* MyOutlineCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyOutlineCellView.m; sourceTree = "<group>"; };
 		334A6D240F96E02E005BC4A2 /* flagged.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flagged.png; sourceTree = "<group>"; };
@@ -963,8 +960,6 @@
 				33FA970B0EA8E6DD003961AD /* ArticleView.m */,
 				338432100F70CFB80040BDA6 /* SideOutlineView.h */,
 				338432110F70CFB80040BDA6 /* SideOutlineView.m */,
-				334A5DC92133BE61005C024B /* HoverImageView.h */,
-				334A5DCA2133BE61005C024B /* HoverImageView.m */,
 				334A5DCC2133CFBD005C024B /* MyOutlineCellView.h */,
 				334A5DCD2133CFBD005C024B /* MyOutlineCellView.m */,
 			);
@@ -1245,7 +1240,6 @@
 				33E397871A2EDEE900C91553 /* ArticleData.m in Sources */,
 				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
 				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
-				334A5DCB2133BE61005C024B /* HoverImageView.m in Sources */,
 				33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */,
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,

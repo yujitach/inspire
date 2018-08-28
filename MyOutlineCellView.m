@@ -10,18 +10,18 @@
 #import "SideOutlineViewController.h"
 
 @implementation MyOutlineCellView
-@dynamic imageView;
 @synthesize articleList=_articleList;
 -(void)setArticleList:(ArticleList *)articleList
 {
     _articleList=articleList;
-    self.imageView.mainImage=self.articleList.icon;
-    if(self.articleList.hasButton){
-        self.imageView.alternateImage=[NSImage imageNamed:NSImageNameRefreshTemplate];
-    }else{
-        self.imageView.alternateImage=nil;
-    }
+    self.imageView.image=self.articleList.icon;
     self.textField.stringValue=self.articleList.name;
+    
+    self.imageView.enabled=YES;
+    self.imageView.hidden=NO;
+    self.button.enabled=NO;
+    self.button.hidden=YES;
+
 }
 
 -(IBAction)articleListNameEdited:(NSTextField*)sender
@@ -35,5 +35,19 @@
     }
     [self.sideOutlineViewController selectArticleList:self.articleList];
 }
-
+-(void)setBackgroundStyle:(NSBackgroundStyle)backgroundStyle
+{
+    [super setBackgroundStyle:backgroundStyle];
+    if(self.articleList.hasButton && self.backgroundStyle==NSBackgroundStyleDark){
+        self.imageView.enabled=NO;
+        self.imageView.hidden=YES;
+        self.button.enabled=YES;
+        self.button.hidden=NO;
+    }else{
+        self.imageView.enabled=YES;
+        self.imageView.hidden=NO;
+        self.button.enabled=NO;
+        self.button.hidden=YES;
+    }
+}
 @end

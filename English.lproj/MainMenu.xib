@@ -310,10 +310,10 @@
                                                                     <rect key="frame" x="1" y="1" width="162" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LOI-Uq-8Pt" customClass="HoverImageView">
+                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LOI-Uq-8Pt">
                                                                             <rect key="frame" x="3" y="0.0" width="17" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                            <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="Tho-Qg-PyY"/>
+                                                                            <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" id="Tho-Qg-PyY"/>
                                                                         </imageView>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" id="RMc-8a-Y9m">
                                                                             <rect key="frame" x="25" y="0.0" width="137" height="17"/>
@@ -328,10 +328,10 @@
                                                                             </connections>
                                                                         </textField>
                                                                         <button verticalHuggingPriority="750" misplaced="YES" id="4Lw-mZ-pOF">
-                                                                            <rect key="frame" x="-3" y="-9" width="36" height="32"/>
+                                                                            <rect key="frame" x="5" y="5" width="12" height="10"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                            <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="orM-cf-49O">
-                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSRefreshTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="orM-cf-49O">
+                                                                                <behavior key="behavior" lightByContents="YES"/>
                                                                                 <font key="font" metaFont="system"/>
                                                                             </buttonCell>
                                                                             <connections>
@@ -340,6 +340,7 @@
                                                                         </button>
                                                                     </subviews>
                                                                     <connections>
+                                                                        <outlet property="button" destination="4Lw-mZ-pOF" id="ny9-tw-4yz"/>
                                                                         <outlet property="imageView" destination="LOI-Uq-8Pt" id="XPB-eQ-8ai"/>
                                                                         <outlet property="sideOutlineViewController" destination="883" id="m04-Gz-QSB"/>
                                                                         <outlet property="textField" destination="RMc-8a-Y9m" id="Rcg-Gy-hCn"/>
@@ -429,7 +430,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" autosaveName="mainTableView" headerView="430" id="429" customClass="HidableNSTableView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="633" height="244"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="634" height="244"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -544,12 +545,12 @@
                                             <rect key="frame" x="-100" y="-100" width="565" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="427">
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="427">
                                             <rect key="frame" x="617" y="17" width="16" height="244"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="430">
-                                            <rect key="frame" x="0.0" y="0.0" width="633" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="634" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
@@ -752,7 +753,6 @@
         </treeController>
     </objects>
     <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSGoLeftTemplate" width="9" height="12"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>

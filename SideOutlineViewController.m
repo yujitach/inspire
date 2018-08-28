@@ -17,7 +17,6 @@
 #import "MOC.h"
 #import "AppDelegate.h"
 #import "SpiresAppDelegate_actions.h"
-#import "HoverImageView.h"
 #import "MyOutlineCellView.h"
 
 
