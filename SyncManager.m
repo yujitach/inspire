@@ -85,6 +85,14 @@
         [self archive];
     }];
 }
+-(void)prepareFirstSnapshot
+{
+    PrepareSnapshotOperation*op=[[PrepareSnapshotOperation alloc] init];
+    op.completionBlock=^{
+        lastSavedSnapshot=op.snapShot;
+    };
+    [queue addOperation:op];
+}
 -(instancetype)init
 {
     self=[super init];
@@ -94,6 +102,7 @@
                                              selector:@selector(saveNotified:)
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:nil];
+    [self prepareFirstSnapshot];
 #if TARGET_OS_IPHONE
     [[iCloud sharedCloud] setDelegate:self];
     [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
