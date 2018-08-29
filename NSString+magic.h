@@ -21,6 +21,7 @@
 -(NSString*)stringByExpandingAmpersandEscapes;
 -(NSString*)stringByConvertingTeXintoHTML;
 -(NSAttributedString*)mockTeXed;
+-(NSString*)extractArXivID;
 //-(NSString*)stringByReplacingOccurrencesOfRegex:(NSString*)regex withString:(NSString*)string;
 @end
 

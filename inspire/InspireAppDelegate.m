@@ -19,6 +19,7 @@
 #import "Article.h"
 #import "PDFHelper.h"
 #import "SyncManager.h"
+#import "NSString+magic.h"
 
 @interface InspireAppDelegate () <UISplitViewControllerDelegate>
 
@@ -78,44 +79,13 @@ static InspireAppDelegate*globalAppDelegate=nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:NULL];
     [[NSUserDefaults standardUserDefaults] setObject:dir forKey:@"pdfDir"];
 }
--(NSString*)extractArXivID:(NSString*)x
-{
-    NSString*s=[x stringByRemovingPercentEncoding];
-    if(s==nil)return @"";
-    if([s isEqualToString:@""])return @"";
-    //    NSLog(@"%@",s);
-    NSRange r=[s rangeOfString:@"/" options:NSBackwardsSearch];
-    if(r.location!=NSNotFound){
-        s=[s substringFromIndex:r.location+1];
-    }
-    if(s==nil)return @"";
-    if([s isEqualToString:@""])return @"";
-    
-    NSScanner*scanner=[NSScanner scannerWithString:s];
-    NSCharacterSet*set=[NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
-    [scanner scanUpToCharactersFromSet:set intoString:NULL];
-    NSString* d=nil;
-    [scanner scanCharactersFromSet:set intoString:&d];
-    if(d){
-        if([d hasSuffix:@"."]){
-            d=[d substringToIndex:[d length]-1];
-        }
-        for(NSString*cat in @[@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math"]){
-            if([x rangeOfString:cat].location!=NSNotFound){
-                d=[NSString stringWithFormat:@"%@/%@",cat,d];
-                break;
-            }
-        }
-        return d;
-    }
-    else return nil;
-}
+
 -(void)handleURL:(NSURL*) url
 {
     //    NSLog(@"handles %@",url);
     if([[url scheme] isEqualToString:@"spires-search"]){
         NSString*searchString=[[url absoluteString] substringFromIndex:[(NSString*)@"spires-search://" length]];
-        searchString=[searchString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        searchString=[searchString stringByRemovingPercentEncoding];
         [self querySPIRES:searchString];
     }else if([[url scheme] isEqualToString:@"spires-open-pdf-internal"]){
         NSString*x=[url absoluteString];
@@ -141,7 +111,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
         [a setFlag: a.flag & ~AFIsFlagged];
         [[MOC moc] save:NULL];
     }else if([[url scheme] isEqualToString:@"spires-lookup-eprint"]){
-        NSString*eprint=[self extractArXivID:[url absoluteString]];
+        NSString*eprint=[[url absoluteString] extractArXivID];
         if(eprint){
             NSString*searchString=[@"spires-search://eprint%20" stringByAppendingString:eprint];
             [self performSelector:@selector(handleURL:)

@@ -31,6 +31,39 @@ static void loadMagic(){
     magicRegExps=a;
 }
 @implementation NSString (NSString_magic)
+
+-(NSString*)extractArXivID
+{
+    NSString*s=[self stringByRemovingPercentEncoding];
+    if(s==nil)return @"";
+    if([s isEqualToString:@""])return @"";
+    //    NSLog(@"%@",s);
+    NSRange r=[s rangeOfString:@"/" options:NSBackwardsSearch];
+    if(r.location!=NSNotFound){
+        s=[s substringFromIndex:r.location+1];
+    }
+    if(s==nil)return @"";
+    if([s isEqualToString:@""])return @"";
+    
+    NSScanner*scanner=[NSScanner scannerWithString:s];
+    NSCharacterSet*set=[NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+    [scanner scanUpToCharactersFromSet:set intoString:NULL];
+    NSString* d=nil;
+    [scanner scanCharactersFromSet:set intoString:&d];
+    if(d){
+        if([d hasSuffix:@"."]){
+            d=[d substringToIndex:[d length]-1];
+        }
+        for(NSString*cat in @[@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math",@"cond-mat"]){
+            if([self rangeOfString:cat].location!=NSNotFound){
+                d=[NSString stringWithFormat:@"%@/%@",cat,d];
+                break;
+            }
+        }
+        return d;
+    }
+    else return nil;
+}
 -(NSString*)makeQuieterBetween:(NSString*)xxx and:(NSString*)yyy
 {
     NSArray*a=[self componentsSeparatedByString:xxx];

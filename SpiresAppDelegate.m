@@ -54,6 +54,8 @@
 
 #import "MOC.h"
 
+#import "NSString+magic.h"
+
 #import <sys/mount.h>
 
 @interface SpiresAppDelegate (Timers)
@@ -606,38 +608,7 @@
 
 
 #pragma mark URL handling
--(NSString*)extractArXivID:(NSString*)x
-{
-    NSString*s=[x stringByRemovingPercentEncoding];
-    if(s==nil)return @"";
-    if([s isEqualToString:@""])return @"";
-//    NSLog(@"%@",s);
-    NSRange r=[s rangeOfString:@"/" options:NSBackwardsSearch];
-    if(r.location!=NSNotFound){
-	s=[s substringFromIndex:r.location+1];
-    }
-    if(s==nil)return @"";
-    if([s isEqualToString:@""])return @"";
-    
-     NSScanner*scanner=[NSScanner scannerWithString:s];
-    NSCharacterSet*set=[NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
-    [scanner scanUpToCharactersFromSet:set intoString:NULL];
-    NSString* d=nil;
-    [scanner scanCharactersFromSet:set intoString:&d];
-    if(d){
-	if([d hasSuffix:@"."]){
-	    d=[d substringToIndex:[d length]-1];
-	}
-	for(NSString*cat in @[@"hep-th",@"hep-ph",@"hep-ex",@"hep-lat",@"astro-ph",@"math-ph",@"math"]){
-	    if([x rangeOfString:cat].location!=NSNotFound){
-		d=[NSString stringWithFormat:@"%@/%@",cat,d];
-		break;
-	    }
-	}
-	return d;
-    }
-    else return nil;
-}
+
 
 -(void)handleURL:(NSURL*) url
 {
@@ -655,7 +626,7 @@
     }else if([[url scheme] isEqualTo:@"spires-open-pdf-internal"]){
 	[self openPDF:self];
     }else if([[url scheme] isEqualTo:@"spires-lookup-eprint"]){
-	NSString*eprint=[self extractArXivID:[url absoluteString]];
+	NSString*eprint=[[url absoluteString] extractArXivID];
 	if(eprint){
 	    NSString*searchString=[@"spires-search://eprint%20" stringByAppendingString:eprint];
 	    [self performSelector:@selector(handleURL:) 
