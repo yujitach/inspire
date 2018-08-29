@@ -26,6 +26,7 @@
     UIBarButtonItem*otherButton;
     NSProgress*progress;
     BOOL pdfShown;
+    BOOL restoringPDF;
 }
 @synthesize indexPath=_indexPath;
 -(BOOL)isMyURL:(NSURL*)url
@@ -115,7 +116,7 @@
 {
     [super viewDidAppear:animated];
     [self refresh];
-    if(pdfShown){
+    if(restoringPDF){
         [self pdf:nil];
     }
 }
@@ -365,7 +366,7 @@
             self.indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
         }
     }
-    pdfShown=[coder decodeBoolForKey:@"pdfShown"];
+    restoringPDF=[coder decodeBoolForKey:@"pdfShown"];
     [super decodeRestorableStateWithCoder:coder];
 }
 #pragma mark - Navigation
