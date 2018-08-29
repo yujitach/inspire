@@ -118,6 +118,7 @@
     [self refresh];
     if(restoringPDF){
         [self pdf:nil];
+        restoringPDF=NO;
     }
 }
 -(void)viewWillDisappear:(BOOL)animated
