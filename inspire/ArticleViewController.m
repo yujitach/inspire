@@ -7,6 +7,7 @@
 //
 
 #import "ArticleViewController.h"
+#import "ArticleTableViewController.h"
 #import "Article.h"
 #import "RegexKitLite.h"
 #import "HTMLArticleHelper.h"
@@ -15,10 +16,8 @@
 #import "DumbOperation.h"
 #import "SpecificArticleListTableViewController.h"
 #import "ArticleList.h"
+#import "MOC.h"
 
-@interface ArticleViewController ()
-
-@end
 
 @implementation ArticleViewController
 {
@@ -26,12 +25,21 @@
     UIBarButtonItem*pdfButton;
     UIBarButtonItem*otherButton;
     NSProgress*progress;
+    BOOL pdfShown;
 }
 @synthesize indexPath=_indexPath;
 -(BOOL)isMyURL:(NSURL*)url
 {
     Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
     return [a.pdfPath.lastPathComponent containsString:url.lastPathComponent];
+}
+-(void)pdfPreviewStarted:(NSNotification*)n
+{
+    pdfShown=YES;
+}
+-(void)pdfPreviewEnded:(NSNotification*)n
+{
+    pdfShown=NO;
 }
 -(void)pdfDownloadStarted:(NSNotification*)n
 {
@@ -88,6 +96,8 @@
     
 //    [self.webView addSubview:self.progressView];
 //    [self.progressView sizeToFit];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfPreviewStarted:) name:@"pdfPreviewStarted" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfPreviewEnded:) name:@"pdfPreviewEnded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadStarted:) name:@"pdfDownloadStarted" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadFinished:) name:@"pdfDownloadFinished" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadProgress:) name:@"pdfDownloadProgress" object:nil];
@@ -105,6 +115,9 @@
 {
     [super viewDidAppear:animated];
     [self refresh];
+    if(pdfShown){
+        [self pdf:nil];
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -329,6 +342,32 @@
     [self presentViewController:ac animated:YES completion:nil];
 }
 
+#pragma mark - state restoration
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
+    [[MOC moc] encodeObject:a toCoder:coder forKey:@"article"];
+    [coder encodeBool:pdfShown forKey:@"pdfShown"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+-(void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSArray*a=self.navigationController.viewControllers;
+    ArticleTableViewController*vc=(ArticleTableViewController*)a[a.count-2];
+    self.fetchedResultsController=vc.fetchedResultsController;
+    
+    Article*ar=(Article*)[[MOC moc] decodeFromCoder:coder forKey:@"article"];
+    if(ar){
+        NSIndexPath*ip=[self.fetchedResultsController indexPathForObject:ar];
+        if(ip){
+            self.indexPath=ip;
+        }else{
+            self.indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+        }
+    }
+    pdfShown=[coder decodeBoolForKey:@"pdfShown"];
+    [super decodeRestorableStateWithCoder:coder];
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

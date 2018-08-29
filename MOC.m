@@ -26,6 +26,36 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
     [self processPendingChanges];
     [[self undoManager] disableUndoRegistration];    
 }
+#pragma mark encoding
+-(NSManagedObject*)decodeFromCoder:(NSCoder*)coder forKey:(NSString*)key
+{
+    NSString*s=[coder decodeObjectForKey:key];
+    if(!s)
+        return nil;
+    NSURL*url=[NSURL URLWithString:s];
+    if(!url)
+        return nil;
+    NSManagedObjectID*oid=[self.persistentStoreCoordinator managedObjectIDForURIRepresentation:url];
+    if(!oid)
+        return nil;
+    NSManagedObject*obj=[self objectWithID:oid];
+    return obj;
+}
+-(void)encodeObject:(NSManagedObject*)obj toCoder:(NSCoder*)coder forKey:(NSString*)key
+{
+    if(!obj)
+        return;
+    NSManagedObjectID*oid=obj.objectID;
+    if(!oid)
+        return;
+    NSURL*url=oid.URIRepresentation;
+    if(!url)
+        return;
+    NSString*s=url.absoluteString;
+    if(!s)
+        return;
+    [coder encodeObject:s forKey:key];
+}
 
 @end
 
@@ -305,6 +335,7 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
 	NSLog(@"something really bad:%@",error);
     }
 }
+
 
 
 @end

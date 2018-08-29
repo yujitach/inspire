@@ -88,6 +88,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - state restoration
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [[MOC moc] encodeObject:self.articleList toCoder:coder forKey:@"articleList"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+-(void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    ArticleList*a=(ArticleList*)[[MOC moc] decodeFromCoder:coder forKey:@"articleList"];
+    if(!a){
+        a=[AllArticleList allArticleList];
+    }
+    self.articleList=a;
+    [super decodeRestorableStateWithCoder:coder];
+}
+
 #pragma mark - Table View
 
 -(void)addToSomeListArticleAtIndexPath:(NSIndexPath*)indexPath

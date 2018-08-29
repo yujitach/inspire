@@ -77,7 +77,14 @@ NSString* pathShownWithQuickLook=nil;
     return  [UIApplication sharedApplication].keyWindow.rootViewController.view;
 
 }
-
+- (void)documentInteractionControllerWillBeginPreview:(UIDocumentInteractionController *)controller
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfPreviewStarted" object:nil];
+}
+- (void)documentInteractionControllerDidEndPreview:(UIDocumentInteractionController *)controller
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pdfPreviewEnded" object:nil];
+}
 -(void)openPDFFile:(NSString*)path usingViewer:(PDFViewerType)type
 {
     documentInteractionContoller=nil;

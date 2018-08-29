@@ -12,6 +12,8 @@ extern NSString* UIMOCDidMergeNotification;
 @interface NSManagedObjectContext (TrivialAddition)
 -(void)disableUndo;
 -(void)enableUndo;
+-(NSManagedObject*)decodeFromCoder:(NSCoder*)coder forKey:(NSString*)string;
+-(void)encodeObject:(NSManagedObject*)obj toCoder:(NSCoder*)coder forKey:(NSString*)string;
 @end
 
 @interface MOC : NSObject

@@ -41,7 +41,19 @@
 }
 
 
-
+#pragma mark - state restoration
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [[MOC moc] encodeObject:self.parent toCoder:coder forKey:@"parent"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+-(void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    ArticleList*a=(ArticleList*)[[MOC moc] decodeFromCoder:coder forKey:@"parent"];
+    self.parent=a;
+    [self fetchedResultsController];
+    [super decodeRestorableStateWithCoder:coder];
+}
 #pragma mark - Segues
 -(IBAction)unwindFromAddFolder:(UIStoryboardSegue*)segue
 {
