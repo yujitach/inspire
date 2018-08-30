@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "AppDelegate.h"
+#import "IntroViewController.h"
 @class ArticleListTableViewController;
 @class ArticleTableViewController;
-@interface InspireAppDelegate : UIResponder <UIApplicationDelegate,AppDelegate,UIDocumentInteractionControllerDelegate>
+@interface InspireAppDelegate : UIResponder <UIApplicationDelegate,AppDelegate,UIDocumentInteractionControllerDelegate,IntroDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

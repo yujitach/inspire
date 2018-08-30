@@ -157,6 +157,9 @@
 		33CCB5A210D9F29F00D51CDE /* Migrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33202EE110D9D8EA00EDB5A8 /* Migrator.m */; };
 		33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F1991910C0853F001F3F0F /* MigrationProgressController.m */; };
 		33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F1991310C08505001F3F0F /* MigrationProgress.xib */; };
+		33CD56832137B865007C7943 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CD56812137B865007C7943 /* IntroViewController.m */; };
+		33CD56842137B865007C7943 /* IntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33CD56822137B865007C7943 /* IntroViewController.xib */; };
+		33CD56862137BB2D007C7943 /* intro.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 33CD56852137BB2D007C7943 /* intro.rtfd */; };
 		33CDDBD61B8F137B003D993D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBD51B8F137B003D993D /* main.m */; };
 		33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */; };
 		33CDDBDF1B8F137C003D993D /* ArticleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CDDBDE1B8F137B003D993D /* ArticleListTableViewController.m */; };
@@ -404,6 +407,10 @@
 		33CC095D0F3E8761005B25F8 /* BatchBibQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatchBibQueryOperation.m; sourceTree = "<group>"; };
 		33CC0AF10F3EB29E005B25F8 /* ActivityMonitorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityMonitorController.h; sourceTree = "<group>"; };
 		33CC0AF20F3EB29E005B25F8 /* ActivityMonitorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMonitorController.m; sourceTree = "<group>"; };
+		33CD56802137B865007C7943 /* IntroViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
+		33CD56812137B865007C7943 /* IntroViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
+		33CD56822137B865007C7943 /* IntroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroViewController.xib; sourceTree = "<group>"; };
+		33CD56852137BB2D007C7943 /* intro.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = intro.rtfd; sourceTree = "<group>"; };
 		33CDDBD21B8F137B003D993D /* inspire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inspire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CDDBD51B8F137B003D993D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspireAppDelegate.h; sourceTree = "<group>"; };
@@ -488,8 +495,6 @@
 				33BFA5C51B918EB200A98B8E /* HTMLArticleHelper.m */,
 				332B9B270FF9E34400353564 /* DirWatcher.h */,
 				332B9B280FF9E34400353564 /* DirWatcher.m */,
-				33441FC01B79DC0F00A26198 /* SyncManager.h */,
-				33441FC11B79DC0F00A26198 /* SyncManager.m */,
 				336F461816188841005D070F /* Reachability.h */,
 				336F461916188842005D070F /* Reachability.m */,
 				331C8F0E0F4CC84300779F05 /* NSString+magic.h */,
@@ -556,6 +561,7 @@
 				33202ECA10D9D7D000EDB5A8 /* Migrator */,
 				7756732906782D8800D1FEB8 /* Models */,
 				33BBA3AE1B8F3AAE0001366C /* Mac UI */,
+				33CD56872137C582007C7943 /* Sync */,
 				33CC06FE0F3E4A20005B25F8 /* Operations */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -845,9 +851,32 @@
 			name = Operations;
 			sourceTree = "<group>";
 		};
+		33CD567F2137B7EB007C7943 /* IntroViewer */ = {
+			isa = PBXGroup;
+			children = (
+				33CD56852137BB2D007C7943 /* intro.rtfd */,
+				33CD56802137B865007C7943 /* IntroViewController.h */,
+				33CD56812137B865007C7943 /* IntroViewController.m */,
+				33CD56822137B865007C7943 /* IntroViewController.xib */,
+			);
+			name = IntroViewer;
+			sourceTree = "<group>";
+		};
+		33CD56872137C582007C7943 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				331D7E2E1B7A32F400F598B5 /* ArticleListArchiveAdditions.h */,
+				331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */,
+				33441FC01B79DC0F00A26198 /* SyncManager.h */,
+				33441FC11B79DC0F00A26198 /* SyncManager.m */,
+			);
+			name = Sync;
+			sourceTree = "<group>";
+		};
 		33CDDBD31B8F137B003D993D /* iOS UI */ = {
 			isa = PBXGroup;
 			children = (
+				33CD567F2137B7EB007C7943 /* IntroViewer */,
 				332FD06B212D3B0200D2EA01 /* PDFViewer */,
 				335EB4E31B929F5400998E48 /* Folder Management */,
 				33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */,
@@ -974,8 +1003,6 @@
 				33441FBE1B79B5F700A26198 /* LightweightArticle.m */,
 				33AB063A1B7719AB007491F1 /* InspireXMLParser.h */,
 				33AB063B1B7719AB007491F1 /* InspireXMLParser.m */,
-				331D7E2E1B7A32F400F598B5 /* ArticleListArchiveAdditions.h */,
-				331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -1093,12 +1120,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				339586961B91BB24004778C6 /* tex.js in Resources */,
+				33CD56862137BB2D007C7943 /* intro.rtfd in Resources */,
 				33D02B0A1B908D1500C6648C /* arxiv.png in Resources */,
 				33D1FEF5212E88A30090A401 /* folder@2x.png in Resources */,
 				33D02B0E1B908D1500C6648C /* spires-red.png in Resources */,
 				33D02B0F1B908D1500C6648C /* spires-red@2x.png in Resources */,
 				339586971B91BB2A004778C6 /* magicRegExps.perl in Resources */,
 				33D02B0B1B908D1500C6648C /* arxiv@2x.png in Resources */,
+				33CD56842137B865007C7943 /* IntroViewController.xib in Resources */,
 				339586951B91B6D1004778C6 /* template-ios.html in Resources */,
 				33BBA3CB1B8F41130001366C /* defaults.plist in Resources */,
 				33D02B101B908D1500C6648C /* spires-blue.png in Resources */,
@@ -1180,6 +1209,7 @@
 				33CDDBE21B8F137C003D993D /* ArticleTableViewController.m in Sources */,
 				33BBA3B01B8F3AE20001366C /* LoadAbstractDOIOperation.m in Sources */,
 				33BBA3A21B8F3A910001366C /* ArticleListArchiveAdditions.m in Sources */,
+				33CD56832137B865007C7943 /* IntroViewController.m in Sources */,
 				33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */,
 				33BBA3AB1B8F3A910001366C /* ArticleData.m in Sources */,
 				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
@@ -1370,7 +1400,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
@@ -1415,7 +1445,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;

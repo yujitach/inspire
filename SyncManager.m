@@ -106,22 +106,18 @@
 #if TARGET_OS_IPHONE
     [[iCloud sharedCloud] setDelegate:self];
     [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
-    
-    if(![[iCloud sharedCloud] checkCloudAvailability]){
-        if(![[NSUserDefaults standardUserDefaults] boolForKey:@"iCloudAlertShown"]){
-            UIAlertController*alert=[UIAlertController alertControllerWithTitle:@"iCloud Drive not available"
-                                                                        message:@"If you enable iCloud Drive, the app will sync the contents of the article lists and flagged articles across iOS devices and spires.app on OS X." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:nil];
-            
-            [alert addAction:defaultAction];
-            [[[NSApp appDelegate] presentingViewController] presentViewController:alert animated:YES completion:nil];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"iCloudAlertShown"];
-        }
-        return self;
+
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
+    if([[iCloud sharedCloud] checkCloudAvailability]){
+        [[iCloud sharedCloud] updateFiles];
+        [self goOverFilesOnce];
     }
-    [[iCloud sharedCloud] updateFiles];
-    [self goOverFilesOnce];
+    NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"initialMergeDone"];
+        });
+    }];
+    [queue addOperation:op];
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
@@ -235,6 +231,14 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
 
+    NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"merging" object:targetMachineName];
+        });
+    }];
+
+    [queue addOperation:op];
+    
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];
 #if TARGET_OS_IPHONE
@@ -339,12 +343,16 @@
 -(void)run
 {
     NSDictionary*snapShotFromFile=rso.snapShot;
-    if(!snapShotFromFile)
+    if(!snapShotFromFile){
+        [self finish];
         return;
+    }
     {
         NSDictionary*snapShot=pso.snapShot;
-        if([snapShotFromFile isEqual:snapShot])
+        if([snapShotFromFile isEqual:snapShot]){
+            [self finish];
             return;
+        }
     }
     
     NSLog(@"merges %@",targetMachineName);
@@ -354,10 +362,14 @@
         [ArticleList populateFlaggedArticlesFrom:snapShotFromFile[@"flagged"] usingMOC:secondMOC];
         [ArticleList rearrangePositionInViewInMOC:secondMOC];
         [secondMOC save:NULL];
-        if(!articleListsToBeRemoved)
+        if(!articleListsToBeRemoved){
+            [self finish];
             return;
-        if(articleListsToBeRemoved.count==0)
+        }
+        if(articleListsToBeRemoved.count==0){
+            [self finish];
             return;
+        }
         NSArray*names=[articleListsToBeRemoved valueForKey:@"name"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self confirmRemovalOfListsWithNames:names

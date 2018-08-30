@@ -31,6 +31,13 @@ static InspireAppDelegate*globalAppDelegate=nil;
 @implementation InspireAppDelegate
 {
     SyncManager*syncManager;
+    IntroViewController*ivc;
+    NSTimer*timer;
+}
+
+-(void)closed:(id)sender
+{
+    [[NSApp appDelegate].presentingViewController dismissViewControllerAnimated:ivc completion:^{}];
 }
 #pragma mark Global AppDelegate methods
 +(id<AppDelegate>)appDelegate
@@ -168,6 +175,18 @@ static InspireAppDelegate*globalAppDelegate=nil;
     [self selectAllArticleList];
     
     syncManager=[[SyncManager alloc] init];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"introShown"]){
+        ivc=[[IntroViewController alloc] init];
+        ivc.delegate=self;
+        [[NSApp appDelegate].presentingViewController presentViewController:ivc animated:YES completion:^{
+            
+        }];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"introShown"];
+        //   }
+
+    });
     
     return YES;
 }
