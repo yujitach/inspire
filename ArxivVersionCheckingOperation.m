@@ -63,7 +63,7 @@ typedef NSInteger NSModalResponse;
     [alert addButtonWithTitle:@"Cancel"];
     alert.informativeText=[NSString stringWithFormat:@"Your PDF is version %d, which is older than the latest version %d on the web.\n%@",
 		      v,[article.version intValue],commentsLine];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     //   [NSApp unhide:self];
     
     [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]

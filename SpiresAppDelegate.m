@@ -374,7 +374,7 @@
     
     [self tweakTableViewFonts];
     
-    if([NSEvent modifierFlags]&NSAlternateKeyMask){
+    if([NSEvent modifierFlags]&NSEventModifierFlagOption){
 	[AllArticleList allArticleList].searchString=nil;
     }
     [window makeKeyAndOrderFront:self];

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "IntroViewController.h"
 
 @class ArticleTableViewController;
 @class ArticleList;
-@interface ArticleListTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface ArticleListTableViewController : UITableViewController <NSFetchedResultsControllerDelegate,IntroDelegate>
 
 @property (strong, nonatomic) ArticleTableViewController *detailViewController;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;

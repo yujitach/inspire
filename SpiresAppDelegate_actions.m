@@ -256,7 +256,7 @@
         [AllArticleList allArticleList].searchString=searchString;
     }
     [sideOutlineViewController selectAllArticleList];
-    if(!([[[NSApplication sharedApplication] currentEvent] modifierFlags]&NSShiftKeyMask)){
+    if(!([[[NSApplication sharedApplication] currentEvent] modifierFlags]&NSEventModifierFlagShift)){
         [self querySPIRES: searchString];
     }// [self searchStringFromPredicate:filterPredicate]];
 }
@@ -326,7 +326,7 @@
     if(!o)
 	return;
     //    int modifiers=GetCurrentKeyModifiers();
-    if([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask){
+    if([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagOption){
 	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithSecondaryViewer];
     }else{
 	[[PDFHelper sharedHelper] openPDFforArticle:o usingViewer:openWithPrimaryViewer];

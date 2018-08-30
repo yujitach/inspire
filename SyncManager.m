@@ -325,7 +325,7 @@
     [[[NSApp appDelegate] presentingViewController] presentViewController:alert animated:YES completion:nil];
 #else
     NSAlert*alert=[[NSAlert alloc] init];
-    alert.alertStyle=NSInformationalAlertStyle;
+    alert.alertStyle=NSAlertStyleInformational;
     alert.messageText=[NSString stringWithFormat:@"Some article lists are (re)moved on \"%@\"",machineName ];
     alert.informativeText=[NSString stringWithFormat:@"Do you want to (re)move also on this machine the following article lists: \"%@\" ?",removedNamesString];
     [alert addButtonWithTitle:@"Keep"];

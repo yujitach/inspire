@@ -219,7 +219,7 @@ NSString* pathShownWithQuickLook=nil;
     NSUserDefaults*defaults=[NSUserDefaults standardUserDefaults];
     if([[defaults arrayForKey:@"KnownJournals"] containsObject:journalName]){
 	PDFViewerType type=openWithPrimaryViewer;
-	if([[NSApp currentEvent] modifierFlags]&NSAlternateKeyMask){
+        if([[NSApp currentEvent] modifierFlags]&NSEventModifierFlagOption){
 	    type=openWithSecondaryViewer;
 	}
         

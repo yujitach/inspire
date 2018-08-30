@@ -20,14 +20,65 @@
 @end
 
 @implementation ArticleListTableViewController
+{
+    UIBarButtonItem*otherButton;
+    IntroViewController*ivc;
+}
+-(IBAction)closed:(id)sender
+{
+    [self dismissViewControllerAnimated:ivc completion:^{}];
+}
+-(IBAction)usage:(id)sender
+{
+    ivc=[[IntroViewController alloc] init];
+    ivc.delegate=self;
+    [self presentViewController:ivc animated:YES completion:^{}];
+}
 
+-(IBAction)writeToYuji:(id)sender
+{
+    NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+    NSURLComponents*u=[[NSURLComponents alloc] initWithString:@"mailto:yuji.tachikawa@ipmu.jp"];
+    u.query=[NSString stringWithFormat:
+             @"subject=inspire.app Bugs/Suggestions for v.%@",
+             version];
+    [[UIApplication sharedApplication] openURL:u.URL options:@{} completionHandler:^(BOOL success) {}];
+}
+-(IBAction)other:(id)sender
+{
+    UIAlertController*ac=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction*u=[UIAlertAction actionWithTitle:@"usage" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self usage:nil];}];
+    UIAlertAction*y=[UIAlertAction actionWithTitle:@"write to Yuji" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self writeToYuji:nil];}];
 
+    UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil];
+    
+    
+    [ac addAction:u];
+    [ac addAction:y];
+    [ac addAction:cancel];
+    
+    ac.popoverPresentationController.barButtonItem=otherButton;
+    
+    [self presentViewController:ac animated:YES completion:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationItem.leftItemsSupplementBackButton=YES;
     self.detailViewController = (ArticleTableViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"do..."
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(other:)
+                           ];
+    self.toolbarItems=@[
+                        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                        otherButton,
+                        ];
+    self.navigationController.toolbarHidden=NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
