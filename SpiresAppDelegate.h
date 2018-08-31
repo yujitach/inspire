@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 @class ArticleView;
 @class SideOutlineViewController;
 @class HistoryController;
@@ -21,7 +22,7 @@
 
 #import "AppDelegate.h"
 
-@interface SpiresAppDelegate : NSObject <AppDelegate>
+@interface SpiresAppDelegate : NSObject <AppDelegate,WebUIDelegate,WebPolicyDelegate>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSToolbar*tb;

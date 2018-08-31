@@ -676,6 +676,7 @@
              ];
 	}else{
 	    [o associatePDF:[url path]];
+            [wv setArticle:o];
 	}
     }
 }
@@ -747,6 +748,11 @@
 			  forType:NSStringPboardType];
 	}
     }
+}
+
+-(NSUInteger)webView:(WebView *)webView dragDestinationActionMaskForDraggingInfo:(id<NSDraggingInfo>)draggingInfo
+{
+    return WebDragDestinationActionAny;
 }
 #pragma mark Default provided by templates
 
