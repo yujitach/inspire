@@ -162,7 +162,9 @@
 }
 -(NSString*)machineName
 {
-#if TARGET_OS_IPHONE
+#if TARGET_OS_SIMULATOR
+    return @"simulator";
+#elif TARGET_OS_IPHONE
     return [[UIDevice currentDevice] name];
 #else
     SCDynamicStoreRef store=SCDynamicStoreCreate(NULL,(CFStringRef)@"foo",NULL,NULL);
@@ -310,6 +312,7 @@
 {
     NSString*removedNamesString=[names componentsJoinedByString:@", "];
 #if TARGET_OS_IPHONE
+
     UIAlertController*alert=[UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Some article lists are (re)moved on \"%@\"",machineName ]
                                                                 message:[NSString stringWithFormat:@"Do you want to (re)move also on this machine the following article lists: \"%@\" ?",removedNamesString] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* keepAction = [UIAlertAction actionWithTitle:@"Keep" style:UIAlertActionStyleDefault
@@ -323,6 +326,7 @@
     [alert addAction:keepAction];
     [alert addAction:removeAction];
     [[[NSApp appDelegate] presentingViewController] presentViewController:alert animated:YES completion:nil];
+ 
 #else
     NSAlert*alert=[[NSAlert alloc] init];
     alert.alertStyle=NSAlertStyleInformational;

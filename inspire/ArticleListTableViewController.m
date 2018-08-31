@@ -69,14 +69,13 @@
     self.navigationItem.leftItemsSupplementBackButton=YES;
     self.detailViewController = (ArticleTableViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
-    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"do..."
+    otherButton=         [[UIBarButtonItem alloc]  initWithTitle:@"menu"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(other:)
                            ];
     self.toolbarItems=@[
-                        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                        otherButton,
+                        otherButton
                         ];
     self.navigationController.toolbarHidden=NO;
 }
@@ -376,6 +375,7 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
+    [self.tableView reloadData];
 }
 
 /*

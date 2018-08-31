@@ -83,7 +83,7 @@
                                                            target:self
                                                            action:@selector(pdf:)
                            ];
-    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"do..."
+    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"menu"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(other:)

@@ -177,15 +177,12 @@ static InspireAppDelegate*globalAppDelegate=nil;
     syncManager=[[SyncManager alloc] init];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"introShown"]){
-        ivc=[[IntroViewController alloc] init];
-        ivc.delegate=self;
-        [[NSApp appDelegate].presentingViewController presentViewController:ivc animated:YES completion:^{
-            
-        }];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"introShown"];
-        //   }
-
+        if(![[NSUserDefaults standardUserDefaults] boolForKey:@"introShown"]){
+            ivc=[[IntroViewController alloc] init];
+            ivc.delegate=self;
+            [self.splitViewController presentViewController:ivc animated:YES completion:^{}];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"introShown"];
+        }
     });
     
     return YES;

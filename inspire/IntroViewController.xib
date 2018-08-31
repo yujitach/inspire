@@ -27,7 +27,6 @@
                         <constraint firstAttribute="height" constant="44" id="9b2-4T-yuq"/>
                     </constraints>
                     <items>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="2Yc-rC-CSv"/>
                         <barButtonItem title="OK" id="LAh-qf-fIR">
                             <connections>
                                 <action selector="close:" destination="-1" id="XaE-V7-ypX"/>
