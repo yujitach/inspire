@@ -11,6 +11,7 @@
 @interface ArticleList (ArticleListArchiveAdditions)
 +(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC;
 +(void)populateFlaggedArticlesFrom:(NSArray*)a usingMOC:(NSManagedObjectContext*)secondMOC;
+-(NSString*)fullName;
 @end
 @interface PrepareSnapshotOperation:NSOperation
 @property NSDictionary*snapShot;

@@ -38,6 +38,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
 -(void)closed:(id)sender
 {
     [[NSApp appDelegate].presentingViewController dismissViewControllerAnimated:ivc completion:^{}];
+    ivc=nil;
 }
 #pragma mark Global AppDelegate methods
 +(id<AppDelegate>)appDelegate
@@ -75,7 +76,11 @@ static InspireAppDelegate*globalAppDelegate=nil;
 }
 -(UIViewController*)presentingViewController
 {
-    return self.splitViewController;
+    if(ivc){
+        return ivc;
+    }else{
+        return self.window.rootViewController;
+    }
 }
 #pragma mark PDF
 -(void)setupPDFdir
@@ -176,7 +181,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
     
     syncManager=[[SyncManager alloc] init];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if(![[NSUserDefaults standardUserDefaults] boolForKey:@"introShown"]){
             ivc=[[IntroViewController alloc] init];
             ivc.delegate=self;

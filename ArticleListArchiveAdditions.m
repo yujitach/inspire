@@ -144,6 +144,14 @@
 }
 @end
 @implementation ArticleList (ArticleListArchiveAdditions)
+-(NSString*)fullName
+{
+    if(self.parent){
+        return [NSString stringWithFormat:@"%@/%@",self.parent.fullName,self.name];
+    }else{
+        return self.name;
+    }
+}
 +(NSArray*)topLevelArticleListsFromMOC:(NSManagedObjectContext*)secondMOC
 {
     NSEntityDescription*entity=[NSEntityDescription entityForName:@"ArticleList" inManagedObjectContext:secondMOC];

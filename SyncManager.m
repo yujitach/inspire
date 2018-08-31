@@ -291,7 +291,6 @@
 
 @end
 
-
 @implementation MergeSnapShotOperation
 {
     PrepareSnapshotOperation*pso;
@@ -374,7 +373,7 @@
             [self finish];
             return;
         }
-        NSArray*names=[articleListsToBeRemoved valueForKey:@"name"];
+        NSArray*names=[articleListsToBeRemoved valueForKey:@"fullName"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self confirmRemovalOfListsWithNames:names
                                        onMachine:targetMachineName
