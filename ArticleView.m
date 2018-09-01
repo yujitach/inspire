@@ -91,7 +91,11 @@ static NSArray*observedKeys=nil;
 {
     [self refresh];
 }
-
+-(BOOL)isDark
+{
+    NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+    return [appearance isEqualToString:@"Dark"] && [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion>=14;
+}
 -(void)refresh
 {
     HTMLArticleHelper*helper=[[HTMLArticleHelper alloc] initWithArticle:article];
@@ -100,13 +104,16 @@ static NSArray*observedKeys=nil;
     DOMHTMLElement*centerBox=(DOMHTMLElement*)[doc getElementById:@"centerBox"];
     DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
 
-    NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
-    if([appearance isEqualToString:@"Dark"] && [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion>=14){
+    if([self isDark]){
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"white\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"#292a30\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[1].style.color=\"rgb(105, 184, 218)\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[2].style.color=\"rgb(105, 184, 218)\";"];
     }else{
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"black\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"white\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[1].style.color=\"rgb(59, 53, 244)\";"];
+        [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[2].style.color=\"rgb(59, 53, 244)\";"];
     }
 
     if(!article || article==(Article*)NSNoSelectionMarker){

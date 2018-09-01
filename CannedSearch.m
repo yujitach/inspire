@@ -120,7 +120,9 @@
 #else
 -(NSImage*)icon
 {
-    return [NSImage imageNamed:@"canned-search"];
+    NSImage*image=[NSImage imageNamed:@"canned-search"];
+    image.template=YES;
+    return image;
 }
 #endif
 -(NSString*)placeholderForSearchField
