@@ -178,8 +178,6 @@
 		33D02B141B9094D700C6648C /* ArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D02B131B9094D700C6648C /* ArticleTableViewCell.m */; };
 		33D1FEF5212E88A30090A401 /* folder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33D1FEF3212E88A20090A401 /* folder@2x.png */; };
 		33D1FEF6212E88A30090A401 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 33D1FEF4212E88A30090A401 /* folder.png */; };
-		33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC21BB6E89400B87F05 /* iCloud.m */; };
-		33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */; };
 		33D5CEC71BB6E8C100B87F05 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		33D8ADA10EAA69F400619A6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D8AA900EAA69C800619A6F /* WebKit.framework */; };
 		33DFC3BE156BCEB900C98E8E /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w -fno-objc-arc"; }; };
@@ -1198,7 +1196,6 @@
 			files = (
 				33BBA3A51B8F3A910001366C /* ArxivNewArticleList.m in Sources */,
 				33BFA5C71B918EB200A98B8E /* HTMLArticleHelper.m in Sources */,
-				33D5CEC61BB6E89400B87F05 /* iCloudDocument.m in Sources */,
 				33BBA3A41B8F3A910001366C /* AllArticleList.m in Sources */,
 				33BBA3C51B8F3B150001366C /* SpiresQueryDownloader.m in Sources */,
 				33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */,
@@ -1247,7 +1244,6 @@
 				33BBA3C21B8F3B150001366C /* NSURL+libraryProxy.m in Sources */,
 				33BBA3A81B8F3A910001366C /* ArticleFolder.m in Sources */,
 				33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */,
-				33D5CEC51BB6E89400B87F05 /* iCloud.m in Sources */,
 				33BBA3C41B8F3B150001366C /* SpiresHelper.m in Sources */,
 				33BBA3A11B8F3A910001366C /* InspireXMLParser.m in Sources */,
 			);

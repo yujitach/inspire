@@ -38,7 +38,7 @@
 -(void)run
 {
 #if TARGET_OS_IPHONE
-    NSArray*versions=[[iCloud sharedCloud] findUnresolvedConflictingVersionsOfFile:file];
+    NSArray*versions=[iCloudHelper findUnresolvedConflictingVersionsOfFile:file];
     NSFileVersion*latestVersion=versions[0];
     NSDate*latestDate=latestVersion.modificationDate;
     for(NSFileVersion*version in versions){
@@ -48,8 +48,8 @@
             latestDate=latestVersion.modificationDate;
         }
     }
-    [[iCloud sharedCloud] resolveConflictForFile:file withSelectedFileVersion:latestVersion];
-    [[iCloud sharedCloud] retrieveCloudDocumentWithName:file completion:^(UIDocument *cloudDocument, NSData *data, NSError *error) {
+    [iCloudHelper resolveConflictForFile:file withSelectedFileVersion:latestVersion];
+    [iCloudHelper retrieveCloudDocumentWithName:file completion:^(NSData *data) {
         self.snapShot=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
         [self finish];
     }];
@@ -69,6 +69,7 @@
 @implementation SyncManager
 {
 #if TARGET_OS_IPHONE
+    NSMetadataQuery*query;
 #else
     DirWatcher*dw;
 #endif
@@ -104,20 +105,23 @@
                                                object:nil];
     [self prepareFirstSnapshot];
 #if TARGET_OS_IPHONE
-    [[iCloud sharedCloud] setDelegate:self];
-    [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
-
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
-    if([[iCloud sharedCloud] checkCloudAvailability]){
-        [[iCloud sharedCloud] updateFiles];
-        [self goOverFilesOnce];
+    if(![iCloudHelper iCloudAvailable]){
+        return self;
     }
-    NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
-        dispatch_async(dispatch_get_main_queue(),^{
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"initialMergeDone"];
-        });
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
+    [iCloudHelper setupWithUbiquityContainerIdentifier:nil completion:^(NSURL *ubiquityContainerURL) {
+        if(!ubiquityContainerURL){
+            return;
+        }
+        query=[iCloudHelper metadataQueryForExtension:SYNCDATAEXTENSION];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedGathering:) name:NSMetadataQueryDidStartGatheringNotification object:query];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedGathering:) name:NSMetadataQueryDidFinishGatheringNotification object:query];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update:) name:NSMetadataQueryDidUpdateNotification object:query];
+        query.operationQueue=queue;
+        [query.operationQueue addOperationWithBlock:^{
+            [query startQuery];
+        }];
     }];
-    [queue addOperation:op];
 #else
     NSString*iCloudDocumentsPath=[@"~/Library/Mobile Documents/" stringByExpandingTildeInPath];
     listsSyncFolder=[iCloudDocumentsPath stringByAppendingPathComponent:@"iCloud~com~yujitach~inspire/Documents"];
@@ -130,7 +134,13 @@
                 dispatch_async(dispatch_get_main_queue(),^{
                     NSLog(@"enabling iCloud sync");
                     dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
-                    [self goOverFilesOnce];
+                    NSArray*a=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:listsSyncFolder error:NULL];
+                    for(NSString*fileName in a){
+                        if([fileName hasSuffix:SYNCDATAEXTENSION]){
+                            NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:[listsSyncFolder stringByAppendingPathComponent:fileName] error:NULL] fileModificationDate];
+                            [self stateChanged:fileName atDate:date];
+                        }
+                    }
                 });
             }
         }
@@ -138,11 +148,17 @@
 #endif
     return self;
 }
--(void)goOverFilesOnce
-{
+
 #if TARGET_OS_IPHONE
-    NSArray*a=[[iCloud sharedCloud] listCloudFiles];
-    for(NSURL*f in a){
+-(void)startedGathering:(NSNotification*)n
+{
+    
+}
+-(void)finishedGathering:(NSNotification*)n
+{
+    NSArray*items=query.results;
+    for(NSMetadataItem*item in items){
+        NSURL*f =[item valueForKey:NSMetadataItemURLKey];
         NSString*fileName=[f lastPathComponent];
         if([fileName hasSuffix:SYNCDATAEXTENSION]){
             NSDate*date=nil;
@@ -150,16 +166,38 @@
             [self stateChanged:fileName atDate:date];
         }
     }
-#else
-    NSArray*a=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:listsSyncFolder error:NULL];
-    for(NSString*fileName in a){
-        if([fileName hasSuffix:SYNCDATAEXTENSION]){
-            NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:[listsSyncFolder stringByAppendingPathComponent:fileName] error:NULL] fileModificationDate];
-            [self stateChanged:fileName atDate:date];
+    NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"initialMergeDone"];
+        });
+    }];
+    [queue addOperation:op];
+}
+-(void)update:(NSNotification*)n
+{
+    NSArray*items=query.results;
+    NSDate*latest=[NSDate dateWithTimeIntervalSince1970:0];
+    NSMetadataItem*latestItem=nil;
+    for(NSMetadataItem*item in items){
+        NSString*fileName=[item valueForAttribute:NSMetadataItemFSNameKey];
+        if(![fileName hasSuffix:SYNCDATAEXTENSION])
+            continue;
+        NSString*targetMachineName=[self machineNameFromSaveFileName:fileName];
+        if([targetMachineName isEqualToString:self.machineName])
+            continue;
+        NSDate*fileDate=[item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
+        if([fileDate timeIntervalSinceDate:latest]>0){
+            latestItem=item;
+            latest=fileDate;
         }
     }
-#endif
+    if(latestItem){
+        NSString*fileName=[latestItem valueForAttribute:NSMetadataItemFSNameKey];
+        NSDate*date=[latestItem valueForAttribute:NSMetadataItemFSContentChangeDateKey];
+        [self stateChanged:[fileName lastPathComponent] atDate:date];
+    }
 }
+#endif
 -(NSString*)machineName
 {
 #if TARGET_OS_SIMULATOR
@@ -185,7 +223,7 @@
 -(void)writeData:(NSData*)data andThen:(void(^)(void))block
 {
 #if TARGET_OS_IPHONE
-    [[iCloud sharedCloud] saveAndCloseDocumentWithName:self.saveFileName withContent:data completion:^(UIDocument *cloudDocument, NSData *documentData, NSError *error) {
+    [iCloudHelper saveAndCloseDocumentWithName:self.saveFileName withContent:data completion:^(BOOL success) {
         // nothing particular to do
         NSLog(@"sidebar content written on the iCloud");
         block();
@@ -254,40 +292,6 @@
     [queue addOperation:mso];
 }
 
-#pragma mark iCloud.h delegates
-#if TARGET_OS_IPHONE
--(void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer
-{
-}
--(NSString*)iCloudQueryLimitedToFileExtension
-{
-    return SYNCDATAEXTENSION;
-}
--(void)iCloudFilesDidChange:(NSMutableArray *)files withNewFileNames:(NSMutableArray *)fileNames
-{
-    NSDate*latest=[NSDate dateWithTimeIntervalSince1970:0];
-    NSMetadataItem*latestItem=nil;
-    for(NSMetadataItem*item in files){
-        NSString*fileName=[item valueForAttribute:NSMetadataItemFSNameKey];
-        if(![fileName hasSuffix:SYNCDATAEXTENSION])
-            continue;
-        NSString*targetMachineName=[self machineNameFromSaveFileName:fileName];
-        if([targetMachineName isEqualToString:self.machineName])
-            continue;
-        NSDate*fileDate=[item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
-        if([fileDate timeIntervalSinceDate:latest]>0){
-            latestItem=item;
-            latest=fileDate;
-        }
-    }
-    if(latestItem){
-        NSString*fileName=[latestItem valueForAttribute:NSMetadataItemFSNameKey];
-        NSDate*date=[latestItem valueForAttribute:NSMetadataItemFSContentChangeDateKey];
-        [self stateChanged:[fileName lastPathComponent] atDate:date];
-    }
-
-}
-#endif
 
 @end
 

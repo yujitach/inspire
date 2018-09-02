@@ -8,16 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #if TARGET_OS_IPHONE
-#import "iCloud.h"
+#import "iCloudHelper.h"
 #else
 #import "DirWatcher.h"
 #endif
-@interface SyncManager :NSObject<
+@interface SyncManager :NSObject
 #if TARGET_OS_IPHONE
-iCloudDelegate
 #else
-DirWatcherDelegate
+<DirWatcherDelegate>
 #endif
->
 
 @end
