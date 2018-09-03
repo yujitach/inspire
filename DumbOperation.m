@@ -10,6 +10,7 @@
 #import "NetworkOperationQueue.h"
 
 static NSOperationQueue*_queue=nil;
+static NSOperationQueue*_Iqueue=nil;
 static NSOperationQueue*_Squeue=nil;
 static NSOperationQueue*_Aqueue=nil;
 
@@ -36,6 +37,14 @@ static NSOperationQueue*_Aqueue=nil;
 //	[_queue setMaxConcurrentOperationCount:1];
     }
     return _queue;
+}
++(NSOperationQueue*)importQueue;
+{
+    if(!_Iqueue){
+        _Iqueue=[[UniqueOperationQueue alloc] init];
+        [_Iqueue setMaxConcurrentOperationCount:1];
+    }
+    return _Iqueue;
 }
 +(NSOperationQueue*)spiresQueue;
 {

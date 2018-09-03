@@ -135,7 +135,7 @@
                         if([fileName hasSuffix:SYNCDATAEXTENSION]){
                             NSString*fullPath=[listsSyncFolder stringByAppendingPathComponent:fileName];
                             NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:NULL] fileModificationDate];
-                            [self stateChanged:[NSURL fileURLwithPath:fullPath] atDate:date];
+                            [self stateChanged:[NSURL fileURLWithPath:fullPath] atDate:date];
                         }
                     }
                 });
@@ -252,13 +252,6 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
 
-    NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
-        dispatch_async(dispatch_get_main_queue(),^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"merging" object:targetMachineName];
-        });
-    }];
-
-    [queue addOperation:op];
     
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];
@@ -338,38 +331,49 @@
         }
     }
     
-    NSLog(@"merges %@",targetMachineName);
+
     NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager]createSecondaryMOC];
     [secondMOC performBlockAndWait:^{
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"merging" object:targetMachineName];
+            NSLog(@"merge %@ started",targetMachineName);
+        });
         NSArray*articleListsToBeRemoved=[ArticleList notFoundArticleListsAfterMergingChildren:snapShotFromFile[@"children"] toArticleFolder:nil usingMOC:secondMOC];
         [ArticleList populateFlaggedArticlesFrom:snapShotFromFile[@"flagged"] usingMOC:secondMOC];
         [ArticleList rearrangePositionInViewInMOC:secondMOC];
-        [secondMOC save:NULL];
-        if(!articleListsToBeRemoved){
-            [self finish];
-            return;
-        }
-        if(articleListsToBeRemoved.count==0){
-            [self finish];
-            return;
-        }
-        NSArray*names=[articleListsToBeRemoved valueForKey:@"fullName"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self confirmRemovalOfListsWithNames:names
-                                       onMachine:targetMachineName
-                                 blockForRemoval:^{
-                                     [secondMOC performBlockAndWait:^{
-                                         for(ArticleList* al in articleListsToBeRemoved){
-                                             [secondMOC deleteObject:al];
-                                         }
-                                         [secondMOC save:NULL];
+        [[OperationQueues importQueue] addOperationWithBlock:^{
+            [secondMOC performBlockAndWait:^{
+                [secondMOC save:NULL];
+            }];
+            dispatch_async(dispatch_get_main_queue(),^{
+                NSLog(@"merge %@ mostly finished",targetMachineName);
+            });
+            if(!articleListsToBeRemoved){
+                [self finish];
+                return;
+            }
+            if(articleListsToBeRemoved.count==0){
+                [self finish];
+                return;
+            }
+            NSArray*names=[articleListsToBeRemoved valueForKey:@"fullName"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self confirmRemovalOfListsWithNames:names
+                                           onMachine:targetMachineName
+                                     blockForRemoval:^{
+                                         [secondMOC performBlockAndWait:^{
+                                             for(ArticleList* al in articleListsToBeRemoved){
+                                                 [secondMOC deleteObject:al];
+                                             }
+                                             [secondMOC save:NULL];
+                                         }];
+                                         [self finish];
+                                     }
+                                     blockForKeeping:^{
+                                         [self finish];
                                      }];
-                                     [self finish];
-                                 }
-                                 blockForKeeping:^{
-                                     [self finish];
-                                 }];
-        });
+            });
+        }];
     }];
 }
 @end

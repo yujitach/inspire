@@ -66,11 +66,16 @@
         importer=[[BatchImportOperation alloc] initWithProtoArticles:a
                                                        originalQuery:search
                                                     updatesCitations:YES
-                                                            usingMOC:[[MOC sharedMOCManager] createSecondaryMOC]];
+                                                            usingMOC:[[MOC sharedMOCManager] createSecondaryMOC]
+                                                            whenDone:^(BatchImportOperation*op){
+                                                                [op.secondMOC performBlockAndWait:^{
+                                                                    [op.secondMOC save:NULL];
+                                                                }];
+                                                            }];
         if(actionBlock){
             actionBlock(importer);
         }
-        [[OperationQueues sharedQueue] addOperation:importer];
+        [[OperationQueues importQueue] addOperation:importer];
         if(!last){
             SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+MAXPERQUERY];
             if(actionBlock){

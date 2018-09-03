@@ -72,19 +72,15 @@
         [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
     }
     NSManagedObjectContext*secondMOC=self.managedObjectContext;
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
-    
-    __weak BatchImportOperation*weakOp=op;
-    op.completionBlock=^{
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:^(BatchImportOperation*weakOp){
         NSSet*generated=weakOp.generated;
         if(!generated)return;
         if(generated.count==0)return;
-        [secondMOC performBlock:^{
+        [weakOp.secondMOC performBlock:^{
             [self setArticles:generated];
-            [secondMOC save:NULL];
         }];
-    };
-    [[OperationQueues sharedQueue] addOperation:op];
+    }];
+    [[OperationQueues importQueue] addOperation:op];
 }
 @end
 @implementation ArxivNewArticleList (ArticleListDictionaryRepresentation)
@@ -96,8 +92,8 @@
         [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
     }
     NSManagedObjectContext*secondMOC=self.managedObjectContext;
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
-    [[OperationQueues sharedQueue] addOperation:op];
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:nil];
+    [[OperationQueues importQueue] addOperation:op];
 }
 @end
 @implementation CannedSearch (ArticleListDictionaryRepresentation)
@@ -197,23 +193,19 @@
     for(NSDictionary*subDic in a){
         [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
     }
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC];
-    
-    __weak BatchImportOperation*weakOp=op;
-    op.completionBlock=^{
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:^(BatchImportOperation *weakOp) {
         NSSet*generated=weakOp.generated;
         if(!generated)return;
         if(generated.count==0)return;
-        [secondMOC performBlock:^{
+        [weakOp.secondMOC performBlock:^{
             for(Article*x in generated){
                 if(!(x.flag & AFIsFlagged)){
                     x.flag=(x.flag)|AFIsFlagged;
                 }
             }
-            [secondMOC save:NULL];
         }];
-    };
-    [[OperationQueues sharedQueue] addOperation:op];
+    }];
+    [[OperationQueues importQueue] addOperation:op];
 }
 +(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC
 {

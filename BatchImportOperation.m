@@ -24,12 +24,15 @@
     NSManagedObjectContext*secondMOC;
     NSMutableSet*generated;
     BOOL updatesCitations;
+    void (^whenDone)(BatchImportOperation*op);
 }
 @synthesize generated;
+@synthesize secondMOC;
 -(BatchImportOperation*)initWithProtoArticles:(NSArray *)d
                                 originalQuery:(NSString*)q
                              updatesCitations:(BOOL)b
                                      usingMOC:(NSManagedObjectContext *)moc_
+                                     whenDone:(void(^)(BatchImportOperation*op))wd
 {
     self=[super init];
     elements=d;
@@ -41,6 +44,7 @@
 	elements=[elements objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,cap)]];
     }*/
     secondMOC=moc_;
+    whenDone=wd;
     generated=[NSMutableSet set];
     return self;
 }
@@ -158,7 +162,9 @@
 {
     [secondMOC performBlockAndWait:^{
             [self batchAddEntriesOfSPIRES:elements];
-            [secondMOC save:NULL];
+            if(whenDone){
+                whenDone(self);
+            }
     }];
 }
 

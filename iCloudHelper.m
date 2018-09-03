@@ -7,6 +7,8 @@
 
 #import "iCloudHelper.h"
 
+// if EVICT is #define'd to be 1, try to evict all iCloud files for which isStatusCurrent is called
+#define EVICT 0
 
 @implementation NSURL (iCloudAddition)
 -(BOOL)isStatusCurrent
@@ -16,10 +18,17 @@
     BOOL isCurrent=[status isEqualToString:NSURLUbiquitousItemDownloadingStatusCurrent];
 //    NSLog(@"%@:%@",status,self);
     if(!isCurrent){
+#if EVICT!=1
         [[NSFileManager defaultManager] startDownloadingUbiquitousItemAtURL:self error:nil];
+#endif
         return NO;
     }else{
+#if EVICT!=1
         return YES;
+#else
+        [[NSFileManager defaultManager] evictUbiquitousItemAtURL:self error:nil];
+        return NO;
+#endif
     }
 }
 @end

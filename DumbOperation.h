@@ -12,6 +12,7 @@
 @interface OperationQueues : NSObject {
 }
 +(NSOperationQueue*)sharedQueue;
++(NSOperationQueue*)importQueue;
 +(NetworkOperationQueue*)spiresQueue;
 +(NetworkOperationQueue*)arxivQueue;
 +(void)cancelCurrentOperations;

@@ -15,6 +15,8 @@
 -(BatchImportOperation*)initWithProtoArticles:(NSArray*)d
                           originalQuery:(NSString*)q
                              updatesCitations:(BOOL)b
-                                     usingMOC:(NSManagedObjectContext*)moc_;
+                                     usingMOC:(NSManagedObjectContext*)moc
+                                     whenDone:(void(^)(BatchImportOperation*op))wd;
 @property(readonly) NSMutableSet*generated;
+@property(readonly) NSManagedObjectContext*secondMOC;
 @end
