@@ -217,7 +217,7 @@
 }
 +(NSArray*)notFoundArticleListsAfterMergingChildren:(NSArray*)children toArticleFolder:(ArticleFolder*)af usingMOC:(NSManagedObjectContext*)secondMOC
 {
-    NSLog(@"merging to folder:%@",af?af.name:@"toplevel");
+//    NSLog(@"merging to folder:%@",af?af.name:@"toplevel");
     NSArray*articleLists=[af.children allObjects];
     NSMutableArray*seen=[NSMutableArray array];
     if(!articleLists){

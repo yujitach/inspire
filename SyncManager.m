@@ -20,16 +20,17 @@
 
 #define SYNCDATAEXTENSION @"inspireSidebarContents"
 
+
 @interface ReadSnapshotFromFileOperation:ConcurrentOperation
--(instancetype)initWithFileName:(NSString*)f;
+-(instancetype)initWithFileName:(NSURL*)f;
 @property NSDictionary*snapShot;
 @end
 
 @implementation ReadSnapshotFromFileOperation
 {
-    NSString*file;
+    NSURL*file;
 }
--(instancetype)initWithFileName:(NSString*)f
+-(instancetype)initWithFileName:(NSURL*)f
 {
     self=[super init];
     file=f;
@@ -38,23 +39,18 @@
 -(void)run
 {
 #if TARGET_OS_IPHONE
-    NSArray*versions=[iCloudHelper findUnresolvedConflictingVersionsOfFile:file];
-    NSFileVersion*latestVersion=versions[0];
-    NSDate*latestDate=latestVersion.modificationDate;
-    for(NSFileVersion*version in versions){
-        NSLog(@"%@ versions found.",@(versions.count));
-        if([version.modificationDate laterDate:latestDate]){
-            latestVersion=version;
-            latestDate=latestVersion.modificationDate;
-        }
-    }
-    [iCloudHelper resolveConflictForFile:file withSelectedFileVersion:latestVersion];
-    [iCloudHelper retrieveCloudDocumentWithName:file completion:^(NSData *data) {
-        self.snapShot=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
-        [self finish];
-    }];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0),^{
+        [iCloudHelper retrieveCloudDocumentWithName:file completion:^(NSData *data) {
+            if(data){
+                self.snapShot=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
+            }else{
+                self.snapShot=nil;
+            }
+            [self finish];
+        }];
+    });
 #else
-    NSData*data=[NSData dataWithContentsOfFile:file];
+    NSData*data=[NSData dataWithContentsOfURL:file];
     self.snapShot=[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainers format:NULL error:NULL];
     [self finish];
 #endif
@@ -137,8 +133,9 @@
                     NSArray*a=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:listsSyncFolder error:NULL];
                     for(NSString*fileName in a){
                         if([fileName hasSuffix:SYNCDATAEXTENSION]){
-                            NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:[listsSyncFolder stringByAppendingPathComponent:fileName] error:NULL] fileModificationDate];
-                            [self stateChanged:fileName atDate:date];
+                            NSString*fullPath=[listsSyncFolder stringByAppendingPathComponent:fileName];
+                            NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:NULL] fileModificationDate];
+                            [self stateChanged:[NSURL fileURLwithPath:fullPath] atDate:date];
                         }
                     }
                 });
@@ -156,16 +153,7 @@
 }
 -(void)finishedGathering:(NSNotification*)n
 {
-    NSArray*items=query.results;
-    for(NSMetadataItem*item in items){
-        NSURL*f =[item valueForKey:NSMetadataItemURLKey];
-        NSString*fileName=[f lastPathComponent];
-        if([fileName hasSuffix:SYNCDATAEXTENSION]){
-            NSDate*date=nil;
-            [f getResourceValue:&date forKey:NSURLContentModificationDateKey error:NULL];
-            [self stateChanged:fileName atDate:date];
-        }
-    }
+    [self update:n];
     NSOperation*op=[NSBlockOperation blockOperationWithBlock:^{
         dispatch_async(dispatch_get_main_queue(),^{
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"initialMergeDone"];
@@ -176,25 +164,18 @@
 -(void)update:(NSNotification*)n
 {
     NSArray*items=query.results;
-    NSDate*latest=[NSDate dateWithTimeIntervalSince1970:0];
-    NSMetadataItem*latestItem=nil;
     for(NSMetadataItem*item in items){
-        NSString*fileName=[item valueForAttribute:NSMetadataItemFSNameKey];
-        if(![fileName hasSuffix:SYNCDATAEXTENSION])
+        NSURL*f =[item valueForKey:NSMetadataItemURLKey];
+        if(![f isStatusCurrent]){
             continue;
-        NSString*targetMachineName=[self machineNameFromSaveFileName:fileName];
+        }
+        if(![f.absoluteString hasSuffix:SYNCDATAEXTENSION])
+            continue;
+        NSString*targetMachineName=[self machineNameFromSaveFileName:f];
         if([targetMachineName isEqualToString:self.machineName])
             continue;
         NSDate*fileDate=[item valueForAttribute:NSMetadataItemFSContentChangeDateKey];
-        if([fileDate timeIntervalSinceDate:latest]>0){
-            latestItem=item;
-            latest=fileDate;
-        }
-    }
-    if(latestItem){
-        NSString*fileName=[latestItem valueForAttribute:NSMetadataItemFSNameKey];
-        NSDate*date=[latestItem valueForAttribute:NSMetadataItemFSContentChangeDateKey];
-        [self stateChanged:[fileName lastPathComponent] atDate:date];
+        [self stateChanged:f atDate:fileDate];
     }
 }
 #endif
@@ -214,8 +195,9 @@
 -(NSString*)saveFileName{
     return [NSString stringWithFormat:@"%@.%@",self.machineName,SYNCDATAEXTENSION];
 }
--(NSString*)machineNameFromSaveFileName:(NSString*)newFile{
-    NSMutableArray*a=[[newFile componentsSeparatedByString:@"."] mutableCopy];
+-(NSString*)machineNameFromSaveFileName:(NSURL*)newFile{
+    NSString*lastComponent=[newFile lastPathComponent];
+    NSMutableArray*a=[[lastComponent componentsSeparatedByString:@"."] mutableCopy];
     [a removeLastObject];
     NSString*targetMachineName=[a componentsJoinedByString:@"."];
     return targetMachineName;
@@ -254,13 +236,12 @@
 {
     NSLog(@"noted:%@",file);
     if([file hasSuffix:SYNCDATAEXTENSION]){
-        NSString*fileName=[file lastPathComponent];
-        NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:NULL] fileModificationDate];
-        [self stateChanged:fileName atDate:date];
+        NSDate*date=[[[NSFileManager defaultManager] attributesOfItemAtPath:file error:NULL] fileModificationDate];
+        [self stateChanged:[NSURL fileURLWithPath:file] atDate:date];
     }
 }
 
--(void)stateChanged:(NSString*)newFile atDate:(NSDate*)date{
+-(void)stateChanged:(NSURL*)newFile atDate:(NSDate*)date{
     NSString*targetMachineName=[self machineNameFromSaveFileName:newFile];
     if([targetMachineName isEqualToString:[self machineName]])
         return;
@@ -281,12 +262,7 @@
     
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];
-#if TARGET_OS_IPHONE
-    NSString*newFileX=newFile;
-#else
-    NSString*newFileX=[listsSyncFolder stringByAppendingPathComponent:newFile];
-#endif
-    ReadSnapshotFromFileOperation*rso=[[ReadSnapshotFromFileOperation alloc] initWithFileName:newFileX];
+    ReadSnapshotFromFileOperation*rso=[[ReadSnapshotFromFileOperation alloc] initWithFileName:newFile];
     [queue addOperation:rso];
     MergeSnapShotOperation*mso=[[MergeSnapShotOperation alloc] initWithPSO:pso andRSO:rso forTargetMachineName:targetMachineName];
     [queue addOperation:mso];

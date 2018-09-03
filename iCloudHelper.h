@@ -9,12 +9,17 @@
 
 // completion handlers can be called from non-main thread.
 
+@interface NSURL (iCloudAddition)
+-(BOOL)isStatusCurrent;
+@end
+
+
 @interface iCloudHelper : NSObject
 +(BOOL)iCloudAvailable;
 +(void)setupWithUbiquityContainerIdentifier:(NSString*)container completion:(void(^)(NSURL*ubiquityContainerURL))handler;
 +(NSMetadataQuery*)metadataQueryForExtension:(NSString*)extension;
 + (void)saveAndCloseDocumentWithName:(NSString *)documentName withContent:(NSData *)content completion:(void (^)(BOOL success))handler __attribute__((nonnull));
-+ (void)retrieveCloudDocumentWithName:(NSString *)documentName completion:(void (^)(NSData *documentData))handler __attribute__((nonnull));
++ (void)retrieveCloudDocumentWithName:(NSURL *)documentName completion:(void (^)(NSData *documentData))handler __attribute__((nonnull));
 
 /** Find all the conflicting versions of a specified document
  

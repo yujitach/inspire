@@ -28,6 +28,7 @@
 		331D7E301B7A32F500F598B5 /* ArticleListArchiveAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */; };
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
+		3322B028213CCBF400AA123D /* iCloudHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3322B027213CCBF400AA123D /* iCloudHelper.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332873C01BAA47F3005F8EC7 /* SpecificArticleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 332873BF1BAA47F3005F8EC7 /* SpecificArticleListTableViewController.m */; };
@@ -250,6 +251,8 @@
 		331FD3300F36B11800C16F73 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		33202EE010D9D8EA00EDB5A8 /* Migrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Migrator.h; sourceTree = "<group>"; };
 		33202EE110D9D8EA00EDB5A8 /* Migrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Migrator.m; sourceTree = "<group>"; };
+		3322B026213CCBF400AA123D /* iCloudHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudHelper.h; sourceTree = "<group>"; };
+		3322B027213CCBF400AA123D /* iCloudHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudHelper.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332873BE1BAA47F3005F8EC7 /* SpecificArticleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecificArticleListTableViewController.h; sourceTree = "<group>"; };
@@ -863,6 +866,8 @@
 		33CD56872137C582007C7943 /* Sync */ = {
 			isa = PBXGroup;
 			children = (
+				3322B026213CCBF400AA123D /* iCloudHelper.h */,
+				3322B027213CCBF400AA123D /* iCloudHelper.m */,
 				331D7E2E1B7A32F400F598B5 /* ArticleListArchiveAdditions.h */,
 				331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */,
 				33441FC01B79DC0F00A26198 /* SyncManager.h */,
@@ -1210,6 +1215,7 @@
 				33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */,
 				33BBA3AB1B8F3A910001366C /* ArticleData.m in Sources */,
 				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
+				3322B028213CCBF400AA123D /* iCloudHelper.m in Sources */,
 				33BBA3A61B8F3A910001366C /* CannedSearch.m in Sources */,
 				332FD069212D26D300D2EA01 /* PDFViewController.m in Sources */,
 				33BBA3BB1B8F3AE20001366C /* ArxivNewArticleListReloadOperation.m in Sources */,

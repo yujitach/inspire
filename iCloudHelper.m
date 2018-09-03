@@ -8,6 +8,23 @@
 #import "iCloudHelper.h"
 
 
+@implementation NSURL (iCloudAddition)
+-(BOOL)isStatusCurrent
+{
+    NSString*status=nil;
+    [self getResourceValue:&status forKey:NSURLUbiquitousItemDownloadingStatusKey error:nil];
+    BOOL isCurrent=[status isEqualToString:NSURLUbiquitousItemDownloadingStatusCurrent];
+//    NSLog(@"%@:%@",status,self);
+    if(!isCurrent){
+        [[NSFileManager defaultManager] startDownloadingUbiquitousItemAtURL:self error:nil];
+        return NO;
+    }else{
+        return YES;
+    }
+}
+@end
+
+
 //
 //  iCloudDocument.h
 //  iCloud Document Sync
@@ -157,18 +174,26 @@ static NSURL*ubiquityContainer;
         }
     }];
 }
-+ (void)retrieveCloudDocumentWithName:(NSString *)documentName completion:(void (^)(NSData *documentData))handler __attribute__((nonnull))
++ (void)retrieveCloudDocumentWithName:(NSURL *)fileURL completion:(void (^)(NSData *documentData))handler __attribute__((nonnull))
 {
 //    @try {
         // Get the URL to get the file from
-        NSURL *fileURL = [[self ubiquitousDocumentsDirectoryURL] URLByAppendingPathComponent:documentName];
-        
+        NSString*status;
+        [fileURL getResourceValue:&status forKey:NSURLUbiquitousItemDownloadingStatusKey
+ error:NULL];
+//    NSLog(@"%@:%@",status,fileURL);
+    if(![status isEqualToString:NSURLUbiquitousItemDownloadingStatusCurrent]){
+        NSLog(@"%@ is not downloaded",fileURL);
+        handler(nil);
+        return;
+    }
+    
+    
         // If the file exists open it; otherwise, create it
         if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
             
             // Create the UIDocument object from the URL
             iCloudDocument *document = [[iCloudDocument alloc] initWithFileURL:fileURL];
-            
             if (document.documentState & UIDocumentStateClosed) {
                 
                 [document openWithCompletionHandler:^(BOOL success){
