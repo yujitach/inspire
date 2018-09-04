@@ -102,8 +102,10 @@
     [self prepareFirstSnapshot];
 #if TARGET_OS_IPHONE
     if(![iCloudHelper iCloudAvailable]){
+        NSLog(@"iCloud not available");
         return self;
     }
+    NSLog(@"iCloud available; setting up syncing");
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
     [iCloudHelper setupWithUbiquityContainerIdentifier:nil completion:^(NSURL *ubiquityContainerURL) {
         if(!ubiquityContainerURL){
@@ -251,7 +253,7 @@
         return;
     }
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
-
+    NSLog(@"new sync data from %@ found",targetMachineName);
     
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];
@@ -348,6 +350,7 @@
             dispatch_async(dispatch_get_main_queue(),^{
                 NSLog(@"merge %@ mostly finished",targetMachineName);
             });
+
             if(!articleListsToBeRemoved){
                 [self finish];
                 return;
@@ -356,6 +359,7 @@
                 [self finish];
                 return;
             }
+ 
             NSArray*names=[articleListsToBeRemoved valueForKey:@"fullName"];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self confirmRemovalOfListsWithNames:names

@@ -22,17 +22,10 @@
 @implementation ArticleListTableViewController
 {
     UIBarButtonItem*otherButton;
-    IntroViewController*ivc;
-}
--(IBAction)closed:(id)sender
-{
-    [self dismissViewControllerAnimated:ivc completion:^{}];
 }
 -(IBAction)usage:(id)sender
 {
-    ivc=[[IntroViewController alloc] init];
-    ivc.delegate=self;
-    [self presentViewController:ivc animated:YES completion:^{}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showIntro" object:nil];
 }
 
 -(IBAction)writeToYuji:(id)sender
