@@ -47,6 +47,9 @@ static NSArray*observedKeys=nil;
 												   ofType:@"html"] 
 							  encoding:NSUTF8StringEncoding
 							     error:&error];
+    if([self isDark]){
+        templateForWebView=[templateForWebView stringByReplacingOccurrencesOfString:@"background-color:white;color:black;" withString:@"background-color:#292a30;color:white;"];
+    }
     [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
     
     observedKeys=@[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
