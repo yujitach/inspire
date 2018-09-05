@@ -86,13 +86,25 @@
 @implementation ArxivNewArticleList (ArticleListDictionaryRepresentation)
 -(void)loadFromDictionary:(NSDictionary *)dic
 {
-    // the difference from the vanila ArticleList is that we do register imported articles to the MOC, but not to the list itself. This is done in order to avoid the following situation: when you first launch the app, the app finds an update from other machine, slowly reading it, while you manually refresh the arxiv/new. Then the arxiv/new obtained from the web is often overwritten from other machine.
     NSMutableArray*lightweightArticles=[NSMutableArray array];
     for(NSDictionary*subDic in dic[@"articles"]){
         [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
     }
     NSManagedObjectContext*secondMOC=self.managedObjectContext;
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:nil];
+    NSDate*currentMergeSourceDate=[[NSUserDefaults standardUserDefaults] objectForKey:@"currentMergeSourceDate"];
+    NSDate*lastReloadDate=[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lastReloaded-%@",self.name]];
+    if(!lastReloadDate){
+        lastReloadDate=[NSDate dateWithTimeIntervalSince1970:0];
+    }
+    void (^block)(BatchImportOperation*op)=^(BatchImportOperation*weakOp){
+        NSSet*generated=weakOp.generated;
+        if(!generated)return;
+        if(generated.count==0)return;
+        [weakOp.secondMOC performBlock:^{
+            [self setArticles:generated];
+        }];
+    };
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:([currentMergeSourceDate timeIntervalSinceDate:lastReloadDate]>0)?block:nil];
     [[OperationQueues importQueue] addOperation:op];
 }
 @end

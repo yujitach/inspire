@@ -252,9 +252,10 @@
     if(lastSeen && [lastSeen timeIntervalSinceDate:date]>=0){
         return;
     }
-    [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
     NSLog(@"new sync data from %@ found",targetMachineName);
-    
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:@"currentMergeSourceDate"];
+
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];
     ReadSnapshotFromFileOperation*rso=[[ReadSnapshotFromFileOperation alloc] initWithFileName:newFile];

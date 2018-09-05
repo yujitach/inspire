@@ -25,6 +25,7 @@
 -(void)reload
 {
     [[OperationQueues arxivQueue] addOperation:[[ArxivNewArticleListReloadOperation alloc] initWithArxivNewArticleList:self]];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSinceNow:0] forKey:    [NSString stringWithFormat:@"lastReloaded-%@",self.name]];
 }
 #if TARGET_OS_IPHONE
 -(UIImage*)icon
