@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroViewController">
             <connections>
-                <outlet property="doneButton" destination="LAh-qf-fIR" id="PcY-B3-Ot1"/>
+                <outlet property="toolBar" destination="vAy-em-ngP" id="Z3J-0h-CKw"/>
                 <outlet property="tv" destination="4nB-OD-1ro" id="4ez-3X-axr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -26,13 +26,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="9b2-4T-yuq"/>
                     </constraints>
-                    <items>
-                        <barButtonItem title="OK" id="LAh-qf-fIR">
-                            <connections>
-                                <action selector="close:" destination="-1" id="XaE-V7-ypX"/>
-                            </connections>
-                        </barButtonItem>
-                    </items>
+                    <items/>
                 </toolbar>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4nB-OD-1ro">
                     <rect key="frame" x="0.0" y="20" width="375" height="603"/>

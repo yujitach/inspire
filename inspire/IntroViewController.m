@@ -6,10 +6,7 @@
 //
 
 #import "IntroViewController.h"
-
-@interface IntroViewController ()
-
-@end
+#import "MergeNotifyingBarButtonItem.h"
 
 @implementation IntroViewController
 {
@@ -27,22 +24,13 @@
     NSURL* url=[[NSBundle mainBundle] URLForResource:@"intro" withExtension:@"rtfd"];
     NSAttributedString*s=[[NSAttributedString alloc] initWithURL:url options:@{} documentAttributes:nil error:nil];
     self.tv.attributedText=s;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(merging:) name:@"merging" object:nil];
-    self.doneButton.enabled=NO;
-    self.doneButton.title=@"initializing...";
     timer=[NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timerr) {
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"initialMergeDone"]){
             [self initialMergeDone:nil];
         }
     }];
-}
--(void)merging:(NSNotification*)n
-{
-    if(initialMergeDone)
-        return;
-    NSString*target=n.object;
-    self.doneButton.enabled=NO;
-    self.doneButton.title=[NSString stringWithFormat:@"merging from %@ ...",target];
+    self.doneButton=[[MergeNotifyingBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStylePlain target:self action:@selector(close:)];
+    self.toolBar.items=@[self.doneButton];
 }
 -(void)initialMergeDone:(NSNotification*)n
 {

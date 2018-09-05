@@ -337,17 +337,24 @@
     NSManagedObjectContext*secondMOC=[[MOC sharedMOCManager]createSecondaryMOC];
     [secondMOC performBlockAndWait:^{
         dispatch_async(dispatch_get_main_queue(),^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"merging" object:targetMachineName];
+            [[NSUserDefaults standardUserDefaults] setObject:targetMachineName forKey:@"mergingFrom"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"willMerge" object:targetMachineName];
             NSLog(@"merge %@ started",targetMachineName);
         });
         NSArray*articleListsToBeRemoved=[ArticleList notFoundArticleListsAfterMergingChildren:snapShotFromFile[@"children"] toArticleFolder:nil usingMOC:secondMOC];
         [ArticleList populateFlaggedArticlesFrom:snapShotFromFile[@"flagged"] usingMOC:secondMOC];
         [ArticleList rearrangePositionInViewInMOC:secondMOC];
         [[OperationQueues importQueue] addOperationWithBlock:^{
+            dispatch_async(dispatch_get_main_queue(),^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"doMerge" object:targetMachineName];
+                NSLog(@"merge %@ in foreground; might block UI",targetMachineName);
+            });
             [secondMOC performBlockAndWait:^{
                 [secondMOC save:NULL];
             }];
             dispatch_async(dispatch_get_main_queue(),^{
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"mergingFrom"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"didMerge" object:targetMachineName];
                 NSLog(@"merge %@ mostly finished",targetMachineName);
             });
 

@@ -60,6 +60,7 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
+		335288C6213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */; };
 		335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E51B929F8800998E48 /* AddFolderViewController.m */; };
 		335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */; };
 		3365B1800EA7FF2F00A847CE /* SpiresHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3365B17F0EA7FF2F00A847CE /* SpiresHelper.m */; };
@@ -301,6 +302,8 @@
 		334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleFolder.m; sourceTree = "<group>"; };
 		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
+		335288C4213F6EB1002DD29A /* MergeNotifyingBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MergeNotifyingBarButtonItem.h; sourceTree = "<group>"; };
+		335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MergeNotifyingBarButtonItem.m; sourceTree = "<group>"; };
 		335EB4E41B929F8800998E48 /* AddFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFolderViewController.h; sourceTree = "<group>"; };
 		335EB4E51B929F8800998E48 /* AddFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFolderViewController.m; sourceTree = "<group>"; };
 		335EB4E71B92A0C900998E48 /* AddArxivNewContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddArxivNewContoller.h; sourceTree = "<group>"; };
@@ -872,6 +875,8 @@
 				331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */,
 				33441FC01B79DC0F00A26198 /* SyncManager.h */,
 				33441FC11B79DC0F00A26198 /* SyncManager.m */,
+				335288C4213F6EB1002DD29A /* MergeNotifyingBarButtonItem.h */,
+				335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */,
 			);
 			name = Sync;
 			sourceTree = "<group>";
@@ -1252,6 +1257,7 @@
 				33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */,
 				33BBA3C41B8F3B150001366C /* SpiresHelper.m in Sources */,
 				33BBA3A11B8F3A910001366C /* InspireXMLParser.m in Sources */,
+				335288C6213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

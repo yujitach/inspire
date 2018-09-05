@@ -17,6 +17,7 @@
 #import "SpecificArticleListTableViewController.h"
 #import "ArticleList.h"
 #import "MOC.h"
+#import "MergeNotifyingBarButtonItem.h"
 
 
 @implementation ArticleViewController
@@ -83,7 +84,7 @@
                                                            target:self
                                                            action:@selector(pdf:)
                            ];
-    otherButton=          [[UIBarButtonItem alloc]  initWithTitle:@"menu"
+    otherButton=          [[MergeNotifyingBarButtonItem alloc]  initWithTitle:@"menu"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(other:)

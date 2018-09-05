@@ -14,6 +14,7 @@
 #import "ArticleFolder.h"
 #import "MOC.h"
 #import "SpecificArticleListTableViewController.h"
+#import "MergeNotifyingBarButtonItem.h"
 
 @interface ArticleListTableViewController ()
 
@@ -42,7 +43,7 @@
     UIAlertController*ac=[UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction*u=[UIAlertAction actionWithTitle:@"usage" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self usage:nil];}];
-    UIAlertAction*y=[UIAlertAction actionWithTitle:@"write to Yuji" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self writeToYuji:nil];}];
+    UIAlertAction*y=[UIAlertAction actionWithTitle:@"send comments to yuji" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self writeToYuji:nil];}];
 
     UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil];
     
@@ -62,7 +63,7 @@
     self.navigationItem.leftItemsSupplementBackButton=YES;
     self.detailViewController = (ArticleTableViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
-    otherButton=         [[UIBarButtonItem alloc]  initWithTitle:@"menu"
+    otherButton=         [[MergeNotifyingBarButtonItem alloc]  initWithTitle:@"menu"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(other:)
@@ -75,6 +76,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
+    self.navigationController.toolbarHidden=NO;
     [super viewWillAppear:animated];
 }
 

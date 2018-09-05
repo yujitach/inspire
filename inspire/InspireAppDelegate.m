@@ -183,13 +183,16 @@ static InspireAppDelegate*globalAppDelegate=nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showIntro:) name:@"showIntro" object:nil];
     
+    
+    return YES;
+}
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if(![[NSUserDefaults standardUserDefaults] boolForKey:@"introShown"]){
             [self showIntro:nil];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"introShown"];
         }
     });
-    
     return YES;
 }
 -(void)showIntro:(NSNotification*)n
