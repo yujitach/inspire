@@ -32,6 +32,11 @@
     self.doneButton=[[MergeNotifyingBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStylePlain target:self action:@selector(close:)];
     self.toolBar.items=@[self.doneButton];
 }
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.tv.contentOffset=CGPointZero;
+}
 -(void)initialMergeDone:(NSNotification*)n
 {
     initialMergeDone=YES;
