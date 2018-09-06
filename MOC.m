@@ -125,6 +125,9 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
 
 -(NSString*)dataFilePath
 {
+#if TARGET_OS_IPHONE
+    return [[self applicationSupportFolder] stringByAppendingPathComponent:@"spiresDatabase.sqlite"];
+#else
     NSString* extension=[[NSUserDefaults standardUserDefaults] stringForKey:@"CoreDataStoreType"];
     NSString* debug=@"";
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"]){
@@ -135,6 +138,7 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
 	extension=@".sqlite";
     }
     return [[self applicationSupportFolder] stringByAppendingPathComponent: [NSString stringWithFormat:@"spiresDatabase%@%@",debug,extension]];
+#endif
 }
 
 -(NSString*)storeType
@@ -188,18 +192,18 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
     }
 #endif
     
-#if TARGET_OS_IPHONE
-    NSURL*docDir=[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL*dataURL=[docDir URLByAppendingPathComponent:@"spiresDatabase.sqlite"];
-#else
     NSURL*dataURL=[NSURL fileURLWithPath:[self dataFilePath]];
-#endif
     
     NSError*error=nil;
     if (![persistentStoreCoordinator addPersistentStoreWithType:[self storeType]
 						  configuration:nil 
 							    URL:dataURL
+#if TARGET_OS_IPHONE
+                            options:@{}
+#else
 							options:@{NSSQLitePragmasOption:@{ @"journal_mode" :@"DELETE" }}
+#endif
+
 							  error:&error]){
 //        [[NSApplication sharedApplication] presentError:error];
     }
