@@ -327,7 +327,7 @@
 }
 -(void)tweakTableViewFonts
 {
-    if([NSFont respondsToSelector:@selector(monospacedDigitSystemFontOfSize:weight:)]){
+    if(@available(macOS 10.11, *)){
         for(NSTableColumn*col in [articleListView tableColumns]){
             NSString*title=col.title;
             if([title isEqualToString:@"eprint"]||[title isEqualToString:@"cites"]){
