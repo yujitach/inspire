@@ -95,17 +95,17 @@
     self=[super init];
     queue=[[NSOperationQueue alloc] init];
     queue.maxConcurrentOperationCount=1;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(saveNotified:)
-                                                 name:NSManagedObjectContextDidSaveNotification
-                                               object:nil];
-    [self prepareFirstSnapshot];
 #if TARGET_OS_IPHONE
     if(![iCloudHelper iCloudAvailable]){
         NSLog(@"iCloud not available");
         return self;
     }
     NSLog(@"iCloud available; setting up syncing");
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(saveNotified:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:nil];
+    [self prepareFirstSnapshot];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
     [iCloudHelper setupWithUbiquityContainerIdentifier:nil completion:^(NSURL *ubiquityContainerURL) {
         if(!ubiquityContainerURL){
@@ -131,6 +131,11 @@
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"doSync"]){
                 dispatch_async(dispatch_get_main_queue(),^{
                     NSLog(@"enabling iCloud sync");
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                             selector:@selector(saveNotified:)
+                                                                 name:NSManagedObjectContextDidSaveNotification
+                                                               object:nil];
+                    [self prepareFirstSnapshot];
                     dw=[[DirWatcher alloc] initWithPath:listsSyncFolder delegate:self];
                     NSArray*a=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:listsSyncFolder error:NULL];
                     for(NSString*fileName in a){
