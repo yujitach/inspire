@@ -91,20 +91,7 @@
         [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
     }
     NSManagedObjectContext*secondMOC=self.managedObjectContext;
-    NSDate*currentMergeSourceDate=[[NSUserDefaults standardUserDefaults] objectForKey:@"currentMergeSourceDate"];
-    NSDate*lastReloadDate=[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lastReloaded-%@",self.name]];
-    if(!lastReloadDate){
-        lastReloadDate=[NSDate dateWithTimeIntervalSince1970:0];
-    }
-    void (^block)(BatchImportOperation*op)=^(BatchImportOperation*weakOp){
-        NSSet*generated=weakOp.generated;
-        if(!generated)return;
-        if(generated.count==0)return;
-        [weakOp.secondMOC performBlock:^{
-            [self setArticles:generated];
-        }];
-    };
-    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:([currentMergeSourceDate timeIntervalSinceDate:lastReloadDate]>0)?block:nil];
+    BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:nil];
     [[OperationQueues importQueue] addOperation:op];
 }
 @end

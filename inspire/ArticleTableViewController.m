@@ -18,6 +18,7 @@
 #import "SpecificArticleListTableViewController.h"
 #import "SimpleArticleList.h"
 #import "AllArticleList.h"
+#import "ArxivNewArticleList.h"
 
 @interface ArticleTableViewController ()
 
@@ -229,7 +230,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"eprintForSorting" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"eprintForSorting" ascending:[self.articleList isKindOfClass:[ArxivNewArticleList class]]?YES:NO];
     
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
