@@ -420,7 +420,7 @@
 }
 -(NSAttributedString*)attributedTitle
 {
-    if([self.title containsString:@"$"] || [self.title containsString:@"\\"]){
+    if([self.title containsString:@"$"] || [self.title containsString:@"\\"] || [self.title containsString:@"^"] || [self.title containsString:@"_"]){
         return [self.title mockTeXed];
     }else{
         return [[NSAttributedString alloc] initWithString:self.quieterTitle];
