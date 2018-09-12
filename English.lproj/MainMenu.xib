@@ -315,8 +315,8 @@
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" id="Tho-Qg-PyY"/>
                                                                         </imageView>
-                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" id="RMc-8a-Y9m">
-                                                                            <rect key="frame" x="25" y="0.0" width="137" height="17"/>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" allowsExpansionToolTips="YES" id="RMc-8a-Y9m">
+                                                                            <rect key="frame" x="21" y="1" width="137" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="LEu-FB-DSZ">
                                                                                 <font key="font" metaFont="system"/>
