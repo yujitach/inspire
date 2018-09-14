@@ -49,7 +49,6 @@
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
 		33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FBE1B79B5F700A26198 /* LightweightArticle.m */; };
 		33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FC11B79DC0F00A26198 /* SyncManager.m */; };
-		3348A16321269C0800036EAF /* v1.8.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3348A16221269C0700036EAF /* v1.8.0alert.rtf */; };
 		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		334A5DCE2133CFBD005C024B /* MyOutlineCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A5DCD2133CFBD005C024B /* MyOutlineCellView.m */; };
 		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
@@ -60,6 +59,7 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
+		334FD88C214B58250018FF16 /* v1.8.1alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 334FD88B214B58250018FF16 /* v1.8.1alert.rtf */; };
 		335288C6213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */; };
 		335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E51B929F8800998E48 /* AddFolderViewController.m */; };
 		335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */; };
@@ -286,7 +286,6 @@
 		33441FC11B79DC0F00A26198 /* SyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncManager.m; sourceTree = "<group>"; };
 		33441FC31B79E6AE00A26198 /* ProtoArticle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProtoArticle.h; sourceTree = "<group>"; };
 		3347D2E6212A6EB0008669EF /* spires.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = spires.entitlements; sourceTree = "<group>"; };
-		3348A16221269C0700036EAF /* v1.8.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.8.0alert.rtf; sourceTree = "<group>"; };
 		3348F70F133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspireCitationNumberRefreshOperation.h; sourceTree = "<group>"; };
 		3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspireCitationNumberRefreshOperation.m; sourceTree = "<group>"; };
 		334A5DCC2133CFBD005C024B /* MyOutlineCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyOutlineCellView.h; sourceTree = "<group>"; };
@@ -302,6 +301,7 @@
 		334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleFolder.m; sourceTree = "<group>"; };
 		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
+		334FD88B214B58250018FF16 /* v1.8.1alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.8.1alert.rtf; sourceTree = "<group>"; };
 		335288C4213F6EB1002DD29A /* MergeNotifyingBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MergeNotifyingBarButtonItem.h; sourceTree = "<group>"; };
 		335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MergeNotifyingBarButtonItem.m; sourceTree = "<group>"; };
 		335EB4E41B929F8800998E48 /* AddFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFolderViewController.h; sourceTree = "<group>"; };
@@ -749,7 +749,7 @@
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
 				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				3348A16221269C0700036EAF /* v1.8.0alert.rtf */,
+				334FD88B214B58250018FF16 /* v1.8.1alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 			);
 			name = Resources;
@@ -1175,7 +1175,6 @@
 				3304B8630F92C7B1002156A9 /* canned-search.png in Resources */,
 				334A6D260F96E02E005BC4A2 /* flagged.png in Resources */,
 				334A6D270F96E02E005BC4A2 /* unread.png in Resources */,
-				3348A16321269C0800036EAF /* v1.8.0alert.rtf in Resources */,
 				334A6DAD0F96EC49005BC4A2 /* Localizable.strings in Resources */,
 				332F485D0FF8748700B9363E /* hasPDF.png in Resources */,
 				33EBAF280FF9B3B10076F6AC /* TeXWatcher.xib in Resources */,
@@ -1190,6 +1189,7 @@
 				33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
+				334FD88C214B58250018FF16 /* v1.8.1alert.rtf in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
 				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
