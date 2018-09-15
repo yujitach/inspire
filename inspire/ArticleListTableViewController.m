@@ -31,11 +31,12 @@
 
 -(IBAction)writeToYuji:(id)sender
 {
-    NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+    NSString* build=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+    NSString* version=[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
     NSURLComponents*u=[[NSURLComponents alloc] initWithString:@"mailto:yuji.tachikawa@ipmu.jp"];
     u.query=[NSString stringWithFormat:
-             @"subject=inspire.app Bugs/Suggestions for v.%@",
-             version];
+             @"subject=inspire.app Bugs/Suggestions for v %@ (build %@)",
+             version,build];
     [[UIApplication sharedApplication] openURL:u.URL options:@{} completionHandler:^(BOOL success) {}];
 }
 -(IBAction)other:(id)sender
