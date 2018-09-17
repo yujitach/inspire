@@ -431,10 +431,6 @@
 		33D02B131B9094D700C6648C /* ArticleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleTableViewCell.m; sourceTree = "<group>"; };
 		33D1FEF3212E88A20090A401 /* folder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder@2x.png"; sourceTree = "<group>"; };
 		33D1FEF4212E88A30090A401 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
-		33D5CEC11BB6E89400B87F05 /* iCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloud.h; sourceTree = "<group>"; };
-		33D5CEC21BB6E89400B87F05 /* iCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloud.m; sourceTree = "<group>"; };
-		33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudDocument.h; sourceTree = "<group>"; };
-		33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudDocument.m; sourceTree = "<group>"; };
 		33D8AA900EAA69C800619A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = RegExKitLite/RegexKitLite.m; sourceTree = "<group>"; };
 		33DFC3BD156BCEB900C98E8E /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = RegExKitLite/RegexKitLite.h; sourceTree = "<group>"; };
@@ -723,7 +719,6 @@
 		339579BF0F3ED25C0036364A /* OpenSourceComponents */ = {
 			isa = PBXGroup;
 			children = (
-				33D5CEC01BB6E87C00B87F05 /* iCloudSync */,
 				33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */,
 				33DFC3BD156BCEB900C98E8E /* RegexKitLite.h */,
 				33A5EAE20EA5D68C00DAE784 /* TableView Additions */,
@@ -916,17 +911,6 @@
 				33CDDBD51B8F137B003D993D /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		33D5CEC01BB6E87C00B87F05 /* iCloudSync */ = {
-			isa = PBXGroup;
-			children = (
-				33D5CEC11BB6E89400B87F05 /* iCloud.h */,
-				33D5CEC21BB6E89400B87F05 /* iCloud.m */,
-				33D5CEC31BB6E89400B87F05 /* iCloudDocument.h */,
-				33D5CEC41BB6E89400B87F05 /* iCloudDocument.m */,
-			);
-			name = iCloudSync;
 			sourceTree = "<group>";
 		};
 		33EBAF1F0FF9B32A0076F6AC /* TeXWatcher */ = {
