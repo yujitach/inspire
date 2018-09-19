@@ -23,7 +23,9 @@
 }
 -(void)awakeFromNib
 {
-    [tv readRTFDFromFile:pathToRTF];
+    NSMutableAttributedString*x=[[NSMutableAttributedString alloc] initWithPath:pathToRTF documentAttributes:nil];
+    [x addAttribute:NSForegroundColorAttributeName value:[NSColor textColor] range:NSMakeRange(0, x.length)];
+    [tv.textStorage appendAttributedString:x];
     annoyingTimer=[NSTimer scheduledTimerWithTimeInterval:2
 						   target:self 
 						 selector:@selector(show:) 
