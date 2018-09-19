@@ -35,7 +35,7 @@
 {
     if(!s)
         return;
-    NSColor*color=[NSColor blackColor];
+    NSColor*color=[NSColor textColor];
     if([s rangeOfString:@"modified"].location!=NSNotFound){
 	color=[NSColor colorWithCalibratedRed:0.665f green:0.052f blue:0.569f alpha:1.000f];
     }else if([s rangeOfString:@"watch"].location!=NSNotFound){
