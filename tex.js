@@ -48,6 +48,7 @@ var htmlTeXRegExps=[
 ["\\\\\"([aeiou])","&$1uml;"],
 ["\\\\\"\\{([aeiou])\\}","&$1uml;"],
 // To rip off extra $'s
+["\\$\\$([^\\$]+)\\$\\$","<blockquote><span class=\"equation\">$1</span></blockquote>"],
 ["\\$([^\\$]+)\\$","<span class=\"equation\">$1</span>"],
 ["&lt;-&gt;","↔"],
 ["\\\\v\\{r\\}","ř"],
