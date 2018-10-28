@@ -359,7 +359,21 @@
     [alert runModal];
     [NSApp terminate:nil];
 }
-
+-(void)mirrorCheck
+{
+    NSString*mirrorToUse=[[NSUserDefaults standardUserDefaults] stringForKey:@"mirrorToUse"];
+    if(![mirrorToUse isEqualToString:@""]){
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"mirrorToUse"];
+        NSAlert*alert=[[NSAlert alloc] init];
+        alert.messageText=@"This app no longer uses arXiv mirrors";
+        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:@"Write to Yuji"];
+        alert.informativeText=[NSString stringWithFormat:@"You set up this app to use %@arxiv.org long time ago. But arXiv mirrors are slowly taken down due to arXiv policy. This app no longer use the mirrors. If you think using mirror servers are essentiall, please do email to me.",mirrorToUse];
+        if([alert runModal]==NSAlertSecondButtonReturn){
+            [self sendBugReport:self];
+        };
+    }
+}
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
     if([self isRunningOnReadOnlyVolume]){
@@ -368,6 +382,7 @@
     [self setupServices];
     [self crashCheck:self];
     [self showWelcome];
+    [self mirrorCheck];
 
     [sideOutlineViewController loadArticleLists];
     [sideOutlineViewController attachToMOC];

@@ -93,21 +93,9 @@
 	<key>arXivMirrors</key>
 	<array>
 		<string></string>
-		<string>au.</string>
-		<string>br.</string>
 		<string>cn.</string>
 		<string>de.</string>
-		<string>es.</string>
-		<string>fr.</string>
-		<string>il.</string>
 		<string>in.</string>
-		<string>it.</string>
-		<string>jp.</string>
-		<string>kr.</string>
-		<string>tw.</string>
-		<string>ru.</string>
-		<string>uk.</string>
-		<string>aps.</string>
 		<string>lanl.</string>
 	</array>
 	<key>arXivWaitInSeconds</key>
