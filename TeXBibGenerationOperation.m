@@ -253,8 +253,13 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         }else{
             Article*a=keyToArticle[key];
             if(a){
-                if(!a.journal){
+                if(!a.journal || !a.doi){
                     [notFound addObject:idForKey];
+                }else{
+                    NSString*bibtex=[a extraForKey:@"bibtex"];
+                    if(![bibtex containsString:@"doi"]){
+                        [notFound addObject:idForKey];
+                    }
                 }
             }else{
                 if( [idForKey rangeOfString:@":"].location!=NSNotFound){
@@ -270,7 +275,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             [[NSApp appDelegate] addToTeXLog:@" not found in local database. Looking up...\n"];
         }else{
             [[NSApp appDelegate] addToTeXLog:logString];
-            [[NSApp appDelegate] addToTeXLog:@" don't have journal entries. Looking up...\n"];
+            [[NSApp appDelegate] addToTeXLog:@" don't have journal and/or doi entries. Looking up...\n"];
         }
     }
 }
@@ -321,7 +326,11 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
             [result appendString:entry];
             continue;
         }
-        if([[entry lowercaseString] containsString:@"journal"]||[[entry lowercaseString] containsString:@"booktitle"]){
+        if([[entry lowercaseString] containsString:@"booktitle"]){
+            [result appendString:entry];
+            continue;
+        }
+        if([[entry lowercaseString] containsString:@"journal"]&&[[entry lowercaseString] containsString:@"doi"]){
             [result appendString:entry];
             continue;
         }
