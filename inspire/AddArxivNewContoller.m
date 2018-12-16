@@ -18,7 +18,7 @@
 }
 -(NSArray*)content
 {
-    return @[@"new",@"recent",@"replaced"];
+    return @[@"new",@"recent",@"replaced",@"cross-list"];
 }
 -(IBAction)create:(id)sender
 {
