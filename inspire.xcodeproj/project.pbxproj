@@ -415,7 +415,7 @@
 		33CD56812137B865007C7943 /* IntroViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 		33CD56822137B865007C7943 /* IntroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroViewController.xib; sourceTree = "<group>"; };
 		33CD56852137BB2D007C7943 /* intro.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = intro.rtfd; sourceTree = "<group>"; };
-		33CDDBD21B8F137B003D993D /* inspire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inspire.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33CDDBD21B8F137B003D993D /* inspire browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "inspire browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CDDBD51B8F137B003D993D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33CDDBD71B8F137B003D993D /* InspireAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspireAppDelegate.h; sourceTree = "<group>"; };
 		33CDDBD81B8F137B003D993D /* InspireAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspireAppDelegate.m; sourceTree = "<group>"; };
@@ -547,7 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* spires.app */,
-				33CDDBD21B8F137B003D993D /* inspire.app */,
+				33CDDBD21B8F137B003D993D /* inspire browser.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1012,9 +1012,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		33CDDBD11B8F137B003D993D /* inspire */ = {
+		33CDDBD11B8F137B003D993D /* inspire browser */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 33CDDBEE1B8F137C003D993D /* Build configuration list for PBXNativeTarget "inspire" */;
+			buildConfigurationList = 33CDDBEE1B8F137C003D993D /* Build configuration list for PBXNativeTarget "inspire browser" */;
 			buildPhases = (
 				33CDDBCE1B8F137B003D993D /* Sources */,
 				33CDDBCF1B8F137B003D993D /* Frameworks */,
@@ -1024,9 +1024,9 @@
 			);
 			dependencies = (
 			);
-			name = inspire;
+			name = "inspire browser";
 			productName = inspire;
-			productReference = 33CDDBD21B8F137B003D993D /* inspire.app */;
+			productReference = 33CDDBD21B8F137B003D993D /* inspire browser.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8D1107260486CEB800E47090 /* spires */ = {
@@ -1101,7 +1101,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* spires */,
-				33CDDBD11B8F137B003D993D /* inspire */,
+				33CDDBD11B8F137B003D993D /* inspire browser */,
 			);
 		};
 /* End PBXProject section */
@@ -1652,7 +1652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		33CDDBEE1B8F137C003D993D /* Build configuration list for PBXNativeTarget "inspire" */ = {
+		33CDDBEE1B8F137C003D993D /* Build configuration list for PBXNativeTarget "inspire browser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				33CDDBEC1B8F137C003D993D /* Debug */,
