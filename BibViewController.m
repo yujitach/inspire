@@ -54,18 +54,22 @@
 }
 -(void)setArticles:(NSArray*)a
 {
+/*
     if(articles){
 	for(Article*article in articles){
 	    [article removeObserver:self forKeyPath:@"texKey"];
 	}
     }
+ */
     articles=a;
+/*
     for(Article*article in articles){
 	[article addObserver:self
 		  forKeyPath:@"texKey"
 		     options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 		     context:nil];
     }
+ */
     [self refresh];
 }
 -(void)awakeFromNib

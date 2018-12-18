@@ -158,12 +158,15 @@ static NSArray*observedKeys=nil;
 }
 -(void)setArticle:(Article*)a
 {
+/*
     if(article && article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 	    [article removeObserver:self forKeyPath:i];
 	}
     }
+ */
     article=a;
+/*
     if(article&& article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
 	for(NSString* i in observedKeys){
 		[article addObserver:self
@@ -172,7 +175,7 @@ static NSArray*observedKeys=nil;
 			     context:nil];
 	}
     }
-    
+ */
     [self refresh];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
