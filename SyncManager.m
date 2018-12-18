@@ -372,7 +372,10 @@
                 return;
             }
  
-            NSArray*names=[articleListsToBeRemoved valueForKey:@"fullName"];
+            NSArray __block *names;
+            [secondMOC performBlockAndWait:^{
+                names=[articleListsToBeRemoved valueForKey:@"fullName"];
+            }];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self confirmRemovalOfListsWithNames:names
                                            onMachine:targetMachineName
