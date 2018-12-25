@@ -57,6 +57,7 @@
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
+            condition = "(BOOL)[NSThread isMainThread]"
             continueAfterRunningActions = "Yes"
             symbolName = "-[NSManagedObject(_NSInternalMethods) _didChangeValue:forRelationship:named:withInverse:]"
             moduleName = "">
@@ -65,12 +66,6 @@
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
                      consoleCommand = "po $rdi">
-                  </ActionContent>
-               </BreakpointActionProxy>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po (char*)$rsi">
                   </ActionContent>
                </BreakpointActionProxy>
                <BreakpointActionProxy
@@ -90,6 +85,32 @@
                   usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">
                </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "Yes"
+            symbolName = " -[NSManagedObject(_NSInternalMethods) _includeObject:intoPropertyWithKey:andIndex:]"
+            moduleName = "">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po $rdi">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po $rcx">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
+            <Locations>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
