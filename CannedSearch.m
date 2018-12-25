@@ -25,6 +25,11 @@
 -(void)reloadLocalWithCap:(NSUInteger)cap
 {
 //    NSLog(@"locally reloading canned search %@", self.name);
+    if(self.managedObjectContext != [MOC moc]){
+        // the way I wrote the cacheing feature of CannedSearch is totally fload.
+        // This is an ad-hoc way to stop updating unless it's from the UI moc.
+        return;
+    }
     if(![self searchString] || [[self searchString] isEqualToString:@""] || [[self searchString] length]<5){
 	return;
     }
