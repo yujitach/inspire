@@ -55,7 +55,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             condition = "(BOOL)[NSThread isMainThread]"
             continueAfterRunningActions = "Yes"
@@ -77,7 +77,7 @@
             </Actions>
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[NSManagedObject(_NSInternalMethods) _didChangeValue:forRelationship:named:withInverse:]"

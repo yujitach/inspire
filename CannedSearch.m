@@ -30,6 +30,10 @@
         // This is an ad-hoc way to stop updating unless it's from the UI moc.
         return;
     }
+    if([MOC sharedMOCManager].isMerging){
+        // This is also an ad-hoc code to stop updating while merging...
+        return;
+    }
     if(![self searchString] || [[self searchString] isEqualToString:@""] || [[self searchString] length]<5){
 	return;
     }

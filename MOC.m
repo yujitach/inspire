@@ -249,7 +249,9 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
     if(moc!=uiManagedObjectContext){
         // this is from secondary context, need to merge
         [uiManagedObjectContext performBlock:^{
+            self.isMerging=YES;
             [uiManagedObjectContext mergeChangesFromContextDidSaveNotification:n];
+            self.isMerging=NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:UIMOCDidMergeNotification object:nil];
         }];
     }

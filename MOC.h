@@ -28,4 +28,5 @@ extern NSString* UIMOCDidMergeNotification;
 -(void)presentMOCSaveError:(NSError*)error;
 -(void)vacuum;
 @property(assign) BOOL isUIready;
+@property(assign) BOOL isMerging;
 @end
