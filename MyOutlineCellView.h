@@ -10,6 +10,6 @@
 @class SideOutlineViewController;
 @interface MyOutlineCellView : NSTableCellView
 @property (nullable,assign) IBOutlet NSButton*button;
-@property (nonatomic,retain)ArticleList*articleList;
-@property (nonatomic,retain) IBOutlet SideOutlineViewController*sideOutlineViewController;
+@property (nullable,nonatomic,retain)ArticleList*articleList;
+@property (nullable,nonatomic,retain) IBOutlet SideOutlineViewController*sideOutlineViewController;
 @end
