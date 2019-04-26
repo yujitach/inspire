@@ -218,7 +218,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -241,7 +240,8 @@
 		331299100EA6AA4500A7F496 /* SimpleArticleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleArticleList.m; sourceTree = "<group>"; };
 		3315E8590EB6DAB200E56D7E /* HistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryController.h; sourceTree = "<group>"; };
 		3315E85A0EB6DAB200E56D7E /* HistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
-		331AAB620EB7D9C5000AB5D0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		33190E312273186000F9D05A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		33190E322273186000F9D05A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		331C8F0E0F4CC84300779F05 /* NSString+magic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+magic.h"; sourceTree = "<group>"; };
 		331C8F0F0F4CC84300779F05 /* NSString+magic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+magic.m"; sourceTree = "<group>"; };
 		331D7E2E1B7A32F400F598B5 /* ArticleListArchiveAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListArchiveAdditions.h; sourceTree = "<group>"; };
@@ -1087,14 +1087,11 @@
 			};
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "inspire" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				Base,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* spires */;
 			projectDirPath = "";
@@ -1331,7 +1328,7 @@
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				33190E312273186000F9D05A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1339,7 +1336,7 @@
 		331AAB610EB7D9C5000AB5D0 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				331AAB620EB7D9C5000AB5D0 /* English */,
+				33190E322273186000F9D05A /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
