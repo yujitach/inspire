@@ -1037,6 +1037,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				33EBF0360EA5BFD40050B64A /* CopyFiles */,
+				333F8D5422B8962500AD3914 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1067,8 +1068,11 @@
 					};
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = 95AQ7YKR5A;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
@@ -1179,6 +1183,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		333F8D5422B8962500AD3914 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n# If a code signing identity is not specified, use ad hoc signing\nIDENTITY=\"-\"\nfi\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		33CDDBCE1B8F137B003D993D /* Sources */ = {
@@ -1367,11 +1391,12 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = spires.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 95AQ7YKR5A;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1394,8 +1419,7 @@
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
-				PROVISIONING_PROFILE = "1663110b-5eed-4e1e-8abd-87f8fa6e12ae";
-				PROVISIONING_PROFILE_SPECIFIER = "spires distribution profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
@@ -1413,11 +1437,12 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = spires.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 95AQ7YKR5A;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1440,8 +1465,7 @@
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
-				PROVISIONING_PROFILE = "1663110b-5eed-4e1e-8abd-87f8fa6e12ae";
-				PROVISIONING_PROFILE_SPECIFIER = "spires distribution profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
