@@ -1,6 +1,7 @@
 # Xcode
 .DS_Store
 build/
+notarized_product/
 product/
 *.pbxuser
 !default.pbxuser
