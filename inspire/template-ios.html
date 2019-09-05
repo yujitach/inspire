@@ -29,6 +29,26 @@
 	text-decoration:underline;
     }
     
+    @media (prefers-color-scheme: dark) {
+         body{
+              background-repeat: repeat;
+              background-color:black;color:white;
+          }
+          a:link{
+              text-decoration:none;
+              color:rgb(105, 184, 218);
+          }
+          a:hover{
+              text-decoration:underline;
+              color:rgb(105, 184, 218);
+          }
+          a.nonloudlink:link{
+              color:white;
+              text-decoration:none;
+          }
+        
+    }
+    
     #divider{
 	background-color:#ccc;
 	color:#ccc;

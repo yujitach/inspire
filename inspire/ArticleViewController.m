@@ -77,7 +77,11 @@
     [super viewDidLoad];
     handlerDic=[NSMutableDictionary dictionary];
     self.webView=[[WKWebView alloc] init];
+    self.webView.opaque=NO;
     self.webView.navigationDelegate=self;
+    if(@available(iOS 13,*)){
+        self.webView.backgroundColor=[UIColor systemBackgroundColor];
+    }
     self.view=self.webView;
     pdfButton=            [[UIBarButtonItem alloc]  initWithTitle:@"pdf"
                                                             style:UIBarButtonItemStylePlain

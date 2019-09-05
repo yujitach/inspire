@@ -119,7 +119,7 @@
 #if TARGET_OS_IPHONE
 -(UIImage*)icon
 {
-    return [UIImage imageNamed:@"canned-search"];
+    return [[UIImage imageNamed:@"canned-search"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 -(UIBarButtonItem*)barButtonItem
 {
