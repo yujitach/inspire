@@ -60,6 +60,7 @@
     }
     if(self.articleList.searchStringEnabled){
         self.searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.tableView.frame.size.width,44)];
+        self.searchBar.searchBarStyle=UISearchBarStyleMinimal;
         self.searchBar.placeholder=self.articleList.placeholderForSearchField;
         self.searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;
         self.searchBar.autocorrectionType=UITextAutocorrectionTypeNo;

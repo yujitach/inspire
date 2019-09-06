@@ -540,6 +540,7 @@
                     <view key="view" contentMode="scaleToFill" id="gB1-TN-aBE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Article" id="him-Og-gJJ" userLabel="Article">
@@ -680,7 +681,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="RWt-4H-7iH"/>
         <segue reference="vSj-1l-2qy"/>
-        <segue reference="0pZ-xV-uKe"/>
+        <segue reference="dRW-mT-vIC"/>
         <segue reference="6S0-TO-JiA"/>
     </inferredMetricsTieBreakers>
 </document>
