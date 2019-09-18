@@ -3,7 +3,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
     /* First three rules have to be body, a:link, a:hover exactly in this order,
-     since it's referenced in the Light-Dark appearance switch code in ArticleView.m.
+     since it's referenced in the Light-Dark appearance switch code in ArticleView.m, for pre-Catalina systems.
      The colors are also hard-coded there.
      Don't forget to change the values there if you change the values here.*/
     body{
@@ -25,7 +25,20 @@
     a.nonloudlink:hover{
 	text-decoration:underline;
     }
-    
+    @media (prefers-color-scheme: dark) {
+         body{
+              background-repeat: repeat;
+              background-color:#292a30;color:white;
+          }
+          a:link{
+              text-decoration:none;
+              color:rgb(105, 184, 218);
+          }
+          a:hover{
+              text-decoration:underline;
+              color:rgb(105, 184, 218);
+          }
+    }
     #divider{
 	background-color:#ccc;
 	color:#ccc;

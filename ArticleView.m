@@ -47,8 +47,11 @@ static NSArray*observedKeys=nil;
 												   ofType:@"html"] 
 							  encoding:NSUTF8StringEncoding
 							     error:&error];
-    if([self isDark]){
-        templateForWebView=[templateForWebView stringByReplacingOccurrencesOfString:@"background-color:white;color:black;" withString:@"background-color:#292a30;color:white;"];
+    if(@available(macOS 10.15,*)){
+    }else{
+        if([self isDark]){
+            templateForWebView=[templateForWebView stringByReplacingOccurrencesOfString:@"background-color:white;color:black;" withString:@"background-color:#292a30;color:white;"];
+        }
     }
     [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
     
@@ -107,6 +110,9 @@ static NSArray*observedKeys=nil;
     DOMHTMLElement*centerBox=(DOMHTMLElement*)[doc getElementById:@"centerBox"];
     DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
 
+    if(@available(macOS 10.15,*)){
+        // taken care of within the template.html
+    }else{
     if([self isDark]){
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.color=\"white\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"#292a30\";"];
@@ -117,6 +123,7 @@ static NSArray*observedKeys=nil;
         [self stringByEvaluatingJavaScriptFromString:@"document.body.style.backgroundColor=\"white\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[1].style.color=\"rgb(59, 53, 244)\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[2].style.color=\"rgb(59, 53, 244)\";"];
+    }
     }
 
     if(!article || article==(Article*)NSNoSelectionMarker){
