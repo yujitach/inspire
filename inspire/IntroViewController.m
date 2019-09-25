@@ -22,7 +22,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSURL* url=[[NSBundle mainBundle] URLForResource:@"intro" withExtension:@"rtfd"];
-    NSAttributedString*s=[[NSAttributedString alloc] initWithURL:url options:@{} documentAttributes:nil error:nil];
+    NSMutableAttributedString*s=[[NSMutableAttributedString alloc] initWithURL:url options:@{} documentAttributes:nil error:nil];
+    if(@available(iOS 13,*)){
+        [s addAttribute:NSForegroundColorAttributeName value:[UIColor labelColor] range:NSMakeRange(0, s.length)];
+    }
     self.tv.attributedText=s;
     timer=[NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timerr) {
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"initialMergeDone"]){
