@@ -70,14 +70,14 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-			<key>old.inspirehep.net</key>
+			<key>member.ipmu.jp</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-			<key>member.ipmu.jp</key>
+			<key>old.inspirehep.net</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
