@@ -49,7 +49,7 @@ static NSOperationQueue*_Aqueue=nil;
 +(NSOperationQueue*)spiresQueue;
 {
     if(!_Squeue){
-	_Squeue=[[NetworkOperationQueue alloc] initWithHost:@"inspirehep.net" andWaitBetweenOperations:
+	_Squeue=[[NetworkOperationQueue alloc] initWithHost:@"old.inspirehep.net" andWaitBetweenOperations:
                  [[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"]];
 	[_Squeue setMaxConcurrentOperationCount:1];
     }

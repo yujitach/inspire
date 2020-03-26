@@ -474,9 +474,9 @@ SpiresHelper*_sharedSpiresHelper=nil;
 {
     NSString*s;
     if(of){
-        s=[NSString stringWithFormat:@"http://inspirehep.net/search?p=%@&of=%@",search, of ];
+        s=[NSString stringWithFormat:@"http://old.inspirehep.net/search?p=%@&of=%@",search, of ];
     }else{
-        s=[NSString stringWithFormat:@"http://inspirehep.net/search?p=%@", search ];
+        s=[NSString stringWithFormat:@"http://old.inspirehep.net/search?p=%@", search ];
     }
     NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL* url=[NSURL URLWithString:t];
