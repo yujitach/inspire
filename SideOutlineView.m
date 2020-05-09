@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 #import "SideOutlineViewController.h"
 #import <AppKit/NSTrackingArea.h>
-
+#import "TableViewContextMenuCategory.h"
 
 @implementation SideOutlineView
 
@@ -21,6 +21,10 @@
 #define kMaxFirstLevelIndentation 16
 #define kMinFirstLevelIndentation 10
 
+-(NSMenu*)menuForEvent:(NSEvent *)event
+{
+    return [self menuForEvent_TableViewContextMenuCategory:event];
+}
 
 
 -(CGFloat)indentationPerLevel

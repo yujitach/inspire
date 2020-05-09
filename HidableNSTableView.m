@@ -8,6 +8,7 @@
 
 #import "HidableNSTableView.h"
 #import "SpiresAppDelegate_actions.h"
+#import "TableViewContextMenuCategory.h"
 
 // taken from http://www.fernlightning.com/doku.php?id=randd:dyntablecolumns
 @interface HidableNSTableView ()
@@ -15,6 +16,10 @@
 - (void)contextMenuSelected:(id)sender;
 @end
 @implementation HidableNSTableView
+-(NSMenu*)menuForEvent:(NSEvent *)event
+{
+    return [self menuForEvent_TableViewContextMenuCategory:event];
+}
 -(void)awakeFromNib
 {
     saveName=[self autosaveName];

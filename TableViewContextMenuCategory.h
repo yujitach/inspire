@@ -14,6 +14,5 @@
 
 
 @interface NSTableView (TableViewContextMenuCategory)
-
-
+-(NSMenu*)menuForEvent_TableViewContextMenuCategory:(NSEvent*)event;
 @end

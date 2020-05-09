@@ -10,7 +10,7 @@
 
 
 @implementation NSTableView (TableViewContextMenuCategory)
--(NSMenu*)menuForEvent:(NSEvent*)event
+-(NSMenu*)menuForEvent_TableViewContextMenuCategory:(NSEvent*)event
 {
     NSPoint mousePoint = [self convertPoint:[event locationInWindow] fromView:nil];
     NSInteger row = [self rowAtPoint:mousePoint];
