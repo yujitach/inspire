@@ -32,7 +32,7 @@ sub listidentifiers{
 	$src=~s/\\citen/\\cite/g;
 	my %test;
 	my @bibs;
-	my @candidates=($src=~m/cite\{([^\}]+)\}/g);
+        my @candidates=($src=~m/cite(?:\[.+?\]|)\{(.+?)\}/g);
 	for my $i(@candidates){
 		my @subcan=split ",",$i;
 		for my $j(@subcan){
