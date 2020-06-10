@@ -66,7 +66,7 @@
         inspireQuery=[search stringByReplacingOccurrencesOfRegex:@"^doi " withString:@"doi:"];
     }else{
         if(![search hasPrefix:@"find"]){
-            inspireQuery=[NSString stringWithFormat:@"find+%@",search];
+            inspireQuery=[NSString stringWithFormat:@"%@",search];
         }else{
             inspireQuery=search;
         }
@@ -74,8 +74,10 @@
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"limitAuthorCount"]){
         inspireQuery=[inspireQuery stringByAppendingString:@"+and+ac+1->25"];
     }
-    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm&ot=%@",inspireQuery,(int)startIndex+1,MAXPERQUERY,[InspireXMLParser usedTags]];
-    return [[SpiresHelper sharedHelper] inspireURLForQuery:str];
+//    NSString*str=[NSString stringWithFormat:@"%@&jrec=%d&rg=%d&of=xm&ot=%@",inspireQuery,(int)startIndex+1,MAXPERQUERY,[InspireXMLParser usedTags]];
+    NSString*str=[NSString stringWithFormat:@"%@&page=%d&size=%d",inspireQuery,(int)(startIndex/MAXPERQUERY)+1,MAXPERQUERY];
+
+    return [[SpiresHelper sharedHelper] newInspireAPIURLForQuery:str withFormat:@"json"];
 }
 -(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd
 {
@@ -129,15 +131,11 @@
     [[NSApp appDelegate] postMessage:nil];
     [[NSApp appDelegate] stopProgressIndicator];
     if(!error){
-        NSString*s=[[NSString alloc] initWithData:temporaryData encoding:NSUTF8StringEncoding];
-        NSString*t=[s stringByMatching:@"<!--.+?: *(\\d+?) *-->" capture:1];
-        total=[t intValue];
-        NSUInteger count=[[s componentsMatchedByRegex:@"<record>"] count];
-        NSLog(@"spires returned %@ entries",@(count));
-        whenDone(temporaryData,count<MAXPERQUERY);
+        NSDictionary*d=[NSJSONSerialization JSONObjectWithData:temporaryData options:0 error:nil];
+        whenDone(d);
         temporaryData=nil;
     }else{
-        whenDone(nil,YES);
+        whenDone(nil);
 #if !TARGET_OS_IPHONE
         NSAlert*alert=[[NSAlert alloc] init];
         alert.messageText=@"Connection Error to Inspire";

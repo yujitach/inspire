@@ -7,7 +7,6 @@
 //
 
 #import "BatchImportOperation.h"
-#import "InspireCitationNumberRefreshOperation.h"
 #import "Article.h"
 #import "ArticleData.h"
 #import "JournalEntry.h"
@@ -150,11 +149,13 @@
             [refersToTarget addRefersTo:generated];
         }
     }
+/*
     if(updatesCitations && generated.count>0){
         NSOperation* op=[[InspireCitationNumberRefreshOperation alloc] initWithArticles:generated];
         [op setQueuePriority:NSOperationQueuePriorityVeryLow];
         [[OperationQueues spiresQueue] addOperation:op];
     }
+ */
 }
 
 #pragma mark entry point

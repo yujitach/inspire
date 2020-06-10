@@ -10,7 +10,7 @@
 
 #define MAXPERQUERY 50
 @class Article;
-typedef void (^WhenDoneClosure)(NSData*xmlData,BOOL last);
+typedef void (^WhenDoneClosure)(NSDictionary*dict);
 @interface SpiresQueryDownloader : NSObject<NSURLSessionDelegate>
 // note that didEndSelector can be called **multiple times**.
 // It's guaranteed to be always on the main thread.

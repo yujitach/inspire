@@ -11,7 +11,7 @@
 #import "BatchImportOperation.h"
 #import "SpiresHelper.h"
 #import "SpiresQueryDownloader.h"
-#import "InspireXMLParser.h"
+#import "InspireJSONTransformer.h"
 #import "MOC.h"
 @interface SpiresQueryOperation ()
 {
@@ -53,8 +53,8 @@
 -(void)startAt:(NSInteger)start
 {
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSData*xmlData,BOOL last){
-        if(!xmlData){
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSDictionary*jsonDict){
+        if(!jsonDict){
             [me finish];
             return;
         }
@@ -62,7 +62,11 @@
             [me finish];
             return;
         }
-        NSArray*a=[InspireXMLParser articlesFromXMLData:xmlData];
+        NSDictionary*hits=jsonDict[@"hits"];
+        NSNumber*total=hits[@"total"];
+        NSArray*h=hits[@"hits"];
+        NSLog(@"inspire: %@ to %@ out of %@",@(1+start),@(start+h.count),total);
+        NSArray*a=[InspireJSONTransformer articlesFromJSON:jsonDict];
         importer=[[BatchImportOperation alloc] initWithProtoArticles:a
                                                        originalQuery:search
                                                     updatesCitations:YES
@@ -76,7 +80,8 @@
             actionBlock(importer);
         }
         [[OperationQueues importQueue] addOperation:importer];
-        if(!last){
+        NSDictionary*links=jsonDict[@"links"];
+        if(links[@"next"]){
             SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+MAXPERQUERY];
             if(actionBlock){
                 [op setBlockToActOnBatchImport:actionBlock];

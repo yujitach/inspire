@@ -401,45 +401,26 @@ SpiresHelper*_sharedSpiresHelper=nil;
 #pragma mark Bib Entries Query
 -(NSArray*)bibtexEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[self inspireURLForQuery:search withOutputFormat:@"hx"];
+    NSURL* url=[self newInspireAPIURLForQuery:search withFormat:@"bibtex"];
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
-//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
-
-
-    NSArray*a=[s componentsSeparatedByString:@"<pre>"];
-    if(!a || [a count]<2)return nil;
+    NSArray*a=[s componentsSeparatedByString:@"\n\n"];
     NSMutableArray* result=[NSMutableArray array];
-    for(NSUInteger i=1;i<[a count];i++){
-	NSString*x=a[i];
-	NSRange r=[x rangeOfString:@"</pre>"];
-	x=[x substringToIndex:r.location];
-        x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
-        x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
-	[result addObject:x];
+    for(NSString*ss in a){
+        [result addObject:[ss stringByAppendingString:@"\n"]];
     }
     return result;
 }
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
 {
-    NSURL* url=[self inspireURLForQuery:search withOutputFormat:@"hlxe"];
-
+    NSURL* url=[self newInspireAPIURLForQuery:search withFormat:@"latex-eu"];
     NSString*s= [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"fetching:%@",url);
-//    NSString*s= [NSString stringWithContentsOfURL:url encoding:NSISOLatin1StringEncoding error:nil];
-
-
-    NSArray*a=[s componentsSeparatedByString:@"<pre>"];
-    if(!a || [a count]<2)return nil;
+    NSArray*a=[s componentsSeparatedByString:@"\n\n"];
     NSMutableArray* result=[NSMutableArray array];
-    for(NSUInteger i=1;i<[a count];i++){
-	NSString*x=a[i];
-	NSRange r=[x rangeOfString:@"</pre>"];
-	x=[x substringToIndex:r.location];
-        x=[x stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
-        x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
-	[result addObject:x];
+    for(NSString*ss in a){
+        [result addObject:[ss stringByAppendingString:@"\n"]];
     }
     return result;
 }
@@ -463,6 +444,24 @@ SpiresHelper*_sharedSpiresHelper=nil;
 	[result addObject:x];
     }
     return result;
+}
+
+-(NSURL*)newInspireAPIURLForQuery:(NSString *)search withFormat:(NSString*)format
+{
+    if(!format){
+        format=@"json";
+    }
+    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?q=%@&format=%@",search,format];
+    NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL* url=[NSURL URLWithString:t];
+    return url;
+}
+-(NSURL*)newInspireWebpageURLForQuery:(NSString *)search
+{
+    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/literature?q=%@",search];
+    NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURL* url=[NSURL URLWithString:t];
+    return url;
 }
 
 -(NSURL*)inspireURLForQuery:(NSString *)search

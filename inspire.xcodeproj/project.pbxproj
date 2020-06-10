@@ -30,6 +30,8 @@
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		3322B028213CCBF400AA123D /* iCloudHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3322B027213CCBF400AA123D /* iCloudHelper.m */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
+		332697FB24907172001594A2 /* InspireJSONTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 332697FA24907172001594A2 /* InspireJSONTransformer.m */; };
+		332697FC24907172001594A2 /* InspireJSONTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 332697FA24907172001594A2 /* InspireJSONTransformer.m */; };
 		332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 332824930F560DE800AA6E00 /* dsa_pub.pem */; };
 		332873C01BAA47F3005F8EC7 /* SpecificArticleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 332873BF1BAA47F3005F8EC7 /* SpecificArticleListTableViewController.m */; };
 		332B9B290FF9E34400353564 /* DirWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 332B9B280FF9E34400353564 /* DirWatcher.m */; };
@@ -49,7 +51,6 @@
 		333D721210007CE800A328FE /* magicRegExps.perl in Resources */ = {isa = PBXBuildFile; fileRef = 333D721110007CE800A328FE /* magicRegExps.perl */; };
 		33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FBE1B79B5F700A26198 /* LightweightArticle.m */; };
 		33441FC21B79DC0F00A26198 /* SyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FC11B79DC0F00A26198 /* SyncManager.m */; };
-		3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		334A5DCE2133CFBD005C024B /* MyOutlineCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A5DCD2133CFBD005C024B /* MyOutlineCellView.m */; };
 		334A6D260F96E02E005BC4A2 /* flagged.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D240F96E02E005BC4A2 /* flagged.png */; };
 		334A6D270F96E02E005BC4A2 /* unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 334A6D250F96E02E005BC4A2 /* unread.png */; };
@@ -94,14 +95,12 @@
 		33A51E350F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E340F82B77B0030A60C /* SPSearchFieldWithProgressIndicator.m */; };
 		33A51E730F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A51E720F82BDAE0030A60C /* SPProgressIndicatingButtonCell.m */; };
 		33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A923001B916A5500CA94C8 /* ArticleViewController.m */; };
-		33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLParser.m */; };
 		33B2CB381048B73B00BA5561 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 332F1A7F0EA5905000758683 /* Quartz.framework */; };
 		33B39E700EA4325E00734A06 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B39E6F0EA4325E00734A06 /* Article.m */; };
 		33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33B485C10F5B3E2A00EBE022 /* PrefPane.xib */; };
 		33BBA39E1B8F3A410001366C /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 33BBA39D1B8F3A410001366C /* libicucore.tbd */; };
 		33BBA39F1B8F3A5B0001366C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DFC3BC156BCEB900C98E8E /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		33BBA3A01B8F3A910001366C /* LightweightArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 33441FBE1B79B5F700A26198 /* LightweightArticle.m */; };
-		33BBA3A11B8F3A910001366C /* InspireXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AB063B1B7719AB007491F1 /* InspireXMLParser.m */; };
 		33BBA3A21B8F3A910001366C /* ArticleListArchiveAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 331D7E2F1B7A32F400F598B5 /* ArticleListArchiveAdditions.m */; };
 		33BBA3A31B8F3A910001366C /* ArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990A0EA6AA4500A7F496 /* ArticleList.m */; };
 		33BBA3A41B8F3A910001366C /* AllArticleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3312990C0EA6AA4500A7F496 /* AllArticleList.m */; };
@@ -121,7 +120,6 @@
 		33BBA3B61B8F3AE20001366C /* SpiresQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08AC0F3E71CC005B25F8 /* SpiresQueryOperation.m */; };
 		33BBA3B71B8F3AE20001366C /* BatchImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33CC08B10F3E72F8005B25F8 /* BatchImportOperation.m */; };
 		33BBA3BB1B8F3AE20001366C /* ArxivNewArticleListReloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3379CDA810461E5400B5BCC1 /* ArxivNewArticleListReloadOperation.m */; };
-		33BBA3BC1B8F3AE20001366C /* InspireCitationNumberRefreshOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3348F710133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m */; };
 		33BBA3BD1B8F3AE20001366C /* ArticleFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 336F461316184837005D070F /* ArticleFetchOperation.m */; };
 		33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 336F461E161893D8005D070F /* NetworkOperationQueue.m */; };
 		33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 336F461916188842005D070F /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -255,6 +253,8 @@
 		3322B026213CCBF400AA123D /* iCloudHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudHelper.h; sourceTree = "<group>"; };
 		3322B027213CCBF400AA123D /* iCloudHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudHelper.m; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
+		332697F924907172001594A2 /* InspireJSONTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspireJSONTransformer.h; sourceTree = "<group>"; };
+		332697FA24907172001594A2 /* InspireJSONTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspireJSONTransformer.m; sourceTree = "<group>"; };
 		332824930F560DE800AA6E00 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		332873BE1BAA47F3005F8EC7 /* SpecificArticleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecificArticleListTableViewController.h; sourceTree = "<group>"; };
 		332873BF1BAA47F3005F8EC7 /* SpecificArticleListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecificArticleListTableViewController.m; sourceTree = "<group>"; };
@@ -995,6 +995,8 @@
 				33441FBE1B79B5F700A26198 /* LightweightArticle.m */,
 				33AB063A1B7719AB007491F1 /* InspireXMLParser.h */,
 				33AB063B1B7719AB007491F1 /* InspireXMLParser.m */,
+				332697F924907172001594A2 /* InspireJSONTransformer.h */,
+				332697FA24907172001594A2 /* InspireJSONTransformer.m */,
 				3304B8A10F92CEFB002156A9 /* ArticleLists */,
 				330207AA0F5990210067714C /* MOC.h */,
 				330207AB0F5990210067714C /* MOC.m */,
@@ -1224,6 +1226,7 @@
 				33CD56832137B865007C7943 /* IntroViewController.m in Sources */,
 				33BBA3BE1B8F3AE20001366C /* NetworkOperationQueue.m in Sources */,
 				33BBA3AB1B8F3A910001366C /* ArticleData.m in Sources */,
+				332697FC24907172001594A2 /* InspireJSONTransformer.m in Sources */,
 				33C9E4421B92CBE00059F0F8 /* AddArticleFolderViewController.m in Sources */,
 				3322B028213CCBF400AA123D /* iCloudHelper.m in Sources */,
 				33BBA3A61B8F3A910001366C /* CannedSearch.m in Sources */,
@@ -1245,7 +1248,6 @@
 				33A923011B916A5500CA94C8 /* ArticleViewController.m in Sources */,
 				331A80541B91EA4B004F9200 /* DeferredPDFOpenOperation.m in Sources */,
 				33CDDBD91B8F137B003D993D /* InspireAppDelegate.m in Sources */,
-				33BBA3BC1B8F3AE20001366C /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33BBA3A01B8F3A910001366C /* LightweightArticle.m in Sources */,
 				33BBA3A91B8F3A910001366C /* MOC.m in Sources */,
 				331A80551B91EB87004F9200 /* ArxivVersionCheckingOperation.m in Sources */,
@@ -1261,7 +1263,6 @@
 				33BBA3A81B8F3A910001366C /* ArticleFolder.m in Sources */,
 				33BBA3BF1B8F3AF20001366C /* Reachability.m in Sources */,
 				33BBA3C41B8F3B150001366C /* SpiresHelper.m in Sources */,
-				33BBA3A11B8F3A910001366C /* InspireXMLParser.m in Sources */,
 				335288C6213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1283,7 +1284,6 @@
 				33E397871A2EDEE900C91553 /* ArticleData.m in Sources */,
 				3365B1F30EA8037C00A847CE /* SpiresPredicateTransformer.m in Sources */,
 				33FA970C0EA8E6DD003961AD /* ArticleView.m in Sources */,
-				33AB063C1B7719AB007491F1 /* InspireXMLParser.m in Sources */,
 				33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */,
 				33E4EF850EAA9FAF00301AFC /* TableViewContextMenuCategory.m in Sources */,
 				3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */,
@@ -1302,6 +1302,7 @@
 				33CC07D80F3E5E57005B25F8 /* NSFileManager+TemporaryFileName.m in Sources */,
 				33CC08080F3E6135005B25F8 /* ArxivPDFDownloadOperation.m in Sources */,
 				33CC08450F3E6763005B25F8 /* ArxivVersionCheckingOperation.m in Sources */,
+				332697FB24907172001594A2 /* InspireJSONTransformer.m in Sources */,
 				33CC08AD0F3E71CC005B25F8 /* SpiresQueryOperation.m in Sources */,
 				33CC08B20F3E72F8005B25F8 /* BatchImportOperation.m in Sources */,
 				33CC093C0F3E8020005B25F8 /* TeXBibGenerationOperation.m in Sources */,
@@ -1337,7 +1338,6 @@
 				33CCB5A210D9F29F00D51CDE /* Migrator.m in Sources */,
 				33CCB5A310D9F2A800D51CDE /* MigrationProgressController.m in Sources */,
 				33FD743410DEDDFE0081C00D /* DropAcceptingImageView.m in Sources */,
-				3348F711133E05B100D4B2B2 /* InspireCitationNumberRefreshOperation.m in Sources */,
 				33DFC3BE156BCEB900C98E8E /* RegexKitLite.m in Sources */,
 				336F461416184837005D070F /* ArticleFetchOperation.m in Sources */,
 				336F461A16188843005D070F /* Reachability.m in Sources */,
@@ -1395,7 +1395,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.8.8;
+				CURRENT_PROJECT_VERSION = 1.9.0;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1417,7 +1417,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.8.8;
+				MARKETING_VERSION = 1.9.0;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;
@@ -1442,7 +1442,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.8.8;
+				CURRENT_PROJECT_VERSION = 1.9.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1465,7 +1465,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.8.8;
+				MARKETING_VERSION = 1.9.0;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.spires;
 				PRODUCT_NAME = spires;

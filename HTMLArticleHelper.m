@@ -173,9 +173,9 @@
 {
     NSString* target=[article uniqueInspireQueryString];
     if(target){
-        NSURL*url=[[SpiresHelper sharedHelper] inspireURLForQuery:target];
+        NSURL*url=[[SpiresHelper sharedHelper] newInspireWebpageURLForQuery:target];
         NSString* urlString=[url absoluteString];
-        return [NSString stringWithFormat:@"<a href=\"%@&of=hd\">inspire</a>",urlString];
+        return [NSString stringWithFormat:@"<a href=\"%@\">inspire</a>",urlString];
     }else{
         return [NSString stringWithFormat:@"<del>spires</del>"];
     }

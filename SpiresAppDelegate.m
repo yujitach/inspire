@@ -652,7 +652,7 @@
 	[self getBibEntries:self];
     }else if([[url scheme] isEqualTo:@"spires-open-journal"]){
 	[self openJournal:self];
-    }else if([[url scheme] isEqualTo:@"http"]){
+    }else if([[url scheme] isEqualTo:@"http"] || [[url scheme] isEqualTo:@"https"]){
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	if([[url path] rangeOfString:@"spires"].location==NSNotFound){
 	    [self showInfoOnAssociation];
