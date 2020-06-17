@@ -60,7 +60,7 @@
 		334AF2270F7098B9006EE7A0 /* SideOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2250F7098B9006EE7A0 /* SideOutlineViewController.m */; };
 		334AF2D70F70B95B006EE7A0 /* ArticleFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */; };
 		334FD3AB0F3516EF000B4BD6 /* PDFHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */; };
-		334FD88C214B58250018FF16 /* v1.8.1alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 334FD88B214B58250018FF16 /* v1.8.1alert.rtf */; };
+		334FD88C214B58250018FF16 /* v1.9.0alert.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 334FD88B214B58250018FF16 /* v1.9.0alert.rtf */; };
 		335288C6213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */; };
 		335EB4E61B929F8800998E48 /* AddFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E51B929F8800998E48 /* AddFolderViewController.m */; };
 		335EB4E91B92A0C900998E48 /* AddArxivNewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 335EB4E81B92A0C900998E48 /* AddArxivNewContoller.m */; };
@@ -301,7 +301,7 @@
 		334AF2D60F70B95B006EE7A0 /* ArticleFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleFolder.m; sourceTree = "<group>"; };
 		334FD3A90F3516EF000B4BD6 /* PDFHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFHelper.h; sourceTree = "<group>"; };
 		334FD3AA0F3516EF000B4BD6 /* PDFHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFHelper.m; sourceTree = "<group>"; };
-		334FD88B214B58250018FF16 /* v1.8.1alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.8.1alert.rtf; sourceTree = "<group>"; };
+		334FD88B214B58250018FF16 /* v1.9.0alert.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = v1.9.0alert.rtf; sourceTree = "<group>"; };
 		335288C4213F6EB1002DD29A /* MergeNotifyingBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MergeNotifyingBarButtonItem.h; sourceTree = "<group>"; };
 		335288C5213F6EB1002DD29A /* MergeNotifyingBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MergeNotifyingBarButtonItem.m; sourceTree = "<group>"; };
 		335EB4E41B929F8800998E48 /* AddFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFolderViewController.h; sourceTree = "<group>"; };
@@ -744,7 +744,7 @@
 				3396D1760F3DE63500689852 /* parseTeXandEmitPlist.perl */,
 				33887E7B0EA97C4D003A7E83 /* spires.sdef */,
 				332824930F560DE800AA6E00 /* dsa_pub.pem */,
-				334FD88B214B58250018FF16 /* v1.8.1alert.rtf */,
+				334FD88B214B58250018FF16 /* v1.9.0alert.rtf */,
 				334A6DAC0F96EC49005BC4A2 /* Localizable.strings */,
 			);
 			name = Resources;
@@ -1176,7 +1176,7 @@
 				33C82715180F096900D6C713 /* spires-blue@2x.png in Resources */,
 				33CCB5A410D9F2A900D51CDE /* MigrationProgress.xib in Resources */,
 				33FD744A10DEE15E0081C00D /* drop.png in Resources */,
-				334FD88C214B58250018FF16 /* v1.8.1alert.rtf in Resources */,
+				334FD88C214B58250018FF16 /* v1.9.0alert.rtf in Resources */,
 				33C8271F180F116C00D6C713 /* unread-hasPDF@2x.png in Resources */,
 				33C82721180F117600D6C713 /* unread@2x.png in Resources */,
 				33C82717180F0C3B00D6C713 /* arxiv@2x.png in Resources */,
@@ -1594,7 +1594,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1611,7 +1611,7 @@
 				INFOPLIST_FILE = inspire/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.inspire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1638,7 +1638,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1649,7 +1649,7 @@
 				INFOPLIST_FILE = inspire/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yujitach.inspire;
 				PRODUCT_NAME = "$(TARGET_NAME)";
