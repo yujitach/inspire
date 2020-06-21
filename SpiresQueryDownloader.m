@@ -24,8 +24,67 @@
     NSUInteger sofar;
     NSUInteger startIndex;
 }
-
-
+-(void)dealWith:(NSArray*)a
+{
+    NSString*q=[@"recid:" stringByAppendingString:[a componentsJoinedByString:@" or "]];
+    [NSThread sleepForTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"]];
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:[q stringByAppendingString:@"&size=50"] withFormat:@"json"];
+    NSLog(@"fetching:%@\nelements:%@",url,@(a.count));
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Fetching %@ entries from inspire...", @(a.count)]];
+    });
+    NSData*data=[NSData dataWithContentsOfURL:url];
+    if(data){
+        NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        dispatch_async(dispatch_get_main_queue(),^{
+            whenDone(d);
+        });
+    }else{
+        whenDone(nil);
+    }
+}
+-(void)unfortunateMainWork:(NSString*)recid
+{
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSApp appDelegate] postMessage:@"Fetching preliminary data..."];
+    });
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:recid withFormat:@"json"];
+    NSData*data=[NSData dataWithContentsOfURL:url];
+    NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    d=d[@"hits"];
+    NSArray*a=d[@"hits"];
+    d=a[0];
+    d=d[@"metadata"];
+    a=d[@"references"];
+    NSMutableArray*ma=[NSMutableArray array];
+    for(NSDictionary*x in a){
+        NSDictionary*y=x[@"record"];
+        NSString*s=y[@"$ref"];
+        if([s containsString:@"inspirehep.net/api/literature/"]){
+            NSString*z=[s lastPathComponent];
+            [ma addObject:z];
+        }
+        if(ma.count>=50){
+            [self dealWith:ma];
+            [ma removeAllObjects];
+        }
+    }
+    if(ma.count>0){
+        [self dealWith:ma];
+    }
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSApp appDelegate] postMessage:nil];
+    });
+}
+-(void)unfortunatelyCitedByHasNotBeenImplementedByNewInspireYet
+{
+    Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
+    if(!article.inspireKey){
+        whenDone(nil);
+    }
+    NSString*recid=[NSString stringWithFormat:@"recid:%@",article.inspireKey];
+    [self performSelectorInBackground:@selector(unfortunateMainWork:) withObject:recid];
+}
 -(NSURL*)urlForInspireForString:(NSString*)search
 {
     NSString*inspireQuery=nil;
@@ -94,6 +153,11 @@
     search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
     // end target of the comment above
     searchString=search;
+    if([search hasPrefix:@"r "]){
+        // as new inspire api hasn't implemented citedby:recid:, I need to write more code.
+        [self unfortunatelyCitedByHasNotBeenImplementedByNewInspireYet];
+        return self;
+    }
     NSURL*url=[self urlForInspireForString:search];
     NSLog(@"fetching:%@",url);
     NSURLRequest*urlRequest=[NSURLRequest requestWithURL:url
