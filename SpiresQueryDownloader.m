@@ -43,16 +43,21 @@
         whenDone(nil);
     }
 }
--(void)unfortunateMainWork:(NSString*)recid
+-(void)unfortunateCitedByMainWork:(NSString*)uniqueQuery
 {
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSApp appDelegate] postMessage:@"Fetching preliminary data..."];
     });
-    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:recid withFormat:@"json"];
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json"];
+    NSLog(@"getting preliminary data via %@",url);
     NSData*data=[NSData dataWithContentsOfURL:url];
     NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     d=d[@"hits"];
     NSArray*a=d[@"hits"];
+    if(a.count==0){
+        NSLog(@"inspire still doesn't have the data for %@",uniqueQuery);
+        return;
+    }
     d=a[0];
     d=d[@"metadata"];
     a=d[@"references"];
@@ -79,11 +84,49 @@
 -(void)unfortunatelyCitedByHasNotBeenImplementedByNewInspireYet
 {
     Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
-    if(!article.inspireKey){
+    NSString*uniqueQuery=[article uniqueInspireQueryString];
+    [self performSelectorInBackground:@selector(unfortunateCitedByMainWork:) withObject:uniqueQuery];
+}
+-(void)unfortunateRefersToMainWork:(NSString*)uniqueQuery
+{
+    NSString*recid=nil;
+    if(![uniqueQuery hasPrefix:@"recid"]){
+        NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json"];
+        NSLog(@"getting preliminary data via %@",url);
+        NSData*data=[NSData dataWithContentsOfURL:url];
+        NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        d=d[@"hits"];
+        NSArray*a=d[@"hits"];
+        if(a.count==0){
+            NSLog(@"inspire still doesn't have the data for %@",uniqueQuery);
+            return;
+        }
+        d=a[0];
+        d=d[@"metadata"];
+        NSNumber*r=d[@"control_number"];
+        recid=[NSString stringWithFormat:@"recid:%@",r];
+        [NSThread sleepForTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"]];
+    }else{
+        recid=uniqueQuery;
+    }
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:[NSString stringWithFormat:@"refersto:%@&size=%d",recid,(int)MAXPERQUERY] withFormat:@"json"];
+    NSLog(@"fetching:%@",url);
+    NSData*data=[NSData dataWithContentsOfURL:url];
+    if(data){
+        NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        dispatch_async(dispatch_get_main_queue(),^{
+            whenDone(d);
+        });
+    }else{
         whenDone(nil);
     }
-    NSString*recid=[NSString stringWithFormat:@"recid:%@",article.inspireKey];
-    [self performSelectorInBackground:@selector(unfortunateMainWork:) withObject:recid];
+}
+
+-(void)unfortunatelyRefersToIsAlsoSomewhatIncompatible
+{
+    Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
+    NSString*uniqueQuery=[article uniqueInspireQueryString];
+    [self performSelectorInBackground:@selector(unfortunateRefersToMainWork:) withObject:uniqueQuery];
 }
 -(NSURL*)urlForInspireForString:(NSString*)search
 {
@@ -156,6 +199,10 @@
     if([search hasPrefix:@"r "]){
         // as new inspire api hasn't implemented citedby:recid:, I need to write more code.
         [self unfortunatelyCitedByHasNotBeenImplementedByNewInspireYet];
+        return self;
+    }
+    if([search hasPrefix:@"c "]){
+        [self unfortunatelyRefersToIsAlsoSomewhatIncompatible];
         return self;
     }
     NSURL*url=[self urlForInspireForString:search];
