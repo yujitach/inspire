@@ -12,11 +12,25 @@
 +(NSArray*)articlesFromJSON:(NSDictionary*)jsonDict
 {
     static NSDateFormatter*df=nil;
+    static NSDateFormatter*ymdf=nil;
+    static NSDateFormatter*ydf=nil;
     if(!df){
         df=[[NSDateFormatter alloc] init];
         df.dateFormat=@"yyyy-MM-dd";
         df.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
         df.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    }
+    if(!ymdf){
+        ymdf=[[NSDateFormatter alloc] init];
+        ymdf.dateFormat=@"yyyy-MM";
+        ymdf.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
+        ymdf.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    }
+    if(!ydf){
+        ydf=[[NSDateFormatter alloc] init];
+        ydf.dateFormat=@"yyyy";
+        ydf.timeZone=[NSTimeZone timeZoneForSecondsFromGMT:0];
+        ydf.locale=[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
     }
     NSMutableArray*array=[NSMutableArray array];
     NSDictionary*h=jsonDict[@"hits"];
@@ -104,7 +118,17 @@
         {
             NSString*dateString=metadata[@"earliest_date"];
             NSDate*date=[df dateFromString:dateString];
-            article.date=date;
+            if(date){
+                article.date=date;
+            }else{
+                date=[ymdf dateFromString:dateString];
+                if(date){
+                    article.date=date;
+                }else{
+                    date=[ydf dateFromString:dateString];
+                    article.date=date;
+                }
+            }
         }
         {
             NSArray*as=metadata[@"dois"];
