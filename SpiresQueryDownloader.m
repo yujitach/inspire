@@ -109,9 +109,23 @@
     }else{
         recid=uniqueQuery;
     }
-    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:[NSString stringWithFormat:@"refersto:%@&size=%d",recid,(int)MAXPERQUERY] withFormat:@"json"];
+    NSString*queryString=[NSString stringWithFormat:@"refersto:%@&page=%d&size=%d",recid,(int)(startIndex/MAXPERQUERY)+1,(int)MAXPERQUERY];
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:queryString
+                                                         withFormat:@"json"];
     NSLog(@"fetching:%@",url);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSApp appDelegate] startProgressIndicator];
+        if(startIndex==0){
+            [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
+        }else{
+            [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)startIndex]];
+        }
+    });
     NSData*data=[NSData dataWithContentsOfURL:url];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSApp appDelegate] postMessage:nil];
+        [[NSApp appDelegate] stopProgressIndicator];
+    });
     if(data){
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         dispatch_async(dispatch_get_main_queue(),^{
