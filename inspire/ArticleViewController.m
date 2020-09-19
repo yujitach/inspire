@@ -288,6 +288,11 @@
     NSURL*u=handlerDic[@"flagUnflag"];
     [[NSApp appDelegate] handleURL:u];
 }
+-(IBAction)inspire:(id)sender;
+{
+    NSURL*u=handlerDic[@"spires"];
+    [[NSApp appDelegate] handleURL:u];
+}
 
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
@@ -332,6 +337,7 @@
     Article*a=[self.fetchedResultsController objectAtIndexPath:self.indexPath];
     NSString*x=(a.flag&AFIsFlagged)?@"unflag":@"flag";
     UIAlertAction*f=[UIAlertAction actionWithTitle:x style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self flag:nil];}];
+    UIAlertAction*i=[UIAlertAction actionWithTitle:@"open inspire" style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self inspire:nil];}];
 
     UIAlertAction*t=[UIAlertAction actionWithTitle:@"add to a list..." style:UIAlertActionStyleDefault handler:^(UIAlertAction*aa){[self addTo:nil];}];
 
@@ -341,6 +347,7 @@
     [ac addAction:c];
     [ac addAction:r];
     [ac addAction:f];
+    [ac addAction:i];
     [ac addAction:t];
     [ac addAction:cancel];
     

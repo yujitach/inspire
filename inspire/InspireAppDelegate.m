@@ -132,7 +132,7 @@ static InspireAppDelegate*globalAppDelegate=nil;
         }
     }else if([[url scheme] isEqualToString:@"spires-open-journal"]){
 //        [self openJournal:self];
-    }else if([[url scheme] isEqualToString:@"http"]){
+    }else if([[url scheme] hasPrefix:@"http"]){
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
 }
