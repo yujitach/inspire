@@ -106,6 +106,7 @@
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:nil];
     [self prepareFirstSnapshot];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"mergingFrom"];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"initialMergeDone"];
     [iCloudHelper setupWithUbiquityContainerIdentifier:nil completion:^(NSURL *ubiquityContainerURL) {
         if(!ubiquityContainerURL){
