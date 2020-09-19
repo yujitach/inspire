@@ -458,7 +458,13 @@ SpiresHelper*_sharedSpiresHelper=nil;
 }
 -(NSURL*)newInspireWebpageURLForQuery:(NSString *)search
 {
-    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/literature?q=%@",search];
+    NSString*s=@"";
+    if([search hasPrefix:@"recid:"]){
+        NSString*recid=[search substringFromIndex:[@"recid:" length]];
+        s=[NSString stringWithFormat:@"https://inspirehep.net/literature/%@",recid];
+    }else{
+        s=[NSString stringWithFormat:@"https://inspirehep.net/literature?q=%@",search];
+    }
     NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL* url=[NSURL URLWithString:t];
     return url;
