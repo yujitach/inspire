@@ -265,8 +265,8 @@ var prepositions=[
 		  "without"
 		  ];
 function texify(s){
-    s.replace(/\\ /g,"SpaceMarker");
-    s.replace(/\\_/g,"UnderscoreMarker");
+    s=s.replace(/\\ /g,"SpaceMarker");
+    s=s.replace(/\\_/g,"UnderscoreMarker");
     
 
     for(key in htmlTeXMacrosWithOneArgument){
@@ -344,8 +344,9 @@ function texify(s){
         s=s.replace(RegExp("\\{","g"),"<span>");
         s=s.replace(RegExp("\\}","g"),"</span>");
     }
-    s.replace(/UnderscoreMarker/g,"_");
-    s.replace(/SpaceMarker/g," ");
+    s=s.replace(/UnderscoreMarker/g,"_");
+    s=s.replace(/SpaceMarker/g," ");
+    s=s.replace(/\$/g,"S");
     return s;
 }
 function batchTeXify(a){
