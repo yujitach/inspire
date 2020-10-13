@@ -188,7 +188,11 @@
 
 -(void)awakeFromNib
 {
-    
+    if(@available(macOS 11,*)){
+//        window.titleVisibility=NSWindowTitleHidden;
+        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
+//        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
+    }
     
     for(NSToolbarItem*ti in [tb items]){
 	if([[ti  label] isEqualToString:@"Search Field"]){
@@ -487,7 +491,12 @@
         if(num>=LOADED_ENTRIES_MAX){
             howmany=[NSString stringWithFormat:@"more than %d entries", (int)LOADED_ENTRIES_MAX];
         }
-	[window setTitle:[NSString stringWithFormat:@"%@ (%@)",head,howmany]];
+        if(@available(macOS 11,*)){
+            window.title=head;
+            window.subtitle=howmany;
+        }else{
+            [window setTitle:[NSString stringWithFormat:@"%@ (%@)",head,howmany]];
+        }
     }
 }
 
