@@ -190,16 +190,21 @@
 {
     if(@available(macOS 11,*)){
 //        window.titleVisibility=NSWindowTitleHidden;
-        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
+        window.toolbarStyle=NSWindowToolbarStyleExpanded;
 //        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
     }
     
     for(NSToolbarItem*ti in [tb items]){
-	if([[ti  label] isEqualToString:@"Search Field"]){
-	    NSSize s=[ti minSize];
-	    s.width=10000;
-	    [ti setMaxSize:s];
-	}
+        if([[ti  label] isEqualToString:@"Search Field"]){
+            NSSize s=[ti minSize];
+            s.width=10000;
+            [ti setMaxSize:s];
+        }
+        if([[ti  label] isEqualToString:@"Flag"]){
+            if(@available(macOS 11,*)){
+                ti.image=[NSImage imageWithSystemSymbolName:@"flag.fill" accessibilityDescription:@"flag"];
+            }
+        }
     }
     
     
