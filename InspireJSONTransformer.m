@@ -8,6 +8,7 @@
 #import "InspireJSONTransformer.h"
 #import "LightweightArticle.h"
 
+NSString*usedFields=@"authors.full_name,abstracts,collaborations,arxiv_eprints,titles,number_of_pages,publication_info,earliest_date,dois,citation_count";
 @implementation InspireJSONTransformer
 +(NSArray*)articlesFromJSON:(NSDictionary*)jsonDict
 {
