@@ -10,7 +10,7 @@
 #import "NSString+magic.h"
 #import "Article.h"
 #import "MOC.h"
-
+#import "InspireJSONTransformer.h"
 
 
 SpiresHelper*_sharedSpiresHelper=nil;
@@ -448,10 +448,16 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSURL*)newInspireAPIURLForQuery:(NSString *)search withFormat:(NSString*)format
 {
+    return [self newInspireAPIURLForQuery:search withFormat:format forFields:usedFields];
+}
+
+
+-(NSURL*)newInspireAPIURLForQuery:(NSString *)search withFormat:(NSString*)format forFields:(NSString*)fields
+{
     if(!format){
         format=@"json";
     }
-    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?q=%@&format=%@",search,format];
+    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?fields=%@&q=%@&format=%@",fields,search,format];
     NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL* url=[NSURL URLWithString:t];
     return url;

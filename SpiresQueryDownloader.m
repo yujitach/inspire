@@ -48,7 +48,7 @@
     dispatch_async(dispatch_get_main_queue(),^{
         [[NSApp appDelegate] postMessage:@"Fetching preliminary data..."];
     });
-    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json"];
+    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json" forFields:@"references"];
     NSLog(@"getting preliminary data via %@",url);
     NSData*data=[NSData dataWithContentsOfURL:url];
     NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -91,7 +91,7 @@
 {
     NSString*recid=nil;
     if(![uniqueQuery hasPrefix:@"recid"]){
-        NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json"];
+        NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json" forFields:@"control_number"];
         NSLog(@"getting preliminary data via %@",url);
         NSData*data=[NSData dataWithContentsOfURL:url];
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
