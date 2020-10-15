@@ -37,23 +37,11 @@
     startAt=0;
     return self;
 }
--(SpiresQueryOperation*)initWithQuery:(NSString*)q andMOC:(NSManagedObjectContext*)m startAt:(NSInteger)sa;
-{
-    self=[super init];
-    search=q;
-    moc=m;
-    startAt=sa;
-    return self;
-}
 -(void)run
 {
     self.isExecuting=YES;
-    [self startAt:startAt];
-}
--(void)startAt:(NSInteger)start
-{
     __weak ConcurrentOperation*me=self;
-    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search startAt:start whenDone:^(NSDictionary*jsonDict){
+    downloader=[[SpiresQueryDownloader alloc] initWithQuery:search whenDone:^(NSDictionary*jsonDict){
         if(!jsonDict){
             [me finish];
             return;
@@ -62,10 +50,6 @@
             [me finish];
             return;
         }
-        NSDictionary*hits=jsonDict[@"hits"];
-        NSNumber*total=hits[@"total"];
-        NSArray*h=hits[@"hits"];
-        NSLog(@"inspire: %@ to %@ out of %@",@(1+start),@(start+h.count),total);
         NSArray*a=[InspireJSONTransformer articlesFromJSON:jsonDict];
         importer=[[BatchImportOperation alloc] initWithProtoArticles:a
                                                        originalQuery:search
@@ -80,15 +64,6 @@
             actionBlock(importer);
         }
         [[OperationQueues importQueue] addOperation:importer];
-        NSDictionary*links=jsonDict[@"links"];
-        if(links[@"next"]){
-            SpiresQueryOperation*op=[[SpiresQueryOperation alloc] initWithQuery:search andMOC:moc startAt:start+MAXPERQUERY];
-            if(actionBlock){
-                [op setBlockToActOnBatchImport:actionBlock];
-            }
-            [op setQueuePriority:NSOperationQueuePriorityLow];
-            [[OperationQueues spiresQueue] addOperation:op];
-        }
         [me finish];
     }];
     if(!downloader){

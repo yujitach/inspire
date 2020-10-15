@@ -14,5 +14,5 @@ typedef void (^WhenDoneClosure)(NSDictionary*dict);
 @interface SpiresQueryDownloader : NSObject<NSURLSessionDelegate>
 // note that didEndSelector can be called **multiple times**.
 // It's guaranteed to be always on the main thread.
--(id)initWithQuery:(NSString*)s startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd ;
+-(id)initWithQuery:(NSString*)s whenDone:(WhenDoneClosure)wd ;
 @end

@@ -20,18 +20,21 @@
     NSString*searchString;
     NSMutableData*temporaryData;
     NSURLSession*session;
-    NSUInteger total;
+    NSNumber* total;
     NSUInteger sofar;
     NSUInteger startIndex;
+    NSInteger sleep;
 }
 -(void)dealWith:(NSArray*)a
 {
     NSString*q=[@"recid:" stringByAppendingString:[a componentsJoinedByString:@" or "]];
-    [NSThread sleepForTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"]];
+    [NSThread sleepForTimeInterval:sleep];
     NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:[q stringByAppendingString:@"&size=50"] withFormat:@"json"];
-    NSLog(@"fetching:%@\nelements:%@",url,@(a.count));
+    NSUInteger count=a.count;
+    NSLog(@"fetching:%@\nelements:%d",url,(int)count);
     dispatch_async(dispatch_get_main_queue(),^{
-        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Fetching %@ entries from inspire...", @(a.count)]];
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Obtaining articles #%d to #%d of %@", (int)(sofar+1),(int)(sofar+count),total]];
+        sofar+=count;
     });
     NSData*data=[NSData dataWithContentsOfURL:url];
     if(data){
@@ -49,7 +52,7 @@
         [[NSApp appDelegate] postMessage:@"Fetching preliminary data..."];
     });
     NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json" forFields:@"references"];
-    NSLog(@"getting preliminary data via %@",url);
+    NSLog(@"getting list of references for %@ via %@",uniqueQuery,url);
     NSData*data=[NSData dataWithContentsOfURL:url];
     NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     d=d[@"hits"];
@@ -61,6 +64,7 @@
     d=a[0];
     d=d[@"metadata"];
     a=d[@"references"];
+    total=@(a.count);
     NSMutableArray*ma=[NSMutableArray array];
     for(NSDictionary*x in a){
         NSDictionary*y=x[@"record"];
@@ -87,12 +91,17 @@
     NSString*uniqueQuery=[article uniqueInspireQueryString];
     [self performSelectorInBackground:@selector(unfortunateCitedByMainWork:) withObject:uniqueQuery];
 }
--(void)unfortunateRefersToMainWork:(NSString*)uniqueQuery
+-(void)ensureQueryHasRecIdAndStart:(NSString*)search
 {
-    NSString*recid=nil;
-    if(![uniqueQuery hasPrefix:@"recid"]){
+    Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
+    NSString*uniqueQuery=[article uniqueInspireQueryString];
+    if([uniqueQuery hasPrefix:@"recid"]){
+        [self startAt:0];
+        return;
+    }
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0),^{
         NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:uniqueQuery withFormat:@"json" forFields:@"control_number"];
-        NSLog(@"getting preliminary data via %@",url);
+        NSLog(@"getting recid for %@ via %@",uniqueQuery,url);
         NSData*data=[NSData dataWithContentsOfURL:url];
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         d=d[@"hits"];
@@ -104,44 +113,13 @@
         d=a[0];
         d=d[@"metadata"];
         NSNumber*r=d[@"control_number"];
-        recid=[NSString stringWithFormat:@"recid:%@",r];
-        [NSThread sleepForTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"]];
-    }else{
-        recid=uniqueQuery;
-    }
-    NSString*queryString=[NSString stringWithFormat:@"refersto:%@&page=%d&size=%d",recid,(int)(startIndex/MAXPERQUERY)+1,(int)MAXPERQUERY];
-    NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:queryString
-                                                         withFormat:@"json"];
-    NSLog(@"fetching:%@",url);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSApp appDelegate] startProgressIndicator];
-        if(startIndex==0){
-            [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
-        }else{
-            [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)startIndex]];
-        }
-    });
-    NSData*data=[NSData dataWithContentsOfURL:url];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSApp appDelegate] postMessage:nil];
-        [[NSApp appDelegate] stopProgressIndicator];
-    });
-    if(data){
-        NSDictionary*d=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        dispatch_async(dispatch_get_main_queue(),^{
-            whenDone(d);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, sleep * NSEC_PER_SEC),dispatch_get_main_queue(),^{
+            article.inspireKey=r;
+            [self startAt:0];
         });
-    }else{
-        whenDone(nil);
-    }
+    });
 }
 
--(void)unfortunatelyRefersToIsAlsoSomewhatIncompatible
-{
-    Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
-    NSString*uniqueQuery=[article uniqueInspireQueryString];
-    [self performSelectorInBackground:@selector(unfortunateRefersToMainWork:) withObject:uniqueQuery];
-}
 -(NSURL*)urlForInspireForString:(NSString*)search
 {
     NSString*inspireQuery=nil;
@@ -195,11 +173,11 @@
 
     return [[SpiresHelper sharedHelper] newInspireAPIURLForQuery:str withFormat:@"json"];
 }
--(id)initWithQuery:(NSString*)search startAt:(NSUInteger)start whenDone:(WhenDoneClosure)wd
+-(id)initWithQuery:(NSString*)search whenDone:(WhenDoneClosure)wd
 {
     self=[super init];
+    sleep=[[NSUserDefaults standardUserDefaults] integerForKey:@"inspireWaitInSeconds"];
     whenDone=wd;
-    startIndex=start;
     search=[search normalizedString];
     // 29/6/2009
     // differences in the query strings of the real web spires and those of my spires app should be addressed more properly
@@ -216,10 +194,16 @@
         return self;
     }
     if([search hasPrefix:@"c "]){
-        [self unfortunatelyRefersToIsAlsoSomewhatIncompatible];
+        [self ensureQueryHasRecIdAndStart:search];
         return self;
     }
-    NSURL*url=[self urlForInspireForString:search];
+    [self startAt:0];
+    return self;
+}
+-(void)startAt:(NSUInteger)start
+{
+    startIndex=start;
+    NSURL*url=[self urlForInspireForString:searchString];
     NSLog(@"fetching:%@",url);
     NSURLRequest*urlRequest=[NSURLRequest requestWithURL:url
 				cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -232,13 +216,17 @@
     [dataTask resume];
     
     [[NSApp appDelegate] startProgressIndicator];
-    if(startIndex==0){
+    if(!total){
         [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
     }else{
-        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Articles #%d --",(int)startIndex]];
+        NSUInteger a=startIndex+1;
+        NSUInteger b=startIndex+MAXPERQUERY;
+        NSUInteger tot=total.unsignedIntegerValue;
+        if(b>tot){
+            b=tot;
+        }
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Obtaining articles #%d to #%d of %@",(int)a,(int)b,total]];
     }
-
-    return self;
 }
 #pragma mark Bibtex parser
 
@@ -259,6 +247,15 @@
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:temporaryData options:0 error:nil];
         whenDone(d);
         temporaryData=nil;
+        
+        NSDictionary*hits=d[@"hits"];
+        total=hits[@"total"];
+        NSDictionary*links=d[@"links"];
+        if(links[@"next"]){
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, sleep * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self startAt:startIndex+MAXPERQUERY];
+            });
+        }
     }else{
         whenDone(nil);
 #if !TARGET_OS_IPHONE
