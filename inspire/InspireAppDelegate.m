@@ -64,7 +64,11 @@ static InspireAppDelegate*globalAppDelegate=nil;
 }
 -(void)postMessage:(NSString*)message
 {
-    
+    if(message){
+        [self startProgressIndicator];
+    }else{
+        [self stopProgressIndicator];
+    }
 }
 -(void)clearingUpAfterRegistration:(id)sender
 {

@@ -569,6 +569,11 @@
 -(void)postMessage:(NSString*)message
 {
     wv.message=message;
+    if(message){
+        [self startProgressIndicator];
+    }else{
+        [self stopProgressIndicator];
+    }
 }
 -(void)makeTableViewFirstResponder
 {

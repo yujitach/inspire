@@ -242,7 +242,6 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionDataTask *)task didCompleteWithError:(NSError *)error
 {
     [[NSApp appDelegate] postMessage:nil];
-    [[NSApp appDelegate] stopProgressIndicator];
     if(!error){
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:temporaryData options:0 error:nil];
         whenDone(d);
