@@ -260,6 +260,10 @@
     }
     NSLog(@"new sync data from %@ found",targetMachineName);
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
+    if([date timeIntervalSinceNow]< -14.0*24*60*60){
+        NSLog(@"sync data from %@ is more than two weeks old, ignoring", targetMachineName);
+        return;
+    }
 
     PrepareSnapshotOperation*pso=[[PrepareSnapshotOperation alloc] init];
     [queue addOperation:pso];

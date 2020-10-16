@@ -152,7 +152,7 @@ static NSArray*observedKeys=nil;
 	messageBox.style.visibility=@"visible";
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"blinking\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"infinite\";"];
-	messageBox.innerHTML=message;
+        messageBox.innerHTML=[message stringByAppendingString:@" <a href=\"spires-cancel://\">🅧</a>"];
     }else{
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"steady\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"0\";"];

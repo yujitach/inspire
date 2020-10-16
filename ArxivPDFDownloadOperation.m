@@ -37,8 +37,7 @@ typedef NSUInteger NSModalResponse;
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice
 {
     if(choice==NSAlertFirstButtonReturn){
-	[[NSApp appDelegate] startProgressIndicator];
-	[[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."]; 
+	[[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."];
 	[[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
 						 delegate:self ];
     }else{
@@ -50,7 +49,6 @@ typedef NSUInteger NSModalResponse;
 {
     BOOL success=[[dict valueForKey:@"success"] boolValue];
     [[NSApp appDelegate] postMessage:nil]; 
-    [[NSApp appDelegate] stopProgressIndicator];
     
     if(success){
 	NSData* data=[dict valueForKey:@"pdfData"];
@@ -96,8 +94,7 @@ typedef NSUInteger NSModalResponse;
 -(void)retry
 {
     //    NSLog(@"retry timer fired");
-    [[NSApp appDelegate] startProgressIndicator];
-    [[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."]; 
+    [[NSApp appDelegate] postMessage:@"Downloading PDF from arXiv..."];
     [[ArxivHelper sharedHelper] startDownloadPDFforID:article.eprint
 					     delegate:self ];
 }
@@ -126,7 +123,6 @@ typedef NSUInteger NSModalResponse;
 -(void)cleanupToCancel
 {
     [[NSApp appDelegate] postMessage:nil]; 
-    [[NSApp appDelegate] stopProgressIndicator];
 }
 -(NSString*)description
 {

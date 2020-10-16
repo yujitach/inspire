@@ -583,6 +583,11 @@
 -(void)postMessage:(NSString*)message
 {
     wv.message=message;
+    if(message){
+        [self startProgressIndicator];
+    }else{
+        [self stopProgressIndicator];
+    }
 }
 -(void)makeTableViewFirstResponder
 {
@@ -652,6 +657,8 @@
 	allArticleList.searchString=searchString;
 	[historyController mark:self];
 	[self querySPIRES:searchString];
+    }else if([[url scheme] isEqualTo:@"spires-cancel"]){
+        [self progressQuit:self];
     }else if([[url scheme] isEqualTo:@"spires-open-pdf-internal"]){
 	[self openPDF:self];
     }else if([[url scheme] isEqualTo:@"spires-lookup-eprint"]){

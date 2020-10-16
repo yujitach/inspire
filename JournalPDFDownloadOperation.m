@@ -62,12 +62,10 @@
 	[self finish];
 	return;
     }
-    [[NSApp appDelegate] startProgressIndicator];
-    [[NSApp appDelegate] postMessage:@"Looking up journal webpage..."]; 
+    [[NSApp appDelegate] postMessage:@"Looking up journal webpage..."];
     downloader=[[SecureDownloader alloc] initWithURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]
 				   completionHandler:^(NSString*path){
 				       [[NSApp appDelegate] postMessage:nil]; 
-				       [[NSApp appDelegate] stopProgressIndicator];
 				       if(path){
 					   [self performSelector:@selector(preContinuation:)
 						      withObject: path
@@ -88,12 +86,10 @@
 	NSLog(@"stupid Elsevier locator found:%@",s);
 	s=[s stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
 	NSURL*newURL=[NSURL URLWithString:s];
-	[[NSApp appDelegate] startProgressIndicator];
-	[[NSApp appDelegate] postMessage:@"resolving Elsevier locator..."]; 
+	[[NSApp appDelegate] postMessage:@"resolving Elsevier locator..."];
 	downloader=[[SecureDownloader alloc] initWithURL:newURL
 				       completionHandler:^(NSString*path){
 					   [[NSApp appDelegate] postMessage:nil]; 
-					   [[NSApp appDelegate] stopProgressIndicator];
 					   if(path){
 					       [self performSelector:@selector(continuation:)
 							  withObject: path
@@ -181,12 +177,10 @@
     NSLog(@"pdf detected at:%@",pdf);
     NSURL* proxiedURL=[[NSURL URLWithString:pdf] proxiedURLForELibrary];
     NSLog(@"proxied:%@",proxiedURL);
-    [[NSApp appDelegate] startProgressIndicator];
-    [[NSApp appDelegate] postMessage:@"Downloading PDF..."]; 
+    [[NSApp appDelegate] postMessage:@"Downloading PDF..."];
     downloader=[[SecureDownloader alloc] initWithURL:proxiedURL
 				   completionHandler:^(NSString*pdfPath){
 				       [[NSApp appDelegate] postMessage:nil]; 
-				       [[NSApp appDelegate] stopProgressIndicator];
 				       if(pdfPath){
 					   NSData*data=[[NSData dataWithContentsOfFile:pdfPath] subdataWithRange:NSMakeRange(0,4)];
 					   NSString*head=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
