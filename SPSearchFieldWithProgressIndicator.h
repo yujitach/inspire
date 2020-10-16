@@ -7,10 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SPProgressIndicatingButtonCell.h"
 
 @interface SPSearchFieldWithProgressIndicator : NSSearchField {
-    SPProgressIndicatingButtonCell* bc;
     SEL progressQuitAction;
     IBOutlet NSObjectController*controller;
 }
