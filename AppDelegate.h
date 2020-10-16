@@ -14,8 +14,6 @@
 #define NSApp InspireAppDelegate
 
 @protocol AppDelegate
--(void)startProgressIndicator;
--(void)stopProgressIndicator;
 -(void)querySPIRES:(NSString*)search;
 -(void)handleURL:(NSURL*) url;
 -(void)postMessage:(NSString*)message;
@@ -41,8 +39,6 @@ extern NSString *ArticleListDropPboardType;
 -(void)postMessage:(NSString*)message;
 -(void)makeTableViewFirstResponder;
 -(void)makeSideViewFirstResponder;
--(void)startProgressIndicator;
--(void)stopProgressIndicator;
 -(void)addToTeXLog:(NSString*)log;
 -(void)presentFileSaveError;
 /*-(void)startUpdatingMainView:(id)sender;
