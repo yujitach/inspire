@@ -15,5 +15,6 @@
 +(ArxivHelper*)sharedHelper;
 -(NSString*)arXivAbstractPathForID:(NSString*)arXivID;
 -(void)startDownloadPDFforID:(NSString*)arXivID delegate:(id)delegate;
+-(void)cancelDownloadPDF;
 -(NSString*)list:(NSString*)path;
 @end

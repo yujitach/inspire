@@ -31,9 +31,29 @@ typedef NSUInteger NSModalResponse;
     self=[super init];
     article=a;
     shouldAsk=ask;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfDownloadProgress:) name:@"pdfDownloadProgress" object:nil];
     return self;
 }
 
+-(void)pdfDownloadProgress:(NSNotification*)n
+{
+    NSDictionary*dic=(NSDictionary*)n.object;
+    NSNumber*num=dic[@"fractionCompleted"];
+    int percent=100*(num.doubleValue);
+    dispatch_async(dispatch_get_main_queue(),^{
+        [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Downloading PDF (%@%%)...",@(percent)]];
+    });
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+-(void)cancel
+{
+    [[ArxivHelper sharedHelper] cancelDownloadPDF];
+    [super cancel];
+    [self finish];
+}
 -(void)downloadAlertDidEnd:(NSAlert*)alert code:(NSModalResponse)choice
 {
     if(choice==NSAlertFirstButtonReturn){

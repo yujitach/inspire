@@ -16,6 +16,7 @@ ArxivHelper* _sharedHelper=nil;
     id<ArxivHelperDelegate> delegate;
     NSProgress*progress;
     NSMutableData*temporaryData;
+    BOOL canceled;
 }
 
 +(ArxivHelper*)sharedHelper
@@ -28,8 +29,6 @@ ArxivHelper* _sharedHelper=nil;
 -(ArxivHelper*)init
 {
     self=[super init];
-    NSURLSessionConfiguration*config=[NSURLSessionConfiguration defaultSessionConfiguration];
-    session=[NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     return self;
 }
 -(NSString*)arXivHead
@@ -59,6 +58,8 @@ ArxivHelper* _sharedHelper=nil;
 {
     NSURL* url=[NSURL URLWithString:[self arXivPDFPathForID:arXivID]];
     NSLog(@"fetching:%@",url);
+    NSURLSessionConfiguration*config=[NSURLSessionConfiguration defaultSessionConfiguration];
+    session=[NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSURLRequest* urlRequest=[NSURLRequest requestWithURL:url
 					      cachePolicy:NSURLRequestUseProtocolCachePolicy
 					  timeoutInterval:30];
@@ -66,9 +67,15 @@ ArxivHelper* _sharedHelper=nil;
     delegate=dele;
     temporaryData=[NSMutableData data];
     NSURLSessionDataTask*dataTask=[session dataTaskWithRequest:urlRequest];
+    canceled=NO;
     [dataTask resume];
 }
 
+-(void)cancelDownloadPDF
+{
+    canceled=YES;
+    [session invalidateAndCancel];
+}
 /*-(NSXMLDocument*)xmlForPath:(NSString*)path
 {
     NSString*p=[[path componentsSeparatedByString:@"/"]objectAtIndex:0];
@@ -239,6 +246,7 @@ ArxivHelper* _sharedHelper=nil;
         
         [delegate pdfDownloadDidEnd:returnDict];
 #if !TARGET_OS_IPHONE
+        if(!canceled){
         NSAlert*alert=[[NSAlert alloc] init];
         alert.messageText=@"Connection Error to arXiv";
         [alert addButtonWithTitle:@"OK"
@@ -247,6 +255,7 @@ ArxivHelper* _sharedHelper=nil;
         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
                       completionHandler:nil
          ];
+        }
 #endif
     }
 }
