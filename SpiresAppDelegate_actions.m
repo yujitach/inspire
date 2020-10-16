@@ -264,7 +264,7 @@
 {
     Article*o=[ac selection];
     if(o==nil)return;
-    [[NSApp appDelegate] startProgressIndicator];
+    [[NSApp appDelegate] postMessage:@"Reloading articles..."];
     [historyController mark:self];
     NSString*eprint=[o valueForKey:@"eprint"];
     if(eprint && ![eprint isEqualToString:@""]){
@@ -273,7 +273,7 @@
     }else{
 //	[self querySPIRES:[NSString stringWithFormat:@"spicite %@",[o valueForKey:@"spicite"]]];
     }
-    [[NSApp appDelegate] stopProgressIndicator];
+    [[NSApp appDelegate] postMessage:nil];
 }
 -(IBAction) reloadSelectedArticleList:(id)sender
 {

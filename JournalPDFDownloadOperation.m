@@ -203,6 +203,6 @@
 }
 -(void)cleanupToCancel
 {
-    [[NSApp appDelegate] stopProgressIndicator];
+    [[NSApp appDelegate] postMessage:nil];
 }
 @end

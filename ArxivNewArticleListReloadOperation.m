@@ -157,7 +157,7 @@
 -(void)main
 {
     dispatch_async(dispatch_get_main_queue(),^{
-	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"reloading %@",listName]];
+	[[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Reloading %@",listName]];
     });
     NSString*s=[[ArxivHelper sharedHelper] list:listName];
 
@@ -171,7 +171,7 @@
     }
     if([[dict allKeys] count]==0){
 	dispatch_async(dispatch_get_main_queue(),^{
-	    [[NSApp appDelegate] stopProgressIndicator];
+            [[NSApp appDelegate] postMessage:nil];
 #if !TARGET_OS_IPHONE
             NSAlert*alert=[[NSAlert alloc] init];
             alert.messageText=@"Cannot reach arXiv.";

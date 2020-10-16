@@ -36,7 +36,6 @@
 #import "PrefController.h"
 
 #import "PDFHelper.h"
-#import "ProgressIndicatorController.h"
 
 #import "SpiresQueryOperation.h"
 #import "TeXBibGenerationOperation.h"
@@ -569,11 +568,6 @@
 -(void)postMessage:(NSString*)message
 {
     wv.message=message;
-    if(message){
-        [self startProgressIndicator];
-    }else{
-        [self stopProgressIndicator];
-    }
 }
 -(void)makeTableViewFirstResponder
 {
@@ -582,14 +576,6 @@
 -(void)makeSideViewFirstResponder
 {
     [window makeFirstResponder:sideOutlineView];
-}
--(void)startProgressIndicator
-{
-    [[ProgressIndicatorController sharedController] startAnimation:self];
-}
--(void)stopProgressIndicator
-{
-    [[ProgressIndicatorController sharedController] stopAnimation:self];
 }
 -(void)addToTeXLog:(NSString*)s
 {

@@ -48,7 +48,7 @@
 {
     if(articleIDs.count ==0)return;
     dispatch_async(dispatch_get_main_queue(),^{
-        [[NSApp appDelegate] startProgressIndicator];
+        [[NSApp appDelegate] postMessage:@"Looking up bib entries..."];
     });
     NSManagedObjectContext*moc=[[MOC sharedMOCManager] createSecondaryMOC];
     [moc performBlockAndWait:^{
@@ -81,7 +81,7 @@
         }
         [moc save:NULL];
         dispatch_async(dispatch_get_main_queue(),^{
-            [[NSApp appDelegate] stopProgressIndicator];
+            [[NSApp appDelegate] postMessage:nil];
         });
     }];
 }

@@ -226,7 +226,6 @@
     NSURLSessionDataTask*dataTask=[session dataTaskWithRequest:urlRequest];
     [dataTask resume];
     
-    [[NSApp appDelegate] startProgressIndicator];
     if(!total){
         [[NSApp appDelegate] postMessage:@"Waiting reply from inspire..."];
     }else{

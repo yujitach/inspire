@@ -80,7 +80,6 @@
 		3387649B0EAC5D8800042601 /* JournalEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3387649A0EAC5D8800042601 /* JournalEntry.m */; };
 		33887E260EA97971003A7E83 /* URLHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 33887E250EA97971003A7E83 /* URLHandlerCommand.m */; };
 		33887E7C0EA97C4D003A7E83 /* spires.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 33887E7B0EA97C4D003A7E83 /* spires.sdef */; };
-		338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338AC4770F3691B40011414C /* ProgressIndicatorController.m */; };
 		338E9EBC1037C55D0059AE43 /* MessageViewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E9EBB1037C55D0059AE43 /* MessageViewerController.m */; };
 		338E9EBE1037C58C0059AE43 /* MessageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338E9EBD1037C58C0059AE43 /* MessageViewer.xib */; };
 		3391CB730FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3391CB720FFAD5B200A52D6E /* BibTeXKeyCopyOperation.m */; };
@@ -336,8 +335,6 @@
 		33887E240EA97971003A7E83 /* URLHandlerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLHandlerCommand.h; sourceTree = "<group>"; };
 		33887E250EA97971003A7E83 /* URLHandlerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLHandlerCommand.m; sourceTree = "<group>"; };
 		33887E7B0EA97C4D003A7E83 /* spires.sdef */ = {isa = PBXFileReference; fileEncoding = 4; languageSpecificationIdentifier = html; lastKnownFileType = text.xml; path = spires.sdef; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xml; };
-		338AC4760F3691B40011414C /* ProgressIndicatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressIndicatorController.h; sourceTree = "<group>"; };
-		338AC4770F3691B40011414C /* ProgressIndicatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressIndicatorController.m; sourceTree = "<group>"; };
 		338E9EBA1037C55D0059AE43 /* MessageViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewerController.h; sourceTree = "<group>"; };
 		338E9EBB1037C55D0059AE43 /* MessageViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewerController.m; sourceTree = "<group>"; };
 		338E9EBD1037C58C0059AE43 /* MessageViewer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageViewer.xib; sourceTree = "<group>"; };
@@ -701,8 +698,6 @@
 		3395454D0F352F5A00D01E97 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				338AC4760F3691B40011414C /* ProgressIndicatorController.h */,
-				338AC4770F3691B40011414C /* ProgressIndicatorController.m */,
 				3315E8590EB6DAB200E56D7E /* HistoryController.h */,
 				3315E85A0EB6DAB200E56D7E /* HistoryController.m */,
 				334AF2260F7098B9006EE7A0 /* SideOutlineViewController.h */,
@@ -1289,7 +1284,6 @@
 				3395458F0F3539B600D01E97 /* AppChooser.m in Sources */,
 				337B882F0F3575680005BA9C /* BibViewController.m in Sources */,
 				33441FBF1B79B5F700A26198 /* LightweightArticle.m in Sources */,
-				338AC4780F3691B40011414C /* ProgressIndicatorController.m in Sources */,
 				331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */,
 				33C7A4390F3D0EA600F3874C /* SecureDownloader.m in Sources */,
 				33CC06E80F3E48B8005B25F8 /* DumbOperation.m in Sources */,
