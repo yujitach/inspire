@@ -15,4 +15,5 @@ typedef void (^WhenDoneClosure)(NSDictionary*dict);
 // note that didEndSelector can be called **multiple times**.
 // It's guaranteed to be always on the main thread.
 -(id)initWithQuery:(NSString*)s whenDone:(WhenDoneClosure)wd ;
+-(void)cancel;
 @end

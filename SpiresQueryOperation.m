@@ -37,16 +37,18 @@
     startAt=0;
     return self;
 }
+-(void)cancel{
+    [super cancel];
+    if(downloader){
+        [downloader cancel];
+    }
+}
 -(void)run
 {
     self.isExecuting=YES;
     __weak ConcurrentOperation*me=self;
     downloader=[[SpiresQueryDownloader alloc] initWithQuery:search whenDone:^(NSDictionary*jsonDict){
         if(!jsonDict){
-            [me finish];
-            return;
-        }
-        if([me isCancelled]){
             [me finish];
             return;
         }
@@ -64,7 +66,6 @@
             actionBlock(importer);
         }
         [[OperationQueues importQueue] addOperation:importer];
-        [me finish];
     }];
     if(!downloader){
 	[self finish];

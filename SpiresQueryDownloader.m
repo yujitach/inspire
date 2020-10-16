@@ -24,9 +24,13 @@
     NSUInteger sofar;
     NSUInteger startIndex;
     NSInteger sleep;
+    BOOL canceled;
 }
 -(void)dealWith:(NSArray*)a
 {
+    if(canceled){
+        return;
+    }
     NSString*q=[@"recid:" stringByAppendingString:[a componentsJoinedByString:@" or "]];
     [NSThread sleepForTimeInterval:sleep];
     NSURL*url=[[SpiresHelper sharedHelper] newInspireAPIURLForQuery:[q stringByAppendingString:@"&size=50"] withFormat:@"json"];
@@ -43,7 +47,7 @@
             whenDone(d);
         });
     }else{
-        whenDone(nil);
+        canceled=YES;
     }
 }
 -(void)unfortunateCitedByMainWork:(NSString*)uniqueQuery
@@ -77,11 +81,15 @@
             [self dealWith:ma];
             [ma removeAllObjects];
         }
+        if(canceled){
+            break;
+        }
     }
     if(ma.count>0){
         [self dealWith:ma];
     }
     dispatch_async(dispatch_get_main_queue(),^{
+        whenDone(nil);
         [[NSApp appDelegate] postMessage:nil];
     });
 }
@@ -202,6 +210,9 @@
 }
 -(void)startAt:(NSUInteger)start
 {
+    if(canceled){
+        return;
+    }
     startIndex=start;
     NSURL*url=[self urlForInspireForString:searchString];
     NSLog(@"fetching:%@",url);
@@ -228,8 +239,13 @@
         [[NSApp appDelegate] postMessage:[NSString stringWithFormat:@"Obtaining articles #%d to #%d of %@",(int)a,(int)b,total]];
     }
 }
-#pragma mark Bibtex parser
 
+-(void)cancel
+{
+    [session invalidateAndCancel];
+    [[NSApp appDelegate] postMessage:nil];
+    canceled=YES;
+}
 
 #pragma mark URL connection delegates
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
@@ -241,7 +257,6 @@
 }
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionDataTask *)task didCompleteWithError:(NSError *)error
 {
-    [[NSApp appDelegate] postMessage:nil];
     if(!error){
         NSDictionary*d=[NSJSONSerialization JSONObjectWithData:temporaryData options:0 error:nil];
         whenDone(d);
@@ -254,10 +269,15 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, sleep * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [self startAt:startIndex+MAXPERQUERY];
             });
+        }else{
+            [[NSApp appDelegate] postMessage:nil];
+            whenDone(nil);
         }
     }else{
+        [[NSApp appDelegate] postMessage:nil];
         whenDone(nil);
 #if !TARGET_OS_IPHONE
+        if(!canceled){
         NSAlert*alert=[[NSAlert alloc] init];
         alert.messageText=@"Connection Error to Inspire";
         [alert addButtonWithTitle:@"OK"];
@@ -265,6 +285,7 @@
         //[alert setAlertStyle:NSCriticalAlertStyle];
         [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
                       completionHandler:nil];
+        }
 #endif
     }
 }
