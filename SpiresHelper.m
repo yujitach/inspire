@@ -448,7 +448,14 @@ SpiresHelper*_sharedSpiresHelper=nil;
 
 -(NSURL*)newInspireAPIURLForQuery:(NSString *)search withFormat:(NSString*)format
 {
-    return [self newInspireAPIURLForQuery:search withFormat:format forFields:usedFields];
+    if(!format){
+        format=@"json";
+    }
+    if([format hasPrefix:@"json"]){
+        return [self newInspireAPIURLForQuery:search withFormat:format forFields:usedFields];
+    }else{
+        return [self newInspireAPIURLForQuery:search withFormat:format forFields:nil];
+    }
 }
 
 
@@ -457,7 +464,11 @@ SpiresHelper*_sharedSpiresHelper=nil;
     if(!format){
         format=@"json";
     }
-    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?fields=%@&q=%@&format=%@",fields,search,format];
+    NSString*fieldsQ=@"";
+    if(fields){
+        fieldsQ=[@"fields=" stringByAppendingString:usedFields];
+    }
+    NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?%@&q=%@&format=%@",fieldsQ,search,format];
     NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL* url=[NSURL URLWithString:t];
     return url;
