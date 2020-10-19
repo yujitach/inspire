@@ -197,6 +197,7 @@
         o.canCollapse=NO;
         NSSplitViewItem*m=[NSSplitViewItem splitViewItemWithViewController:mainTableViewController];
         [splitVC addSplitViewItem:m];
+        splitVC.view.autoresizingMask=sp.autoresizingMask;
         [window.contentView replaceSubview:sp with:splitVC.view ];
     }
 }
