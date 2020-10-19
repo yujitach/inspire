@@ -212,8 +212,9 @@
     [self upgradeSplitView];
     if(@available(macOS 11,*)){
 //        window.titleVisibility=NSWindowTitleHidden;
-        window.toolbarStyle=NSWindowToolbarStyleExpanded;
+        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
 //        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
+        [tb insertItemWithItemIdentifier:NSToolbarSidebarTrackingSeparatorItemIdentifier atIndex:1];
     }
     
     for(NSToolbarItem*ti in [tb items]){
