@@ -600,12 +600,12 @@
                             </connections>
                         </searchField>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="24B73632-CF62-4F80-A43C-04E32DBD4E18" label="Buttons" paletteLabel="Custom View" visibilityPriority="2" id="910">
+                    <toolbarItem implicitItemIdentifier="24B73632-CF62-4F80-A43C-04E32DBD4E18" label="&lt;&gt;" paletteLabel="&lt;&gt;" visibilityPriority="2" id="910">
                         <nil key="toolTip"/>
                         <size key="minSize" width="48" height="25"/>
                         <size key="maxSize" width="52" height="25"/>
                         <segmentedControl key="view" verticalHuggingPriority="750" id="908">
-                            <rect key="frame" x="14" y="14" width="48" height="25"/>
+                            <rect key="frame" x="0.0" y="14" width="48" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="momentary" id="909">
                                 <font key="font" metaFont="system"/>
@@ -620,12 +620,12 @@
                             </segmentedCell>
                         </segmentedControl>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="193CD9F3-01EF-4303-88DD-6302B6A8B963" label="Custom View" paletteLabel="Custom View" image="NSQuickLookTemplate" id="938">
+                    <toolbarItem implicitItemIdentifier="193CD9F3-01EF-4303-88DD-6302B6A8B963" label="QuickLook" paletteLabel="QuickLook" image="NSQuickLookTemplate" id="938">
                         <nil key="toolTip"/>
                         <size key="minSize" width="40" height="25"/>
                         <size key="maxSize" width="40" height="25"/>
                         <button key="view" verticalHuggingPriority="750" id="936">
-                            <rect key="frame" x="18" y="14" width="40" height="25"/>
+                            <rect key="frame" x="12" y="14" width="40" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="roundTextured" title="Round Textured" bezelStyle="texturedRounded" image="NSQuickLookTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="937">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -636,12 +636,12 @@
                             <action selector="openSelectionInQuickLook:" target="205" id="939"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="847DA041-7C9A-422C-91CE-D61C0934EE1C" label="Custom View" paletteLabel="Custom View" image="flagged" id="Enz-Fw-Jg5">
+                    <toolbarItem implicitItemIdentifier="847DA041-7C9A-422C-91CE-D61C0934EE1C" label="Flag" paletteLabel="Flag" image="flagged" id="Enz-Fw-Jg5">
                         <nil key="toolTip"/>
                         <size key="minSize" width="40" height="25"/>
                         <size key="maxSize" width="44" height="25"/>
                         <button key="view" verticalHuggingPriority="750" id="APf-0E-baz">
-                            <rect key="frame" x="18" y="14" width="40" height="25"/>
+                            <rect key="frame" x="0.0" y="14" width="40" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" image="flagged" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CiO-CW-GTr">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
