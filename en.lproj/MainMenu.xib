@@ -264,7 +264,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="64" y="309" width="800" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="518" height="406"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
@@ -670,9 +670,11 @@
                 <outlet property="ac" destination="421" id="449"/>
                 <outlet property="articleListView" destination="429" id="1298"/>
                 <outlet property="historyController" destination="911" id="923"/>
+                <outlet property="mainTableViewController" destination="1032" id="Xjm-Ck-Niy"/>
                 <outlet property="searchField" destination="897" id="1249"/>
                 <outlet property="sideOutlineView" destination="716" id="1314"/>
                 <outlet property="sideOutlineViewController" destination="883" id="1306"/>
+                <outlet property="sp" destination="868" id="p5i-XO-1VL"/>
                 <outlet property="tb" destination="889" id="903"/>
                 <outlet property="window" destination="21" id="208"/>
                 <outlet property="wv" destination="830" id="831"/>
@@ -689,6 +691,7 @@
             <connections>
                 <outlet property="articleListController" destination="1200" id="1216"/>
                 <outlet property="articleListView" destination="716" id="928"/>
+                <outlet property="view" destination="1007" id="hIi-qq-CgK"/>
             </connections>
         </customObject>
         <customObject id="705" customClass="SUUpdater"/>
@@ -696,6 +699,7 @@
             <connections>
                 <outlet property="ac" destination="421" id="1034"/>
                 <outlet property="tv" destination="429" id="1033"/>
+                <outlet property="view" destination="832" id="scu-hX-6rA"/>
             </connections>
         </customObject>
         <arrayController mode="entity" entityName="Article" editable="NO" automaticallyPreparesContent="YES" clearsFilterPredicateOnInsertion="NO" id="421" userLabel="Article Controller">

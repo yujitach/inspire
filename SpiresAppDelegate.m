@@ -26,6 +26,7 @@
 #import "ArticleView.h"
 
 #import "SideOutlineViewController.h"
+#import "MainTableViewController.h"
 
 #import "HistoryController.h"
 
@@ -65,7 +66,9 @@
 @implementation SpiresAppDelegate
 {
     SyncManager*syncManager;
-    
+    IBOutlet NSSplitView*sp;
+    IBOutlet MainTableViewController*mainTableViewController;
+    NSSplitViewController*splitVC;
     NSTimer*unreadTimer;
     NSTimer*abstractTimer;
 }
@@ -184,9 +187,23 @@
 
 
 #pragma mark UI glues
-
+-(void)upgradeSplitView
+{
+    if(@available(macOS 10.11,*)){
+        splitVC=[[NSSplitViewController alloc] init];
+        splitVC.splitView.vertical=YES;
+        NSSplitViewItem*o=[NSSplitViewItem sidebarWithViewController:sideOutlineViewController];
+        [splitVC addSplitViewItem:o];
+        o.canCollapse=NO;
+        NSSplitViewItem*m=[NSSplitViewItem splitViewItemWithViewController:mainTableViewController];
+        [splitVC addSplitViewItem:m];
+        splitVC.view.autoresizingMask=sp.autoresizingMask;
+        [window.contentView replaceSubview:sp with:splitVC.view ];
+    }
+}
 -(void)awakeFromNib
 {
+    [self upgradeSplitView];
     if(@available(macOS 11,*)){
 //        window.titleVisibility=NSWindowTitleHidden;
         window.toolbarStyle=NSWindowToolbarStyleExpanded;
@@ -238,7 +255,7 @@
 }
 -(BOOL)showWelcome
 {
-    NSString*welcome=@"v1.9.0alert";
+    NSString*welcome=@"v1.9.5alert";
     NSString*key=[welcome stringByAppendingString:@"ShownShown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];
