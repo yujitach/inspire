@@ -11,7 +11,7 @@
 
 //@class spires_AppDelegate;
 @class ArticleList;
-@interface SideOutlineViewController : NSObject<TableViewContextMenuDelegate> {
+@interface SideOutlineViewController : NSViewController<TableViewContextMenuDelegate> {
     IBOutlet NSTreeController* articleListController;
     IBOutlet NSOutlineView* articleListView;
 //    IBOutlet spires_AppDelegate* appDelegate;

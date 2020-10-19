@@ -26,6 +26,7 @@
 #import "ArticleView.h"
 
 #import "SideOutlineViewController.h"
+#import "MainTableViewController.h"
 
 #import "HistoryController.h"
 
@@ -65,7 +66,9 @@
 @implementation SpiresAppDelegate
 {
     SyncManager*syncManager;
-    
+    IBOutlet NSSplitView*sp;
+    IBOutlet MainTableViewController*mainTableViewController;
+    NSSplitViewController*splitVC;
     NSTimer*unreadTimer;
     NSTimer*abstractTimer;
 }
@@ -184,10 +187,22 @@
 
 
 #pragma mark UI glues
-
+-(void)upgradeSplitView
+{
+    if(@available(macOS 10.11,*)){
+        splitVC=[[NSSplitViewController alloc] init];
+        splitVC.splitView.vertical=YES;
+        NSSplitViewItem*o=[NSSplitViewItem sidebarWithViewController:sideOutlineViewController];
+        [splitVC addSplitViewItem:o];
+        o.canCollapse=NO;
+        NSSplitViewItem*m=[NSSplitViewItem splitViewItemWithViewController:mainTableViewController];
+        [splitVC addSplitViewItem:m];
+        [window.contentView replaceSubview:sp with:splitVC.view ];
+    }
+}
 -(void)awakeFromNib
 {
-    
+    [self upgradeSplitView];
     
     for(NSToolbarItem*ti in [tb items]){
 	if([[ti  label] isEqualToString:@"Search Field"]){

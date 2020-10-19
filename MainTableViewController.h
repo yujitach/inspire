@@ -10,7 +10,7 @@
 #import "TableViewContextMenuCategory.h"
 
 @class HidableNSTableView;
-@interface MainTableViewController : NSObject<TableViewContextMenuDelegate> {
+@interface MainTableViewController : NSViewController<TableViewContextMenuDelegate> {
     IBOutlet HidableNSTableView* tv;
     IBOutlet NSArrayController* ac;
 }
