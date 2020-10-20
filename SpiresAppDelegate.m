@@ -191,7 +191,6 @@
 {
     if(@available(macOS 10.11,*)){
         window.styleMask|=NSWindowStyleMaskFullSizeContentView;
-        window.titlebarAppearsTransparent=YES;
         splitVC=[[NSSplitViewController alloc] init];
         splitVC.splitView.vertical=YES;
         NSSplitViewItem*o=[NSSplitViewItem sidebarWithViewController:sideOutlineViewController];
@@ -201,7 +200,8 @@
         [splitVC addSplitViewItem:m];
         splitVC.view.translatesAutoresizingMaskIntoConstraints=NO;
         [window.contentView replaceSubview:sp with:splitVC.view ];
-        [splitVC.view.topAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).topAnchor constant:0].active=YES;
+        [splitVC.view.topAnchor constraintEqualToAnchor:window.contentView.topAnchor
+                                               constant:0].active=YES;
         [splitVC.view.bottomAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).bottomAnchor].active=YES;
         [splitVC.view.leftAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).leftAnchor].active=YES;
         [splitVC.view.rightAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).rightAnchor].active=YES;
