@@ -209,7 +209,7 @@
 }
 -(void)awakeFromNib
 {
- //   [self upgradeSplitView];
+    [self upgradeSplitView];
     
     for(NSToolbarItem*ti in [tb items]){
 	if([[ti  label] isEqualToString:@"Search Field"]){
