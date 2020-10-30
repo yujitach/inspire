@@ -123,6 +123,12 @@
 		       inDataForKey:@"eprint"
 			      inMOC:moc];	
     }
+    if([idToLookUp hasPrefix:@"recid:"]){
+        NSString*recid=[idToLookUp substringFromIndex:@"recid:".length];
+        return [Article articleWith:recid
+                   inDataForKey:@"inspireKey"
+                      inMOC:moc];
+    }
     if([idToLookUp rangeOfString:@":"].location!=NSNotFound){
 	return [Article articleWith:idToLookUp
 		       inDataForKey:@"texKey"

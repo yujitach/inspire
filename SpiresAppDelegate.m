@@ -189,7 +189,7 @@
 #pragma mark UI glues
 -(void)upgradeSplitView
 {
-    if(@available(macOS 10.11,*)){
+    if(@available(macOS 10.15,*)){
         window.styleMask|=NSWindowStyleMaskFullSizeContentView;
         splitVC=[[NSSplitViewController alloc] init];
         splitVC.splitView.vertical=YES;
