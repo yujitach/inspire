@@ -189,6 +189,12 @@
 #pragma mark UI glues
 -(void)upgradeSplitView
 {
+    if(@available(macOS 11,*)){
+//        window.titleVisibility=NSWindowTitleHidden;
+        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
+//        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
+//        [tb insertItemWithItemIdentifier:NSToolbarSidebarTrackingSeparatorItemIdentifier atIndex:1];
+    }
     if(@available(macOS 10.11,*)){
         window.styleMask|=NSWindowStyleMaskFullSizeContentView;
         splitVC=[[NSSplitViewController alloc] init];
@@ -210,12 +216,6 @@
 -(void)awakeFromNib
 {
     [self upgradeSplitView];
-    if(@available(macOS 11,*)){
-//        window.titleVisibility=NSWindowTitleHidden;
-        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
-//        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
-        [tb insertItemWithItemIdentifier:NSToolbarSidebarTrackingSeparatorItemIdentifier atIndex:1];
-    }
     
     for(NSToolbarItem*ti in [tb items]){
         if([[ti  label] isEqualToString:@"Search Field"]){
