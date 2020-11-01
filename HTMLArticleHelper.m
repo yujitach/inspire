@@ -234,9 +234,8 @@
     //    if(article.spicite && ![article.spicite isEqualToString:@""]){
     //	return [NSString stringWithFormat:@"<a href=\"spires-search://c %@\">cited by</a>",article.spicite];
     //    }
-    if([[[NSUserDefaults standardUserDefaults] stringForKey:@"databaseToUse"] isEqualToString:@"inspire"]
-       && article.spiresKey && [article.spiresKey integerValue]!=0){
-        return [NSString stringWithFormat:@"<a href=\"spires-search://c key %@\">cited by</a>",article.spiresKey];
+    if(article.inspireKey && [article.inspireKey integerValue]!=0){
+        return [NSString stringWithFormat:@"<a href=\"spires-search://c recid:%@\">cited by</a>",article.inspireKey];
     }
     return @"<del>cited by</del>";
 }
@@ -244,8 +243,8 @@
     if(article.eprint && ![article.eprint isEqualToString:@""]){
         return [NSString stringWithFormat:@"<a href=\"spires-search://r %@\">refers to</a>",article.eprint];
     }
-    if(article.spiresKey && [article.spiresKey integerValue]!=0){
-        return [NSString stringWithFormat:@"<a href=\"spires-search://r key %@\">refers to</a>",article.spiresKey];
+    if(article.inspireKey && [article.inspireKey integerValue]!=0){
+        return [NSString stringWithFormat:@"<a href=\"spires-search://r recid:%@\">refers to</a>",article.inspireKey];
     }
     return @"<del>refers to</del>";
 }
