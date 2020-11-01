@@ -255,7 +255,7 @@
     NSMenu* menu=[[NSMenu alloc] initWithTitle:@"context menu"];
     if(i==-1){
 	[menu insertItemWithTitle:@"Add Playlist..." 
-			   action:@selector(addArticleList:)
+			   action:@selector(addSimpleArticleList:)
 		    keyEquivalent:@""
 			  atIndex:0];
 	[menu insertItemWithTitle:@"Add Folder..." 

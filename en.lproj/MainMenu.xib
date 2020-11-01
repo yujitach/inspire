@@ -380,7 +380,7 @@
                                                     <menuItem state="on" image="NSAddTemplate" hidden="YES" id="1233"/>
                                                     <menuItem title="Add Playlist..." id="1234">
                                                         <connections>
-                                                            <action selector="addArticleList:" target="205" id="1238"/>
+                                                            <action selector="addSimpleArticleList:" target="205" id="UQK-Yp-Deu"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Add Folder..." id="1235">

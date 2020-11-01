@@ -16,7 +16,7 @@
 -(IBAction)reloadSelection:(id)sender;
 -(IBAction)reloadSelectedArticleList:(id)sender;
 -(IBAction)reloadAllArticleList:(id)sender;
--(IBAction)addArticleList:(id)sender;
+-(IBAction)addSimpleArticleList:(id)sender;
 -(IBAction)addArticleFolder:(id)sender;
 -(IBAction)addArxivArticleList:(id)sender;
 -(IBAction)addCannedSearch:(id)sender;
