@@ -138,7 +138,7 @@
      }*/
     //    NSLog(@"%@",a.abstract);
 }
--(IBAction)addArticleList:(id)sender
+-(IBAction)addSimpleArticleList:(id)sender
 {
     [self addSimpleArticleListWithName:@"untitled"];
 }
