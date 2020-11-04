@@ -466,7 +466,7 @@ SpiresHelper*_sharedSpiresHelper=nil;
     }
     NSString*fieldsQ=@"";
     if(fields){
-        fieldsQ=[@"fields=" stringByAppendingString:usedFields];
+        fieldsQ=[@"fields=" stringByAppendingString:fields];
     }
     NSString*s=[NSString stringWithFormat:@"https://inspirehep.net/api/literature?%@&q=%@&format=%@",fieldsQ,search,format];
     NSString*t=[s stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
