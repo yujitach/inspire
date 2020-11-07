@@ -143,7 +143,10 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
         // saying it's insecure, to the extent that the log file is unreadable.
         // I provide a insecure default transformer to shut it up, for Catalina and later.
         // Catalina is included so that it can be tested in more macs.
-        // I know I should have used secure archiver.
+        // UnarchiveFromDataTransformer uses insecure coders. You can use secure coders,
+        // but then the resulting sort descriptors cannot be evaluated unless -allowEvaluation
+        // is called after the content is checked.
+        // I am not sure if all this is worth conforming to...
         [NSValueTransformer setValueTransformer:[[UnarchiveFromDataTransformer alloc] init] forName:@"UnarchiveFromDataTransformer"];
         NSEntityDescription*entityDesc=managedObjectModel.entitiesByName[@"ArticleList"];
         NSAttributeDescription*attributeDesc=entityDesc.attributesByName[@"sortDescriptors"];
