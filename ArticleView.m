@@ -102,13 +102,31 @@ static NSArray*observedKeys=nil;
     NSString*appearance=[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
     return [appearance isEqualToString:@"Dark"] && [[NSProcessInfo processInfo] operatingSystemVersion].minorVersion>=14;
 }
+-(void)setElementId:(NSString*)elementId visible:(BOOL)visible
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById(\"%@\").style.visibility=\"%@\";",elementId,visible?@"visible":@"hidden"]];
+}
+-(void)setElementId:(NSString*)elementId fontSize:(NSString*)fontSize
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById(\"%@\").style.fontSize=\"%@\";",elementId,fontSize]];
+}
+-(NSString*)JSONArrayFrom:(NSString*)input
+{
+    NSData*d=[NSJSONSerialization dataWithJSONObject:@[input] options:0 error:nil];
+    NSString*s=[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding];
+    return s;
+}
+-(void)setElementId:(NSString*)elementId fontFamily:(NSString*)fontName
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById(\"%@\").style.fontFamily=%@[0];",elementId,[self JSONArrayFrom:fontName]]];
+}
+-(void)setElementId:(NSString*)elementId innerHTML:(NSString*)innerHTML
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById(\"%@\").innerHTML=%@[0];",elementId,[self JSONArrayFrom:innerHTML]]];
+}
 -(void)refresh
 {
     HTMLArticleHelper*helper=[[HTMLArticleHelper alloc] initWithArticle:article];
-    DOMDocument*doc=[[self mainFrame] DOMDocument];
-    DOMHTMLElement*mainBox=(DOMHTMLElement*)[doc getElementById:@"mainBox"];
-    DOMHTMLElement*centerBox=(DOMHTMLElement*)[doc getElementById:@"centerBox"];
-    DOMHTMLElement*messageBox=(DOMHTMLElement*)[doc getElementById:@"messageBox"];
 
     if(@available(macOS 10.15,*)){
         // taken care of within the template.html
@@ -127,36 +145,36 @@ static NSArray*observedKeys=nil;
     }
 
     if(!article || article==(Article*)NSNoSelectionMarker){
-	mainBox.style.visibility=@"hidden";
-	centerBox.style.visibility=@"visible";
-	centerBox.innerHTML=@"No Selection";
+        [self setElementId:@"mainBox" visible:NO];
+        [self setElementId:@"centerBox" visible:YES];
+        [self setElementId:@"centerBox" innerHTML:@"No Selection"];
     }else if(article==(Article*)NSMultipleValuesMarker){
-	mainBox.style.visibility=@"hidden";
-	centerBox.style.visibility=@"visible";
-	centerBox.innerHTML=@"Multiple Selections";
+        [self setElementId:@"mainBox" visible:NO];
+        [self setElementId:@"centerBox" visible:YES];
+        [self setElementId:@"centerBox" innerHTML:@"Multiple Selections"];
     }else{
-	mainBox.style.visibility=@"visible";
-	centerBox.style.visibility=@"hidden";
+        [self setElementId:@"mainBox" visible:YES];
+        [self setElementId:@"centerBox" visible:NO];
 	NSMutableArray*keys=[NSMutableArray arrayWithObjects:@"spires",@"citedBy",@"refersTo",nil];
 	[keys addObjectsFromArray:observedKeys];
 	for(NSString* key in keys){
 	    NSString* x=[helper valueForKey:key];
 	    if(!x)x=@"";
 	    if(x==(NSString*)NSNoSelectionMarker)x=@"";
-	    ((DOMHTMLElement*)[doc getElementById:key]).innerHTML=x;
+            [self setElementId:key innerHTML:x];
 	}
-	mainBox.style.fontSize=[self articleViewFontSize];
-	mainBox.style.fontFamily=[self articleViewFontName];
+        [self setElementId:@"mainBox" fontSize:[self articleViewFontSize]];
+        [self setElementId:@"mainBox" fontFamily:[self articleViewFontName]];
     }
     if(message && [[NSUserDefaults standardUserDefaults] boolForKey:@"showDistractingMessage"]){
-	messageBox.style.visibility=@"visible";
+        [self setElementId:@"messageBox" visible:YES];
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"blinking\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"infinite\";"];
-        messageBox.innerHTML=[message stringByAppendingString:@" <a href=\"spires-cancel://\">🅧</a>"];
+        [self setElementId:@"messageBox" innerHTML:[message stringByAppendingString:@" <a href=\"spires-cancel://\">🅧</a>"]];
     }else{
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationName=\"steady\";"];
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"0\";"];
-	messageBox.style.visibility=@"hidden";
+        [self setElementId:@"messageBox" visible:NO];
     }
 //    doc.body.scrollTop=0;
 //    [doc.body scrollIntoViewIfNeeded:YES];
