@@ -21,7 +21,7 @@ emitplist();
 
 sub getbibtexinfo{
 	my $src=shift;
-	if($src=~/\\bibliography{([^}]+)}/){
+	if($src=~/\\bibliography\{(.+?)\}/){
 		$isbibtex="YES";
 		$bibtexfile=$1;
 	}
