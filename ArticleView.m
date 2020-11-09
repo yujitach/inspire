@@ -35,6 +35,13 @@ static NSArray*observedKeys=nil;
 }
 -(void)initialSetup
 {
+    @try{
+        // force no background. Isn't there a better way?
+        [self setValue:@(NO) forKey:@"drawsBackground"];
+    }
+    @catch(NSException*e){
+        
+    }
     article=nil;
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
 							      forKeyPath:@"defaults.bibType"
@@ -197,7 +204,7 @@ static NSArray*observedKeys=nil;
         NSLog(@"finally setting %@",[toSet isKindOfClass:[Article class]]?toSet.shortishAuthorList:toSet);
         article=toSet;
         toSet=nil;
-        [self refresh];
+        [self performSelector:@selector(refresh) withObject:nil afterDelay:.1];
     }
 }
 -(void)setArticle:(Article*)a
