@@ -19,10 +19,19 @@
 
 static NSArray*observedKeys=nil;
 @implementation ArticleView
-#pragma mark UI glues
--(void)awakeFromNib
+-(void)stringByEvaluatingJavaScriptFromString:(NSString*)js
 {
-    [self setShouldCloseWithWindow:NO];
+    [self evaluateJavaScript:js completionHandler:nil];
+}
+#pragma mark UI glues
+-(instancetype)initWithFrame:(NSRect)frameRect
+{
+    self=[super initWithFrame:frameRect];
+    [self initialSetup];
+    return self;
+}
+-(void)initialSetup
+{
     article=nil;
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
 							      forKeyPath:@"defaults.bibType"
@@ -53,8 +62,7 @@ static NSArray*observedKeys=nil;
             templateForWebView=[templateForWebView stringByReplacingOccurrencesOfString:@"background-color:white;color:black;" withString:@"background-color:#292a30;color:white;"];
         }
     }
-    [[self mainFrame] loadHTMLString:templateForWebView baseURL:nil];
-    
+    [self loadHTMLString:templateForWebView baseURL:nil];
     observedKeys=@[@"abstract",@"arxivCategory",@"authors",@"comments",@"eprint",
 		  @"journal",@"pdfPath",@"title",@"texKey"];
 

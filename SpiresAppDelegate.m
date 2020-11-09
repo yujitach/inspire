@@ -71,6 +71,8 @@
     NSSplitViewController*splitVC;
     NSTimer*unreadTimer;
     NSTimer*abstractTimer;
+    ArticleView*wv;
+    IBOutlet NSView*articleViewContainer;
 }
 +(void)initialize
 {
@@ -207,8 +209,18 @@
         [splitVC.view.rightAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).rightAnchor].active=YES;
     }
 }
+-(void)insertArticleView
+{
+    NSRect rect=NSZeroRect;
+    rect.size=articleViewContainer.frame.size;
+    wv=[[ArticleView alloc] initWithFrame:rect];
+    wv.autoresizingMask=NSViewWidthSizable|NSViewHeightSizable;
+    wv.navigationDelegate=self;
+    [articleViewContainer addSubview:wv];
+}
 -(void)awakeFromNib
 {
+    [self insertArticleView];
     [self upgradeSplitView];
     
     for(NSToolbarItem*ti in [tb items]){
@@ -735,11 +747,11 @@
     }
 }
 #pragma mark WebView Delegate
--(void)webView:(WebView*)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSURL* url=[request URL];
+    NSURL* url=navigationAction.request.URL;
     if([[url scheme] isEqualToString:@"about"]){
-	[listener use];
+        decisionHandler(WKNavigationActionPolicyAllow);
     }else{
         if([[url absoluteString] hasPrefix:@"spires-search://c%20key%20"]
            ||
@@ -753,9 +765,10 @@
             }
         }
 	[self handleURL:url];
-	[listener ignore];
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
 }
+/*
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
     NSURL* url=element[WebElementLinkURLKey];
@@ -784,6 +797,7 @@
 {
     return WebDragDestinationActionAny;
 }
+ */
 #pragma mark Default provided by templates
 
 
