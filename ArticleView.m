@@ -19,6 +19,9 @@
 
 static NSArray*observedKeys=nil;
 @implementation ArticleView
+{
+    Article*toSet;
+}
 -(void)stringByEvaluatingJavaScriptFromString:(NSString*)js
 {
     [self evaluateJavaScript:js completionHandler:nil];
@@ -189,26 +192,24 @@ static NSArray*observedKeys=nil;
  //      NSLog(@"%@",[self mainFrame]);
     
 }
+-(void)setBarticle:(Article*)foo{
+    if(!article && toSet){
+        NSLog(@"finally setting %@",[toSet isKindOfClass:[Article class]]?toSet.shortishAuthorList:toSet);
+        article=toSet;
+        toSet=nil;
+        [self refresh];
+    }
+}
 -(void)setArticle:(Article*)a
 {
-/*
-    if(article && article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
-	for(NSString* i in observedKeys){
-	    [article removeObserver:self forKeyPath:i];
-	}
+    if(self.isLoading){
+        toSet=a;
+        NSLog(@"trying to set %@, but is loading",[toSet isKindOfClass:[Article class]]?toSet.shortishAuthorList:toSet);
+        [self performSelector:@selector(setBarticle:) withObject:nil afterDelay:.1];
+        return;
     }
- */
+    toSet=nil;
     article=a;
-/*
-    if(article&& article!=(Article*)NSNoSelectionMarker && article!=(Article*)NSMultipleValuesMarker){
-	for(NSString* i in observedKeys){
-		[article addObserver:self
-			  forKeyPath:i
-			     options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
-			     context:nil];
-	}
-    }
- */
     [self refresh];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
