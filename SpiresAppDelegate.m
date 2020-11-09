@@ -71,6 +71,8 @@
     NSSplitViewController*splitVC;
     NSTimer*unreadTimer;
     NSTimer*abstractTimer;
+    ArticleView*wv;
+    IBOutlet NSView*articleViewContainer;
 }
 +(void)initialize
 {
@@ -205,6 +207,7 @@
         NSSplitViewItem*m=[NSSplitViewItem splitViewItemWithViewController:mainTableViewController];
         [splitVC addSplitViewItem:m];
         splitVC.view.translatesAutoresizingMaskIntoConstraints=NO;
+        splitVC.splitView.autosaveName=@"vsplit";
         [window.contentView replaceSubview:sp with:splitVC.view ];
         [splitVC.view.topAnchor constraintEqualToAnchor:window.contentView.topAnchor
                                                constant:0].active=YES;
@@ -213,8 +216,18 @@
         [splitVC.view.rightAnchor constraintEqualToAnchor:((NSLayoutGuide*)window.contentLayoutGuide).rightAnchor].active=YES;
     }
 }
+-(void)insertArticleView
+{
+    NSRect rect=NSZeroRect;
+    rect.size=articleViewContainer.frame.size;
+    wv=[[ArticleView alloc] initWithFrame:rect];
+    wv.autoresizingMask=NSViewWidthSizable|NSViewHeightSizable;
+    wv.navigationDelegate=self;
+    [articleViewContainer addSubview:wv];
+}
 -(void)awakeFromNib
 {
+    [self insertArticleView];
     [self upgradeSplitView];
     
     for(NSToolbarItem*ti in [tb items]){
@@ -643,7 +656,7 @@
     [alert setShowsSuppressionButton:YES];
     [alert beginSheetModalForWindow:window
                   completionHandler:^(NSModalResponse returnCode) {
-                      if ([[alert suppressionButton] state] == NSOnState) {
+        if ([[alert suppressionButton] state] == NSControlStateValueOn) {
                           [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
                       }
                   }
@@ -745,17 +758,17 @@
 			 userData:(NSString*)userData
 			    error:(NSString**)error
 {
-    if([[pboard types] containsObject:NSStringPboardType]){
-	NSString* source=[pboard stringForType:NSStringPboardType];
+    if([[pboard types] containsObject:NSPasteboardTypeString]){
+        NSString* source=[pboard stringForType:NSPasteboardTypeString];
 	[self handleURL:[NSURL URLWithString:[@"spires-lookup-eprint://PreviewHook/" stringByAppendingString:source]]];
     }
 }
 #pragma mark WebView Delegate
--(void)webView:(WebView*)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSURL* url=[request URL];
+    NSURL* url=navigationAction.request.URL;
     if([[url scheme] isEqualToString:@"about"]){
-	[listener use];
+        decisionHandler(WKNavigationActionPolicyAllow);
     }else{
         if([[url absoluteString] hasPrefix:@"spires-search://c%20key%20"]
            ||
@@ -769,9 +782,10 @@
             }
         }
 	[self handleURL:url];
-	[listener ignore];
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
 }
+/*
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
     NSURL* url=element[WebElementLinkURLKey];
@@ -800,6 +814,7 @@
 {
     return WebDragDestinationActionAny;
 }
+ */
 #pragma mark Default provided by templates
 
 

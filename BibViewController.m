@@ -45,8 +45,8 @@
 	c=a.texKey;
     }
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:@[NSStringPboardType] owner:self];
-    [pb setString:[c inspireToCorrect] forType:NSStringPboardType];
+    [pb declareTypes:@[NSPasteboardTypeString] owner:self];
+    [pb setString:[c inspireToCorrect] forType:NSPasteboardTypeString];
 }
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

@@ -22,7 +22,7 @@
 
 #import "AppDelegate.h"
 
-@interface SpiresAppDelegate : NSObject <AppDelegate,WebUIDelegate,WebPolicyDelegate>
+@interface SpiresAppDelegate : NSObject <AppDelegate,WKNavigationDelegate>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSToolbar*tb;
@@ -31,7 +31,6 @@
     IBOutlet NSArrayController* ac;
     IBOutlet NSTableView* articleListView;    
     IBOutlet NSOutlineView* sideOutlineView;
-    IBOutlet ArticleView*wv;
     IBOutlet HistoryController*historyController;
     
     BibViewController *bibViewController;

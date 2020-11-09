@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 @class Article;
-@interface ArticleView : WebView {
+@interface ArticleView : WKWebView {
     Article *article;
     NSString*message;
 }

@@ -14,6 +14,26 @@
 
 NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
 
+@interface UnarchiveFromDataTransformer:NSValueTransformer
+@end
+@implementation UnarchiveFromDataTransformer
++(BOOL)allowsReverseTransformation
+{
+    return YES;
+}
++(Class)transformedValueClass
+{
+    return [NSData class];
+}
+-(id)reverseTransformedValue:(id)value
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
+}
+-(id)transformedValue:(id)value
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:value];
+}
+@end
 
 @implementation NSManagedObjectContext (TrivialAddition)
 -(void)enableUndo
@@ -117,6 +137,21 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
     }
     
     managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+    
+    if(@available(macOS 10.15,iOS 13,*)){
+        // Big Sur complains loudly if the transformable attribute uses nil transformer
+        // saying it's insecure, to the extent that the log file is unreadable.
+        // I provide a insecure default transformer to shut it up, for Catalina and later.
+        // Catalina is included so that it can be tested in more macs.
+        // UnarchiveFromDataTransformer uses insecure coders. You can use secure coders,
+        // but then the resulting sort descriptors cannot be evaluated unless -allowEvaluation
+        // is called after the content is checked.
+        // I am not sure if all this is worth conforming to...
+        [NSValueTransformer setValueTransformer:[[UnarchiveFromDataTransformer alloc] init] forName:@"UnarchiveFromDataTransformer"];
+        NSEntityDescription*entityDesc=managedObjectModel.entitiesByName[@"ArticleList"];
+        NSAttributeDescription*attributeDesc=entityDesc.attributesByName[@"sortDescriptors"];
+        attributeDesc.valueTransformerName=@"UnarchiveFromDataTransformer";
+    }
     
     return managedObjectModel;
 }
