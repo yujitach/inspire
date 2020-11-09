@@ -562,7 +562,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
-                                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="14x-Z0-Gjl">
+                                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="14x-Z0-Gjl">
                                         <rect key="frame" x="0.0" y="302" width="633" height="298"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <clipView key="contentView" id="bLd-LX-AtE">
@@ -579,8 +579,8 @@
                                             <rect key="frame" x="-100" y="-100" width="633" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="j8s-4E-U4l">
-                                            <rect key="frame" x="617" y="0.0" width="16" height="298"/>
+                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="j8s-4E-U4l">
+                                            <rect key="frame" x="-100" y="-100" width="16" height="298"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
