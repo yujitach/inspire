@@ -640,7 +640,7 @@
     [alert setShowsSuppressionButton:YES];
     [alert beginSheetModalForWindow:window
                   completionHandler:^(NSModalResponse returnCode) {
-                      if ([[alert suppressionButton] state] == NSOnState) {
+        if ([[alert suppressionButton] state] == NSControlStateValueOn) {
                           [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alreadyShownInfoOnAssociation"];
                       }
                   }
@@ -742,8 +742,8 @@
 			 userData:(NSString*)userData
 			    error:(NSString**)error
 {
-    if([[pboard types] containsObject:NSStringPboardType]){
-	NSString* source=[pboard stringForType:NSStringPboardType];
+    if([[pboard types] containsObject:NSPasteboardTypeString]){
+        NSString* source=[pboard stringForType:NSPasteboardTypeString];
 	[self handleURL:[NSURL URLWithString:[@"spires-lookup-eprint://PreviewHook/" stringByAppendingString:source]]];
     }
 }

@@ -60,7 +60,7 @@
     for(Article*i in a){
 	[b addObject:[[i objectID] URIRepresentation]];
     }
-    [pboard declareTypes:@[NSStringPboardType,ArticleDropPboardType] owner:nil];
+    [pboard declareTypes:@[NSPasteboardTypeString,ArticleDropPboardType] owner:nil];
     [pboard setData:[NSKeyedArchiver archivedDataWithRootObject:b] forType:ArticleDropPboardType];
     NSMutableString* s=[NSMutableString string];
     for(Article* i in a){
@@ -68,7 +68,7 @@
 	[s appendString:@"\n"];
     }
     [pboard setString:[s substringToIndex:[s length]-1]
-	      forType:NSStringPboardType];
+              forType:NSPasteboardTypeString];
     return YES;
 }
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex

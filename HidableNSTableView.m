@@ -35,7 +35,7 @@
 	NSMenuItem *item = [tableHeaderContextMenu addItemWithTitle:title action:@selector(contextMenuSelected:) keyEquivalent:@""];
 	[item setTarget:self];
 	[item setRepresentedObject:column];
-	[item setState:cols?NSOffState:NSOnState];
+        [item setState:cols?NSControlStateValueOff:NSControlStateValueOn];
 	if(cols) [self removeTableColumn:column]; // initially want to show all columns
     }
     // add columns in correct order with correct width, ensure menu items are in correct state
@@ -44,7 +44,7 @@
     while((colinfo = [enumerator nextObject])) {
 	NSMenuItem *item = [tableHeaderContextMenu itemWithTitle:colinfo[@"title"]];
 	if(!item) continue; // missing title
-	[item setState:NSOnState];
+        [item setState:NSControlStateValueOn];
 	column = [item representedObject];
 	[column setWidth:[colinfo[@"width"] floatValue]];
 	[self addTableColumn:column];
@@ -67,8 +67,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:cols forKey:saveName];
 }
 - (void)contextMenuSelected:(id)sender {
-    BOOL on = ([sender state] == NSOnState);
-    [sender setState:(on ? NSOffState : NSOnState)];
+    BOOL on = ([sender state] == NSControlStateValueOn);
+    [sender setState:(on ? NSControlStateValueOff : NSControlStateValueOn)];
     NSTableColumn *column = [sender representedObject];
     if(on) {		
 	[self removeTableColumn:column];
@@ -100,8 +100,8 @@
 -(void)showColumnWithTitle:(NSString*)title
 {
     NSMenuItem *item = [tableHeaderContextMenu itemWithTitle:title];
-    if([item state]==NSOnState)return;
-    [item setState:NSOnState];
+    if([item state]==NSControlStateValueOn)return;
+    [item setState:NSControlStateValueOn];
     NSTableColumn*column=[item representedObject];
     NSArray*a=[NSArray arrayWithArray:[self tableColumns]];
     for(NSTableColumn*c in a){

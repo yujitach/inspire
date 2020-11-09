@@ -400,8 +400,8 @@
         [x appendString:@"\n"];
     }
     NSPasteboard*pb=[NSPasteboard generalPasteboard];
-    [pb declareTypes:@[NSStringPboardType] owner:self];
-    [pb setString:x forType:NSStringPboardType];
+    [pb declareTypes:@[NSPasteboardTypeString] owner:self];
+    [pb setString:x forType:NSPasteboardTypeString];
     [[NSSound soundNamed:@"Submarine"] play];
 }
 
