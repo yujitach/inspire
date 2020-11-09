@@ -201,6 +201,7 @@
         NSSplitViewItem*m=[NSSplitViewItem splitViewItemWithViewController:mainTableViewController];
         [splitVC addSplitViewItem:m];
         splitVC.view.translatesAutoresizingMaskIntoConstraints=NO;
+        splitVC.splitView.autosaveName=@"vsplit";
         [window.contentView replaceSubview:sp with:splitVC.view ];
         [splitVC.view.topAnchor constraintEqualToAnchor:window.contentView.topAnchor
                                                constant:0].active=YES;
