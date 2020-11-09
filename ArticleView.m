@@ -35,13 +35,7 @@ static NSArray*observedKeys=nil;
 }
 -(void)initialSetup
 {
-    @try{
-        // force no background. Isn't there a better way?
-        [self setValue:@(NO) forKey:@"drawsBackground"];
-    }
-    @catch(NSException*e){
-        
-    }
+    self.alphaValue=0;
     article=nil;
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
 							      forKeyPath:@"defaults.bibType"
@@ -194,6 +188,7 @@ static NSArray*observedKeys=nil;
         [self stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"messageBox\").style.webkitAnimationIterationCount=\"0\";"];
         [self setElementId:@"messageBox" visible:NO];
     }
+    self.alphaValue=1;
 //    doc.body.scrollTop=0;
 //    [doc.body scrollIntoViewIfNeeded:YES];
  //      NSLog(@"%@",[self mainFrame]);
