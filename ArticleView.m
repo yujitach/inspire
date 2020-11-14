@@ -76,10 +76,6 @@ static NSArray*observedKeys=nil;
 {
     [self refresh];
 }
--(BOOL)acceptsFirstResponder
-{
-    return NO;
-}
 -(void)keyDown:(NSEvent*)ev
 {
     //    NSLog(@"%x",[ev keyCode]);
