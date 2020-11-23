@@ -181,7 +181,7 @@
 	<string>spires.sdef</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
-	<key>SUEnableSystemProfiling</key>
+	<key>SUSendProfileInfo</key>
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
