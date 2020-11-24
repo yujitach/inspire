@@ -181,8 +181,6 @@
 	<string>spires.sdef</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
-	<key>SUSendProfileInfo</key>
-	<true/>
 	<key>SUFeedURL</key>
 	<string>https://member.ipmu.jp/yuji.tachikawa/spires/spires-Update.xml</string>
 	<key>SUFeedURL-Unstable</key>
@@ -191,5 +189,7 @@
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>36000</integer>
+	<key>SUSendProfileInfo</key>
+	<true/>
 </dict>
 </plist>
