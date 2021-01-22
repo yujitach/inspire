@@ -225,6 +225,19 @@
     wv.navigationDelegate=self;
     [articleViewContainer addSubview:wv];
 }
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
+     itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier
+ willBeInsertedIntoToolbar:(BOOL)flag;
+{
+//    if([itemIdentifier isEqualTo:@"SearchToolbarItem"]){
+    if(@available(macOS 11,*)){
+        NSToolbarItem*search=[tb items][3];
+        NSSearchToolbarItem*ti=[[NSSearchToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+        ti.searchField=(NSSearchField*)search.view;
+        return ti;
+    }
+    return nil;
+}
 -(void)awakeFromNib
 {
     [self insertArticleView];
@@ -235,6 +248,10 @@
             NSSize s=[ti minSize];
             s.width=10000;
             [ti setMaxSize:s];
+        }else{
+            if(@available(macOS 11,*)){
+                ti.navigational=YES;
+            }
         }
         if([[ti  label] isEqualToString:@"Flag"]){
             if(@available(macOS 11,*)){
@@ -242,8 +259,13 @@
             }
         }
     }
-    
-    
+/*
+    if(@available(macOS 11,*)){
+        tb.delegate=self;
+        [tb insertItemWithItemIdentifier:@"SearchToolbarItem" atIndex:3];
+        [tb removeItemAtIndex:4];
+    }
+*/
     [ac addObserver:self
 	 forKeyPath:@"selection"
 	    options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
