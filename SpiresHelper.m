@@ -409,7 +409,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
     for(NSString*ss in a){
         [result addObject:[ss stringByAppendingString:@"\n"]];
     }
-    return result;
+    if([result count]>0)
+        return result;
+    else
+        return nil;
 }
 
 -(NSArray*)latexEUEntriesForQuery:(NSString*)search
@@ -422,7 +425,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
     for(NSString*ss in a){
         [result addObject:[ss stringByAppendingString:@"\n"]];
     }
-    return result;
+    if([result count]>0)
+        return result;
+    else
+        return nil;
 }
 
 -(NSArray*)harvmacEntriesForQuery:(NSString*)search
@@ -443,7 +449,10 @@ SpiresHelper*_sharedSpiresHelper=nil;
         x=[x stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 	[result addObject:x];
     }
-    return result;
+    if([result count]>0)
+        return result;
+    else
+        return nil;
 }
 
 -(NSURL*)newInspireAPIURLForQuery:(NSString *)search withFormat:(NSString*)format
