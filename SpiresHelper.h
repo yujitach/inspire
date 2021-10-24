@@ -15,7 +15,6 @@
 +(SpiresHelper*)sharedHelper;
 +(SpiresHelper*)helperWithMOC:(NSManagedObjectContext*)moc;
 -(NSPredicate*) predicateFromSPIRESsearchString:(NSString*)string;
--(NSURL*)inspireURLForQuery:(NSString*)search;
 -(NSURL*)newInspireAPIURLForQuery:(NSString*)search withFormat:(NSString*)format forFields:(NSString*)fields;
 -(NSURL*)newInspireAPIURLForQuery:(NSString*)search withFormat:(NSString*)format;
 -(NSURL*)newInspireWebpageURLForQuery:(NSString *)search;

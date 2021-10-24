@@ -69,14 +69,16 @@
             NSString*key=[bib stringByMatching:@"@[a-zA-Z]+\\{(.+?)," capture:1];
             NSString* latex=[[SpiresHelper sharedHelper] latexEUEntriesForQuery:target][0];
             if([self isCancelled])break;
+            /*
             NSString* harvmac=[[SpiresHelper sharedHelper] harvmacEntriesForQuery:target][0];
             if([self isCancelled])break;
             NSInteger q=[harvmac rangeOfString:@"\n"].location;
             NSString* harvmacKey=[harvmac substringWithRange:NSMakeRange(1,q-1)];
+             */
             [article setExtra:bib forKey:@"bibtex"];
             [article setExtra:latex forKey:@"latex"];
-            [article setExtra:harvmac forKey:@"harvmac"];
-            [article setExtra:harvmacKey forKey:@"harvmacKey"];
+            // [article setExtra:harvmac forKey:@"harvmac"];
+            // [article setExtra:harvmacKey forKey:@"harvmacKey"];
             article.texKey=key;
         }
         [moc save:NULL];

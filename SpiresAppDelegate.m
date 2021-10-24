@@ -297,7 +297,7 @@
 }
 -(BOOL)showWelcome
 {
-    NSString*welcome=@"v1.9.5alert";
+    NSString*welcome=@"v2.0.5alert";
     NSString*key=[welcome stringByAppendingString:@"ShownShown"];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:key]){
 	messageViewerController=[[MessageViewerController alloc] initWithRTF:[[NSBundle mainBundle] pathForResource:welcome ofType:@"rtf"]];

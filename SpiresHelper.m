@@ -495,12 +495,6 @@ SpiresHelper*_sharedSpiresHelper=nil;
     NSURL* url=[NSURL URLWithString:t];
     return url;
 }
-
--(NSURL*)inspireURLForQuery:(NSString *)search
-{
-    return [self inspireURLForQuery:search withOutputFormat:nil];
-}
-
 -(NSURL*)inspireURLForQuery:(NSString *)search withOutputFormat:(NSString*)of
 {
     NSString*s;
