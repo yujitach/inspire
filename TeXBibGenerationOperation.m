@@ -55,6 +55,7 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     NSDictionary*dict;
     NSArray*citations;
     NSDictionary*mappings;
+    NSDictionary*revmappings;
     NSMutableDictionary* keyToArticle;
     NSArray*entriesAlreadyInBib;
 }
@@ -123,8 +124,14 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
     }
     citations=fullCitationsForFileAndInfo(texFile,dict);
     mappings=dict[@"mappings"];
-    
-    
+    {
+        NSMutableDictionary*temp=[NSMutableDictionary dictionary];
+        for(NSString*k in mappings){
+            NSString*v=mappings[k];
+            temp[v]=k;
+        }
+        revmappings=temp;
+    }
     {
         NSMutableString*org=[NSMutableString stringWithString:@""];
         {
@@ -300,13 +307,17 @@ static NSArray*fullCitationsForFileAndInfo(NSString*file,NSDictionary*dict)
         return @"";
     }
     if([bib isMatchedByRegex:@"\\\\"] || [bib isMatchedByRegex:@"\\$"]){
-        return [bib stringByAppendingString:@"\n\n"];
+        bib=[bib stringByAppendingString:@"\n\n"];
     }else{
         bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:@"*#*#*#"];
         bib=[bib magicTeXed];
         bib=[bib stringByReplacingOccurrencesOfString:@"*#*#*#" withString:[[a texKey] inspireToCorrect]];
-        return [bib stringByAppendingString:@"\n\n"];
     }
+    NSString*x=revmappings[a.texKey];
+    if(x){
+        bib=[bib stringByReplacingOccurrencesOfString:[a texKey] withString:x];
+    }
+    return bib;
 }
 -(void)reallyGenerateBibFile
 {
