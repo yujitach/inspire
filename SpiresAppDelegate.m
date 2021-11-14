@@ -397,7 +397,7 @@
         [moc save:&error];
     }];
 }
--(void)tweakTableViewFonts
+-(void)tweakTableView
 {
     if(@available(macOS 10.11, *)){
         for(NSTableColumn*col in [articleListView tableColumns]){
@@ -407,6 +407,9 @@
                 cell.font=[NSFont monospacedDigitSystemFontOfSize:[NSFont systemFontSize] weight:NSFontWeightRegular];                
             }
         }
+    }
+    if(@available(macOS 11, *)){
+        articleListView.style=NSTableViewStylePlain;
     }
 }
 
@@ -459,7 +462,7 @@
     [sideOutlineViewController loadArticleLists];
     [sideOutlineViewController attachToMOC];
     
-    [self tweakTableViewFonts];
+    [self tweakTableView];
     
     if([NSEvent modifierFlags]&NSEventModifierFlagOption){
 	[AllArticleList allArticleList].searchString=nil;
