@@ -184,6 +184,11 @@
 	[self prepareCrashReport:path];
 	[self sendBugReport:self];
     }
+
+    // If the crash happened when displaying an entry,
+    // clearing the searchString helps not repeating
+    // the crash immediately after launch.
+    [AllArticleList allArticleList].searchString=nil;
     
 }
 
