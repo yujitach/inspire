@@ -410,7 +410,7 @@
     }
     if(@available(macOS 11, *)){
         articleListView.style=NSTableViewStylePlain;
-        [articleListView tableColumnWithIdentifier:@"flag"].width+=2;
+        [articleListView tableColumnWithIdentifier:@"flag"].width=25;
     }
 }
 
