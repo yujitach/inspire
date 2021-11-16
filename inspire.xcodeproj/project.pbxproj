@@ -29,6 +29,7 @@
 		331E6EFB0FFE83CB00F07C9A /* SpiresQueryDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 331E6EFA0FFE83CB00F07C9A /* SpiresQueryDownloader.m */; };
 		331FD3310F36B11800C16F73 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 331FD3300F36B11800C16F73 /* MainTableViewController.m */; };
 		3322B028213CCBF400AA123D /* iCloudHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3322B027213CCBF400AA123D /* iCloudHelper.m */; };
+		3323F31827435468006FBA48 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3323F31727435468006FBA48 /* Images.xcassets */; };
 		33255AAB0F3131F500538063 /* Acknowledgments.html in Resources */ = {isa = PBXBuildFile; fileRef = 33255AAA0F3131F500538063 /* Acknowledgments.html */; };
 		332697FB24907172001594A2 /* InspireJSONTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 332697FA24907172001594A2 /* InspireJSONTransformer.m */; };
 		332697FC24907172001594A2 /* InspireJSONTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 332697FA24907172001594A2 /* InspireJSONTransformer.m */; };
@@ -250,6 +251,7 @@
 		33202EE110D9D8EA00EDB5A8 /* Migrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Migrator.m; sourceTree = "<group>"; };
 		3322B026213CCBF400AA123D /* iCloudHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudHelper.h; sourceTree = "<group>"; };
 		3322B027213CCBF400AA123D /* iCloudHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudHelper.m; sourceTree = "<group>"; };
+		3323F31727435468006FBA48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = spires/Images.xcassets; sourceTree = "<group>"; };
 		33255AAA0F3131F500538063 /* Acknowledgments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgments.html; sourceTree = "<group>"; };
 		332697F924907172001594A2 /* InspireJSONTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspireJSONTransformer.h; sourceTree = "<group>"; };
 		332697FA24907172001594A2 /* InspireJSONTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspireJSONTransformer.m; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3323F31727435468006FBA48 /* Images.xcassets */,
 				33B09C7C10D4AB66001A9B50 /* UI graphics */,
 				3331BD3111D423F0001F9B4B /* tex.js */,
 				333D721110007CE800A328FE /* magicRegExps.perl */,
@@ -1149,6 +1152,7 @@
 				332824940F560DE800AA6E00 /* dsa_pub.pem in Resources */,
 				33E8C80A0F5B34CD005E88B6 /* ActivityMonitor.xib in Resources */,
 				33B485C20F5B3E2A00EBE022 /* PrefPane.xib in Resources */,
+				3323F31827435468006FBA48 /* Images.xcassets in Resources */,
 				3304B8630F92C7B1002156A9 /* canned-search.png in Resources */,
 				334A6D260F96E02E005BC4A2 /* flagged.png in Resources */,
 				334A6D270F96E02E005BC4A2 /* unread.png in Resources */,
@@ -1375,6 +1379,7 @@
 		26FC0A850875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1423,6 +1428,7 @@
 		26FC0A860875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
