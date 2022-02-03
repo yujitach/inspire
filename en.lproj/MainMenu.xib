@@ -128,6 +128,11 @@
                                     <action selector="forward:" target="911" id="922"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Go to the search bar" keyEquivalent="f" id="YoS-oc-ZhU">
+                                <connections>
+                                    <action selector="focusToSearchBar:" target="205" id="J5K-8d-icr"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="79">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>

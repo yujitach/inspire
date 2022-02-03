@@ -21,6 +21,7 @@
 #import "SideOutlineViewController.h"
 #import "BibViewController.h"
 #import "ImporterController.h"
+#import "SPSearchFieldWithProgressIndicator.h"
 
 #import "MOC.h"
 #import "Article.h"
@@ -234,6 +235,11 @@
 	    [al removeArticlesObject:x];
 	}
     }
+}
+-(IBAction) focusToSearchBar:(id)sender
+{
+    [sideOutlineViewController selectAllArticleList];
+    [window makeFirstResponder:searchField];
 }
 -(IBAction) search:(NSSearchField*)sender
 {
