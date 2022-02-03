@@ -22,7 +22,7 @@
 
 #import "AppDelegate.h"
 
-@interface SpiresAppDelegate : NSObject <AppDelegate,WKNavigationDelegate,NSToolbarDelegate>
+@interface SpiresAppDelegate : NSObject <AppDelegate,WKNavigationDelegate,NSToolbarDelegate,NSSplitViewDelegate>
 {
     IBOutlet NSWindow *window;
     IBOutlet NSToolbar*tb;

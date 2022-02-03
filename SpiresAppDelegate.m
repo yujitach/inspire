@@ -794,6 +794,15 @@
 	[self handleURL:[NSURL URLWithString:[@"spires-lookup-eprint://PreviewHook/" stringByAppendingString:source]]];
     }
 }
+#pragma mark split view delegate
+-(CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    // I know I should get the height of the toolbar height dynamically, but I'm lazy today.
+#define MIN_HEIGHT 100
+    if(proposedMinimumPosition < MIN_HEIGHT)
+        proposedMinimumPosition=MIN_HEIGHT;
+    return proposedMinimumPosition;
+}
 #pragma mark WebView Delegate
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
