@@ -174,9 +174,9 @@
             [[NSApp appDelegate] postMessage:nil];
 #if !TARGET_OS_IPHONE
             NSAlert*alert=[[NSAlert alloc] init];
-            alert.messageText=@"Cannot reach arXiv.";
+            alert.messageText=@"No new articles today.";
             [alert addButtonWithTitle:@"OK"];
-            alert.informativeText=@"Not connected to the internet, or arXiv is down.";
+            alert.informativeText=@"It might also be due to an internet problem.";
 	    [alert beginSheetModalForWindow:[[NSApp appDelegate] mainWindow]
              completionHandler:nil];
 #endif
