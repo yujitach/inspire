@@ -44,7 +44,7 @@
     if([arXivID hasPrefix:@"arXiv:"]){
         arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
-    NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"http://export.arxiv.org/api/query?id_list=%@",arXivID]];
+    NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"https://export.arxiv.org/api/query?id_list=%@",arXivID]];
     NSLog(@"query:%@",url);
     xmlString=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
     xmlString=[self valueForXMLTag:@"entry"];
@@ -69,7 +69,7 @@
 
     {
         NSString* s=[self valueForXMLTag:@"id"];
-        s=[s substringFromIndex:[(NSString*)@"http://arxiv.org/abs/" length]];
+        s=[s substringFromIndex:[(NSString*)@"https://arxiv.org/abs/" length]];
         NSArray*a=[s componentsSeparatedByString:@"v"];
         
         int v=[[a lastObject] intValue];

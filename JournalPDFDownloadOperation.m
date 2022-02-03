@@ -45,7 +45,7 @@
 -(void)failed
 {
     //	NSLog(@"failed to download PDF. instead opens the journal webpage");
-    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
+    NSString* doiURL=[@"https://dx.doi.org/" stringByAppendingString:article.doi];
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:doiURL]];
     [[NSApp appDelegate] showInfoOnAssociation]; //cheating here...    
 }
@@ -53,7 +53,7 @@
 {
     
     
-    NSString*doiURL=[@"http://dx.doi.org/" stringByAppendingString:article.doi];
+    NSString*doiURL=[@"https://dx.doi.org/" stringByAppendingString:article.doi];
  //   NSLog(@"url:%@",url);
     self.isExecuting=YES;
     NSString*dest=[self destinationPath];

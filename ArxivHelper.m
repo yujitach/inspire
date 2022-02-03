@@ -34,7 +34,7 @@ ArxivHelper* _sharedHelper=nil;
 -(NSString*)arXivHead
 {
     NSString*mirror= [[NSUserDefaults standardUserDefaults] stringForKey:@"mirrorToUse"];
-    return [NSString stringWithFormat:@"http://%@arxiv.org/",mirror];
+    return [NSString stringWithFormat:@"https://%@arxiv.org/",mirror];
 }
 
 -(NSString*)arXivPDFPathForID:(NSString*)arXivID

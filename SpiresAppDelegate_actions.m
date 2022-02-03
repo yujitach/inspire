@@ -118,7 +118,7 @@
 
 -(IBAction)openHomePage:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://member.ipmu.jp/yuji.tachikawa/spires/"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://member.ipmu.jp/yuji.tachikawa/spires/"]];
 }
 -(IBAction)showReleaseNotes:(id)sender
 {
@@ -348,7 +348,7 @@
 	    return; 
 	}
     }
-    NSString* doiURL=[@"http://dx.doi.org/" stringByAppendingString:a.doi];
+    NSString* doiURL=[@"https://dx.doi.org/" stringByAppendingString:a.doi];
     [[NSWorkspace sharedWorkspace] openURL:[[NSURL URLWithString:doiURL] proxiedURLForELibrary]];
     [self showInfoOnAssociation];
     

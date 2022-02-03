@@ -46,7 +46,7 @@
             return;
         }
         
-        NSURL*url=[NSURL URLWithString:[@"http://dx.doi.org/" stringByAppendingString:article.doi]];
+        NSURL*url=[NSURL URLWithString:[@"https://dx.doi.org/" stringByAppendingString:article.doi]];
         NSError*error=nil;
         NSString*s=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
         if(!s){
@@ -54,8 +54,8 @@
             return;
         }
         if([s rangeOfString:@"sciencedirect"].location!=NSNotFound){
-            NSString*sdID=[s stringByMatching:@"http://www.sciencedirect.com/science/article/pii/([01-9]+)" capture:1];
-            NSURL*newURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://www.sciencedirect.com/science/article/pii/%@?np=y",sdID]];
+            NSString*sdID=[s stringByMatching:@"https://www.sciencedirect.com/science/article/pii/([01-9]+)" capture:1];
+            NSURL*newURL=[NSURL URLWithString:[NSString stringWithFormat:@"https://www.sciencedirect.com/science/article/pii/%@?np=y",sdID]];
             s=[NSString stringWithContentsOfURL:newURL encoding:NSUTF8StringEncoding error:&error];
             if(!s){
                 NSLog(@"error while loading %@: %@",url, error);
