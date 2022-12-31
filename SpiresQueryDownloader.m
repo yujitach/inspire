@@ -50,6 +50,7 @@
         canceled=YES;
     }
 }
+/*
 -(void)unfortunateCitedByMainWork:(NSString*)uniqueQuery
 {
     dispatch_async(dispatch_get_main_queue(),^{
@@ -99,6 +100,7 @@
     NSString*uniqueQuery=[article uniqueInspireQueryString];
     [self performSelectorInBackground:@selector(unfortunateCitedByMainWork:) withObject:uniqueQuery];
 }
+ */
 -(void)ensureQueryHasRecIdAndStart:(NSString*)search
 {
     Article*article=[Article articleForQuery:searchString inMOC:[MOC moc]];
@@ -196,12 +198,7 @@
     search=[search stringByReplacingOccurrencesOfRegex:@" ep " withString:@" eprint "];
     // end target of the comment above
     searchString=search;
-    if([search hasPrefix:@"r "]){
-        // as new inspire api hasn't implemented citedby:recid:, I need to write more code.
-        [self unfortunatelyCitedByHasNotBeenImplementedByNewInspireYet];
-        return self;
-    }
-    if([search hasPrefix:@"c "]){
+    if([search hasPrefix:@"r "]||[search hasPrefix:@"c "]){
         [self ensureQueryHasRecIdAndStart:search];
         return self;
     }
