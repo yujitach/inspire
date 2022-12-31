@@ -13,21 +13,19 @@
 
 @implementation ArxivMetadataFetchOperation
 {
-    Article*article;
-    NSString*arXivID;
+    NSString*eprint;
     NSString*xmlString;
 }
 
 -(ArxivMetadataFetchOperation*)initWithArticle:(Article*)a;
 {
     self=[super init];
-    article=a;
-    arXivID=a.eprint;
+    eprint=a.eprint;
     return self;
 }
 -(NSString*)description
 {
-    return [NSString stringWithFormat:@"fetching metadata for %@",article.eprint];
+    return [NSString stringWithFormat:@"fetching metadata for %@",eprint];
 }
 -(NSString*)valueForXMLTag:(NSString*)tag
 {
@@ -41,6 +39,7 @@
 -(void)main
 {    
     // see http://export.arxiv.org/api_help/docs/user-manual.html
+    NSString*arXivID=eprint;
     if([arXivID hasPrefix:@"arXiv:"]){
         arXivID=[arXivID substringFromIndex:[(NSString*)@"arXiv:" length]];
     }
@@ -88,16 +87,19 @@
         dict[@"title"]=title;
     }
     if(dict){
-        [article.managedObjectContext performBlock:^{
-            [[article managedObjectContext] disableUndo];
-            article.abstract=dict[@"abstract"];
-            article.version=dict[@"version"];
-            article.comments=dict[@"comments"];
-            if(![[article.title lowercaseString] isEqualToString:[dict[@"title"] lowercaseString]]){
-                article.title=dict[@"title"];
+        NSManagedObjectContext*s=[[MOC sharedMOCManager] createSecondaryMOC];
+        [s performBlock:^{
+            Article*article=[Article intelligentlyFindArticleWithId:eprint inMOC:s];
+            {
+                article.abstract=dict[@"abstract"];
+                article.version=dict[@"version"];
+                article.comments=dict[@"comments"];
+                if(![[article.title lowercaseString] isEqualToString:[dict[@"title"] lowercaseString]]){
+                    article.title=dict[@"title"];
+                }
+                article.arxivCategory=dict[@"primaryCategory"];
             }
-            article.arxivCategory=dict[@"primaryCategory"];
-            [[article managedObjectContext] enableUndo];
+            [s save:NULL];
         }];
     }
 }

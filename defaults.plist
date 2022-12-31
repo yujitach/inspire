@@ -123,7 +123,7 @@
 	<key>doSync</key>
 	<true/>
 	<key>eagerMetadataQueryThreshold</key>
-	<integer>5</integer>
+	<integer>20</integer>
 	<key>ElsevierJournals</key>
 	<array>
 		<string>Phys.Lett.</string>
