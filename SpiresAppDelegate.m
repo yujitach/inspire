@@ -42,7 +42,6 @@
 #import "TeXBibGenerationOperation.h"
 #import "BatchBibQueryOperation.h"
 #import "LoadAbstractDOIOperation.h"
-#import "ArxivMetadataFetchOperation.h"
 
 #import "SPSearchFieldWithProgressIndicator.h"
 
@@ -59,7 +58,6 @@
 #import <sys/mount.h>
 
 @interface SpiresAppDelegate (Timers)
--(void)timerForAbstractFired:(NSTimer*)t;
 -(void)clearUnreadFlagOfArticle:(NSTimer*)timer;
 @end
 
@@ -70,7 +68,6 @@
     IBOutlet MainTableViewController*mainTableViewController;
     NSSplitViewController*splitVC;
     NSTimer*unreadTimer;
-    NSTimer*abstractTimer;
     ArticleView*wv;
     IBOutlet NSView*articleViewContainer;
 }
@@ -280,16 +277,7 @@
 	 forKeyPath:@"arrangedObjects"
 	    options:NSKeyValueObservingOptionNew//|NSKeyValueObservingOptionInitial
 	    context:nil];
-    
-    NSTimeInterval grace=[[NSUserDefaults standardUserDefaults] floatForKey:@"arXivAutoQueryWaitInSeconds"];
-    if(grace<3.0)
-        grace=3.0;
-    
-    abstractTimer=[NSTimer scheduledTimerWithTimeInterval:grace target:self selector:@selector(timerForAbstractFired:) userInfo:nil repeats:YES];
-    if([abstractTimer respondsToSelector:@selector(setTolerance:)]){
-        [abstractTimer setTolerance:0.1*grace];
-    }
-    
+
     [searchField setProgressQuitAction:@selector(progressQuit:)];
 
 }
@@ -551,6 +539,7 @@
             
 		    
 	    }
+        [self prefetchAbstract];
 	}
     }else if([keyPath isEqualToString:@"arrangedObjects"]){
 	NSInteger num=[[ac arrangedObjects] count];
@@ -581,33 +570,26 @@
 }
 
 
--(void)timerForAbstractFired:(NSTimer*)t
+-(void)prefetchAbstract
 {
     NSArray*arr=[ac selectedObjects];
     if(!arr)return;
     if([arr count]==0)return;
     Article*a=arr[0];
 
-    
-    if(a.abstract && ![a.abstract isEqualToString:@""]){
-	NSArray* aaa=[ac arrangedObjects];
-	if(!aaa || [aaa count]==0) return;
-	int threshold=(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"eagerMetadataQueryThreshold"];
-	int j=(int)[aaa indexOfObject:a];
-	int i;
-	for(i=j;i<(int)[aaa count] && i<j+threshold ;i++){
-	    a=aaa[i];
-	    if(!a.eprint && !a.doi)
-		continue;
-	    if(!a.abstract || [a.abstract isEqualToString:@""])
-		break;
-	}
-	if(i==(int)[aaa count]||i==j+threshold)
-	    return;
-	if(!a)
-	    return;
+    NSArray* aaa=[ac arrangedObjects];
+    if(!aaa || [aaa count]==0) return;
+    int threshold=(int)[[NSUserDefaults standardUserDefaults] integerForKey:@"eagerMetadataQueryThreshold"];
+    int j=(int)[aaa indexOfObject:a];
+    int i;
+    for(i=j;i<(int)[aaa count] && i<j+threshold ;i++){
+        Article*b=aaa[i];
+        if(!b.eprint && !b.doi)
+            continue;
+        if(!b.abstract || [b.abstract isEqualToString:@""]){
+            [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:b whenRefreshed:nil];
+        }
     }
-    [[AbstractRefreshManager sharedAbstractRefreshManager] refreshAbstractOfArticle:a whenRefreshed:nil];
 }
 
 
