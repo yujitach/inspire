@@ -105,7 +105,7 @@
 		<string>lanl.</string>
 	</array>
 	<key>arXivWaitInSeconds</key>
-	<integer>2</integer>
+	<integer>4</integer>
 	<key>arXivAutoQueryWaitInSeconds</key>
 	<integer>5</integer>
 	<key>inspireWaitInSeconds</key>

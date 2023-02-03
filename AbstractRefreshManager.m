@@ -58,6 +58,7 @@
                 });
             }];
         }
+        NSLog(@"actually prefetching abstract of: %@",a.eprint);
         [[OperationQueues arxivQueue] addOperation:op];
     }else if(a.doi && ![a.doi isEqualToString:@""]){
         if(!a.doi || [a.doi isEqualToString:@""]) return;
