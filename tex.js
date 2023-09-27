@@ -183,6 +183,8 @@ var htmlTeXMacrosWithoutArguments=[
     ["Alpha","Α"],
     ["AA","Å"],
     ["Box","<span style=\"font-size:150%\">□</span>"],
+    ["cdots","⋯"],
+    ["bullet","•"],
     ["cdot","•"]
 ];
 var htmlTeXMacrosWithOneArgument={
