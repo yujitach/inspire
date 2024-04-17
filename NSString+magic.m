@@ -16,7 +16,7 @@
 #endif
 
 static NSArray*magicRegExps=nil;
-static void loadMagic(){
+static void loadMagic(void){
     NSMutableArray*a=[NSMutableArray array];
     NSString*contents=[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"magicRegExps" ofType:@"perl"]
 						encoding:NSUTF8StringEncoding
