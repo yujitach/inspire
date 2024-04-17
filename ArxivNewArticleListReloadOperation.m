@@ -89,6 +89,7 @@
 	if([eprint rangeOfString:@"/"].location!=NSNotFound){
 	    eprint=[eprint substringFromIndex:[(NSString*)@"arXiv:" length]];
 	}
+        eprint=[eprint stringByReplacingOccurrencesOfRegex:@"[ \n]+" withString:@""];
     }
     return eprint;
 }
@@ -97,9 +98,18 @@
     //    NSLog(@"%@",s);
     NSString*eprint=[self eprintFromChunk:s];
     
-    NSArray*a=[s componentsSeparatedByString:@"</span>"];
-    if([a count]<4)
+    NSArray*b=[s componentsSeparatedByString:@"<div class="];
+    if([b count]<4)
 	return nil;
+    NSMutableArray*a=[NSMutableArray array];
+    for(NSString*c in b){
+        NSString*d=c;
+        NSInteger i=[c rangeOfString:@"</span>"].location;
+        if(i!=NSNotFound){
+            d=[c substringFromIndex:i+[@"</span>" length]];
+        }
+        [a addObject:d];
+    }
     /*
      a[0], a[1] :junk
      a[2]: title
@@ -111,6 +121,8 @@
     NSInteger i=[title rangeOfString:@"</div>"].location;
     title=[title substringToIndex:i];
     title=[title stringByExpandingAmpersandEscapes];
+    title=[title stringByReplacingOccurrencesOfRegex:@"\n" withString:@""];
+    title=[title stringByReplacingOccurrencesOfRegex:@" +$" withString:@""];
     title=[title stringByReplacingOccurrencesOfRegex:@"^ +" withString:@""];
     //    NSLog(@"%@",title);
     NSString*authorsList=a[3];
@@ -127,7 +139,7 @@
     }
     //    NSLog(@"%@",authorsList);
     NSString*abstract=[a lastObject];
-    abstract=[abstract stringByReplacingOccurrencesOfString:@"<p class=\"mathjax\">" withString:@"<p>"];
+    abstract=[abstract stringByReplacingOccurrencesOfRegex:@"<p class=.mathjax.>" withString:@"<p>"];
     if([abstract rangeOfString:@"<p>"].location!=NSNotFound){
 	abstract=[abstract componentsSeparatedByString:@"<p>"][1];
 	abstract=[abstract componentsSeparatedByString:@"</p>"][0];
@@ -136,7 +148,8 @@
     }else{
 	abstract=nil;
     }
-    
+    abstract=[abstract stringByReplacingOccurrencesOfRegex:@"^[ \n]+" withString:@""];
+    abstract=[abstract stringByReplacingOccurrencesOfRegex:@"[ \n]+$" withString:@""];
     NSString*subj=[s stringByMatching:@"primary-subject\">(.+?)</span>" capture:1];
     subj=[subj stringByMatching:@"\\((.+?)\\)" capture:1];
     ar.eprint=eprint;
