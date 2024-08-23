@@ -44,17 +44,14 @@
             [sortKeys addObject:b.sortKey];
             [ar addObject:b];
         }else{
-            [toBeDeleted addObject:a.objectID];
+            [toBeDeleted addObject:a];
         }
     }
     if([toBeDeleted count]>0){
-        NSManagedObjectContext*mainMOC=[MOC moc];
-        [mainMOC performBlock:^{
-            for(NSManagedObjectID*i in toBeDeleted){
-                [mainMOC deleteObject:[mainMOC objectWithID:i]];
-            }
-            [mainMOC save:NULL];
-        }];
+        for(Article*a in toBeDeleted){
+            [secondMOC deleteObject:a];
+        }
+        [secondMOC save:NULL];
     }
     [ar sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"sortKey" ascending:YES ]]];
     NSMutableArray*as=[NSMutableArray array];
