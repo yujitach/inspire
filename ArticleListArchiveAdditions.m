@@ -36,9 +36,25 @@
 
     
     NSMutableArray*ar=[NSMutableArray array];
+    NSMutableArray*sortKeys=[NSMutableArray array];
+    NSMutableArray*toBeDeleted=[NSMutableArray array];
     for(Article*a in articles){
         LightweightArticle*b=[[LightweightArticle alloc]initWithArticle:a];
-        [ar addObject:b];
+        if(![sortKeys containsObject:b.sortKey]){
+            [sortKeys addObject:b.sortKey];
+            [ar addObject:b];
+        }else{
+            [toBeDeleted addObject:a.objectID];
+        }
+    }
+    if([toBeDeleted count]>0){
+        NSManagedObjectContext*mainMOC=[MOC moc];
+        [mainMOC performBlock:^{
+            for(NSManagedObjectID*i in toBeDeleted){
+                [mainMOC deleteObject:[mainMOC objectWithID:i]];
+            }
+            [mainMOC save:NULL];
+        }];
     }
     [ar sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"sortKey" ascending:YES ]]];
     NSMutableArray*as=[NSMutableArray array];
@@ -68,8 +84,13 @@
 -(void)loadFromDictionary:(NSDictionary *)dic
 {
     NSMutableArray*lightweightArticles=[NSMutableArray array];
+    NSMutableArray*sortKeys=[NSMutableArray array];
     for(NSDictionary*subDic in dic[@"articles"]){
-        [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+        LightweightArticle*b=[[LightweightArticle alloc] initWithDictionary:subDic];
+        if(![sortKeys containsObject:b.sortKey]){
+            [sortKeys addObject:b.sortKey];
+            [lightweightArticles addObject:b];
+        }
     }
     NSManagedObjectContext*secondMOC=self.managedObjectContext;
     BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:^(BatchImportOperation*weakOp){
@@ -189,8 +210,13 @@
 +(void)populateFlaggedArticlesFrom:(NSArray*)a usingMOC:(NSManagedObjectContext*)secondMOC
 {
     NSMutableArray*lightweightArticles=[NSMutableArray array];
+    NSMutableArray*sortKeys=[NSMutableArray array];
     for(NSDictionary*subDic in a){
-        [lightweightArticles addObject:[[LightweightArticle alloc] initWithDictionary:subDic]];
+        LightweightArticle*b=[[LightweightArticle alloc] initWithDictionary:subDic];
+        if(![sortKeys containsObject:b.sortKey]){
+            [sortKeys addObject:b.sortKey];
+            [lightweightArticles addObject:b];
+        }
     }
     BatchImportOperation*op=[[BatchImportOperation alloc] initWithProtoArticles:lightweightArticles originalQuery:nil updatesCitations:NO usingMOC:secondMOC whenDone:^(BatchImportOperation *weakOp) {
         NSSet*generated=weakOp.generated;

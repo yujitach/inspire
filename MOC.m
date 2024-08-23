@@ -307,7 +307,7 @@ NSString* UIMOCDidMergeNotification=@"UIMOCDidMergeNotification";
         uiManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 //       [uiManagedObjectContext setParentContext:persistingManagedObjectContext];
         uiManagedObjectContext.persistentStoreCoordinator=coordinator;
-        uiManagedObjectContext.mergePolicy=NSMergeByPropertyObjectTrumpMergePolicy;
+        uiManagedObjectContext.mergePolicy=NSMergeByPropertyStoreTrumpMergePolicy;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(saveNotified:)
                                                      name:NSManagedObjectContextDidSaveNotification
