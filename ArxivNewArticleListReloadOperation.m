@@ -79,7 +79,7 @@
 }
 -(NSString*)eprintFromChunk:(NSString*)s
 {
-    NSRange r=[s rangeOfString:@"arXiv:"];
+    NSRange r=[s rangeOfRegex:@"arXiv:\\d\\d\\d\\d"];
     if(r.location==NSNotFound)
 	return nil;
     NSString*eprint=[s substringFromIndex:r.location];
