@@ -195,7 +195,11 @@
 {
     if(@available(macOS 11,*)){
 //        window.titleVisibility=NSWindowTitleHidden;
-        window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
+        if(@available(macOS 26,*)){
+            
+        }else{
+            window.toolbarStyle=NSWindowToolbarStyleUnifiedCompact;
+        }
 //        window.titlebarSeparatorStyle=NSTitlebarSeparatorStyleShadow;
 //        [tb insertItemWithItemIdentifier:NSToolbarSidebarTrackingSeparatorItemIdentifier atIndex:1];
     }
