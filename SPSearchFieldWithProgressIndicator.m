@@ -19,8 +19,11 @@
 -(BOOL)isKindOfClass:(Class)aClass
 {
     // this is to fight with stupid Lion behavior
-    if([NSStringFromClass(aClass) isEqualToString:@"NSSearchField"])
-        return NO;
+    if(@available(macOS 26,*)){
+    }else{
+        if([NSStringFromClass(aClass) isEqualToString:@"NSSearchField"])
+            return NO;
+    }
     return [super isKindOfClass:aClass];
 }
 -(void)awakeFromNib
