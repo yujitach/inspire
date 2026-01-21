@@ -175,7 +175,7 @@ ArxivHelper* _sharedHelper=nil;
 	}
 	return content;
     }else if([t hasPrefix:@"rec"]){
-	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"pastweek?show=999"]];
+	NSString* content=[self list_internal:[NSString stringWithFormat:@"%@/%@",category,@"recent?skip=0&show=2000"]];
 	NSRange r=[content rangeOfString:@"<h3>Cross"];
 	if(r.location!=NSNotFound){
 	    content=[content substringToIndex:r.location];
